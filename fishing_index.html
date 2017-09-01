@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+     <title>Fish/Fishing</title>
+    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.2/dist/leaflet.css" /> 
+    <link rel="stylesheet" href="css/fishing_style.css" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Maven+Pro" rel="stylesheet">
+    <link rel="stylesheet" href="css/perfect-scrollbar.css" />
+    
+    <link rel="shortcut icon" href="img/pnw.ico" type="image/x-icon">
+    
+    <script src="https://unpkg.com/leaflet@1.0.2/dist/leaflet.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="js/perfect-scrollbar.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
+   
+</head>
+<body>
+		<div id="infoPanel">
+			<div id="top">
+			<h1>Fish & Fishing </h1>
+			<img src="img/fish_icon.png" id="image" style="display:inline-block;"> <br/>
+			<div id="buttons">
+				<div class="dropdown">
+  					<button class="dropbtn">Select Species<p id="arrow">&#9660;</p></button>
+  					<div class="dropdown-content">
+   						 <button type="button" id="but1" onclick="chinook()" class="species" style="background:rgba(242, 242, 242, 0.8);">Chinook</button>
+						 <button type="button" id="but2" onclick="steelhead()" class="species">Steelhead</button>
+						 <button type="button" id="but3" onclick="coho()" class="species">Coho</button>
+						 <button type="button" id="but4" onclick="chum()" class="species">Chum</button>
+						 <button type="button" id="but5" onclick="pink()" class="species">Pink</button>
+						 <button type="button" id="but6" onclick="sockeye()" class="species">Sockeye</button>
+ 				   </div>
+				</div>
+			</div>
+			<h2 id="title" style="display:inline; width:200px; white-space:normal;">Chinook Salmon</h2>
+			<br>
+			<div id ="none"><b style="background:#3abfbd;"></b><p>&nbsp</p><p id="leg1">Least Concern</p><br/></div>
+			<div id ="threat"><b style="background:#9de1e0;"></b><p>&nbsp</p><p id="leg1">Threatened</p><br/></div>
+			<div id ="end"><b style="background:#f9d2de;"></b><p>&nbsp</p><p id="leg1">Endangered</p><br/></div>
+			<div id ="hist"><b style="background:#ed789b;"></b><p>&nbsp</p><p id="leg2">Historical Habitat</p><br/></div><br/>
+			<p id="description" style="font-weight:bold; padding:0; display:block; white-space:normal; width:280px;">Current population status and historical distribution of Chinook Salmon</p>
+			</br></br>
+			<img src="img/chinook2.png" id="image2" style="display:block;"><br/>
+			<div id="checklist">
+				<p id="checkText" style="padding-right:5px; padding-top:3px; padding-left:0px; font-weight:bold; position:relative; float:left;">Fall Run</p>
+					<label class="switch">
+						<input name="checkbox_name" id="checkbox" type="checkbox" value="check" onclick="selectRun()" autocomplete="off">
+						<span class="slider"></span>
+					</label>
+				<p id="checkText2" style="padding-left:5px; padding-top:3px; font-weight:bold;">Spring Run</p><br/>
+			</div>
+			</div>
+			<div id="attribution">
+				<div id="text" style="margin-top:10px;">
+					<p3 id="information">Chinook salmon are the largest of the Pacific salmon, with some individuals growing to more than 100 pounds. These huge fish are rare, as most mature chinook are under 50 pounds. <br/><br/>Most chinook spawn in large rivers such as the Columbia and Snake, although they will also use smaller streams with sufficient water flow. They tend to spawn in the mainstem of streams, where the water flow is high. Because of their size they are able to spawn in larger gravel than most other salmon. Chinook spawn on both sides of the Cascade Range, and some fish travel hundreds of miles upstream before they reach their spawning grounds. Because of the distance, these fish enter streams early and comprise the spring and summer runs. Fall runs spawn closer to the ocean and more often use small coastal streams. All chinook reach their spawning grounds by fall, in time to spawn.<br/><br/>Chinook fry rear in freshwater from three months to a year, depending on the race of chinook and the location. Spring chinook tend to stay in streams for a year; fish in northern areas, where the streams are less productive and growth is slower, also tend to stay longer. Rearing chinook fry use mainstems and their tributaries.</p3>
+				</div>
+			</div>
+			<div id="pageChange">
+				<a href="hunting_index.html" id="arrow" style="display:inline-block;">
+					<i class="fa fa-arrow-left" aria-hidden="true" style=""></i>
+				</a>
+				<a href="source_index.html" id="arrow" style="display:inline-block;" target="_blank">
+					<i class="fa fa-info-circle" aria-hidden="true" style="padding-left:83px;"></i>
+				</a>
+				<a href="recreation_index.html" id="arrow" style="display:inline-block;" target="_blank">
+					<i class="fa fa-home" aria-hidden="true" style="padding-left:0;"></i>
+				</a>
+				<a href="activities_index.html" id="arrow" style="display:inline-block;">
+					<i class="fa fa-arrow-right" aria-hidden="true" style="padding-left:82px;"></i>
+				</a>
+			</div>
+		</div>
+    	<div id="map" style="width: 100%; height: 100%;"></div>
+
+<script>
+	//initialize map
+	var map = L.map('map', {center: [45.56, -119.75], zoom: 7, zoomControl:false});
+	//map.setMaxBounds(map.getBounds());
+///////////////////////make zoom level correspond to browser size////////////////////////////////
+	window.addEventListener('load', function(event){
+    	var width = document.documentElement.clientWidth;
+    	if (width < 1500 && width > 800) {
+        	map.setView(new L.LatLng(45.56, -121.75), 6); 
+    		}  else if (width > 1501) {
+        	map.setZoom(7);
+        	} else {
+        	map.setZoom(5);
+        	}
+	});
+///////////////////////add tiled basemap////////////////////////////////
+	var Esri_WorldTerrain = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer/tile/{z}/{y}/{x}', {
+		attribution: 'Tiles &copy; Esri &mdash; Source: USGS, Esri, TANA, DeLorme, and NPS',
+		maxZoom:8,
+		minZoom:5
+	}).addTo(map);
+	
+///////////////////////important variables////////////////////////////////
+	//determines which fish is selected
+	var data = 0;
+	//determines which run is selected
+	var run = 0;
+	//determines which button to highlight
+	var buttonNumber = ['but1','but2','but3','but4','but5','but6','but7'];
+	
+///////////////////////fish layer geoJson styling////////////////////////////////
+    
+	//set color based on accesibility and status
+	function setColor(value, status){
+        return value === 'Accessible' &&  status === 'Not Warranted' ? '#3abfbd' :
+        	   value === 'Accessible' &&  status === 'Threatened' ? '#9de1e0' :
+        	   value === 'Accessible' &&  status === 'Endangered' ? '#f9d2de' :
+        		'#ed789b';
+    	}
+    //set opacity based on selected run
+    function setOpacity(value, string){
+        	if (value === 0) {
+        		if (string === 'annual' || string === 'odd' || string === 'fall'){
+        				return 0.7; }
+        		else {
+        			return 0;  }
+        	}
+        	else if (value === 1){
+        		if (string === 'annual' || string === 'even' || string === 'spring' || string === 'summer'){
+        				return 0.7;
+        			}
+        		else {
+        			return 0;
+        		}
+        	} else {
+        		return 0;
+        	}
+    	}
+    //style function
+	function fishStyle(feature) {
+        		return {
+            		fillColor: setColor(feature.properties.CLASS, feature.properties.STATUS),
+            		fillOpacity:setOpacity(run, feature.properties.run),
+            		weight: 1,
+            		opacity: setOpacity(run, feature.properties.run),
+            		color: setColor(feature.properties.CLASS, feature.properties.STATUS),
+        		};
+    		}
+	//initial data addition
+	var	fish = $.getJSON("assets/chinook.geojson", function(data){
+        	fish = L.geoJson(data, {
+        		style:fishStyle
+        }).addTo(map);
+    });
+    //used with update function to determine correct data source
+    function selectFish (e){
+    	return e == 0 ? "http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=baldricg_PNW_ATLAS:chinook_zones&maxFeatures=100&outputFormat=application%2Fjson":
+    		e == 1 ? "http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=baldricg_PNW_ATLAS:steelhead_zones&maxFeatures=100&outputFormat=application%2Fjson":
+    		e == 2 ? "assets/coho.geojson":
+    		e == 3 ? "assets/chum.geojson":
+    		e == 4 ? "assets/pink.geojson":
+    			"assets/sockeye.geojson";
+    }
+    //add correct data
+    function update() {
+    		fish = $.getJSON(selectFish(data), function(data){
+        		fish = L.geoJson(data, {
+        			style:fishStyle
+        	}).addTo(map);
+    	}); 
+    }
+    //changes when checkbox is selected
+    function selectRun () {
+    	if (document.getElementById('checkbox').checked == true){
+    		run = 1;
+    		map.removeLayer(fish);
+    		update();
+   		}
+    	else {
+    		run = 0;
+    		map.removeLayer(fish);
+    		update();
+    	}
+    }
+/////////////////////////////////////////////////////////////////////////////////
+///////////////////////background geoJson layers////////////////////////////////
+//rivers
+    function riverSize(e){
+        return e > 400000 ? 2.5 :
+        	   e > 200000 ? 2 :
+        	   e > 300000 ? 1.5 :
+        	   e > 50000 ? 1 :
+        		0.5;
+    	}   
+    function riverStyle(feature){
+	return{
+		opacity: 0.2,
+		color:'#80bfff',
+		weight: riverSize(feature.properties.length_1)
+		};
+	}
+    var	rivers = $.getJSON("assets/rivers.geojson", function(data){
+        rivers = L.geoJson(data, {
+        	style:riverStyle
+        }).addTo(map);
+    });
+//lakes      
+    function lakeStyle(feature){
+	return{
+		opacity: 0,
+		fillColor:'#80bfff',
+		fillOpacity:0.3
+		};
+	}
+    var	lakes = $.getJSON("assets/lakes.geojson", function(data){
+        lakes = L.geoJson(data, {
+        	style:lakeStyle
+        }).addTo(map);
+    });
+//gray out non-PNW areas		
+	function outlineStyle(){
+	return{
+		opacity: 0,
+		fillOpacity:0.3,
+		fillColor:'#000000'
+		};
+	}
+    var	pnwOutline = $.getJSON("assets/pnw_boundary.geojson", function(data){
+        pnwOutline = L.geoJson(data, {
+        	style:outlineStyle
+        }).addTo(map);
+    });
+//state outlines
+    function pnwStatesStyle(){
+	return{
+		opacity: 0.3,
+		color:'#000000',
+		fillOpacity:0,
+		fillColor:'#000000',
+		weight:1
+		};
+	}
+     var pnwStates = $.getJSON("assets/pnw_states.geojson", function(data){
+        pnwStates = L.geoJson(data, {
+        	style:pnwStatesStyle
+        }).addTo(map);
+    });
+//county outlines
+      var pnwCounties = $.getJSON("assets/counties2.geojson", function(data){
+        pnwCounties = L.geoJson(data, {
+        	style: function pnwCountiesStyle(){
+				return{
+					opacity: 0.1,
+					color:'#000000',
+					fillOpacity:0,
+					fillColor:'#000000',
+					weight:1
+				};
+			}
+        }).addTo(map);
+    });
+////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////individual fish functions//////////////////////////////////////////////
+//chinook
+    function chinook() {
+    	//reset highlighted button
+    	document.getElementById(buttonNumber[data]).style.background = "rgba(242,242,242,0.2)";
+    	//determines which fish to display
+    	data = 0;
+    	//default run 
+    	run = 0;
+    	//remove old fish layer
+    	map.removeLayer(fish);
+    	//activate run switch 
+    	document.getElementById("checklist").style.display = "unset";
+    	$("#checkbox").prop("checked", false);
+    	//update available run text
+    	document.getElementById("checkText").innerHTML = "Fall Run";
+    	document.getElementById("checkText2").innerHTML = "Spring Run";
+    	//add potential habitat designations
+    	document.getElementById("threat").style.display = "unset";
+    	document.getElementById("end").style.display = "unset";
+    	//update function, add new fish layer
+    	update();
+    	//update legend
+    	document.getElementById('title').innerHTML = "Chinook Salmon";
+    	document.getElementById('description').innerHTML = "Current population status and historical distribution of Chinook Salmon";
+    	document.getElementById('information').innerHTML = "Chinook salmon are the largest of the Pacific salmon, with some individuals growing to more than 100 pounds. These huge fish are rare, as most mature chinook are under 50 pounds. <br/><br/>Most chinook spawn in large rivers such as the Columbia and Snake, although they will also use smaller streams with sufficient water flow. They tend to spawn in the mainstem of streams, where the water flow is high. Because of their size they are able to spawn in larger gravel than most other salmon. Chinook spawn on both sides of the Cascade Range, and some fish travel hundreds of miles upstream before they reach their spawning grounds. Because of the distance, these fish enter streams early and comprise the spring and summer runs. Fall runs spawn closer to the ocean and more often use small coastal streams. All chinook reach their spawning grounds by fall, in time to spawn.<br/><br/>Chinook fry rear in freshwater from three months to a year, depending on the race of chinook and the location. Spring chinook tend to stay in streams for a year; fish in northern areas, where the streams are less productive and growth is slower, also tend to stay longer. Rearing chinook fry use mainstems and their tributaries.";
+    	document.getElementById('but1').style.background = "rgba(242, 242, 242, 0.9)";
+    	var img = document.getElementById("image2");
+		img.src="img/chinook2.png";
+    }  
+//steelhead
+    function steelhead() {
+    	document.getElementById(buttonNumber[data]).style.background = "rgba(242,242,242,0.2)";
+    	data = 1;
+    	run = 0;
+    	map.removeLayer(fish);
+    	document.getElementById("checklist").style.display = "none";
+    	document.getElementById("end").style.display = "none";
+    	document.getElementById("threat").style.display = "unset";
+    	update();
+    	document.getElementById('title').innerHTML = "Steelhead";
+    	document.getElementById('but2').style.background = "rgba(242, 242, 242, 0.9)";
+    	document.getElementById('information').innerHTML = "Steelhead and rainbow trout are the same species, but rainbow are freshwater only, and steelhead are anadromous, or go to sea. Unlike most salmon, steelhead can survive spawning, and can spawn in multiple years.<br/><br/>Steelhead spawn in the spring. They generally prefer fast water in small-to-large mainstem rivers, and medium-to-large tributaries. In streams with steep gradient and large substrate, they spawn between these steep areas, where the water is flatter and the substrate is small enough to dig into. The steeper areas then make excellent rearing habitat for the juveniles. Like chinook, steelhead have two runs, a summer run and a winter run. Most summer runs are east of the Cascades, and enter streams in summer to reach the spawning grounds by the following spring. A few western Washington rivers also have established runs of summer steelhead. Winter runs spawn closer to the ocean, and require less travel time.<br/><br/>Steelhead fry emerge from the gravel in summer and generally rear for two or three years in freshwater, occasionally one or four years, depending on the productivity of the stream. Streams high in the mountains and those in northern climes are generally less productive. Due to their faster growth, hatchery steelhead smolt at one year of age.";
+    	document.getElementById('description').innerHTML = "Current population status and historical distribution of Steelhead";
+    	var img = document.getElementById("image2");
+		img.src="img/steelhead2.png";
+    }
+//coho
+    function coho() {
+    	document.getElementById(buttonNumber[data]).style.background = "rgba(242,242,242,0.2)";
+    	data = 2;
+    	run = 0;
+    	map.removeLayer(fish);
+    	document.getElementById("checklist").style.display = "none";
+    	document.getElementById("end").style.display = "none";
+    	document.getElementById("threat").style.display = "unset";
+    	update();
+    	document.getElementById('title').innerHTML = "Coho Salmon";
+    	document.getElementById('description').innerHTML = "Current population status and historical distribution of Coho Salmon";
+    	document.getElementById('information').innerHTML = "Coho are a very popular sport fish in Puget Sound. This species uses coastal streams and tributaries, and is often present in small neighborhood streams. Coho can even be found in urban settings if their needs of cold, clean, year-round water are met.<br/><br/>Coho spawn in small coastal streams and the tributaries of larger rivers. They prefer areas of mid-velocity water with small to medium sized gravels. Because they use small streams with limited space, they must use many such streams to successfully reproduce, which is why coho can be found in virtually every small coastal stream with a year-round flow.<br/><br/>Returning coho often gather at the mouths of streams and wait for the water flow to rise, such as after a rain storm, before heading upstream. The higher flows and deeper water enable the fish to pass obstacles, such as logs across the stream or beaver dams, that would otherwise be impassable.<br/><br/>Coho have a very regular life history. They are deposited in the gravel as eggs in the fall, emerge from the gravel the next spring, and in their second spring go to sea, about 18 months after being deposited. Coho fry are usually found in the pools of small coastal streams and the tributaries of larger rivers.";
+    	document.getElementById('but3').style.background = "rgba(242, 242, 242, 0.9)";
+    	var img = document.getElementById("image2");
+		img.src="img/soho.png";
+    }
+//chum
+     function chum() {
+    	document.getElementById(buttonNumber[data]).style.background = "rgba(242,242,242,0.2)";
+    	data = 3;
+    	run = 0;
+    	map.removeLayer(fish);
+    	document.getElementById("checklist").style.display = "unset";
+    	$("#checkbox").prop("checked", false);
+    	document.getElementById("checkText").innerHTML = "Fall Run";
+    	document.getElementById("checkText2").innerHTML = "Summer Run";
+    	document.getElementById("end").style.display = "none";
+    	document.getElementById("threat").style.display = "unset";
+    	update();
+    	document.getElementById('title').innerHTML = "Chum Salmon";
+    	document.getElementById('description').innerHTML = "Current population status and historical distribution of Chum Salmon";
+    	document.getElementById('information').innerHTML = "Male chum salmon develop large during spawning, which resemble canine teeth. This many explain the nickname dog salmon.<br/><br/>Chum use small coastal streams and the lower reaches of larger rivers. They often use the same streams as coho, but coho tend to move further up the watershed and chum generally spawn closer to saltwater. This may be due to their larger size, which requires deeper water to swim in, or their jumping ability, which is inferior to coho. Either way, the result is a watershed divided between the two species, with all the niches filled.<br/><br/>Like coho, chum can be found in virtually every small coastal stream. In the fall, large numbers of chum can often be seen in the lower reaches of these streams, providing opportunities to view wild salmon in a natural environment.<br/><br/>Chum fry do not rear in freshwater for more than a few days. Shortly after they emerge, chum fry move downstream to the estuary and rear there for several months before heading out to the open ocean.";
+    	document.getElementById('but4').style.background = "rgba(242, 242, 242, 0.9)";
+    	var img = document.getElementById("image2");
+		img.src="img/chum2.png";
+    }
+//pink
+    function pink() {
+    	document.getElementById(buttonNumber[data]).style.background = "rgba(242,242,242,0.2)";
+    	data = 4;
+    	run = 0;
+    	map.removeLayer(fish);
+    	document.getElementById("checklist").style.display = "unset";
+    	$("#checkbox").prop("checked", false);
+    	document.getElementById("checkText").innerHTML = "Odd Year";
+    	document.getElementById("checkText2").innerHTML = "Even Year";
+    	document.getElementById("end").style.display = "none";
+    	document.getElementById("threat").style.display = "none";
+    	update();
+    	document.getElementById('title').innerHTML = "Pink Salmon";
+    	document.getElementById('description').innerHTML = "Current population status and historical distribution of Pink Salmon";
+    	document.getElementById('information').innerHTML = "Male pink salmon develop a large hump on their back during spawning, hence the nickname humpback salmon. This is the smallest of the fall-spawning Pacific salmon. In Washington, pink salmon runs only occur in odd-numbered years.<br/><br/>Pinks use the mainstems of large rivers and some tributaries, often very close to saltwater. Because their fry move directly to sea after emerging, the closer they spawn to saltwater the better. The shorter journey reduces predation and increases survival. Sometimes pink salmon spawn right in saltwater, avoiding freshwater altogether.<br/><br/>Pinks have a very regular life history, living for two years before returning to spawn the next generation. This is why pink runs in Washington only occur every other year; there are no one-year-old or three-year-old fish to establish runs in the other years.<br/><br/>As mentioned, pink fry do not rear in freshwater. Immediately after emerging they move downstream to the estuary and rear there for several months before heading out to the open ocean. Because of this, pink fry have no spots, which provide camouflage in streams, but are bright chrome for open water.";
+    	document.getElementById('but5').style.background = "rgba(242, 242, 242, 1)";
+    	var img = document.getElementById("image2");
+		img.src="img/pink2.png";
+    }
+//sockeye
+    function sockeye() {
+    	document.getElementById(buttonNumber[data]).style.background = "rgba(242,242,242,0.2)";
+    	data = 5;
+    	run = 0;
+    	map.removeLayer(fish);
+    	document.getElementById("checklist").style.display = "none";
+    	document.getElementById("threat").style.display = "unset";
+    	document.getElementById("end").style.display = "unset";
+    	update();
+    	document.getElementById('title').innerHTML = "Sockeye Salmon";
+    	document.getElementById('description').innerHTML = "Current population status and historical distribution of Sockeye Salmon";
+    	document.getElementById('information').innerHTML = "Sockeye are the most flavorful Pacific salmon. In Washington, sockeye are found in Lake Washington, Baker Lake, Ozette Lake, Quinault Lake, and Lake Wenatchee.<br/><br/>Sockeye are unique in that they require a lake to rear in as fry, so the river they choose to spawn in must have a lake in the system. This seems to be the most important criteria for choosing a spawning ground, as sockeye adapt to a range of water velocities and substrates.<br/><br/>Large rivers that supplied sufficient room for spawning and rearing historically supported huge runs of sockeye, numbering into the millions. One such run still exists today on the Adams River in British Columbia, a tributary to the Fraser River. The Canadian government has built viewing platforms for visitors, and annual runs of over a million sockeye are common.<br/><br/>Juvenile sockeye rear for one or two years in a lake, although they are also found in the inlet and outlet streams of the lake. Sockeye fry are often preyed on by resident lake fish, and because they use freshwater year-round, they are susceptible to low water quality.";
+    	document.getElementById('but6').style.background = "rgba(242, 242, 242, 1)";
+    	var img = document.getElementById("image2");
+		img.src="img/sockeye2.png";
+    }
+////////////////////////////////////////////////////////////////////////////////////////////
+
+
+    new L.Control.Zoom({ position: 'topright' }).addTo(map);
+	document.getElementsByClassName("leaflet-control-attribution")[0].style.visibility = "hidden";
+	//add scrolling capabilities to text box
+     var container = document.getElementById('text');
+		Ps.initialize(container);
+	
+	var minHeight = 30; // Define a minimum height for the middle div
+
+	var resizeMiddle = function() {
+    var h = $('body').height() - $('#top').height() - 80;
+    		h = h > minHeight ? h : minHeight;
+   	 	$('#attribution').height(h);
+	}
+
+	$(document).ready(resizeMiddle);
+	$(window).resize(resizeMiddle);
+	
+	
+    //remove standard leaflet attribution
+    
+
+</script>
+</body>
+</html>

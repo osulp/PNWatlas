@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+     <title>Outdoor Activities</title>
+    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.2/dist/leaflet.css" /> 
+    <link rel="stylesheet" href="css/activities_style.css" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Maven+Pro" rel="stylesheet">
+    <link rel="stylesheet" href="css/perfect-scrollbar.css" />
+    <link rel="stylesheet" href="css/leaflet-search.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
+    <link rel="shortcut icon" href="img/pnw.ico" type="image/x-icon">
+    
+    <script src="https://unpkg.com/leaflet@1.0.2/dist/leaflet.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="js/perfect-scrollbar.js"></script>
+    <script src="js/leaflet-search.js"></script>
+   
+</head>
+<body>
+		<div id="infoPanel">
+		<div id="top">
+			<h1>Outdoor Activities</h1>
+			<img src="img/tent_icon.png" id="image" style="display:inline-block;"> <br/>
+			<div id="buttons">
+				<div class="dropdown">
+  					<button class="dropbtn">Select Activity<p id="arrow">&#9660;</p></button>
+  					<div class="dropdown-content">
+						<button type="button" id="but1" onclick="camping()" class="selection" style="float:left; display:inline; background:rgba(242, 242, 242, 0.8);">Camping</button>
+						<button type="button" id="but2" onclick="skiing()" class="selection" style="float:right; display:inline;">Skiing</button>
+						<button type="button" id="but3" onclick="rafting()" class="selection" style="float:left; display:inline;">Rafting</button>
+						<button type="button" id="but4" onclick="mountaineering()" class="selection" style="float:right; display:inline;">Mountaineering</button>
+ 				   </div>
+				</div>
+			</div>
+			<div id="camping" style="display:unset;">
+				<h1 class="activity" style="margin-bottom:0;">Camping</h1><!--initial activity displayed-->
+				<div><h2 id="title" style="display:inline; width:200px; white-space:normal; margin:0;"># of Campsites</h2><h2 id="title" style="display:inline; white-space:normal; padding-left:24px; margin:0;">Owner</h2></div>
+				<div style="width: 150px; display:inline-block;"><b class ="circle" style="width:22px; height:22px;"></b><p id="leg1" style="padding-left:35px; position:relative; margin-bottom:5px;">200+</p></div><b class ="circle" style="background:#0066cc; width:22px; height:22px; border:none;"></b><p style="padding-left:30px;">Federal</p><br/>
+				<div style="width: 150px; display:inline-block;"><b class ="circle" style="width:18px; height:18px;"></b><p id="leg2" style="padding-left:35px; position:relative; margin-bottom:5px;">100 - 200</p></div><b class ="circle" style="background:#377e35; width:22px; height:22px; border:none;"></b><p style="padding-left:30px;">State</p><br/>
+				<div style="width: 150px; display:inline-block;"><b class ="circle" style="width:14px; height:14px;"></b><p id="leg3" style="padding-left:35px; position:relative; margin-bottom:5px;">50 - 100</p></div><b class ="circle" style="background:#904b9b; width:22px; height:22px; border:none;"></b><p style="padding-left:30px;">Local</p><br/>
+				<div style="width: 150px; display:inline-block;"><b class ="circle" style="width:10px; height:10px;"></b><p id="leg4" style="padding-left:35px; position:relative; margin-bottom:5px;">25 - 50</p></div><b class ="circle" style="background:#8c8c8c; width:22px; height:22px; border:none;"></b><p style="padding-left:30px;">Other</p><br/>
+				<div style="width: 150px; display:inline-block;"><b class ="circle" style="width:5px; height:5px;"></b><p id="leg5" style="padding-left:35px; position:relative; margin-bottom:5px;">Less than 20</p></div><br/>
+				<p id="description" style="font-weight:bold; padding:0; display:block; white-space:normal; width:280px;">Number of campsites at a particular campground</p>
+				</br></br></br>
+			</div>
+			<div id="skiing" style="display:none;">
+				<h1 class="activity" style="margin-bottom:0;">Skiing/Snowboarding</h1><br/>
+				<h2 id="title" style="display:inline; width:200px; white-space:normal; line-height:20px; bottom:8px; position: relative;">Annual Snowfall</h2><img src="img/skiing.png" id="image2" style="display:inline-block; float:right; margin-top:10px;"><br/>
+				<b id ="highest" style="background:#54278f;"></b><p>&nbsp</p><p id="leg1">100+</p><br/>
+				<b id ="midhigh" style="background:#756bb1;"></b><p>&nbsp</p><p id="leg2">50 - 100</p><br/>
+				<b id ="middle" style="background:#9e9ac8;"></b><p>&nbsp</p><p id="leg3">25 - 50</p><br/>
+				<b id ="midlow" style="background:#cbc9e2;"></b><p>&nbsp</p><p id="leg4">10 - 25</p><br/>
+				<b id ="lowest" style="background:#f2f0f7;"></b><p>&nbsp</p><p id="leg5">Less than 10</p><br/><br/>
+				<p id="description" style="font-weight:bold; padding:0; display:block; white-space:normal; width:280px;">Mean annual snowfall in inches</p><br/>
+				<br/><img src="img/ski_resort.png" style="height:30px; width:30px; bottom: 8px; position:relative;"><p style="padding:0; font-size:18px; bottom:17px; position:relative;">&nbspSki Resort</p>
+				</br>
+			</div>
+			<div id="rafting" style="display:none;">
+				<h1 class="activity">River Rafting</h1>
+				<h2 id="title" style="display:inline; width:200px; white-space:normal;">Rapid Class</h2><img src="img/raft.png" id="image2" style="display:inline-block; float:right; margin-top:5px; width:80px; height:80px;"> 
+				<br>
+				<img src='img/raft_icon2.png' style="width:28px; height:28px;"><p>&nbsp</p><p id="leg1" style="left:30px; position:absolute;">Class IV-V</p><br/>
+				<img src='img/raft_icon.png' style="width:20px; height:20px;"><p>&nbsp</p><p id="leg2" style="left:30px; position:absolute;">Class I-III</p><br/>
+				<b id ="highest" style="background:#3399ff; height:3px; vertical-align:middle; position:relative; margin-top:5px;"></b><p>&nbsp</p><p id="leg2" style="left:30px; position:absolute;margin-top:5px;">Raftable River Section</p><br/><br/>
+				<p id="description" style="font-weight:bold; padding:0; display:block; white-space:normal; width:280px;">Rapid class based on the highest level rapid in each river. Only the sections of each river suitable for rafting are shown.</p>
+				</br></br></br><br/><br/>
+			</div>
+			<div id="mountains" style="display:none;">
+				<h1 class="activity">Mountaineering</h1>
+				<h2 id="title" style="display:inline; width:200px; white-space:normal;">Elevation (Terrain, Mountain)</h2><img src="img/climbing.png" id="image2" style="display:inline-block; float:right; margin-top:40px; width:65px; height:65px;"> 
+				<br/>
+				<div style="height:20px;"><b id ="lowest" style="background:rgba(37,37,37,0.7); position: relative;"></b><p>&nbsp</p><p id="leg1" style="padding-left:45px;">12,000+</p><img src="img/mountain_icon1.png" style="width:23px; height:23px; padding-left:15px; display:inline-block;"><br></div>
+				<div style="height:20px;"><b id ="lowest" style="background:rgba(99,99,99,0.7); position: relative;"></b><p>&nbsp</p><p id="leg2" style="padding-left:45px;">9,000 - 12,000</p><img src="img/mountain_icon2.png" style="width:19px; height:19px; padding-left:15px;"><br></div>
+				<div style="height:20px;"><b id ="lowest" style="background:rgba(150,150,150,0.7); position: relative;"></b><p>&nbsp</p><p id="leg3" style="padding-left:45px;">6,000 - 9,000</p><img src="img/mountain_icon3.png" style="width:15px; height:15px; padding-left:15px; padding-bottom:4px;"><br></div>
+				<div style="height:20px;"><b id ="lowest" style="background:rgba(204,204,204,0.7); position: relative;"></b><p>&nbsp</p><p id="leg4" style="padding-left:45px;">3,000 - 6,000</p><img src="img/mountain_icon4.png" style="width:11px; height:11px; padding-left:15px; padding-bottom:4px;"><br></div>
+				<div style="height:20px;"><b id ="lowest" style="background:rgba(247,247,247,0.7); position: relative;"></b><p>&nbsp</p><p id="leg5" style="padding-left:45px;">Less than 3,000</p><img src="img/mountain_icon5.png" style="width:7px; height:7px; padding-left:15px; padding-bottom:4px;"><br/></div><br/>
+				<p id="description" style="font-weight:bold; padding:0; display:block; white-space:normal; width:280px;">Elevations are expressed in feet</p><br/><br/>
+				<div id="findbox"></div>	
+			</div>
+			</div>
+			<div id="attribution">
+					<div id="text">
+    		            <p3>The history of recreational camping is often traced back to Thomas Hiram Holding, a British travelling tailor, but it was actually first popularised in the UK on the river Thames. By the 1880s large numbers of visitors took part in the pastime, which was connected to the late Victorian craze for pleasure boating. The early camping equipment was very heavy, so it was convenient to transport it by boat or to use craft that converted into tents.[1] Although Thomas Hiram Holding is often seen as the father of modern camping in the UK, he was responsible for popularising a different type of camping in the early twentieth century. He experienced the activity in the wild from his youth, when he had spent much time with his parents traveling across the American prairies. Later he embarked on a cycling and camping tour with some friends across Ireland.[2] His book on his Ireland experience, Cycle and Camp in Connemara led to the formation of the first camping group in 1901, the Association of Cycle Campers, later to become the Camping and Caravanning Club.[3] He wrote The Campers Handbook in 1908, so that he could share his enthusiasm for the great outdoors with the world.[4] Possibly the first commercial camping ground in the world was Cunningham’s camp, near Douglas, Isle of Man, which opened in 1894. In 1906 the Association of Cycle Campers opened its first own camping site, in Weybridge.[5] By that time the organization had several hundred members. In 1910 the Association was merged into the National Camping Club. Although WW1 was responsible for a certain hiatus in camping activity, the association received a new lease of life after the war when Sir Robert Baden-Powell (founder of the Boy Scouts movement) became its president. The International Federation of Camping Clubs (Federation Internationale de Camping et de Caravanning) was founded in 1932 with national clubs from all over the world affiliating with it. By the 1960s camping had become an established family holiday standard and today camp sites are ubiqitous across Europe and North America.[6]</p3>
+					</div>
+					<br/>
+			</div>
+			<div id="pageChange">
+				<a href="fishing_index.html" id="arrow" style="display:inline-block;">
+					<i class="fa fa-arrow-left" aria-hidden="true" style=""></i>
+				</a>
+				<a href="source_index.html" id="arrow" style="display:inline-block;" target="_blank">
+					<i class="fa fa-info-circle" aria-hidden="true" style="padding-left:83px;"></i>
+				</a>
+				<a href="recreation_index.html" id="arrow" style="display:inline-block;" target="_blank">
+					<i class="fa fa-home" aria-hidden="true" style="padding-left:0;"></i>
+				</a>
+				<a href="economic_index.html" id="arrow" style="display:inline-block;">
+					<i class="fa fa-arrow-right" aria-hidden="true" style="padding-left:82px;"></i>
+				</a>
+			</div>
+		</div>
+    	<div id="map" style="width: 100%; height: 100%;"></div>
+    	
+<script src="assets/hiking.js"></script>
+<script src="assets/mountains.js"></script>
+<script>
+	//initialize map
+	var map = L.map('map', {center: [45.56, -119.75], zoom: 7, zoomControl:false});
+	//map.setMaxBounds(map.getBounds());
+	///////////////////////make zoom level correspond to browser size////////////////////////////////
+	window.addEventListener('load', function(event){
+    	var width = document.documentElement.clientWidth;
+    	if (width < 1500 && width > 800) {
+        	map.setView(new L.LatLng(45.56, -121.75), 6); 
+    		}  else if (width > 1501) {
+        	map.setZoom(7);
+        	} else {
+        	map.setZoom(5);
+        	}
+	});
+///////////////////////add tiled basemap////////////////////////////////
+	var Esri_WorldTerrain = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer/tile/{z}/{y}/{x}', {
+		attribution: 'Tiles &copy; Esri &mdash; Source: USGS, Esri, TANA, DeLorme, and NPS',
+		maxZoom:10,
+		minZoom:4
+	}).addTo(map);
+	
+///////////////////////additional tile layers////////////////////////////////
+//total parks
+	var backgroundParks = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
+		layers: 'baldricg_PNW_ATLAS:parks_total',
+        format: 'image/png',
+		maxZoom:10,
+		minZoom:4,
+		transparent:true
+	}).addTo(map);
+//elevation raster	
+	 var elevation = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
+		layers: 'baldricg_PNW_ATLAS:pnwElevation',
+        format: 'image/png',
+		maxZoom:10,
+		minZoom:4,
+		opacity:0.7,
+		transparent:true
+	});
+//average annual snowfall raster	
+    var snowfall = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
+		layers: 'baldricg_PNW_ATLAS:pnw_snowfall',
+        format: 'image/png',
+		maxZoom:10,
+		minZoom:4,
+		opacity:0.7,
+		transparent:true
+	});
+////////////////////////////////////////////////////////////////////
+	
+///////////////////////background geoJson layers////////////////////////////////
+//rivers	
+	function riverSize(e){
+        return e > 400000 ? 2.5 :
+        	   e > 200000 ? 2 :
+        	   e > 300000 ? 1.5 :
+        	   e > 50000 ? 1 :
+        		0.5;
+    	}
+	 	
+    var	rivers = $.getJSON("assets/rivers.geojson", function(data){
+        rivers = L.geoJson(data, {
+        	style:function riverStyle(feature){
+				return{
+					opacity: 0.2,
+					color:'#80bfff',
+					weight: riverSize(feature.properties.length_1)
+				};
+			}
+        }).addTo(map);
+    });
+//gray out non-pnw area	 
+	 var pnwOutline = $.getJSON("assets/pnw_boundary.geojson", function(data){
+        pnwOutline = L.geoJson(data, {
+        	style:function outlineStyle(){
+				return{
+					opacity: 0,
+					fillOpacity:0.3,
+					fillColor:'#000000'
+				};
+			}
+        }).addTo(map);
+    });
+//state outlines	
+    var pnwStates = $.getJSON("assets/pnw_states.geojson", function(data){
+        pnwStates = L.geoJson(data, {
+        	style: function pnwStatesStyle(){
+				return{
+				opacity: 0.3,
+				color:'#000000',
+				fillOpacity:0,
+				fillColor:'#000000',
+				weight:1
+				};
+			}
+        }).addTo(map);
+    });
+//county outlines	
+    var pnwCounties = $.getJSON("assets/counties2.geojson", function(data){
+        pnwCounties = L.geoJson(data, {
+        	style: function pnwCountiesStyle(){
+				return{
+					opacity: 0.1,
+					color:'#000000',
+					fillOpacity:0,
+					fillColor:'#000000',
+					weight:1
+				};
+			}
+        }).addTo(map);
+    });
+////////////////////////////////////////////////////////////////////
+	
+///////////////////////important variables////////////////////////////////
+	//determine whether or not to display background parks
+	var background = 1;
+	//changes based on activity selected
+	data = 0;
+	//determines the height of middle info panel 
+	var boxHeight = 70;
+	//determines which button is highlighted
+	dataButton=['but1','but2','but4','but3'];
+	
+///////////////////////add info panel in the upper right////////////////////////////////
+	var info = L.control();
+
+	info.onAdd = function (map) {
+    	this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
+    	this.update();
+    	return this._div;
+	};
+	
+	info.update = function (props) {
+	function nullFinder(){
+		if (props.sites == null){return 'N/A';}
+		else {return props.sites;}
+	}
+	//change info display based on selected activity
+	if (data == 0){
+   		this._div.innerHTML = '<h3 style="margin:0; display:inline-block;">Camp Name</h3><img src="img/tent.png" style="display:inline-block; width:30px; height:30px; position:relative; left:5px; top:5px;"><br/>' + (props ?
+        	'<p style="display:inline;">' + props.name + '</p><br/><p style="display:inline">' + nullFinder() + '&nbspcampsites</p>'
+       		:'<p style="display:inline;">Hover over campsites</p>');
+		}
+	else if (data == 1){	
+		this._div.innerHTML = '<h3 style="margin:0; display:inline-block;">Resort Name</h3><img src="img/skiing.png" style="display:inline-block; width:30px; height:30px; position:relative; left:5px; top:5px;"><br/>' + (props ?
+        	'<p style="display:inline;">' + props.Name + '</p>'
+        	:'<p style="display:inline;">Hover over resorts</p>');
+		}
+	else if (data == 2){	
+		this._div.innerHTML = '<h3 style="margin:0; display:inline-block;">Mountain Name</h3><img src="img/climbing.png" style="display:inline-block; width:30px; height:30px; position:relative; left:5px; top:5px;"><br/>' + (props ?
+        	'<b>' + props.name + '<b><br/><p style="font-weight:normal; display:inline;">' + props.elev_ft + '&nbspft.</p>'
+        	:'<p style="display:inline;">Hover over mountains</p>');
+		}
+	else {	
+		this._div.innerHTML = '<h3 style="margin:0; display:inline-block;">River Name</h3><img src="img/raft.png" style="display:inline-block; width:30px; height:30px; position:relative; left:5px; top:5px;"><br/>' + (props ?
+        		'<p style="display:inline;">' + props.UID + '</p>'
+       			:'<p style="display:inline;">Hover over rivers</p>');
+		}
+	};
+	
+	info.addTo(map);
+
+///////////////////////activity types////////////////////////////////
+///////////////////////whitewater rafting ////////////////////////////////////  
+	//icons displayed over rivers
+    var raftIcon1 = L.icon({iconSize: [20,20], iconUrl: 'img/raft_icon.png'});
+    var raftIcon2 = L.icon({iconSize: [28,28], iconUrl: 'img/raft_icon2.png'});
+    //raft icons on hover
+    var raftIconHover1 = L.icon({iconSize: [33,33], iconUrl: 'img/raft_icon_hover.png'});
+    var raftIconHover2 = L.icon({iconSize: [25,25], iconUrl: 'img/raft_icon_hover2.png'});
+    //determine which raft icon to display
+    function raftIcon(string) {
+    	return string == 'IV' || string == 'V' ? raftIcon2:
+    		raftIcon1;
+    }
+    function raftIconHover(string) {
+    	return string == 'IV' || string == 'V' ? raftIconHover1:
+    		raftIconHover2;
+    }
+   //raft icon points
+    var	raftPoints = $.getJSON("assets/rafting_river_points.geojson", function(data){
+        raftPoints = L.geoJson(data, {
+        	pointToLayer: function (feature, latlng) {
+    			return L.marker(latlng, {icon:raftIcon(feature.properties.CLASS)}
+    				)
+    			},
+    		onEachFeature: function(feature,layer)
+            {
+            	layer.on("mouseover",function(e){
+                	info.update(layer.feature.properties);
+                	layer.setIcon(raftIconHover(feature.properties.CLASS))
+            	});
+            	layer.on("mouseout",function(e){
+                	info.update();
+                	layer.setIcon(raftIcon(feature.properties.CLASS))
+            	});
+            }
+        });
+	});
+    //raftable river sections
+    var	riverRafting = $.getJSON("assets/rafting_rivers.geojson", function(data){
+        riverRafting = L.geoJson(data, {
+        	style:function raftingStyle(feature){
+				return{
+					opacity: 1,
+					color: '#3399ff',
+					weight:2
+				};
+			}
+        });
+    });
+    //rafting function. activated on button selection
+    function rafting() {
+    	document.getElementById(dataButton[data]).style.background = "rgba(242,242,242,0.2)";
+    	data = 3;
+    	boxHeight = 75;
+    	background = 2;
+    	removeLayers();
+    	addParks();
+    	map.addLayer(riverRafting);
+    	map.addLayer(raftPoints);
+    	info.update();
+    	document.getElementById("skiing").style.display = "none";
+    	document.getElementById("camping").style.display = "none";
+    	document.getElementById("mountains").style.display = "none";
+    	document.getElementById("rafting").style.display = "unset";
+    	document.getElementById("text").innerHTML = "Otherwise known as the International Scale of River Difficulty, below are the six grades of difficulty in white water rafting. They range from simple to very dangerous and potential death or serious injuries. Class 1: Very small rough areas, might require slight maneuvering. (Skill level: Very basic) Class 2: Some rough water, maybe some rocks, might require some maneuvering. (Skill level: Basic paddling skill) Class 3: Small waves, maybe a small drop, but no considerable danger. May require significant maneuvering. (Skill level: Some experience in rafting) Class 4: Whitewater, medium waves, maybe rocks, maybe a considerable drop, sharp maneuvers may be needed.(Skill level: Exceptional rafting experience) Class 5: Whitewater, large waves, large volume, possibility of large rocks and hazards, possibility of a large drop, requires precise maneuvering. (Skill level: Full mastery of rafting) Class 6: Class 6 rapids are considered to be so dangerous that they are effectively unnavigable on a reliably safe basis. Rafters can expect to encounter substantial whitewater, huge waves, huge rocks and hazards, and/or substantial drops that will impart severe impacts beyond the structural capacities and impact ratings of almost all rafting equipment. Traversing a Class 6 rapid has a dramatically increased likelihood of ending in serious injury or death compared to lesser classes. (Skill level: Full mastery of rafting, and even then it may not be safe.";
+    	document.getElementById(dataButton[data]).style.background = "rgba(242,242,242,1)";
+		var h = $('body').height() - $('#top').height() - boxHeight;
+		$('#attribution').height(h);
+    }
+/////////////////////////////////////////////////////////////////////////  
+///////////////////////camping////////////////////////////////////  
+	//point color, based on ownership
+	function campColor(string) {
+		return string == 'federal' ? '#0066cc':
+			string == 'state' ? '#377e35':
+			string == 'local' ? '#904b9b':
+				'#8c8c8c';	
+	}
+	//point size, based on total camp sites at a location
+	function campSize(density) {
+		return density > 200 ? 11:
+			density > 100 ? 9:
+			density > 50 ? 7:
+			density > 25 ? 5:
+				3;
+	}
+	//camp site layer
+    var	campsites = $.getJSON("assets/camp_sites.geojson", function(data){
+        campsites = L.geoJson(data, {
+        	pointToLayer: function (feature, latlng) {
+    			return L.circleMarker(latlng, {
+    				color: '#ffffff',
+    				fillColor: campColor(feature.properties.owner),
+    				radius: campSize(feature.properties.sites),
+    				opacity: 1,
+    				fillOpacity: 0.7,
+    				weight: 0.5
+    			});
+    			},
+    		onEachFeature: function (feature, layer){
+    			layer.on("mouseover",function(e){
+    				layer.setStyle({
+    						fillOpacity:1
+    					});
+                	info.update(layer.feature.properties);
+            		});
+            	layer.on("mouseout",function(e){
+            		layer.setStyle({
+    						fillOpacity:0.7
+    					});
+                	info.update();
+            		});
+    			}
+        	}).addTo(map);
+    	});   
+    //camping function. activated on button selection	    
+    function camping() {
+    	//reset highlighted button
+    	document.getElementById(dataButton[data]).style.background = "rgba(242,242,242,0.2)";
+    	background = 2;
+    	//change selected activity type
+    	data = 0;
+    	//change height of the middle div
+    	boxHeight = 70;
+    	//clear existing layers
+    	removeLayers();
+    	//add background parks
+    	addParks();
+    	//add campsites
+    	map.addLayer(campsites);
+    	//update info panel
+    	info.update();
+    	//display legend for selected activity, hide other legends
+    	document.getElementById("skiing").style.display = "none";
+    	document.getElementById("rafting").style.display = "none";
+    	document.getElementById("mountains").style.display = "none";
+    	document.getElementById("camping").style.display = "unset";
+    	//change text box display
+    	document.getElementById("text").innerHTML = "The history of recreational camping is often traced back to Thomas Hiram Holding, a British travelling tailor, but it was actually first popularised in the UK on the river Thames. By the 1880s large numbers of visitors took part in the pastime, which was connected to the late Victorian craze for pleasure boating. The early camping equipment was very heavy, so it was convenient to transport it by boat or to use craft that converted into tents.[1] Although Thomas Hiram Holding is often seen as the father of modern camping in the UK, he was responsible for popularising a different type of camping in the early twentieth century. He experienced the activity in the wild from his youth, when he had spent much time with his parents traveling across the American prairies. Later he embarked on a cycling and camping tour with some friends across Ireland.[2] His book on his Ireland experience, Cycle and Camp in Connemara led to the formation of the first camping group in 1901, the Association of Cycle Campers, later to become the Camping and Caravanning Club.[3] He wrote The Campers Handbook in 1908, so that he could share his enthusiasm for the great outdoors with the world.[4] Possibly the first commercial camping ground in the world was Cunningham’s camp, near Douglas, Isle of Man, which opened in 1894. In 1906 the Association of Cycle Campers opened its first own camping site, in Weybridge.[5] By that time the organization had several hundred members. In 1910 the Association was merged into the National Camping Club. Although WW1 was responsible for a certain hiatus in camping activity, the association received a new lease of life after the war when Sir Robert Baden-Powell (founder of the Boy Scouts movement) became its president. The International Federation of Camping Clubs (Federation Internationale de Camping et de Caravanning) was founded in 1932 with national clubs from all over the world affiliating with it. By the 1960s camping had become an established family holiday standard and today camp sites are ubiqitous across Europe and North America.[6]";
+    	//highlight background
+    	document.getElementById(dataButton[data]).style.background = "rgba(242,242,242,1)";
+    	//middle div (text box) update
+		var h = $('body').height() - $('#top').height() - boxHeight;
+		$('#attribution').height(h);
+    } 
+/////////////////////////////////////////////////////////////////////////  
+///////////////////////skiing////////////////////////////////////   
+	//ski resort icon
+    var skiIcon1 = L.icon({iconSize: [25,25], iconUrl: 'img/ski_resort.png'});
+    //ski resort icon on hover
+    var skiIcon2 = L.icon({iconSize: [32,32], iconUrl: 'img/ski_resort_shadow.png'});
+   //ski resort layer
+    var	skiResorts = $.getJSON("assets/ski_resorts.geojson", function(data){
+        skiResorts = L.geoJson(data, {
+        	pointToLayer: function (feature, latlng) {
+    			return L.marker(latlng, {icon:skiIcon1}
+    				)
+    			},
+    		onEachFeature: function(feature,layer)
+            {
+            	layer.on("mouseover",function(e){
+                	info.update(layer.feature.properties);
+                	layer.setIcon(skiIcon2)
+            	});
+            	layer.on("mouseout",function(e){
+                	info.update();
+                	layer.setIcon(skiIcon1)
+            	});
+            }
+        });
+	});   
+ //skiing function. activated on button selection
+    function skiing() {
+    	document.getElementById(dataButton[data]).style.background = "rgba(242,242,242,0.2)";
+    	data = 1;
+    	boxHeight = 72;
+    	removeLayers();
+    	map.removeLayer(backgroundParks);
+    	map.addLayer(snowfall);	
+    	map.addLayer(skiResorts);
+    	info.update();
+    	document.getElementById("camping").style.display = "none";
+    	document.getElementById("rafting").style.display = "none";
+    	document.getElementById("mountains").style.display = "none";
+    	document.getElementById("skiing").style.display = "unset";
+    	document.getElementById("text").innerHTML = "Skiing has a history of almost five millennia.[1] Although modern skiing has evolved from beginnings in Scandinavia, it may have been practiced more than 100 centuries ago in what is now China, according to an interpretation of ancient paintings.[2][3] The word ski is one of a handful of words Norway has exported to the international community. It comes from the Old Norse word skíð which means split piece of wood or firewood.[4][5] Asymmetrical skis were used at least in northern Finland and Sweden until the late 19th century. On one leg the skier wore a long straight non-arching ski for sliding, and on the other a shorter ski for kicking. The bottom of the short ski was either plain or covered with animal skin to aid this use, while the long ski supporting the weight of the skier was treated with animal fat in similar manner to modern ski waxing. Early skiers used one long pole or spear. The first depiction of a skier with two ski poles dates to 1741.[6] Until the mid-19th century skiing was primarily used for transport, and since then has become a recreation and sport.[7] Military ski races were held in Norway during the 18th century,[8] and ski warfare was studied in the late 18th century.[9] As equipment evolved and ski lifts were developed skiing evolved into two main genres during the late 19th and early 20th century, Alpine and Nordic.";
+    	document.getElementById(dataButton[data]).style.background = "rgba(242,242,242,1)";
+		var h = $('body').height() - $('#top').height() - boxHeight;
+		$('#attribution').height(h);
+    }
+/////////////////////////////////////////////////////////////////////////  
+///////////////////////mountaineering////////////////////////////////////     
+	//mountain icons  
+    var mountainIcon1 = L.icon({iconSize: [23,23], iconUrl: 'img/mountain_icon1.png'});
+    var mountainIcon2 = L.icon({iconSize: [19,19], iconUrl: 'img/mountain_icon2.png'});
+    var mountainIcon3 = L.icon({iconSize: [15,15], iconUrl: 'img/mountain_icon3.png'});
+    var mountainIcon4 = L.icon({iconSize: [11,11], iconUrl: 'img/mountain_icon4.png'});
+    var mountainIcon5 = L.icon({iconSize: [7,7], iconUrl: 'img/mountain_icon5.png'});
+    //mountain icon on hover
+    var mountainIconHover = L.icon({iconSize: [16,16], iconUrl: 'img/mountain_icon_hover.png'});
+    
+    //determine icon based on mountain elevation
+    function iconSelection(density) {
+    	return density > 12000 ? mountainIcon1:
+    		density > 9000 ? mountainIcon2:
+    		density > 6000 ? mountainIcon3:
+    		density > 3000 ? mountainIcon4:
+    			mountainIcon5;
+    }
+   //mountain function
+    var	mountains = L.geoJson(mountainPoints, {
+    		pointToLayer: function (feature, latlng) {
+    					return L.marker(latlng, {
+    					icon: iconSelection(feature.properties.elev_ft)}).bindPopup('<b>' + feature.properties.name + '</b><br/><p style="display:inline;">' + feature.properties.elev_ft + '&nbspft.</p>', {className: 'label_tooltip'});		
+    				},
+    		onEachFeature: function(feature, layer) {
+    				layer.on("mouseover",function(e){
+                		info.update(layer.feature.properties);
+                		layer.setIcon(mountainIconHover)
+            		});
+            		layer.on("mouseout",function(e){
+                		info.update();
+                		layer.setIcon(iconSelection(feature.properties.elev_ft))
+            		});
+   				  }
+    		  });
+    //add search control for mountains
+	var searchControl =  new L.Control.Search({
+		container: 'findbox',
+		layer: mountains,
+		propertyName: 'name',
+		textPlaceholder: 'Search for a mountain...',
+		collapsed:false,
+		marker:false,
+		moveToLocation: function(latlng, Unit_Nm, map) {
+			//map.fitBounds( latlng.layer.getBounds() );
+			var zoom = 10;
+  			map.setView(latlng, zoom); // access the zoom
+		}
+	});
+    //show popup when search is completed
+    searchControl.on('search:locationfound', function(e) {		
+		if(e.layer._popup){
+			e.layer.openPopup();
+			}
+	}).on('search:collapsed', function(e) {
+		e.layer.setStyle({fillOpacity:0.7});
+	});
+
+	//mountaineering function
+    function mountaineering() {
+    	document.getElementById(dataButton[data]).style.background = "rgba(242,242,242,0.2)";
+    	data = 2;
+    	background = 2;
+    	boxHeight = 80;
+    	map.removeLayer(backgroundParks);
+    	removeLayers();
+    	map.addLayer(elevation);
+    	map.addLayer(mountains);
+    	map.addControl(searchControl);
+    	info.update();
+    	document.getElementById("skiing").style.display = "none";
+    	document.getElementById("camping").style.display = "none";
+    	document.getElementById("rafting").style.display = "none";
+    	document.getElementById("mountains").style.display = "unset";
+    	document.getElementById("text").innerHTML = "The term mountaineering describes the sport of mountain climbing. While some scholars identify mountaineering-related activities as climbing (rock and ice) and trekking up mountains,[2] others are also adding backpacking, hiking, skiing, via ferrata and wilderness activities,[3] and still others state that mountaineering activities also include indoor climbing, sport climbing and bouldering.[4] However most of the scholars, the term mountaineering understand as a climbing (which now refers to adventure climbing or sports climbing) and trekking (hill walking in 'exotic' places).[5][6] Hiking in the mountains can also be a simple form of mountaineering when it involves scrambling, or short stretches of the more basic grades of rock climbing, as well as crossing glaciers.While mountaineering began as attempts to reach the highest point of unclimbed big mountains it has branched into specializations that address different aspects of the mountain and consists of three (3) areas: rock-craft, snow-craft, and skiing, depending on whether the route chosen is over rock, snow or ice. All require experience, athletic ability, and technical knowledge to maintain safety.[7] Mountaineering is often called Alpinism, especially in European languages, which implies climbing routes with minimal equipment in high and often snow and ice-covered mountains such as the Alps, where technical difficulties frequently exceed environmental and physical challenges. A mountaineer who pursues this more technical and minimalist style of mountain climbing is sometimes called an Alpinist, although use of the term may vary between countries and eras. The word alpinism was born in the 19th century to refer to climbing for the purpose of enjoying climbing itself as a sport or recreation, distinct from merely climbing while hunting or as a religious pilgrimage that had been done generally at that time.[8][9]";
+    	document.getElementById(dataButton[data]).style.background = "rgba(242,242,242,1)";
+		var h = $('body').height() - $('#top').height() - boxHeight;
+		$('#attribution').height(h);
+    }              
+/////////////////////////////////////////////////////////////////////////  
+
+/////////////////////////determine whether or not to add background parks///////////////////////////  
+	function addParks () {
+		if (background == 2){
+			backgroundParks.addTo(map);
+		}
+		else {
+			background = 1;
+		}
+	}
+/////////////////////////clear all layers before adding new layers///////////////////////////  
+	function removeLayers (){
+		map.removeLayer(skiResorts);
+		map.removeLayer(campsites);
+		map.removeLayer(snowfall);
+		map.removeLayer(elevation);
+		map.removeLayer(riverRafting);
+		map.removeLayer(mountains);
+		map.removeLayer(raftPoints);
+		map.removeControl(searchControl);
+	}
+	
+	//add scrolling capabilities to text box
+     var container = document.getElementById('text');
+		Ps.initialize(container);
+	    
+    new L.Control.Zoom({ position: 'topright' }).addTo(map);
+	document.getElementsByClassName("leaflet-control-attribution")[0].style.visibility = "hidden";
+	
+	var minHeight = 30; // Define a minimum height for the middle div
+
+	var resizeMiddle = function() {
+    var h = $('body').height() - $('#top').height() - boxHeight;
+    		h = h > minHeight ? h : minHeight;
+   	 	$('#attribution').height(h);
+	}
+
+	$(document).ready(resizeMiddle);
+	$(window).resize(resizeMiddle);
+	
+	
+    //remove standard leaflet attribution
+    
+
+</script>
+</body>
+</html>
