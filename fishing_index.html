@@ -145,7 +145,7 @@
         		};
     		}
 	//initial data addition
-	var	fish = $.getJSON("assets/chinook.geojson", function(data){
+	var	fish = $.getJSON("http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=baldricg_PNW_ATLAS:chinook_zones&maxFeatures=100&outputFormat=application%2Fjson", function(data){
         	fish = L.geoJson(data, {
         		style:fishStyle
         }).addTo(map);
