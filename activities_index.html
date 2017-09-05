@@ -88,7 +88,7 @@
 					<br/>
 			</div>
 			<div id="pageChange">
-				<a href="fishing_index.html" id="arrow" style="display:inline-block;">
+				<a href="parks_index.html" id="arrow" style="display:inline-block;">
 					<i class="fa fa-arrow-left" aria-hidden="true" style=""></i>
 				</a>
 				<a href="source_index.html" id="arrow" style="display:inline-block;" target="_blank">
@@ -97,7 +97,7 @@
 				<a href="recreation_index.html" id="arrow" style="display:inline-block;" target="_blank">
 					<i class="fa fa-home" aria-hidden="true" style="padding-left:0;"></i>
 				</a>
-				<a href="economic_index.html" id="arrow" style="display:inline-block;">
+				<a href="fishing_index.html" id="arrow" style="display:inline-block;">
 					<i class="fa fa-arrow-right" aria-hidden="true" style="padding-left:82px;"></i>
 				</a>
 			</div>
@@ -462,11 +462,46 @@
 /////////////////////////////////////////////////////////////////////////  
 ///////////////////////mountaineering////////////////////////////////////     
 	//mountain icons  
-    var mountainIcon1 = L.icon({iconSize: [23,23], iconUrl: 'img/mountain_icon1.png'});
+	var mountainIcon1 = L.icon({iconSize: [23,23], iconUrl: 'img/mountain_icon1.png'});
     var mountainIcon2 = L.icon({iconSize: [19,19], iconUrl: 'img/mountain_icon2.png'});
-    var mountainIcon3 = L.icon({iconSize: [15,15], iconUrl: 'img/mountain_icon3.png'});
+    var mountainIcon3 = L.icon({iconSize: [14,14], iconUrl: 'img/mountain_icon3.png'});
     var mountainIcon4 = L.icon({iconSize: [11,11], iconUrl: 'img/mountain_icon4.png'});
     var mountainIcon5 = L.icon({iconSize: [7,7], iconUrl: 'img/mountain_icon5.png'});
+    
+    map.on('zoomend', function() {
+    	 var currentZoom = map.getZoom();
+    	 if (data === 2){
+    	 	map.removeLayer(mountains);
+    		if (currentZoom >= 7){
+    	 		mountainIcon1 = L.icon({iconSize: [23,23], iconUrl: 'img/mountain_icon1.png'});
+    			mountainIcon2 = L.icon({iconSize: [19,19], iconUrl: 'img/mountain_icon2.png'});
+   		 		mountainIcon3 = L.icon({iconSize: [14,14], iconUrl: 'img/mountain_icon3.png'});
+    			mountainIcon4 = L.icon({iconSize: [11,11], iconUrl: 'img/mountain_icon4.png'});
+    			mountainIcon5 = L.icon({iconSize: [7,7], iconUrl: 'img/mountain_icon5.png'});
+    			updateMountains();
+    	 	}
+    	 	else if (currentZoom == 6){
+    	 		mountainIcon1 = L.icon({iconSize: [17,17], iconUrl: 'img/mountain_icon1.png'});
+    			mountainIcon2 = L.icon({iconSize: [13,13], iconUrl: 'img/mountain_icon2.png'});
+   		 		mountainIcon3 = L.icon({iconSize: [10,10], iconUrl: 'img/mountain_icon3.png'});
+    			mountainIcon4 = L.icon({iconSize: [6,6], iconUrl: 'img/mountain_icon4.png'});
+    			mountainIcon5 = L.icon({iconSize: [3,3], iconUrl: 'img/mountain_icon5.png'});
+    			updateMountains();
+    	 	}
+    	 	else {
+    	 		mountainIcon1 = L.icon({iconSize: [12,12], iconUrl: 'img/mountain_icon1.png'});
+    			mountainIcon2 = L.icon({iconSize: [9,9], iconUrl: 'img/mountain_icon2.png'});
+   		 		mountainIcon3 = L.icon({iconSize: [7,7], iconUrl: 'img/mountain_icon3.png'});
+    			mountainIcon4 = L.icon({iconSize: [5,5], iconUrl: 'img/mountain_icon4.png'});
+    			mountainIcon5 = L.icon({iconSize: [3,3], iconUrl: 'img/mountain_icon5.png'});
+    			updateMountains();
+    		}
+    	 }
+    	 else{
+    	 
+    	 }
+    })
+
     //mountain icon on hover
     var mountainIconHover = L.icon({iconSize: [16,16], iconUrl: 'img/mountain_icon_hover.png'});
     
@@ -477,6 +512,25 @@
     		density > 6000 ? mountainIcon3:
     		density > 3000 ? mountainIcon4:
     			mountainIcon5;
+    }
+	 function updateMountains(){
+    	mountains = L.geoJson(mountainPoints, {
+    		pointToLayer: function (feature, latlng) {
+    					return L.marker(latlng, {
+    					icon: iconSelection(feature.properties.elev_ft)}).bindPopup('<b>' + feature.properties.name + '</b><br/><p style="display:inline;">' + feature.properties.elev_ft + '&nbspft.</p>', {className: 'label_tooltip'});		
+    				},
+    		onEachFeature: function(feature, layer) {
+    				layer.on("mouseover",function(e){
+                		info.update(layer.feature.properties);
+                		layer.setIcon(mountainIconHover)
+            		});
+            		layer.on("mouseout",function(e){
+                		info.update();
+                		layer.setIcon(iconSelection(feature.properties.elev_ft))
+            		});
+   				  }
+    		  });
+    	mountains.addTo(map);
     }
    //mountain function
     var	mountains = L.geoJson(mountainPoints, {
@@ -527,7 +581,7 @@
     	map.removeLayer(backgroundParks);
     	removeLayers();
     	map.addLayer(elevation);
-    	map.addLayer(mountains);
+    	mountains.addTo(map);
     	map.addControl(searchControl);
     	info.update();
     	document.getElementById("skiing").style.display = "none";
