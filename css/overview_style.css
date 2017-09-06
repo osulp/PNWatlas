@@ -70,12 +70,12 @@ div.cover{
 	}
 	a.chapter {
 		color:white;
-		font-size:24px;
+		font-size:23px;
 		font-weight:bold;
 		position:absolute;
-		top:123px;
-		width: 130px;
-		right: 64%;
+		top:152px;
+		width: 150px;
+		right: 67%;
 		text-decoration: none;
 	}
 	.circle{
@@ -111,6 +111,18 @@ div.cover{
 		left:80px;
 		border:2px solid rgba(0,0,0,0.0);
 		}
+	a#history{
+		 top:153px; 
+		 right:68%; 
+	}
+	a#transport{
+		 top:158px; 
+		 right:65%; 
+	}
+	a#industry{
+		  top:153px; 
+		  right:68%;
+	}
 }
 @media (min-width:1000px) and (max-width:1499px){
 	.background{
@@ -137,12 +149,12 @@ div.cover{
 	}
 	a.chapter {
 		color:white;
-		font-size:20px;
+		font-size:19px;
 		font-weight:bold;
 		position:absolute;
-		top:96px;
+		top:126px;
 		width: 100px;
-		right: 66%;
+		right: 70%;
 		text-decoration: none;
 	}
 	.circle{
@@ -178,6 +190,20 @@ div.cover{
 		left:80px;
 		border:2px solid rgba(0,0,0,0.0);
 		}
+	a#history{
+		 top:131px; 
+		 right:69%; 
+	}
+	a#transport{
+		 top:135px; 
+		 right:68%; 
+		 font-size:17px;
+	}
+	a#industry{
+		 font-size:18px;
+		  top:123px; 
+		  right:72%;
+	}
 }
 @media (min-width:500px) and (max-width:999px){
 	.background{
@@ -204,12 +230,12 @@ div.cover{
 	}
 	a.chapter {
 		color:white;
-		font-size:18px;
+		font-size:16px;
 		font-weight:bold;
 		position:absolute;
-		top:89px;
+		top:115px;
 		width: 90px;
-		right: 66%;
+		right: 70%;
 		text-decoration: none;
 	}
 	.circle{
@@ -245,6 +271,11 @@ div.cover{
 		left:58px;
 		border:2px solid rgba(0,0,0,0.0);
 		}
+	a#transport{
+		 top:123px; 
+		 right:67%; 
+		 font-size:16px;
+	}
 }
 .slice {
 	overflow: hidden; 
@@ -254,43 +285,55 @@ div.cover{
 	transform-origin: 0% 100%; 
 }
 .slice#one{
-	transform: rotate(0deg) skewY(-60deg);
+	transform: rotate(0deg) skewY(-67.5deg);
 }
 .slice#two{
-	transform: rotate(30deg) skewY(-60deg);
+	transform: rotate(22.5deg) skewY(-67.5deg);
 }
 .slice#three{
-	transform: rotate(60deg) skewY(-60deg);
+	transform: rotate(45deg) skewY(-67.5deg);
 }
 .slice#four{
-	transform: rotate(90deg) skewY(-60deg);
+	transform: rotate(67.5deg) skewY(-67.5deg);
 }
 .slice#five{
-	transform: rotate(120deg) skewY(-60deg);
+	transform: rotate(90deg) skewY(-67.5deg);
 }
 .slice#six{
-	transform: rotate(150deg) skewY(-60deg);
+	transform: rotate(112.5deg) skewY(-67.5deg);
 }
 .slice#seven{
-	transform: rotate(180deg) skewY(-60deg);
+	transform: rotate(135deg) skewY(-67.5deg);
 }
 .slice#eight{
-	transform: rotate(210deg) skewY(-60deg);
+	transform: rotate(157.5deg) skewY(-67.5deg);
 }
 .slice#nine{
-	transform: rotate(240deg) skewY(-60deg);
+	transform: rotate(180deg) skewY(-67.5deg);
 }
 .slice#ten{
-	transform: rotate(270deg) skewY(-60deg);
+	transform: rotate(202.5deg) skewY(-67.5deg);
 }
 .slice#eleven{
-	transform: rotate(300deg) skewY(-60deg);
+	transform: rotate(225deg) skewY(-67.5deg);
 }
 .slice#twelve{
-	transform: rotate(330deg) skewY(-60deg);
+	transform: rotate(247.5deg) skewY(-67.5deg);
+}
+.slice#thirteen{
+	transform: rotate(270deg) skewY(-67.5deg);
+}
+.slice#fourteen{
+	transform: rotate(292.5deg) skewY(-67.5deg);
+}
+.slice#fifteen{
+	transform: rotate(315deg) skewY(-67.5deg);
+}
+.slice#sixteen{
+	transform: rotate(337.5deg) skewY(-67.5deg);
 }
 .slice-contents {
-	transform: skewY(60deg) rotate(60deg); 
+	transform: skewY(67.5deg) rotate(67.5deg); 
 }
 /*
 .slice-contents#slice1, .slice-contents#slice4, .slice-contents#slice7, .slice-contents#slice10{
@@ -318,17 +361,17 @@ div.cover{
 	cursor:pointer;
 }  
 */
-.slice-contents#slice1, .slice-contents#slice3, .slice-contents#slice5, .slice-contents#slice7, .slice-contents#slice9, .slice-contents#slice11{
+.slice-contents#slice1, .slice-contents#slice3, .slice-contents#slice5, .slice-contents#slice7, .slice-contents#slice9, .slice-contents#slice11, .slice-contents#slice13, .slice-contents#slice15{
 	background: rgba(92,163,130,1);
 }  
-.slice-contents#slice1:hover, .slice-contents#slice3:hover, .slice-contents#slice5:hover, .slice-contents#slice7:hover, .slice-contents#slice9:hover, .slice-contents#slice11:hover{
+.slice-contents#slice1:hover, .slice-contents#slice3:hover, .slice-contents#slice5:hover, .slice-contents#slice7:hover, .slice-contents#slice9:hover, .slice-contents#slice11:hover, .slice-contents#slice13:hover, .slice-contents#slice15:hover{
 	background: rgba(56, 97, 77,1);
 	cursor:pointer;
 }  
-.slice-contents#slice2, .slice-contents#slice4, .slice-contents#slice6, .slice-contents#slice8, .slice-contents#slice10, .slice-contents#slice12{
+.slice-contents#slice2, .slice-contents#slice4, .slice-contents#slice6, .slice-contents#slice8, .slice-contents#slice10, .slice-contents#slice12, .slice-contents#slice14, .slice-contents#slice16{
 	background: rgba(141, 191, 167,1);
 }  
-.slice-contents#slice2:hover, .slice-contents#slice4:hover, .slice-contents#slice6:hover, .slice-contents#slice8:hover, .slice-contents#slice10:hover, .slice-contents#slice12:hover{
+.slice-contents#slice2:hover, .slice-contents#slice4:hover, .slice-contents#slice6:hover, .slice-contents#slice8:hover, .slice-contents#slice10:hover, .slice-contents#slice12:hover, .slice-contents#slice14:hover, .slice-contents#slice16:hover{
 	background: rgba(64, 114, 90,1);
 	cursor:pointer;
 }  

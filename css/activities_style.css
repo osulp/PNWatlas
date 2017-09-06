@@ -2,6 +2,9 @@ html, body{
    height: 100%;
     margin:0;
 }
+img.leaflet-marker-icon.leaflet-zoom-animated.leaflet-interactive{
+	margin-left:100px;
+}
 #infoPanel {
 	width:300px;
 	height:100%;
