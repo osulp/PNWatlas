@@ -191,4 +191,7 @@ a#arrow{
 #arrow:hover{
 	color:white;
 }
-
+.label_tooltip {
+	font-family: Baskerville, "Baskerville Old Face", "Hoefler Text", Garamond, "Times New Roman", serif;
+	font-size:16px;
+}
