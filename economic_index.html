@@ -173,6 +173,34 @@
     	}
     ///////////////////////////////////////////////////////////////////////////////////////	
     
+     ////////////////////////////////popup functions////////////////////////////////
+
+     	function whichName(props) {
+			if (data <= 3){
+				return props.properties.name;
+			}else {
+				return props.properties.NAME;
+				}
+			}
+		function dataTypePop(props) {
+    		return data == 0 ? (((props.properties.jobs_thou * 1000) / props.properties.pop_2012)*100).toFixed(2):
+    		 	data == 1 ? ((props.properties.spend_bil / props.properties.pop_2012) * 1000000000).toFixed(0):
+    		 	data == 2 ? ((props.properties.wages_bil*1000000000) / (props.properties.jobs_thou*1000000)).toFixed(2):
+    		 	data == 3 ? ((props.properties.tax_re_bil*1000000000) / props.properties.pop_2012).toFixed(0):
+    		 	data == 4 ? ((props.properties.total_emp/props.properties.population)*100).toFixed(2):
+    		 	data == 5 ? ((props.properties.loc_gov_em/props.properties.population)*100).toFixed(2):
+    		 	data == 6 ? (((props.properties.gov_ft_pay * 12)/props.properties.gov_ft_emp)/1000).toFixed(2):
+    		 		props.properties.jobs_thou;
+    	}
+		function nullFinder(feature) {
+			if (dataTypePop(feature) == null)
+				{return 'N/A';}
+			else if (isNaN(dataTypePop(feature)) == true)
+				{return '0.00';}
+			else {return dataTypePop(feature);}
+		}
+		
+    ///////////////////////////////////////////////////////////////////////////////////////	
     
     ////////////////////////////////initial geoJSON styling////////////////////////////////
     
@@ -242,6 +270,7 @@
         			mouseover: highlight,
         			mouseout: resetHighlight,
    				});
+   				featureLayer.bindPopup('<b>'+ whichName(feature) +'</b><br/><p style="display:inline;">'+ displayType() + nullFinder(feature) + '</p>', {className: 'label_tooltip'});
         	}
         }).addTo(map);
     });
@@ -298,6 +327,7 @@
         			mouseover: highlight,
         			mouseout: resetHighlight,
    				});
+   				featureLayer.bindPopup('<b>'+ whichName(feature) +'</b><br/><p style="display:inline;">'+ displayType() + nullFinder(feature) + '</p>', {className: 'label_tooltip'});
         	}
         	}).addTo(map);
     	});
@@ -313,6 +343,7 @@
         			mouseover: highlight,
         			mouseout: resetHighlight,
    				});
+   				featureLayer.bindPopup('<b>'+ whichName(feature) +'</b><br/><p style="display:inline;">'+ displayType() + nullFinder(feature) + '</p>', {className: 'label_tooltip'});
         	}
         	}).addTo(map);
     	});

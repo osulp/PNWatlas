@@ -82,7 +82,7 @@
 	window.addEventListener('load', function(event){
     	var width = document.documentElement.clientWidth;
     	if (width < 1500 && width > 800) {
-        	map.setZoom(6);
+        	map.setView(new L.LatLng(45.56, -121.75), 6); 
     		}  else if (width > 1501) {
         	map.setZoom(7);
         	} else {
@@ -155,6 +155,12 @@
     		 	animal == 3 && data == 3 ? "Harvested Bear M/F Ratio:&nbsp":
     		 		props.deer.total;
     		}
+    function nullFinder(props) {
+		if (animalType(props) == null)
+			{return 'N/A';}
+		else {return animalType(props);}
+	}
+    	
 	info.addTo(map);
 	////////////////////////////////////////////////////////////////////////////////////
 
@@ -218,6 +224,7 @@
         			mouseover: highlight,
         			mouseout: resetHighlight,
    				});
+   				featureLayer.bindPopup('<b>'+ feature.properties.NAME +'</b><br/><p style="display:inline;">'+ displayType() + nullFinder(feature.properties) + '</p>', {className: 'label_tooltip'});
         	}
         }).addTo(map);
     });
@@ -267,6 +274,7 @@
         			mouseover: highlight,
         			mouseout: resetHighlight,
    				});
+   				featureLayer.bindPopup('<b>'+ feature.properties.NAME +'</b><br/><p style="display:inline;">'+ displayType() + nullFinder(feature.properties) + '</p>', {className: 'label_tooltip'});
         	}
         	}).addTo(map);
     	});

@@ -291,7 +291,7 @@
         raftPoints = L.geoJson(data, {
         	pointToLayer: function (feature, latlng) {
     			return L.marker(latlng, {icon:raftIcon(feature.properties.CLASS)}
-    				)
+    				).bindPopup('<b>River Name</b><br/><p style="display:inline;">' + feature.properties.UID + '</p>', {className: 'label_tooltip'});
     			},
     		onEachFeature: function(feature,layer)
             {
@@ -366,7 +366,7 @@
     				opacity: 1,
     				fillOpacity: 0.7,
     				weight: 0.5
-    			});
+    			}).bindPopup('<b>' + feature.properties.name + '</b><br/><p style="display:inline;">' + feature.properties.sites + '&nbspCampsites</p>', {className: 'label_tooltip'});
     			},
     		onEachFeature: function (feature, layer){
     			layer.on("mouseover",function(e){
@@ -425,7 +425,7 @@
         skiResorts = L.geoJson(data, {
         	pointToLayer: function (feature, latlng) {
     			return L.marker(latlng, {icon:skiIcon1}
-    				)
+    				).bindPopup('<b>Resort Name</b><br/><p style="font-weight:none; display:inline;">' + feature.properties.Name + '</p>', {className: 'label_tooltip'})
     			},
     		onEachFeature: function(feature,layer)
             {
@@ -461,13 +461,43 @@
     }
 /////////////////////////////////////////////////////////////////////////  
 ///////////////////////mountaineering////////////////////////////////////     
-	//mountain icons  
-	var mountainIcon1 = L.icon({iconSize: [23,23], iconUrl: 'img/mountain_icon1.png'});
+	//mountain icons  	
+    
+    var mountainIcon1 = L.icon({iconSize: [23,23], iconUrl: 'img/mountain_icon1.png'});
     var mountainIcon2 = L.icon({iconSize: [19,19], iconUrl: 'img/mountain_icon2.png'});
-    var mountainIcon3 = L.icon({iconSize: [14,14], iconUrl: 'img/mountain_icon3.png'});
+   	var mountainIcon3 = L.icon({iconSize: [14,14], iconUrl: 'img/mountain_icon3.png'});
     var mountainIcon4 = L.icon({iconSize: [11,11], iconUrl: 'img/mountain_icon4.png'});
     var mountainIcon5 = L.icon({iconSize: [7,7], iconUrl: 'img/mountain_icon5.png'});
     
+    //determine initial icon size based on zoom level
+    function updateIcon(){
+    		var currentZoom = map.getZoom();
+    		if (currentZoom >= 7){
+    	 		mountainIcon1 = L.icon({iconSize: [23,23], iconUrl: 'img/mountain_icon1.png'});
+    			mountainIcon2 = L.icon({iconSize: [19,19], iconUrl: 'img/mountain_icon2.png'});
+   		 		mountainIcon3 = L.icon({iconSize: [14,14], iconUrl: 'img/mountain_icon3.png'});
+    			mountainIcon4 = L.icon({iconSize: [11,11], iconUrl: 'img/mountain_icon4.png'});
+    			mountainIcon5 = L.icon({iconSize: [7,7], iconUrl: 'img/mountain_icon5.png'});
+    			updateMountains();
+    	 	}
+    	 	else if (currentZoom == 6){
+    	 		mountainIcon1 = L.icon({iconSize: [17,17], iconUrl: 'img/mountain_icon1.png'});
+    			mountainIcon2 = L.icon({iconSize: [13,13], iconUrl: 'img/mountain_icon2.png'});
+   		 		mountainIcon3 = L.icon({iconSize: [10,10], iconUrl: 'img/mountain_icon3.png'});
+    			mountainIcon4 = L.icon({iconSize: [6,6], iconUrl: 'img/mountain_icon4.png'});
+    			mountainIcon5 = L.icon({iconSize: [3,3], iconUrl: 'img/mountain_icon5.png'});
+    			updateMountains();
+    	 	}
+    	 	else {
+    	 		mountainIcon1 = L.icon({iconSize: [12,12], iconUrl: 'img/mountain_icon1.png'});
+    			mountainIcon2 = L.icon({iconSize: [9,9], iconUrl: 'img/mountain_icon2.png'});
+   		 		mountainIcon3 = L.icon({iconSize: [7,7], iconUrl: 'img/mountain_icon3.png'});
+    			mountainIcon4 = L.icon({iconSize: [5,5], iconUrl: 'img/mountain_icon4.png'});
+    			mountainIcon5 = L.icon({iconSize: [3,3], iconUrl: 'img/mountain_icon5.png'});
+    			updateMountains();
+    		}
+    }
+    //change icon size based on zoom level
     map.on('zoomend', function() {
     	 var currentZoom = map.getZoom();
     	 if (data === 2){
@@ -501,7 +531,6 @@
     	 
     	 }
     })
-
     //mountain icon on hover
     var mountainIconHover = L.icon({iconSize: [16,16], iconUrl: 'img/mountain_icon_hover.png'});
     
@@ -513,7 +542,8 @@
     		density > 3000 ? mountainIcon4:
     			mountainIcon5;
     }
-	 function updateMountains(){
+    //mountain point function for changes in zoom level
+	function updateMountains(){
     	mountains = L.geoJson(mountainPoints, {
     		pointToLayer: function (feature, latlng) {
     					return L.marker(latlng, {
@@ -533,22 +563,15 @@
     	mountains.addTo(map);
     }
    //mountain function
-    var	mountains = L.geoJson(mountainPoints, {
-    		pointToLayer: function (feature, latlng) {
-    					return L.marker(latlng, {
-    					icon: iconSelection(feature.properties.elev_ft)}).bindPopup('<b>' + feature.properties.name + '</b><br/><p style="display:inline;">' + feature.properties.elev_ft + '&nbspft.</p>', {className: 'label_tooltip'});		
-    				},
-    		onEachFeature: function(feature, layer) {
-    				layer.on("mouseover",function(e){
-                		info.update(layer.feature.properties);
-                		layer.setIcon(mountainIconHover)
-            		});
-            		layer.on("mouseout",function(e){
-                		info.update();
-                		layer.setIcon(iconSelection(feature.properties.elev_ft))
-            		});
-   				  }
-    		  });
+    var	mountains = L.geoJson(mountainPoints, {pointToLayer: function (feature, latlng) {
+    			return L.circleMarker(latlng, {
+    				radius: 0,
+    				opacity: 0,
+    				fillOpacity: 0,
+    				weight: 0
+    			}).bindPopup('<b>' + feature.properties.name + '</b><br/><p style="display:inline;">' + feature.properties.elev_ft + '&nbspft.</p>', {className: 'label_tooltip'});
+    		}
+    	});
     //add search control for mountains
 	var searchControl =  new L.Control.Search({
 		container: 'findbox',
@@ -581,19 +604,19 @@
     	map.removeLayer(backgroundParks);
     	removeLayers();
     	map.addLayer(elevation);
-    	mountains.addTo(map);
+    	updateIcon();
     	map.addControl(searchControl);
     	info.update();
+    	document.getElementById("mountains").style.display = "unset";
     	document.getElementById("skiing").style.display = "none";
     	document.getElementById("camping").style.display = "none";
     	document.getElementById("rafting").style.display = "none";
-    	document.getElementById("mountains").style.display = "unset";
     	document.getElementById("text").innerHTML = "The term mountaineering describes the sport of mountain climbing. While some scholars identify mountaineering-related activities as climbing (rock and ice) and trekking up mountains,[2] others are also adding backpacking, hiking, skiing, via ferrata and wilderness activities,[3] and still others state that mountaineering activities also include indoor climbing, sport climbing and bouldering.[4] However most of the scholars, the term mountaineering understand as a climbing (which now refers to adventure climbing or sports climbing) and trekking (hill walking in 'exotic' places).[5][6] Hiking in the mountains can also be a simple form of mountaineering when it involves scrambling, or short stretches of the more basic grades of rock climbing, as well as crossing glaciers.While mountaineering began as attempts to reach the highest point of unclimbed big mountains it has branched into specializations that address different aspects of the mountain and consists of three (3) areas: rock-craft, snow-craft, and skiing, depending on whether the route chosen is over rock, snow or ice. All require experience, athletic ability, and technical knowledge to maintain safety.[7] Mountaineering is often called Alpinism, especially in European languages, which implies climbing routes with minimal equipment in high and often snow and ice-covered mountains such as the Alps, where technical difficulties frequently exceed environmental and physical challenges. A mountaineer who pursues this more technical and minimalist style of mountain climbing is sometimes called an Alpinist, although use of the term may vary between countries and eras. The word alpinism was born in the 19th century to refer to climbing for the purpose of enjoying climbing itself as a sport or recreation, distinct from merely climbing while hunting or as a religious pilgrimage that had been done generally at that time.[8][9]";
     	document.getElementById(dataButton[data]).style.background = "rgba(242,242,242,1)";
 		var h = $('body').height() - $('#top').height() - boxHeight;
 		$('#attribution').height(h);
     }              
-/////////////////////////////////////////////////////////////////////////  
+////////////////////////////////////////////////////////////////////////////////////////////////////  
 
 /////////////////////////determine whether or not to add background parks///////////////////////////  
 	function addParks () {
