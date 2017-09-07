@@ -251,8 +251,16 @@
      var pnwCounties = $.getJSON("assets/counties2.geojson", function(data){
         pnwCounties = L.geoJson(data, {
         	style:pnwCountiesStyle
-        });
+        }).addTo(map);
     });
+    
+    /*var pnwCities = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
+		layers: 'baldricg_PNW_ATLAS:pnw_cities',
+        format: 'image/png',
+		maxZoom:9,
+		minZoom:4,
+		transparent:true
+	}).addTo(map);*/
 ////////////////////////////////////////////////////////////////////////////////////////
 
 //////////////////////////////////////variables for the switch function, allow the legend to change dynamically with selection/////////////////////////////////////////
@@ -269,7 +277,6 @@ function selectSwitch() {
 	if (document.getElementById('checkbox_id').checked == true){
 		map.removeLayer(totalParks);
 		map.addLayer(parkPoints);
-		map.addLayer(pnwCounties);
 		layer = 2;
 		var legValues = ['1,000+','500 - 1,000','250 - 500','100 - 250','Less than 100'];
 		for (i = 0; i <5; i++){	
@@ -290,7 +297,6 @@ function selectSwitch() {
 	//total parks selected
 	else {
 		map.removeLayer(parkPoints);
-		map.removeLayer(pnwCounties);
 		map.addLayer(totalParks);	
 		layer = 1;
 		var legValues = ['National Forest','National Wildlife','National Park','State Forest','State Park'];
