@@ -1,2 +1,3 @@
 # PNWatlas
-http://cdn.rawgit.com/osulp/PNWatlas/master/index.html
+http://rawgit.com/osulp/PNWatlas/master/index.html
+
