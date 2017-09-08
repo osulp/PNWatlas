@@ -361,17 +361,32 @@ div.cover{
 	cursor:pointer;
 }  
 */
-.slice-contents#slice1, .slice-contents#slice3, .slice-contents#slice5, .slice-contents#slice7, .slice-contents#slice9, .slice-contents#slice11, .slice-contents#slice13, .slice-contents#slice15{
+ .slice-contents#slice1, .slice-contents#slice3, .slice-contents#slice5, .slice-contents#slice9, .slice-contents#slice11, .slice-contents#slice13, .slice-contents#slice15{
+	background: rgba(191, 191, 191,1);
+}  
+ .slice-contents#slice1, .slice-contents#slice3:hover, .slice-contents#slice5:hover,  .slice-contents#slice9:hover, .slice-contents#slice11:hover, .slice-contents#slice13:hover, .slice-contents#slice15:hover{
+	background: rgba(191, 191, 191,1);
+	cursor:default;
+}  
+.slice-contents#slice2, .slice-contents#slice4, .slice-contents#slice8, .slice-contents#slice10, .slice-contents#slice12, .slice-contents#slice14, .slice-contents#slice16{
+	background: rgba(191, 191, 191,1);
+}  
+.slice-contents#slice2, .slice-contents#slice4:hover, .slice-contents#slice8:hover, .slice-contents#slice10:hover, .slice-contents#slice12:hover, .slice-contents#slice14:hover, .slice-contents#slice16:hover{
+	background: rgba(191, 191, 191,1);
+	cursor:default;
+}  
+
+.slice-contents#slice7{
 	background: rgba(92,163,130,1);
 }  
-.slice-contents#slice1:hover, .slice-contents#slice3:hover, .slice-contents#slice5:hover, .slice-contents#slice7:hover, .slice-contents#slice9:hover, .slice-contents#slice11:hover, .slice-contents#slice13:hover, .slice-contents#slice15:hover{
+.slice-contents#slice7:hover{
 	background: rgba(56, 97, 77,1);
 	cursor:pointer;
 }  
-.slice-contents#slice2, .slice-contents#slice4, .slice-contents#slice6, .slice-contents#slice8, .slice-contents#slice10, .slice-contents#slice12, .slice-contents#slice14, .slice-contents#slice16{
+.slice-contents#slice6{
 	background: rgba(141, 191, 167,1);
 }  
-.slice-contents#slice2:hover, .slice-contents#slice4:hover, .slice-contents#slice6:hover, .slice-contents#slice8:hover, .slice-contents#slice10:hover, .slice-contents#slice12:hover, .slice-contents#slice14:hover, .slice-contents#slice16:hover{
+.slice-contents#slice6:hover{
 	background: rgba(64, 114, 90,1);
 	cursor:pointer;
 }  
