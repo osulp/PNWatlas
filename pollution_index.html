@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+     <title>Water Pollution</title>
+    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.2/dist/leaflet.css" /> 
+    <link rel="stylesheet" href="css/pollution_style.css" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Maven+Pro" rel="stylesheet">
+    <link rel="stylesheet" href="css/perfect-scrollbar.css" />
+    
+    <link rel="shortcut icon" href="img/pnw.ico" type="image/x-icon">
+    
+    <script src="https://unpkg.com/leaflet@1.0.2/dist/leaflet.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="js/perfect-scrollbar.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
+   
+</head>
+<body>
+		<div id="infoPanel">
+			<div id="top">
+			<h1>Water Pollution</h1>
+			<div id="buttons">
+				<div class="dropdown">
+  					<button class="dropbtn">Select Pollutant<p id="arrow">&#9660;</p></button>
+  					<div class="dropdown-content">
+   						 <button type="button" id="but1" onclick="total()" class="species" style="background:rgba(242, 242, 242, 0.8);">Total</button>
+						 <button type="button" id="but2" onclick="metals()" class="species">Metals</button>
+						 <button type="button" id="but3" onclick="oxygen()" class="species">Oxygen Depletion</button>
+						 <button type="button" id="but4" onclick="pathogens()" class="species">Pathogens</button>
+						 <button type="button" id="but5" onclick="sediment()" class="species">Sediment</button>
+						 <button type="button" id="but6" onclick="temperature()" class="species">Temperature</button><br/>
+						 <button type="button" id="but7" onclick="phosphorus()" class="species">Phosphorus</button>
+						 <button type="button" id="but8" onclick="nitrogen()" class="species">Nitrogen</button>
+						 <button type="button" id="but9" onclick="arsenic()" class="species">Arsenic</button>
+ 				   </div>
+				</div>
+			</div>
+			<h2 id="title" style="display:block; width:280px; white-space:normal;">Total Impairments</h2>
+			<img src="img/pollution.png" id="image" style="display:inline-block; float:right;"> 
+			<div><b id="leg1_block" style="background:#a50f15;"></b><p>&nbsp</p><p id="leg1">50+</p><br/></div>
+			<div><b id="leg2_block" style="background:#de2d26;"></b><p>&nbsp</p><p id="leg2">25 - 50</p><br/></div>
+			<div><b id="leg3_block" style="background:#fb6a4a;"></b><p>&nbsp</p><p id="leg3">10 - 25</p><br/></div>
+			<div><b id="leg4_block" style="background:#fcae91;"></b><p>&nbsp</p><p id="leg4">5 - 10</p><br/></div>
+			<div><b id="leg5_block" style="background:#fee5d9;"></b><p>&nbsp</p><p id="leg5">Less than 5</p><br/></div><br/>
+			<p id="description" style="font-weight:bold; text-align:justify; white-space:normal; padding-left:0px; width:280px; display:block; position:relative;">Total impairments in waterways. Impairments include Metals, Sediments, Algae, Pathogens, Oxygen Impairment, Ammonia, and more.</p>
+			<p3 id ="source" style="font-style:italic; text-align:justify; white-space:normal; padding-left:0px; width:280px; display:block; position:relative;">Impaired waters are listed in the 2015 303(d) list provided by the U.S Environmental Protection Agency.</p3>
+			</div>
+			
+			<div id="attribution">
+				<div id="text" style="margin-top:10px;">
+					<p3 id="information">Chinook salmon are the largest of the Pacific salmon, with some individuals growing to more than 100 pounds. These huge fish are rare, as most mature chinook are under 50 pounds. <br/><br/>Most chinook spawn in large rivers such as the Columbia and Snake, although they will also use smaller streams with sufficient water flow. They tend to spawn in the mainstem of streams, where the water flow is high. Because of their size they are able to spawn in larger gravel than most other salmon. Chinook spawn on both sides of the Cascade Range, and some fish travel hundreds of miles upstream before they reach their spawning grounds. Because of the distance, these fish enter streams early and comprise the spring and summer runs. Fall runs spawn closer to the ocean and more often use small coastal streams. All chinook reach their spawning grounds by fall, in time to spawn.<br/><br/>Chinook fry rear in freshwater from three months to a year, depending on the race of chinook and the location. Spring chinook tend to stay in streams for a year; fish in northern areas, where the streams are less productive and growth is slower, also tend to stay longer. Rearing chinook fry use mainstems and their tributaries.</p3>
+				</div>
+			</div>
+			<div id="pageChange">
+				<a href="activities_index.html" id="arrow" style="display:inline-block;">
+					<i class="fa fa-arrow-left" aria-hidden="true" style=""></i>
+				</a>
+				<a href="source_index.html" id="arrow" style="display:inline-block;" target="_blank">
+					<i class="fa fa-info-circle" aria-hidden="true" style="padding-left:83px;"></i>
+				</a>
+				<a href="recreation_index.html" id="arrow" style="display:inline-block;" target="_blank">
+					<i class="fa fa-home" aria-hidden="true" style="padding-left:0;"></i>
+				</a>
+				<a href="economic_index.html" id="arrow" style="display:inline-block;">
+					<i class="fa fa-arrow-right" aria-hidden="true" style="padding-left:82px;"></i>
+				</a>
+			</div>
+		</div>
+    	<div id="map" style="width: 100%; height: 100%;"></div>
+
+<script>
+	//initialize map
+	var map = L.map('map', {center: [45.61, -119.75], zoom: 7, zoomControl:false});
+	//map.setMaxBounds(map.getBounds());
+///////////////////////make zoom level correspond to browser size////////////////////////////////
+	window.addEventListener('load', function(event){
+    	var width = document.documentElement.clientWidth;
+    	if (width < 1500 && width > 800) {
+        	map.setView(new L.LatLng(45.56, -121.75), 6); 
+    		}  else if (width > 1501) {
+        	map.setZoom(7);
+        	} else {
+        	map.setZoom(5);
+        	}
+	});
+	
+	//map.setMaxBounds(map.getBounds());
+///////////////////////add tiled basemap////////////////////////////////
+var Esri_WorldTerrain = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer/tile/{z}/{y}/{x}', {
+		attribution: 'Tiles &copy; Esri &mdash; Source: USGS, Esri, TANA, DeLorme, and NPS',
+		maxZoom:8,
+		minZoom:5,
+		opacity:1
+	}).addTo(map);
+
+var pnwCover = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
+		layers: 'baldricg_PNW_ATLAS:pnw_outline2',
+        format: 'image/png',
+		maxZoom:8,
+		minZoom:5,
+		opacity:1,
+		transparent:true,
+	}).addTo(map);
+
+	
+var label = L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_only_labels/{z}/{x}/{y}.png', {
+		attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
+		subdomains: 'abcd',
+		maxZoom:8,
+		minZoom:5,
+		opacity:0.7,
+		pane:'labels'
+	});	
+var labelMask = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
+		layers: 'baldricg_PNW_ATLAS:PNW_label_mask',
+        format: 'image/png',
+		maxZoom:8,
+		minZoom:5,
+		opacity:1,
+		transparent:true,
+		pane: 'labels'
+	});
+
+var pnw_water = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
+		layers: 'baldricg_PNW_ATLAS:pnw_water',
+        format: 'image/png',
+		maxZoom:8,
+		minZoom:5,
+		opacity:1,
+		transparent:true,
+		pane: 'water'
+	});
+	map.createPane('labels');
+	map.getPane('labels').style.pointerEvents = 'none';
+	map.getPane('labels').style.zIndex = 650;
+	label.addTo(map);
+	labelMask.addTo(map);	
+	
+	map.createPane('water');
+	map.getPane('water').style.pointerEvents = 'none';
+	map.getPane('water').style.zIndex = 675;
+	pnw_water.addTo(map);
+	
+	map.createPane('tooltip');
+	map.getPane('tooltip').style.zIndex = 700;
+	/////////////////important variables////////////////////////////////
+    
+///////////////////////hexgrid layer//////////////////////////////// 
+	
+	var pollutant = 0;
+	var color = ['#fee5d9','#fcae91','#fb6a4a','#de2d26','#a50f15'];
+	var level = [0, 5, 10, 25, 50];
+
+	function hexColor (value){
+        	return value > level[4] ? color[4] :
+        			value > level[3] ? color[3] :
+        			value > level[2] ? color[2] :
+        			value > level[1] ? color[1] :
+        			value > level[0] ? color[0] :
+        				'#ffffff';
+        	}
+	
+	function whichProp (feature){
+		return pollutant == 0 ? feature.properties.pol_points:
+			pollutant == 1 ? feature.properties.metals:
+			pollutant == 2 ? feature.properties.oxgyen_dep:
+			pollutant == 3 ? feature.properties.pathogens:
+			pollutant == 4 ? feature.properties.sediment:
+			pollutant == 5 ? feature.properties.temp:
+			pollutant == 6 ? (feature.properties.meanTOT_P/1000).toFixed(2):
+			pollutant == 7 ? (feature.properties.meanTOT_N/1000).toFixed(2):
+			pollutant == 8 ? feature.properties.AS_quart3:
+			feature.properties.pol_points;
+	}
+	
+	function hexStyle(feature){
+		return{
+			opacity: 0.1,
+			fillOpacity:0.8,
+			fillColor:hexColor(whichProp(feature)),
+			color:hexColor(whichProp(feature)),
+			};
+	}
+	
+	function hexFilter(feature) {
+        		if (pollutant == 0){
+        			if (feature.properties.pol_points > 0)return true
+        		}
+        		else if (pollutant == 1){
+        			if (feature.properties.metals > 0)return true
+        		}
+        		else if (pollutant == 2){
+        			if (feature.properties.oxgyen_dep > 0)return true
+        		}
+        		else if (pollutant == 3){
+        			if (feature.properties.pathogens > 0)return true
+        		}
+        		else if (pollutant == 4){
+        			if (feature.properties.sediment > 0)return true
+        		}
+        		else if (pollutant == 5){
+        			if (feature.properties.temp > 0)return true
+        		}
+        		else if (pollutant == 6){
+        			if (feature.properties.meanTOT_P > 0)return true
+        		}
+        		else if (pollutant == 7){
+        			if (feature.properties.meanTOT_N > 0)return true
+        		}
+        		else if (pollutant == 8){
+        			if (feature.properties.AS_quart3 > 0)return true
+        		}
+    	}
+    	
+    var	hexgrid = $.getJSON("assets/pollution_hexgrid.geojson", function(data){
+        hexgrid = L.geoJson(data, {
+        	style:hexStyle,
+        	onEachFeature: function(feature, featureLayer) {
+        		featureLayer.bindTooltip('<b style="display:inline;">Total Impairments:&nbsp</b>'+ feature.properties.pol_points, {direction:'top', pane:'tooltip', className: 'label_tooltip'});
+        	},
+        	filter:hexFilter
+        }).addTo(map);
+    });
+    
+    function addHexgrid (){
+    	function popupText(feature){
+    		return pollutant == 0 ? '<b style="display:inline;">Total Impairments:&nbsp</b>' + feature.properties.pol_points :
+				pollutant == 1 ? '<b style="display:inline;">Metal Impairments:&nbsp</b>' + feature.properties.metals:
+				pollutant == 2 ? '<b style="display:inline;">Oxygen Impairments:&nbsp</b>' + feature.properties.oxgyen_dep:
+				pollutant == 3 ? '<b style="display:inline;">Pathogen Impairments:&nbsp</b>' + feature.properties.pathogens:
+				pollutant == 4 ? '<b style="display:inline;">Sediment Impairments:&nbsp</b>' + feature.properties.sediment:
+				pollutant == 5 ? '<b style="display:inline;">Temperature Impairments:&nbsp</b>' + feature.properties.temp:
+				pollutant == 6 ? '<b style="display:inline;">P in Thousands KG/year:&nbsp</b>' + (feature.properties.meanTOT_P/1000).toFixed(2):
+				pollutant == 7 ? '<b style="display:inline;">N in Thousands KG/year:&nbsp</b>' + (feature.properties.meanTOT_N/1000).toFixed(2):
+				pollutant == 8 ? '<b style="display:inline;">Arsenic in &#xb5;/L:&nbsp</b>' +  feature.properties.AS_quart3 + '<br/><b># of Samples:&nbsp</b>' +  feature.properties.AS_pts:
+				'<b style="display:inline;">Total Pollutants<br/></b>';
+    	}
+    	hexgrid = $.getJSON("assets/pollution_hexgrid.geojson", function(data){
+        	hexgrid = L.geoJson(data, {
+        		style:hexStyle,
+        		onEachFeature: function(feature, featureLayer) {
+        			featureLayer.bindTooltip(popupText(feature), {direction:'top', pane:'tooltip', className: 'label_tooltip'});
+        		},
+        	filter:hexFilter
+        }).addTo(map);
+    });
+    }
+    
+    function total() {
+    	pollutant = 0;
+    	map.removeLayer(hexgrid);
+    	color = ['#fee5d9','#fcae91','#fb6a4a','#de2d26','#a50f15'];	
+    	level = [0, 5, 10, 25, 50];
+    	resetButtons();
+    	document.getElementById('but1').style.background = 'rgba(242, 242, 242, 0.8)';
+    	document.getElementById('title').innerHTML = "Total Impairments";
+    	document.getElementById('description').innerHTML = "Total impairments in waterways. Impairments include Metals, Sediments, Algae, Pathogens, Oxygen Impairment, Ammonia, and more.";
+    	document.getElementById('source').innerHTML = "Impaired waters are listed in the 2015 303(d) list provided by the U.S Environmental Protection Agency.";
+    	document.getElementById("image").src = "img/pollution.png";
+    	resizeMiddle();
+    	addHexgrid();
+    	changeLegend();
+    } 
+    function metals() {
+    	pollutant = 1;
+    	map.removeLayer(hexgrid);
+    	color = ['#e5e5cc','#cbcb9a','#b1b168','#76763d','#434323'];	
+    	level = [0, 2, 5, 10, 20];
+    	resetButtons();
+    	document.getElementById('title').innerHTML = "Metal Impairments";
+    	document.getElementById('but2').style.background = 'rgba(242, 242, 242, 0.8)';
+    	document.getElementById('description').innerHTML = "Total metal impairments in waterways. Metals can include Mercury, Iron, Lead, Manganese, Nickel, Zinc, and More.";
+    	document.getElementById('source').innerHTML = "Impaired waters are listed in the 2015 303(d) list provided by the U.S Environmental Protection Agency.";
+    	document.getElementById("image").src = "img/metals.png";
+    	resizeMiddle();
+    	addHexgrid();
+    	changeLegend();
+    } 
+    function oxygen() {
+    	pollutant = 2;
+    	map.removeLayer(hexgrid);
+    	color = ['#e0ebeb','#b1cdcd','#83afaf','#507c7c','#283e3e'];
+    	document.getElementById('title').innerHTML = "Oxygen Depletion Impairments";	
+    	resetButtons();
+    	document.getElementById('but3').style.background = 'rgba(242, 242, 242, 0.8)';
+    	document.getElementById('description').innerHTML = "Total oxygen impairments in waterways. Oxygen depletion is usually caused by organic enrichment.";
+    	document.getElementById('source').innerHTML = "Impaired waters are listed in the 2015 303(d) list provided by the U.S Environmental Protection Agency.";
+    	document.getElementById("image").src = "img/oxygen.png";
+    	level = [0, 2, 5, 10, 20];
+    	resizeMiddle();
+    	addHexgrid();
+    	changeLegend();
+    }
+    function pathogens() {
+    	pollutant = 3;
+    	map.removeLayer(hexgrid);
+    	color = ['#f1eef6','#d7b5d8','#df65b0','#dd1c77','#980043'];	
+    	document.getElementById('title').innerHTML = "Pathogen Impairments";
+    	resetButtons();
+    	document.getElementById('but4').style.background = 'rgba(242, 242, 242, 0.8)';
+    	level = [0, 5, 10, 15, 20];
+    	document.getElementById('description').innerHTML = "Total pathogen impairments in waterways. Pathogens include E. Coli and Fecal Coliform.";
+    	document.getElementById('source').innerHTML = "Impaired waters are listed in the 2015 303(d) list provided by the U.S Environmental Protection Agency.";
+    	document.getElementById("image").src = "img/pathogen.png";
+    	resizeMiddle();
+    	addHexgrid();
+    	changeLegend();
+    }
+    function sediment() {
+    	pollutant = 4;
+    	map.removeLayer(hexgrid);
+    	color = ['#ecd9c6','#d9b38c','#c68c53','#996633','#4d3319'];	
+    	document.getElementById('title').innerHTML = "Sediment Impairments";
+    	resetButtons();
+    	document.getElementById('but5').style.background = 'rgba(242, 242, 242, 0.8)';
+    	document.getElementById('description').innerHTML = "Total sediment impairments in waterways.";
+    	document.getElementById('source').innerHTML = "Impaired waters are listed in the 2015 303(d) list provided by the U.S Environmental Protection Agency.";
+    	document.getElementById("image").src = "img/sediment.png";
+    	level = [0, 4, 6, 8, 10];
+    	resizeMiddle();
+    	addHexgrid();
+    	changeLegend();
+    }
+    function temperature() {
+    	pollutant = 5;
+    	map.removeLayer(hexgrid);
+    	color = ['#f2f0f7','#cbc9e2','#9e9ac8','#756bb1','#54278f'];
+    	document.getElementById('title').innerHTML = "Temperature Impairments";	
+    	resetButtons();
+    	document.getElementById('but6').style.background = 'rgba(242, 242, 242, 0.8)';
+    	document.getElementById('description').innerHTML = "Total temperature impairments in each waterways.";
+    	document.getElementById('source').innerHTML = "Impaired waters are listed in the 2015 303(d) list provided by the U.S Environmental Protection Agency.";
+    	level = [0, 5, 10, 15, 20];
+    	document.getElementById("image").src = "img/temp.png";
+    	resizeMiddle();
+    	addHexgrid();
+    	changeLegend();
+    }
+    function phosphorus() {
+    	pollutant = 6;
+    	map.removeLayer(hexgrid);
+    	color = ['#edf8fb','#b3cde3','#8c96c6','#8856a7','#810f7c'];
+    	document.getElementById('title').innerHTML = "Phosphorus Inputs (1000s KG/yr)";	
+    	resetButtons();
+    	document.getElementById('but7').style.background = 'rgba(242, 242, 242, 0.8)';
+    	document.getElementById('description').innerHTML = "Total phosphorus input to water in thousands of KG/yr in 2002.";
+    	document.getElementById('source').innerHTML = "Data compiled by U.S Geological Survey.";
+    	document.getElementById("image").src = "img/phosphorus.png";
+    	level = [0, 5, 10, 50, 100];
+    	resizeMiddle();
+    	addHexgrid();
+    	changeLegend();
+    }
+    function nitrogen() {
+    	pollutant = 7;
+    	map.removeLayer(hexgrid);
+    	color = ['#fff0b3','#ffe066','#ffd11a','#cca300','#806600'];	
+    	document.getElementById('title').innerHTML = "Nitrogen Inputs (1000s KG/yr)";
+    	resetButtons();
+    	document.getElementById('but8').style.background = 'rgba(242, 242, 242, 0.8)';
+    	document.getElementById('description').innerHTML = "Total nitrogen input to water in thousands of KG/yr in 2002.";
+    	document.getElementById('source').innerHTML = "Data compiled by U.S Geological Survey.";
+    	document.getElementById("image").src = "img/nitrogen.png";
+    	level = [0, 10, 50, 250, 1000];
+    	resizeMiddle();
+    	addHexgrid();
+    	changeLegend();
+    }
+    function arsenic() {
+    	pollutant = 8;
+    	map.removeLayer(hexgrid);
+    	color = ['#2c7bb6','#abd9e9','#ffffbf','#fdae61','#d7191c'];
+    	document.getElementById('title').innerHTML = "Arsenic Concentrations in Groundwater (&#xb5;/L)";	
+    	resetButtons();
+    	document.getElementById('but9').style.background = 'rgba(242, 242, 242, 0.8)';
+    	document.getElementById('description').innerHTML = "Arsenic concentrations in &#xb5;/L found in at least 25% of samples. The EPA considers 10 &#xb5;/L the maximum safe concentration.";
+    	document.getElementById('source').innerHTML = "Data obtained from 2003 Trace Elements National Synthesis Project compiled by U.S Geological Survey.";
+    	document.getElementById("image").src = "img/arsenic.png";
+    	level = [0, 3, 5, 10, 50];
+    	resizeMiddle();
+    	addHexgrid();
+    	changeLegend();
+    }
+    
+    function changeLegend(){
+    	document.getElementById('leg1').innerHTML = level[4] + "+";
+    	document.getElementById('leg2').innerHTML = level[3] + " - " + level[4];
+    	document.getElementById('leg3').innerHTML = level[2] + " - " + level[3];
+    	document.getElementById('leg4').innerHTML = level[1] + " - " + level[2];
+    	document.getElementById('leg5').innerHTML = "Less than " + level[1];
+    	document.getElementById('leg1_block').style.background = color[4];
+    	document.getElementById('leg2_block').style.background = color[3];
+    	document.getElementById('leg3_block').style.background = color[2];
+    	document.getElementById('leg4_block').style.background = color[1];
+    	document.getElementById('leg5_block').style.background = color[0];
+    }
+    
+    function resetButtons(){
+    	document.getElementById('but1').style.background = 'rgba(242, 242, 242, 0.2)';
+    	document.getElementById('but2').style.background = 'rgba(242, 242, 242, 0.2)';
+    	document.getElementById('but3').style.background = 'rgba(242, 242, 242, 0.2)';
+    	document.getElementById('but4').style.background = 'rgba(242, 242, 242, 0.2)';
+    	document.getElementById('but5').style.background = 'rgba(242, 242, 242, 0.2)';
+    	document.getElementById('but6').style.background = 'rgba(242, 242, 242, 0.2)';
+    	document.getElementById('but7').style.background = 'rgba(242, 242, 242, 0.2)';
+    	document.getElementById('but8').style.background = 'rgba(242, 242, 242, 0.2)';
+    	document.getElementById('but9').style.background = 'rgba(242, 242, 242, 0.2)';
+    }
+    
+    
+///////////////////////background geoJson layers////////////////////////////////
+
+//state outlines
+    function pnwStatesStyle(){
+	return{
+		opacity: 1,
+		color:'#666666',
+		fillOpacity:0	,
+		fillColor:'#404040',
+		weight:1
+		};
+	}
+     var pnwStates = $.getJSON("assets/pnw_states.geojson", function(data){
+        pnwStates = L.geoJson(data, {
+        	style:pnwStatesStyle,
+        	interactive: false
+        }).addTo(map);
+    });
+    
+     var pnwCounties = $.getJSON("assets/counties2.geojson", function(data){
+        pnwCounties = L.geoJson(data, {
+        	style: function pnwCountiesStyle(){
+				return{
+					opacity: 0.7,
+					color:'#999999',
+					weight:0.2
+				};
+			},
+			interactive: false
+        }).addTo(map);
+    });
+
+////////////////////////////////////////////////////////////////////////////////////////////
+
+
+    new L.Control.Zoom({ position: 'topright' }).addTo(map);
+	document.getElementsByClassName("leaflet-control-attribution")[0].style.visibility = "hidden";
+	//add scrolling capabilities to text box
+     var container = document.getElementById('text');
+		Ps.initialize(container);
+	
+	var minHeight = 30; // Define a minimum height for the middle div
+
+	function resizeMiddle() {
+    var h = $('body').height() - $('#top').height() - 80;
+    		h = h > minHeight ? h : minHeight;
+   	 	$('#attribution').height(h);
+	}
+
+	$(document).ready(resizeMiddle);
+	$(window).resize(resizeMiddle);
+	
+	
+    //remove standard leaflet attribution
+    
+
+</script>
+</body>
+</html>
