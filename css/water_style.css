@@ -200,6 +200,9 @@ div.cover{
 		 top:47px; 
 		 right: 31%;
 	}
+	a#gw_text.text{
+		 margin-top:60px; 
+	}
 
 }
 @media (min-width:500px) and (max-width:999px){
@@ -284,6 +287,10 @@ div.cover{
 		 top:47px; 
 		 right: 29%;
 	}
+	a#gw_text.text{
+		 margin-top:60px; 
+	}
+
 }
 .slice {
 	overflow: hidden; 
