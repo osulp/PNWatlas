@@ -89,9 +89,6 @@
 		</div>
     	<div id="map" style="width: calc(100% - 320px); height: 100%; left:320px;"></div>
 
-<script src="assets/watershedHUC8.js"></script>
-<script src="assets/watershedHUC6.js"></script>
-<script src="assets/watershedHUC4.js"></script>
 <script>
 	//initialize map
 	var map = L.map('map', {center: [46.7, -118.69], zoom: 6, zoomControl:false});
@@ -201,8 +198,11 @@
 		}
 		clickHUC4 = null;
 	};
+
 	
-    var watershedHUC4 = L.vectorGrid.slicer(watershedHUC4vector, {
+
+    var watershedHUC4 = $.getJSON("http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=baldricg_PNW_ATLAS:watershed_HU4&maxFeatures=10&outputFormat=application%2Fjson", function(data){
+    	watershedHUC4 = L.vectorGrid.slicer(data, {
 			rendererFactory: L.svg.tile,
 			vectorTileLayerStyles: {
 				sliced: function(properties, zoom) {
@@ -299,6 +299,11 @@
 			
 			watershedHUC4.setFeatureStyle(properties.TNMID, style);
 		}).addTo(map);
+	});
+		
+	$.getJSON("http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=baldricg_PNW_ATLAS:watershedHUC4&maxFeatures=1500&outputFormat=application%2Fjson", function(data) {
+        watershedHUC4.addData(data);
+    });
 ///////////////////////HUC6 (subregional) scale////////////////////////////////	    
     var highlightHUC6;
     var clickHUC6;
@@ -316,7 +321,8 @@
 		clickHUC6 = null;
 	};
 	
-    var watershedHUC6 = L.vectorGrid.slicer(watershedHUC6vector, {
+    var watershedHUC6 = $.getJSON("http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=baldricg_PNW_ATLAS:watershed_HU6&maxFeatures=50&outputFormat=application%2Fjson", function(data){
+    	watershedHUC6 = L.vectorGrid.slicer(watershedHUC6vector, {
 			rendererFactory: L.svg.tile,
 			vectorTileLayerStyles: {
 				sliced: function(properties, zoom) {
@@ -412,6 +418,7 @@
 			
 			watershedHUC6.setFeatureStyle(properties.TNMID, style);
 		});
+	});
     
 ///////////////////////HUC8 (local) scale////////////////////////////////	    
     var highlight;
@@ -430,7 +437,8 @@
 		click = null;
 	};
 	
-    var watershedHUC8 = L.vectorGrid.slicer(watershedHUC8vector, {
+    var watershedHUC8 = $.getJSON("http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=baldricg_PNW_ATLAS:watershed_HU8&maxFeatures=100&outputFormat=application%2Fjson", function(data){
+    watershedHUC8 = L.vectorGrid.slicer(watershedHUC8vector, {
 			rendererFactory: L.svg.tile,
 			vectorTileLayerStyles: {
 				sliced: function(properties, zoom) {
@@ -529,6 +537,7 @@
 			
 			watershedHUC8.setFeatureStyle(properties.TNMID, style);
 		});
+	});
     
 ///////////////////////tooltip info////////////////////////////////
  
