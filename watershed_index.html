@@ -577,7 +577,7 @@
 	}
 
     function addDams(){
-    	dams = $.getJSON("assets/http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=baldricg_PNW_ATLAS:national_dams&maxFeatures=1000&outputFormat=application%2Fjson", function(data){
+    	dams = $.getJSON("http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=baldricg_PNW_ATLAS:national_dams&maxFeatures=1000&outputFormat=application%2Fjson", function(data){
         	dams = L.geoJson(data, {
         		pointToLayer: function (feature, latlng) {
     			return L.circleMarker(latlng, {
@@ -612,7 +612,7 @@
 		}
     
     function addDamsHUC8(){
-    	damsHUC8 = $.getJSON("assets/http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=baldricg_PNW_ATLAS:total_dams&maxFeatures=2000&outputFormat=application%2Fjson", function(data){
+    	damsHUC8 = $.getJSON("http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=baldricg_PNW_ATLAS:total_dams&maxFeatures=2000&outputFormat=application%2Fjson", function(data){
         	damsHUC8 = L.geoJson(data, {
         		pointToLayer: function (feature, latlng) {
     			return L.circleMarker(latlng, {
@@ -651,7 +651,7 @@
     	}
     
     function addCities(){
-    	cities = $.getJSON("assets/http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=baldricg_PNW_ATLAS:watershed_city_areas&maxFeatures=1000&outputFormat=application%2Fjson", function(data){
+    	cities = $.getJSON("http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=baldricg_PNW_ATLAS:watershed_city_areas&maxFeatures=1000&outputFormat=application%2Fjson", function(data){
         	cities = L.geoJson(data, {
         		style:cityStyle,
     			filter:lakeFilter
@@ -670,7 +670,7 @@
     	}
     
     function addReservations(){
-    	reservations = $.getJSON("assets/http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=baldricg_PNW_ATLAS:watershed_reservations&maxFeatures=100&outputFormat=application%2Fjson.geojson", function(data){
+    	reservations = $.getJSON("http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=baldricg_PNW_ATLAS:watershed_reservations&maxFeatures=100&outputFormat=application%2Fjson", function(data){
         	reservations = L.geoJson(data, {
         		style:reservationStyle,
     			filter:lakeFilter
@@ -730,7 +730,7 @@
 	}
     
     function addRivers(){
-    	rivers = $.getJSON("assets/http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=baldricg_PNW_ATLAS:watershed_rivers&maxFeatures=1000&outputFormat=application%2Fjson", function(data){
+    	rivers = $.getJSON("http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=baldricg_PNW_ATLAS:watershed_rivers&maxFeatures=5000&outputFormat=application%2Fjson", function(data){
         	rivers = L.geoJson(data, {
         		style:riverStyle,
         		onEachFeature: function(feature, featureLayer) {
@@ -746,7 +746,7 @@
     	});
     }
     function addRiversHUC8(){
-    	riversHUC8 = $.getJSON("assets/http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=baldricg_PNW_ATLAS:watershed_rivers_HUC8&maxFeatures=1000&outputFormat=application%2Fjson", function(data){
+    	riversHUC8 = $.getJSON("http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=baldricg_PNW_ATLAS:watershed_rivers_HUC8&maxFeatures=10000&outputFormat=application%2Fjson", function(data){
         	riversHUC8 = L.geoJson(data, {
         		style:riverStyle,
         		onEachFeature: function(feature, featureLayer) {
