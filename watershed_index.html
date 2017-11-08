@@ -46,7 +46,12 @@
 			<h2 style="display:inline; width:200px; white-space:normal;">Counties<sup class="tooltip">?<span class="tooltiptext">Number of Counties intersected by the river basin. BC is one county.</span></sup>:</h2>
 			<h2 id="counties" style="display:inline; width:200px; white-space:normal;"></h2><br/>
 			<h2 style="display:inline; width:200px; white-space:normal;">Cities<sup class="tooltip">?<span class="tooltiptext">Incorporated Cities and selected Census Designated Places with population over 1 person</span></sup>:</h2>
-			<h2 id="cities" style="display:inline; width:200px; white-space:normal;"></h2>
+			<h2 id="cities" style="display:inline; width:200px; white-space:normal;"></h2><br/>
+			<label class="switch">
+					<input name="checkbox_name" id="checkbox_id" type="checkbox" value="check" onclick="borders()" autocomplete="off">
+					<span class="slider"></span>
+			</label>
+				<p style="padding-left:5px; padding-top:12px; font-weight:bold;">Toggle Political Borders</p><br/>
 			</div>
 			<div id="attribution">
 				<div id="text" style="margin-top:10px;">
@@ -156,6 +161,7 @@
 	var layers = 0; //determine if watershed has already been selected when switching scales 
 	var hoverSelection; //used with info control to determine which data to display
 	
+	var border = 0;
 	//geoJSON variables
 	var damsHUC8;
 	var cities;
@@ -405,7 +411,7 @@
 			document.getElementById('dams').innerHTML = properties.dams_major;
 			document.getElementById('population').innerHTML = properties.POPULATION;
 			document.getElementById('cities').innerHTML = properties.cities_001;
-			document.getElementById('states').innerHTML = properties.States;
+			document.getElementById('states').innerHTML = properties.states;
 			document.getElementById('counties').innerHTML = properties.counties;
 			
 			map.fitBounds([
@@ -934,6 +940,48 @@ function removeLayers(){
 	
   	map.removeControl(info);
 }
+//////////////////////////////////////border toggle/////////////////////////////////////////////////
+ function pnwStatesStyle(){
+	return{
+		opacity: 1,
+		color:'#666666',
+		fillOpacity:0	,
+		fillColor:'#404040',
+		weight:1.5
+		};
+	}
+     var pnwStates = $.getJSON("assets/pnw_states.geojson", function(data){
+        pnwStates = L.geoJson(data, {
+        	style:pnwStatesStyle,
+        	interactive: false
+        });
+    });
+    
+     var pnwCounties = $.getJSON("assets/counties2.geojson", function(data){
+        pnwCounties = L.geoJson(data, {
+        	style: function pnwCountiesStyle(){
+				return{
+					opacity: 0.7,
+					color:'#999999',
+					weight:0.5
+				};
+			},
+			interactive: false
+        });
+    });
+    
+    function borders() {
+    	if (border == 0){
+    		border = 1;
+    		pnwStates.addTo(map);
+    		pnwCounties.addTo(map);
+    	}
+    	else {
+    		border = 0;
+    		map.removeLayer(pnwStates);
+    		map.removeLayer(pnwCounties);
+    	}
+    } 
 
 ////////////////////////////////////////////////////////////////////////////////////////////
 
