@@ -25,7 +25,7 @@
 			<img src="img/economic_icon.png" id="image" style="display:inline-block;"> <br/>
 			<div id="buttons">
 				<div class="dropdown">
-					<button class="dropbtn">Select Dataset<p id="arrow">&#9660;</p></button>
+					<button class="dropbtn"><b id="selection">Select Dataset</b><p id="arrow">&#9660;</p></button>
 						<div class="dropdown-content">
 							<p style="font-size:16px;float:left; ">County</p>
 							<p style="font-size:16px;">State</p>
@@ -402,6 +402,7 @@
     	//update legend title and descriptors
     	document.getElementById('title').innerHTML = "% Employment";
     	document.getElementById('description').innerHTML = "% of population employed in outdoor recreation";
+    	document.getElementById('selection').innerHTML = "Employment";
     	//highlight button
     	document.getElementById('but1').style.background = "rgba(242, 242, 242, 1)";
     	//update legend values
@@ -424,6 +425,7 @@
     	document.getElementById('title').innerHTML = "Per Capita Spending";
     	document.getElementById('but3').style.background = "rgba(242, 242, 242, 1)";
     	document.getElementById('description').innerHTML = "Per capita outdoor recreation spending in dollars";
+    	document.getElementById('selection').innerHTML = "Spending";
     	legend();
     	var img = document.getElementById("image2");
 		img.src="img/spend.png";
@@ -442,6 +444,7 @@
     	document.getElementById('title').innerHTML = "Average Annual Wages";
     	document.getElementById('description').innerHTML = "Average annual outdoor recreation wages in thousands of dollars";
     	document.getElementById('but5').style.background = "rgba(242, 242, 242, 1)";
+    	document.getElementById('selection').innerHTML = "Wages";
     	legend();
     	var img = document.getElementById("image2");
 		img.src="img/wages.png";
@@ -459,6 +462,7 @@
     	document.getElementById('title').innerHTML = "Per Capita Tax Revenue";
     	document.getElementById('description').innerHTML = "Per capita outdoor recreation tax revenue in dollars";
     	document.getElementById('but7').style.background = "rgba(242, 242, 242, 1)";
+    	document.getElementById('selection').innerHTML = "Taxes";
     	legend();
     	var img = document.getElementById("image2");
 		img.src="img/tax.png";
@@ -476,6 +480,7 @@
     	document.getElementById('title').innerHTML = "% Employment";
     	document.getElementById('description').innerHTML = "% of population employed in outdoor recreation";
     	document.getElementById('but2').style.background = "rgba(242, 242, 242, 1)";
+    	document.getElementById('selection').innerHTML = "Employment";
     	legend();
     	var img = document.getElementById("image2");
 		img.src="img/totalLocalEmp.png";
@@ -493,6 +498,7 @@
     	document.getElementById('title').innerHTML = "% Gov. Employment";
     	document.getElementById('description').innerHTML = "% of population employed in local government parks & recreation organizations";
     	document.getElementById('but4').style.background = "rgba(242, 242, 242, 1)";
+    	document.getElementById('selection').innerHTML = "Local Gov. Employment";
     	legend();
     	var img = document.getElementById("image2");
 		img.src="img/localEmp.png";
@@ -510,6 +516,7 @@
     	document.getElementById('title').innerHTML = "Average Annual Gov. Wages";
     	document.getElementById('description').innerHTML = "Average annual wages for full-time local gov. parks & rec. employees in thousands of dollars";
     	document.getElementById('but6').style.background = "rgba(242, 242, 242, 1)";
+    	document.getElementById('selection').innerHTML = "Local Gov. Wages";
     	legend();
     	var img = document.getElementById("image2");
 		img.src="img/wages.png";

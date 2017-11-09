@@ -23,7 +23,7 @@
 			<img src="img/deer_icon.png" id="image2" style="display:inline-block;left:30px;"> <h1 style="display:inline-block;">Hunting</h1><img src="img/deer_icon.png" id="image3" style="display:inline-block;"> 
 			<div id="buttons">
 			<div class="dropdown">
-  				<button class="dropbtn">Select Animal<p id="arrow">&#9660;</p></button>
+  				<button class="dropbtn"><b id="animalSel">Select Animal</b><p id="arrow">&#9660;</p></button>
   				<div class="dropdown-content">
   					<button type="button" id="deer" onclick="deerFunc()" value="Deer" style="float:left; background:rgba(242, 242, 242, 0.8);" class="selection" >Deer</button>
   					<button type="button" id="elk" onclick="elkFunc()" value="Elk" style="float:left;" class="selection">Elk</button>
@@ -31,7 +31,7 @@
   				</div>
   			</div>
   			<div class="dropdown">
-  				<button class="dropbtn">Select Data<p id="arrow">&#9660;</p></button>
+  				<button class="dropbtn"><b id="data">Select Data</b><p id="arrow">&#9660;</p></button>
   				<div class="dropdown-content">
   					<button type="button" id="number" onclick="totalFunc()" class="selection" style="background:rgba(242, 242, 242, 0.8);">Total</button>
   					<button type="button" id="area" onclick="densityFunc()" class="selection">Density</button>
@@ -302,6 +302,7 @@
     	document.getElementById('animal').innerHTML = "Total animals harvested";
     	//highlight button
     	document.getElementById('number').style.background = "rgba(242, 242, 242, 1)";
+    	document.getElementById('data').innerHTML = "Total";
     	//update legend 
     	legend();
     }  
@@ -316,6 +317,7 @@
     	document.getElementById('type').innerHTML = " Harvest Density";
     	document.getElementById('animal').innerHTML = "Animals harvested per square mile";
     	document.getElementById('area').style.background = "rgba(242, 242, 242, 1)";
+    	document.getElementById('data').innerHTML = "Density";
     	legend();
     }
     //M/F ratio selection
@@ -329,6 +331,7 @@
     	document.getElementById('type').innerHTML = " Harvest M/F Ratio";
     	document.getElementById('animal').innerHTML = "Ratio of males to females harvested";
     	document.getElementById('ratio').style.background = "rgba(242, 242, 242, 1)";
+    	document.getElementById('data').innerHTML = "M/F Ratio";
     	legend();
     }
     ///////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -356,6 +359,7 @@
     	img.src="img/elk.png";
     	//highlight selected button
     	document.getElementById('elk').style.background = "rgba(242, 242, 242, 1)";
+    	document.getElementById('animalSel').innerHTML = "Elk";
     }
     //deer selection function
     function deerFunc() {
@@ -369,6 +373,7 @@
     	document.getElementById('title').innerHTML = "2016 Deer";
     	var img = document.getElementById("image");
     	document.getElementById('deer').style.background = "rgba(242, 242, 242, 1)";
+    	document.getElementById('animalSel').innerHTML = "Deer";
 		img.src="img/deer.png";
     	
     }
@@ -384,6 +389,7 @@
     	document.getElementById('title').innerHTML = "2015 Bear";
     	var img = document.getElementById("image");
     	document.getElementById('bear').style.background = "rgba(242, 242, 242, 1)";
+    	document.getElementById('animalSel').innerHTML = "Bear";
 		img.src="img/bear.png";
     }
     ///////////////////////////////////////////////////////////////////////////////////////////////////////

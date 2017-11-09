@@ -25,7 +25,7 @@
 			<img src="img/fish_icon.png" id="image" style="display:inline-block;"> <br/>
 			<div id="buttons">
 				<div class="dropdown">
-  					<button class="dropbtn">Select Species<p id="arrow">&#9660;</p></button>
+  					<button class="dropbtn"><b id="selection">Select Species</b><p id="arrow">&#9660;</p></button>
   					<div class="dropdown-content">
    						 <button type="button" id="but1" onclick="chinook()" class="species" style="background:rgba(242, 242, 242, 0.8);">Chinook</button>
 						 <button type="button" id="but2" onclick="steelhead()" class="species">Steelhead</button>
@@ -285,6 +285,7 @@
     	document.getElementById('description').innerHTML = "Current population status and historical distribution of Chinook Salmon";
     	document.getElementById('information').innerHTML = "Chinook salmon are the largest of the Pacific salmon, with some individuals growing to more than 100 pounds. These huge fish are rare, as most mature chinook are under 50 pounds. <br/><br/>Most chinook spawn in large rivers such as the Columbia and Snake, although they will also use smaller streams with sufficient water flow. They tend to spawn in the mainstem of streams, where the water flow is high. Because of their size they are able to spawn in larger gravel than most other salmon. Chinook spawn on both sides of the Cascade Range, and some fish travel hundreds of miles upstream before they reach their spawning grounds. Because of the distance, these fish enter streams early and comprise the spring and summer runs. Fall runs spawn closer to the ocean and more often use small coastal streams. All chinook reach their spawning grounds by fall, in time to spawn.<br/><br/>Chinook fry rear in freshwater from three months to a year, depending on the race of chinook and the location. Spring chinook tend to stay in streams for a year; fish in northern areas, where the streams are less productive and growth is slower, also tend to stay longer. Rearing chinook fry use mainstems and their tributaries.";
     	document.getElementById('but1').style.background = "rgba(242, 242, 242, 0.9)";
+    	document.getElementById('selection').innerHTML = "Chinook";
     	var img = document.getElementById("image2");
 		img.src="img/chinook2.png";
     }  
@@ -299,6 +300,7 @@
     	document.getElementById("threat").style.display = "unset";
     	update();
     	document.getElementById('title').innerHTML = "Steelhead";
+    	document.getElementById('selection').innerHTML = "Steelhead";
     	document.getElementById('but2').style.background = "rgba(242, 242, 242, 0.9)";
     	document.getElementById('information').innerHTML = "Steelhead and rainbow trout are the same species, but rainbow are freshwater only, and steelhead are anadromous, or go to sea. Unlike most salmon, steelhead can survive spawning, and can spawn in multiple years.<br/><br/>Steelhead spawn in the spring. They generally prefer fast water in small-to-large mainstem rivers, and medium-to-large tributaries. In streams with steep gradient and large substrate, they spawn between these steep areas, where the water is flatter and the substrate is small enough to dig into. The steeper areas then make excellent rearing habitat for the juveniles. Like chinook, steelhead have two runs, a summer run and a winter run. Most summer runs are east of the Cascades, and enter streams in summer to reach the spawning grounds by the following spring. A few western Washington rivers also have established runs of summer steelhead. Winter runs spawn closer to the ocean, and require less travel time.<br/><br/>Steelhead fry emerge from the gravel in summer and generally rear for two or three years in freshwater, occasionally one or four years, depending on the productivity of the stream. Streams high in the mountains and those in northern climes are generally less productive. Due to their faster growth, hatchery steelhead smolt at one year of age.";
     	document.getElementById('description').innerHTML = "Current population status and historical distribution of Steelhead";
@@ -316,6 +318,7 @@
     	document.getElementById("threat").style.display = "unset";
     	update();
     	document.getElementById('title').innerHTML = "Coho Salmon";
+    	document.getElementById('selection').innerHTML = "Coho";
     	document.getElementById('description').innerHTML = "Current population status and historical distribution of Coho Salmon";
     	document.getElementById('information').innerHTML = "Coho are a very popular sport fish in Puget Sound. This species uses coastal streams and tributaries, and is often present in small neighborhood streams. Coho can even be found in urban settings if their needs of cold, clean, year-round water are met.<br/><br/>Coho spawn in small coastal streams and the tributaries of larger rivers. They prefer areas of mid-velocity water with small to medium sized gravels. Because they use small streams with limited space, they must use many such streams to successfully reproduce, which is why coho can be found in virtually every small coastal stream with a year-round flow.<br/><br/>Returning coho often gather at the mouths of streams and wait for the water flow to rise, such as after a rain storm, before heading upstream. The higher flows and deeper water enable the fish to pass obstacles, such as logs across the stream or beaver dams, that would otherwise be impassable.<br/><br/>Coho have a very regular life history. They are deposited in the gravel as eggs in the fall, emerge from the gravel the next spring, and in their second spring go to sea, about 18 months after being deposited. Coho fry are usually found in the pools of small coastal streams and the tributaries of larger rivers.";
     	document.getElementById('but3').style.background = "rgba(242, 242, 242, 0.9)";
@@ -336,6 +339,7 @@
     	document.getElementById("threat").style.display = "unset";
     	update();
     	document.getElementById('title').innerHTML = "Chum Salmon";
+    	document.getElementById('selection').innerHTML = "Chum";
     	document.getElementById('description').innerHTML = "Current population status and historical distribution of Chum Salmon";
     	document.getElementById('information').innerHTML = "Male chum salmon develop large during spawning, which resemble canine teeth. This many explain the nickname dog salmon.<br/><br/>Chum use small coastal streams and the lower reaches of larger rivers. They often use the same streams as coho, but coho tend to move further up the watershed and chum generally spawn closer to saltwater. This may be due to their larger size, which requires deeper water to swim in, or their jumping ability, which is inferior to coho. Either way, the result is a watershed divided between the two species, with all the niches filled.<br/><br/>Like coho, chum can be found in virtually every small coastal stream. In the fall, large numbers of chum can often be seen in the lower reaches of these streams, providing opportunities to view wild salmon in a natural environment.<br/><br/>Chum fry do not rear in freshwater for more than a few days. Shortly after they emerge, chum fry move downstream to the estuary and rear there for several months before heading out to the open ocean.";
     	document.getElementById('but4').style.background = "rgba(242, 242, 242, 0.9)";
@@ -356,6 +360,7 @@
     	document.getElementById("threat").style.display = "none";
     	update();
     	document.getElementById('title').innerHTML = "Pink Salmon";
+    	document.getElementById('selection').innerHTML = "Pink";
     	document.getElementById('description').innerHTML = "Current population status and historical distribution of Pink Salmon";
     	document.getElementById('information').innerHTML = "Male pink salmon develop a large hump on their back during spawning, hence the nickname humpback salmon. This is the smallest of the fall-spawning Pacific salmon. In Washington, pink salmon runs only occur in odd-numbered years.<br/><br/>Pinks use the mainstems of large rivers and some tributaries, often very close to saltwater. Because their fry move directly to sea after emerging, the closer they spawn to saltwater the better. The shorter journey reduces predation and increases survival. Sometimes pink salmon spawn right in saltwater, avoiding freshwater altogether.<br/><br/>Pinks have a very regular life history, living for two years before returning to spawn the next generation. This is why pink runs in Washington only occur every other year; there are no one-year-old or three-year-old fish to establish runs in the other years.<br/><br/>As mentioned, pink fry do not rear in freshwater. Immediately after emerging they move downstream to the estuary and rear there for several months before heading out to the open ocean. Because of this, pink fry have no spots, which provide camouflage in streams, but are bright chrome for open water.";
     	document.getElementById('but5').style.background = "rgba(242, 242, 242, 1)";
@@ -373,6 +378,7 @@
     	document.getElementById("end").style.display = "unset";
     	update();
     	document.getElementById('title').innerHTML = "Sockeye Salmon";
+    	document.getElementById('selection').innerHTML = "Sockeye";
     	document.getElementById('description').innerHTML = "Current population status and historical distribution of Sockeye Salmon";
     	document.getElementById('information').innerHTML = "Sockeye are the most flavorful Pacific salmon. In Washington, sockeye are found in Lake Washington, Baker Lake, Ozette Lake, Quinault Lake, and Lake Wenatchee.<br/><br/>Sockeye are unique in that they require a lake to rear in as fry, so the river they choose to spawn in must have a lake in the system. This seems to be the most important criteria for choosing a spawning ground, as sockeye adapt to a range of water velocities and substrates.<br/><br/>Large rivers that supplied sufficient room for spawning and rearing historically supported huge runs of sockeye, numbering into the millions. One such run still exists today on the Adams River in British Columbia, a tributary to the Fraser River. The Canadian government has built viewing platforms for visitors, and annual runs of over a million sockeye are common.<br/><br/>Juvenile sockeye rear for one or two years in a lake, although they are also found in the inlet and outlet streams of the lake. Sockeye fry are often preyed on by resident lake fish, and because they use freshwater year-round, they are susceptible to low water quality.";
     	document.getElementById('but6').style.background = "rgba(242, 242, 242, 1)";
