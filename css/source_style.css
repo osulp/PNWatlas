@@ -41,12 +41,12 @@ div.cover{
 @media (min-width:1500px){
 	.background{
 		position: absolute;
-		height:800px;
-		width: 900px;
+		height:850px;
+		width: 950px;
 		top:50%;
 		left:50%;
 		margin-left: -400px;
-		margin-top: -400px;
+		margin-top: -425px;
 		}
 	.pie{
 		position: absolute;

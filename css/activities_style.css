@@ -125,7 +125,17 @@ div#buttons p {
     margin-top:5px;
     border:0;
 }
-
+div#buttons b {
+	color:#4d4d4d; 
+	float:left; 
+	display:inline; 
+	padding:0; 
+	width:auto; 
+	font-size:18px; 
+	bottom:2px;
+	position:relative;
+	font-weight:normal
+}
 div#buttons #arrow {
 	color:#e6e6e6; 
 	text-align:right; 

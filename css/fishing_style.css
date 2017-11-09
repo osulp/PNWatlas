@@ -94,7 +94,17 @@ div#buttons p {
 	padding-top:3px;
 	position:relative;
 }
-
+div#buttons b {
+	color:#4d4d4d; 
+	float:left; 
+	display:inline; 
+	padding:0; 
+	width:auto; 
+	font-size:18px; 
+	bottom:2px;
+	position:relative;
+	font-weight:normal
+}
 div#buttons .species {
 	width:135px;
 	height:30px;

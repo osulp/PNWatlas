@@ -51,7 +51,17 @@ div#buttons p {
 	right:7px;
 	position:absolute;
 }
-
+div#buttons b {
+	color:#4d4d4d; 
+	float:left; 
+	display:inline; 
+	padding:0; 
+	width:auto; 
+	font-size:16px; 
+	bottom:2px;
+	position:relative;
+	font-weight:normal
+}
 div#infoPanel img#image {
 	width: 150px;
 	height: 150px;
