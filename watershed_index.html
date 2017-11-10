@@ -23,9 +23,10 @@
 		<div id="infoPanel">
 			<div id="top">
 			<h1>Watershed Guide</h1>
+			<img src="img/watershed_icon.png" id="image2" style="display:inline-block;">
 			<div id="buttons">
 				<div class="dropdown">
-  					<button class="dropbtn">Select Scale<p id="arrow">&#9660;</p></button>
+  					<button class="dropbtn"><b id="selection">Select Scale</b><p id="arrow">&#9660;</p></button>
   					<div class="dropdown-content">
    						 <button type="button" id="but1" onclick="HUC4()" class="species" style="background:rgba(242, 242, 242, 0.8);">Regional</button>
 						 <button type="button" id="but2" onclick="HUC6()" class="species">Subregional</button>
@@ -75,10 +76,10 @@
 				</div>
 			</div>
 			<div id="pageChange" style="background:#ffffff;">
-				<a href="polltion_index.html" id="arrow" style="display:inline-block;">
+				<a href="pollution_index.html" id="arrow" style="display:inline-block;">
 					<i class="fa fa-arrow-left" aria-hidden="true" style=""></i>
 				</a>
-				<a href="watershed_index.html" id="arrow" style="display:inline-block;" target="_blank">
+				<a href="water_source_index.html" id="arrow" style="display:inline-block;" target="_blank">
 					<i class="fa fa-info-circle" aria-hidden="true" style="padding-left:83px;"></i>
 				</a>
 				<a href="water_index.html" id="arrow" style="display:inline-block;" target="_blank">
@@ -619,7 +620,7 @@
 		}
     
     function addDamsHUC8(){
-    	damsHUC8 = $.getJSON("http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=baldricg_PNW_ATLAS:total_dams&maxFeatures=2000&outputFormat=application%2Fjson", function(data){
+    	damsHUC8 = $.getJSON("http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=baldricg_PNW_ATLAS:total_dams&maxFeatures=10000&outputFormat=application%2Fjson", function(data){
         	damsHUC8 = L.geoJson(data, {
         		pointToLayer: function (feature, latlng) {
     			return L.circleMarker(latlng, {
@@ -866,6 +867,7 @@ function HUC4(){
 	document.getElementById('but2').style.background = "rgba(242,242,242,0.2)";
 	document.getElementById('but3').style.background = "rgba(242,242,242,0.2)";
 	document.getElementById('dams_title').innerHTML = 'Large Dams<sup class="tooltip">?<span class="tooltiptext">Dams higher than 50 ft. or capacity greater than 5000 acre ft.</span></sup>:';
+	document.getElementById('selection').innerHTML = 'Regional';
 	watershedHUC4.addTo(map);
 	clearClickHUC4();
 	scale=0;
@@ -877,6 +879,7 @@ function HUC6(){
 	document.getElementById('but2').style.background = "rgba(242, 242, 242, 0.9)";
 	document.getElementById('but3').style.background = "rgba(242,242,242,0.2)";
 	document.getElementById('dams_title').innerHTML = 'Large Dams<sup class="tooltip">?<span class="tooltiptext">Dams higher than 50 ft. or capacity greater than 5000 acre ft.</span></sup>:';
+	document.getElementById('selection').innerHTML = 'Subregional';
 	watershedHUC6.addTo(map);
 	clearClickHUC6();
 	scale=1;
@@ -888,6 +891,7 @@ function HUC8(){
 	document.getElementById('but2').style.background = "rgba(242,242,242,0.2)";
 	document.getElementById('but3').style.background = "rgba(242, 242, 242, 0.9)";
 	document.getElementById('dams_title').innerHTML = 'Dams<sup class="tooltip">?<span class="tooltiptext">Dams higher than 10 ft. or capacity greater than 1000 acre ft.</span></sup>:';
+	document.getElementById('selection').innerHTML = 'Local';
 	watershedHUC8.addTo(map);
 	clearClick();
 	scale=2;
@@ -941,45 +945,30 @@ function removeLayers(){
   	map.removeControl(info);
 }
 //////////////////////////////////////border toggle/////////////////////////////////////////////////
- function pnwStatesStyle(){
-	return{
-		opacity: 1,
-		color:'#666666',
-		fillOpacity:0	,
-		fillColor:'#404040',
-		weight:1.5
-		};
-	}
-     var pnwStates = $.getJSON("assets/pnw_states.geojson", function(data){
-        pnwStates = L.geoJson(data, {
-        	style:pnwStatesStyle,
-        	interactive: false
-        });
-    });
-    
-     var pnwCounties = $.getJSON("assets/counties2.geojson", function(data){
-        pnwCounties = L.geoJson(data, {
-        	style: function pnwCountiesStyle(){
-				return{
-					opacity: 0.7,
-					color:'#999999',
-					weight:0.5
-				};
-			},
-			interactive: false
-        });
-    });
+
+  var watershedBorders = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
+		layers: 'baldricg_PNW_ATLAS:watershed_borders',
+        format: 'image/png',
+		maxZoom:10,
+		minZoom:5,
+		opacity:1,
+		transparent:true,
+		pane: 'borders'
+	});
+//create pane to add labels above basemap and geojson features
+	map.createPane('borders');
+	map.getPane('borders').style.pointerEvents = 'none';
+	map.getPane('borders').style.zIndex = 800;
+
     
     function borders() {
     	if (border == 0){
     		border = 1;
-    		pnwStates.addTo(map);
-    		pnwCounties.addTo(map);
+    		watershedBorders.addTo(map);
     	}
     	else {
     		border = 0;
-    		map.removeLayer(pnwStates);
-    		map.removeLayer(pnwCounties);
+    		map.removeLayer(watershedBorders);
     	}
     } 
 

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+     <title>Watersheds</title>
+    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.2/dist/leaflet.css" /> 
+    <link rel="stylesheet" href="css/watershed_style.css" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Maven+Pro" rel="stylesheet">
+    <link rel="stylesheet" href="css/perfect-scrollbar.css" />
+    <link href="https://api.tiles.mapbox.com/mapbox-gl-js/v0.40.1/mapbox-gl.css" rel='stylesheet'/>
+    
+    <link rel="shortcut icon" href="img/pnw.ico" type="image/x-icon">
+    
+    <script src="https://unpkg.com/leaflet@1.0.2/dist/leaflet.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+     <script src="js/leaflet.ajax.min.js"></script>
+    <script src="js/perfect-scrollbar.js"></script>
+    <script src="js/leaflet.geometryutil.js"></script>
+    <script src="https://unpkg.com/leaflet.vectorgrid@latest/dist/Leaflet.VectorGrid.bundled.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
+   
+</head>
+<body>
+		<div id="infoPanel">
+			<div id="top">
+			<h1>Watershed Guide</h1>
+			<div id="buttons">
+				<div class="dropdown">
+  					<button class="dropbtn">Select Scale<p id="arrow">&#9660;</p></button>
+  					<div class="dropdown-content">
+   						 <button type="button" id="but1" onclick="HUC4()" class="species" style="background:rgba(242, 242, 242, 0.8);">HUC4</button>
+						 <button type="button" id="but2" onclick="HUC6()" class="species">HUC6</button>
+						 <button type="button" id="but3" onclick="HUC8()" class="species">HUC8</button>
+ 				   </div>
+				</div>
+			</div>
+			<br/>
+			<h2 id="title" style="display:inline; width:200px; white-space:normal; font-size:30px;">Select a Watershed</h2><br/>
+			<h2 style="display:inline; width:200px; white-space:normal;">Area:</h2>
+			<h2 id="area" style="display:inline; width:200px; white-space:normal;"></h2><br/>
+			<h2 id="dams_title" style="display:inline; width:200px; white-space:normal;">Large Dams<sup class="tooltip">?<span class="tooltiptext">Dams higher than 50 ft. or capacity greater than 5000 acre ft.</span></sup>:</h2>
+			<h2 id="dams" style="display:inline; width:200px; white-space:normal;"></h2><br/>
+			<h2 style="display:inline; width:200px; white-space:normal;">Population:</h2>
+			<h2 id="population" style="display:inline; width:200px; white-space:normal;"></h2><br/>
+			<h2 style="display:inline; width:200px; white-space:normal;">States/Provinces<sup class="tooltip">?<span class="tooltiptext">States and Provinces intersected by the river basin</span></sup>:</h2>
+			<h2 id="states" style="display:inline; width:200px; white-space:normal;"></h2><br/>
+			<h2 style="display:inline; width:200px; white-space:normal;">Counties<sup class="tooltip">?<span class="tooltiptext">Number of Counties intersected by the river basin. BC is one county.</span></sup>:</h2>
+			<h2 id="counties" style="display:inline; width:200px; white-space:normal;"></h2><br/>
+			<h2 style="display:inline; width:200px; white-space:normal;">Cities<sup class="tooltip">?<span class="tooltiptext">Incorporated Cities and selected Census Designated Places with population over 1 person</span></sup>:</h2>
+			<h2 id="cities" style="display:inline; width:200px; white-space:normal;"></h2>
+			</div>
+			<div id="attribution">
+				<div id="text" style="margin-top:10px;">
+				
+				<hr style="color:#80bfff; width:35px; float:left; height:2px; background-color:#80bfff; line-height:20px; vertical-align:middle; display:inline; border:none;"/><p id="leg1" style="padding-left:5px;">River</p><br/>
+				<hr style="color:#80bfff; width:35px; float:left; height:2px; background-color:#ffffff; line-height:20px; vertical-align:middle; display:inline; border:none; border-top:2px dashed #80bfff;"/><p id="leg1" style="padding-left:5px;">Intermittent River</p><br/>
+				<hr style="color:#00cc99; width:35px; float:left; height:2px; background-color:#00cc99; line-height:20px; vertical-align:middle; display:inline; border:none;"/><p id="leg1" style="padding-left:5px;">Canal</p><br/>
+				<div id ="none"><b style="background:#80bfff;"></b><p>&nbsp</p><p id="leg1">Lake/Reservoir</p></div><div id ="none" style="padding-left:150px;"><b style="background:#d9d9d9;"></b><p>&nbsp</p><p id="leg1">Urban Area</p></div><br/>
+				<div id ="threat"><b style="background:#b3daff;"></b><p>&nbsp</p><p id="leg1">Seasonal Lake</p></div><div id ="none" style="padding-left:150px;"><b style="background:#ededdc;"></b><p>&nbsp</p><p id="leg1">Tribal Land</p></div><br/>
+				<br/>
+				<div id = "damLegend">
+					<h3 style="margin:0; padding:0; font-size:16px;display:inline;">Dam Height in Ft. &nbsp Hazard Rating</h3><br/>
+					<div id="damLegendSide"><div id ="size"><b class="circle" style="background:#d9d9d9; width:20px; height:20px;"></b></div><div id="sizeLabel"><p style="padding-left:36px;">&nbsp301+</p></div></div><div id="damLegendSide" style="margin-left:150px;"><div id ="size"><b class="circle" style="background:#d9d9d9; width:16px; height:16px;"></b></div><div id="sizeLabel"><p style="padding-left:36px;">&nbspHigh</p></div></div><br/>
+					<div id="damLegendSide"><div id ="size"><b class="circle" style="background:#d9d9d9; width:16px; height:16px;"></b></div><div id="sizeLabel"><p style="padding-left:36px;">&nbsp201 - 300</p></div></div><div id="damLegendSide" style="margin-left:150px;"><div id ="size"><b class="circle" style="background:#d9d9d9; width:16px; height:16px;"></b></div><div id="sizeLabel"><p style="padding-left:36px;">&nbspSignificant</p></div></div><br/>
+					<div id="damLegendSide"><div id ="size"><b class="circle" style="background:#d9d9d9; width:12px; height:12px;"></b></div><div id="sizeLabel"><p style="padding-left:36px;">&nbsp101 - 200</p></div></div><div id="damLegendSide" style="margin-left:150px;"><div id ="size"><b class="circle" style="background:#d9d9d9; width:16px; height:16px;"></b></div><div id="sizeLabel"><p style="padding-left:36px;">&nbspLow</p></div></div><br/>
+					<div id ="size"><b class="circle" style="background:#d9d9d9; width:8px; height:8px;"></b></div><div id="sizeLabel"><p style="padding-left:36px;">&nbsp26 - 100</p></div><br/>
+					<div id ="size"><b class="circle" style="background:#d9d9d9; width:6px; height:6px;"></b></div><div id="sizeLabel"><p style="padding-left:36px;">&nbsp0 - 25</p></div>
+				</div>
+				<br/>
+				</div>
+			</div>
+			<div id="pageChange" style="background:#ffffff;">
+				<a href="watershed_index.html" id="arrow" style="display:inline-block;">
+					<i class="fa fa-arrow-left" aria-hidden="true" style=""></i>
+				</a>
+				<a href="watershed_index.html" id="arrow" style="display:inline-block;" target="_blank">
+					<i class="fa fa-info-circle" aria-hidden="true" style="padding-left:83px;"></i>
+				</a>
+				<a href="watershed_index.html" id="arrow" style="display:inline-block;" target="_blank">
+					<i class="fa fa-home" aria-hidden="true" style="padding-left:0;"></i>
+				</a>
+				<a href="watershed_index.html" id="arrow" style="display:inline-block;">
+					<i class="fa fa-arrow-right" aria-hidden="true" style="padding-left:82px;"></i>
+				</a>
+			</div>
+		</div>
+    	<div id="map" style="width: calc(100% - 320px); height: 100%; left:320px;"></div>
+
+<script>
+	//initialize map
+	var map = L.map('map', {center: [46.7, -118.69], zoom: 6, zoomControl:false});
+///////////////////////make zoom level correspond to browser size////////////////////////////////
+///////////////////////add tiled basemap////////////////////////////////
+	var Esri_WorldTerrain = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer/tile/{z}/{y}/{x}', {
+		attribution: 'Tiles &copy; Esri &mdash; Source: USGS, Esri, TANA, DeLorme, and NPS',
+		maxZoom:10,
+		minZoom:5
+	}).addTo(map);
+
+
+    new L.Control.Zoom({ position: 'topright' }).addTo(map);
+	document.getElementsByClassName("leaflet-control-attribution")[0].style.visibility = "hidden";
+	//add scrolling capabilities to text box
+     var container = document.getElementById('text');
+		Ps.initialize(container);
+	
+	var minHeight = 30; // Define a minimum height for the middle div
+
+	var resizeMiddle = function() {
+    var h = $('body').height() - $('#top').height() - 80;
+    		h = h > minHeight ? h : minHeight;
+   	 	$('#attribution').height(h);
+	}
+
+	$(document).ready(resizeMiddle);
+	$(window).resize(resizeMiddle);
+	
+	
+    //remove standard leaflet attribution
+    
+
+</script>
+</body>
+</html>

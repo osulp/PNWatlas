@@ -22,9 +22,10 @@
 		<div id="infoPanel">
 			<div id="top">
 			<h1>Water Use</h1>
+			<img src="img/water_use_icon.png" id="image2" style="display:inline-block;">
 			<div id="buttons">
 				<div class="dropdown">
-  					<button class="dropbtn">Select Use<p id="arrow">&#9660;</p></button>
+  					<button class="dropbtn"><b id="use">Select Use</b><p id="arrow" style="font-size:16px;">&#9660;</p></button>
   						<div class="dropdown-content">
   							<button type="button" id="but1" onclick="totalFunc()" style="float:left; background:rgba(242, 242, 242, 0.67);" class="selection">Total</button>
 							<button type="button" id="but2" onclick="publicFunc()" class="selection" style="float:left;">Public</button>
@@ -38,9 +39,9 @@
   						</div>
   				</div>
   				<div class="dropdown">
-  					<button class="dropbtn">Select Water<p id="arrow">&#9660;</p></button>
+  					<button class="dropbtn"><b id="water">Select Water</b><p id="arrow" style="font-size:16px;">&#9660;</p></button>
   						<div class="dropdown-content">
-  							<button type="button" id="total" onclick="totalWaterFunc()" class="selection" style="background:rgba(242, 242, 242, 0.8);">Total</button>
+  							<button type="button" id="total" onclick="totalWaterFunc()" class="selection" style="background:rgba(242, 242, 242, 0.8);">Total Water</button>
   							<button type="button" id="surface" onclick="surfaceFunc()" class="selection">Surface Water</button>
   							<button type="button" id="ground" onclick="groundFunc()" class="selection">Groundwater</button>
   						</div>
@@ -63,16 +64,16 @@
 				<br/>
 			</div>
 			<div id="pageChange">
-				<a href="pollution_index.html" id="arrow" style="display:inline-block;">
+				<a href="groundwater_index.html" id="arrow" style="display:inline-block;">
 					<i class="fa fa-arrow-left" aria-hidden="true" style=""></i>
 				</a>
-				<a href="source_index.html" id="arrow" style="display:inline-block;" target="_blank">
+				<a href="water_source_index.html" id="arrow" style="display:inline-block;" target="_blank">
 					<i class="fa fa-info-circle" aria-hidden="true" style="margin-left:83px;"></i>
 				</a>
 				<a href="water_index.html" id="arrow" style="display:inline-block;" target="_blank">
 					<i class="fa fa-home" aria-hidden="true"></i>
 				</a>
-				<a href="groundwater_index.html" id="arrow" style="display:inline-block;">
+				<a href="pollution_index.html" id="arrow" style="display:inline-block;">
 					<i class="fa fa-arrow-right" aria-hidden="true" style="margin-left:82px;"></i>
 				</a>
 			</div>
@@ -316,6 +317,7 @@
     	water = 0;
     	document.getElementById('title').innerHTML = titleText();
     	document.getElementById('total').style.background = "rgba(242, 242, 242, 1)";
+    	document.getElementById('water').innerHTML = "Total Water";
     	legend();
     	update();
     }
@@ -327,6 +329,7 @@
     	water = 1;
     	document.getElementById('title').innerHTML = titleText();
     	document.getElementById('surface').style.background = "rgba(242, 242, 242, 1)";
+    	document.getElementById('water').innerHTML = "Surface Water";
     	legend();
     	update();
     }
@@ -338,6 +341,7 @@
     	water = 2;
     	document.getElementById('title').innerHTML = titleText();
     	document.getElementById('ground').style.background = "rgba(242, 242, 242, 1)";
+    	document.getElementById('water').innerHTML = "Groundwater";
     	legend();
     	update();
     }
@@ -356,6 +360,7 @@
     	document.getElementById('but1').style.background = "rgba(242, 242, 242, 1)";
     	document.getElementById("image").src = "img/total.png";
     	document.getElementById('description').innerHTML = "Water use in millions of gallons of water per day.";
+    	document.getElementById('use').innerHTML = "Total";
 		legend();
 		update();
     }  
@@ -371,6 +376,7 @@
     	document.getElementById('description').innerHTML = "Per capita outdoor recreation spending in dollars";
     	document.getElementById("image").src = "img/public.png";
     	document.getElementById('description').innerHTML = "Public self-supplied water use in millions of gallons of water per day. Includes deliveries to domestic users.";
+    	document.getElementById('use').innerHTML = "Public";
     	legend();
     	update();
     }
@@ -386,6 +392,7 @@
     	document.getElementById('but3').style.background = "rgba(242, 242, 242, 1)";
     	document.getElementById("image").src = "img/domestic.png";
     	document.getElementById('description').innerHTML = "Domestic self-supplied water use in millions of gallons of water per day. Does not include deliveries from public water providers.";
+    	document.getElementById('use').innerHTML = "Domestic";
     	legend();
     	update();
     }
@@ -401,6 +408,7 @@
     	document.getElementById('but4').style.background = "rgba(242, 242, 242, 1)";
     	document.getElementById("image").src = "img/industry.png";
     	document.getElementById('description').innerHTML = "Industrial self-supplied water use in millions of gallons of water per day.";
+    	document.getElementById('use').innerHTML = "Industrial";
     	legend();
     	update();
     }
@@ -416,6 +424,7 @@
     	document.getElementById('but5').style.background = "rgba(242, 242, 242, 1)";
     	document.getElementById("image").src = "img/thermo.png";
     	document.getElementById('description').innerHTML = "Self-supplied water use for thermoelectricity in millions of gallons of water per day.";
+    	document.getElementById('use').innerHTML = "Thermoelectric";
     	legend();
     	update();
     }
@@ -431,6 +440,7 @@
     	document.getElementById('but6').style.background = "rgba(242, 242, 242, 1)";
     	document.getElementById("image").src = "img/mines.png";
     	document.getElementById('description').innerHTML = "Self-supplied water use for mining in millions of gallons of water per day.";
+    	document.getElementById('use').innerHTML = "Mining";
     	legend();
     	update();	
     }
@@ -446,6 +456,7 @@
     	document.getElementById('but7').style.background = "rgba(242, 242, 242, 1)";
     	document.getElementById("image").src = "img/livestock.png";
     	document.getElementById('description').innerHTML = "Self-supplied water use for livestock in millions of gallons of water per day.";
+    	document.getElementById('use').innerHTML = "Livestock";
     	legend();
     	update();
     }
@@ -460,6 +471,7 @@
     	document.getElementById('but8').style.background = "rgba(242, 242, 242, 1)";
     	document.getElementById("image").src = "img/irrigation.png";
     	document.getElementById('description').innerHTML = "Self-supplied water use for irrigation in millions of gallons of water per day.";
+    	document.getElementById('use').innerHTML = "Irrigation";
     	legend();
     	update();
     }
@@ -474,6 +486,7 @@
     	document.getElementById('but9').style.background = "rgba(242, 242, 242, 1)";
     	document.getElementById("image").src = "img/aqua.png";
     	document.getElementById('description').innerHTML = "Self-supplied water use for aquaculture in millions of gallons of water per day.";
+    	document.getElementById('use').innerHTML = "Aquaculture";
     	legend();
     	update();
     }

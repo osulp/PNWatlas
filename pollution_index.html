@@ -22,9 +22,10 @@
 		<div id="infoPanel">
 			<div id="top">
 			<h1>Water Pollution</h1>
+			<img src="img/pollution_icon.png" id="image2" style="display:inline-block;">
 			<div id="buttons">
 				<div class="dropdown">
-  					<button class="dropbtn">Select Pollutant<p id="arrow">&#9660;</p></button>
+  					<button class="dropbtn"><b id="pollutant">Select Pollutant</b><p id="arrow">&#9660;</p></button>
   					<div class="dropdown-content">
    						 <button type="button" id="but1" onclick="total()" class="species" style="background:rgba(242, 242, 242, 0.8);">Total</button>
 						 <button type="button" id="but2" onclick="metals()" class="species">Metals</button>
@@ -40,11 +41,11 @@
 			</div>
 			<h2 id="title" style="display:block; width:280px; white-space:normal;">Total Impairments</h2>
 			<img src="img/pollution.png" id="image" style="display:inline-block; float:right;"> 
-			<div><b id="leg1_block" style="background:#a50f15;"></b><p>&nbsp</p><p id="leg1">50+</p><br/></div>
-			<div><b id="leg2_block" style="background:#de2d26;"></b><p>&nbsp</p><p id="leg2">25 - 50</p><br/></div>
-			<div><b id="leg3_block" style="background:#fb6a4a;"></b><p>&nbsp</p><p id="leg3">10 - 25</p><br/></div>
-			<div><b id="leg4_block" style="background:#fcae91;"></b><p>&nbsp</p><p id="leg4">5 - 10</p><br/></div>
-			<div><b id="leg5_block" style="background:#fee5d9;"></b><p>&nbsp</p><p id="leg5">Less than 5</p><br/></div><br/>
+			<div><b id="leg1_block" style="background:#a50f15; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p>&nbsp</p><p id="leg1" style="margin-left:5px;">50+</p><br/></div>
+			<div><b id="leg2_block" style="background:#de2d26; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2" style="margin-left:5px;">25 - 50</p><br/></div>
+			<div><b id="leg3_block" style="background:#fb6a4a; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg3" style="margin-left:5px;">10 - 25</p><br/></div>
+			<div><b id="leg4_block" style="background:#fcae91; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg4" style="margin-left:5px;">5 - 10</p><br/></div>
+			<div><b id="leg5_block" style="background:#fee5d9; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p>&nbsp</p><p id="leg5" style="margin-left:5px;">Less than 5</p><br/></div><br/>
 			<p id="description" style="font-weight:bold; text-align:justify; white-space:normal; padding-left:0px; width:280px; display:block; position:relative;">Total impairments in waterways. Impairments include Metals, Sediments, Algae, Pathogens, Oxygen Impairment, Ammonia, and more.</p>
 			<p3 id ="source" style="font-style:italic; text-align:justify; white-space:normal; padding-left:0px; width:280px; display:block; position:relative;">Impaired waters are listed in the 2015 303(d) list provided by the U.S Environmental Protection Agency.</p3>
 				<label class="switch">
@@ -63,7 +64,7 @@
 				<a href="water_use_index.html" id="arrow" style="display:inline-block;">
 					<i class="fa fa-arrow-left" aria-hidden="true" style=""></i>
 				</a>
-				<a href="source_index.html" id="arrow" style="display:inline-block;" target="_blank">
+				<a href="water_source_index.html" id="arrow" style="display:inline-block;" target="_blank">
 					<i class="fa fa-info-circle" aria-hidden="true" style="padding-left:83px;"></i>
 				</a>
 				<a href="water_index.html" id="arrow" style="display:inline-block;" target="_blank">
@@ -152,7 +153,19 @@ var pnw_water = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/
 	map.createPane('tooltip');
 	map.getPane('tooltip').style.zIndex = 700;
 	/////////////////important variables////////////////////////////////
-    
+    var info = L.control();
+
+	info.onAdd = function (map) {
+    	this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
+    	this.update();
+    	return this._div;
+	};
+	
+	info.update = function (props) {
+    this._div.innerHTML =   ('<h3 style="margin:0; display:inline-block;">Hover over Water Features</h3>');
+	};
+
+	info.addTo(map);
 ///////////////////////hexgrid layer//////////////////////////////// 
 	
 	var pollutant = 0;
@@ -266,6 +279,7 @@ var pnw_water = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/
     	document.getElementById('description').innerHTML = "Total impairments in waterways. Impairments include Metals, Sediments, Algae, Pathogens, Oxygen Impairment, Ammonia, and more.";
     	document.getElementById('source').innerHTML = "Impaired waters are listed in the 2015 303(d) list provided by the U.S Environmental Protection Agency.";
     	document.getElementById("image").src = "img/pollution.png";
+    	document.getElementById('pollutant').innerHTML = "Total Pollutants";
     	resizeMiddle();
     	addHexgrid();
     	changeLegend();
@@ -281,6 +295,7 @@ var pnw_water = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/
     	document.getElementById('description').innerHTML = "Total metal impairments in waterways. Metals can include Mercury, Iron, Lead, Manganese, Nickel, Zinc, and More.";
     	document.getElementById('source').innerHTML = "Impaired waters are listed in the 2015 303(d) list provided by the U.S Environmental Protection Agency.";
     	document.getElementById("image").src = "img/mining.png";
+    	document.getElementById('pollutant').innerHTML = "Metals";
     	resizeMiddle();
     	addHexgrid();
     	changeLegend();
@@ -295,6 +310,7 @@ var pnw_water = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/
     	document.getElementById('description').innerHTML = "Total oxygen impairments in waterways. Oxygen depletion is usually caused by organic enrichment.";
     	document.getElementById('source').innerHTML = "Impaired waters are listed in the 2015 303(d) list provided by the U.S Environmental Protection Agency.";
     	document.getElementById("image").src = "img/oxygen.png";
+    	document.getElementById('pollutant').innerHTML = "Oxygen Depletion";
     	level = [0, 2, 5, 10, 20];
     	resizeMiddle();
     	addHexgrid();
@@ -311,6 +327,7 @@ var pnw_water = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/
     	document.getElementById('description').innerHTML = "Total pathogen impairments in waterways. Pathogens include E. Coli and Fecal Coliform.";
     	document.getElementById('source').innerHTML = "Impaired waters are listed in the 2015 303(d) list provided by the U.S Environmental Protection Agency.";
     	document.getElementById("image").src = "img/pathogen.png";
+    	document.getElementById('pollutant').innerHTML = "Pathogens";
     	resizeMiddle();
     	addHexgrid();
     	changeLegend();
@@ -325,6 +342,7 @@ var pnw_water = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/
     	document.getElementById('description').innerHTML = "Total sediment impairments in waterways.";
     	document.getElementById('source').innerHTML = "Impaired waters are listed in the 2015 303(d) list provided by the U.S Environmental Protection Agency.";
     	document.getElementById("image").src = "img/sediment.png";
+    	document.getElementById('pollutant').innerHTML = "Sediment";
     	level = [0, 4, 6, 8, 10];
     	resizeMiddle();
     	addHexgrid();
@@ -341,6 +359,7 @@ var pnw_water = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/
     	document.getElementById('source').innerHTML = "Impaired waters are listed in the 2015 303(d) list provided by the U.S Environmental Protection Agency.";
     	level = [0, 5, 10, 15, 20];
     	document.getElementById("image").src = "img/temp.png";
+    	document.getElementById('pollutant').innerHTML = "Temperature";
     	resizeMiddle();
     	addHexgrid();
     	changeLegend();
@@ -355,6 +374,7 @@ var pnw_water = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/
     	document.getElementById('description').innerHTML = "Total phosphorus input to water in thousands of KG/yr in 2002.";
     	document.getElementById('source').innerHTML = "Data compiled by U.S Geological Survey.";
     	document.getElementById("image").src = "img/phosphorus.png";
+    	document.getElementById('pollutant').innerHTML = "Phosphorus";
     	level = [0, 5, 10, 50, 100];
     	resizeMiddle();
     	addHexgrid();
@@ -370,6 +390,7 @@ var pnw_water = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/
     	document.getElementById('description').innerHTML = "Total nitrogen input to water in thousands of KG/yr in 2002.";
     	document.getElementById('source').innerHTML = "Data compiled by U.S Geological Survey.";
     	document.getElementById("image").src = "img/nitrogen.png";
+    	document.getElementById('pollutant').innerHTML = "Nitrogen";
     	level = [0, 10, 50, 250, 1000];
     	resizeMiddle();
     	addHexgrid();
@@ -385,6 +406,7 @@ var pnw_water = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/
     	document.getElementById('description').innerHTML = "Arsenic concentrations in &#xb5;/L found in at least 25% of samples. The EPA considers 10 &#xb5;/L the maximum safe concentration.";
     	document.getElementById('source').innerHTML = "Data obtained from 2003 Trace Elements National Synthesis Project compiled by U.S Geological Survey.";
     	document.getElementById("image").src = "img/arsenic.png";
+    	document.getElementById('pollutant').innerHTML = "Arsenic";
     	level = [0, 3, 5, 10, 50];
     	resizeMiddle();
     	addHexgrid();
