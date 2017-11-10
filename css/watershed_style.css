@@ -50,19 +50,20 @@ div#infoPanel img#image {
 	bottom:15px;
 	float:center;
 	}
-div#infoPanel img#image2  {
-	width: 225px;
-	height: 80px;
+div#infoPanel img#image2 {
+	width: 280px;
+	height: 45px;
+	margin-bottom:10px;
 	position:relative;
 	float:center;
-	margin: 15px 0px 10px 25px;
 	}
 div#infoPanel h1 {
 	font-family: Baskerville, "Baskerville Old Face", "Hoefler Text", Garamond, "Times New Roman", serif;
 	font-size:30px;
-	padding-left: 20px;
+	padding-left:20px;
+	margin-top:10px;
+	margin-bottom:10px;
 }
-
 div#infoPanel h2{
 	font-size:18px;
 	line-height: 25px;
@@ -98,7 +99,17 @@ div#buttons p {
 	padding-top:3px;
 	position:relative;
 }
-
+div#buttons b {
+	color:#4d4d4d; 
+	float:left; 
+	display:inline; 
+	padding:0; 
+	width:auto; 
+	font-size:18px; 
+	bottom:2px;
+	position:relative;
+	font-weight:normal
+}
 div#buttons .species {
 	width:135px;
 	height:30px;

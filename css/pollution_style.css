@@ -52,17 +52,19 @@ div#infoPanel img#image {
 	bottom:15px;
 	float:center;
 	}
-div#infoPanel img#image2  {
-	width: 225px;
-	height: 80px;
+div#infoPanel img#image2 {
+	width: 280px;
+	height: 40px;
 	position:relative;
 	float:center;
-	margin: 15px 0px 10px 25px;
+	margin-bottom:10px;
 	}
 div#infoPanel h1 {
 	font-family: Baskerville, "Baskerville Old Face", "Hoefler Text", Garamond, "Times New Roman", serif;
 	font-size:30px;
 	padding-left: 30px;
+	margin-top:10px;
+	margin-bottom:10px;
 }
 
 div#infoPanel h2{
@@ -100,7 +102,17 @@ div#buttons p {
 	padding-top:3px;
 	position:relative;
 }
-
+div#buttons b {
+	color:#4d4d4d; 
+	float:left; 
+	display:inline; 
+	padding:0; 
+	width:auto; 
+	font-size:18px; 
+	bottom:2px;
+	position:relative;
+	font-weight:normal
+}
 div#buttons .species {
 	width:135px;
 	height:30px;
@@ -121,8 +133,9 @@ div#buttons .species:hover{
 div.info.leaflet-control {
 	font-family: Baskerville, "Baskerville Old Face", "Hoefler Text", Garamond, "Times New Roman", serif;
 	background-color: rgba(255,255,255,0.8);
-	padding: 10px;
-	padding-top:0;
+	padding: 5px;
+	padding-left:10px;
+	padding-right:10px;
 	border-radius:5px;
 	font-size:16px;
 	box-shadow: 2px 2px 3px #888888;
