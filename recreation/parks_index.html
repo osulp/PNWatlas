@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+     <title>Parks & Protected Lands</title>
+     
+     <meta property="og:image" content="route.png" />
+    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.2/dist/leaflet.css" /> 
+    <link rel="stylesheet" href="css/parks_style.css" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Maven+Pro" rel="stylesheet">
+    <link rel="stylesheet" href="css/perfect-scrollbar.css" />
+    <link rel="stylesheet" href="css/leaflet-search.css" />
+    <link rel="stylesheet" href="css/MarkerCluster.css" />
+    <link rel="stylesheet" href="css/leaflet-photo.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
+    <link rel="shortcut icon" href="img/pnw.ico" type="image/x-icon">
+    
+    <script src="https://unpkg.com/leaflet@1.0.2/dist/leaflet.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="js/perfect-scrollbar.js"></script>
+    <script src="js/leaflet-search.js"></script>
+    <script src="js/leaflet_pattern.js"></script>
+    <script src="https://d3js.org/topojson.v1.min.js"></script>
+   
+</head>
+<body>
+		<button id="collapse" onclick="collapse()">
+			<i class="fa fa-chevron-left" id ="collapse-arrow" aria-hidden="true"></i>
+		</button>
+		<div id="infoPanel">
+			<div id="top">
+			<h1>Parks & Protected Areas</h1>
+			<img src="img/park_icon.png" id="image" style="display:inline-block;"> <br/>
+			<!--<input type="text" name="search" placeholder="Search for a park..."><br/><br/>-->
+			<div id="findbox"></div>
+			<h2 id="title" style="display:inline; width:200px; white-space:normal;">Park Type</h2><img src="img/people.png" id="image2" style="display:inline-block; float:right;"> 
+			<br>	
+			<div id ="parkLegend">
+				<div class = "legendContainer"><b id ="legend1" class="legend" style="background:#43765d; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b></div><p>&nbsp</p><p id="leg1">National Forest<sup class="tooltip">?<span class="tooltiptext">Federally protected and managed forest and woodland areas.</span></sup></p><br/>
+				<div class = "legendContainer"><b id ="legend2" class="legend" style="background:#28bd98; border-left:black 2px solid; border-right:black 2px solid;"></b></div><p>&nbsp</p><p id="leg2">National Wildlife<sup class="tooltip">?<span class="tooltiptext">Areas designated with the purpose of conserving fish, wildlife and plants.</span></sup></p><br/>
+				<div class = "legendContainer"><b id ="legend3" class="legend" style="background:#95d964; border-left:black 2px solid; border-right:black 2px solid;"></b></div><p>&nbsp</p><p id="leg3">National Park<sup class="tooltip">?<span class="tooltiptext">Includes National Parks, Monuments, Scenic Areas, Volcanic Areas, and Recreation Areas.</span></sup></p><br/>
+				<div class = "legendContainer"><b id ="legend4" class="legend" style="background:#9dc8b4; border-left:black 2px solid; border-right:black 2px solid;"></b></div><p>&nbsp</p><p id="leg4">State Forest<sup class="tooltip">?<span class="tooltiptext">Forested areas maintained by state forestry or national resources departments.</span></sup></p><br/>
+				<div class = "legendContainer"><b id ="legend5" class="legend" style="background:#aab955; border-left:black 2px solid; border-right:black 2px solid;"></b></div><p>&nbsp</p><p id="leg5">State Park<sup class="tooltip">?<span class="tooltiptext">Recreation areas managed by state parks and recreation bureaus.</span></sup></p><br/>
+				<div class = "legendContainer"><b id ="legend5" class="legend" style="background:#d6d6c2; border-left:black 2px solid; border-right:black 2px solid;"></b></div><p>&nbsp</p><p id="leg5">BLM Land<sup class="tooltip">?<span class="tooltiptext">Land owned by the Bureau of Land Management. Open to hunting, fishing, and other recreation activities, typically with less infrastructure.</span></sup></p><br/>
+				<div class = "legendContainer"><b id ="legend6" class="legend" style="background:repeating-linear-gradient(45deg, rgba(255,255,255,0), rgba(255,255,255,0) 10%, #407259 15%, #407259 15%); border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b></div><p>&nbsp</p><p id="leg5">Wilderness Area<sup class="tooltip">?<span class="tooltiptext">Areas of federally protected wilderness. Human access is limited.</span></sup></p><br/><br/>
+				<p id="description" style="font-weight:bold; padding:0; display:block; white-space:normal; width:280px;">County/Municipal Parks are not represented in the map.</p>
+			</div>	
+			<div id ="pointLegend" style="display:none;">
+				<div class = "legendContainer"><b id ="legend1" class="circle" style="background:rgba(0,77,0,1); height:28px; width:28px; bottom:9px;"></b></div><p>&nbsp</p><p id="leg1">1,000+</p><br/>
+				<div class = "legendContainer"><b id ="legend2" class="circle" style="background:rgba(0,77,0,1); height:19px; width:19px; bottom:2px;"></b></div><p>&nbsp</p><p id="leg2">500 - 1,000</p><br/>
+				<div class = "legendContainer"><b id ="legend3" class="circle" style="background:rgba(0,77,0,1); height:15px; width:15px; bottom:2px;"></b></div><p>&nbsp</p><p id="leg3">250 - 500</p><br/>
+				<div class = "legendContainer"><b id ="legend4" class="circle" style="background:rgba(0,77,0,1); height:10px; width:10px; bottom:1px;"></b></div><p>&nbsp</p><p id="leg4">100 - 250</p><br/>
+				<div class = "legendContainer"><b id ="legend5" class="circle" style="background:rgba(0,77,0,1); height:5px; width:5px; bottom:1px;"></b></div><p>&nbsp</p><p id="leg5">Less than 100</p><br/><br/>
+				<p id="description" style="font-weight:bold; padding:0; display:block; white-space:normal; width:280px;">Annual visitation in thousands of day-use visitors.</p>
+			</div>
+			<br/><br/><br/>
+			</div>
+			<div id="attribution">
+				<p style="padding-right:5px; padding-top:3px; padding-left:0px; font-weight:bold; position:relative; float:left;">Parks</p>
+						<label class="switch">
+							<input name="checkbox_name" id="checkbox_id" type="checkbox" value="check" onclick="selectSwitch()" autocomplete="off">
+							<span class="slider"></span>
+						</label>
+					<p style="padding-left:5px; padding-top:3px; font-weight:bold;">Visitation</p><br/>
+				<div id="text" style="margin-top:10px;">
+						<p3>While the Pacific Northwest contains a staggering amount of natural beauty, much of the most scenic land is located in arid or mountainous locations. When Euro-American settlers used the Homestead Act to move west, there were vast tracts of land undesirable for farming. This included the Cascade and Rocky Mountain forests, the high deserts of southern Oregon and Idaho, and certain tracts of the Pacific Coast Range. As a result, the federal government maintained ownership of these lands. The establishment of Yellowstone National Park in 1872 was the first event in what would be a major change in government attitudes towards conservation. Aside from Yellowstone, which has a thin sliver of area in Eastern Idaho, the first National Park in the PNW was Mount Rainier, founded in 1899, and Crater Lake, founded in 1902. Today, nearly half of all Pacific Northwest land is federally owned, primarily by the Forest Service and Bureau of Land Management. Each public land designation maintains different protections, and has different recreation opportunities. </br></br>At the state level, early efforts to create parks were hamstrung by the necessity of land acquisition. The first official state park in the Pacific Northwest was Heyburn State Park in Northern Idaho. Land for Heyburn State Park was taken from the Coeur D’Alene Indian Reservation, which surrounds it on all sides. In Oregon, the State Highway Commission originally managed state parks. Effort to create parks was spurred by the increasing popularity of the automobile, and the resulting demand for roadside campgrounds. As a result, many of Oregon’s 241 State Parks are located near state highways, and contain campsites. Washington’s State Parks began as a legislative committee in 1913, although it received no legislative funding, relying solely on user fees. Like Oregon, many of the land acquisitions made by the early Washington Parks Committee were along state highways.</br></br>In the late 20th, and early 21st centuries, all three PNW state parks and recreation bureaus have faced budgetary challenges. In Washington, a ballot measure in the early 1990s capped increases in park user fees, resulting in a revenue deficit that led to cuts in maintenance and staffing. Even as park usage dramatically increased, Washington State Parks had a multi-million dollar backlog of maintenance projects. New funding initiatives have been proposed in recent years. The Oregon Department of Parks and Recreation solved some of its budgetary woes with the use of state lottery funding. In 2017, the Governor of Oregon created a new Director of Outdoor Recreation position, with the goal of improved communication between public and private interests. Idaho, while facing major funding cuts, has prevented park closures through new retail programs, such as park passes, and camper cabin rentals. </p3>
+				</div>
+				<br/>
+			</div>
+			<div id="pageChange">
+				<a href="hunting_index.html" id="arrow" style="display:inline-block;">
+					<i class="fa fa-arrow-left" aria-hidden="true" style=""></i>
+				</a>
+				<a href="source_index.html" id="arrow" style="display:inline-block;" target="_blank">
+					<i class="fa fa-info-circle" aria-hidden="true" style="padding-left:83px;"></i>
+				</a>
+				<a href="recreation_index.html" id="arrow" style="display:inline-block;" target="_blank">
+					<i class="fa fa-home" aria-hidden="true" style="padding-left:0;"></i>
+				</a>
+				<a href="activities_index.html" id="arrow" style="display:inline-block;">
+					<i class="fa fa-arrow-right" aria-hidden="true" style="padding-left:82px;"></i>
+				</a>
+			</div>
+		</div>
+    	<div id="map" style="width: 100%; height: 100%;"></div>
+    	
+<script>
+	var collapsed = false;
+    function collapse(){
+    	if (collapsed == false){
+    		document.getElementById("infoPanel").style.transition = "display 2s";
+    		document.getElementById("infoPanel").style.display = "none";
+    		document.getElementById("collapse").style.left = '0px';
+    		document.getElementById("collapse").style.paddingLeft = '2px';
+    		document.getElementById("collapse-arrow").className = "fa fa-chevron-right";
+    		collapsed = true;
+    	} else{
+    		document.getElementById("infoPanel").style.display = "unset";
+    		document.getElementById("collapse").style.left = '320px';
+    		document.getElementById("collapse").style.paddingLeft = '0px';
+    		document.getElementById("collapse-arrow").className = "fa fa-chevron-left";
+    		collapsed = false;
+    	}
+    	
+    }
+	L.TopoJSON = L.GeoJSON.extend({  
+  		addData: function(jsonData) {    
+    		if (jsonData.type === 'Topology') {
+      			for (key in jsonData.objects) {
+       			 geojson = topojson.feature(jsonData, jsonData.objects[key]);
+       			 L.GeoJSON.prototype.addData.call(this, geojson);
+      		}
+    	}    
+    	else {
+      		L.GeoJSON.prototype.addData.call(this, jsonData);
+    		}
+  		}  
+	});
+	//initialize map
+	var map = L.map('map', {center: [45.56, -119.75], zoom: 7, zoomControl:false});
+	//map.setMaxBounds(map.getBounds());
+	///////////////////////make zoom level correspond to browser size////////////////////////////////
+	window.addEventListener('load', function(event){
+    	var width = document.documentElement.clientWidth;
+    	if (width < 1500 && width > 800) {
+        	map.setView(new L.LatLng(45.56, -121.75), 6); 
+    		}  else if (width > 1501) {
+        	map.setZoom(7);
+        	} else {
+        	map.setZoom(5);
+        	}
+	});
+	///////////////////////add tiled basemap////////////////////////////////
+	var Esri_WorldTerrain = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer/tile/{z}/{y}/{x}', {
+		attribution: 'Tiles &copy; Esri &mdash; Source: USGS, Esri, TANA, DeLorme, and NPS',
+		maxZoom:10,
+		minZoom:4
+	}).addTo(map);
+	
+	var pnwCover = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
+		layers: 'baldricg_PNW_ATLAS:pnw_outline2_black',
+        format: 'image/png',
+		maxZoom:10,
+		minZoom:5,
+		opacity:0.3,
+		transparent:true,
+	}).addTo(map);
+
+	var blm = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
+		layers: 'baldricg_PNW_ATLAS:blm',
+        format: 'image/png',
+		maxZoom:10,
+		minZoom:5,
+		opacity:0.8,
+		transparent:true,
+	}).addTo(map);
+	
+	var label = L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_only_labels/{z}/{x}/{y}@2x.png', {
+		attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
+		subdomains: 'abcd',
+		maxZoom:10,
+		minZoom:5,
+		tileSize:256,
+		bounds:[
+			new L.LatLng(49.56,-125.25),
+			new L.LatLng(40.5,-111.5)
+		],
+		pane:'labels'
+	});	
+	
+	map.createPane('labels');
+	map.getPane('labels').style.pointerEvents = 'none';
+	map.getPane('labels').style.zIndex = 650;
+	label.addTo(map);
+	//variable defining which data is selected (park areas or points)
+	var layer = 1;
+	
+	///////////////////////add info panel in the upper right////////////////////////////////
+	var info = L.control();
+
+	info.onAdd = function (map) {
+    	this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
+    	this.update();
+    	return this._div;
+	};
+	
+	info.update = function (props) {
+	//determines which data to display in info panel (park owner/park visitation)
+	function whichData (){
+		return layer === 1 ? 'Owner:&nbsp'+ props.d_Own_Name:
+			layer === 2 ? 'Annual Visitation:&nbsp' + props.day_use_an:
+				props.d_Own_Name;
+		}
+    this._div.innerHTML =  (props ?
+        '<h3 style="margin:0; display:inline-block;">' + props.Unit_Nm + '</h3><br/><p id="displayType" style="display:inline;">' + whichData() + '</p>'
+        : '<h3 style="margin:0; display:inline-block;">Park Name</h3><br/>Hover over parks');
+	};
+
+	info.addTo(map);
+	////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////geoJson styles and layers///////////////////////////////////////// 
+	const totalParks = new L.TopoJSON();
+
+	$.getJSON('assets/parks_total.json')
+  		.done(addTopoData);
+
+	function addTopoData(topoData) {  
+  		totalParks.addData(topoData);
+  		totalParks.addTo(map);
+  		totalParks.eachLayer(handleLayer);
+	}
+	
+	function parkColor (value){
+        	return value === 1 ? '#43765d' :
+        			value === 2 ? '#95d964' :
+        			value === 3 ? '#28bd98' :
+        			value === 4 ? '#9dc8b4' :
+        			value === 5 ? '#aab955' :
+        				'#ffffff';
+        	}
+	
+	function handleLayer(layer){
+        layer.setStyle({
+          		color:parkColor(layer.feature.properties.park_type),
+        		weight:1,
+        		opacity: 1,
+				fillOpacity:0.7,
+				fillColor:parkColor(layer.feature.properties.park_type)
+        });
+        layer.on({
+         	mouseover : enterLayer,
+            mouseout: leaveLayer
+        });
+    }
+    
+    function enterLayer(){
+      this.setStyle({
+        	fillOpacity: 1,
+        	dashArray: 4
+      });
+      info.update(this.feature.properties);
+    }
+    
+    function leaveLayer(){
+      this.setStyle({
+        	fillOpacity: 0.7,
+        	dashArray: 0
+      });
+      info.update();
+    }
+
+    //determine point size based on visitation
+    function highlight(e) {
+		 var layer = e.target;
+		 layer.setStyle({
+        	fillOpacity: 1,
+        	dashArray: 4
+    	 });
+    	 info.update(layer.feature.properties);
+		}
+	//reset feature function (after highlight)
+	function resetHighlight(e) {
+		var layer = e.target;
+		 layer.setStyle({
+        	fillOpacity: 0.7,
+        	dashArray: 0
+    	 });
+		 info.update();		 
+	}
+    
+    function pointSize (value){
+        		return value > 1000000 ? 15 :
+        			value > 500000 ? 10 :
+        			value > 250000 ? 8 :
+        			value > 100000 ? 5 :
+        			value > 0 ? 3 :
+        				0;
+        	}
+	//park points layer (style included in layer)
+     var parkPoints = L.geoJson(null, {
+        	pointToLayer: function (feature, latlng) {
+    			return L.circleMarker(latlng, {
+    				color: '#ffffff',
+    				fillColor: '#004d00',
+    				radius: pointSize(feature.properties.day_use_an),
+    				opacity: 1,
+    				fillOpacity: 0.7,
+    				weight: 0.5
+    			}
+    				).bindPopup('<b style="display:inline;">'+ feature.properties.Unit_Nm + '</b><br/><p style="display:inline;">Annual Visitation:&nbsp</p>' + feature.properties.day_use_an, {className: 'label_tooltip'});
+    			},
+    			onEachFeature: function(feature, featureLayer) {
+        		featureLayer.on({
+        			mouseover: highlight,
+        			mouseout: resetHighlight,
+   				});
+        	}
+        });
+        
+     $.getJSON("assets/park_points.geojson", function(data) {
+        parkPoints.addData(data);
+    });
+	//////////////////////////////////////////
+	/////////////Background layers/////////////
+	//gray out non-PNW area
+    //state outlines
+    function pnwStatesStyle(){
+	return{
+		opacity: 0.3,
+		color:'#000000',
+		fillOpacity:0,
+		fillColor:'#000000',
+		weight:1
+		};
+	}
+     var pnwStates = $.getJSON("assets/pnw_states.geojson", function(data){
+        pnwStates = L.geoJson(data, {
+        	style:pnwStatesStyle
+        }).addTo(map);
+    });
+    //county outlines
+    function pnwCountiesStyle(){
+	return{
+		opacity: 0.2,
+		color:'#000000',
+		fillOpacity:0,
+		fillColor:'#000000',
+		weight:0.5
+		};
+	}
+	
+     var pnwCounties = $.getJSON("assets/counties2.geojson", function(data){
+        pnwCounties = L.geoJson(data, {
+        	style:pnwCountiesStyle
+        }).addTo(map);
+    });
+    
+    const wilderness = new L.TopoJSON();
+    
+    $.getJSON('assets/wilderness.json')
+  		.done(addWildData);
+
+	var stripes = new L.StripePattern({
+            weight: 1,
+            spaceWeight: 1,
+            height: 4,
+            angle:45,
+            color:'#407259'
+        });
+        stripes.addTo(map);
+
+	function addWildData(topoData) {  
+  		wilderness.addData(topoData);
+  		wilderness.addTo(map);
+  		wilderness.eachLayer(wildLayer);
+	}
+	
+	function wildLayer(layer){
+        layer.setStyle({
+				fillPattern:stripes,
+				opacity:0,
+				fillOpacity:1,
+				interactive:false
+        });
+    }
+    
+////////////////////////////////////////////////////////////////////////////////////////
+
+//////////////////////////////////////variables for the switch function, allow the legend to change dynamically with selection/////////////////////////////////////////
+var legend = ['legend1','legend2','legend3','legend4','legend5'];
+var legText = ['leg1','leg2','leg3','leg4','leg5'];
+var color = ['#43765d','#28bd98','#95d964','#9dc8b4','#aab955'];	
+var radius = ['28px','19px','15px','10px','5px'];
+var bottom = ['9px','2px','2px','1px','1px'];	
+////////////////////////////////////////////////////////////////////////////////////////
+
+/////////////////////////////////////switch function///////////////////////////////////////////////////	
+function selectSwitch() {
+	//visitation points selected
+	if (document.getElementById('checkbox_id').checked == true){
+		map.removeLayer(totalParks);
+		map.removeLayer(wilderness);
+		map.removeLayer(blm);
+		map.addLayer(parkPoints);
+		document.getElementById('parkLegend').style.display = "none";
+		document.getElementById('pointLegend').style.display = "unset";
+	    layer = 2;
+		document.getElementById('title').innerHTML = "Annual Visitation";
+		map.removeControl(searchControl);
+		map.addControl(searchControlPoints);
+		
+	} 
+	//total parks selected
+	else {
+		map.removeLayer(parkPoints);
+		map.addLayer(totalParks);
+		map.addLayer(wilderness);	
+		map.addLayer(blm);
+		layer = 1;
+		document.getElementById('parkLegend').style.display = "unset";
+		document.getElementById('pointLegend').style.display = "none";
+		document.getElementById('title').innerHTML = "Park Type";
+		map.removeControl(searchControlPoints);
+		map.addControl(searchControl);
+	}
+}
+////////////////////////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////search controls////////////////////////////////////////////	    
+//total parks search control
+    var searchControl =  new L.Control.Search({
+		container: 'findbox',
+		layer: totalParks,
+		propertyName: 'Unit_Nm',
+		collapsed:false,
+		marker:false,
+		moveToLocation: function(latlng, Unit_Nm, map) {
+			//map.fitBounds( latlng.layer.getBounds() );
+			var zoom = map.getBoundsZoom(latlng.layer.getBounds());
+  			map.setView(latlng, zoom); // access the zoom
+		}
+	});   
+    searchControl.on('search:locationfound', function(e) {		
+    	e.layer.setStyle({fillOpacity:1});
+		if(e.layer._popup){
+			e.layer.openPopup();
+			}
+	}).on('search:collapsed', function(e) {
+		e.layer.setStyle({fillOpacity:0.7});
+	});
+	
+	map.addControl(searchControl);
+/////////////////////////////
+//park points search control
+	var searchControlPoints =  new L.Control.Search({
+		container: 'findbox',
+		layer: parkPoints,
+		propertyName: 'Unit_Nm',
+		collapsed:false,
+		marker:false,
+		moveToLocation: function(latlng, Unit_Nm, map) {
+			//map.fitBounds( latlng.layer.getBounds() );
+  			map.setView(latlng, 8); // access the zoom
+		}
+	});
+    searchControlPoints.on('search:locationfound', function(e) {		
+    	e.layer.setStyle({fillOpacity:1});
+		if(e.layer._popup){
+			e.layer.openPopup();
+			}
+	}).on('search:collapsed', function(e) {
+		e.layer.setStyle({fillOpacity:0.7});
+	});
+/////////////////////////////
+	
+    new L.Control.Zoom({ position: 'topright' }).addTo(map);
+	document.getElementsByClassName("leaflet-control-attribution")[0].style.visibility = "hidden";
+	//add scrolling capabilities to text box
+     var container = document.getElementById('text');
+		Ps.initialize(container);
+		
+	var minHeight = 50; // Define a minimum height for the middle div
+
+	var resizeMiddle = function() {
+    var h = $('body').height() - $('#top').height() - 108;
+    		h = h > minHeight ? h : minHeight;
+   	 	$('#attribution').height(h);
+	}
+
+	$(document).ready(resizeMiddle);
+	$(window).resize(resizeMiddle);
+	
+	
+    //remove standard leaflet attribution
+    
+
+</script>
+</body>
+</html>

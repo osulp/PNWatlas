@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+     <title>Hunting</title>
+    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.2/dist/leaflet.css" /> 
+	<link href="https://fonts.googleapis.com/css?family=Maven+Pro" rel="stylesheet">
+    <link rel="stylesheet" href="css/perfect-scrollbar.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/hunting_style.css">
+    
+    <link rel="shortcut icon" href="img/pnw.ico" type="image/x-icon">
+    
+    <script src="https://unpkg.com/leaflet@1.0.2/dist/leaflet.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="https://d3js.org/topojson.v1.min.js"></script>
+    <script src="js/perfect-scrollbar.js"></script>
+   
+</head>
+<body>
+		<button id="collapse" onclick="collapse()">
+			<i class="fa fa-chevron-left" id ="collapse-arrow" aria-hidden="true"></i>
+		</button>
+		<div id="infoPanel">
+			<div id="top">
+			<img src="img/deer_icon.png" id="image2" style="display:inline-block;left:30px;"> <h1 style="display:inline-block;">Hunting</h1><img src="img/deer_icon.png" id="image3" style="display:inline-block;"> 
+			<div id="buttons">
+			<div class="dropdown">
+  				<button class="dropbtn"><b id="animalSel">Select Animal</b><p id="arrow">&#9660;</p></button>
+  				<div class="dropdown-content">
+  					<button type="button" id="deer" onclick="deerFunc()" value="Deer" style="float:left; background:rgba(242, 242, 242, 0.8);" class="selection" >Deer</button>
+  					<button type="button" id="elk" onclick="elkFunc()" value="Elk" style="float:left;" class="selection">Elk</button>
+  					<button type="button" id="bear" onclick="bearFunc()" value="Bear" style="float:left;" class="selection">Bear</button>
+  				</div>
+  			</div>
+  			<div class="dropdown">
+  				<button class="dropbtn"><b id="data">Select Data</b><p id="arrow">&#9660;</p></button>
+  				<div class="dropdown-content">
+  					<button type="button" id="number" onclick="totalFunc()" class="selection" style="background:rgba(242, 242, 242, 0.8);">Total</button>
+  					<button type="button" id="area" onclick="densityFunc()" class="selection">Density</button>
+  					<button type="button" id="ratio" onclick="ratioFunc()" class="selection">M/F Ratio</button>
+  				</div>
+  			</div>
+			</div>
+			
+			<h2 id="title" style="display:inline;">2016 Deer</h2><h2 id="type" style="display:inline;"> Harvest</h2><img src="img/deer.png" id="image" style="display:inline-block; float:right;"> 
+			<br>
+			<b id ="highest" style="background:#a50f15; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p>&nbsp</p><p id="leg1">&nbsp2000+</p><br/>
+			<b id ="midhigh" style="background:#de2d26; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2">&nbsp1000 - 2000</p><br/>
+			<b id ="middle" style="background:#fb6a4a; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg3">&nbsp500 - 1000</p><br/>
+			<b id ="midlow" style="background:#fcae91; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg4">&nbsp250 - 500</p><br/>
+			<b id ="lowest" style="background:#fee5d9; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg5">&nbspLess than 250</p><br/>
+			<b style="background:#ffffff; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p>&nbsp</p><p id="leg5">&nbsp0 or No Data</p><br/><br/>
+			<p id="animal" style="font-weight:bold; padding:0; display:block;">Total animals harvested</p>
+			</br><br/>
+			</div>
+			<div id="attribution">
+				<div id="text">
+					<p3>Hunting has a long history and may well pre-date the rise of the species Homo sapiens (humans). While humans' earliest hominid ancestors were probably frugivores or omnivores, there is evidence that earlier Homo species,[5][6] and possibly also australopithecine[7] species, utilised larger animals for subsistence. Evidence from western Kenya suggests that hunting has been occurring for more than two million years. Furthermore, evidence exists that hunting may have been one of the multiple environmental factors leading to the Holocene extinction of megafauna and their replacement by smaller herbivores.[9] North American megafauna extinction was coincidental with the Younger Dryas impact event, possibly making hunting a less critical factor in prehistoric species loss than had been previously thought.[10] However, in other locations such as Australia, humans are thought to have played a very significant role in the extinction of the Australian megafauna that was widespread prior to human occupation.The closest surviving relatives of the human species are the two species of Pan: the common chimpanzee (Pan troglodytes) and bonobos (Pan paniscus). Common chimpanzees have an omnivorous diet that includes troop hunting behaviour based on beta males being led by an alpha male. Bonobos have also been observed to occasionally engage in group hunting, but eat a mostly frugivorous diet. While it is undisputed that early humans were hunters, the importance of this for the emergence of the Homo genus from the earlier Australopithecines, including the production of stone tools and eventually the control of fire, are emphasised in the hunting hypothesis and de-emphasised in scenarios that stress omnivory and social interaction, including mating behaviour, as essential in the emergence of human behavioural modernity. With the establishment of language, culture, and religion, hunting became a theme of stories and myths, as well as rituals such as dance and animal sacrifice.</p3>
+				</div>
+				<br/>
+			</div>
+			<div id="pageChange">
+				<a href="economic_index.html" id="arrow" style="display:inline-block;">
+					<i class="fa fa-arrow-left" aria-hidden="true" style=""></i>
+				</a>
+				<a href="source_index.html" id="arrow" style="display:inline-block;" target="_blank">
+					<i class="fa fa-info-circle" aria-hidden="true" style="padding-left:83px;"></i>
+				</a>
+				<a href="recreation_index.html" id="arrow" style="display:inline-block;" target="_blank">
+					<i class="fa fa-home" aria-hidden="true" style="padding-left:0;"></i>
+				</a>
+				<a href="parks_index.html" id="arrow" style="display:inline-block;">
+					<i class="fa fa-arrow-right" aria-hidden="true" style="padding-left:82px;"></i>
+				</a>
+			</div>
+		</div>
+    	<div id="map" style="width: 100%; height: 100%;"></div>
+
+<script>
+	L.TopoJSON = L.GeoJSON.extend({  
+  		addData: function(jsonData) {    
+    		if (jsonData.type === 'Topology') {
+      			for (key in jsonData.objects) {
+       			 geojson = topojson.feature(jsonData, jsonData.objects[key]);
+       			 L.GeoJSON.prototype.addData.call(this, geojson);
+      		}
+    	}    
+    	else {
+      		L.GeoJSON.prototype.addData.call(this, jsonData);
+    		}
+  		}  
+	});
+	
+	var collapsed = false;
+    function collapse(){
+    	if (collapsed == false){
+    		document.getElementById("infoPanel").style.transition = "display 2s";
+    		document.getElementById("infoPanel").style.display = "none";
+    		document.getElementById("collapse").style.left = '0px';
+    		document.getElementById("collapse").style.paddingLeft = '2px';
+    		document.getElementById("collapse-arrow").className = "fa fa-chevron-right";
+    		collapsed = true;
+    	} else{
+    		document.getElementById("infoPanel").style.display = "unset";
+    		document.getElementById("collapse").style.left = '320px';
+    		document.getElementById("collapse").style.paddingLeft = '0px';
+    		document.getElementById("collapse-arrow").className = "fa fa-chevron-left";
+    		collapsed = false;
+    	}
+    	
+    }
+	//initialize map
+	var map = L.map('map', {center: [45.56, -120.981], zoom: 7, zoomControl:false});
+	//map.setMaxBounds(map.getBounds());
+	///////////////////////make zoom level correspond to browser size////////////////////////////////
+	window.addEventListener('load', function(event){
+    	var width = document.documentElement.clientWidth;
+    	if (width < 1500 && width > 800) {
+        	map.setView(new L.LatLng(45.56, -121.75), 6); 
+    		}  else if (width > 1501) {
+        	map.setZoom(7);
+        	} else {
+        	map.setZoom(5);
+        	}
+	});
+	///////////////////////add tiled basemap////////////////////////////////
+	var Esri_WorldTerrain = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer/tile/{z}/{y}/{x}', {
+			attribution: 'Tiles &copy; Esri &mdash; Source: USGS, Esri, TANA, DeLorme, and NPS',
+			maxZoom: 9,
+			minZoom:5
+		}).addTo(map);
+		
+	var pnwCover = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
+		layers: 'baldricg_PNW_ATLAS:pnw_outline2_black',
+        format: 'image/png',
+		maxZoom:11,
+		minZoom:5,
+		opacity:0.3,
+		transparent:true,
+	}).addTo(map);
+		
+	var label = L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_only_labels/{z}/{x}/{y}@2x.png', {
+		attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
+		subdomains: 'abcd',
+		maxZoom:10,
+		minZoom:5,
+		tileSize:256,
+		bounds:[
+			new L.LatLng(49.56,-125.25),
+			new L.LatLng(40.5,-111.5)
+		],
+		pane:'labels'
+	});	
+	
+	map.createPane('labels');
+	map.getPane('labels').style.pointerEvents = 'none';
+	map.getPane('labels').style.zIndex = 650;
+	label.addTo(map);
+	///////////////////////important variables////////////////////////////////
+	//symbol levels, changes based on which animal is selected
+	var levels = [2000, 1000, 500, 250, 2, 1.5, 1, 0.5, 100, 50 ,25, 10];
+	//changes depending on which animal is selected
+	var animal = 1;
+	//changes depending on which data type is selected
+	var dataType = [0,1,2,3];
+	var data = 1;
+	//symbol color levels
+	var colors = ['#a50f15','#de2d26','#fb6a4a','#fcae91','#fee5d9'];
+	
+	///////////////////////add info panel in the upper right////////////////////////////////
+	var info = L.control();
+
+	info.onAdd = function (map) {
+    	this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
+    	this.update();
+    	return this._div;
+	};
+	
+	info.update = function (props) {
+	//detects whether or not a value is null
+	function nullFinder() {
+		if (animalType(props) == null)
+			{return 'N/A';}
+		else {return animalType(props);}
+	}
+	//actual info content
+    this._div.innerHTML = '<h3 style="margin:0;">Game Management Unit</h3>' +  (props ?
+        '<b>' + props.NAME + '</b><br/>State:&nbsp' + props.STATE + '<br/><p id="displayType" style="display:inline;">' + displayType() + '</p>' + nullFinder() + '<br/>'
+        : 'Hover over map');
+	};
+	
+	//determine which data type to display in info control
+	function animalType (props) {
+    		return animal == 1 && data == 1 ? props.deer_total:
+    		 	animal == 1 && data == 2 ? props.deer_dens:
+    		 	animal == 1 && data == 3 ? props.deer_ratio:
+    		 	animal == 2 && data == 1 ? props.elk_total:
+    		 	animal == 2 && data == 2 ? props.elk_dens:
+    		 	animal == 2 && data == 3 ? props.elk_ratio:
+    		 	animal == 3 && data == 1 ? props.bear_total:
+    		 	animal == 3 && data == 2 ? props.bear_dens:
+    		 	animal == 3 && data == 3 ? props.bear_ratio:
+    		 		props.deer_total;
+    		}
+    //determines the appropriate text to display in the info control
+    function displayType () {
+    		return animal == 1 && data == 1 ? "Total Deer Harvest:&nbsp":
+    		 	animal == 1 && data == 2 ? "Harvested Deer Per Sq. Mile:&nbsp":
+    		 	animal == 1 && data == 3 ? "Harvested Deer M/F Ratio:&nbsp":
+    		 	animal == 2 && data == 1 ? "Total Elk Harvest:&nbsp":
+    		 	animal == 2 && data == 2 ? "Harvested Elk Per Sq. Mile:&nbsp":
+    		 	animal == 2 && data == 3 ? "Harvested Elk M/F Ratio:&nbsp":
+    		 	animal == 3 && data == 1 ? "Total Bear Harvest:&nbsp":
+    		 	animal == 3 && data == 2 ? "Harvested Bear Per Sq. Mile:&nbsp":
+    		 	animal == 3 && data == 3 ? "Harvested Bear M/F Ratio:&nbsp":
+    		 		props.deer.total;
+    		}
+    function nullFinder(props) {
+		if (animalType(props) == null)
+			{return 'N/A';}
+		else {return animalType(props);}
+	}
+    	
+	info.addTo(map);
+	////////////////////////////////////////////////////////////////////////////////////
+	const hunting = new L.TopoJSON();
+
+	$.getJSON('assets/gmu.json')
+  		.done(addTopoData);
+
+	function addTopoData(topoData) {  
+  		hunting.addData(topoData);
+  		hunting.addTo(map);
+  		hunting.eachLayer(handleLayer);
+	}
+	
+	function setColor(density){
+        return density > levels[dataType[0]] ? colors[0] :
+            density > levels[dataType[1]] ? colors[1] :
+            density > levels[dataType[2]] ? colors[2] :
+            density >  levels[dataType[3]] ? colors[3] :
+            density == null ? '#ffffff' :
+            density == 0 ? '#ffffff' :
+            density == -1 ? '#ffffff' :
+                colors[4];
+    	}
+	
+	
+	function handleLayer(layer){
+        function animalType () {
+						return animal == 1 && data == 1 ? layer.feature.properties.deer_total:
+    		 				animal == 1 && data == 2 ? layer.feature.properties.deer_dens:
+    		 				animal == 1 && data == 3 ? layer.feature.properties.deer_ratio:
+    		 				animal == 2 && data == 1 ? layer.feature.properties.elk_total:
+    		 				animal == 2 && data == 2 ? layer.feature.properties.elk_dens:
+    		 				animal == 2 && data == 3 ? layer.feature.properties.elk_ratio:
+    		 				animal == 3 && data == 1 ? layer.feature.properties.bear_total:
+    		 				animal == 3 && data == 2 ? layer.feature.properties.bear_dens:
+    		 				animal == 3 && data == 3 ? layer.feature.properties.bear_ratio:
+    		 					layer.feature.properties.bear_ratio;
+					}
+        layer.setStyle({
+          fillColor: setColor(animalType()),
+            	fillOpacity: 0.7,
+            	weight: 1.5,
+            	opacity: 0.5,
+            	color: setColor(animalType()),
+        });
+        layer.on({
+         	mouseover : enterLayer,
+            mouseout: leaveLayer
+        });
+    }
+    
+    function enterLayer(){
+      this.bringToFront();
+      this.setStyle({
+        	fillOpacity: 1,
+        	color:'#000000',
+        	dashArray: 4
+      });
+      info.update(this.feature.properties);
+    }
+    
+    function leaveLayer(){
+       function animalType (props) {
+				return animal == 1 && data == 1 ? props.deer_total:
+    		 		   animal == 1 && data == 2 ? props.deer_dens:
+    		 			animal == 1 && data == 3 ? props.deer_ratio:
+    		 			animal == 2 && data == 1 ? props.elk_total:
+    		 			animal == 2 && data == 2 ? props.elk_dens:
+    		 			animal == 2 && data == 3 ? props.elk_ratio:
+    		 			animal == 3 && data == 1 ? props.bear_total:
+    		 			animal == 3 && data == 2 ? props.bear_dens:
+    		 			animal == 3 && data == 3 ? props.bear_ratio:
+    		 				props.bear_ratio;
+				}
+      this.setStyle({
+        	fillOpacity: 0.7,
+        	color:setColor(animalType(this.feature.properties)),
+        	dashArray: null
+      });
+      info.update();
+    }
+        
+   ///////////////////////////////Update legend with appropriate values//////////////////////////////////////
+    function legend() {
+    	document.getElementById('leg1').innerHTML = "&nbsp" + levels[dataType[0]] + "+";
+    	document.getElementById('leg2').innerHTML = "&nbsp" +levels[dataType[1]] + " - " + levels[dataType[0]];
+    	document.getElementById('leg3').innerHTML = "&nbsp" +levels[dataType[2]] + " - " + levels[dataType[1]];
+    	document.getElementById('leg4').innerHTML = "&nbsp" +levels[dataType[3]] + " - " + levels[dataType[2]];
+    	document.getElementById('leg5').innerHTML = "&nbspLess than " + levels[dataType[3]];
+    	
+    	document.getElementById('highest').style.background = colors[0];
+    	document.getElementById('midhigh').style.background = colors[1];
+    	document.getElementById('middle').style.background = colors[2];
+    	document.getElementById('midlow').style.background = colors[3];
+    	document.getElementById('lowest').style.background = colors[4];
+    }
+
+    ///////////////////////////////Functions for different data types//////////////////////////////////////
+    //variable used to highlight selected data type button
+    var dataButton = ['nothing','number','area','ratio'];
+    //total harvest selection
+    function totalFunc() {
+    	//reset selected button
+    	document.getElementById(dataButton[data]).style.background = "rgba(242,242,242,0.2)";
+    	//select correct symbol levels. DataType array selects from 'levels' variable, which changes based on animal 
+    	dataType = [0,1,2,3];
+    	//update color ramp
+    	colors = ['#a50f15','#de2d26','#fb6a4a','#fcae91','#fee5d9'];
+    	data = 1;
+    	//remove existing geoJson layer
+    	hunting.eachLayer(handleLayer);
+    	//update data layer with new variables 
+    	//change legend title and description
+    	document.getElementById('type').innerHTML = " Harvest";
+    	document.getElementById('animal').innerHTML = "Total animals harvested";
+    	//highlight button
+    	document.getElementById('number').style.background = "rgba(242, 242, 242, 1)";
+    	document.getElementById('data').innerHTML = "Total";
+    	//update legend 
+    	legend();
+    }  
+    //density selection
+    function densityFunc() {
+    	document.getElementById(dataButton[data]).style.background = "rgba(242,242,242,0.2)";
+    	colors = ['#006837','#31a354','#78c679','#c2e699','#ffffcc'];
+    	dataType = [4,5,6,7];
+    	data = 2;
+    	hunting.eachLayer(handleLayer);
+    	document.getElementById('type').innerHTML = " Harvest Density";
+    	document.getElementById('animal').innerHTML = "Animals harvested per square mile";
+    	document.getElementById('area').style.background = "rgba(242, 242, 242, 1)";
+    	document.getElementById('data').innerHTML = "Density";
+    	legend();
+    }
+    //M/F ratio selection
+    function ratioFunc() {
+    	document.getElementById(dataButton[data]).style.background = "rgba(242,242,242,0.2)";
+    	colors = ['#045a8d','#2b8cbe','#74a9cf','#bdc9e1','#f1eef6'];
+    	dataType = [8,9,10,11];
+    	data = 3;
+    	hunting.eachLayer(handleLayer);
+    	document.getElementById('type').innerHTML = " Harvest M/F Ratio";
+    	document.getElementById('animal').innerHTML = "Ratio of males to females harvested";
+    	document.getElementById('ratio').style.background = "rgba(242, 242, 242, 1)";
+    	document.getElementById('data').innerHTML = "M/F Ratio";
+    	legend();
+    }
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	///////////////////////////////Functions for different selected animals//////////////////////////////////////
+	//variable used to highlight selected animal button
+	var animalButton = ['nothing','deer','elk','bear'];
+	//elk selection function
+    function elkFunc() {    	
+    	//reset selected button
+    	document.getElementById(animalButton[animal]).style.background = "rgba(242,242,242,0.2)";
+    	//remove current data layer
+    	//update correct symbol levels. Each set of four corresponds to a different data type (total harvest, harvest density, M/F ratio)
+    	levels = [500,250,100,50, 1, 0.5, 0.25, 0.1, 50, 25 ,10, 1];
+    	animal = 2;
+    	//determine which dataType is selected and add corresponding layer
+  		if (data === 1){ totalFunc();}
+  			else if (data === 2){densityFunc();}
+  			else if (data === 3){ratioFunc();}
+  		//update animal title
+		document.getElementById('title').innerHTML = "2016 Elk";
+		//update icon 
+    	var img = document.getElementById("image");
+    	img.src="img/elk.png";
+    	//highlight selected button
+    	document.getElementById('elk').style.background = "rgba(242, 242, 242, 1)";
+    	document.getElementById('animalSel').innerHTML = "Elk";
+    }
+    //deer selection function
+    function deerFunc() {
+    	document.getElementById(animalButton[animal]).style.background = "rgba(242,242,242,0.2)";
+    	levels = [2000,1000,500,250, 2, 1.5, 1, 0.5, 100, 50 ,25, 10];
+    	animal = 1;
+  		if (data === 1){ totalFunc();}
+  			else if (data === 2){densityFunc();}
+  			else if (data === 3){ratioFunc();}
+    	document.getElementById('title').innerHTML = "2016 Deer";
+    	var img = document.getElementById("image");
+    	document.getElementById('deer').style.background = "rgba(242, 242, 242, 1)";
+    	document.getElementById('animalSel').innerHTML = "Deer";
+		img.src="img/deer.png";
+    	
+    }
+    //bear selection function
+    function bearFunc() {
+    	document.getElementById(animalButton[animal]).style.background = "rgba(242,242,242,0.2)";
+    	levels = [100,50,20,10, 0.15, 0.1, 0.05, 0.01, 5, 2.5 ,1, 0.1];
+    	animal = 3;
+  		if (data === 1){ totalFunc();}
+  			else if (data === 2){densityFunc();}
+  			else if (data === 3){ratioFunc();}
+    	document.getElementById('title').innerHTML = "2015 Bear";
+    	var img = document.getElementById("image");
+    	document.getElementById('bear').style.background = "rgba(242, 242, 242, 1)";
+    	document.getElementById('animalSel').innerHTML = "Bear";
+		img.src="img/bear.png";
+    }
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	//add scrolling capabilities to text box
+     var container = document.getElementById('text');
+		Ps.initialize(container);
+	
+	//remove zoom
+	new L.Control.Zoom({ position: 'topright' }).addTo(map);
+    //remove standard leaflet attribution
+     document.getElementsByClassName("leaflet-control-attribution")[0].style.visibility = "hidden";
+     
+    var minHeight = 50; // Define a minimum height for the middle div
+
+	var resizeMiddle = function() {
+    var h = $('body').height() - $('#top').height() - 50;
+    		h = h > minHeight ? h : minHeight;
+   	 	$('#attribution').height(h);
+	}
+
+	$(document).ready(resizeMiddle);
+	$(window).resize(resizeMiddle);
+	
+
+</script>
+</body>
+</html>
