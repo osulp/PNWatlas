@@ -18,7 +18,7 @@
     
    
 </head>
-<body>
+<body id="bootstrap_override">
 		<button id="collapse" onclick="collapse()">
 			<i class="fa fa-chevron-left" id ="collapse-arrow" aria-hidden="true"></i>
 		</button>
@@ -50,12 +50,13 @@
 			<b id ="midlow" style="background:#cbc9e2; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg4">&nbsp0.2 - 0.5</p><br/>
 			<b id ="lowest" style="background:#f2f0f7; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg5">&nbspLess than 0.2</p><br/>
 			<b style="background:#ffffff; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p>&nbsp</p><p id="leg5">&nbsp0 or No Data</p><br/><br/>
-			<p id="description" style="font-weight:bold; padding:0; display:block; white-space:normal; width:280px;">% of population employed in outdoor recreation</p>
+			<p id="description" style="font-weight:bold; padding:0; display:block; white-space:normal; width:280px;">% of population employed in outdoor recreation industry</p>
 			</br></br>
 			</div>
 			<div id="attribution">
 				<div id="text" style="margin-top:25px;">
-					<p3>Beneficial use is related to the physical and social rewards that goal-directed activity instills in individuals or groups. Some outdoor goal-directed activities are: backpacking, canoeing, canyoning, caving, climbing, hiking, hill walking, hunting, kayaking, and rafting. Arguably broader groupings of goal-directed outdoor activities would include water sports, snow sports, and horseback riding. Goal-directed outdoor activities are predominantly physical, though they may also be mentally, emotionally, and spiritually rewarding. The outdoors as a physical or social setting may meet the needs of physical health, self-sufficiency, risk-taking, the building of social ties (including teambuilding), and the needs of achievement (such as practicing, enhancing and challenging skills, testing stamina and endurance, and seeking adventure or excitement). The outdoors can be an environment in which people "show what they can do".[2] Pleasurable appreciation encourages experiences of being "let in on nature's show".[2] Enhancement of inner perceptual and/or spiritual life may be experienced through outdoor activities and outdoor-related activities such as nature study, aesthetic contemplation, meditation, painting, photography, archeological or historical research, and indigenous culture among others. These activities may also be physically rewarding. Many people in modern civilizations believe that the value of nature is found only in its "utilitarian value" (beneficial use). They would discount the inner perceptual and/or spiritual benefits of the "intrinsic value of nature" that may be experienced during pleasurable appreciation.</p3>
+					<!--<p3>Beneficial use is related to the physical and social rewards that goal-directed activity instills in individuals or groups. Some outdoor goal-directed activities are: backpacking, canoeing, canyoning, caving, climbing, hiking, hill walking, hunting, kayaking, and rafting. Arguably broader groupings of goal-directed outdoor activities would include water sports, snow sports, and horseback riding. Goal-directed outdoor activities are predominantly physical, though they may also be mentally, emotionally, and spiritually rewarding. The outdoors as a physical or social setting may meet the needs of physical health, self-sufficiency, risk-taking, the building of social ties (including teambuilding), and the needs of achievement (such as practicing, enhancing and challenging skills, testing stamina and endurance, and seeking adventure or excitement). The outdoors can be an environment in which people "show what they can do".[2] Pleasurable appreciation encourages experiences of being "let in on nature's show".[2] Enhancement of inner perceptual and/or spiritual life may be experienced through outdoor activities and outdoor-related activities such as nature study, aesthetic contemplation, meditation, painting, photography, archeological or historical research, and indigenous culture among others. These activities may also be physically rewarding. Many people in modern civilizations believe that the value of nature is found only in its "utilitarian value" (beneficial use). They would discount the inner perceptual and/or spiritual benefits of the "intrinsic value of nature" that may be experienced during pleasurable appreciation.</p3>
+					-->
 				</div>
 				<br/>
 			</div>
@@ -63,10 +64,10 @@
 				<a href="fishing_index.html" id="arrow" style="display:inline-block;">
 					<i class="fa fa-arrow-left" aria-hidden="true" style=""></i>
 				</a>
-				<a href="source_index.html" id="arrow" style="display:inline-block;" target="_blank">
+				<a href="#popup1" id="arrow" style="display:inline-block;">
 					<i class="fa fa-info-circle" aria-hidden="true" style="margin-left:83px;"></i>
 				</a>
-				<a href="recreation_index.html" id="arrow" style="display:inline-block;" target="_blank">
+				<a href="rec_index.html.html" id="arrow" style="display:inline-block;" target="_blank">
 					<i class="fa fa-home" aria-hidden="true"></i>
 				</a>
 				<a href="hunting_index.html" id="arrow" style="display:inline-block;">
@@ -75,7 +76,37 @@
 			</div>
 		</div>
     	<div id="map" style="width: 100%; height: 100%;"></div>
+    	
+    	<div id="popup1" class="overlay">
+			<div class="popup">
+				<h2 style="display:inline; font-size:32px;">Sources</h2>
+				<a class="close" href="#" style="display:inline;">×</a>
+				<hr>
+				<div class="content">
+					<p2 style="font-size:20px">Geographic Data</p2><br><br/>
+                    <div class="source">
+                    	<b><p2>2017 State employment, spending, taxes and wages: <a href = "https://outdoorindustry.org/advocacy/" target="_blank">Outdoor Advocacy</a></p2></b><br>
+                    </div>
+                    <div class="source">
+                		<b><p2>2015 County Private Sector Employment Totals: <a href = "https://factfinder.census.gov/faces/tableservices/jsf/pages/productview.xhtml?pid=ECN_2012_US_00A1&prodType=table" target="_blank">United States Census Bureau</a></p2></b><br>
+                			<p3>Notes: Data obtained using American FactFinder and the following NAICS codes for each PNW county: 71399 (All other amusement and recreation industries), 712190 (Nature parks and other similar institutions), 713920 (Skiing facilities), 451110 (Sporting goods stores), and 7212 (RV parks and recreational camps)<p3>
+                	</div>
+                	<div class="source">
+                		<b style="margin-left:0;"><p2>2015 Local Government Parks and Rec. Employment and Wages/Salaries: <a href = "https://www.census.gov/govs/apes/" target="_blank">United States Census Bureau</a></p2></b><br>
+                			<p3>Notes: Data doesn't include state government parks and rec. employment and wages/salaries. <br/> Individual Unit File was downloaded.<p3>
+                	</div>
+				</div>
+				<hr>
+				<p2 style="float:right; font-size:12px;">Map created with Leaflet.</p2>
+				<br/>
+				<a class="close2" href="#" style="display:inline;">Close</a>
+			</div>
+		</div>
 <script>
+	function closed(){
+		document.getElementById("popup1").style.display = "none";
+	}
+	
 	var collapsed = false;
     function collapse(){
     	if (collapsed == false){
@@ -418,7 +449,7 @@
     	update();
     	//update legend title and descriptors
     	document.getElementById('title').innerHTML = "% Employment";
-    	document.getElementById('description').innerHTML = "% of population employed in outdoor recreation";
+    	document.getElementById('description').innerHTML = "% of population employed in outdoor recreation industry.";
     	document.getElementById('selection').innerHTML = "Employment";
     	//highlight button
     	document.getElementById('but1').style.background = "rgba(242, 242, 242, 1)";
@@ -441,7 +472,7 @@
     	update();
     	document.getElementById('title').innerHTML = "Per Capita Spending";
     	document.getElementById('but3').style.background = "rgba(242, 242, 242, 1)";
-    	document.getElementById('description').innerHTML = "Per capita outdoor recreation spending in dollars";
+    	document.getElementById('description').innerHTML = "Per capita annual outdoor recreation spending in dollars";
     	document.getElementById('selection').innerHTML = "Spending";
     	legend();
     	var img = document.getElementById("image2");
@@ -477,7 +508,7 @@
     	map.removeLayer(states);
     	update();
     	document.getElementById('title').innerHTML = "Per Capita Tax Revenue";
-    	document.getElementById('description').innerHTML = "Per capita outdoor recreation tax revenue in dollars";
+    	document.getElementById('description').innerHTML = "Per capita annual outdoor recreation tax revenue in dollars";
     	document.getElementById('but7').style.background = "rgba(242, 242, 242, 1)";
     	document.getElementById('selection').innerHTML = "Taxes";
     	legend();
@@ -495,7 +526,7 @@
     	map.removeLayer(states);
     	countyUpdate();
     	document.getElementById('title').innerHTML = "% Employment";
-    	document.getElementById('description').innerHTML = "% of population employed in outdoor recreation";
+    	document.getElementById('description').innerHTML = "% of population employed in outdoor recreation industry";
     	document.getElementById('but2').style.background = "rgba(242, 242, 242, 1)";
     	document.getElementById('selection').innerHTML = "Employment";
     	legend();
