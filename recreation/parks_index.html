@@ -21,6 +21,7 @@
     <script src="js/leaflet-search.js"></script>
     <script src="js/leaflet_pattern.js"></script>
     <script src="https://d3js.org/topojson.v1.min.js"></script>
+    <script src="https://unpkg.com/leaflet.vectorgrid@latest/dist/Leaflet.VectorGrid.bundled.js"></script>
    
 </head>
 <body>
@@ -65,6 +66,8 @@
 				<div id="text" style="margin-top:10px;">
 						<!--<p3>While the Pacific Northwest contains a staggering amount of natural beauty, much of the most scenic land is located in arid or mountainous locations. When Euro-American settlers used the Homestead Act to move west, there were vast tracts of land undesirable for farming. This included the Cascade and Rocky Mountain forests, the high deserts of southern Oregon and Idaho, and certain tracts of the Pacific Coast Range. As a result, the federal government maintained ownership of these lands. The establishment of Yellowstone National Park in 1872 was the first event in what would be a major change in government attitudes towards conservation. Aside from Yellowstone, which has a thin sliver of area in Eastern Idaho, the first National Park in the PNW was Mount Rainier, founded in 1899, and Crater Lake, founded in 1902. Today, nearly half of all Pacific Northwest land is federally owned, primarily by the Forest Service and Bureau of Land Management. Each public land designation maintains different protections, and has different recreation opportunities. </br></br>At the state level, early efforts to create parks were hamstrung by the necessity of land acquisition. The first official state park in the Pacific Northwest was Heyburn State Park in Northern Idaho. Land for Heyburn State Park was taken from the Coeur D’Alene Indian Reservation, which surrounds it on all sides. In Oregon, the State Highway Commission originally managed state parks. Effort to create parks was spurred by the increasing popularity of the automobile, and the resulting demand for roadside campgrounds. As a result, many of Oregon’s 241 State Parks are located near state highways, and contain campsites. Washington’s State Parks began as a legislative committee in 1913, although it received no legislative funding, relying solely on user fees. Like Oregon, many of the land acquisitions made by the early Washington Parks Committee were along state highways.</br></br>In the late 20th, and early 21st centuries, all three PNW state parks and recreation bureaus have faced budgetary challenges. In Washington, a ballot measure in the early 1990s capped increases in park user fees, resulting in a revenue deficit that led to cuts in maintenance and staffing. Even as park usage dramatically increased, Washington State Parks had a multi-million dollar backlog of maintenance projects. New funding initiatives have been proposed in recent years. The Oregon Department of Parks and Recreation solved some of its budgetary woes with the use of state lottery funding. In 2017, the Governor of Oregon created a new Director of Outdoor Recreation position, with the goal of improved communication between public and private interests. Idaho, while facing major funding cuts, has prevented park closures through new retail programs, such as park passes, and camper cabin rentals. </p3>
 				-->
+					<p3 style="font-weight:bold; line-height:36px;">Quick Facts:</p3><br/>
+					<p3 id="facts" style="line-height:20px;">&#9900 49% of land in the Pacific Northwest is federally owned.<br/><br/>&#9900 There are 451 total state parks in Oregon, Idaho and Washington.<br/><br/>&#9900 Olympic National Park is the most visited park in the region, receiving an annual average of over three million annual visitors</p3>
 				</div>
 				<br/>
 			</div>
@@ -188,7 +191,7 @@
 		minZoom:5,
 		opacity:0.8,
 		transparent:true,
-	}).addTo(map);
+	});//.addTo(map);
 	
 	var label = L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_only_labels/{z}/{x}/{y}@2x.png', {
 		attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
@@ -234,6 +237,40 @@
 	info.addTo(map);
 	////////////////////////////////////////////////////////////////////////////////////////
 	//////////////////////////////////geoJson styles and layers///////////////////////////////////////// 
+	/*fetch('assets/parks_total.json').then(function(response){
+			return response.json();
+		}).then(function(json){
+			console.log(json);
+			var vectorGrid = L.vectorGrid.slicer( json, {
+				rendererFactory: L.canvas.tile,
+				vectorTileLayerStyles: {
+					'parks_total': function(properties, zoom) {
+					console.log(properties);
+						var p = properties.park_type;
+						return {
+							fillColor: p === 1 ? '#43765d' :
+									p === 2 ? '#95d964' :
+									p === 3 ? '#28bd98' :
+									p === 4 ? '#9dc8b4' : 
+									p === 5 ? '#aab955' : 
+										'#ffffff',
+							fillOpacity: 0.7,
+		// 					fillOpacity: 1,
+							stroke: true,
+							fill: true,
+							color: p === 1 ? '#43765d' :
+									p === 2 ? '#95d964' :
+									p === 3 ? '#28bd98' :
+									p === 4 ? '#9dc8b4' : 
+									p === 5 ? '#aab955' : 
+										'#ffffff',
+							opacity: 1,
+							weight: 1,
+						}
+					}
+				}
+			}).addTo(map);
+		})*/
 	const totalParks = new L.TopoJSON();
 
 	$.getJSON('assets/parks_total.json')
@@ -283,7 +320,7 @@
       });
       info.update();
     }
-
+	////////////////////////////////////////////////////////////////////////////////////////
     //determine point size based on visitation
     function highlight(e) {
 		 var layer = e.target;
