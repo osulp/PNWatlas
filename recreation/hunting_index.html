@@ -59,7 +59,8 @@
 				<div id="text">
 					<!--<p3>Hunting has a long history and may well pre-date the rise of the species Homo sapiens (humans). While humans' earliest hominid ancestors were probably frugivores or omnivores, there is evidence that earlier Homo species,[5][6] and possibly also australopithecine[7] species, utilised larger animals for subsistence. Evidence from western Kenya suggests that hunting has been occurring for more than two million years. Furthermore, evidence exists that hunting may have been one of the multiple environmental factors leading to the Holocene extinction of megafauna and their replacement by smaller herbivores.[9] North American megafauna extinction was coincidental with the Younger Dryas impact event, possibly making hunting a less critical factor in prehistoric species loss than had been previously thought.[10] However, in other locations such as Australia, humans are thought to have played a very significant role in the extinction of the Australian megafauna that was widespread prior to human occupation.The closest surviving relatives of the human species are the two species of Pan: the common chimpanzee (Pan troglodytes) and bonobos (Pan paniscus). Common chimpanzees have an omnivorous diet that includes troop hunting behaviour based on beta males being led by an alpha male. Bonobos have also been observed to occasionally engage in group hunting, but eat a mostly frugivorous diet. While it is undisputed that early humans were hunters, the importance of this for the emergence of the Homo genus from the earlier Australopithecines, including the production of stone tools and eventually the control of fire, are emphasised in the hunting hypothesis and de-emphasised in scenarios that stress omnivory and social interaction, including mating behaviour, as essential in the emergence of human behavioural modernity. With the establishment of language, culture, and religion, hunting became a theme of stories and myths, as well as rituals such as dance and animal sacrifice.</p3>
 					-->
-					<p3>Deer species in the Pacific Northwest include black-tailed deer, mule deer, and some populations of white-tailed deer.</p3>
+					<p3 style="font-weight:bold; line-height:36px;">Quick Facts:</p3><br/>
+					<p3 id="facts" style="line-height:20px;">&#9900 Three deer species are present in the Pacific Northwest, Black-Tailed Deer, Mule Deer, and some populations of white-tailed deer.<br/><br/>&#9900 General deer hunting seasons typically begin in late-September, and last through late-November or early December.</p3>
 				</div>
 				<br/>
 			</div>
@@ -168,7 +169,7 @@
     	
     }
 	//initialize map
-	var map = L.map('map', {center: [45.56, -120.981], zoom: 7, zoomControl:false});
+	var map = L.map('map', {center: [45.56, -119.75], zoom: 7, zoomControl:false});
 	//map.setMaxBounds(map.getBounds());
 	///////////////////////make zoom level correspond to browser size////////////////////////////////
 	window.addEventListener('load', function(event){
@@ -445,13 +446,13 @@
   			else if (data === 3){ratioFunc();}
   		//update animal title
 		document.getElementById('title').innerHTML = "2016 Elk";
-		document.getElementById('text').innerHTML = "";
 		//update icon 
     	var img = document.getElementById("image");
     	img.src="img/elk.png";
     	//highlight selected button
     	document.getElementById('elk').style.background = "rgba(242, 242, 242, 1)";
     	document.getElementById('animalSel').innerHTML = "Elk";
+    	document.getElementById('facts').innerHTML = "&#9900 Also known as Wapiti, a Shawnee word meaning ‘white rump’.<br/><br/>&#9900 Elk Season typically begins in October and lasts through November. In Idaho, seasons in certain GMUs begin as early as August.";
     }
     //deer selection function
     function deerFunc() {
@@ -465,7 +466,7 @@
     	var img = document.getElementById("image");
     	document.getElementById('deer').style.background = "rgba(242, 242, 242, 1)";
     	document.getElementById('animalSel').innerHTML = "Deer";
-    	document.getElementById('text').innerHTML = "Deer species in the Pacific Northwest include black-tailed deer, mule deer, and some populations of white-tailed deer.";
+    	document.getElementById('facts').innerHTML = "&#9900 Three deer species are present in the Pacific Northwest, Black-Tailed Deer, Mule Deer, and some populations of white-tailed deer.<br/><br/>&#9900 General deer hunting seasons typically begin in late-September, and last through late-November or early December.";
 		img.src="img/deer.png";
     	
     }
@@ -481,7 +482,7 @@
     	var img = document.getElementById("image");
     	document.getElementById('bear').style.background = "rgba(242, 242, 242, 1)";
     	document.getElementById('animalSel').innerHTML = "Bear";
-    	document.getElementById('text').innerHTML = "";
+    	document.getElementById('facts').innerHTML = "&#9900 It is unlawful to hunt female black bears (sows) with cubs.<br/><br/>&#9900 There are two bear hunting seasons, one in the spring, and one in the fall. The spring season is generally limited to controlled hunts.";
 		img.src="img/bear.png";
     }
     ///////////////////////////////////////////////////////////////////////////////////////////////////////
