@@ -183,15 +183,6 @@
 		opacity:0.3,
 		transparent:true,
 	}).addTo(map);
-
-	var blm = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
-		layers: 'baldricg_PNW_ATLAS:blm',
-        format: 'image/png',
-		maxZoom:10,
-		minZoom:5,
-		opacity:0.8,
-		transparent:true,
-	});//.addTo(map);
 	
 	var label = L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_only_labels/{z}/{x}/{y}@2x.png', {
 		attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
@@ -237,40 +228,30 @@
 	info.addTo(map);
 	////////////////////////////////////////////////////////////////////////////////////////
 	//////////////////////////////////geoJson styles and layers///////////////////////////////////////// 
-	/*fetch('assets/parks_total.json').then(function(response){
+	var vectorGrid;
+	
+	fetch('assets/blm.json').then(function(response){
 			return response.json();
 		}).then(function(json){
 			console.log(json);
-			var vectorGrid = L.vectorGrid.slicer( json, {
+			vectorGrid = L.vectorGrid.slicer( json, {
 				rendererFactory: L.canvas.tile,
 				vectorTileLayerStyles: {
-					'parks_total': function(properties, zoom) {
+					'blm': function(properties, zoom) {
 					console.log(properties);
-						var p = properties.park_type;
 						return {
-							fillColor: p === 1 ? '#43765d' :
-									p === 2 ? '#95d964' :
-									p === 3 ? '#28bd98' :
-									p === 4 ? '#9dc8b4' : 
-									p === 5 ? '#aab955' : 
-										'#ffffff',
+							fillColor:'#d6d6c2',
 							fillOpacity: 0.7,
-		// 					fillOpacity: 1,
-							stroke: true,
 							fill: true,
-							color: p === 1 ? '#43765d' :
-									p === 2 ? '#95d964' :
-									p === 3 ? '#28bd98' :
-									p === 4 ? '#9dc8b4' : 
-									p === 5 ? '#aab955' : 
-										'#ffffff',
-							opacity: 1,
-							weight: 1,
+							color: '#ffffff',
+							opacity: 0,
+							weight: 1
 						}
 					}
 				}
 			}).addTo(map);
-		})*/
+		})
+	
 	const totalParks = new L.TopoJSON();
 
 	$.getJSON('assets/parks_total.json')
@@ -452,7 +433,7 @@ function selectSwitch() {
 	if (document.getElementById('checkbox_id').checked == true){
 		map.removeLayer(totalParks);
 		map.removeLayer(wilderness);
-		map.removeLayer(blm);
+		map.removeLayer(vectorGrid);
 		map.addLayer(parkPoints);
 		document.getElementById('parkLegend').style.display = "none";
 		document.getElementById('pointLegend').style.display = "unset";
@@ -467,7 +448,7 @@ function selectSwitch() {
 		map.removeLayer(parkPoints);
 		map.addLayer(totalParks);
 		map.addLayer(wilderness);	
-		map.addLayer(blm);
+		map.addLayer(vectorGrid);
 		layer = 1;
 		document.getElementById('parkLegend').style.display = "unset";
 		document.getElementById('pointLegend').style.display = "none";
