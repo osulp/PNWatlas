@@ -8,7 +8,7 @@
 	<link href="https://fonts.googleapis.com/css?family=Maven+Pro" rel="stylesheet">
     <link rel="stylesheet" href="css/perfect-scrollbar.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="css/hunting_style.css">
+    <link rel="stylesheet" href="css/recreation_maps_style.css">
     
     <link rel="shortcut icon" href="img/pnw.ico" type="image/x-icon">
     
@@ -24,27 +24,28 @@
 		</button>
 		<div id="infoPanel">
 			<div id="top">
-			<img src="img/deer_icon.png" id="image2" style="display:inline-block;left:30px;"> <h1 style="display:inline-block;">Hunting</h1><img src="img/deer_icon.png" id="image3" style="display:inline-block;"> 
+			<h1 style="display:inline-block; margin-left:65px;">Hunting</h1>
+			<img src="img/hunting_icon.png" id="image" style="display:inline-block;"> <br/>
 			<div id="buttons">
-			<div class="dropdown">
-  				<button class="dropbtn"><b id="animalSel">Select Animal</b><p id="arrow">&#9660;</p></button>
-  				<div class="dropdown-content">
-  					<button type="button" id="deer" onclick="deerFunc()" value="Deer" style="float:left; background:rgba(242, 242, 242, 0.8);" class="selection" >Deer</button>
-  					<button type="button" id="elk" onclick="elkFunc()" value="Elk" style="float:left;" class="selection">Elk</button>
-  					<button type="button" id="bear" onclick="bearFunc()" value="Bear" style="float:left;" class="selection">Bear</button>
+			<div class="dropdownSmall">
+  				<button class="dropbtnSmall"><b id="animalSel">Select Animal</b><p id="arrow">&#9660;</p></button>
+  				<div class="dropdown-contentSmall">
+  					<button type="button" id="deer" onclick="deerFunc()" value="Deer" style="float:left; background:rgba(242, 242, 242, 0.8);" class="selectionSmall" >Deer</button>
+  					<button type="button" id="elk" onclick="elkFunc()" value="Elk" style="float:left;" class="selectionSmall">Elk</button>
+  					<button type="button" id="bear" onclick="bearFunc()" value="Bear" style="float:left;" class="selectionSmall">Bear</button>
   				</div>
   			</div>
-  			<div class="dropdown">
-  				<button class="dropbtn"><b id="data">Select Data</b><p id="arrow">&#9660;</p></button>
-  				<div class="dropdown-content">
-  					<button type="button" id="number" onclick="totalFunc()" class="selection" style="background:rgba(242, 242, 242, 0.8);">Total</button>
-  					<button type="button" id="area" onclick="densityFunc()" class="selection">Density</button>
-  					<button type="button" id="ratio" onclick="ratioFunc()" class="selection">M/F Ratio</button>
+  			<div class="dropdownSmall">
+  				<button class="dropbtnSmall"><b id="data">Select Data</b><p id="arrow">&#9660;</p></button>
+  				<div class="dropdown-contentSmall">
+  					<button type="button" id="number" onclick="totalFunc()" class="selectionSmall" style="background:rgba(242, 242, 242, 0.8);">Total</button>
+  					<button type="button" id="area" onclick="densityFunc()" class="selectionSmall">Density</button>
+  					<button type="button" id="ratio" onclick="ratioFunc()" class="selectionSmall">M/F Ratio</button>
   				</div>
   			</div>
 			</div>
 			
-			<h2 id="title" style="display:inline;">2016 Deer</h2><h2 id="type" style="display:inline;"> Harvest</h2><img src="img/deer.png" id="image" style="display:inline-block; float:right;"> 
+			<h2 id="title" style="display:inline;">2016 Deer</h2><h2 id="type" style="display:inline;"> Harvest</h2><img src="img/deer.png" id="image3" style="display:inline-block; float:right;"> 
 			<br>
 			<b id ="highest" style="background:#a50f15; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p>&nbsp</p><p id="leg1">&nbsp2000+</p><br/>
 			<b id ="midhigh" style="background:#de2d26; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2">&nbsp1000 - 2000</p><br/>
@@ -243,7 +244,7 @@
 		else {return animalType(props);}
 	}
 	//actual info content
-    this._div.innerHTML = '<h3 style="margin:0;">Game Management Unit</h3>' +  (props ?
+    this._div.innerHTML = '<h3 style="margin:0;padding-top:10px;">Game Management Unit</h3>' +  (props ?
         '<b>' + props.NAME + '</b><br/>State:&nbsp' + props.STATE + '<br/><p id="displayType" style="display:inline;">' + displayType() + '</p>' + nullFinder() + '<br/>'
         : 'Hover over map');
 	};
@@ -447,7 +448,7 @@
   		//update animal title
 		document.getElementById('title').innerHTML = "2016 Elk";
 		//update icon 
-    	var img = document.getElementById("image");
+    	var img = document.getElementById("image3");
     	img.src="img/elk.png";
     	//highlight selected button
     	document.getElementById('elk').style.background = "rgba(242, 242, 242, 1)";
@@ -463,7 +464,7 @@
   			else if (data === 2){densityFunc();}
   			else if (data === 3){ratioFunc();}
     	document.getElementById('title').innerHTML = "2016 Deer";
-    	var img = document.getElementById("image");
+    	var img = document.getElementById("image3");
     	document.getElementById('deer').style.background = "rgba(242, 242, 242, 1)";
     	document.getElementById('animalSel').innerHTML = "Deer";
     	document.getElementById('facts').innerHTML = "&#9900 Three deer species are present in the Pacific Northwest, Black-Tailed Deer, Mule Deer, and some populations of white-tailed deer.<br/><br/>&#9900 General deer hunting seasons typically begin in late-September, and last through late-November or early December.";
@@ -479,7 +480,7 @@
   			else if (data === 2){densityFunc();}
   			else if (data === 3){ratioFunc();}
     	document.getElementById('title').innerHTML = "2015 Bear";
-    	var img = document.getElementById("image");
+    	var img = document.getElementById("image3");
     	document.getElementById('bear').style.background = "rgba(242, 242, 242, 1)";
     	document.getElementById('animalSel').innerHTML = "Bear";
     	document.getElementById('facts').innerHTML = "&#9900 It is unlawful to hunt female black bears (sows) with cubs.<br/><br/>&#9900 There are two bear hunting seasons, one in the spring, and one in the fall. The spring season is generally limited to controlled hunts.";

@@ -5,7 +5,7 @@
      <title>Fish/Fishing</title>
     
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.2/dist/leaflet.css" /> 
-    <link rel="stylesheet" href="css/fishing_style.css" type="text/css">
+    <link rel="stylesheet" href="css/recreation_maps_style.css" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Maven+Pro" rel="stylesheet">
     <link rel="stylesheet" href="css/perfect-scrollbar.css" />
     
@@ -26,18 +26,18 @@
 		</button>
 		<div id="infoPanel">
 			<div id="top">
-			<h1>Fish & Fishing </h1>
-			<img src="img/fish_icon.png" id="image" style="display:inline-block;"> <br/>
+			<h1 style="padding-left: 40px; padding-bottom:5px;">Fish & Fishing</h1>
+			<img src="img/fish_icon.png" id="image" style="display:inline-block; height:20px;"> <br/>
 			<div id="buttons">
 				<div class="dropdown">
   					<button class="dropbtn"><b id="selection">Select Species</b><p id="arrow">&#9660;</p></button>
   					<div class="dropdown-content">
-   						 <button type="button" id="but1" onclick="chinook()" class="species" style="background:rgba(242, 242, 242, 0.8);">Chinook</button>
-						 <button type="button" id="but2" onclick="steelhead()" class="species">Steelhead</button>
-						 <button type="button" id="but3" onclick="coho()" class="species">Coho</button>
-						 <button type="button" id="but4" onclick="chum()" class="species">Chum</button>
-						 <button type="button" id="but5" onclick="pink()" class="species">Pink</button>
-						 <button type="button" id="but6" onclick="sockeye()" class="species">Sockeye</button>
+   						 <button type="button" id="but1" onclick="chinook()" class="selection" style="background:rgba(242, 242, 242, 0.8);">Chinook</button>
+						 <button type="button" id="but2" onclick="steelhead()" class="selection">Steelhead</button>
+						 <button type="button" id="but3" onclick="coho()" class="selection">Coho</button>
+						 <button type="button" id="but4" onclick="chum()" class="selection">Chum</button>
+						 <button type="button" id="but5" onclick="pink()" class="selection">Pink</button>
+						 <button type="button" id="but6" onclick="sockeye()" class="selection">Sockeye</button>
  				   </div>
 				</div>
 			</div>
@@ -50,7 +50,7 @@
 					<div id ="hist"><b style="background:#ed789b; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p>&nbsp</p><p id="leg2">&nbspHistorical Habitat</p><br/></div><br/>
 					<p id="description" style="font-weight:bold; padding:0; display:block; white-space:normal; width:280px;">Current population status and historical distribution of Chinook Salmon</p>
 					</br></br>
-					<img src="img/chinook2.png" id="image2" style="display:block;"><br/>
+					<img src="img/chinook2.png" id="fishImage" style="display:block;"><br/>
 					<div id="checklist">
 						<p id="checkText" style="padding-right:5px; padding-top:3px; padding-left:0px; font-weight:bold; position:relative; float:left;">Fall Run</p>
 							<label class="switch">
@@ -68,7 +68,7 @@
 					<div id ="hist"><b style="background:#ed789b; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p>&nbsp</p><p id="leg2">&nbspHistorical Habitat</p><br/></div><br/>
 					<p id="description" style="font-weight:bold; padding:0; display:block; white-space:normal; width:280px;">Current population status and historical distribution of Steelhead</p>
 					</br></br>
-					<img src="img/steelhead2.png" id="image2" style="display:block;"><br/>
+					<img src="img/steelhead2.png" id="fishImage" style="display:block;"><br/>
 				</div>
 				<div id="cohoLegend" style="display:none;">
 					<h2 id="title" style="display:inline; width:200px; white-space:normal;">Coho Salmon</h2>
@@ -78,7 +78,7 @@
 					<div id ="hist"><b style="background:#ed789b; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p>&nbsp</p><p id="leg2">&nbspHistorical Habitat</p><br/></div><br/>
 					<p id="description" style="font-weight:bold; padding:0; display:block; white-space:normal; width:280px;">Current population status and historical distribution of Coho Salmon</p>
 					</br></br>
-					<img src="img/soho.png" id="image2" style="display:block;"><br/>
+					<img src="img/soho.png" id="fishImage" style="display:block;"><br/>
 				</div>
 				<div id="chumLegend" style="display:none;">
 					<h2 id="title" style="display:inline; width:200px; white-space:normal;">Chum Salmon</h2>
@@ -88,7 +88,7 @@
 					<div id ="hist"><b style="background:#ed789b; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p>&nbsp</p><p id="leg2">&nbspHistorical Habitat</p><br/></div><br/>
 					<p id="description" style="font-weight:bold; padding:0; display:block; white-space:normal; width:280px;">Current population status and historical distribution of Chum Salmon</p>
 					</br></br>
-					<img src="img/chum2.png" id="image2" style="display:block;"><br/>
+					<img src="img/chum2.png" id="fishImage" style="display:block;"><br/>
 					<div id="checklist">
 						<p id="checkText" style="padding-right:5px; padding-top:3px; padding-left:0px; font-weight:bold; position:relative; float:left;">Fall Run</p>
 							<label class="switch">
@@ -105,7 +105,7 @@
 					<div id ="hist"><b style="background:#ed789b; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p>&nbsp</p><p id="leg2">&nbspHistorical Habitat</p><br/></div><br/>
 					<p id="description" style="font-weight:bold; padding:0; display:block; white-space:normal; width:280px;">Current population status and historical distribution of Pink Salmon</p>
 					</br></br>
-					<img src="img/pink2.png" id="image2" style="display:block;"><br/>
+					<img src="img/pink2.png" id="fishImage" style="display:block;"><br/>
 					<div id="checklist">
 						<p id="checkText" style="padding-right:5px; padding-top:3px; padding-left:0px; font-weight:bold; position:relative; float:left;">Odd Year</p>
 							<label class="switch">
@@ -124,7 +124,7 @@
 					<div id ="hist"><b style="background:#ed789b; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p>&nbsp</p><p id="leg2">&nbspHistorical Habitat</p><br/></div><br/>
 					<p id="description" style="font-weight:bold; padding:0; display:block; white-space:normal; width:280px;">Current population status and historical distribution of Sockeye Salmon</p>
 					</br></br>
-					<img src="img/sockeye2.png" id="image2" style="display:block;"><br/>
+					<img src="img/sockeye2.png" id="fishImage" style="display:block;"><br/>
 				</div>
 			</div>
 			<div id="attribution">
@@ -297,7 +297,7 @@
 
 	function addFishData(topoData) {  
   		fish.addData(topoData);
-  		//fish.addTo(map);
+  		fish.addTo(map);
   		fish.eachLayer(handleLayer);
 	}
 
@@ -455,7 +455,7 @@
     	document.getElementById('selection').innerHTML = "Steelhead";
     	//document.getElementById('but2').style.background = "rgba(242, 242, 242, 0.9)";
     	document.getElementById('facts').innerHTML = "&#9900 Anadromous (ocean-going) version of rainbow trout.<br/><br/>&#9900 Maximum size 40 pounds.<br/><br/>&#9900 Unlike salmon, Steelhead, may survive spawning, and can therefore spawn more than once in their lifetime.";
-    	document.getElementById('information').innerHTML = "Steelhead and rainbow trout are the same species, but rainbow are freshwater only, and steelhead are anadromous, or go to sea. Unlike most salmon, steelhead can survive spawning, and can spawn in multiple years."//<br/><br/>Steelhead spawn in the spring. They generally prefer fast water in small-to-large mainstem rivers, and medium-to-large tributaries. In streams with steep gradient and large substrate, they spawn between these steep areas, where the water is flatter and the substrate is small enough to dig into. The steeper areas then make excellent rearing habitat for the juveniles. Like chinook, steelhead have two runs, a summer run and a winter run. Most summer runs are east of the Cascades, and enter streams in summer to reach the spawning grounds by the following spring. A few western Washington rivers also have established runs of summer steelhead. Winter runs spawn closer to the ocean, and require less travel time.<br/><br/>Steelhead fry emerge from the gravel in summer and generally rear for two or three years in freshwater, occasionally one or four years, depending on the productivity of the stream. Streams high in the mountains and those in northern climes are generally less productive. Due to their faster growth, hatchery steelhead smolt at one year of age.";
+    	//document.getElementById('information').innerHTML = "Steelhead and rainbow trout are the same species, but rainbow are freshwater only, and steelhead are anadromous, or go to sea. Unlike most salmon, steelhead can survive spawning, and can spawn in multiple years."//<br/><br/>Steelhead spawn in the spring. They generally prefer fast water in small-to-large mainstem rivers, and medium-to-large tributaries. In streams with steep gradient and large substrate, they spawn between these steep areas, where the water is flatter and the substrate is small enough to dig into. The steeper areas then make excellent rearing habitat for the juveniles. Like chinook, steelhead have two runs, a summer run and a winter run. Most summer runs are east of the Cascades, and enter streams in summer to reach the spawning grounds by the following spring. A few western Washington rivers also have established runs of summer steelhead. Winter runs spawn closer to the ocean, and require less travel time.<br/><br/>Steelhead fry emerge from the gravel in summer and generally rear for two or three years in freshwater, occasionally one or four years, depending on the productivity of the stream. Streams high in the mountains and those in northern climes are generally less productive. Due to their faster growth, hatchery steelhead smolt at one year of age.";
     }
 //coho
     function coho() {
