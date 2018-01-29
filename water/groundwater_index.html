@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+     <title>Groundwater</title>
+    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.2/dist/leaflet.css" /> 
+    <link rel="stylesheet" href="css/groundwater_style.css" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Maven+Pro" rel="stylesheet">
+    <link rel="stylesheet" href="css/perfect-scrollbar.css" />
+    
+    <link rel="shortcut icon" href="img/pnw.ico" type="image/x-icon">
+    
+    <script src="https://unpkg.com/leaflet@1.0.2/dist/leaflet.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="https://d3js.org/topojson.v1.min.js"></script>
+    <script src="js/perfect-scrollbar.js"></script>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
+   
+</head>
+<body>
+		<button id="collapse" onclick="collapse()">
+			<i class="fa fa-chevron-left" id ="collapse-arrow" aria-hidden="true"></i>
+		</button>
+		<div id="infoPanel">
+			<div id="top">
+			<h1>Groundwater</h1>
+			<img src="img/gw_icon.png" id="image2" style="display:inline-block;">
+			<!--<div id="buttons">
+				<div class="dropdown">
+  					<button class="dropbtn">Select Pollutant<p id="arrow">&#9660;</p></button>
+  					<div class="dropdown-content">
+   						 <button type="button" id="but1" onclick="total()" class="species" style="background-color:rgba(242, 242, 242, 0.8);">Total</button>
+						 <button type="button" id="but2" onclick="metals()" class="species">Metals</button>
+						 <button type="button" id="but3" onclick="oxygen()" class="species">Oxygen Depletion</button>
+						 <button type="button" id="but4" onclick="pathogens()" class="species">Pathogens</button>
+						 <button type="button" id="but5" onclick="sediment()" class="species">Sediment</button>
+						 <button type="button" id="but6" onclick="temperature()" class="species">Temperature</button><br/>
+						 <button type="button" id="but7" onclick="phosphorus()" class="species">Phosphorus</button>
+						 <button type="button" id="but8" onclick="nitrogen()" class="species">Nitrogen</button>
+						 <button type="button" id="but9" onclick="arsenic()" class="species">Arsenic</button>
+ 				   </div>
+				</div>
+			</div>-->
+
+			<h2 id="title" style="width:280px; white-space:normal;">Recharge(mm/yr)</h2><h2 style="margin-left:65px;">Aquifer</h2><br/>
+			<p style="position:relative; margin-bottom:5px;">0</p><p style="position:relative; margin-left:20px;">20</p><p style="position:relative; margin-left:20px;">100</p><p style="position:relative; margin-left:15px;">500+</p><h2 style="margin-left:50px;">Type</h2>
+			<div style="line-height:30px; height:30px;"><b id="leg1_block" style="background-color:#e6ecff; border-left:black 2px solid; border-top:black 2px solid; bottom:2px;"></b><b  style="background-color:#99b3ff;border-top:black 2px solid; bottom:2px;"></b><b  style="background-color:#4d79ff; border-top:black 2px solid; bottom:2px;"></b><b  style="background-color:#0033cc; border-right:black 2px solid; border-top:black 2px solid; bottom:2px;"></b><p id="leg1" style="line-height:30px;">Sand/Gravel</p></div>
+			<div style="line-height:30px; height:30px;"><b id="leg1_block" style="background-color:#ecf9ec; border-left:black 2px solid; "></b><b  style="background-color:#b3e6b9;"></b><b  style="background-color:#66cc66;"></b><b  style="background-color:#267326; border-right:black 2px solid;"></b><p id="leg2" style="line-height:30px;">Volcanic</p></div>
+			<div style="line-height:30px; height:30px;"><b id="leg1_block" style="background-color:#ebebe0; border-left:black 2px solid; border-bottom:black 2px solid;"></b><b  style="background-color:#ccccb3; bottom:2px;"></b><b  style="background-color:#a3a375;  bottom:2px;"></b><b  style="background-color:#5c5c3d; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p id="leg3" style="line-height:30px;">Other Rocks</p></div>
+			<div style="line-height:30px; height:30px;"><b id="leg1_block" style="background-color:#ffffff; opacity:0;"></b><b  style="background-color:#c19cef; border-left:black 2px solid; border-bottom:black 2px solid;"></b><b  style="background-color:#8461af; border-right:black 2px solid; border-bottom:black 2px solid;"></b><b  style="background-color:#ffffff;opacity:0;"></b><p id="leg4" style="line-height:30px;">Carbonate</p></div><br/>
+			</div>
+			
+			<div id="attribution">
+				<div id="text" style="margin-top:10px;">
+					<b2 style="color:#0033cc">Sand and Gravel</b2>
+					<p3>Unconsolidated sand and gravel aquifers are the most productive and easily accesible aquifers in the Pacific Northwest. They are typically shallow, and found in lowland basins. Sand and gravel aquifers commonly yield 20 - 2000 gallons per minute to wells.</p3>
+					<b2 style="color:#267326">Volcanic</b2>
+					<p3>Volcanic rock aquifers are more geologically complex than sand and gravel aquifers, resulting in more variable hydrologic productivity. Volcanic aquifers are often difficult to access, but can hold large volumes of water in rock fractures. Volcanic aquifers can yield 1 - 1000 gallons per minute to wells, but often yield less than 400.</p3>
+					<b2 style="color:#5c5c3d">Other Rocks</b2>
+					<p3>Aquifers categorized as "other" are typically minor hydrologic units that are difficult to access, have poor yields, or both. Other rock yells yield 1 - 100 gallons per minute to wells.</p3>
+					<b2 style="color:#8461af">Carbonate</b2>
+					<p3>In the southeastern corner of Idaho, a small area consists of carbonate rock aquifers. In these areas, aquifers are generally poor yielding, but can be very deep.</p3>
+				</div>
+			</div>
+			<div id="pageChange">
+				<a href="watershed_index.html" id="arrow" style="display:inline-block;">
+					<i class="fa fa-arrow-left" aria-hidden="true" style=""></i>
+				</a>
+				<a href="#popup1" id="arrow" style="display:inline-block;">
+					<i class="fa fa-info-circle" aria-hidden="true" style="padding-left:83px;"></i>
+				</a>
+				<a href="water_resources_index.html" id="arrow" style="display:inline-block;" target="_blank">
+					<i class="fa fa-home" aria-hidden="true" style="padding-left:0;"></i>
+				</a>
+				<a href="water_use_index.html" id="arrow" style="display:inline-block;">
+					<i class="fa fa-arrow-right" aria-hidden="true" style="padding-left:82px;"></i>
+				</a>
+			</div>
+		</div>
+    	<div id="map" style="width: 100%; height: 100%;"></div>
+    	
+    	<div id="popup1" class="overlay">
+			<div class="popup">
+				<h2 style="display:inline; font-size:32px;">Sources</h2>
+				<a class="close" href="#" style="display:inline;">×</a>
+				<hr>
+				<div class="content">
+					<p2 style="font-size:20px">Geographic Data</p2><br><br/>
+                    <div class="source">
+                    	<b><p2>Aquifers: <a href = "https://water.usgs.gov/GIS/metadata/usgswrd/XML/aquifers_us.xml" target="_blank">USGS</a></p2></b><br>
+                    		<p3>Notes: Joined with catchments and groundwater recharge datasets.</p3>
+                    </div>
+                    <div class="source">
+                    	<b><p2>Catchment Areas: <a href = "https://catalog.data.gov/dataset/attributes-for-mrb-e2rf1-catchments-by-major-river-basins-in-the-conterminous-united-state-20024c1a4" target="_blank">USGS SPARROW Model</a></p2></b><br>
+                    		<p3>Notes: Joined with catchments and groundwater recharge datasets.</p3>
+                    </div>
+                    <div class="source">
+                    	<b><p2>Groundwater Recharge by Catchment Areas: <a href = "https://catalog.data.gov/dataset/a-digital-hydrologic-network-supporting-nawqa-mrb-sparrow-modeling-mrb-e2rf1ws" target="_blank">USGS SPARROW Model</a></p2></b><br>
+                    		<p3>Notes: Joined with catchments and groundwater recharge datasets. Data from 2003.</p3>
+                    </div>
+				</div>
+				<hr>
+				<p2 style="float:right; font-size:12px;">Map created with Leaflet.</p2>
+				<br/>
+				<a class="close2" href="#" style="display:inline;">Close</a>
+			</div>
+		</div>
+
+<script>
+	var collapsed = false;
+    function collapse(){
+    	if (collapsed == false){
+    		document.getElementById("infoPanel").style.transition = "display 2s";
+    		document.getElementById("infoPanel").style.display = "none";
+    		document.getElementById("collapse").style.left = '0px';
+    		document.getElementById("collapse").style.paddingLeft = '2px';
+    		document.getElementById("collapse-arrow").className = "fa fa-chevron-right";
+    		collapsed = true;
+    	} else{
+    		document.getElementById("infoPanel").style.display = "unset";
+    		document.getElementById("collapse").style.left = '320px';
+    		document.getElementById("collapse").style.paddingLeft = '0px';
+    		document.getElementById("collapse-arrow").className = "fa fa-chevron-left";
+    		collapsed = false;
+    	}
+    	
+    }
+    
+	L.TopoJSON = L.GeoJSON.extend({  
+  		addData: function(jsonData) {    
+    		if (jsonData.type === 'Topology') {
+      			for (key in jsonData.objects) {
+       			 geojson = topojson.feature(jsonData, jsonData.objects[key]);
+       			 L.GeoJSON.prototype.addData.call(this, geojson);
+      		}
+    	}    
+    	else {
+      		L.GeoJSON.prototype.addData.call(this, jsonData);
+    		}
+  		}  
+	});
+	//initialize map
+	var map = L.map('map', {center: [45.61, -119.75], zoom: 7, zoomControl:false});
+	//map.setMaxBounds(map.getBounds());
+///////////////////////make zoom level correspond to browser size////////////////////////////////
+	window.addEventListener('load', function(event){
+    	var width = document.documentElement.clientWidth;
+    	if (width < 1500 && width > 800) {
+        	map.setView(new L.LatLng(45.56, -121.75), 6); 
+    		}  else if (width > 1501) {
+        	map.setZoom(7);
+        	} else {
+        	map.setZoom(5);
+        	}
+	});
+	
+	//map.setMaxBounds(map.getBounds());
+///////////////////////add tiled basemap////////////////////////////////
+var Esri_WorldTerrain = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer/tile/{z}/{y}/{x}', {
+		attribution: 'Tiles &copy; Esri &mdash; Source: USGS, Esri, TANA, DeLorme, and NPS',
+		maxZoom:8,
+		minZoom:5,
+		opacity:1
+	}).addTo(map);
+	
+var pnwCover = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
+		layers: 'baldricg_PNW_ATLAS:pnw_outline2_black',
+        format: 'image/png',
+		maxZoom:8,
+		minZoom:5,
+		opacity:0.3,
+		transparent:true,
+	}).addTo(map);
+
+	
+var label = L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_only_labels/{z}/{x}/{y}@2x.png', {
+		attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
+		subdomains: 'abcd',
+		maxZoom:10,
+		minZoom:5,
+		tileSize:256,
+		bounds:[
+			new L.LatLng(49.56,-125.25),
+			new L.LatLng(40.5,-111.5)
+		],
+		pane:'labels'
+	});	
+
+	map.createPane('labels');
+	map.getPane('labels').style.pointerEvents = 'none';
+	map.getPane('labels').style.zIndex = 650;
+	label.addTo(map);
+
+	map.createPane('tooltip');
+	map.getPane('tooltip').style.zIndex = 700;
+	/////////////////important variables////////////////////////////////
+    
+    
+	var info = L.control();
+
+	info.onAdd = function (map) {
+    	this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
+    	this.update();
+    	return this._div;
+	};
+	
+	info.update = function (props) {
+    	function rechargeDisplay(cat) {
+			return cat == 1 ? '0 - 20 mm/yr':
+				cat == 2 ? '20 - 100 mm/yr':
+				cat == 3 ? '100 - 500 mm/yr':
+				'500+ mm/yr';
+			}
+		function rechargeName(rock) {
+			return rock == '100' ? 'Sand/Gravel':
+				rock == '600' ? 'Volcanic':
+				rock == '999' ? 'Other Rocks':
+				'Carbonate';
+			}
+    	this._div.innerHTML = (props ?
+       		'<b style="display:inline;">'+ rechargeName(props.ROCK_TYPE) + '</b></br><p style="display:inline;">' + rechargeDisplay(props.re_cat) + '</p>'
+        		: '<h3 style="margin:0; display:inline-block;">Hover over Map</h3>');
+		};
+
+	info.addTo(map);
+///////////////////////hexgrid layer//////////////////////////////// 
+	const topoLayer = new L.TopoJSON();
+
+	$.getJSON('assets/aquifers.json')
+  		.done(addTopoData);
+
+	function addTopoData(topoData) {  
+  		topoLayer.addData(topoData);
+  		topoLayer.addTo(map);
+  		topoLayer.eachLayer(handleLayer);
+	}
+	
+	function gwColor(rock, recharge){
+		return rock == '100' && recharge == 1 ? '#e6ecff':
+			rock == '100' && recharge == 2 ? '#99b3ff':
+			rock == '100' && recharge == 3 ? '#4d79ff':
+			rock == '100' && recharge == 4 ? '#0033cc':
+			rock == '600' && recharge == 1 ? '#ecf9ec':
+			rock == '600' && recharge == 2 ? '#b3e6b3':
+			rock == '600' && recharge == 3 ? '#66cc66':
+			rock == '600' && recharge == 4 ? '#267326':
+			rock == '999' && recharge == 1 ? '#ebebe0':
+			rock == '999' && recharge == 2 ? '#ccccb3':
+			rock == '999' && recharge == 3 ? '#a3a375':
+			rock == '999' && recharge == 4 ? '#5c5c3d':
+			rock == '400' && recharge == 2 ? '#c19cef':
+			rock == '400' && recharge == 3 ? '#8461af':
+				'#ffffff';
+		}
+	
+	function handleLayer(layer){
+        layer.setStyle({
+          fillColor : gwColor(layer.feature.properties.ROCK_TYPE,layer.feature.properties.re_cat),
+          fillOpacity: 0.6,
+          color:gwColor(layer.feature.properties.ROCK_TYPE,layer.feature.properties.re_cat),
+          weight:0.5,
+          stroke:0.1,
+          opacity:1
+        });
+        layer.on({
+         	mouseover : enterLayer,
+            mouseout: leaveLayer
+        });
+    }
+    
+    function enterLayer(){
+     // var countryName = this.feature.properties.name;
+      //$countryName.text(countryName).show();
+      this.bringToFront();
+      this.setStyle({
+        	fillOpacity: 1,
+        	color:'#ffffff',
+        	opacity:1
+      });
+      info.update(this.feature.properties);
+    }
+    
+    function leaveLayer(){
+     // $countryName.hide();
+      this.setStyle({
+        	fillOpacity: 0.6,
+        	color:gwColor(this.feature.properties.ROCK_TYPE,this.feature.properties.re_cat),
+        	opacity:1
+      });
+      info.update();
+    }
+	/*
+	function highlight(e) {
+		 var layer = e.target;
+		 layer.setStyle({
+        	fillOpacity: 1,
+        	fillColor:gwColor(layer.feature.properties.ROCK_TYPE, layer.feature.properties.re_cat),
+        	color:'#ffffff',
+        	opacity:1
+        	
+    	 });
+    	 layer.bringToFront();
+		}
+	
+	//reset feature function
+	function resetHighlight(e) {
+		 groundwater.resetStyle(e.target);
+	}
+
+	function gwColor(rock, recharge){
+		return rock == '100' && recharge == 1 ? '#e6ecff':
+			rock == '100' && recharge == 2 ? '#99b3ff':
+			rock == '100' && recharge == 3 ? '#4d79ff':
+			rock == '100' && recharge == 4 ? '#0033cc':
+			rock == '600' && recharge == 1 ? '#ecf9ec':
+			rock == '600' && recharge == 2 ? '#b3e6b3':
+			rock == '600' && recharge == 3 ? '#66cc66':
+			rock == '600' && recharge == 4 ? '#267326':
+			rock == '999' && recharge == 1 ? '#ebebe0':
+			rock == '999' && recharge == 2 ? '#ccccb3':
+			rock == '999' && recharge == 3 ? '#a3a375':
+			rock == '999' && recharge == 4 ? '#5c5c3d':
+			rock == '400' && recharge == 2 ? '#c19cef':
+			rock == '400' && recharge == 3 ? '#8461af':
+				'#ffffff';
+	}
+	
+	function gwStyle(feature){
+		return{
+			opacity: 1,
+			fillOpacity:0.6,
+			fillColor:gwColor(feature.properties.ROCK_TYPE, feature.properties.re_cat),
+			color:gwColor(feature.properties.ROCK_TYPE, feature.properties.re_cat),
+			stroke:0.1,
+			weight:0.5
+			};
+	}
+	
+	function rechargeDisplay(cat) {
+		return cat == 1 ? '0 - 20 mm/yr':
+			cat == 2 ? '20 - 100 mm/yr':
+			cat == 3 ? '100 - 500 mm/yr':
+			'500+ mm/yr';
+	}
+    	
+    var	groundwater = $.getJSON("assets/aquifers.geojson", function(data){
+        groundwater = L.geoJson(data, {
+        	style:gwStyle,
+        	onEachFeature: function(feature, featureLayer) {
+        		featureLayer.bindTooltip('<b style="display:inline;">'+ feature.properties.ROCK_NAME + '<br/>' + rechargeDisplay(feature.properties.re_cat) + '</b>', {sticky:true, pane:'tooltip', className: 'label_tooltip'});
+        		featureLayer.bindPopup('<b style="display:inline;">'+ feature.properties.ROCK_NAME + '<br/>' + rechargeDisplay(feature.properties.re_cat) + '</b>', {sticky:true, pane:'tooltip', className: 'label_popup'});
+        		featureLayer.on({
+        			mouseover: highlight,
+        			mouseout: resetHighlight,
+   				});
+
+        	}
+        }).addTo(map);
+    });
+    */
+///////////////////////background-color geoJson layers////////////////////////////////
+
+//state outlines
+    function pnwStatesStyle(){
+	return{
+		opacity: 1,
+		color:'#666666',
+		fillOpacity:0	,
+		fillColor:'#404040',
+		weight:1
+		};
+	}
+     var pnwStates = $.getJSON("assets/pnw_states.geojson", function(data){
+        pnwStates = L.geoJson(data, {
+        	style:pnwStatesStyle,
+        	interactive: false
+        }).addTo(map);
+    });
+    
+////////////////////////////////////////////////////////////////////////////////////////////
+
+
+    new L.Control.Zoom({ position: 'topright' }).addTo(map);
+	document.getElementsByClassName("leaflet-control-attribution")[0].style.visibility = "hidden";
+	//add scrolling capabilities to text box
+     var container = document.getElementById('text');
+		Ps.initialize(container);
+	
+	var minHeight = 30; // Define a minimum height for the middle div
+
+	function resizeMiddle() {
+    var h = $('body').height() - $('#top').height() - 80;
+    		h = h > minHeight ? h : minHeight;
+   	 	$('#attribution').height(h);
+	}
+
+	$(document).ready(resizeMiddle);
+	$(window).resize(resizeMiddle);
+	
+	
+    //remove standard leaflet attribution
+    
+
+</script>
+</body>
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+	<title>Water Resources</title>
+    
+    <link rel="stylesheet" href="css/water_resources_style.css" type="text/css">
+    <link rel="stylesheet" href="css/perfect-scrollbar.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Maven+Pro" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">-->
+    
+    <link rel="shortcut icon" href="img/pnw.ico" type="image/x-icon">
+    
+    <script src="js/perfect-scrollbar.js"></script>
+   
+</head>
+<body>
+	<div class="back">
+		<div class="cover">
+			<div class="title">
+				<img src="img/water_blue.png">
+				Water Resources
+				<img src="img/water_blue.png">
+			</div>
+			<div class="title2"  style="margin-bottom:1%;">Atlas of the Pacific Northwest</div>
+			<div id="scroll">
+				<div id="iconRow">
+					<a href="watershed_index.html" target="_blank" style="text-decoration:none; text-align:center; outline: 0;">
+					<img src="img/water_icon_small.png" id="img2" style="display:block; text-align:center;">
+					<h3 style="text-align:center;">Watersheds</h3>
+					<p>Watershed boundaries, rivers, lakes, dams</p></a>
+					<br/>
+					<a href="groundwater_index.html" target="_blank" style="text-decoration:none; text-align:center; outline: 0;">
+					<img src="img/groundwater_small.png" id="img2" style="display:block; text-align:center;">
+					<h3 style="text-align:center;">Groundwater</h3>
+					<p>Aquifer rock type, annual recharge</p></a>
+					<br/>
+					<a href="water_use_index.html" target="_blank" style="text-decoration:none;  text-align:center; outline: 0;">
+					<img src="img/water_use_small.png" id="img2" style="display:block; text-align:center;">
+					<h3 style="text-align:center;">Water Use</h3>
+					<p>Surface water, groundwater, water use categories</p></a>
+					<br/>
+					<a href="pollution_index.html" target="_blank" style="text-decoration:none; text-align:center; outline: 0;">
+					<img src="img/pollution_small.png" id="img2" style="display:block; text-align:center;">
+					<h3 style="text-align:center;">Water Pollution</h3>
+					<p>Identified pollutants, nitrogen, phosphorus, arsenic</p></a>
+				</div>
+				</br>
+				<div id="text">
+					<p3> The Pacific Northwest is a tapestry of landscapes — from old-growth forests, vast mountain ranges, lush river valleys, high deserts, and the Pacific Coast. With such a wealth of scenery, it is no surprise that outdoor recreation is a popular activity for both residents and visitors of the PNW. For many, natural beauty is only a short distance away. Even major metropolitan areas contain sizeable recreation infrastructure. Portland, Oregon, for example, contains the one of the largest urban forest reserves in the country.<br/><br/>Nearly one-half of land area in the Pacific Northwest is publically owned, much of it by the federal government. These lands have remained free from human development, and, over time, have been subject to a variety of regulations and protections. But outdoor recreation extends beyond land conservation and policy. The economic benefits of outdoor recreation are just beginning to be understood. Within the PNW, as of 2017, over 450,000 people work within outdoor recreation, and consumers spend over $50 billion annually on recreation services. <br/><br/>In the future, climate change and shifting populations will force recreation providers to adapt. All three PNW states have water recreation infrastructure listed as an area of increased demand, but they must also contend with increasing drought risk. Recreation often requires such intersectional considerations, which are posed to become only more complicated as time goes on. Equity also remains a primary concern for recreation departments. Particularly in how they can improve access and services to marginalized populations, such as people of color, senior citizens, and people with disabilities.</p3>
+				</div>
+			</div>
+				<a href="" id="arrow">
+					<i class="animated zoomIn infinite fa fa-chevron-down" aria-hidden="true"></i>
+				</a>
+				<h2>OREGON STATE UNIVERSITY</h2>
+		</div>
+	</div>
+<script>
+
+	var container = document.getElementById('scroll');
+		Ps.initialize(container);
+		
+	var els = document.getElementsByClassName("title"),
+		refWidth = els[0].clientWidth,
+		refFontSize = parseFloat(window.getComputedStyle(els[0],null).getPropertyValue("font-size")),
+		i = 1;
+	while(!!els[i]){
+  		els[i].style.fontSize = refFontSize * refWidth / els[i].clientWidth + "px";
+ 	 	i++;
+	 }
+	 
+	var els = document.getElementsByClassName("title2"),
+		refWidth = els[0].clientWidth,
+		refFontSize = parseFloat(window.getComputedStyle(els[0],null).getPropertyValue("font-size")),
+		i = 1;
+	while(!!els[i]){
+  		els[i].style.fontSize = refFontSize * refWidth / els[i].clientWidth + "px";
+ 	 	i++;
+	 }
+
+
+</script>
+</body>
+</html>
