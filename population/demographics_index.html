@@ -56,10 +56,10 @@
 				<a href="water_use_index.html" id="arrow" style="display:inline-block;">
 					<i class="fa fa-arrow-left" aria-hidden="true" style=""></i>
 				</a>
-				<a href="water_source_index.html" id="arrow" style="display:inline-block;" target="_blank">
+				<a href="#popup1" id="arrow" style="display:inline-block;">
 					<i class="fa fa-info-circle" aria-hidden="true" style="padding-left:83px;"></i>
 				</a>
-				<a href="water_index.html" id="arrow" style="display:inline-block;" target="_blank">
+				<a href="population_index.html" id="arrow" style="display:inline-block;" target="_blank">
 					<i class="fa fa-home" aria-hidden="true" style="padding-left:0;"></i>
 				</a>
 				<a href="watershed_index.html" id="arrow" style="display:inline-block;">
@@ -68,6 +68,29 @@
 			</div>
 		</div>
     	<div id="map" style="width: 100%; height: 100%;"></div>
+    	
+    	<div id="popup1" class="overlay">
+			<div class="popup">
+				<h2 style="display:inline; font-size:32px;">Sources</h2>
+				<a class="close" href="#" style="display:inline;">×</a>
+				<hr>
+				<div class="content">
+					<p2 style="font-size:20px">Geographic Data</p2><br><br/>
+                    <div class="source">
+                    	<b><p2>Census Block Groups: <a href = "https://factfinder.census.gov/faces/tableservices/jsf/pages/productview.xhtml?pid=ACS_15_5YR_S1501&prodType=table" target="_blank">IPUMS: National Historical Geographic Information System</a></p2></b><br>
+                    		<p3>Notes: IPUMS Data selected from ACS 2011-2015. Geographic Level: Census Block Group GIS Data.</p3>
+                    </div>
+                    <div class="source">
+                    	<b><p2>Demographic Data: <a href = "https://factfinder.census.gov/faces/tableservices/jsf/pages/productview.xhtml?pid=ACS_15_5YR_S1501&prodType=table" target="_blank">IPUMS: National Historical Geographic Information System</a></p2></b><br>
+                    		<p3>Notes: IPUMS Data selected from ACS 2011-2015. Geographic Level: Census Block Group. Datasets: Sex by Age, Median Sex by Age, Hispanic or Latino Origin by Race.</p3>
+                    </div>
+				</div>
+				<hr>
+				<p2 style="float:right; font-size:12px;">Map created with Leaflet.</p2>
+				<br/>
+				<a class="close2" href="#" style="display:inline;">Close</a>
+			</div>
+		</div>
 <script>
 	var collapsed = false;
     function collapse(){
@@ -118,7 +141,7 @@
     
 	var Esri_WorldTerrain = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer/tile/{z}/{y}/{x}', {
 		attribution: 'Tiles &copy; Esri &mdash; Source: USGS, Esri, TANA, DeLorme, and NPS',
-		maxZoom:11,
+		maxZoom:10,
 		minZoom:4,
 		opacity:1
 	}).addTo(map);
@@ -126,7 +149,7 @@
 	var pnwCover = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
 		layers: 'baldricg_PNW_ATLAS:pnw_outline2_black',
         format: 'image/png',
-		maxZoom:11,
+		maxZoom:10,
 		minZoom:4,
 		opacity:0.9,
 		transparent:true,
@@ -135,14 +158,14 @@
 	var pnwDemographics = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
 		layers: 'baldricg_PNW_ATLAS:pnw_demographics',
         format: 'image/png',
-		maxZoom:11,
+		maxZoom:10,
 		minZoom:4,
 		opacity:0.7,
 		transparent:true,
 	}).addTo(map);
 	
 	 var pnwAge = L.tileLayer('med_age_tiles/{z}/{x}/{y}.png', {
-        maxZoom:11,
+        maxZoom:10,
 		minZoom:4,
 		opacity:0.7,
         tms: false,
@@ -152,7 +175,7 @@
 	var label = L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_only_labels/{z}/{x}/{y}@2x.png', {
 		attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
 		subdomains: 'abcd',
-		maxZoom:11,
+		maxZoom:10,
 		minZoom:4,
 		tileSize:256,
 		bounds:[
