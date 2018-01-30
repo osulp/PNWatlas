@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+     <title>Urban/Rural</title>
+    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.2/dist/leaflet.css" /> 
+    <link rel="stylesheet" href="css/urban_rural_style.css" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Maven+Pro" rel="stylesheet">
+    <link rel="stylesheet" href="css/perfect-scrollbar.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
+    <link rel="shortcut icon" href="img/pnw.ico" type="image/x-icon">
+    
+    <script src="https://unpkg.com/leaflet@1.0.2/dist/leaflet.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="js/perfect-scrollbar.js"></script>
+    
+   
+</head>
+<body>
+		<button id="collapse" onclick="collapse()">
+			<i class="fa fa-chevron-left" id ="collapse-arrow" aria-hidden="true"></i>
+		</button>
+		<div id="infoPanel">
+			<div id="top">
+			<h1>Urban/Rural</h1>
+			<img src="img/urban_rural_icon.png" id="image2" style="display:inline-block;">
+			<div id="buttons">
+				<div class="dropdown">
+  					<button class="dropbtn"><b id="bar2">Select Class</b><p id="arrow">&#9660;</p></button>
+  					<div class="dropdown-content">
+   						 <button type="button" id="classBut1" onclick="total()" class="species" style="background:rgba(242, 242, 242, 0.8);">Total</button>
+						 <button type="button" id="classBut2" onclick="urban()" class="species">Urban</button>
+						 <button type="button" id="classBut3" onclick="rural()" class="species">Rural</button>
+ 				   </div>
+				</div>
+				<div class="dropdown">
+  					<button class="dropbtn"><b id="bar">Select Data</b><p id="arrow">&#9660;</p></button>
+  					<div class="dropdown-content">
+   						 <button type="button" id="but1" onclick="classification()" class="species" style="background:rgba(242, 242, 242, 0.8);">Classification</button>
+						 <button type="button" id="but2" onclick="income()" class="species">Income</button>
+						 <button type="button" id="but3" onclick="education()" class="species">Education</button>
+						 <button type="button" id="but4" onclick="employment()" class="species">Employment</button>
+ 				   </div>
+				</div>
+			</div>
+			<div id="leg_1" style="display:unset;">
+				<h2 id="title" style="display:block; width:280px; white-space:normal;">Urban/Rural Classification</h2><img src="img/class_icon.png" id="image" style="display:inline-block; float:right;">
+				<div><b id="leg1_block" style="background:#80bfff; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p>&nbsp</p><p id="leg1" style="margin-left:5px;">Urbanized Area</p><br/></div>
+				<div><b id="leg2_block" style="background:#ffff80; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2" style="margin-left:5px;">Urban Cluster</p><br/></div>
+				<div><b id="leg3_block" style="background:#9fdf9f; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p>&nbsp</p><p id="leg3" style="margin-left:5px;">Rural Area</p><br/></div>
+				<br/>
+				<p id="description" style="font-weight:bold; text-align:justify; white-space:normal; padding-left:0px; width:280px; display:block; position:relative;">Urbanized Area/Urban Cluster classifications determined by U.S Census Bureau.</p>
+			</div>	
+			<div id="leg_2" style="display:none;">
+				<h2 id="title" style="display:block; width:280px; white-space:normal;">Per Capita Annual Income</h2><img src="img/income_icon.png" id="image3" style="display:inline-block; float:right;">
+				<div><b id="leg1_block" style="background:#006837; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p>&nbsp</p><p id="leg1" style="margin-left:5px;">$45+</p><br/></div>
+				<div><b id="leg2_block" style="background:#31a354; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2" style="margin-left:5px;">$35 - $45</p><br/></div>
+				<div><b id="leg3_block" style="background:#78c679; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2" style="margin-left:5px;">$25 - $35</p><br/></div>
+				<div><b id="leg4_block" style="background:#c2e699; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2" style="margin-left:5px;">$15 - $25</p><br/></div>
+				<div><b id="leg5_block" style="background:#ffffcc; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p>&nbsp</p><p id="leg3" style="margin-left:5px;">Less than $15</p><br/></div>
+				<br/>
+				<p id="description" style="font-weight:bold; text-align:justify; white-space:normal; padding-left:0px; width:280px; display:block; position:relative;">Average annual per capita income in thousands of dollars. Data from 2011-2015 American Community Survey.</p>
+			</div>	
+			<div id="leg_3" style="display:none;">
+				<h2 id="title" style="display:block; width:280px; white-space:normal;">% With Bachelor's Degree</h2><img src="img/education_icon.png" id="image4" style="display:inline-block; float:right;">
+				<div><b id="leg1_block" style="background:#b30000; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p>&nbsp</p><p id="leg1" style="margin-left:5px;">45+</p><br/></div>
+				<div><b id="leg2_block" style="background:#e34a33; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2" style="margin-left:5px;">35 - 45</p><br/></div>
+				<div><b id="leg3_block" style="background:#fc8d59; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2" style="margin-left:5px;">25 - 35</p><br/></div>
+				<div><b id="leg4_block" style="background:#fdcc8a; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2" style="margin-left:5px;">15 -  25</p><br/></div>
+				<div><b id="leg5_block" style="background:#fef0d9; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p>&nbsp</p><p id="leg3" style="margin-left:5px;">Less than 15</p><br/></div>
+				<br/>
+				<p id="description" style="font-weight:bold; text-align:justify; white-space:normal; padding-left:0px; width:280px; display:block; position:relative;">Percent of population over 25 with a bachelor's degree. Data from 2011-2015 American Community Survey.</p>
+			</div>
+			<div id="leg_4" style="display:none;">
+				<h2 id="title" style="display:block; width:280px; white-space:normal;">% Unemployment</h2><img src="img/employment_icon.png" id="image5" style="display:inline-block; float:right;">
+				<div><b id="leg1_block" style="background:#810f7c; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p>&nbsp</p><p id="leg1" style="margin-left:5px;">12.5+</p><br/></div>
+				<div><b id="leg2_block" style="background:#8856a7; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2" style="margin-left:5px;">10 -  12.5</p><br/></div>
+				<div><b id="leg3_block" style="background:#8c96c6; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2" style="margin-left:5px;">7.5 -  10</p><br/></div>
+				<div><b id="leg4_block" style="background:#b3cde3; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2" style="margin-left:5px;">5 -  2.5</p><br/></div>
+				<div><b id="leg5_block" style="background:#edf8fb; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p>&nbsp</p><p id="leg3" style="margin-left:5px;">Less than 5</p><br/></div>
+				<br/>
+				<p id="description" style="font-weight:bold; text-align:justify; white-space:normal; padding-left:0px; width:280px; display:block; position:relative;">Percent of unemployed workforce. Data from 2011-2015 American Community Survey.</p>
+			</div>
+			</div>
+			<div id="attribution">
+				<div id="text" style="margin-top:10px;">
+					<p3>Urban areas are comprised as a densely settled core of census tracts and/or census blocks that meet minimum population density requirements, along with adjacent territory containing non-residential urban land uses as well as territory with low population density included to link outlying densely settled territory with the densely settled core. There are two types of urban areas:</p3>
+					<b2>Urbanized Areas</b2>
+					<p3>include areas with at least 50,000 people,</p3>
+					<b2>Urban Clusters</b2>
+					<p3>include areas between 2,500 and 50,000 people.</p3>				
+					<b2>Rural Areas</b2>
+					<p3>encompass all population, housing, and territory not included within an urban area.</p3>			
+				</div>
+			<div id="pageChange">
+				<a href="water_use_index.html" id="arrow" style="display:inline-block;">
+					<i class="fa fa-arrow-left" aria-hidden="true" style=""></i>
+				</a>
+				<a href="water_source_index.html" id="arrow" style="display:inline-block;" target="_blank">
+					<i class="fa fa-info-circle" aria-hidden="true" style="padding-left:83px;"></i>
+				</a>
+				<a href="water_index.html" id="arrow" style="display:inline-block;" target="_blank">
+					<i class="fa fa-home" aria-hidden="true" style="padding-left:0;"></i>
+				</a>
+				<a href="watershed_index.html" id="arrow" style="display:inline-block;">
+					<i class="fa fa-arrow-right" aria-hidden="true" style="padding-left:82px;"></i>
+				</a>
+			</div>
+			</div>
+		</div>
+    	<div id="map" style="width: 100%; height: 100%;"></div>
+<script>
+	var collapsed = false;
+    function collapse(){
+    	if (collapsed == false){
+    		document.getElementById("infoPanel").style.transition = "display 2s";
+    		document.getElementById("infoPanel").style.display = "none";
+    		document.getElementById("collapse").style.left = '0px';
+    		document.getElementById("collapse").style.paddingLeft = '2px';
+    		document.getElementById("collapse-arrow").className = "fa fa-chevron-right";
+    		collapsed = true;
+    	} else{
+    		document.getElementById("infoPanel").style.display = "unset";
+    		document.getElementById("collapse").style.left = '320px';
+    		document.getElementById("collapse").style.paddingLeft = '0px';
+    		document.getElementById("collapse-arrow").className = "fa fa-chevron-left";
+    		collapsed = false;
+    	}
+    	
+    }
+	//initialize map
+	var map = L.map('map', {center: [45.56, -119.75], zoom: 7, zoomControl:false});
+	///////////////////////make zoom level correspond to browser size////////////////////////////////
+	window.addEventListener('load', function(event){
+    	var width = document.documentElement.clientWidth;
+    	if (width < 1500 && width > 800) {
+        	map.setView(new L.LatLng(45.56, -121.75), 6); 
+    		}  else if (width > 1501) {
+        	map.setZoom(7);
+        	} else {
+        	map.setZoom(5);
+        	}
+	});
+	////////////////////////////////add tiled basemap////////////////////////////////
+var Esri_WorldTerrain = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer/tile/{z}/{y}/{x}', {
+		attribution: 'Tiles &copy; Esri &mdash; Source: USGS, Esri, TANA, DeLorme, and NPS',
+		maxZoom:10,
+		minZoom:5,
+		opacity:1
+	}).addTo(map);
+
+var pnwCover = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
+		layers: 'baldricg_PNW_ATLAS:pnw_outline2_black',
+        format: 'image/png',
+		maxZoom:10,
+		minZoom:5,
+		opacity:0.3,
+		transparent:true,
+	}).addTo(map);
+
+	
+var label = L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_only_labels/{z}/{x}/{y}@2x.png', {
+		attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
+		subdomains: 'abcd',
+		maxZoom:10,
+		minZoom:5,
+		tileSize:256,
+		bounds:[
+			new L.LatLng(49.56,-125.25),
+			new L.LatLng(40.5,-111.5)
+		],
+		pane:'labels'
+	});	
+	
+	
+	map.createPane('labels');
+	map.getPane('labels').style.pointerEvents = 'none';
+	map.getPane('labels').style.zIndex = 650;
+	label.addTo(map);
+	
+	map.createPane('tooltip');
+	map.getPane('tooltip').style.zIndex = 700;
+	//changes depending on which data type is selected, initial value is for County Employment
+	var data = 0;
+	var water = 0;
+	//used with DATA variable to select data type corresponding to each button. Odd numbered buttons correspond to state-level data
+	var buttonNumber = ['but1','but2','but3','but4','but5','but6','but7','but8','but9'];
+	
+
+    ///////////////////////////////////////////////////////////////////////////////////////	
+  	var info = L.control();
+
+	info.onAdd = function (map) {
+    	this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
+    	this.update();
+    	return this._div;
+	};
+	
+	info.update = function (feature) {
+		function nullFinder(prop) {
+			if (prop == null)
+				{return 0;}
+			else if (isNaN(prop) == true)
+				{return 0;}
+			else {return prop;}
+		}
+		if (data == 0){
+   		this._div.innerHTML = (feature ?
+        	'<h3 style="margin:0; display:inline-block;">'+ feature.NAME +'</h3><br/>' + '<p style="display:inline;">' + feature.text_class + '</p>'
+       		:'<p style="display:inline;">Hover over Map</p>');
+		}
+		else if (data == 1){	
+			this._div.innerHTML = (feature ?
+        	'<h3 style="margin:0; display:inline-block;">'+ feature.NAME +'</h3><br/>' + '<p style="display:inline;">' + feature.text_class + '</br></p><p style="display:inline; font-weight:bold;">$' + nullFinder(feature.income_cap) + '</p><p style="display:inline"> Income per Cap.</p>'
+       		:'<p style="display:inline;">Hover over Map</p>');
+			}	
+		else if (data == 2){	
+			this._div.innerHTML = (feature ?
+        	'<h3 style="margin:0; display:inline-block;">'+ feature.NAME +'</h3><br/>' + '<p style="display:inline;">' + feature.text_class + '</br></p><p style="display:inline; font-weight:bold;">' + nullFinder(((feature.bachelors/feature.popOver25)*100).toFixed(2)) + '%</p><p style="display:inline"> w/ Bachelors</p>'
+       		:'<p style="display:inline;">Hover over Map</p>');
+			}
+		else {	
+			this._div.innerHTML = (feature ?
+        	'<h3 style="margin:0; display:inline-block;">'+ feature.NAME +'</h3><br/>' + '<p style="display:inline;">' + feature.text_class + '</br></p><p style="display:inline; font-weight:bold;">' + nullFinder(((feature.unemployed/feature.labor_forc)*100).toFixed(2)) + '%</p><p style="display:inline"> Unemployed</p>'
+       		:'<p style="display:inline;">Hover over Map</p>');
+       	}
+	};
+
+	info.addTo(map);
+    
+    ////////////////////////////////initial geoJSON styling////////////////////////////////
+	
+	var colors = ['#ffffcc','#c2e699','#78c679','#31a354','#006837'];
+	var dataValue = [20000,30000,40000,50000];
+	var data = 0;
+	var check = 0;
+	
+	function urbanRural(type){
+		return type == 'u' ? '#80bfff':
+			   type == 'c' ? '#ffff80':
+					'#9fdf9f';
+	}
+	
+	function placeColor(data){
+		return data > dataValue[3] ? colors[4]:
+			   data > dataValue[2] ? colors[3]:
+			   data > dataValue[1] ? colors[2]:
+			   data > dataValue[0] ? colors[1]:
+				colors[0];
+	}
+	
+	function placeStyle(feature){
+		function whichColor(){
+			return data == 0 ? urbanRural(feature.properties.type_class):
+				data == 1 ? placeColor(feature.properties.income_cap):
+				data == 2 ? placeColor(((feature.properties.bachelors/feature.properties.popOver25)*100).toFixed(2)):
+					placeColor(((feature.properties.unemployed/feature.properties.labor_forc)*100).toFixed(2));
+			
+		}
+      	return{
+				opacity: 1,
+				fillOpacity: 0.6,
+				color:whichColor(),
+				fillColor:whichColor(),
+				weight:0.5
+			};
+      }
+
+	 function highlight(e) {
+		 var layer = e.target;
+		 layer.setStyle({
+        	fillOpacity: 1,
+        	color:'#ffffff',
+        	opacity:1
+        	
+    	 });
+    	info.update(layer.feature.properties);
+    	layer.bringToFront();
+    }
+    
+    function resetHighlight(e) {
+		places.resetStyle(e.target);
+		info.update();
+	}
+	
+	function placeFilter(feature) {
+        		if (check == 0){
+        			return true
+        		}
+        		else if (check == 1){
+        			if (feature.properties.type_class == 'u' || feature.properties.type_class == 'c')return true
+        		}
+        		else if (check == 2){
+        			if (feature.properties.type_class == 'r')return true
+        		}
+    	}
+	
+	var places;
+
+	function addData(){
+		places = $.getJSON("assets/urban_rural.geojson", function(data){
+        places = L.geoJson(data, {
+        	style: placeStyle,
+        	onEachFeature: function(feature, featureLayer) {
+        		featureLayer.on({
+        			mouseover: highlight,
+        			mouseout: resetHighlight,
+        			//click:onClick
+   				});
+        	},
+        	filter:placeFilter
+        }).addTo(map);
+      });
+    }
+    addData();
+      
+    var buttonType = 'but1';
+    var classButtonType = 'classBut1';
+    var legType = 'leg_1';
+    
+    function total(){
+    	document.getElementById(classButtonType).style.background = "rgba(242, 242, 242, 0.2)";
+    	classButtonType = 'classBut1';
+    	document.getElementById(classButtonType).style.background = "rgba(242, 242, 242, 1)";
+    	document.getElementById('bar2').innerHTML = "Total";
+    	map.removeLayer(places);
+    	check = 0;
+    	addData();
+    }
+    function urban(){
+    	document.getElementById(classButtonType).style.background = "rgba(242, 242, 242, 0.2)";
+    	classButtonType = 'classBut2';
+    	document.getElementById(classButtonType).style.background = "rgba(242, 242, 242, 1)";
+    	document.getElementById('bar2').innerHTML = "Urban";
+    	map.removeLayer(places);
+    	check = 1;
+    	addData();
+    }
+    function rural(){
+    	document.getElementById(classButtonType).style.background = "rgba(242, 242, 242, 0.2)";
+    	classButtonType = 'classBut3';
+    	document.getElementById(classButtonType).style.background = "rgba(242, 242, 242, 1)";
+    	document.getElementById('bar2').innerHTML = "Rural";
+    	map.removeLayer(places);
+    	check = 2;
+    	addData();
+    }
+    function classification(){
+    	document.getElementById(legType).style.display = "none";
+    	legType = 'leg_1';
+    	document.getElementById(legType).style.display = "unset";
+    	map.removeLayer(places);
+    	data = 0;
+    	document.getElementById(buttonType).style.background = "rgba(242, 242, 242, 0.2)";
+    	buttonType = 'but1';
+    	document.getElementById('but1').style.background = "rgba(242, 242, 242, 1)";
+    	document.getElementById('bar').innerHTML = "Classification";
+    	addData();
+    }
+    function income(){
+    	document.getElementById(legType).style.display = "none";
+    	legType = 'leg_2';
+    	document.getElementById(legType).style.display = "unset";
+    	document.getElementById(classButtonType).style.display = "unset";
+    	map.removeLayer(places);
+    	data = 1;
+    	document.getElementById(buttonType).style.background = "rgba(242, 242, 242, 0.2)";
+    	buttonType = 'but2';
+    	document.getElementById('but2').style.background = "rgba(242, 242, 242, 1)";
+    	colors = ['#ffffcc','#c2e699','#78c679','#31a354','#006837'];
+		dataValue = [15000,25000,35000,45000];
+		document.getElementById('bar').innerHTML = "Income";
+    	addData();
+    }
+    function education(){
+    	document.getElementById(legType).style.display = "none";
+    	legType = 'leg_3';
+    	document.getElementById(legType).style.display = "unset";
+    	map.removeLayer(places);
+    	data = 2;
+    	document.getElementById(buttonType).style.background = "rgba(242, 242, 242, 0.2)";
+    	buttonType = 'but3';
+    	document.getElementById('but3').style.background = "rgba(242, 242, 242, 1)";
+    	colors = ['#fef0d9','#fdcc8a','#fc8d59','#e34a33','#b30000'];
+		dataValue = [15,25,35,45];
+		document.getElementById('bar').innerHTML = "Education";
+    	addData();
+    }
+	function employment(){
+		document.getElementById(legType).style.display = "none";
+    	legType = 'leg_4';
+    	document.getElementById(legType).style.display = "unset";
+		map.removeLayer(places);
+		data = 3;
+		document.getElementById(buttonType).style.background = "rgba(242, 242, 242, 0.2)";
+    	buttonType = 'but4';
+    	document.getElementById('but4').style.background = "rgba(242, 242, 242, 1)";
+    	colors = ['#edf8fb','#b3cde3','#8c96c6','#8856a7','#810f7c'];
+		dataValue = [5,7.5,10,12.5];
+		document.getElementById('bar').innerHTML = "Employment";
+    	addData();
+    }
+      
+	///////////////////////////////add outline layers////////////////////////////////
+	function pnwStatesStyle(){
+	return{
+		opacity: 1,
+		color:'#666666',
+		fillOpacity:0	,
+		fillColor:'#404040',
+		weight:1
+		};
+	}
+     var pnwStates = $.getJSON("assets/pnw_states.geojson", function(data){
+        pnwStates = L.geoJson(data, {
+        	style:pnwStatesStyle,
+        	interactive: false
+        }).addTo(map);
+    });
+	//////////////////////////////////////////////////////////////////////////////
+
+   	//add zoom control
+    new L.Control.Zoom({ position: 'topright' }).addTo(map);
+    
+    //remove leaflet attribution
+	document.getElementsByClassName("leaflet-control-attribution")[0].style.visibility = "hidden";
+	
+	//add scrolling capabilities to text box
+     var container = document.getElementById('text');
+		Ps.initialize(container);
+	
+	//update text box to be correct size
+	var minHeight = 50; // Define a minimum height for the middle div
+
+	function resizeMiddle() {
+    var h = $('body').height() - $('#top').height() - 65;
+    		h = h > minHeight ? h : minHeight;
+   	 	$('#attribution').height(h);
+	}
+
+	$(document).ready(resizeMiddle);
+	$(window).resize(resizeMiddle);
+	
+    //remove standard leaflet attribution
+    
+
+</script>
+</body>
+</html>

@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+     <title>Internal Migration</title>
+    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.2/dist/leaflet.css" /> 
+    <link rel="stylesheet" href="css/migration_style.css" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Maven+Pro" rel="stylesheet">
+    <link rel="stylesheet" href="css/perfect-scrollbar.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
+    <link rel="shortcut icon" href="img/pnw.ico" type="image/x-icon">
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="https://unpkg.com/leaflet@1.0.2/dist/leaflet.js"></script>
+    <!--<script src="http://rawgit.com/geodesign/spatialsankey/master/spatialsankey.js"></script>-->
+     <script src="https://unpkg.com/leaflet.vectorgrid@latest/dist/Leaflet.VectorGrid.bundled.js"></script>
+    <script src="js/perfect-scrollbar.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tween.js/17.1.1/Tween.min.js"></script>
+    <script src="js/CanvasFlowmapLayer.js"></script>
+    <script src="https://unpkg.com/papaparse@4.3.6/papaparse.min.js"></script>
+    
+   
+</head>
+<body>
+    <button id="collapse" onclick="collapse()">
+		<i class="fa fa-chevron-left" id ="collapse-arrow" aria-hidden="true"></i>
+	</button>
+    <div id="infoPanel">
+			<div id="top">
+			<h1>Internal Migration</h1>
+			<img src="img/migration_icon.png" id="image2" style="display:inline-block;">
+			<div id="buttons">
+				<div class="dropdown">
+  					<button class="dropbtn"><b id="flow">Select Flow</b><p id="arrow">&#9660;</p></button>
+  					<div class="dropdown-content">
+   						 <button type="button" id="but1" onclick="net()" class="species" style="background:rgba(242, 242, 242, 0.8);">Net Flow</button>
+						 <button type="button" id="but2" onclick="inflow()" class="species">Inflow</button>
+						 <button type="button" id="but3" onclick="outflow()" class="species">Outflow</button>
+ 				   </div>
+				</div>
+			</div>
+			<br/>
+			<h2 id="title" style="display:inline; width:200px; white-space:normal; font-size:30px;">Select a County</h2><br/>
+			<h2 id="title1" style="display:block; width:280px; white-space:normal;">Net Migration per 1000 People</h2><img src="img/migration_icon2.png" id="image" style="display:inline-block; float:right;">
+			<div><b id="leg1_block" style="background:#99d6ff; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p>&nbsp</p><p id="leg1" style="margin-left:15px;">25+</p><br/></div>
+			<div><b id="leg2_block" style="background:#ccebff; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2" style="margin-left:15px;">5 to 25</p><br/></div>
+			<div><b id="leg3_block" style="background:#f2f2f2; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg3" style="margin-left:15px;">-5 to 5</p><br/></div>
+			<div><b id="leg4_block" style="background:#ffe6cc; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg4" style="margin-left:15px;">-25 to -5</p><br/></div>
+			<div><b id="leg5_block" style="background:#ffce99; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p>&nbsp</p><p id="leg5" style="margin-left:15px;">Less than -25</p><br/></div>
+			<p id="description1" style="font-weight:bold; text-align:justify; white-space:normal; padding-left:0px; width:280px; display:block; position:relative;font-size:14px; padding-top:10px;">Net migration (inflow - outflow) per 1000 people per county. Estimates from 2011-2015.</p>
+			
+			<h2 id="title" style="display:block; width:280px; white-space:normal;">Migration Flow</h2>
+			<div id ="none"><p id="leg1" style="padding-left:0px; font-size:14px; font-weight:bold;">Inflow</p></div><div id ="none" style="padding-left:150px;"><p id="leg1" style="padding-left:0px; font-size:14px; font-weight:bold;">Outflow</p></div><br/>
+			<div id ="none"><hr style="color:#4db8ff; width:35px; float:left; height:1px; background-color:#4db8ff; line-height:20px; vertical-align:middle; display:inline; border:none;"/><p id="leg1" style="padding-left:5px;">0 to 25</p></div><div id ="none" style="padding-left:150px;"><hr style="color:#ff9c33; width:35px; float:left; height:1px; background-color:#ff9c33; line-height:20px; vertical-align:middle; display:inline; border:none;"/><p id="leg1" style="padding-left:5px;">0 to 25</p></div><br/>
+			<div id ="none"><hr style="color:#0099ff; width:35px; float:left; height:2px; background-color:#0099ff; line-height:20px; vertical-align:middle; display:inline; border:none;"/><p id="leg1" style="padding-left:5px;">25 - 100</p></div><div id ="none" style="padding-left:150px;"><hr style="color:#e67700; width:35px; float:left; height:2px; background-color:#e67700; line-height:20px; vertical-align:middle; display:inline; border:none;"/><p id="leg1" style="padding-left:5px;">25 to 100</p></div><br/>
+			<div id ="none"><hr style="color:#006bb3; width:35px; float:left; height:4px; background-color:#006bb3; line-height:20px; vertical-align:middle; display:inline; border:none;"/><p id="leg1" style="padding-left:5px;">100+</p></div><div id ="none" style="padding-left:150px;"><hr style="color:#e67700; width:35px; float:left; height:4px; background-color:#e67700; line-height:20px; vertical-align:middle; display:inline; border:none;"/><p id="leg1" style="padding-left:5px;">100+</p></div><br/>
+			<p id="description2" style="font-weight:bold; text-align:justify; white-space:normal; padding-left:0px; width:280px; display:inline-block; font-size:14px; position:relative;">Net migration (inflow - outflow) between counties. Negative values represent net outflow between counties, while positive values represent net inflow.</p>
+			
+			</div>
+			<div id="attribution">
+				<div id="text" style="margin-top:10px;">
+					<p3 id="information">Chinook salmon are the largest of the Pacific salmon, with some individuals growing to more than 100 pounds. These huge fish are rare, as most mature chinook are under 50 pounds. <br/><br/>Most chinook spawn in large rivers such as the Columbia and Snake, although they will also use smaller streams with sufficient water flow. They tend to spawn in the mainstem of streams, where the water flow is high. Because of their size they are able to spawn in larger gravel than most other salmon. Chinook spawn on both sides of the Cascade Range, and some fish travel hundreds of miles upstream before they reach their spawning grounds. Because of the distance, these fish enter streams early and comprise the spring and summer runs. Fall runs spawn closer to the ocean and more often use small coastal streams. All chinook reach their spawning grounds by fall, in time to spawn.<br/><br/>Chinook fry rear in freshwater from three months to a year, depending on the race of chinook and the location. Spring chinook tend to stay in streams for a year; fish in northern areas, where the streams are less productive and growth is slower, also tend to stay longer. Rearing chinook fry use mainstems and their tributaries.</p3>
+				</div>
+			</div>
+			<div id="pageChange">
+				<a href="water_use_index.html" id="arrow" style="display:inline-block;">
+					<i class="fa fa-arrow-left" aria-hidden="true" style=""></i>
+				</a>
+				<a href="water_source_index.html" id="arrow" style="display:inline-block;" target="_blank">
+					<i class="fa fa-info-circle" aria-hidden="true" style="padding-left:83px;"></i>
+				</a>
+				<a href="water_index.html" id="arrow" style="display:inline-block;" target="_blank">
+					<i class="fa fa-home" aria-hidden="true" style="padding-left:0;"></i>
+				</a>
+				<a href="watershed_index.html" id="arrow" style="display:inline-block;">
+					<i class="fa fa-arrow-right" aria-hidden="true" style="padding-left:82px;"></i>
+				</a>
+			</div>
+		</div>
+    <div id="map" style="width: 100%; height: 100%;"></div>
+<script>
+    var collapsed = false;
+    function collapse(){
+    	if (collapsed == false){
+    		document.getElementById("infoPanel").style.transition = "display 2s";
+    		document.getElementById("infoPanel").style.display = "none";
+    		document.getElementById("collapse").style.left = '0px';
+    		document.getElementById("collapse").style.paddingLeft = '2px';
+    		document.getElementById("collapse-arrow").className = "fa fa-chevron-right";
+    		collapsed = true;
+    	} else{
+    		document.getElementById("infoPanel").style.display = "unset";
+    		document.getElementById("collapse").style.left = '320px';
+    		document.getElementById("collapse").style.paddingLeft = '0px';
+    		document.getElementById("collapse-arrow").className = "fa fa-chevron-left";
+    		collapsed = false;
+    	}
+    	
+    }
+	var map = L.map('map', {center: [45.56, -119.75],  zoom: 6, zoomControl:false});
+	///////////////////////make zoom level correspond to browser size////////////////////////////////
+	window.addEventListener('load', function(event){
+    	var width = document.documentElement.clientWidth;
+    	if (width < 1500 && width > 800) {
+        	map.setView(new L.LatLng(45.56, -121.75), 6); 
+    		}  else if (width > 1501) {
+        	map.setZoom(6);
+        	} else {
+        	map.setZoom(5);
+        	}
+	});
+
+	////////////////////////////////add tiled basemap////////////////////////////////
+	var Esri_WorldTerrain = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer/tile/{z}/{y}/{x}', {
+		attribution: 'Tiles &copy; Esri &mdash; Source: USGS, Esri, TANA, DeLorme, and NPS',
+		maxZoom:10,
+		minZoom:4,
+		opacity:1
+	}).addTo(map);
+	
+	var states = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
+		layers: 'baldricg_PNW_ATLAS:states',
+        format: 'image/png',
+		maxZoom:8,
+		minZoom:4,
+		opacity:0.5,
+		transparent:true,
+		pane: 'layers'
+	});
+	
+	var outline = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
+		layers: 'baldricg_PNW_ATLAS:us_outline',
+        format: 'image/png',
+		maxZoom:8,
+		minZoom:4,
+		opacity:0.3,
+		transparent:true,
+		pane: 'layers'
+	});
+	
+	var label = L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_only_labels/{z}/{x}/{y}@2x.png', {
+		attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
+		subdomains: 'abcd',
+		maxZoom:10,
+		minZoom:5,
+		opacity:0.7,
+		pane:'labels'
+	});	
+		
+	map.createPane('layers');
+	map.getPane('layers').style.pointerEvents = 'none';
+	map.getPane('layers').style.zIndex = 650;
+	states.addTo(map);
+	outline.addTo(map);
+	
+	map.createPane('json');
+	map.getPane('json').style.pointerEvents = 'auto';
+	map.getPane('json').style.zIndex = 300;
+	
+	map.createPane('labels');
+	map.getPane('labels').style.pointerEvents = 'none';
+	map.getPane('labels').style.zIndex = 700;
+	label.addTo(map);
+	
+	var remove = false;
+	var canvasRenderer = L.canvas();
+	var jsonRenderer = L.svg({pane:'json'});
+	var oneToManyFlowmapLayer;
+	var flowType = 0;
+	
+	 var info = L.control();
+
+	info.onAdd = function (map) {
+    	this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
+    	this.update();
+    	return this._div;
+	};
+	
+	info.update = function (feature) {
+		function nullFinder(prop) {
+			if (prop == null)
+				{return 0;}
+			else if (isNaN(prop) == true)
+				{return 0;}
+			else {return prop;}
+		}
+		function display(){
+			return feature.pnw == 1 ? '<b>' + feature.name + ' County</b><br/><p style="display:inline;">Migration Rate per 1000:&nbsp' + feature.net_rate + '</p><br/><p style="display:inline;">Inflow:&nbsp' + feature.inflow + '</p><br/><p style="display:inline;">Outflow:&nbsp' + feature.outflow + '</p><br/><p style="display:inline;">Net Flow:&nbsp' + feature.net + '</p>':
+					'<b>' + feature.name + ' County</b><br/><p style="display:inline;">Inflow (from PNW):&nbsp' + nullFinder(feature.inflow) + '</p><br/><p style="display:inline;">Outflow (to PNW):&nbsp' + nullFinder(feature.outflow) + '</p>';
+		}
+   		this._div.innerHTML = (feature ?
+        			display()
+        		: '<b>Hover over map</b>');
+		};
+
+	info.addTo(map);
+	
+	function addFlow(){
+	if (remove == true){
+			oneToManyFlowmapLayer.clearAllPathSelections();
+			//remove = false;
+		}
+	function flowSelection(){
+		return flowType == 0 ? 'assets/net_migration.csv':
+			flowType == 1 ? 'assets/inflow.csv':
+				'assets/outflow.csv';
+	}
+	Papa.parse(flowSelection(), {
+      download: true,
+      header: true,
+      dynamicTyping: true,
+      skipEmptyLines: true,
+      complete: function(results) {
+        var geoJsonFeatureCollection = {
+          type: 'FeatureCollection',
+          features: results.data.map(function(datum) {
+            return {
+              type: 'Feature',
+              geometry: {
+                type: 'Point',
+                coordinates: [datum.source_lon, datum.source_lat]
+              },
+              properties: datum
+            }
+          })
+        };
+	
+	oneToManyFlowmapLayer = L.canvasFlowmapLayer(geoJsonFeatureCollection, {
+          originAndDestinationFieldIds: {
+            originUniqueIdField: 'source',
+            originGeometry: {
+              x: 'source_lon',
+              y: 'source_lat'
+            },
+            destinationUniqueIdField: 'target',
+            destinationGeometry: {
+              x: 'target_lon',
+              y: 'target_lat'
+            }
+          },
+          canvasBezierStyle: {
+            type: 'classBreaks',
+            field: 'flow',
+            classBreakInfos: [
+            {
+              classMinValue: -25,
+              classMaxValue: 0,
+              symbol: {
+                strokeStyle: '#ff9c33',
+                lineWidth: 0.25,
+                lineCap: 'round',
+                shadowColor: '#e67700',
+                shadowBlur: 1.5
+              }
+            },
+            {
+              classMinValue: -100,
+              classMaxValue: -25,
+              symbol: {
+                strokeStyle: '#e67700',
+                lineWidth: 1,
+                lineCap: 'round',
+                shadowColor: '#994f00',
+                shadowBlur: 1.5
+              }
+            },
+            {
+              classMinValue: -1000,
+              classMaxValue: -100,
+              symbol: {
+                strokeStyle: '#e67700',
+                lineWidth: 2,
+                lineCap: 'round',
+                shadowColor: '#994f00',
+                shadowBlur: 1.5
+              }
+            },
+            {
+              classMinValue: 0,
+              classMaxValue: 25,
+              symbol: {
+                strokeStyle: '#4db8ff',
+                lineWidth: 0.25,
+                lineCap: 'round',
+                shadowColor: '#008ae6',
+                shadowBlur: 1.5
+              }
+            }, {
+              classMinValue: 25,
+              classMaxValue: 100,
+              symbol: {
+                strokeStyle: '#0099ff',
+                lineWidth: 1,
+                lineCap: 'round',
+                shadowColor: '#005c99',
+                shadowBlur: 1.5,
+              }
+            }, {
+              classMinValue: 100,
+              classMaxValue: 10000000,
+              symbol: {
+                strokeStyle: '#006bb3',
+                lineWidth: 2,
+                lineCap: 'round',
+                shadowColor: '#003d66',
+                shadowBlur: 1.5,
+              }
+            }],
+            defaultSymbol: {
+              strokeStyle: '#595959',
+              lineWidth: 0.5,
+              lineCap: 'round',
+              shadowColor: '#595959',
+              shadowBlur: 1.5
+            },
+          },
+          style: function(geoJsonFeature) {
+        	if (geoJsonFeature.properties.isOrigin) {
+          		return {
+            		renderer: canvasRenderer, // recommended to use L.canvas()
+            		radius: 1,
+            		weight: 1,
+            		color: 'rgb(0, 0, 0,0)',
+            		fillColor: 'rgba(0, 0, 0, 0)',
+            		fillOpacity: 0
+          		};
+        	} else {
+          		return {
+            		renderer: canvasRenderer,
+            		radius: 4,
+            		weight: 0.25,
+            		color: 'rgb(0, 0, 0,0)',
+            		fillColor: 'rgba(0, 0, 0, 0)',
+            		fillOpacity: 0.7
+          		};
+        	}
+      	 },
+          pathDisplayMode: 'selection',
+         /*animationStarted: true,
+          animationEasingFamily: 'Cubic',
+          animationEasingType: 'In',
+          animationDuration: 5000*/
+        }).addTo(map);
+		/*
+		oneToManyFlowmapLayer.on('click', function(e) {
+          if (e.sharedOriginFeatures.length) {
+            oneToManyFlowmapLayer.selectFeaturesForPathDisplay(e.sharedOriginFeatures, 'SELECTION_NEW');
+          }
+          if (e.sharedDestinationFeatures.length) {
+            oneToManyFlowmapLayer.selectFeaturesForPathDisplay(e.sharedDestinationFeatures, 'SELECTION_NEW');
+          }
+        });
+		*/
+        oneToManyFlowmapLayer.selectFeaturesForPathDisplayById('target', selection, false, 'SELECTION_NEW');
+      }
+    });
+    
+    }
+    
+    var selection = 41005;
+    var clickSelection;
+    var prevClick;
+      
+    function setColor(value){
+    	return value >= 25 ? '#99d6ff':
+    		value >= 5 && value < 25 ? '#ccebff':
+    		value > -5 && value <= 5 ? '#f2f2f2':
+    		value > -25 && value <= -5 ? '#ffe6cc':
+    			'#ffce99';
+    } 
+    
+    function outlineStyle(feature){
+    	if (feature.properties.pnw == 1){
+			return{
+				radius: 4,
+        		weight: 0.35,
+        		opacity:0.8,
+        		color: '#b3b3b3',
+        		fillColor: setColor(feature.properties.net_rate),
+        		fillOpacity: 0.7
+			};
+		}
+		else{
+			return{
+				radius: 4,
+        		weight: 0.35,
+        		opacity:0.8,
+        		color: '#b3b3b3',
+        		fillColor: '#ffffff',
+        		fillOpacity: 0.7
+			};
+		}
+	}
+	function highlight(e) {
+		 var layer = e.target;
+		 if (layer.feature.properties.pnw == 1){
+		 	layer.setStyle({
+        		fillOpacity: 1
+    	 	});
+    	 }
+    	 else{
+    	 	layer.setStyle({
+        		fillOpacity: 1,
+        		fillColor:'#f2f2f2',
+    	 	});
+    	 }
+    	 info.update(layer.feature.properties);
+		}
+	function resetHighlight(e) {
+		if(prevClick != e.target){
+			counties.resetStyle(e.target);
+		}
+		info.update();
+	}
+	function onClick(e){
+		var layer = e.target;
+		if (layer.feature.properties.pnw == 1){
+			if(prevClick){
+   				counties.resetStyle(prevClick);
+   				prevClick=null;
+			}
+			layer.setStyle({
+        		fillOpacity: 1
+    	 	});
+			selection = layer.feature.properties.ID_1;
+			prevClick = layer;
+			addFlow();
+			remove = true;
+		}
+	}
+	
+    var	counties = $.getJSON("assets/migration_counties.geojson", function(data){
+        counties = L.geoJson(data, {
+        	style:outlineStyle,
+        	renderer:jsonRenderer,
+        	onEachFeature: function(feature, featureLayer) {
+        				featureLayer.on({
+        					mouseover: highlight,
+        					mouseout: resetHighlight,
+        					click:onClick
+   						});
+   						//featureLayer.bindPopup('<b>'+ dataType(feature) +'&nbspMgal/day</b>', {className: 'label_tooltip'});
+        		}
+        }).addTo(map);
+    });
+
+   /* 
+    var highlightCounties;
+    var clickCounties;
+	var clearHighlightCounties = function() {
+		if (highlightCounties != clickCounties) {
+			counties.resetFeatureStyle(highlightCounties);
+		}
+		highlightCounties = null;
+	};
+	var clearClickCounties = function() {
+		if (clickCounties) {
+			counties.resetFeatureStyle(clickCounties);
+		}
+		clickCounties = null;
+	};
+	
+	var filter = function(e){
+		if (e.layer.properties.pnw == 1){
+			return true;
+		} else {
+			return false;
+			}
+	}
+
+    var counties = $.getJSON("assets/migration_counties.geojson", function(data){
+    	counties = L.vectorGrid.slicer(data, {
+			rendererFactory: L.svg.tile,
+			vectorTileLayerStyles: {
+				sliced: function(properties, zoom) {
+					return {
+						radius: 4,
+        				stroke: true,
+						fill: true,
+        				weight: 0.35,
+        				opacity:0.8,
+        				color: '#b3b3b3',
+        				fillColor: '#e6f3ff',
+        				fillOpacity: 0.7
+					}
+				}
+			},
+			interactive: filter,
+			getFeatureId: function(f) {
+				return f.properties.ID_1;
+			}
+		})
+		.on('mouseover', function(e) {
+			var properties = e.layer.properties;
+			
+			clearHighlightCounties();
+			highlightCounties = properties.ID_1;
+
+			var style = {
+					stroke: true,
+					fill: true,
+					radius: 4,
+        			weight: 0.35,
+        			opacity:0.8,
+        			color: '#b3b3b3',
+        			fillColor: '#999999',
+        			fillOpacity: 1
+			};
+			
+			counties.setFeatureStyle(properties.ID_1, style);
+		})
+		.on('click', function(e) {
+			var properties = e.layer.properties;
+			
+			selection = properties.ID_1;
+			addFlow();
+			remove = true;
+			//remove = true;
+			
+			clearClickCounties();
+			highlightCounties = null;
+			clickCounties = properties.ID_1;
+						
+			var style = {
+				stroke: true,
+				fill: true,
+				radius: 4,
+        		weight: 0.35,
+        		opacity:0.8,
+        		color: '#b3b3b3',
+        		fillColor: '#999999',
+        		fillOpacity: 1
+			};
+			
+			
+
+			counties.setFeatureStyle(properties.ID_1, style);
+		}).addTo(map);
+	});
+*/
+	//////////////////////////////////////////////////////////////////////////////
+	
+	function net(){
+		flowType = 0;
+		selection = 0;
+		addFlow();
+		document.getElementById('but1').style.background = "rgba(242, 242, 242, 1)";
+		document.getElementById('but2').style.background = "rgba(242, 242, 242, 0.2)";
+		document.getElementById('but3').style.background = "rgba(242, 242, 242, 0.2)";
+		document.getElementById('description2').innerHTML = "Net migration (inflow - outflow) between counties. Negative values represent net outflow between counties, while positive values represent net inflow.";
+	}
+	function inflow(){
+		flowType = 1;
+		selection = 0;
+		addFlow();
+		document.getElementById('but1').style.background = "rgba(242, 242, 242, 0.2)";
+		document.getElementById('but2').style.background = "rgba(242, 242, 242, 1)";
+		document.getElementById('but3').style.background = "rgba(242, 242, 242, 0.2)";
+		document.getElementById('flow').innerHTML = "Inflow";
+		document.getElementById('description2').innerHTML = "Total inflow to selected county from other counties.";
+	}
+	function outflow(){
+		flowType = 2;
+		selection = 0;
+		addFlow();
+		document.getElementById('but1').style.background = "rgba(242, 242, 242, 0.2)";
+		document.getElementById('but2').style.background = "rgba(242, 242, 242, 0.2)";
+		document.getElementById('but3').style.background = "rgba(242, 242, 242, 1)";
+		document.getElementById('description2').innerHTML = "Total outflow from selected county to other counties.";
+	}
+	
+    new L.Control.Zoom({ position: 'bottomright' }).addTo(map);
+	document.getElementsByClassName("leaflet-control-attribution")[0].style.visibility = "hidden";
+	//add scrolling capabilities to text box
+     var container = document.getElementById('text');
+		Ps.initialize(container);
+	
+	var minHeight = 30; // Define a minimum height for the middle div
+
+	function resizeMiddle() {
+    var h = $('body').height() - $('#top').height() - 95;
+    		h = h > minHeight ? h : minHeight;
+   	 	$('#attribution').height(h);
+	}
+
+	$(document).ready(resizeMiddle);
+	$(window).resize(resizeMiddle);
+    
+
+</script>
+</body>
+</html>

@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+     <title>Demographics</title>
+    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.2/dist/leaflet.css" /> 
+    <link rel="stylesheet" href="css/demographics_style.css" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Maven+Pro" rel="stylesheet">
+    <link rel="stylesheet" href="css/perfect-scrollbar.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
+    <link rel="shortcut icon" href="img/pnw.ico" type="image/x-icon">
+    
+     <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="js/Chart.bundle.js"></script>
+    <script src="js/Chart.PieceLabel.min.js"></script>
+    <script src="js/perfect-scrollbar.js"></script>
+   
+</head>
+<body>
+		<button id="collapse" onclick="collapse()">
+			<i class="fa fa-chevron-left" id ="collapse-arrow" aria-hidden="true"></i>
+		</button>
+		<div id="infoPanel">
+			<div id="top">
+			<h1>Demographics</h1>
+			<img src="img/migration_icon.png" id="image2" style="display:inline-block;">
+			<div id="buttons">
+				<div class="dropdown">
+  					<button class="dropbtn"><b id="dataType">Select Data</b><p id="arrow">&#9660;</p></button>
+  					<div class="dropdown-content">
+   						 <button type="button" id="but1" onclick="race()" class="species" style="background:rgba(242, 242, 242, 0.8);">Race</button>
+						 <button type="button" id="but2" onclick="age()" class="species">Age</button>
+ 				   </div>
+				</div>
+			</div>
+			<div id='legend' style="display:none;">
+				<h2 id="title" style="display:block; width:280px; white-space:normal;">Median Age</h2>
+				<b id="leg2_block" style="background:linear-gradient(to right, #fcfbfd, #dadaeb, #9e9ac8, #6a51a3, #3f007d); height:32px; border:black 2px solid;"></b><br/>
+				<p style="padding-left:0; word-spacing:47px;">25 35 45 55 65</p></br>
+			</div>
+			<p id="description" style="font-weight:bold; margin-top: 10px;text-align:justify; white-space:normal; padding-left:0px; width:280px; display:block; position:relative; line-height:20px;">Map colored based on a composite of racial population percentages. More intense colors suggest a greater percentage of a single race, which browns and grays suggest racial diversity.</p>
+			
+			</div>
+			<div id="attribution">
+				<br/>
+				<h2 style="margin-top:0;">Hover Over Map for Details</h2>
+				<canvas id="chartContainer" style="height: 160px ; width: 280px; display:unset; margin-left:-10px;"></canvas>
+				<canvas id="chartContainer2" style="height: 260px ; width: 280px; display:none;"></canvas>
+				<p id="description2" style="font-weight:bold; text-align:justify; white-space:normal; padding-left:0px; width:280px; display:block; position:relative; line-height:20px;">Population of each racial group within one census block group.</p>
+			</div>
+			<div id="pageChange">
+				<a href="water_use_index.html" id="arrow" style="display:inline-block;">
+					<i class="fa fa-arrow-left" aria-hidden="true" style=""></i>
+				</a>
+				<a href="water_source_index.html" id="arrow" style="display:inline-block;" target="_blank">
+					<i class="fa fa-info-circle" aria-hidden="true" style="padding-left:83px;"></i>
+				</a>
+				<a href="water_index.html" id="arrow" style="display:inline-block;" target="_blank">
+					<i class="fa fa-home" aria-hidden="true" style="padding-left:0;"></i>
+				</a>
+				<a href="watershed_index.html" id="arrow" style="display:inline-block;">
+					<i class="fa fa-arrow-right" aria-hidden="true" style="padding-left:82px;"></i>
+				</a>
+			</div>
+		</div>
+    	<div id="map" style="width: 100%; height: 100%;"></div>
+<script>
+	var collapsed = false;
+    function collapse(){
+    	if (collapsed == false){
+    		document.getElementById("infoPanel").style.transition = "display 2s";
+    		document.getElementById("infoPanel").style.display = "none";
+    		document.getElementById("collapse").style.left = '0px';
+    		document.getElementById("collapse").style.paddingLeft = '2px';
+    		document.getElementById("collapse-arrow").className = "fa fa-chevron-right";
+    		collapsed = true;
+    	} else{
+    		document.getElementById("infoPanel").style.display = "unset";
+    		document.getElementById("collapse").style.left = '320px';
+    		document.getElementById("collapse").style.paddingLeft = '0px';
+    		document.getElementById("collapse-arrow").className = "fa fa-chevron-left";
+    		collapsed = false;
+    	}
+    	
+    }
+	//initialize map
+	var map = L.map('map', {center: [45.56, -119.75], zoom: 7, zoomControl:false});
+	///////////////////////make zoom level correspond to browser size////////////////////////////////
+	window.addEventListener('load', function(event){
+    	var width = document.documentElement.clientWidth;
+    	if (width < 1500 && width > 800) {
+        	map.setView(new L.LatLng(45.56, -121.75), 6); 
+    		}  else if (width > 1501) {
+        	map.setZoom(7);
+        	} else {
+        	map.setZoom(5);
+        	}
+	});
+	////////////////////////////////add tiled basemap////////////////////////////////
+    
+	var Esri_WorldTerrain = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer/tile/{z}/{y}/{x}', {
+		attribution: 'Tiles &copy; Esri &mdash; Source: USGS, Esri, TANA, DeLorme, and NPS',
+		maxZoom:11,
+		minZoom:4,
+		opacity:1
+	}).addTo(map);
+	
+	var pnwCover = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
+		layers: 'baldricg_PNW_ATLAS:pnw_outline2_black',
+        format: 'image/png',
+		maxZoom:11,
+		minZoom:4,
+		opacity:0.9,
+		transparent:true,
+	}).addTo(map);
+	
+	var pnwDemographics = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
+		layers: 'baldricg_PNW_ATLAS:pnw_demographics',
+        format: 'image/png',
+		maxZoom:11,
+		minZoom:4,
+		opacity:0.7,
+		transparent:true,
+	}).addTo(map);
+	
+	 var pnwAge = L.tileLayer('med_age_tiles/{z}/{x}/{y}.png', {
+        maxZoom:11,
+		minZoom:4,
+		opacity:0.7,
+        tms: false,
+        transparent:true,
+      });
+	
+	var label = L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_only_labels/{z}/{x}/{y}@2x.png', {
+		attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
+		subdomains: 'abcd',
+		maxZoom:11,
+		minZoom:4,
+		tileSize:256,
+		bounds:[
+			new L.LatLng(49.56,-125.25),
+			new L.LatLng(40.5,-111.5)
+		],
+		pane:'labels'
+	});	
+	
+	
+	map.createPane('labels');
+	map.getPane('labels').style.pointerEvents = 'none';
+	map.getPane('labels').style.zIndex = 700;
+	label.addTo(map);
+	
+	map.createPane('tooltip');
+	map.getPane('tooltip').style.zIndex = 750;
+	//changes depending on which data type is selected, initial value is for County Employment
+	var data = 0;
+	
+
+    ///////////////////////////////////////////////////////////////////////////////////////	
+   /* var info = L.control();
+
+	info.onAdd = function (map) {
+    	this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
+    	this.update();
+    	return this._div;
+	};
+	
+	info.update = function (feature) {
+	//detects whether or not a value is null
+		function nullFinder() {
+			if (dataType(feature) == null)
+				{return 'N/A';}
+			else if (isNaN(dataType(feature)) == true)
+				{return 0.00;}
+			else {return dataType(feature);}
+		}
+	//determines which icon to display next to the name
+		function whichImage() {
+			return data == 0 ? '<img src="img/totalEmp.png" id="image3" style="display:inline-block; width:30px; height:30px; position:relative; left:15px; top:10px;"><br/>':
+    		 	data == 1 ? '<img src="img/spend.png" id="image3" style="display:inline-block; width:30px; height:30px; position:relative; left:15px; top:10px;"><br/>':
+    		 	data == 2 ? '<img src="img/wages.png" id="image3" style="display:inline-block; width:30px; height:30px; position:relative; left:15px; top:10px;"><br/>':
+    		 	data == 3 ? '<img src="img/tax.png" id="image3" style="display:inline-block; width:30px; height:30px; position:relative; left:15px; top:10px;"><br/>':
+    		 	data == 4 ? '<img src="img/totalLocalEmp.png" id="image3" style="display:inline-block; width:30px; height:30px; position:relative; left:15px; top:10px;"><br/>':
+    		 	data == 5 ? '<img src="img/localEmp.png" id="image3" style="display:inline-block; width:30px; height:30px; position:relative; left:15px; top:10px;"><br/>':
+    		 	data == 6 ? '<img src="img/wages.png" id="image3" style="display:inline-block; width:30px; height:30px; position:relative; left:15px; top:10px;"><br/>':
+    		 		'<img src="img/tree.png" id="image3" style="display:inline-block; width:30px; height:30px; position:relative; left:15px; top:10px;"><br/>';
+    		}
+    //actual info display information
+   		this._div.innerHTML = (feature ?
+       		'<b>' + feature.properties.NAME + ' County</b><br/><b id="displayType" style="display:inline;">' + nullFinder() + '&nbspMgal/day</b><br/>'
+        		: '<b>Hover over map</b>');
+		};
+
+	info.addTo(map);
+	*/
+    ///////////////////////////////////////////////////////////////////////////////////////	
+    
+    ////////////////////////////////initial geoJSON styling////////////////////////////////
+	function demographicsStyle(feature){
+		return{
+			opacity:0,
+			color:'#ffffff',
+			fillOpacity: 0,
+			fillColor:'#ffffff',
+			weight:0.5
+			};
+		}
+	function highlight(e){
+		 var layer = e.target;
+		 layer.setStyle({
+        	fillOpacity: 0.25,
+        	color:'#ffffff',
+        	fillColor:'#f2f2f2',
+        	opacity:1
+    	 });
+    	 if (data == 0){
+    	 	chart.data.datasets[0].data[0] = layer.feature.properties.white;
+		 	chart.data.datasets[0].data[1] = layer.feature.properties.black;
+		 	chart.data.datasets[0].data[2] = layer.feature.properties.asian;
+		 	chart.data.datasets[0].data[3] = layer.feature.properties.hisp_latin;
+		 	chart.data.datasets[0].data[4] = layer.feature.properties.ind_island;
+			chart.data.datasets[0].data[5] = layer.feature.properties.other_two;
+		 	chart.update();
+    	 }
+    	 else{
+			document.getElementById('title').innerHTML = "Median Age: " + layer.feature.properties.med_age;
+			chart2.data.datasets[0].data[17] = layer.feature.properties.aunder5;
+		 	chart2.data.datasets[0].data[16] = layer.feature.properties.a5_9;
+		 	chart2.data.datasets[0].data[15] = layer.feature.properties.a10_14;
+		 	chart2.data.datasets[0].data[14] = layer.feature.properties.a15_19;
+		 	chart2.data.datasets[0].data[13] = layer.feature.properties.a20_24;
+			chart2.data.datasets[0].data[12] = layer.feature.properties.a25_29;
+			chart2.data.datasets[0].data[11] = layer.feature.properties.a30_34;
+		 	chart2.data.datasets[0].data[10] = layer.feature.properties.a35_39;
+		 	chart2.data.datasets[0].data[9] = layer.feature.properties.a40_44;
+		 	chart2.data.datasets[0].data[8] = layer.feature.properties.a45_49;
+		 	chart2.data.datasets[0].data[7] = layer.feature.properties.a50_54;
+			chart2.data.datasets[0].data[6] = layer.feature.properties.a55_59;
+			chart2.data.datasets[0].data[5] = layer.feature.properties.a60_64;
+		 	chart2.data.datasets[0].data[4] = layer.feature.properties.a65_69;
+		 	chart2.data.datasets[0].data[3] = layer.feature.properties.a70_74;
+		 	chart2.data.datasets[0].data[2] = layer.feature.properties.a75_79;
+		 	chart2.data.datasets[0].data[1] = layer.feature.properties.a80_84;
+			chart2.data.datasets[0].data[0] = layer.feature.properties.a85over;
+		 	chart2.update();
+    	 }
+    	 layer.bringToFront();
+    }
+    
+    function resetHighlight(e){
+    	demographics.resetStyle(e.target);
+    }
+     
+    var	demographics = $.getJSON("assets/block_group_demographics2.geojson", function(data){
+        	demographics = L.geoJson(data, {
+        		style:demographicsStyle,
+        		onEachFeature: function(feature, featureLayer) {
+        			featureLayer.on({
+        				mouseover: highlight,
+        				mouseout: resetHighlight
+   					});
+        		}
+        	}).addTo(map);
+    	});
+    
+    
+    var ctx = document.getElementById("chartContainer").getContext('2d');
+	
+	var options =  {
+    	type: 'pie',
+    		data: {
+        		labels: ["White","Black","Asian","Latino/Hisp.","Indigenous","Other"],
+        		datasets: [{
+            		data: [50,50,50,50,50,50],
+           			backgroundColor: [
+                		'#80b1d3',
+                		'#9fdf9f',
+                		'#bebada',
+                		'#fb8072',
+                		'#ffffb3',
+                		'#fdb462'
+            		],
+            		borderColor: [
+                		'#404040',
+                		'#404040',
+                		'#404040',
+                		'#404040',
+                		'#404040',
+                		'#404040'
+            		],
+            	borderWidth: 0
+        	}]
+    	},
+    	options: {
+       		responsive: true,
+       		legend: {
+       			position: 'left',
+       			labels: {
+       				fontColor:'#000000'
+       			}
+       		},
+       		pieceLabel: {
+    			render: 'value',
+    			fontColor:'#000000'
+  			},
+       		tooltips:{
+       			enabled:false
+       		}
+    	}
+	}
+	
+	var chart = new Chart(ctx, options);
+		
+	var ctx2 = document.getElementById("chartContainer2").getContext('2d');
+	
+	var ageOptions =  {
+    	type: 'horizontalBar',
+    		data: {
+        		labels: ["85+","80-84","75-79","70-74","65-69","60-64","55-59","50-54","45-49","40-44","35-39","30-34","25-29","20-24","14-19","10-14","5-9","Under 5"],
+        		datasets: [{
+            		data: [50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50],
+           			backgroundColor: [
+                		'#261a32',
+                		'#332343',
+                		'#402c54',
+                		'#4d3564',
+                		'#593e75',
+                		'#664686',
+                		'#734f96',
+                		'#8058a7',
+                		'#8c69b0',
+                		'#9979b9',
+                		'#a68ac1',
+                		'#b39bca',
+                		'#bfabd3',
+                		'#ccbcdc',
+                		'#d9cde5',
+                		'#e6deed',
+                		'#f2eef6',
+                		'#fcfbfd'
+            		],
+            		borderColor: [
+                		'#1a1a1a',
+                		'#1a1a1a',
+                		'#1a1a1a',
+                		'#1a1a1a',
+                		'#1a1a1a',
+                		'#1a1a1a',
+                		'#1a1a1a',
+                		'#1a1a1a',
+                		'#1a1a1a',
+                		'#1a1a1a',
+                		'#1a1a1a',
+                		'#1a1a1a',
+                		'#1a1a1a',
+                		'#1a1a1a',
+                		'#1a1a1a',
+                		'#1a1a1a',
+                		'#1a1a1a',
+                		'#1a1a1a'
+            		],
+            	borderWidth: 0.25
+        	}]
+    	},
+    	options: {
+       		responsive: true,
+       		scales: {
+       			yAxes: [{
+       				ticks: {
+       					fontSize:10
+       				}
+       			}]
+       		},
+       		legend: {
+       			display:false,
+       		},
+       		tooltips:{
+       			enabled:false
+       		}
+    	}
+	}
+	
+	var chart2 = new Chart(ctx2, ageOptions);
+	
+	function race(){
+		map.removeLayer(pnwAge);
+		map.addLayer(pnwDemographics);
+		data = 0;
+	    /*chart.data.labels[0] = "White";
+	    chart.data.labels[1] = "Black";
+    	chart.data.labels[2] = "Asian";
+    	chart.data.labels[3] = "Latino/Hisp.";
+    	chart.data.labels[4] = "Indigenous";
+    	chart.data.labels[5] = "Other";
+		chart.data.datasets[0].backgroundColor[0] = '#80b1d3';
+		chart.data.datasets[0].backgroundColor[1] = '#9fdf9f';
+		chart.data.datasets[0].backgroundColor[2] = '#bebada';
+		chart.data.datasets[0].backgroundColor[3] = '#fb8072';
+		chart.data.datasets[0].backgroundColor[4] = '#ffffb3';
+		chart.data.datasets[0].backgroundColor[5] = '#fdb462';
+		chart.data.datasets[0].data[0] = 50;
+		chart.data.datasets[0].data[1] = 50;
+		chart.data.datasets[0].data[2] = 50;
+		chart.data.datasets[0].data[3] = 50;
+		chart.data.datasets[0].data[4] = 50;
+	 	chart.data.datasets[0].data[5] = 50;*/
+	 	//chart.update();
+	 	//chart = new Chart(ctx, options);
+	 	document.getElementById('chartContainer').style.display = 'unset';
+		document.getElementById('chartContainer2').style.display = 'none';
+		document.getElementById('dataType').innerHTML = 'Race';
+		document.getElementById('legend').style.display = 'none';
+		document.getElementById('description').innerHTML = "Map colored based on a composite of racial population percentages. More intense colors suggest a greater percentage of a single race, which browns and grays suggest racial diversity.";
+		document.getElementById('description2').innerHTML = "Population of each racial group within one census block group.";
+		document.getElementById('but1').style.background = "rgba(242, 242, 242, 1)";
+		document.getElementById('but2').style.background = "rgba(242, 242, 242, 0.2)";
+	}
+	function age(){
+		map.removeLayer(pnwDemographics);
+		map.addLayer(pnwAge);
+		data = 1;
+		/*chart.data.labels[0] = "Under 5";
+    	chart.data.labels[1] = "5 - 17";
+    	chart.data.labels[2] = "18 - 24";
+    	chart.data.labels[3] = "25 - 39";
+    	chart.data.labels[4] = "40 - 59";
+    	chart.data.labels[5] = "60+";
+		chart.data.datasets[0].backgroundColor[0] = '#4575b4';
+		chart.data.datasets[0].backgroundColor[1] = '#91bfdb';
+		chart.data.datasets[0].backgroundColor[2] = '#e0f3f8';
+		chart.data.datasets[0].backgroundColor[3] = '#fee090';
+		chart.data.datasets[0].backgroundColor[4] = '#fc8d59';
+		chart.data.datasets[0].backgroundColor[5] = '#d73027';
+		chart.data.datasets[0].data[0] = 50;
+		chart.data.datasets[0].data[1] = 50;
+		chart.data.datasets[0].data[2] = 50;
+		chart.data.datasets[0].data[3] = 50;
+		chart.data.datasets[0].data[4] = 50;
+	 	chart.data.datasets[0].data[5] = 50;*/
+		//chart.update();
+		//chart = new Chart(ctx, ageOptions);
+		document.getElementById('chartContainer2').style.display = 'unset';
+		document.getElementById('chartContainer').style.display = 'none';
+		document.getElementById('legend').style.display = 'unset';
+		document.getElementById('dataType').innerHTML = 'Age';
+		document.getElementById('description').innerHTML = "";
+		document.getElementById('description2').innerHTML = "Population of each age group within a census block group.";
+		document.getElementById('but1').style.background = "rgba(242, 242, 242, 0.2)";
+		document.getElementById('but2').style.background = "rgba(242, 242, 242, 1)";
+	}
+	
+	///////////////////////////////add outline layers////////////////////////////////
+	function pnwStatesStyle(){
+	return{
+		opacity: 1,
+		color:'#ffffff',
+		fillOpacity:0,
+		weight:1
+		};
+	}
+     var pnwStates = $.getJSON("assets/pnw_states.geojson", function(data){
+        pnwStates = L.geoJson(data, {
+        	style:pnwStatesStyle,
+        	interactive: false
+        }).addTo(map);
+    });
+    
+     var pnwCounties = $.getJSON("assets/counties2.geojson", function(data){
+        pnwCounties = L.geoJson(data, {
+        	style: function pnwCountiesStyle(){
+				return{
+					opacity: 0.5,
+					fillOpacity:0,
+					color:'#ffffff',
+					weight:0.25
+				};
+			},
+			interactive: false
+        }).addTo(map);
+    });
+	//////////////////////////////////////////////////////////////////////////////
+
+   	//add zoom control
+    new L.Control.Zoom({ position: 'topright' }).addTo(map);
+    
+    //remove leaflet attribution
+	document.getElementsByClassName("leaflet-control-attribution")[0].style.visibility = "hidden";
+	
+	//add scrolling capabilities to text box
+     var container = document.getElementById('attribution');
+		Ps.initialize(container);
+	
+	//update text box to be correct size
+	var minHeight = 50; // Define a minimum height for the middle div
+
+	function resizeMiddle() {
+    var h = $('body').height() - $('#top').height() - 95;
+    		h = h > minHeight ? h : minHeight;
+   	 	$('#attribution').height(h);
+	}
+
+	$(document).ready(resizeMiddle);
+	$(window).resize(resizeMiddle);
+	
+    //remove standard leaflet attribution
+    
+
+</script>
+</body>
+</html>

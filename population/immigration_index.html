@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+     <title>International Migration</title>
+    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.2/dist/leaflet.css" /> 
+    <link rel="stylesheet" href="css/immigration_style.css" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Maven+Pro" rel="stylesheet">
+    <link rel="stylesheet" href="css/perfect-scrollbar.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
+    <link rel="shortcut icon" href="img/pnw.ico" type="image/x-icon">
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="https://unpkg.com/leaflet@1.0.2/dist/leaflet.js"></script>
+    <!--<script src="http://rawgit.com/geodesign/spatialsankey/master/spatialsankey.js"></script>-->
+     <script src="https://unpkg.com/leaflet.vectorgrid@latest/dist/Leaflet.VectorGrid.bundled.js"></script>
+    <script src="js/perfect-scrollbar.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tween.js/17.1.1/Tween.min.js"></script>
+    <script src="js/CanvasFlowmapLayer.js"></script>
+    <script src="https://unpkg.com/papaparse@4.3.6/papaparse.min.js"></script>
+    
+   
+</head>
+<body>
+	<button id="collapse" onclick="collapse()">
+		<i class="fa fa-chevron-left" id ="collapse-arrow" aria-hidden="true"></i>
+	</button>
+    <div id="infoPanel">
+			<div id="top">
+			<h1>International Migration</h1>
+			<img src="img/migration_icon.png" id="image2" style="display:inline-block;">
+			<div id="buttons">
+				<div class="dropdown">
+  					<button class="dropbtn"><b id="reg">Select Region</b><p id="arrow">&#9660;</p></button>
+  					<div class="dropdown-content">
+   						 <button type="button" id="but1" onclick="n_europe()" class="species" style="background:rgba(242, 242, 242, 0.8);">N Europe</button>
+						 <button type="button" id="but2" onclick="w_europe()" class="species">W Europe</button>
+						 <button type="button" id="but3" onclick="s_europe()" class="species">S Europe</button>
+						 <button type="button" id="but4" onclick="e_europe()" class="species">E Europe</button>
+						 <button type="button" id="but5" onclick="e_asia()" class="species">E Asia</button>
+						 <button type="button" id="but6" onclick="w_asia()" class="species">W Asia</button>
+						 <button type="button" id="but7" onclick="se_asia()" class="species">SE Asia</button>
+						 <button type="button" id="but8" onclick="s_asia()" class="species">S Asia</button>
+						 <button type="button" id="but9" onclick="e_africa()" class="species">E Africa</button>
+						 <button type="button" id="but10" onclick="c_africa()" class="species">C Africa</button>
+						 <button type="button" id="but11" onclick="n_africa()" class="species">N Africa</button>
+						 <button type="button" id="but12" onclick="s_africa()" class="species">S Africa</button>
+						 <button type="button" id="but13" onclick="w_africa()" class="species">W Africa</button>
+						 <button type="button" id="but14" onclick="aust()" class="species">Aust/NZ</button>
+						 <button type="button" id="but15" onclick="oceania()" class="species">Oceania</button>
+						 <button type="button" id="but16" onclick="carib()" class="species">Caribbean</button>
+						 <button type="button" id="but17" onclick="c_america()" class="species">C America</button>
+						 <button type="button" id="but18" onclick="s_america()" class="species">S America</button>
+						 <button type="button" id="but19" onclick="canada()" class="species">Canada</button>
+ 				   </div>
+				</div>
+			</div>
+			<br/>
+			<h2 id="title" style="display:block; width:280px; white-space:normal;">% Residents Born in Northern Europe</h2><img src="img/region_icons/north_europe.png" id="image" style="display:inline-block; float:right;">
+			<div><b id="leg1_block" style="background:#045a8d; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p>&nbsp</p><p id="leg1" style="margin-left:15px;">0.55+</p><br/></div>
+			<div><b id="leg2_block" style="background:#2b8cbe; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2" style="margin-left:15px;">0.4 to 0.55</p><br/></div>
+			<div><b id="leg3_block" style="background:#74a9cf; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg3" style="margin-left:15px;">0.25 to 0.4</p><br/></div>
+			<div><b id="leg4_block" style="background:#bdc9e1; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg4" style="margin-left:15px;">0.1 to 0.25</p><br/></div>
+			<div><b id="leg5_block" style="background:#f1eef6; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p>&nbsp</p><p id="leg5" style="margin-left:15px;">Less than 0.1</p><br/></div>
+			<p id="description" style="font-weight:bold; text-align:justify; white-space:normal; padding-left:0px; width:280px; display:block; position:relative;font-size:14px; padding-top:20px;">Residents born in Northern Europe as a percentage of total population</p>
+			</div>
+			<div id="attribution">
+				<div id="text" style="margin-top:10px;">
+					<p3 id ="information">The foreign-born population includes anyone who is not a U.S. citizen at birth. This includes those who have become U.S. citizens through naturalization. Everyone else constitutes the native-born population, composed of anyone who is a U.S. citizen at birth, including people born in the United States, in Puerto Rico, in a U.S. Island Area (American Samoa, Guam, the Commonwealth of the Northern Mariana Islands, and the U.S. Virgin Islands), or abroad to a U.S. citizen parent or parents.</p3>
+				</div>
+			</div>
+			<div id="pageChange">
+				<a href="water_use_index.html" id="arrow" style="display:inline-block;">
+					<i class="fa fa-arrow-left" aria-hidden="true" style=""></i>
+				</a>
+				<a href="water_source_index.html" id="arrow" style="display:inline-block;" target="_blank">
+					<i class="fa fa-info-circle" aria-hidden="true" style="padding-left:83px;"></i>
+				</a>
+				<a href="water_index.html" id="arrow" style="display:inline-block;" target="_blank">
+					<i class="fa fa-home" aria-hidden="true" style="padding-left:0;"></i>
+				</a>
+				<a href="watershed_index.html" id="arrow" style="display:inline-block;">
+					<i class="fa fa-arrow-right" aria-hidden="true" style="padding-left:82px;"></i>
+				</a>
+			</div>
+		</div>
+   <div id="map" style="width: 100%; height: 100%;"></div>
+<script>
+    var collapsed = false;
+    function collapse(){
+    	if (collapsed == false){
+    		document.getElementById("infoPanel").style.transition = "display 2s";
+    		document.getElementById("infoPanel").style.display = "none";
+    		document.getElementById("collapse").style.left = '0px';
+    		document.getElementById("collapse").style.paddingLeft = '2px';
+    		document.getElementById("collapse-arrow").className = "fa fa-chevron-right";
+    		collapsed = true;
+    	} else{
+    		document.getElementById("infoPanel").style.display = "unset";
+    		document.getElementById("collapse").style.left = '320px';
+    		document.getElementById("collapse").style.paddingLeft = '0px';
+    		document.getElementById("collapse-arrow").className = "fa fa-chevron-left";
+    		collapsed = false;
+    	}
+    	
+    }
+    
+	var map = L.map('map', {zoomControl:false}).setView([45.56, -119.75],7);
+	///////////////////////make zoom level correspond to browser size////////////////////////////////
+	window.addEventListener('load', function(event){
+    	var width = document.documentElement.clientWidth;
+    	if (width < 1500 && width > 800) {
+        	map.setView(new L.LatLng(45.56, -121.75), 6); 
+    		}  else if (width > 1501) {
+        	map.setZoom(7);
+        	} else {
+        	map.setZoom(5);
+        	}
+	});
+
+	////////////////////////////////add tiled basemap////////////////////////////////
+    
+	var Esri_WorldTerrain = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer/tile/{z}/{y}/{x}', {
+		attribution: 'Tiles &copy; Esri &mdash; Source: USGS, Esri, TANA, DeLorme, and NPS',
+		maxZoom:10,
+		minZoom:4,
+		opacity:1
+	}).addTo(map);
+	
+	var pnwCover = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
+		layers: 'baldricg_PNW_ATLAS:pnw_outline2_black',
+        format: 'image/png',
+		maxZoom:11,
+		minZoom:5,
+		opacity:0.3,
+		transparent:true,
+	}).addTo(map);
+	
+	var label = L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_only_labels/{z}/{x}/{y}@2x.png', {
+		attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
+		subdomains: 'abcd',
+		maxZoom:10,
+		minZoom:5,
+		tileSize:256,
+		bounds:[
+			new L.LatLng(49.56,-125.25),
+			new L.LatLng(40.5,-111.5)
+		],
+		pane:'labels'
+	});	
+	
+	
+	map.createPane('labels');
+	map.getPane('labels').style.pointerEvents = 'none';
+	map.getPane('labels').style.zIndex = 700;
+	label.addTo(map);
+	//labelMask.addTo(map);
+
+	
+	 var info = L.control();
+
+	info.onAdd = function (map) {
+    	this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
+    	this.update();
+    	return this._div;
+	};
+	
+	info.update = function (feature) {
+		function nullFinder(prop) {
+			if (prop == null)
+				{return 0;}
+			else if (isNaN(prop) == true)
+				{return 0;}
+			else {return prop;}
+		}
+		function whichPopData(){
+			return data == 0 ? nullFinder(feature.n_euro):
+				data == 1 ? nullFinder(feature.w_euro):
+				data == 2 ? nullFinder(feature.s_euro):
+				data == 3 ? nullFinder(feature.e_euro):
+				data == 4 ? nullFinder(feature.e_asia):
+				data == 5 ? nullFinder(feature.w_asia):
+				data == 6 ? nullFinder(feature.se_asia):
+				data == 7 ? nullFinder(feature.sc_asia):
+				data == 8 ? nullFinder(feature.e_africa):
+				data == 9 ? nullFinder(feature.m_africa):
+				data == 10 ? nullFinder(feature.n_africa):
+				data == 11 ? nullFinder(feature.s_africa):
+				data == 12 ? nullFinder(feature.w_africa):
+				data == 13 ? nullFinder(feature.aust_nz):
+				data == 14 ? nullFinder(feature.oceania):
+				data == 15 ? nullFinder(feature.caribbean):
+				data == 16 ? nullFinder(feature.c_america):
+				data == 17 ? nullFinder(feature.s_america):
+				data == 18 ? nullFinder(feature.canada):
+					feature.n_euro;
+		}
+		function whichData(){
+			return data == 0 ? nullFinder(((feature.n_euro/feature.population)*100).toFixed(2)):
+				data == 1 ? nullFinder(((feature.w_euro/feature.population)*100).toFixed(2)):
+				data == 2 ? nullFinder(((feature.s_euro/feature.population)*100).toFixed(2)):
+				data == 3 ? nullFinder(((feature.e_euro/feature.population)*100).toFixed(2)):
+				data == 4 ? nullFinder(((feature.e_asia/feature.population)*100).toFixed(2)):
+				data == 5 ? nullFinder(((feature.w_asia/feature.population)*100).toFixed(2)):
+				data == 6 ? nullFinder(((feature.se_asia/feature.population)*100).toFixed(2)):
+				data == 7 ? nullFinder(((feature.sc_asia/feature.population)*100).toFixed(2)):
+				data == 8 ? nullFinder(((feature.e_africa/feature.population)*100).toFixed(2)):
+				data == 9 ? nullFinder(((feature.m_africa/feature.population)*100).toFixed(2)):
+				data == 10 ? nullFinder(((feature.n_africa/feature.population)*100).toFixed(2)):
+				data == 11 ? nullFinder(((feature.s_africa/feature.population)*100).toFixed(2)):
+				data == 12 ? nullFinder(((feature.w_africa/feature.population)*100).toFixed(2)):
+				data == 13 ? nullFinder(((feature.aust_nz/feature.population)*100).toFixed(2)):
+				data == 14 ? nullFinder(((feature.oceania/feature.population)*100).toFixed(2)):
+				data == 15 ? nullFinder(((feature.caribbean/feature.population)*100).toFixed(2)):
+				data == 16 ? nullFinder(((feature.c_america/feature.population)*100).toFixed(2)):
+				data == 17 ? nullFinder(((feature.s_america/feature.population)*100).toFixed(2)):
+				data == 18 ? nullFinder(((feature.canada/feature.population)*100).toFixed(2)):
+					feature.n_euro;
+		}
+		function whichRegion(){
+			return data == 0 ? 'Northern European':
+				data == 1 ? 'Western European':
+				data == 2 ? 'Southern European':
+				data == 3 ? 'Eastern European':
+				data == 4 ? 'East Asian':
+				data == 5 ? 'West Asian':
+				data == 6 ? 'Southeast Asian':
+				data == 7 ? 'South Asian':
+				data == 8 ? 'East African':
+				data == 9 ? 'Central African':
+				data == 10 ? 'North African':
+				data == 11 ? 'South African':
+				data == 12 ? 'West African':
+				data == 13 ? 'Australia/New Zealand':
+				data == 14 ? 'Oceanian':
+				data == 15 ? 'Caribbean':
+				data == 16 ? 'Central American':
+				data == 17 ? 'South American':
+				data == 18 ? 'Canadian':
+					'Northern Europen';
+
+		}
+			this._div.innerHTML = (feature ?
+        		'<h3 style="margin:0; display:inline-block;">'+ feature.NAME +'</h3><br/>' + '<p style="display:inline;">Total Pop.: </p><p style="display:inline; font-weight:bold;">' + feature.population + '</p><br/><p style="display:inline;">' + whichRegion() + ' Pop.: </p><p style="font-weight:bold; display:inline;">' + whichPopData() +'</p><br/><p style="display:inline; font-weight:bold;">' + whichData() + '%</p>'
+       			:'<p style="display:inline; font-weight:bold;">Hover over Map for Details</p>');
+	};
+
+	info.addTo(map);
+	
+    
+    var colors = ['#f1eef6','#bdc9e1','#74a9cf','#2b8cbe','#045a8d'];
+    var dataValues = [0.1,0.25,0.4,0.55];
+    data=0;
+      
+    function setColor(value){
+    	return value > dataValues[3] ? colors[4]:
+    		value > dataValues[2] ? colors[3]:
+    		value > dataValues[1] ? colors[2]:
+    		value > dataValues[0] ? colors[1]:
+    			colors[0];
+    } 
+    
+    function style(feature){
+		function whichData(){
+			return data == 0 ? (feature.properties.n_euro/feature.properties.population)*100:
+				data == 1 ? (feature.properties.w_euro/feature.properties.population)*100:
+				data == 2 ? (feature.properties.s_euro/feature.properties.population)*100:
+				data == 3 ? (feature.properties.e_euro/feature.properties.population)*100:
+				data == 4 ? (feature.properties.e_asia/feature.properties.population)*100:
+				data == 5 ? (feature.properties.w_asia/feature.properties.population)*100:
+				data == 6 ? (feature.properties.se_asia/feature.properties.population)*100:
+				data == 7 ? (feature.properties.sc_asia/feature.properties.population)*100:
+				data == 8 ? (feature.properties.e_africa/feature.properties.population)*100:
+				data == 9 ? (feature.properties.m_africa/feature.properties.population)*100:
+				data == 10 ? (feature.properties.n_africa/feature.properties.population)*100:
+				data == 11 ? (feature.properties.s_africa/feature.properties.population)*100:
+				data == 12 ? (feature.properties.w_africa/feature.properties.population)*100:
+				data == 13 ? (feature.properties.aust_nz/feature.properties.population)*100:
+				data == 14 ? (feature.properties.oceania/feature.properties.population)*100:
+				data == 15 ? (feature.properties.caribbean/feature.properties.population)*100:
+				data == 16 ? (feature.properties.c_america/feature.properties.population)*100:
+				data == 17 ? (feature.properties.s_america/feature.properties.population)*100:
+				data == 18 ? (feature.properties.canada/feature.properties.population)*100:
+					feature.properties.n_euro;
+		}	
+		return{
+			radius: 4,
+        	weight: 0.35,
+        	opacity:0.8,
+        	color: '#b3b3b3',
+        	fillColor: setColor(whichData()),
+        	fillOpacity: 0.7
+			};
+		}
+	 function highlight(e) {
+		 var layer = e.target;
+		 layer.setStyle({
+        	fillOpacity: 1,
+        	color:'#ffffff',
+        	opacity:1
+        	
+    	 });
+    	info.update(layer.feature.properties);
+    	layer.bringToFront();
+    }
+    
+    function resetHighlight(e) {
+		counties.resetStyle(e.target);
+		info.update();
+	}
+	
+	var counties;
+	
+	function addCounties(){
+    		counties = $.getJSON("assets/counties_foreign_born.geojson", function(data){
+        	counties = L.geoJson(data, {
+        		style:style,
+        		onEachFeature: function(feature, featureLayer) {
+        					featureLayer.on({
+        						mouseover: highlight,
+        						mouseout: resetHighlight
+   							});
+   						//featureLayer.bindPopup('<b>'+ dataType(feature) +'&nbspMgal/day</b>', {className: 'label_tooltip'});
+        			}
+        	}).addTo(map);
+    	});
+	}
+	addCounties();
+	
+  	var buttonSelect = 'but1';
+  
+	function n_europe(){
+		map.removeLayer(counties);
+		document.getElementById(buttonSelect).style.background = "rgba(242, 242, 242, 0.2)";
+		buttonSelect = 'but1';
+		document.getElementById(buttonSelect).style.background = "rgba(242, 242, 242, 1)";
+		data = 0;
+		colors = ['#f1eef6','#bdc9e1','#74a9cf','#2b8cbe','#045a8d'];
+    	dataValues = [0.1,0.25,0.4,0.55];
+    	document.getElementById('title').innerHTML = "% Residents Born in Northern Europe";
+    	document.getElementById('description').innerHTML = "Residents born in Northern Europe as a percentage of total population";
+    	document.getElementById("image").src = "img/region_icons/north_europe.png";
+    	document.getElementById('reg').innerHTML = "Northern Europe";
+		addCounties();
+		legend();
+	}
+	function w_europe(){
+		map.removeLayer(counties);
+		document.getElementById(buttonSelect).style.background = "rgba(242, 242, 242, 0.2)";
+		buttonSelect = 'but2';
+		document.getElementById(buttonSelect).style.background = "rgba(242, 242, 242, 1)";
+		data = 1;
+		colors = ['#f2f0f7','#cbc9e2','#9e9ac8','#756bb1','#54278f'];
+    	dataValues = [0.1,0.25,0.4,0.55];
+    	document.getElementById('title').innerHTML = "% Residents Born in Western Europe";
+    	document.getElementById('description').innerHTML = "Residents born in Western Europe as a percentage of total population";
+		document.getElementById("image").src = "img/region_icons/west_europe.png";
+		document.getElementById('reg').innerHTML = "Eastern Europe";
+		addCounties();
+		legend();
+	}
+	function s_europe(){
+		map.removeLayer(counties);
+		document.getElementById(buttonSelect).style.background = "rgba(242, 242, 242, 0.2)";
+		buttonSelect = 'but3';
+		document.getElementById(buttonSelect).style.background = "rgba(242, 242, 242, 1)";
+		data = 2;
+		colors = ['#edf8e9','#bae4b3','#74c476','#31a354','#006d2c'];
+    	dataValues = [0.01,0.05,0.1,0.2];
+    	document.getElementById('title').innerHTML = "% Residents Born in Southern Europe";
+    	document.getElementById('description').innerHTML = "Residents born in Southern Europe as a percentage of total population";
+		document.getElementById("image").src = "img/region_icons/south_europe.png";
+		document.getElementById('reg').innerHTML = "Southern Europe";
+		addCounties();
+		legend();
+	}
+	function e_europe(){
+		map.removeLayer(counties);
+		document.getElementById(buttonSelect).style.background = "rgba(242, 242, 242, 0.2)";
+		buttonSelect = 'but4';
+		document.getElementById(buttonSelect).style.background = "rgba(242, 242, 242, 1)";
+		data = 3;
+		colors = ['#fee5d9','#fcae91','#fb6a4a','#de2d26','#a50f15'];
+    	dataValues = [0.1,0.25,0.5,1];
+    	document.getElementById('title').innerHTML = "% Residents Born in Eastern Europe";
+    	document.getElementById('description').innerHTML = "Residents born in Eastern Europe as a percentage of total population";
+    	document.getElementById("image").src = "img/region_icons/east_europe.png";
+    	document.getElementById('reg').innerHTML = "Eastern Europe";
+		addCounties();
+		legend();
+	}
+	function e_asia(){
+		map.removeLayer(counties);
+		document.getElementById(buttonSelect).style.background = "rgba(242, 242, 242, 0.2)";
+		buttonSelect = 'but5';
+		document.getElementById(buttonSelect).style.background = "rgba(242, 242, 242, 1)";
+		data = 4;
+		colors = ['#f2f0f7','#cbc9e2','#9e9ac8','#756bb1','#54278f'];
+    	dataValues = [0.2,0.5,1,2];
+    	document.getElementById('title').innerHTML = "% Residents Born in East Asia";
+    	document.getElementById('description').innerHTML = "Residents born in East Asia as a percentage of total population";
+    	document.getElementById("image").src = "img/region_icons/east_asia.png";
+    	document.getElementById('reg').innerHTML = "East Asia";
+		addCounties();
+		legend();
+	}
+	function w_asia(){
+		map.removeLayer(counties);
+		document.getElementById(buttonSelect).style.background = "rgba(242, 242, 242, 0.2)";
+		buttonSelect = 'but6';
+		document.getElementById(buttonSelect).style.background = "rgba(242, 242, 242, 1)";
+		data = 5;
+		colors = ['#f1eef6','#bdc9e1','#74a9cf','#2b8cbe','#045a8d'];
+    	dataValues = [0.01,0.1,0.2,0.5];
+    	document.getElementById('title').innerHTML = "% Residents Born in West Asia";
+    	document.getElementById('description').innerHTML = "Residents born in West Asia as a percentage of total population";
+    	document.getElementById("image").src = "img/region_icons/west_asia.png";
+    	document.getElementById('reg').innerHTML = "West Asia";
+		addCounties();
+		legend();
+	}
+	function se_asia(){
+		map.removeLayer(counties);
+		document.getElementById(buttonSelect).style.background = "rgba(242, 242, 242, 0.2)";
+		buttonSelect = 'but7';
+		document.getElementById(buttonSelect).style.background = "rgba(242, 242, 242, 1)";
+		data = 6;
+		colors = ['#edf8e9','#bae4b3','#74c476','#31a354','#006d2c'];
+    	dataValues = [0.2,0.5,1,2.5];
+    	document.getElementById('title').innerHTML = "% Residents Born in Southeast Asia";
+    	document.getElementById('description').innerHTML = "Residents born in Southeast Asia as a percentage of total population";
+    	document.getElementById("image").src = "img/region_icons/southeast_asia.png";
+    	document.getElementById('reg').innerHTML = "Southeast Asia";
+		addCounties();
+		legend();
+	}
+	function s_asia(){
+		map.removeLayer(counties);
+		document.getElementById(buttonSelect).style.background = "rgba(242, 242, 242, 0.2)";
+		buttonSelect = 'but8';
+		document.getElementById(buttonSelect).style.background = "rgba(242, 242, 242, 1)";
+		data = 7;
+		colors = ['#fee5d9','#fcae91','#fb6a4a','#de2d26','#a50f15'];
+    	dataValues = [0.01,0.1,0.2,0.5];
+    	document.getElementById('title').innerHTML = "% Residents Born in South Asia";
+    	document.getElementById('description').innerHTML = "Residents born in South Asia as a percentage of total population";
+    	document.getElementById("image").src = "img/region_icons/south_asia.png";
+    	document.getElementById('reg').innerHTML = "South/Central Asia";
+		addCounties();
+		legend();
+	}
+	function e_africa(){
+		map.removeLayer(counties);
+		document.getElementById(buttonSelect).style.background = "rgba(242, 242, 242, 0.2)";
+		buttonSelect = 'but9';
+		document.getElementById(buttonSelect).style.background = "rgba(242, 242, 242, 1)";
+		data = 8;
+		colors = ['#f1eef6','#bdc9e1','#74a9cf','#2b8cbe','#045a8d'];
+    	dataValues = [0.01,0.05,0.1,0.2];
+    	document.getElementById('title').innerHTML = "% Residents Born in East Africa";
+    	document.getElementById('description').innerHTML = "Residents born in East Africa as a percentage of total population";
+    	document.getElementById("image").src = "img/region_icons/east_africa.png";
+    	document.getElementById('reg').innerHTML = "East Africa";
+		addCounties();
+		legend();
+	}
+	function c_africa(){
+		map.removeLayer(counties);
+		document.getElementById(buttonSelect).style.background = "rgba(242, 242, 242, 0.2)";
+		buttonSelect = 'but10';
+		document.getElementById(buttonSelect).style.background = "rgba(242, 242, 242, 1)";
+		data = 9;
+		colors = ['#edf8e9','#bae4b3','#74c476','#31a354','#006d2c'];
+    	dataValues = [0.01,0.05,0.1,0.2];
+    	document.getElementById('title').innerHTML = "% Residents Born in Central Africa";
+    	document.getElementById('description').innerHTML = "Residents born in Central Africa as a percentage of total population";
+    	document.getElementById("image").src = "img/region_icons/central_africa.png";
+    	document.getElementById('reg').innerHTML = "Central Africa";
+		addCounties();
+		legend();
+	}
+	function n_africa(){
+		map.removeLayer(counties);
+		document.getElementById(buttonSelect).style.background = "rgba(242, 242, 242, 0.2)";
+		buttonSelect = 'but11';
+		document.getElementById(buttonSelect).style.background = "rgba(242, 242, 242, 1)";
+		data = 10;
+		colors = ['#fee5d9','#fcae91','#fb6a4a','#de2d26','#a50f15'];
+    	dataValues = [0.01,0.02,0.05,0.1];
+    	document.getElementById('title').innerHTML = "% Residents Born in North Africa";
+    	document.getElementById('description').innerHTML = "Residents born in North Africa as a percentage of total population";
+    	document.getElementById("image").src = "img/region_icons/north_africa.png";
+    	document.getElementById('reg').innerHTML = "North Africa";
+		addCounties();
+		legend();
+	}
+	function s_africa(){
+		map.removeLayer(counties);
+		document.getElementById(buttonSelect).style.background = "rgba(242, 242, 242, 0.2)";
+		buttonSelect = 'but12';
+		document.getElementById(buttonSelect).style.background = "rgba(242, 242, 242, 1)";
+		data = 11;
+		colors = ['#f2f0f7','#cbc9e2','#9e9ac8','#756bb1','#54278f'];
+    	dataValues = [0.01,0.025,0.05,0.1];
+    	document.getElementById('title').innerHTML = "% Residents Born in South Africa";
+    	document.getElementById('description').innerHTML = "Residents born in South Africa as a percentage of total population";
+    	document.getElementById("image").src = "img/region_icons/south_africa.png";
+    	document.getElementById('reg').innerHTML = "South Africa";
+		addCounties();
+		legend();
+	}
+	function w_africa(){
+		map.removeLayer(counties);
+		document.getElementById(buttonSelect).style.background = "rgba(242, 242, 242, 0.2)";
+		buttonSelect = 'but13';
+		document.getElementById(buttonSelect).style.background = "rgba(242, 242, 242, 1)";
+		data = 12;
+		colors = ['#f3f3f3','#f9f6b1','#febb72','#fe9b64','#ff776c'];
+    	dataValues = [0.01,0.05,0.1,0.25];
+    	document.getElementById('title').innerHTML = "% Residents Born in West Africa";
+    	document.getElementById('description').innerHTML = "Residents born in West Africa as a percentage of total population";
+    	document.getElementById("image").src = "img/region_icons/west_africa.png";
+    	document.getElementById('reg').innerHTML = "West Africa";
+		addCounties();
+		legend();
+	}
+	function aust(){
+		map.removeLayer(counties);
+		document.getElementById(buttonSelect).style.background = "rgba(242, 242, 242, 0.2)";
+		buttonSelect = 'but14';
+		document.getElementById(buttonSelect).style.background = "rgba(242, 242, 242, 1)";
+		data = 13;
+		colors = ['#f1eef6','#bdc9e1','#74a9cf','#2b8cbe','#045a8d'];
+    	dataValues = [0.01,0.05,0.1,0.2];
+    	document.getElementById('title').innerHTML = "% Residents Born in Australia/New Zealand";
+    	document.getElementById('description').innerHTML = "Residents born in Australia/New Zealand as a percentage of total population";
+    	document.getElementById("image").src = "img/region_icons/australia.png";
+    	document.getElementById('reg').innerHTML = "Australia/New Zealand";
+		addCounties();
+		legend();
+	}
+	function oceania(){
+		map.removeLayer(counties);
+		document.getElementById(buttonSelect).style.background = "rgba(242, 242, 242, 0.2)";
+		buttonSelect = 'but15';
+		document.getElementById(buttonSelect).style.background = "rgba(242, 242, 242, 1)";
+		data = 14;
+		colors = ['#fee5d9','#fcae91','#fb6a4a','#de2d26','#a50f15'];
+    	dataValues = [0.01,0.05,0.1,0.25];
+    	document.getElementById('title').innerHTML = "% Residents Born in Oceania";
+    	document.getElementById('description').innerHTML = "Residents born in Oceania as a percentage of total population";
+    	document.getElementById("image").src = "img/region_icons/oceania.png";
+    	document.getElementById('reg').innerHTML = "Oceania";
+		addCounties();
+		legend();
+	}
+	function carib(){
+		map.removeLayer(counties);
+		document.getElementById(buttonSelect).style.background = "rgba(242, 242, 242, 0.2)";
+		buttonSelect = 'but16';
+		document.getElementById(buttonSelect).style.background = "rgba(242, 242, 242, 1)";
+		data = 15;
+		colors = ['#f1eef6','#bdc9e1','#74a9cf','#2b8cbe','#045a8d'];
+    	dataValues = [0.01,0.05,0.1,0.2];
+    	document.getElementById('title').innerHTML = "% Residents Born in the Caribbean";
+    	document.getElementById('description').innerHTML = "Residents born in the Carribean as a percentage of total population";
+    	document.getElementById("image").src = "img/region_icons/caribbean.png";
+    	document.getElementById('reg').innerHTML = "Caribbean";
+		addCounties();
+		legend();
+	}
+	function c_america(){
+		map.removeLayer(counties);
+		document.getElementById(buttonSelect).style.background = "rgba(242, 242, 242, 0.2)";
+		buttonSelect = 'but17';
+		document.getElementById(buttonSelect).style.background = "rgba(242, 242, 242, 1)";
+		data = 16;
+		colors = ['#fee5d9','#fcae91','#fb6a4a','#de2d26','#a50f15'];
+    	dataValues = [0.5,1,5,10];
+    	document.getElementById('title').innerHTML = "% Residents Born in Central America";
+    	document.getElementById('description').innerHTML = "Residents born in Central America as a percentage of total population";
+    	document.getElementById("image").src = "img/region_icons/central_america.png";
+    	document.getElementById('reg').innerHTML = "Central America";
+		addCounties();
+		legend();
+	}
+	function s_america(){
+		map.removeLayer(counties);
+		document.getElementById(buttonSelect).style.background = "rgba(242, 242, 242, 0.2)";
+		buttonSelect = 'but18';
+		document.getElementById(buttonSelect).style.background = "rgba(242, 242, 242, 1)";
+		data = 17;
+		colors = ['#edf8e9','#bae4b3','#74c476','#31a354','#006d2c'];
+    	dataValues = [0.1,0.2,0.4,0.6];
+    	document.getElementById('title').innerHTML = "% Residents Born in South America";
+    	document.getElementById('description').innerHTML = "Residents born in South America as a percentage of total population";
+    	document.getElementById("image").src = "img/region_icons/south_america.png";
+    	document.getElementById('reg').innerHTML = "South America";
+		addCounties();
+		legend();
+	}
+	function canada(){
+		map.removeLayer(counties);
+		document.getElementById(buttonSelect).style.background = "rgba(242, 242, 242, 0.2)";
+		buttonSelect = 'but19';
+		document.getElementById(buttonSelect).style.background = "rgba(242, 242, 242, 1)";
+		data = 18;
+		colors = ['#fee5d9','#fcae91','#fb6a4a','#de2d26','#a50f15'];
+    	dataValues = [0.2,0.4,0.6,0.8];
+    	document.getElementById('title').innerHTML = "% Residents Born in Canada";
+    	document.getElementById('description').innerHTML = "Residents born in Canada as a percentage of total population";
+    	document.getElementById("image").src = "img/region_icons/canada.png";
+    	document.getElementById('reg').innerHTML = "Canada";
+		addCounties();
+		legend();
+	}
+	
+	function legend(){
+		document.getElementById('leg1').innerHTML = dataValues[3] + "+";
+    	document.getElementById('leg2').innerHTML = dataValues[2] + " - " + dataValues[3];
+    	document.getElementById('leg3').innerHTML = dataValues[1] + " - " + dataValues[2];
+    	document.getElementById('leg4').innerHTML = dataValues[0] + " - " + dataValues[1];
+    	document.getElementById('leg5').innerHTML = "Less than " + dataValues[0];
+    	document.getElementById('leg1_block').style.background = colors[4];
+    	document.getElementById('leg2_block').style.background = colors[3];
+    	document.getElementById('leg3_block').style.background = colors[2];
+    	document.getElementById('leg4_block').style.background = colors[1];
+    	document.getElementById('leg5_block').style.background = colors[0];
+	
+	}
+	
+    new L.Control.Zoom({ position: 'bottomright' }).addTo(map);
+	document.getElementsByClassName("leaflet-control-attribution")[0].style.visibility = "hidden";
+	//add scrolling capabilities to text box
+     var container = document.getElementById('text');
+		Ps.initialize(container);
+	
+	var minHeight = 30; // Define a minimum height for the middle div
+
+	function resizeMiddle() {
+    var h = $('body').height() - $('#top').height() - 80;
+    		h = h > minHeight ? h : minHeight;
+   	 	$('#attribution').height(h);
+	}
+
+	$(document).ready(resizeMiddle);
+	$(window).resize(resizeMiddle);
+    
+
+</script>
+</body>
+</html>
