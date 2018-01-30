@@ -14,6 +14,7 @@
     
      <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://d3js.org/topojson.v1.min.js"></script>
     <script src="js/Chart.bundle.js"></script>
     <script src="js/Chart.PieceLabel.min.js"></script>
     <script src="js/perfect-scrollbar.js"></script>
@@ -86,6 +87,20 @@
     	}
     	
     }
+    
+    L.TopoJSON = L.GeoJSON.extend({  
+  		addData: function(jsonData) {    
+    		if (jsonData.type === 'Topology') {
+      			for (key in jsonData.objects) {
+       			 geojson = topojson.feature(jsonData, jsonData.objects[key]);
+       			 L.GeoJSON.prototype.addData.call(this, geojson);
+      		}
+    	}    
+    	else {
+      		L.GeoJSON.prototype.addData.call(this, jsonData);
+    		}
+  		}  
+	});
 	//initialize map
 	var map = L.map('map', {center: [45.56, -119.75], zoom: 7, zoomControl:false});
 	///////////////////////make zoom level correspond to browser size////////////////////////////////
@@ -159,114 +174,78 @@
 	var data = 0;
 	
 
-    ///////////////////////////////////////////////////////////////////////////////////////	
-   /* var info = L.control();
-
-	info.onAdd = function (map) {
-    	this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
-    	this.update();
-    	return this._div;
-	};
-	
-	info.update = function (feature) {
-	//detects whether or not a value is null
-		function nullFinder() {
-			if (dataType(feature) == null)
-				{return 'N/A';}
-			else if (isNaN(dataType(feature)) == true)
-				{return 0.00;}
-			else {return dataType(feature);}
-		}
-	//determines which icon to display next to the name
-		function whichImage() {
-			return data == 0 ? '<img src="img/totalEmp.png" id="image3" style="display:inline-block; width:30px; height:30px; position:relative; left:15px; top:10px;"><br/>':
-    		 	data == 1 ? '<img src="img/spend.png" id="image3" style="display:inline-block; width:30px; height:30px; position:relative; left:15px; top:10px;"><br/>':
-    		 	data == 2 ? '<img src="img/wages.png" id="image3" style="display:inline-block; width:30px; height:30px; position:relative; left:15px; top:10px;"><br/>':
-    		 	data == 3 ? '<img src="img/tax.png" id="image3" style="display:inline-block; width:30px; height:30px; position:relative; left:15px; top:10px;"><br/>':
-    		 	data == 4 ? '<img src="img/totalLocalEmp.png" id="image3" style="display:inline-block; width:30px; height:30px; position:relative; left:15px; top:10px;"><br/>':
-    		 	data == 5 ? '<img src="img/localEmp.png" id="image3" style="display:inline-block; width:30px; height:30px; position:relative; left:15px; top:10px;"><br/>':
-    		 	data == 6 ? '<img src="img/wages.png" id="image3" style="display:inline-block; width:30px; height:30px; position:relative; left:15px; top:10px;"><br/>':
-    		 		'<img src="img/tree.png" id="image3" style="display:inline-block; width:30px; height:30px; position:relative; left:15px; top:10px;"><br/>';
-    		}
-    //actual info display information
-   		this._div.innerHTML = (feature ?
-       		'<b>' + feature.properties.NAME + ' County</b><br/><b id="displayType" style="display:inline;">' + nullFinder() + '&nbspMgal/day</b><br/>'
-        		: '<b>Hover over map</b>');
-		};
-
-	info.addTo(map);
-	*/
-    ///////////////////////////////////////////////////////////////////////////////////////	
     
     ////////////////////////////////initial geoJSON styling////////////////////////////////
-	function demographicsStyle(feature){
-		return{
-			opacity:0,
-			color:'#ffffff',
-			fillOpacity: 0,
-			fillColor:'#ffffff',
-			weight:0.5
-			};
-		}
-	function highlight(e){
-		 var layer = e.target;
-		 layer.setStyle({
+    const demographics = new L.TopoJSON();
+
+	$.getJSON('assets/block_group_demographics.json')
+  		.done(addTopoData);
+
+	function addTopoData(topoData) {  
+  		demographics.addData(topoData);
+  		demographics.addTo(map);
+  		demographics.eachLayer(handleLayer);
+	}
+
+	function handleLayer(layer){
+        layer.setStyle({
+          		opacity:0,
+				color:'#ffffff',
+				fillOpacity: 0,
+				fillColor:'#f2f2f2',
+				weight:0.5
+        });
+        layer.on({
+         	mouseover : highlight,
+            mouseout: resetHighlight
+        });
+    }
+    
+	function highlight(){
+		 this.setStyle({
         	fillOpacity: 0.25,
-        	color:'#ffffff',
-        	fillColor:'#f2f2f2',
         	opacity:1
     	 });
     	 if (data == 0){
-    	 	chart.data.datasets[0].data[0] = layer.feature.properties.white;
-		 	chart.data.datasets[0].data[1] = layer.feature.properties.black;
-		 	chart.data.datasets[0].data[2] = layer.feature.properties.asian;
-		 	chart.data.datasets[0].data[3] = layer.feature.properties.hisp_latin;
-		 	chart.data.datasets[0].data[4] = layer.feature.properties.ind_island;
-			chart.data.datasets[0].data[5] = layer.feature.properties.other_two;
+    	 	chart.data.datasets[0].data[0] = this.feature.properties.white;
+		 	chart.data.datasets[0].data[1] = this.feature.properties.black;
+		 	chart.data.datasets[0].data[2] = this.feature.properties.asian;
+		 	chart.data.datasets[0].data[3] = this.feature.properties.hisp_latin;
+		 	chart.data.datasets[0].data[4] = this.feature.properties.ind_island;
+			chart.data.datasets[0].data[5] = this.feature.properties.other_two;
 		 	chart.update();
     	 }
     	 else{
-			document.getElementById('title').innerHTML = "Median Age: " + layer.feature.properties.med_age;
-			chart2.data.datasets[0].data[17] = layer.feature.properties.aunder5;
-		 	chart2.data.datasets[0].data[16] = layer.feature.properties.a5_9;
-		 	chart2.data.datasets[0].data[15] = layer.feature.properties.a10_14;
-		 	chart2.data.datasets[0].data[14] = layer.feature.properties.a15_19;
-		 	chart2.data.datasets[0].data[13] = layer.feature.properties.a20_24;
-			chart2.data.datasets[0].data[12] = layer.feature.properties.a25_29;
-			chart2.data.datasets[0].data[11] = layer.feature.properties.a30_34;
-		 	chart2.data.datasets[0].data[10] = layer.feature.properties.a35_39;
-		 	chart2.data.datasets[0].data[9] = layer.feature.properties.a40_44;
-		 	chart2.data.datasets[0].data[8] = layer.feature.properties.a45_49;
-		 	chart2.data.datasets[0].data[7] = layer.feature.properties.a50_54;
-			chart2.data.datasets[0].data[6] = layer.feature.properties.a55_59;
-			chart2.data.datasets[0].data[5] = layer.feature.properties.a60_64;
-		 	chart2.data.datasets[0].data[4] = layer.feature.properties.a65_69;
-		 	chart2.data.datasets[0].data[3] = layer.feature.properties.a70_74;
-		 	chart2.data.datasets[0].data[2] = layer.feature.properties.a75_79;
-		 	chart2.data.datasets[0].data[1] = layer.feature.properties.a80_84;
-			chart2.data.datasets[0].data[0] = layer.feature.properties.a85over;
+			document.getElementById('title').innerHTML = "Median Age: " + this.feature.properties.med_age;
+			chart2.data.datasets[0].data[17] = this.feature.properties.aunder5;
+		 	chart2.data.datasets[0].data[16] = this.feature.properties.a5_9;
+		 	chart2.data.datasets[0].data[15] = this.feature.properties.a10_14;
+		 	chart2.data.datasets[0].data[14] = this.feature.properties.a15_19;
+		 	chart2.data.datasets[0].data[13] = this.feature.properties.a20_24;
+			chart2.data.datasets[0].data[12] = this.feature.properties.a25_29;
+			chart2.data.datasets[0].data[11] = this.feature.properties.a30_34;
+		 	chart2.data.datasets[0].data[10] = this.feature.properties.a35_39;
+		 	chart2.data.datasets[0].data[9] = this.feature.properties.a40_44;
+		 	chart2.data.datasets[0].data[8] = this.feature.properties.a45_49;
+		 	chart2.data.datasets[0].data[7] = this.feature.properties.a50_54;
+			chart2.data.datasets[0].data[6] = this.feature.properties.a55_59;
+			chart2.data.datasets[0].data[5] = this.feature.properties.a60_64;
+		 	chart2.data.datasets[0].data[4] = this.feature.properties.a65_69;
+		 	chart2.data.datasets[0].data[3] = this.feature.properties.a70_74;
+		 	chart2.data.datasets[0].data[2] = this.feature.properties.a75_79;
+		 	chart2.data.datasets[0].data[1] = this.feature.properties.a80_84;
+			chart2.data.datasets[0].data[0] = this.feature.properties.a85over;
 		 	chart2.update();
     	 }
-    	 layer.bringToFront();
     }
     
-    function resetHighlight(e){
-    	demographics.resetStyle(e.target);
+    function resetHighlight(){
+    	this.setStyle({
+        	fillOpacity: 0,
+        	opacity:0
+    	 });
     }
-     
-    var	demographics = $.getJSON("assets/block_group_demographics2.geojson", function(data){
-        	demographics = L.geoJson(data, {
-        		style:demographicsStyle,
-        		onEachFeature: function(feature, featureLayer) {
-        			featureLayer.on({
-        				mouseover: highlight,
-        				mouseout: resetHighlight
-   					});
-        		}
-        	}).addTo(map);
-    	});
-    
-    
+  
     var ctx = document.getElementById("chartContainer").getContext('2d');
 	
 	var options =  {
