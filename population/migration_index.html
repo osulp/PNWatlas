@@ -344,8 +344,8 @@
         	if (geoJsonFeature.properties.isOrigin) {
           		return {
             		renderer: canvasRenderer, // recommended to use L.canvas()
-            		radius: 1,
-            		weight: 1,
+            		radius: 0,
+            		weight: 0,
             		color: 'rgb(0, 0, 0,0)',
             		fillColor: 'rgba(0, 0, 0, 0)',
             		fillOpacity: 0
@@ -353,11 +353,11 @@
         	} else {
           		return {
             		renderer: canvasRenderer,
-            		radius: 4,
-            		weight: 0.25,
+            		radius: 0,
+            		weight: 0,
             		color: 'rgb(0, 0, 0,0)',
             		fillColor: 'rgba(0, 0, 0, 0)',
-            		fillOpacity: 0.7
+            		fillOpacity: 0.0
           		};
         	}
       	 },
