@@ -5,7 +5,7 @@
      <title>Housing</title>
     
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.2/dist/leaflet.css" /> 
-    <link rel="stylesheet" href="css/housing_style.css" type="text/css">
+    <link rel="stylesheet" href="css/population_maps_style.css" type="text/css">
     <link rel="stylesheet" href="https://dc-js.github.io/dc.js/css/dc.min.css">
     <link href="https://fonts.googleapis.com/css?family=Maven+Pro" rel="stylesheet">
     <link rel="stylesheet" href="css/perfect-scrollbar.css" />
@@ -27,22 +27,22 @@
 		</button>
 		<div id="infoPanel">
 			<div id="top" style="margin-bottom:5px;">
-			<h1>Housing</h1>
-			<img src="img/house_background.png" id="image2" style="display:inline-block;">
+			<h1 style="margin-bottom:30px;">Housing</h1>
+			<img src="img/house_background.png" id="titleImage" style="display:inline-block; height:40px;">
 			<div id="buttons">
 				<div class="dropdown">
   					<button class="dropbtn"><b id="pollutant">Select Data</b><p id="arrow">&#9660;</p></button>
   					<div class="dropdown-content">
-   						 <button type="button" id="but1" onclick="occupation()" class="species" style="background:rgba(242, 242, 242, 0.8);">Occupation</button>
-						 <button type="button" id="but2" onclick="tenure()" class="species">Tenure</button>
-						 <button type="button" id="but3" onclick="age()" class="species">Median Home Age</button>
-						 <button type="button" id="but4" onclick="price()" class="species">Median Value</button>
-						 <button type="button" id="but5" onclick="rent()" class="species">Median Rent</button>
-						 <button type="button" id="but6" onclick="classification()" class="species">Housing Type</button>
+   						 <button type="button" id="but1" onclick="occupation()" class="selection" style="background:rgba(242, 242, 242, 0.8);">Occupation</button>
+						 <button type="button" id="but2" onclick="tenure()" class="selection">Tenure</button>
+						 <button type="button" id="but3" onclick="age()" class="selection">Median Home Age</button>
+						 <button type="button" id="but4" onclick="price()" class="selection">Median Value</button>
+						 <button type="button" id="but5" onclick="rent()" class="selection">Median Rent</button>
+						 <button type="button" id="but6" onclick="classification()" class="selection">Housing Type</button>
  				   </div>
 				</div>
 			</div>
-			<h2 id="title" style="display:block; width:280px; white-space:normal;">Percent Occupied</h2><img src="img/occupation.png" id="image" style="display:inline-block; float:right;">
+			<h2 id="title">Percent Occupied</h2><img src="img/occupation.png" id="imageHouse" style="display:inline-block; float:right;">
 			<div><b id="leg1_block" style="background:#54278f; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p>&nbsp</p><p id="leg1" style="margin-left:5px;">95+</p><br/></div>
 			<div><b id="leg2_block" style="background:#756bb1; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2" style="margin-left:5px;">90 - 95</p><br/></div>
 			<div><b id="leg3_block" style="background:#9e9ac8; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg3" style="margin-left:5px;">80 - 90</p><br/></div>
@@ -51,7 +51,7 @@
 			<p id="description" style="font-weight:bold; text-align:justify; white-space:normal; padding-left:0px; width:280px; display:block; position:relative;">Percent of housing units occupied within a census block group.</p>
 			</div>
 			<div id="attribution">
-				<h2 style="margin-top:0;">Hover Over Map for Details</h2>
+				<h2>Hover Over Map for Details</h2>
 				<h2 id ="displayValue">0% Occupied</h2>
 				<canvas id="chartContainer" style="height: 100; width: 50%; margin-left:-10px;"></canvas>
 				<p3 id="chartDescription" style="font-weight:bold; display:inline-block; margin-top:5px;">Housing units by occupancy status.</p3>
@@ -472,7 +472,7 @@ var label = L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/ligh
     	document.getElementById('chartDescription').innerHTML = 'Housing units by occupancy status.';
     	document.getElementById('displayValue').innerHTML = "% Occupied"; 
     	colorValue = ['#f2f0f7','#cbc9e2','#9e9ac8','#756bb1','#54278f'];
-    	document.getElementById("image").src = "img/occupation.png";
+    	document.getElementById("imageHouse").src = "img/occupation.png";
     	
     	chart.destroy();
 		chart = new Chart(ctx, options);
@@ -498,7 +498,7 @@ var label = L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/ligh
     	document.getElementById('chartDescription').innerHTML = 'Housing units by tenure.';
     	document.getElementById('displayValue').innerHTML = "% Units Owned";
     	colorValue = ['#7b3294','#c2a5cf','#f7f7f7','#a6dba0','#008837'];
-    	document.getElementById("image").src = "img/tenure.png";
+    	document.getElementById("imageHouse").src = "img/tenure.png";
     	
     	chart.destroy();
 		chart = new Chart(ctx, options);
@@ -524,7 +524,7 @@ var label = L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/ligh
     	document.getElementById('chartDescription').innerHTML = 'Housing units by age category.';
     	document.getElementById('displayValue').innerHTML = "Median Age of Home:"; 
     	colorValue = ['#ffffd4','#fed98e','#fe9929','#d95f0e','#993404'];
-    	document.getElementById("image").src = "img/age.png";
+    	document.getElementById("imageHouse").src = "img/age.png";
     	
     	chart.destroy();
 		chart = new Chart(ctx, options2);
@@ -554,7 +554,7 @@ var label = L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/ligh
     	document.getElementById('chartDescription').innerHTML = 'Housing units by value category in thousands of dollars.';
     	document.getElementById('displayValue').innerHTML = "Median Home Value:";
     	colorValue = ['#edf8e9','#bae4b3','#74c476','#31a354','#006d2c'];
-    	document.getElementById("image").src = "img/value.png";
+    	document.getElementById("imageHouse").src = "img/value.png";
     	
     	chart.destroy();
 		chart = new Chart(ctx, options2);
@@ -584,7 +584,7 @@ var label = L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/ligh
     	document.getElementById('chartDescription').innerHTML = 'Housing units by rent category.';
     	document.getElementById('displayValue').innerHTML = "Median Rent:";
     	colorValue = ['#eff3ff','#bdd7e7','#6baed6','#3182bd','#08519c'];
-    	document.getElementById("image").src = "img/rent.png";
+    	document.getElementById("imageHouse").src = "img/rent.png";
     	
     	chart.destroy();
 		chart = new Chart(ctx, options2);
@@ -614,7 +614,7 @@ var label = L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/ligh
     	document.getElementById('chartDescription').innerHTML = 'Housing units by classification.';
     	document.getElementById('displayValue').innerHTML = "% Single Family Homes";
     	colorValue = ['#ca0020','#f4a582','#f7f7f7','#92c5de','#0571b0'];
-    	document.getElementById("image").src = "img/single_multi.png";
+    	document.getElementById("imageHouse").src = "img/single_multi.png";
     	
     	chart.destroy();
 		chart = new Chart(ctx, options);

@@ -5,7 +5,7 @@
      <title>International Migration</title>
     
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.2/dist/leaflet.css" /> 
-    <link rel="stylesheet" href="css/immigration_style.css" type="text/css">
+    <link rel="stylesheet" href="css/population_maps_style.css" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Maven+Pro" rel="stylesheet">
     <link rel="stylesheet" href="css/perfect-scrollbar.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -30,35 +30,34 @@
     <div id="infoPanel">
 			<div id="top">
 			<h1>International Migration</h1>
-			<img src="img/migration_icon.png" id="image2" style="display:inline-block;">
+			<img src="img/migration_icon.png" id="titleImage" style="display:inline-block;">
 			<div id="buttons">
 				<div class="dropdown">
   					<button class="dropbtn"><b id="reg">Select Region</b><p id="arrow">&#9660;</p></button>
   					<div class="dropdown-content">
-   						 <button type="button" id="but1" onclick="n_europe()" class="species" style="background:rgba(242, 242, 242, 0.8);">N Europe</button>
-						 <button type="button" id="but2" onclick="w_europe()" class="species">W Europe</button>
-						 <button type="button" id="but3" onclick="s_europe()" class="species">S Europe</button>
-						 <button type="button" id="but4" onclick="e_europe()" class="species">E Europe</button>
-						 <button type="button" id="but5" onclick="e_asia()" class="species">E Asia</button>
-						 <button type="button" id="but6" onclick="w_asia()" class="species">W Asia</button>
-						 <button type="button" id="but7" onclick="se_asia()" class="species">SE Asia</button>
-						 <button type="button" id="but8" onclick="s_asia()" class="species">S Asia</button>
-						 <button type="button" id="but9" onclick="e_africa()" class="species">E Africa</button>
-						 <button type="button" id="but10" onclick="c_africa()" class="species">C Africa</button>
-						 <button type="button" id="but11" onclick="n_africa()" class="species">N Africa</button>
-						 <button type="button" id="but12" onclick="s_africa()" class="species">S Africa</button>
-						 <button type="button" id="but13" onclick="w_africa()" class="species">W Africa</button>
-						 <button type="button" id="but14" onclick="aust()" class="species">Aust/NZ</button>
-						 <button type="button" id="but15" onclick="oceania()" class="species">Oceania</button>
-						 <button type="button" id="but16" onclick="carib()" class="species">Caribbean</button>
-						 <button type="button" id="but17" onclick="c_america()" class="species">C America</button>
-						 <button type="button" id="but18" onclick="s_america()" class="species">S America</button>
-						 <button type="button" id="but19" onclick="canada()" class="species">Canada</button>
+   						 <button type="button" id="but1" onclick="n_europe()" class="selection" style="background:rgba(242, 242, 242, 0.8);">N Europe</button>
+						 <button type="button" id="but2" onclick="w_europe()" class="selection">W Europe</button>
+						 <button type="button" id="but3" onclick="s_europe()" class="selection">S Europe</button>
+						 <button type="button" id="but4" onclick="e_europe()" class="selection">E Europe</button>
+						 <button type="button" id="but5" onclick="e_asia()" class="selection">E Asia</button>
+						 <button type="button" id="but6" onclick="w_asia()" class="selection">W Asia</button>
+						 <button type="button" id="but7" onclick="se_asia()" class="selection">SE Asia</button>
+						 <button type="button" id="but8" onclick="s_asia()" class="selection">S Asia</button>
+						 <button type="button" id="but9" onclick="e_africa()" class="selection">E Africa</button>
+						 <button type="button" id="but10" onclick="c_africa()" class="selection">C Africa</button>
+						 <button type="button" id="but11" onclick="n_africa()" class="selection">N Africa</button>
+						 <button type="button" id="but12" onclick="s_africa()" class="selection">S Africa</button>
+						 <button type="button" id="but13" onclick="w_africa()" class="selection">W Africa</button>
+						 <button type="button" id="but14" onclick="aust()" class="selection">Aust/NZ</button>
+						 <button type="button" id="but15" onclick="oceania()" class="selection">Oceania</button>
+						 <button type="button" id="but16" onclick="carib()" class="selection">Caribbean</button>
+						 <button type="button" id="but17" onclick="c_america()" class="selection">C America</button>
+						 <button type="button" id="but18" onclick="s_america()" class="selection">S America</button>
+						 <button type="button" id="but19" onclick="canada()" class="selection">Canada</button>
  				   </div>
 				</div>
 			</div>
-			<br/>
-			<h2 id="title" style="display:block; width:280px; white-space:normal;">% Residents Born in Northern Europe</h2><img src="img/region_icons/north_europe.png" id="image" style="display:inline-block; float:right;">
+			<h2 id="title" style="display:block; width:280px; white-space:normal;">% Residents Born in Northern Europe</h2><img src="img/region_icons/north_europe.png" id="region" style="display:inline-block; float:right;">
 			<div><b id="leg1_block" style="background:#045a8d; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p>&nbsp</p><p id="leg1" style="margin-left:15px;">0.55+</p><br/></div>
 			<div><b id="leg2_block" style="background:#2b8cbe; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2" style="margin-left:15px;">0.4 to 0.55</p><br/></div>
 			<div><b id="leg3_block" style="background:#74a9cf; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg3" style="margin-left:15px;">0.25 to 0.4</p><br/></div>
@@ -360,7 +359,7 @@
     	dataValues = [0.1,0.25,0.4,0.55];
     	document.getElementById('title').innerHTML = "% Residents Born in Northern Europe";
     	document.getElementById('description').innerHTML = "Residents born in Northern Europe as a percentage of total population";
-    	document.getElementById("image").src = "img/region_icons/north_europe.png";
+    	document.getElementById("region").src = "img/region_icons/north_europe.png";
     	document.getElementById('reg').innerHTML = "Northern Europe";
 		addCounties();
 		legend();
@@ -375,7 +374,7 @@
     	dataValues = [0.1,0.25,0.4,0.55];
     	document.getElementById('title').innerHTML = "% Residents Born in Western Europe";
     	document.getElementById('description').innerHTML = "Residents born in Western Europe as a percentage of total population";
-		document.getElementById("image").src = "img/region_icons/west_europe.png";
+		document.getElementById("region").src = "img/region_icons/west_europe.png";
 		document.getElementById('reg').innerHTML = "Eastern Europe";
 		addCounties();
 		legend();
@@ -390,7 +389,7 @@
     	dataValues = [0.01,0.05,0.1,0.2];
     	document.getElementById('title').innerHTML = "% Residents Born in Southern Europe";
     	document.getElementById('description').innerHTML = "Residents born in Southern Europe as a percentage of total population";
-		document.getElementById("image").src = "img/region_icons/south_europe.png";
+		document.getElementById("region").src = "img/region_icons/south_europe.png";
 		document.getElementById('reg').innerHTML = "Southern Europe";
 		addCounties();
 		legend();
@@ -405,7 +404,7 @@
     	dataValues = [0.1,0.25,0.5,1];
     	document.getElementById('title').innerHTML = "% Residents Born in Eastern Europe";
     	document.getElementById('description').innerHTML = "Residents born in Eastern Europe as a percentage of total population";
-    	document.getElementById("image").src = "img/region_icons/east_europe.png";
+    	document.getElementById("region").src = "img/region_icons/east_europe.png";
     	document.getElementById('reg').innerHTML = "Eastern Europe";
 		addCounties();
 		legend();
@@ -420,7 +419,7 @@
     	dataValues = [0.2,0.5,1,2];
     	document.getElementById('title').innerHTML = "% Residents Born in East Asia";
     	document.getElementById('description').innerHTML = "Residents born in East Asia as a percentage of total population";
-    	document.getElementById("image").src = "img/region_icons/east_asia.png";
+    	document.getElementById("region").src = "img/region_icons/east_asia.png";
     	document.getElementById('reg').innerHTML = "East Asia";
 		addCounties();
 		legend();
@@ -435,7 +434,7 @@
     	dataValues = [0.01,0.1,0.2,0.5];
     	document.getElementById('title').innerHTML = "% Residents Born in West Asia";
     	document.getElementById('description').innerHTML = "Residents born in West Asia as a percentage of total population";
-    	document.getElementById("image").src = "img/region_icons/west_asia.png";
+    	document.getElementById("region").src = "img/region_icons/west_asia.png";
     	document.getElementById('reg').innerHTML = "West Asia";
 		addCounties();
 		legend();
@@ -450,7 +449,7 @@
     	dataValues = [0.2,0.5,1,2.5];
     	document.getElementById('title').innerHTML = "% Residents Born in Southeast Asia";
     	document.getElementById('description').innerHTML = "Residents born in Southeast Asia as a percentage of total population";
-    	document.getElementById("image").src = "img/region_icons/southeast_asia.png";
+    	document.getElementById("region").src = "img/region_icons/southeast_asia.png";
     	document.getElementById('reg').innerHTML = "Southeast Asia";
 		addCounties();
 		legend();
@@ -465,7 +464,7 @@
     	dataValues = [0.01,0.1,0.2,0.5];
     	document.getElementById('title').innerHTML = "% Residents Born in South Asia";
     	document.getElementById('description').innerHTML = "Residents born in South Asia as a percentage of total population";
-    	document.getElementById("image").src = "img/region_icons/south_asia.png";
+    	document.getElementById("region").src = "img/region_icons/south_asia.png";
     	document.getElementById('reg').innerHTML = "South/Central Asia";
 		addCounties();
 		legend();
@@ -480,7 +479,7 @@
     	dataValues = [0.01,0.05,0.1,0.2];
     	document.getElementById('title').innerHTML = "% Residents Born in East Africa";
     	document.getElementById('description').innerHTML = "Residents born in East Africa as a percentage of total population";
-    	document.getElementById("image").src = "img/region_icons/east_africa.png";
+    	document.getElementById("region").src = "img/region_icons/east_africa.png";
     	document.getElementById('reg').innerHTML = "East Africa";
 		addCounties();
 		legend();
@@ -495,7 +494,7 @@
     	dataValues = [0.01,0.05,0.1,0.2];
     	document.getElementById('title').innerHTML = "% Residents Born in Central Africa";
     	document.getElementById('description').innerHTML = "Residents born in Central Africa as a percentage of total population";
-    	document.getElementById("image").src = "img/region_icons/central_africa.png";
+    	document.getElementById("region").src = "img/region_icons/central_africa.png";
     	document.getElementById('reg').innerHTML = "Central Africa";
 		addCounties();
 		legend();
@@ -510,7 +509,7 @@
     	dataValues = [0.01,0.02,0.05,0.1];
     	document.getElementById('title').innerHTML = "% Residents Born in North Africa";
     	document.getElementById('description').innerHTML = "Residents born in North Africa as a percentage of total population";
-    	document.getElementById("image").src = "img/region_icons/north_africa.png";
+    	document.getElementById("region").src = "img/region_icons/north_africa.png";
     	document.getElementById('reg').innerHTML = "North Africa";
 		addCounties();
 		legend();
@@ -525,7 +524,7 @@
     	dataValues = [0.01,0.025,0.05,0.1];
     	document.getElementById('title').innerHTML = "% Residents Born in South Africa";
     	document.getElementById('description').innerHTML = "Residents born in South Africa as a percentage of total population";
-    	document.getElementById("image").src = "img/region_icons/south_africa.png";
+    	document.getElementById("region").src = "img/region_icons/south_africa.png";
     	document.getElementById('reg').innerHTML = "South Africa";
 		addCounties();
 		legend();
@@ -540,7 +539,7 @@
     	dataValues = [0.01,0.05,0.1,0.25];
     	document.getElementById('title').innerHTML = "% Residents Born in West Africa";
     	document.getElementById('description').innerHTML = "Residents born in West Africa as a percentage of total population";
-    	document.getElementById("image").src = "img/region_icons/west_africa.png";
+    	document.getElementById("region").src = "img/region_icons/west_africa.png";
     	document.getElementById('reg').innerHTML = "West Africa";
 		addCounties();
 		legend();
@@ -555,7 +554,7 @@
     	dataValues = [0.01,0.05,0.1,0.2];
     	document.getElementById('title').innerHTML = "% Residents Born in Australia/New Zealand";
     	document.getElementById('description').innerHTML = "Residents born in Australia/New Zealand as a percentage of total population";
-    	document.getElementById("image").src = "img/region_icons/australia.png";
+    	document.getElementById("region").src = "img/region_icons/australia.png";
     	document.getElementById('reg').innerHTML = "Australia/New Zealand";
 		addCounties();
 		legend();
@@ -570,7 +569,7 @@
     	dataValues = [0.01,0.05,0.1,0.25];
     	document.getElementById('title').innerHTML = "% Residents Born in Oceania";
     	document.getElementById('description').innerHTML = "Residents born in Oceania as a percentage of total population";
-    	document.getElementById("image").src = "img/region_icons/oceania.png";
+    	document.getElementById("region").src = "img/region_icons/oceania.png";
     	document.getElementById('reg').innerHTML = "Oceania";
 		addCounties();
 		legend();
@@ -585,7 +584,7 @@
     	dataValues = [0.01,0.05,0.1,0.2];
     	document.getElementById('title').innerHTML = "% Residents Born in the Caribbean";
     	document.getElementById('description').innerHTML = "Residents born in the Carribean as a percentage of total population";
-    	document.getElementById("image").src = "img/region_icons/caribbean.png";
+    	document.getElementById("region").src = "img/region_icons/caribbean.png";
     	document.getElementById('reg').innerHTML = "Caribbean";
 		addCounties();
 		legend();
@@ -600,7 +599,7 @@
     	dataValues = [0.5,1,5,10];
     	document.getElementById('title').innerHTML = "% Residents Born in Central America";
     	document.getElementById('description').innerHTML = "Residents born in Central America as a percentage of total population";
-    	document.getElementById("image").src = "img/region_icons/central_america.png";
+    	document.getElementById("region").src = "img/region_icons/central_america.png";
     	document.getElementById('reg').innerHTML = "Central America";
 		addCounties();
 		legend();
@@ -615,7 +614,7 @@
     	dataValues = [0.1,0.2,0.4,0.6];
     	document.getElementById('title').innerHTML = "% Residents Born in South America";
     	document.getElementById('description').innerHTML = "Residents born in South America as a percentage of total population";
-    	document.getElementById("image").src = "img/region_icons/south_america.png";
+    	document.getElementById("region").src = "img/region_icons/south_america.png";
     	document.getElementById('reg').innerHTML = "South America";
 		addCounties();
 		legend();
@@ -630,7 +629,7 @@
     	dataValues = [0.2,0.4,0.6,0.8];
     	document.getElementById('title').innerHTML = "% Residents Born in Canada";
     	document.getElementById('description').innerHTML = "Residents born in Canada as a percentage of total population";
-    	document.getElementById("image").src = "img/region_icons/canada.png";
+    	document.getElementById("region").src = "img/region_icons/canada.png";
     	document.getElementById('reg').innerHTML = "Canada";
 		addCounties();
 		legend();

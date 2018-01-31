@@ -5,7 +5,7 @@
      <title>Demographics</title>
     
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.2/dist/leaflet.css" /> 
-    <link rel="stylesheet" href="css/demographics_style.css" type="text/css">
+    <link rel="stylesheet" href="css/population_maps_style.css" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Maven+Pro" rel="stylesheet">
     <link rel="stylesheet" href="css/perfect-scrollbar.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -24,22 +24,22 @@
 		<button id="collapse" onclick="collapse()">
 			<i class="fa fa-chevron-left" id ="collapse-arrow" aria-hidden="true"></i>
 		</button>
-		<div id="infoPanel">
+		<div id="infoPanel" style="background-color: rgba(255,255,255,1);">
 			<div id="top">
-			<h1>Demographics</h1>
-			<img src="img/migration_icon.png" id="image2" style="display:inline-block;">
+			<h1 >Demographics</h1>
+			<img src="img/migration_icon.png" id="titleImage" style="display:inline-block;">
 			<div id="buttons">
 				<div class="dropdown">
   					<button class="dropbtn"><b id="dataType">Select Data</b><p id="arrow">&#9660;</p></button>
   					<div class="dropdown-content">
-   						 <button type="button" id="but1" onclick="race()" class="species" style="background:rgba(242, 242, 242, 0.8);">Race</button>
-						 <button type="button" id="but2" onclick="age()" class="species">Age</button>
+   						 <button type="button" id="but1" onclick="race()" class="selection" style="background:rgba(242, 242, 242, 0.8);">Race</button>
+						 <button type="button" id="but2" onclick="age()" class="selection">Age</button>
  				   </div>
 				</div>
 			</div>
 			<div id='legend' style="display:none;">
 				<h2 id="title" style="display:block; width:280px; white-space:normal;">Median Age</h2>
-				<b id="leg2_block" style="background:linear-gradient(to right, #fcfbfd, #dadaeb, #9e9ac8, #6a51a3, #3f007d); height:32px; border:black 2px solid;"></b><br/>
+				<b id="leg2_block" style="background:linear-gradient(to right, #fcfbfd, #dadaeb, #9e9ac8, #6a51a3, #3f007d); height:32px; border:black 2px solid; width: 280px;"></b><br/><br/>
 				<p style="padding-left:0; word-spacing:47px;">25 35 45 55 65</p></br>
 			</div>
 			<p id="description" style="font-weight:bold; margin-top: 10px;text-align:justify; white-space:normal; padding-left:0px; width:280px; display:block; position:relative; line-height:20px;">Map colored based on a composite of racial population percentages. More intense colors suggest a greater percentage of a single race, which browns and grays suggest racial diversity.</p>
