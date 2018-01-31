@@ -5,7 +5,7 @@
      <title>Water Pollution</title>
     
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.2/dist/leaflet.css" /> 
-    <link rel="stylesheet" href="css/pollution_style.css" type="text/css">
+    <link rel="stylesheet" href="css/water_maps_style.css" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Maven+Pro" rel="stylesheet">
     <link rel="stylesheet" href="css/perfect-scrollbar.css" />
     
@@ -25,25 +25,25 @@
 		<div id="infoPanel">
 			<div id="top">
 			<h1>Water Pollution</h1>
-			<img src="img/pollution_icon.png" id="image2" style="display:inline-block;">
+			<img src="img/pollution_icon.png" id="titleImage" style="display:inline-block;">
 			<div id="buttons">
 				<div class="dropdown">
-  					<button class="dropbtn"><b id="pollutant">Select Pollutant</b><p id="arrow">&#9660;</p></button>
+  					<button class="dropbtn"><b id="selection">Select Species</b><p id="arrow">&#9660;</p></button>
   					<div class="dropdown-content">
-   						 <button type="button" id="but1" onclick="total()" class="species" style="background:rgba(242, 242, 242, 0.8);">Total</button>
-						 <button type="button" id="but2" onclick="metals()" class="species">Metals</button>
-						 <button type="button" id="but3" onclick="oxygen()" class="species">Oxygen Depletion</button>
-						 <button type="button" id="but4" onclick="pathogens()" class="species">Pathogens</button>
-						 <button type="button" id="but5" onclick="sediment()" class="species">Sediment</button>
-						 <button type="button" id="but6" onclick="temperature()" class="species">Temperature</button><br/>
-						 <button type="button" id="but7" onclick="phosphorus()" class="species">Phosphorus</button>
-						 <button type="button" id="but8" onclick="nitrogen()" class="species">Nitrogen</button>
-						 <button type="button" id="but9" onclick="arsenic()" class="species">Arsenic</button>
+   						 <button type="button" id="but1" onclick="total()" class="selection" style="background:rgba(242, 242, 242, 0.8);">Total</button>
+						 <button type="button" id="but2" onclick="metals()" class="selection">Metals</button>
+						 <button type="button" id="but3" onclick="oxygen()" class="selection">Oxygen</button>
+						 <button type="button" id="but4" onclick="pathogens()" class="selection">Pathogens</button>
+						 <button type="button" id="but5" onclick="sediment()" class="selection">Sediment</button>
+						 <button type="button" id="but6" onclick="temperature()" class="selection">Temperature</button>
+						 <button type="button" id="but7" onclick="phosphorus()" class="selection">Phosphorus</button>
+						 <button type="button" id="but8" onclick="nitrogen()" class="selection">Nitrogen</button>
+						 <button type="button" id="but9" onclick="arsenic()" class="selection">Arsenic</button>
  				   </div>
 				</div>
 			</div>
-			<h2 id="title" style="display:block; width:280px; white-space:normal;">Total Impairments</h2>
-			<img src="img/pollution.png" id="image" style="display:inline-block; float:right;"> 
+			<h2 id="title">Total Impairments</h2><br/>
+			<img src="img/pollution.png" id="pollutionImage" style="display:inline-block; float:right;"> 
 			<div><b id="leg1_block" style="background:#a50f15; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p>&nbsp</p><p id="leg1" style="margin-left:5px;">50+</p><br/></div>
 			<div><b id="leg2_block" style="background:#de2d26; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2" style="margin-left:5px;">25 - 50</p><br/></div>
 			<div><b id="leg3_block" style="background:#fb6a4a; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg3" style="margin-left:5px;">10 - 25</p><br/></div>
@@ -343,8 +343,7 @@ var pnw_water = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/
     	document.getElementById('title').innerHTML = "Total Impairments";
     	document.getElementById('description').innerHTML = "Total impairments in waterways. Impairments include Metals, Sediments, Algae, Pathogens, Oxygen Impairment, Ammonia, and more.";
     	document.getElementById('source').innerHTML = "Impaired waters are listed in the 2015 303(d) list provided by the U.S Environmental Protection Agency.";
-    	document.getElementById("image").src = "img/pollution.png";
-    	document.getElementById('pollutant').innerHTML = "Total Pollutants";
+    	document.getElementById("pollutionImage").src = "img/pollution.png";
     	resizeMiddle();
     	addHexgrid();
     	changeLegend();
@@ -359,8 +358,7 @@ var pnw_water = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/
     	document.getElementById('but2').style.background = 'rgba(242, 242, 242, 0.8)';
     	document.getElementById('description').innerHTML = "Total metal impairments in waterways. Metals can include Mercury, Iron, Lead, Manganese, Nickel, Zinc, and More.";
     	document.getElementById('source').innerHTML = "Impaired waters are listed in the 2015 303(d) list provided by the U.S Environmental Protection Agency.";
-    	document.getElementById("image").src = "img/mining.png";
-    	document.getElementById('pollutant').innerHTML = "Metals";
+    	document.getElementById("pollutionImage").src = "img/mining.png";
     	resizeMiddle();
     	addHexgrid();
     	changeLegend();
@@ -374,8 +372,7 @@ var pnw_water = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/
     	document.getElementById('but3').style.background = 'rgba(242, 242, 242, 0.8)';
     	document.getElementById('description').innerHTML = "Total oxygen impairments in waterways. Oxygen depletion is usually caused by organic enrichment.";
     	document.getElementById('source').innerHTML = "Impaired waters are listed in the 2015 303(d) list provided by the U.S Environmental Protection Agency.";
-    	document.getElementById("image").src = "img/oxygen.png";
-    	document.getElementById('pollutant').innerHTML = "Oxygen Depletion";
+    	document.getElementById("pollutionImage").src = "img/oxygen.png";
     	level = [0, 2, 5, 10, 20];
     	resizeMiddle();
     	addHexgrid();
@@ -391,8 +388,7 @@ var pnw_water = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/
     	level = [0, 5, 10, 15, 20];
     	document.getElementById('description').innerHTML = "Total pathogen impairments in waterways. Pathogens include E. Coli and Fecal Coliform.";
     	document.getElementById('source').innerHTML = "Impaired waters are listed in the 2015 303(d) list provided by the U.S Environmental Protection Agency.";
-    	document.getElementById("image").src = "img/pathogen.png";
-    	document.getElementById('pollutant').innerHTML = "Pathogens";
+    	document.getElementById("pollutionImage").src = "img/pathogen.png";
     	resizeMiddle();
     	addHexgrid();
     	changeLegend();
@@ -406,8 +402,7 @@ var pnw_water = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/
     	document.getElementById('but5').style.background = 'rgba(242, 242, 242, 0.8)';
     	document.getElementById('description').innerHTML = "Total sediment impairments in waterways.";
     	document.getElementById('source').innerHTML = "Impaired waters are listed in the 2015 303(d) list provided by the U.S Environmental Protection Agency.";
-    	document.getElementById("image").src = "img/sediment.png";
-    	document.getElementById('pollutant').innerHTML = "Sediment";
+    	document.getElementById("pollutionImage").src = "img/sediment.png";
     	level = [0, 4, 6, 8, 10];
     	resizeMiddle();
     	addHexgrid();
@@ -423,8 +418,7 @@ var pnw_water = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/
     	document.getElementById('description').innerHTML = "Total temperature impairments in each waterways.";
     	document.getElementById('source').innerHTML = "Impaired waters are listed in the 2015 303(d) list provided by the U.S Environmental Protection Agency.";
     	level = [0, 5, 10, 15, 20];
-    	document.getElementById("image").src = "img/temp.png";
-    	document.getElementById('pollutant').innerHTML = "Temperature";
+    	document.getElementById("pollutionImage").src = "img/temp.png";
     	resizeMiddle();
     	addHexgrid();
     	changeLegend();
@@ -438,8 +432,7 @@ var pnw_water = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/
     	document.getElementById('but7').style.background = 'rgba(242, 242, 242, 0.8)';
     	document.getElementById('description').innerHTML = "Total phosphorus input to water in thousands of KG/yr in 2002.";
     	document.getElementById('source').innerHTML = "Data compiled by U.S Geological Survey.";
-    	document.getElementById("image").src = "img/phosphorus.png";
-    	document.getElementById('pollutant').innerHTML = "Phosphorus";
+    	document.getElementById("pollutionImage").src = "img/phosphorus.png";
     	level = [0, 5, 10, 50, 100];
     	resizeMiddle();
     	addHexgrid();
@@ -454,8 +447,7 @@ var pnw_water = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/
     	document.getElementById('but8').style.background = 'rgba(242, 242, 242, 0.8)';
     	document.getElementById('description').innerHTML = "Total nitrogen input to water in thousands of KG/yr in 2002.";
     	document.getElementById('source').innerHTML = "Data compiled by U.S Geological Survey.";
-    	document.getElementById("image").src = "img/nitrogen.png";
-    	document.getElementById('pollutant').innerHTML = "Nitrogen";
+    	document.getElementById("pollutionImage").src = "img/nitrogen.png";
     	level = [0, 10, 50, 250, 1000];
     	resizeMiddle();
     	addHexgrid();
@@ -470,8 +462,7 @@ var pnw_water = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/
     	document.getElementById('but9').style.background = 'rgba(242, 242, 242, 0.8)';
     	document.getElementById('description').innerHTML = "Arsenic concentrations in &#xb5;/L found in at least 25% of samples. The EPA considers 10 &#xb5;/L the maximum safe concentration.";
     	document.getElementById('source').innerHTML = "Data obtained from 2003 Trace Elements National Synthesis Project compiled by U.S Geological Survey.";
-    	document.getElementById("image").src = "img/arsenic.png";
-    	document.getElementById('pollutant').innerHTML = "Arsenic";
+    	document.getElementById("pollutionImage").src = "img/arsenic.png";
     	level = [0, 3, 5, 10, 50];
     	resizeMiddle();
     	addHexgrid();
