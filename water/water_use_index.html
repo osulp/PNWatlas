@@ -5,7 +5,7 @@
      <title>Water Use</title>
     
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.2/dist/leaflet.css" /> 
-    <link rel="stylesheet" href="css/water_use_style.css" type="text/css">
+    <link rel="stylesheet" href="css/water_maps_style.css" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Maven+Pro" rel="stylesheet">
     <link rel="stylesheet" href="css/perfect-scrollbar.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -25,44 +25,45 @@
 		<div id="infoPanel">
 			<div id="top">
 			<h1>Water Use</h1>
-			<img src="img/water_use_icon.png" id="image2" style="display:inline-block;">
+			<img src="img/water_use_icon.png" id="titleImage" style="display:inline-block;">
 			<div id="buttons">
-				<div class="dropdown">
-  					<button class="dropbtn"><b id="use">Select Use</b><p id="arrow" style="font-size:16px;">&#9660;</p></button>
-  						<div class="dropdown-content">
-  							<button type="button" id="but1" onclick="totalFunc()" style="float:left; background:rgba(242, 242, 242, 0.67);" class="selection">Total</button>
-							<button type="button" id="but2" onclick="publicFunc()" class="selection" style="float:left;">Public</button>
-							<button type="button" id="but3" onclick="domesticFunc()" style="float:left;" class="selection">Domestic</button>
-							<button type="button" id="but4" onclick="industrialFunc()" class="selection" style="float:left;">Industrial</button>
-							<button type="button" id="but5" onclick="thermoFunc()" style="float:left;" class="selection">Thermoelectric</button>
-							<button type="button" id="but6" onclick="miningFunc()" style="float:left;" class="selection">Mining</button>
-							<button type="button" id="but7" onclick="livestockFunc()" style="float:left;" class="selection">Livestock</button>
-							<button type="button" id="but8" onclick="irrigationFunc()" style="float:left;" class="selection">Irrigation</button>
-							<button type="button" id="but9" onclick="aquaFunc()" style="float:left;" class="selection">Aquaculture</button>
+				<div class="dropdownSmall">
+  					<button class="dropbtnSmall"><b id="use">Select Use</b><p id="arrow" style="font-size:16px;">&#9660;</p></button>
+  						<div class="dropdown-contentSmall">
+  							<button type="button" id="but1" onclick="totalFunc()" style="float:left; background:rgba(242, 242, 242, 0.67);" class="selectionSmall">Total</button>
+							<button type="button" id="but2" onclick="publicFunc()" class="selectionSmall" style="float:left;">Public</button>
+							<button type="button" id="but3" onclick="domesticFunc()" style="float:left;" class="selectionSmall">Domestic</button>
+							<button type="button" id="but4" onclick="industrialFunc()" class="selectionSmall" style="float:left;">Industrial</button>
+							<button type="button" id="but5" onclick="thermoFunc()" style="float:left;" class="selectionSmall">Thermoelectric</button>
+							<button type="button" id="but6" onclick="miningFunc()" style="float:left;" class="selectionSmall">Mining</button>
+							<button type="button" id="but7" onclick="livestockFunc()" style="float:left;" class="selectionSmall">Livestock</button>
+							<button type="button" id="but8" onclick="irrigationFunc()" style="float:left;" class="selectionSmall">Irrigation</button>
+							<button type="button" id="but9" onclick="aquaFunc()" style="float:left;" class="selectionSmall">Aquaculture</button>
   						</div>
   				</div>
-  				<div class="dropdown">
-  					<button class="dropbtn"><b id="water">Select Water</b><p id="arrow" style="font-size:16px;">&#9660;</p></button>
-  						<div class="dropdown-content">
-  							<button type="button" id="total" onclick="totalWaterFunc()" class="selection" style="background:rgba(242, 242, 242, 0.8);">Total Water</button>
-  							<button type="button" id="surface" onclick="surfaceFunc()" class="selection">Surface Water</button>
-  							<button type="button" id="ground" onclick="groundFunc()" class="selection">Groundwater</button>
+  				<div class="dropdownSmall">
+  					<button class="dropbtnSmall"><b id="water">Select Water</b><p id="arrow" style="font-size:16px;">&#9660;</p></button>
+  						<div class="dropdown-contentSmall">
+  							<button type="button" id="total" onclick="totalWaterFunc()" class="selectionSmall" style="background:rgba(242, 242, 242, 0.8);">Total Water</button>
+  							<button type="button" id="surface" onclick="surfaceFunc()" class="selectionSmall">Surface Water</button>
+  							<button type="button" id="ground" onclick="groundFunc()" class="selectionSmall">Groundwater</button>
   						</div>
   				</div>
 			</div>
-			<h2 id="title" style="display:inline-block; width:280px; white-space:normal;">Total Water Use (Mgal/day)</h2><img src="img/total.png" id="image" style="display:inline-block; float:right;">
+			<h2 id="title" style="display:inline-block; width:280px; white-space:normal;">Total Water Use (Mgal/day)</h2><img src="img/total.png" id="image2" style="display:inline-block; float:right;">
 			<br>
-			<b id ="highest" style="background:#045a8d; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p>&nbsp</p><p id="leg1">1000+</p><br/>
-			<b id ="midhigh" style="background:#2b8cbe; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2">500 - 1000</p><br/>
-			<b id ="middle" style="background:#74a9cf; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg3">250 - 500</p><br/>
-			<b id ="midlow" style="background:#bdc9e1; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg4">100 - 250</p><br/>
-			<b id ="lowest" style="background:#f1eef6; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg5">Less than 100</p><br/>
-			<b style="background:#ffffff; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p>&nbsp</p><p id="leg5">0 or No Data</p><br/><br/>
+			<b id ="highest" style="background:#045a8d; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p id="leg1" style="margin-left:5px;">1000+</p><br/>
+			<b id ="midhigh" style="background:#2b8cbe; border-left:black 2px solid; border-right:black 2px solid;"></b><p id="leg2" style="margin-left:5px;">500 - 1000</p><br/>
+			<b id ="middle" style="background:#74a9cf; border-left:black 2px solid; border-right:black 2px solid;"></b><p id="leg3" style="margin-left:5px;">250 - 500</p><br/>
+			<b id ="midlow" style="background:#bdc9e1; border-left:black 2px solid; border-right:black 2px solid;"></b><p id="leg4" style="margin-left:5px;">100 - 250</p><br/>
+			<b id ="lowest" style="background:#f1eef6; border-left:black 2px solid; border-right:black 2px solid;"></b><p id="leg5" style="margin-left:5px;">Less than 100</p><br/>
+			<b style="background:#ffffff; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p>&nbsp</p><p id="leg5">&nbsp0 or No Data</p><br/><br/>
 			<p id="description" style="font-weight:bold; padding:0; display:inline-block; white-space:normal; width:280px; position:relative;">Water use in millions of gallons of water per day.</p>
 			</div>
 			<div id="attribution">
 				<div id="text" style="margin-top:15px;">
-					<p3>The U.S. Geological Survey's National Water-Use Science Project is responsible for compiling and disseminating the nation's water-use data. The USGS works in cooperation with local, State, and Federal environmental agencies to collect water-use information. USGS compiles these data to produce water-use information aggregated at the county, state, and national levels. Every five years, data at the county level are compiled into a national water-use data system and state-level data are published in a national circular. Over the history of these circulars, the water-use categories have had some changes. The USGS Water-Use Data and Research program seeks to develop improved water-use data through agreements with State water-resources agencies.</p3>
+					<p3 style="font-weight:bold; line-height:36px;">Quick Facts:</p3><br/>
+					<p3 id="facts" style="line-height:20px;">&#9900 Total water use in Pacific Northwest is 28,920 Mgal/day (2010 data). 20,939 Mgal/day for surface water, and 7,982 Mgal/day for groundwater.<br/><br/>&#9900 Idaho uses more water than Oregon and Washington Combined.<br/><br/>&#9900 Irrigation comprises 77.6% of total water use.</p3>
 				</div>
 				<br/>
 			</div>
@@ -397,9 +398,10 @@
     	document.getElementById('title').innerHTML = titleText();
     	document.getElementById('description').innerHTML = "% of population employed in outdoor recreation";
     	document.getElementById('but1').style.background = "rgba(242, 242, 242, 1)";
-    	document.getElementById("image").src = "img/total.png";
+    	document.getElementById("image2").src = "img/total.png";
     	document.getElementById('description').innerHTML = "Water use in millions of gallons of water per day.";
     	document.getElementById('use').innerHTML = "Total";
+    	document.getElementById('facts').innerHTML = "&#9900 Total water use in Pacific Northwest is 28,920 Mgal/day (2010 data). 20,939 Mgal/day for surface water, and 7,982 Mgal/day for groundwater.<br/><br/>&#9900 Idaho uses more water than Oregon and Washington Combined.<br/><br/>&#9900 Irrigation comprises 77.6% of total water use.";
 		legend();
 		update();
     }  
@@ -413,9 +415,10 @@
     	document.getElementById('title').innerHTML = titleText();
     	document.getElementById('but2').style.background = "rgba(242, 242, 242, 1)";
     	document.getElementById('description').innerHTML = "Per capita outdoor recreation spending in dollars";
-    	document.getElementById("image").src = "img/public.png";
+    	document.getElementById("image2").src = "img/public.png";
     	document.getElementById('description').innerHTML = "Public self-supplied water use in millions of gallons of water per day. Includes deliveries to domestic users.";
     	document.getElementById('use').innerHTML = "Public";
+    	document.getElementById('facts').innerHTML = "&#9900 Total public water use in Pacific Northwest is 1,682 Mgal/day (2010 data). 886 Mgal/day for surface water, and 796 Mgal/day for groundwater.<br/><br/>&#9900 Of the three PNW states, Washington has the highest daily public water use.";
     	legend();
     	update();
     }
@@ -429,9 +432,10 @@
     	document.getElementById('title').innerHTML = titleText();
     	document.getElementById('description').innerHTML = "Average annual outdoor recreation wages in thousands of dollars";
     	document.getElementById('but3').style.background = "rgba(242, 242, 242, 1)";
-    	document.getElementById("image").src = "img/domestic.png";
+    	document.getElementById("image2").src = "img/domestic.png";
     	document.getElementById('description').innerHTML = "Domestic self-supplied water use in millions of gallons of water per day. Does not include deliveries from public water providers.";
     	document.getElementById('use').innerHTML = "Domestic";
+    	document.getElementById('facts').innerHTML = "&#9900 Total domestic water use in Pacific Northwest is 259 Mgal/day (2010 data). 7 Mgal/day for surface water, and 252 Mgal/day for groundwater.<br/><br/>&#9900 Of the three PNW states, Washington has the highest daily domestic water use.";
     	legend();
     	update();
     }
@@ -445,9 +449,10 @@
     	document.getElementById('title').innerHTML = titleText();
     	document.getElementById('description').innerHTML = "Per capita outdoor recreation tax revenue in dollars";
     	document.getElementById('but4').style.background = "rgba(242, 242, 242, 1)";
-    	document.getElementById("image").src = "img/industry.png";
+    	document.getElementById("image2").src = "img/industry.png";
     	document.getElementById('description').innerHTML = "Industrial self-supplied water use in millions of gallons of water per day.";
     	document.getElementById('use').innerHTML = "Industrial";
+    	document.getElementById('facts').innerHTML = "&#9900 Total industrial water use in Pacific Northwest is 666 Mgal/day (2010 data). 532 Mgal/day for surface water, and 135 Mgal/day for groundwater.<br/><br/>&#9900 Of the three PNW states, Washington has the highest daily industrial water use.";
     	legend();
     	update();
     }
@@ -461,9 +466,10 @@
     	document.getElementById('title').innerHTML = titleText();
     	document.getElementById('description').innerHTML = "% of population employed in outdoor recreation";
     	document.getElementById('but5').style.background = "rgba(242, 242, 242, 1)";
-    	document.getElementById("image").src = "img/thermo.png";
+    	document.getElementById("image2").src = "img/thermo.png";
     	document.getElementById('description').innerHTML = "Self-supplied water use for thermoelectricity in millions of gallons of water per day.";
     	document.getElementById('use').innerHTML = "Thermoelectric";
+    	document.getElementById('facts').innerHTML = "&#9900 Total thermoelectric water use in Pacific Northwest is 51 Mgal/day (2010 data). 47 Mgal/day for surface water, and 4 Mgal/day for groundwater.<br/><br/>&#9900 Of the three PNW states, Washington has the highest daily thermoelectric water use.";
     	legend();
     	update();
     }
@@ -477,9 +483,10 @@
     	document.getElementById('title').innerHTML = titleText();
     	document.getElementById('description').innerHTML = "% of population employed in local government parks & recreation organizations";
     	document.getElementById('but6').style.background = "rgba(242, 242, 242, 1)";
-    	document.getElementById("image").src = "img/mines.png";
+    	document.getElementById("image2").src = "img/mines.png";
     	document.getElementById('description').innerHTML = "Self-supplied water use for mining in millions of gallons of water per day.";
     	document.getElementById('use').innerHTML = "Mining";
+    	document.getElementById('facts').innerHTML = "&#9900 Total mining water use in Pacific Northwest is 46 Mgal/day (2010 data). 24 Mgal/day for surface water, and 22 Mgal/day for groundwater.<br/><br/>&#9900 Of the three PNW states, Idaho has the highest daily mining water use.";
     	legend();
     	update();	
     }
@@ -493,9 +500,10 @@
     	document.getElementById('title').innerHTML = titleText();
     	document.getElementById('description').innerHTML = "Average annual wages for full-time local gov. parks & rec. employees in thousands of dollars";
     	document.getElementById('but7').style.background = "rgba(242, 242, 242, 1)";
-    	document.getElementById("image").src = "img/livestock.png";
+    	document.getElementById("image2").src = "img/livestock.png";
     	document.getElementById('description').innerHTML = "Self-supplied water use for livestock in millions of gallons of water per day.";
     	document.getElementById('use').innerHTML = "Livestock";
+    	document.getElementById('facts').innerHTML = "&#9900 Total livestock water use in Pacific Northwest is 92 Mgal/day (2010 data). 32 Mgal/day for surface water, and 60 Mgal/day for groundwater.<br/><br/>&#9900 Of the three PNW states, Idaho has the highest daily livestock water use.";
     	legend();
     	update();
     }
@@ -508,9 +516,10 @@
     	document.getElementById('title').innerHTML = titleText();
     	document.getElementById('description').innerHTML = "Average annual wages for full-time local gov. parks & rec. employees in thousands of dollars";
     	document.getElementById('but8').style.background = "rgba(242, 242, 242, 1)";
-    	document.getElementById("image").src = "img/irrigation.png";
+    	document.getElementById("image2").src = "img/irrigation.png";
     	document.getElementById('description').innerHTML = "Self-supplied water use for irrigation in millions of gallons of water per day.";
     	document.getElementById('use').innerHTML = "Irrigation";
+    	document.getElementById('facts').innerHTML = "&#9900 Total irrigation water use in Pacific Northwest is 22,444 Mgal/day (2010 data). 15,917 Mgal/day for surface water, and 6,527 Mgal/day for groundwater.<br/><br/>&#9900 Of the three PNW states, Idaho has the highest daily irrigation water use.";
     	legend();
     	update();
     }
@@ -523,9 +532,10 @@
     	document.getElementById('title').innerHTML = titleText();
     	document.getElementById('description').innerHTML = "Average annual wages for full-time local gov. parks & rec. employees in thousands of dollars";
     	document.getElementById('but9').style.background = "rgba(242, 242, 242, 1)";
-    	document.getElementById("image").src = "img/aqua.png";
+    	document.getElementById("image2").src = "img/aqua.png";
     	document.getElementById('description').innerHTML = "Self-supplied water use for aquaculture in millions of gallons of water per day.";
     	document.getElementById('use').innerHTML = "Aquaculture";
+    	document.getElementById('facts').innerHTML = "&#9900 Total aquaculture water use in Pacific Northwest is 3,679 Mgal/day (2010 data). 3,494 Mgal/day for surface water, and 185 Mgal/day for groundwater.<br/><br/>&#9900 Of the three PNW states, Idaho has the highest daily aquaculture water use.";
     	legend();
     	update();
     }
