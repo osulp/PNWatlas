@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+     <title>Power Plants</title>
+    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.2/dist/leaflet.css" /> 
+    <link rel="stylesheet" href="css/energy_maps_style.css" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Maven+Pro" rel="stylesheet">
+    <link rel="stylesheet" href="css/perfect-scrollbar.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
+    <link rel="shortcut icon" href="img/pnw.ico" type="image/x-icon">
+    
+    <script src="https://unpkg.com/leaflet@1.0.2/dist/leaflet.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="https://d3js.org/topojson.v1.min.js"></script>
+    <script src="js/perfect-scrollbar.js"></script>
+    
+   
+</head>
+<body>
+		<button id="collapse" onclick="collapse()">
+			<i class="fa fa-chevron-left" id ="collapse-arrow" aria-hidden="true"></i>
+		</button>
+		<div id="infoPanel">
+			<div id="top">
+				<h1>Power Plants</h1>
+				<img src="img/renewable.png" id="titleImage" style="display:inline-block;">
+				<h2 id="title">Power Type</h2><h2 id="title" style="margin-left:50px;">Capacity (MW)</h2>
+				<div style="height:25px;"><div><b class="circle" id="leg1_block" style="background:rgba(51,102,204,0.5); border:#ffffff 1px solid; width:20px; height:20px;"></b><p class="dam" style="padding-left:28px;">&nbspHydroelectric</p></div><div id="damLegendSide" style="margin-left:150px;"><b class="circle" style="background:rgba(0,0,0,0); width:25px; height:25px; border: white 1.5px solid;"></b><p class="dam" style="padding-left:36px;">&nbsp1000+</p></div></div>
+				<div style="height:25px;"><div><b class="circle" id="leg1_block" style="background:rgba(140,26,255,0.5); border:#ffffff 1px solid; width:20px; height:20px;"></b><p class="dam" style="padding-left:28px;">&nbspWind</p></div><div id="damLegendSide" style="margin-left:150px;"><b class="circle" style="background:rgba(0,0,0,0); margin-top:3px; width:20px; height:20px; border: white 1.5px solid;"></b><p class="dam" style="padding-left:36px;">&nbsp500 - 1000</p></div></div>
+				<div style="height:25px;"><div><b class="circle" id="leg1_block" style="background:rgba(51,153,102,0.5); border:#ffffff 1px solid; width:20px; height:20px;"></b><p class="dam" style="padding-left:28px;">&nbspBiomass</p></div><div id="damLegendSide" style="margin-left:150px;"><b class="circle" style="background:rgba(0,0,0,0); margin-top:5px; width:16px; height:16px; border: white 1.5px solid;"></b><p class="dam" style="padding-left:36px;">&nbsp250 - 500</p></div></div>
+				<div style="height:25px;"><div><b class="circle" id="leg1_block" style="background:rgba(230,0,0,0.5); border:#ffffff 1px solid; width:20px; height:20px;"></b><p class="dam" style="padding-left:28px;">&nbspFossil Fuels</p></div><div id="damLegendSide" style="margin-left:150px;"><b class="circle" style="background:rgba(0,0,0,0); margin-top:7px; width:11px; height:11px; border: white 1.5px solid;"></b><p class="dam" style="padding-left:36px;">&nbsp50 - 250</p></div></div>
+				<div style="height:25px;"><div><b class="circle" id="leg1_block" style="background:rgba(255,153,51,0.5); border:#ffffff 1px solid; width:20px; height:20px;"></b><p class="dam" style="padding-left:28px;">&nbspNuclear</p></div><div id="damLegendSide" style="margin-left:150px;"><b class="circle" style="background:rgba(0,0,0,0); margin-top:9px; width:7px; height:7px; border: white 1.5px solid;"></b><p class="dam" style="padding-left:36px;">Less than 50</p></div></div>
+				<div style="height:25px;"><div><b class="circle" id="leg1_block" style="background:rgba(230,230,0,0.5); border:#ffffff 1px solid; width:20px; height:20px;"></b><p class="dam" style="padding-left:28px;">&nbspSolar</p></div></div>
+				<div style="height:25px;"><div><b class="circle" id="leg1_block" style="background:rgba(153,102,51,0.5); border:#ffffff 1px solid; width:20px; height:20px;"></b><p class="dam" style="padding-left:28px;">&nbspGeothermal</p></div></div>
+				<div style="height:25px;"><div><b class="circle" id="leg1_block" style="background:rgba(191,191,191,0.5); border:#ffffff 1px solid; width:20px; height:20px;"></b><p class="dam" style="padding-left:28px;">&nbspOther</p></div></div>
+				<br/>
+				<p id="description" style="font-weight:bold; text-align:justify; white-space:normal; padding-left:0px; width:280px; display:block; position:relative;">Wind energy potential class. Higher classes correspond with greater potential.</p>
+			</div>
+			<div id="attribution">
+				<div id="text">
+					<p3 id="textBody">Wind power is the use of air flow through wind turbines to mechanically power generators for electric power. Wind power, as an alternative to burning fossil fuels, is plentiful, renewable, widely distributed, clean, produces no greenhouse gas emissions during operation, consumes no water, and uses little land. The net effects on the environment are far less problematic than those of nonrenewable power sources. Wind farms consist of many individual wind turbines which are connected to the electric power transmission network. Onshore wind is an inexpensive source of electric power, competitive with or in many places cheaper than coal or gas plants. Offshore wind is steadier and stronger than on land, and offshore farms have less visual impact, but construction and maintenance costs are considerably higher. Small onshore wind farms can feed some energy into the grid or provide electric power to isolated off-grid locations.</p3>			
+				</div>
+			</div>
+			<div id="pageChange">
+				<a href="water_use_index.html" id="arrow" style="display:inline-block;">
+					<i class="fa fa-arrow-left" aria-hidden="true" style=""></i>
+				</a>
+				<a href="#popup1" id="arrow" style="display:inline-block;">
+					<i class="fa fa-info-circle" aria-hidden="true" style="padding-left:83px;"></i>
+				</a>
+				<a href="energy_index.html" id="arrow" style="display:inline-block;" target="_blank">
+					<i class="fa fa-home" aria-hidden="true" style="padding-left:0;"></i>
+				</a>
+				<a href="watershed_index.html" id="arrow" style="display:inline-block;">
+					<i class="fa fa-arrow-right" aria-hidden="true" style="padding-left:82px;"></i>
+				</a>
+			</div>
+		</div>
+    	<div id="map" style="width: 100%; height: 100%;"></div>
+    	
+    	<div id="popup1" class="overlay">
+			<div class="popup">
+				<h2 style="display:inline; font-size:32px;">Sources</h2>
+				<a class="close" href="#" style="display:inline;">×</a>
+				<hr>
+				<div class="content">
+					<p2 style="font-size:20px">Geographic Data</p2><br><br/>
+                    <div class="source">
+                    	<b><p2>Power Plants: <a href = "https://www.eia.gov/maps/layer_info-m.php" target="_blank">US Energy Information Administration</a></p2></b><br>
+                    </div>
+                    <div class="source">
+                    	<b><p2>Wind Potential: <a href = "https://www.nrel.gov/gis/data-wind.html" target="_blank">National Renewable Energy Laboratory</a></p2></b><br>
+                    		<p3>Notes: Wind Power Classes based on wind speed at 50 meters.</p3>
+                    </div>
+                    <div class="source">
+                    	<b><p2>Geothermal Potential: <a href = "https://www.nrel.gov/gis/data-geothermal.html" target="_blank">National Renewable Energy Laboratory</a></p2></b><br>
+                    </div>
+                    <div class="source">
+                    	<b><p2>Solar Irriadiance: <a href = "https://www.nrel.gov/gis/data-solar.html" target="_blank">National Renewable Energy Laboratory</a></p2></b><br>
+                    		<p3>Notes: Dataset: Lower 48 and Hawaii DNI 10-km Resolution 1998–2009.</p3>
+                    </div>
+                    <div class="source">
+                    	<b><p2>Biomass by County: <a href = "https://www.nrel.gov/gis/data-biomass.html" target="_blank">National Renewable Energy Laboratory</a></p2></b><br>
+                    </div>
+				</div>
+				<hr>
+				<p2 style="float:right; font-size:12px;">Map created with Leaflet.</p2>
+				<br/>
+				<a class="close2" href="#" style="display:inline;">Close</a>
+			</div>
+		</div>
+<script>
+	
+	var collapsed = false;
+    function collapse(){
+    	if (collapsed == false){
+    		document.getElementById("infoPanel").style.transition = "display 2s";
+    		document.getElementById("infoPanel").style.display = "none";
+    		document.getElementById("collapse").style.left = '0px';
+    		document.getElementById("collapse").style.paddingLeft = '2px';
+    		document.getElementById("collapse-arrow").className = "fa fa-chevron-right";
+    		collapsed = true;
+    	} else{
+    		document.getElementById("infoPanel").style.display = "unset";
+    		document.getElementById("collapse").style.left = '320px';
+    		document.getElementById("collapse").style.paddingLeft = '0px';
+    		document.getElementById("collapse-arrow").className = "fa fa-chevron-left";
+    		collapsed = false;
+    	}
+    	
+    }
+    
+    L.TopoJSON = L.GeoJSON.extend({  
+  		addData: function(jsonData) {    
+    		if (jsonData.type === 'Topology') {
+      			for (key in jsonData.objects) {
+       			 geojson = topojson.feature(jsonData, jsonData.objects[key]);
+       			 L.GeoJSON.prototype.addData.call(this, geojson);
+      		}
+    	}    
+    	else {
+      		L.GeoJSON.prototype.addData.call(this, jsonData);
+    		}
+  		}  
+	});
+	//initialize map
+	var map = L.map('map', {center: [45.56, -119.75], zoom: 7, zoomControl:false});
+	///////////////////////make zoom level correspond to browser size////////////////////////////////
+	window.addEventListener('load', function(event){
+    	var width = document.documentElement.clientWidth;
+    	if (width < 1500 && width > 800) {
+        	map.setView(new L.LatLng(45.56, -121.75), 6); 
+    		}  else if (width > 1501) {
+        	map.setZoom(7);
+        	} else {
+        	map.setZoom(5);
+        	}
+	});
+	////////////////////////////////add tiled basemap////////////////////////////////
+var Esri_WorldTerrain = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer/tile/{z}/{y}/{x}', {
+		attribution: 'Tiles &copy; Esri &mdash; Source: USGS, Esri, TANA, DeLorme, and NPS',
+		maxZoom:10,
+		minZoom:5,
+		opacity:1
+	}).addTo(map);
+var pnwCover = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
+		layers: 'baldricg_PNW_ATLAS:pnw_outline2_black',
+        format: 'image/png',
+		maxZoom:10,
+		minZoom:5,
+		opacity:0.3,
+		transparent:true,
+	}).addTo(map);
+var label = L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_only_labels/{z}/{x}/{y}@2x.png', {
+		attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
+		subdomains: 'abcd',
+		maxZoom:10,
+		minZoom:5,
+		tileSize:256,
+		bounds:[
+			new L.LatLng(49.56,-125.25),
+			new L.LatLng(40.5,-111.5)
+		],
+		pane:'labels'
+	});	
+	
+	
+	map.createPane('labels');
+	map.getPane('labels').style.pointerEvents = 'none';
+	map.getPane('labels').style.zIndex = 650;
+	label.addTo(map);
+	
+	map.createPane('tooltip');
+	map.getPane('tooltip').style.zIndex = 700;
+	//changes depending on which data type is selected, initial value is for County Employment
+	var data = 0;
+	var water = 0;
+	//used with DATA variable to select data type corresponding to each button. Odd numbered buttons correspond to state-level data
+	var buttonNumber = ['but1','but2','but3','but4','but5','but6','but7','but8','but9'];
+	
+
+    ///////////////////////////////////////////////////////////////////////////////////////	
+  	var info = L.control();
+
+	info.onAdd = function (map) {
+    	this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
+    	this.update();
+    	return this._div;
+	};
+	
+	info.update = function (feature) {
+		function bioType(){
+			return bioSwitch == 0 ? feature.total_soli:
+					feature.total_ch4.toFixed(2);
+		}
+		if (data < 3){
+   			this._div.innerHTML = ('<p style="display:inline; font-weight:bold;">Hover Over Map</p>');
+			}
+		else {	
+			this._div.innerHTML = (feature ?
+        	'<h3 style="margin:0; display:inline-block;">'+ feature.CNTY_NAME +'</h3><br/>' + '<p style="display:inline; font-weight:bold;">' + bioType() + ' tons/yr</p>'
+       		:'<p style="display:inline; font-weight:bold;">Hover Over Map</p>');
+       	}
+	};
+
+	info.addTo(map);
+    
+    ////////////////////////////////initial geoJSON styling////////////////////////////////
+
+	var data = 0;
+	var classButtonType = 'but1';
+	var bioSwitch=0;
+	
+	var dams;
+	
+	function damSize(e){
+		return e > 1000 ? 15:
+			e > 500 ? 12:
+			e > 250 ? 10:
+			e > 50 ? 8:
+				5; 
+	}
+	
+	function damColor(e){
+		return e == 'hydroelectric' ? '#3366cc':
+			e == 'natural gas' || e == 'coal' || e == 'petroluem' ? '#e60000':
+			e == 'wind' ? '#8c1aff':
+			e == 'solar' ? '#e6e600':
+			e == 'geothermal' ? '#996633':
+			e == 'biomass' ? '#339966':
+			e == 'nuclear' ? '#ff9933':
+				'#bfbfbf'; 
+	}
+	
+	function damHighlight(e) {
+		 var layer = e.target;
+		 layer.setStyle({
+        	fillOpacity: 1,
+        	color: damColor(layer.feature.properties.PrimSource)
+    	 });
+		}
+	//reset feature function (after highlight)
+	function resetDamHighlight(e) {
+		var layer = e.target;
+		 dams.resetStyle(layer);
+	}
+	
+	function pointStyle(feature, latlng){
+		return L.circleMarker(latlng, {
+    				color:'#ffffff',
+    				fillColor: damColor(feature.properties.PrimSource),
+    				radius: damSize(feature.properties.Total_MW),
+    				opacity: 1,
+    				fillOpacity: 0.5,
+    				weight: 1.5,
+    			})
+    		}
+
+    function addDams(){
+    	dams = $.getJSON("assets/pnw_power_plants.geojson", function(data){
+        	dams = L.geoJson(data, {
+        		pointToLayer: pointStyle,
+    			onEachFeature: function(feature, featureLayer) {
+        			featureLayer.bindTooltip('<h3 style="display:inline;">' + feature.properties.Plant_Name + '</h3><br/><p style="display:inline;">Operator:&nbsp' + feature.properties.Utility_Na + '&nbsp<br/>Type:&nbsp' + feature.properties.tech_desc + '<br/>Capacity:&nbsp' + feature.properties.Total_MW + ' MW</p>', {className: 'label_tooltip', pane:'tooltip'});
+        			featureLayer.on({
+        				mouseover: damHighlight,
+        				mouseout: resetDamHighlight
+   					});
+        		}
+        	}).addTo(map);
+   	 	});
+	}
+	
+	
+	//////////////////////////////////////////////////////////////////////////////
+    
+    const lines = new L.TopoJSON();
+
+	$.getJSON('assets/transmission_lines.json')
+  		.done(addLineData);
+
+	function addLineData(topoData) {  
+  		lines.addData(topoData);
+  		lines.addTo(map);
+  		lines.eachLayer(handleLayer);
+  		addDams();
+	}
+	
+	function lineWeight(e){
+		return e == '500' ? 1.25:
+			e == '100-161' ||  e == '220-287' ? 0.75:
+				0.5;
+	}
+	
+	function handleLayer(layer){
+        layer.setStyle({
+            weight: lineWeight(layer.feature.properties.VOLT_CLASS),
+            opacity: 0.8,
+            color: '#999999'
+        });
+    }
+    
+
+	
+	///////////////////////////////add outline layers////////////////////////////////
+	function pnwCountiesStyle(){
+	return{
+		opacity: 1,
+		color:'#ffffff',
+		fillOpacity:0.2,
+		fillColor:'#ffffff',
+		weight:0.5
+		};
+	}
+     var pnwCounties = $.getJSON("assets/pnw_counties.geojson", function(data){
+        pnwCounties = L.geoJson(data, {
+        	style:pnwCountiesStyle,
+        	interactive: false,
+        	pane: 'tilePane'
+        }).addTo(map);
+    });
+	
+	function pnwStatesStyle(){
+	return{
+		opacity: 1,
+		color:'#f2f2f2',
+		weight:1.5
+		};
+	}
+     var pnwStates = $.getJSON("assets/pnw_states.geojson", function(data){
+        pnwStates = L.geoJson(data, {
+        	style:pnwStatesStyle,
+        	interactive: false,
+        	pane: 'tilePane'
+        });
+    });
+   
+	//////////////////////////////////////////////////////////////////////////////
+
+   	//add zoom control
+    new L.Control.Zoom({ position: 'topright' }).addTo(map);
+    
+    //remove leaflet attribution
+	document.getElementsByClassName("leaflet-control-attribution")[0].style.visibility = "hidden";
+	
+	//add scrolling capabilities to text box
+     var container = document.getElementById('text');
+		Ps.initialize(container);
+	
+	//update text box to be correct size
+	var minHeight = 50; // Define a minimum height for the middle div
+
+	function resizeMiddle() {
+    var h = $('body').height() - $('#top').height() - 65;
+    		h = h > minHeight ? h : minHeight;
+   	 	$('#attribution').height(h);
+	}
+
+	$(document).ready(resizeMiddle);
+	$(window).resize(resizeMiddle);
+	
+    //remove standard leaflet attribution
+    
+
+</script>
+</body>
+</html>
