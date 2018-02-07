@@ -18,9 +18,9 @@
      <script src="https://unpkg.com/leaflet.vectorgrid@latest/dist/Leaflet.VectorGrid.bundled.js"></script>
     <script src="js/perfect-scrollbar.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tween.js/17.1.1/Tween.min.js"></script>
-    <script src="js/CanvasFlowmapLayer.js"></script>
     <script src="https://unpkg.com/papaparse@4.3.6/papaparse.min.js"></script>
-    
+    <script src="js/CanvasFlowmapLayer.js"></script>
+
    
 </head>
 <body>
@@ -61,7 +61,7 @@
 			</div>
 			<div id="attribution">
 				<div id="text" style="margin-top:10px;">
-					<p3 id="information">Chinook salmon are the largest of the Pacific salmon, with some individuals growing to more than 100 pounds. These huge fish are rare, as most mature chinook are under 50 pounds. <br/><br/>Most chinook spawn in large rivers such as the Columbia and Snake, although they will also use smaller streams with sufficient water flow. They tend to spawn in the mainstem of streams, where the water flow is high. Because of their size they are able to spawn in larger gravel than most other salmon. Chinook spawn on both sides of the Cascade Range, and some fish travel hundreds of miles upstream before they reach their spawning grounds. Because of the distance, these fish enter streams early and comprise the spring and summer runs. Fall runs spawn closer to the ocean and more often use small coastal streams. All chinook reach their spawning grounds by fall, in time to spawn.<br/><br/>Chinook fry rear in freshwater from three months to a year, depending on the race of chinook and the location. Spring chinook tend to stay in streams for a year; fish in northern areas, where the streams are less productive and growth is slower, also tend to stay longer. Rearing chinook fry use mainstems and their tributaries.</p3>
+					
 				</div>
 			</div>
 			<div id="pageChange">
@@ -222,16 +222,16 @@
 	info.addTo(map);
 	
 	function addFlow(){
-	if (remove == true){
-			oneToManyFlowmapLayer.clearAllPathSelections();
-			//remove = false;
+		if (remove == true){
+				oneToManyFlowmapLayer.clearAllPathSelections();
+				//remove = false;
+			}
+		function flowSelection(){
+			return flowType == 0 ? 'assets/net_migration.csv':
+				flowType == 1 ? 'assets/inflow.csv':
+					'assets/outflow.csv';
 		}
-	function flowSelection(){
-		return flowType == 0 ? 'assets/net_migration.csv':
-			flowType == 1 ? 'assets/inflow.csv':
-				'assets/outflow.csv';
-	}
-	Papa.parse(flowSelection(), {
+	  Papa.parse(flowSelection(), {
       download: true,
       header: true,
       dynamicTyping: true,
@@ -251,7 +251,7 @@
           })
         };
 	
-	oneToManyFlowmapLayer = L.canvasFlowmapLayer(geoJsonFeatureCollection, {
+	  oneToManyFlowmapLayer = L.canvasFlowmapLayer(geoJsonFeatureCollection, {
           originAndDestinationFieldIds: {
             originUniqueIdField: 'source',
             originGeometry: {
@@ -354,7 +354,7 @@
           		return {
             		renderer: canvasRenderer,
             		radius: 0,
-            		weight: 0,
+            		weight: 1,
             		color: 'rgb(0, 0, 0,0)',
             		fillColor: 'rgba(0, 0, 0, 0)',
             		fillOpacity: 0.0

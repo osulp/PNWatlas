@@ -31,7 +31,7 @@
 			<img src="img/house_background.png" id="titleImage" style="display:inline-block; height:40px;">
 			<div id="buttons">
 				<div class="dropdown">
-  					<button class="dropbtn"><b id="pollutant">Select Data</b><p id="arrow">&#9660;</p></button>
+  					<button class="dropbtn"><b id="dataType">Select Data</b><p id="arrow">&#9660;</p></button>
   					<div class="dropdown-content">
    						 <button type="button" id="but1" onclick="occupation()" class="selection" style="background:rgba(242, 242, 242, 0.8);">Occupation</button>
 						 <button type="button" id="but2" onclick="tenure()" class="selection">Tenure</button>
@@ -467,6 +467,7 @@ var label = L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/ligh
     	document.getElementById(buttonType).style.background = "rgba(242, 242, 242, 0.2)";
     	buttonType = 'but1';
     	document.getElementById('but1').style.background = "rgba(242, 242, 242, 1)";
+    	document.getElementById('dataType').innerHTML = 'Occupation';
     	document.getElementById('title').innerHTML = 'Occupation';
     	document.getElementById('description').innerHTML = 'Percent of housing units occupied within a census block group.';
     	document.getElementById('chartDescription').innerHTML = 'Housing units by occupancy status.';
@@ -493,6 +494,7 @@ var label = L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/ligh
     	document.getElementById(buttonType).style.background = "rgba(242, 242, 242, 0.2)";
     	buttonType = 'but2';
     	document.getElementById('but2').style.background = "rgba(242, 242, 242, 1)";
+    	document.getElementById('dataType').innerHTML = 'Tenure';
     	document.getElementById('title').innerHTML = 'Percent Owned';
     	document.getElementById('description').innerHTML = 'Percent of occupied housing units that are owned. Lower percentages indicate more rental units.';
     	document.getElementById('chartDescription').innerHTML = 'Housing units by tenure.';
@@ -519,6 +521,7 @@ var label = L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/ligh
     	document.getElementById(buttonType).style.background = "rgba(242, 242, 242, 0.2)";
     	buttonType = 'but3';
     	document.getElementById('but3').style.background = "rgba(242, 242, 242, 1)";
+    	document.getElementById('dataType').innerHTML = 'Median Home Age';
     	document.getElementById('title').innerHTML = 'Median Home Age';
     	document.getElementById('description').innerHTML = 'Median home age within census block group.';
     	document.getElementById('chartDescription').innerHTML = 'Housing units by age category.';
@@ -549,6 +552,7 @@ var label = L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/ligh
     	document.getElementById(buttonType).style.background = "rgba(242, 242, 242, 0.2)";
     	buttonType = 'but4';
     	document.getElementById('but4').style.background = "rgba(242, 242, 242, 1)";
+    	document.getElementById('dataType').innerHTML = 'Median Value';
     	document.getElementById('title').innerHTML = 'Median Home Value';
     	document.getElementById('description').innerHTML = 'Median value of owned housing units in thousands of dollars.';
     	document.getElementById('chartDescription').innerHTML = 'Housing units by value category in thousands of dollars.';
@@ -579,6 +583,7 @@ var label = L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/ligh
     	document.getElementById(buttonType).style.background = "rgba(242, 242, 242, 0.2)";
     	buttonType = 'but5';
     	document.getElementById('but5').style.background = "rgba(242, 242, 242, 1)";
+    	document.getElementById('dataType').innerHTML = 'Median Rent';
     	document.getElementById('title').innerHTML = 'Median Rent';
     	document.getElementById('description').innerHTML = 'Median rent of rental units in dollars.';
     	document.getElementById('chartDescription').innerHTML = 'Housing units by rent category.';
@@ -609,6 +614,7 @@ var label = L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/ligh
     	document.getElementById(buttonType).style.background = "rgba(242, 242, 242, 0.2)";
     	buttonType = 'but6';
     	document.getElementById('but6').style.background = "rgba(242, 242, 242, 1)";
+    	document.getElementById('dataType').innerHTML = 'Housing Type';
     	document.getElementById('title').innerHTML = 'Percent Single Family Homes';
     	document.getElementById('description').innerHTML = 'Percent of housing units classified as Single Family Homes. Low percentages indicates more multi-family housing units.';
     	document.getElementById('chartDescription').innerHTML = 'Housing units by classification.';
