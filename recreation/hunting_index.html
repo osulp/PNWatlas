@@ -16,6 +16,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
     <script src="https://d3js.org/topojson.v1.min.js"></script>
     <script src="js/perfect-scrollbar.js"></script>
+    <script type="text/javascript" src="../js/clickFunction.js"></script>
    
 </head>
 <body>
@@ -24,34 +25,34 @@
 		</button>
 		<div id="infoPanel">
 			<div id="top">
-			<h1 style="display:inline-block; margin-left:65px;">Hunting</h1>
-			<img src="img/hunting_icon.png" id="image" style="display:inline-block;"> <br/>
+			<h1>Hunting</h1>
+			<img src="img/hunting_icon.png" id="titleImage" style="display:inline-block;"> <br/>
 			<div id="buttons">
 			<div class="dropdownSmall">
-  				<button class="dropbtnSmall"><b id="animalSel">Select Animal</b><p id="arrow">&#9660;</p></button>
+  				<button class="dropbtnSmall"><b id="animalType">Select Animal</b><p id="arrow">&#9660;</p></button>
   				<div class="dropdown-contentSmall">
-  					<button type="button" id="deer" onclick="deerFunc()" value="Deer" style="float:left; background:rgba(242, 242, 242, 0.8);" class="selectionSmall" >Deer</button>
-  					<button type="button" id="elk" onclick="elkFunc()" value="Elk" style="float:left;" class="selectionSmall">Elk</button>
-  					<button type="button" id="bear" onclick="bearFunc()" value="Bear" style="float:left;" class="selectionSmall">Bear</button>
+  					<button type="button" id="animal_but1" value="Deer" style="float:left; background:rgba(242, 242, 242, 0.8);" class="selectionSmall" >Deer</button>
+  					<button type="button" id="animal_but2" value="Elk" style="float:left;" class="selectionSmall">Elk</button>
+  					<button type="button" id="animal_but3" value="Bear" style="float:left;" class="selectionSmall">Bear</button>
   				</div>
   			</div>
   			<div class="dropdownSmall">
-  				<button class="dropbtnSmall"><b id="data">Select Data</b><p id="arrow">&#9660;</p></button>
+  				<button class="dropbtnSmall"><b id="dataType">Select Data</b><p id="arrow">&#9660;</p></button>
   				<div class="dropdown-contentSmall">
-  					<button type="button" id="number" onclick="totalFunc()" class="selectionSmall" style="background:rgba(242, 242, 242, 0.8);">Total</button>
-  					<button type="button" id="area" onclick="densityFunc()" class="selectionSmall">Density</button>
-  					<button type="button" id="ratio" onclick="ratioFunc()" class="selectionSmall">M/F Ratio</button>
+  					<button type="button" id="but1" class="selectionSmall" style="background:rgba(242, 242, 242, 0.8);">Total</button>
+  					<button type="button" id="but2" class="selectionSmall">Density</button>
+  					<button type="button" id="but3" class="selectionSmall">M/F Ratio</button>
   				</div>
   			</div>
 			</div>
 			
-			<h2 id="title" style="display:inline;">2016 Deer</h2><h2 id="type" style="display:inline;"> Harvest</h2><img src="img/deer.png" id="image3" style="display:inline-block; float:right;"> 
+			<h2 id="title" style="margin-right:5px;">2016 Deer</h2><h2 id="type"> Harvest</h2><img src="img/deer.png" id="image3" style="display:inline-block; float:right;"> 
 			<br>
-			<b id ="highest" style="background:#a50f15; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p>&nbsp</p><p id="leg1">&nbsp2000+</p><br/>
-			<b id ="midhigh" style="background:#de2d26; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2">&nbsp1000 - 2000</p><br/>
-			<b id ="middle" style="background:#fb6a4a; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg3">&nbsp500 - 1000</p><br/>
-			<b id ="midlow" style="background:#fcae91; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg4">&nbsp250 - 500</p><br/>
-			<b id ="lowest" style="background:#fee5d9; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg5">&nbspLess than 250</p><br/>
+			<b id ="leg1_block" style="background:#a50f15; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p>&nbsp</p><p id="leg1_value">&nbsp2000+</p><br/>
+			<b id ="leg2_block" style="background:#de2d26; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2_value">&nbsp1000 - 2000</p><br/>
+			<b id ="leg3_block" style="background:#fb6a4a; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg3_value">&nbsp500 - 1000</p><br/>
+			<b id ="leg4_block" style="background:#fcae91; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg4_value">&nbsp250 - 500</p><br/>
+			<b id ="leg5_block" style="background:#fee5d9; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg5_value">&nbspLess than 250</p><br/>
 			<b style="background:#ffffff; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p>&nbsp</p><p id="leg5">&nbsp0 or No Data</p><br/><br/>
 			<p id="animal" style="font-weight:bold; padding:0; display:block;">Total animals harvested</p>
 			</br><br/>
@@ -72,7 +73,7 @@
 				<a href="#popup1" id="arrow" style="display:inline-block;">
 					<i class="fa fa-info-circle" aria-hidden="true" style="padding-left:83px;"></i>
 				</a>
-				<a href="rec_index.html.html" id="arrow" style="display:inline-block;" target="_blank">
+				<a href="rec_index.html" id="arrow" style="display:inline-block;">
 					<i class="fa fa-home" aria-hidden="true" style="padding-left:0;"></i>
 				</a>
 				<a href="parks_index.html" id="arrow" style="display:inline-block;">
@@ -137,6 +138,8 @@
 		</div>
 
 <script>
+//////////////base functions (these never change)///////////////////////	
+	//////////////function that allows topojson layers to be loaded///////////////////////
 	L.TopoJSON = L.GeoJSON.extend({  
   		addData: function(jsonData) {    
     		if (jsonData.type === 'Topology') {
@@ -150,7 +153,7 @@
     		}
   		}  
 	});
-	
+	//////////////function for the info panel collapse button///////////////////////	
 	var collapsed = false;
     function collapse(){
     	if (collapsed == false){
@@ -169,10 +172,9 @@
     	}
     	
     }
-	//initialize map
+//////////////Initialize map///////////////////////
 	var map = L.map('map', {center: [45.56, -119.75], zoom: 7, zoomControl:false});
-	//map.setMaxBounds(map.getBounds());
-	///////////////////////make zoom level correspond to browser size////////////////////////////////
+///////////////////////make zoom level correspond to browser size////////////////////////////////
 	window.addEventListener('load', function(event){
     	var width = document.documentElement.clientWidth;
     	if (width < 1500 && width > 800) {
@@ -183,7 +185,7 @@
         	map.setZoom(5);
         	}
 	});
-	///////////////////////add tiled basemap////////////////////////////////
+////////////////////////////////basemap layers////////////////////////////////
 	var Esri_WorldTerrain = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer/tile/{z}/{y}/{x}', {
 			attribution: 'Tiles &copy; Esri &mdash; Source: USGS, Esri, TANA, DeLorme, and NPS',
 			maxZoom: 9,
@@ -216,18 +218,14 @@
 	map.getPane('labels').style.pointerEvents = 'none';
 	map.getPane('labels').style.zIndex = 650;
 	label.addTo(map);
-	///////////////////////important variables////////////////////////////////
-	//symbol levels, changes based on which animal is selected
+///////////////////////important variables////////////////////////////////
 	var levels = [2000, 1000, 500, 250, 2, 1.5, 1, 0.5, 100, 50 ,25, 10];
-	//changes depending on which animal is selected
 	var animal = 1;
-	//changes depending on which data type is selected
 	var dataType = [0,1,2,3];
 	var data = 1;
-	//symbol color levels
-	var colors = ['#a50f15','#de2d26','#fb6a4a','#fcae91','#fee5d9'];
+	var colorValue = ['#a50f15','#de2d26','#fb6a4a','#fcae91','#fee5d9'];
 	
-	///////////////////////add info panel in the upper right////////////////////////////////
+////////////////////////////////info control in upper right////////////////////////////////
 	var info = L.control();
 
 	info.onAdd = function (map) {
@@ -282,7 +280,8 @@
 	}
     	
 	info.addTo(map);
-	////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////display layers//////////////////////
+	////////////////////////////game management units//////////////////////
 	const hunting = new L.TopoJSON();
 
 	$.getJSON('assets/gmu.json')
@@ -295,14 +294,14 @@
 	}
 	
 	function setColor(density){
-        return density > levels[dataType[0]] ? colors[0] :
-            density > levels[dataType[1]] ? colors[1] :
-            density > levels[dataType[2]] ? colors[2] :
-            density >  levels[dataType[3]] ? colors[3] :
+        return density > levels[dataType[0]] ? colorValue[0] :
+            density > levels[dataType[1]] ? colorValue[1] :
+            density > levels[dataType[2]] ? colorValue[2] :
+            density >  levels[dataType[3]] ? colorValue[3] :
             density == null ? '#ffffff' :
             density == 0 ? '#ffffff' :
             density == -1 ? '#ffffff' :
-                colors[4];
+                colorValue[4];
     	}
 	
 	
@@ -358,135 +357,54 @@
       this.setStyle({
         	fillOpacity: 0.7,
         	color:setColor(animalType(this.feature.properties)),
-        	dashArray: null
+        	dashArray: null,
+        	opacity: 0.5
       });
       info.update();
     }
         
-   ///////////////////////////////Update legend with appropriate values//////////////////////////////////////
+///////////////////////////////button function////////////////////////////////	
     function legend() {
-    	document.getElementById('leg1').innerHTML = "&nbsp" + levels[dataType[0]] + "+";
-    	document.getElementById('leg2').innerHTML = "&nbsp" +levels[dataType[1]] + " - " + levels[dataType[0]];
-    	document.getElementById('leg3').innerHTML = "&nbsp" +levels[dataType[2]] + " - " + levels[dataType[1]];
-    	document.getElementById('leg4').innerHTML = "&nbsp" +levels[dataType[3]] + " - " + levels[dataType[2]];
-    	document.getElementById('leg5').innerHTML = "&nbspLess than " + levels[dataType[3]];
-    	
-    	document.getElementById('highest').style.background = colors[0];
-    	document.getElementById('midhigh').style.background = colors[1];
-    	document.getElementById('middle').style.background = colors[2];
-    	document.getElementById('midlow').style.background = colors[3];
-    	document.getElementById('lowest').style.background = colors[4];
-    }
+    	document.getElementById('leg1_value').innerHTML = "&nbsp" + levels[dataType[0]] + "+";
+    	document.getElementById('leg2_value').innerHTML = "&nbsp" +levels[dataType[1]] + " - " + levels[dataType[0]];
+    	document.getElementById('leg3_value').innerHTML = "&nbsp" +levels[dataType[2]] + " - " + levels[dataType[1]];
+    	document.getElementById('leg4_value').innerHTML = "&nbsp" +levels[dataType[3]] + " - " + levels[dataType[2]];
+    	document.getElementById('leg5_value').innerHTML = "&nbspLess than " + levels[dataType[3]];
 
-    ///////////////////////////////Functions for different data types//////////////////////////////////////
-    //variable used to highlight selected data type button
-    var dataButton = ['nothing','number','area','ratio'];
-    //total harvest selection
-    function totalFunc() {
-    	//reset selected button
-    	document.getElementById(dataButton[data]).style.background = "rgba(242,242,242,0.2)";
-    	//select correct symbol levels. DataType array selects from 'levels' variable, which changes based on animal 
-    	dataType = [0,1,2,3];
-    	//update color ramp
-    	colors = ['#a50f15','#de2d26','#fb6a4a','#fcae91','#fee5d9'];
-    	data = 1;
-    	//remove existing geoJson layer
-    	hunting.eachLayer(handleLayer);
-    	//update data layer with new variables 
-    	//change legend title and description
-    	document.getElementById('type').innerHTML = " Harvest";
-    	document.getElementById('animal').innerHTML = "Total animals harvested";
-    	//highlight button
-    	document.getElementById('number').style.background = "rgba(242, 242, 242, 1)";
-    	document.getElementById('data').innerHTML = "Total";
-    	//update legend 
-    	legend();
-    }  
-    //density selection
-    function densityFunc() {
-    	document.getElementById(dataButton[data]).style.background = "rgba(242,242,242,0.2)";
-    	colors = ['#006837','#31a354','#78c679','#c2e699','#ffffcc'];
-    	dataType = [4,5,6,7];
-    	data = 2;
-    	hunting.eachLayer(handleLayer);
-    	document.getElementById('type').innerHTML = " Harvest Density";
-    	document.getElementById('animal').innerHTML = "Animals harvested per square mile";
-    	document.getElementById('area').style.background = "rgba(242, 242, 242, 1)";
-    	document.getElementById('data').innerHTML = "Density";
-    	legend();
     }
-    //M/F ratio selection
-    function ratioFunc() {
-    	document.getElementById(dataButton[data]).style.background = "rgba(242,242,242,0.2)";
-    	colors = ['#045a8d','#2b8cbe','#74a9cf','#bdc9e1','#f1eef6'];
-    	dataType = [8,9,10,11];
-    	data = 3;
-    	hunting.eachLayer(handleLayer);
-    	document.getElementById('type').innerHTML = " Harvest M/F Ratio";
-    	document.getElementById('animal').innerHTML = "Ratio of males to females harvested";
-    	document.getElementById('ratio').style.background = "rgba(242, 242, 242, 1)";
-    	document.getElementById('data').innerHTML = "M/F Ratio";
-    	legend();
-    }
-    ///////////////////////////////////////////////////////////////////////////////////////////////////////
+	var buttonLabels = ['#animal_but1','#animal_but2','#animal_but3'];
+
+	var buttonFunctions = {
+		but1: {button:'animal_but1', title:'Deer', topoLayers:[hunting], topoHandler:[handleLayer], imageSRC:"img/deer.png", legendTitle:"2016 Deer", layerFunctionTop:function(){animal = 1; levels = [2000,1000,500,250, 2, 1.5, 1, 0.5, 100, 50 ,25, 10]; legend();}},
+		but2: {button:'animal_but2', title:'Elk', topoLayers:[hunting], topoHandler:[handleLayer], imageSRC:"img/elk.png", legendTitle:"2016 Elk", layerFunctionTop:function(){animal = 2; levels = [500,250,100,50, 1, 0.5, 0.25, 0.1, 50, 25 ,10, 1]; legend();}},
+		but3: {button:'animal_but3', title:'Bear', topoLayers:[hunting], topoHandler:[handleLayer], imageSRC:"img/bear.png", legendTitle:"2015 Bear", layerFunctionTop:function(){animal = 3; levels = [100,50,20,10, 0.15, 0.1, 0.05, 0.01, 5, 2.5 ,1, 0.1]; legend();}}
+	};
 	
-	///////////////////////////////Functions for different selected animals//////////////////////////////////////
-	//variable used to highlight selected animal button
-	var animalButton = ['nothing','deer','elk','bear'];
-	//elk selection function
-    function elkFunc() {    	
-    	//reset selected button
-    	document.getElementById(animalButton[animal]).style.background = "rgba(242,242,242,0.2)";
-    	//remove current data layer
-    	//update correct symbol levels. Each set of four corresponds to a different data type (total harvest, harvest density, M/F ratio)
-    	levels = [500,250,100,50, 1, 0.5, 0.25, 0.1, 50, 25 ,10, 1];
-    	animal = 2;
-    	//determine which dataType is selected and add corresponding layer
-  		if (data === 1){ totalFunc();}
-  			else if (data === 2){densityFunc();}
-  			else if (data === 3){ratioFunc();}
-  		//update animal title
-		document.getElementById('title').innerHTML = "2016 Elk";
-		//update icon 
-    	var img = document.getElementById("image3");
-    	img.src="img/elk.png";
-    	//highlight selected button
-    	document.getElementById('elk').style.background = "rgba(242, 242, 242, 1)";
-    	document.getElementById('animalSel').innerHTML = "Elk";
-    	document.getElementById('facts').innerHTML = "&#9900 Also known as Wapiti, a Shawnee word meaning ‘white rump’.<br/><br/>&#9900 Elk Season typically begins in October and lasts through November. In Idaho, seasons in certain GMUs begin as early as August.";
-    }
-    //deer selection function
-    function deerFunc() {
-    	document.getElementById(animalButton[animal]).style.background = "rgba(242,242,242,0.2)";
-    	levels = [2000,1000,500,250, 2, 1.5, 1, 0.5, 100, 50 ,25, 10];
-    	animal = 1;
-  		if (data === 1){ totalFunc();}
-  			else if (data === 2){densityFunc();}
-  			else if (data === 3){ratioFunc();}
-    	document.getElementById('title').innerHTML = "2016 Deer";
-    	var img = document.getElementById("image3");
-    	document.getElementById('deer').style.background = "rgba(242, 242, 242, 1)";
-    	document.getElementById('animalSel').innerHTML = "Deer";
-    	document.getElementById('facts').innerHTML = "&#9900 Three deer species are present in the Pacific Northwest, Black-Tailed Deer, Mule Deer, and some populations of white-tailed deer.<br/><br/>&#9900 General deer hunting seasons typically begin in late-September, and last through late-November or early December.";
-		img.src="img/deer.png";
-    	
-    }
-    //bear selection function
-    function bearFunc() {
-    	document.getElementById(animalButton[animal]).style.background = "rgba(242,242,242,0.2)";
-    	levels = [100,50,20,10, 0.15, 0.1, 0.05, 0.01, 5, 2.5 ,1, 0.1];
-    	animal = 3;
-  		if (data === 1){ totalFunc();}
-  			else if (data === 2){densityFunc();}
-  			else if (data === 3){ratioFunc();}
-    	document.getElementById('title').innerHTML = "2015 Bear";
-    	var img = document.getElementById("image3");
-    	document.getElementById('bear').style.background = "rgba(242, 242, 242, 1)";
-    	document.getElementById('animalSel').innerHTML = "Bear";
-    	document.getElementById('facts').innerHTML = "&#9900 It is unlawful to hunt female black bears (sows) with cubs.<br/><br/>&#9900 There are two bear hunting seasons, one in the spring, and one in the fall. The spring season is generally limited to controlled hunts.";
-		img.src="img/bear.png";
-    }
-    ///////////////////////////////////////////////////////////////////////////////////////////////////////
+	$('.main').clickFunction({
+		buttonFunctions: buttonFunctions,
+		buttonLabels: buttonLabels,
+		titleContainer:'animalType',
+		imageDiv:'image3',
+		legendUpdate: true,
+		selected:buttonFunctions.but1
+	});
+	var buttonLabels2 = ['#but1','#but2','#but3'];
+
+	var buttonFunctions2 = {
+		but1: {button:'but1', title:'Total', topoLayers:[hunting], topoHandler:[handleLayer], variable:1, colors:['#a50f15','#de2d26','#fb6a4a','#fcae91','#fee5d9'], layerFunctionTop:function(){dataType = [0,1,2,3];document.getElementById('animal').innerHTML = "Total animals harvested"; document.getElementById('type').innerHTML = " Harvest"; legend();}},
+		but2: {button:'but2', title:'Density', topoLayers:[hunting], topoHandler:[handleLayer],  variable:2, colors:['#006837','#31a354','#78c679','#c2e699','#ffffcc'], layerFunctionTop:function(){dataType = [4,5,6,7]; document.getElementById('animal').innerHTML = "Animals harvested per square mile"; document.getElementById('type').innerHTML = " Harvest Density"; legend();}},
+		but3: {button:'but3', title:'M/F Ratio', topoLayers:[hunting], topoHandler:[handleLayer], variable:3, colors:['#045a8d','#2b8cbe','#74a9cf','#bdc9e1','#f1eef6'], layerFunctionTop:function(){dataType = [8,9,10,11]; document.getElementById('animal').innerHTML = "Ratio of males to females harvested"; document.getElementById('type').innerHTML = " Harvest M/F Ratio"; legend();}}
+	};
+	
+ 	$('.main2').clickFunction({
+		buttonFunctions: buttonFunctions2,
+		buttonLabels: buttonLabels2,
+		legendUpdate: true,
+		selected: buttonFunctions2.but1
+
+	});
+   
+ ///////////////////////////////other miscellaneous functions (these also never change)////////////////////////////////   
 
 	//add scrolling capabilities to text box
      var container = document.getElementById('text');
@@ -499,14 +417,14 @@
      
     var minHeight = 50; // Define a minimum height for the middle div
 
-	var resizeMiddle = function() {
-    var h = $('body').height() - $('#top').height() - 50;
+	function resizeMiddle() {
+   		var h = $('body').height() - $('#top').height() - 95;
     		h = h > minHeight ? h : minHeight;
    	 	$('#attribution').height(h);
 	}
 
 	$(document).ready(resizeMiddle);
-	$(window).resize(resizeMiddle);
+	$(window).resize(resizeMiddle);    
 	
 
 </script>

@@ -12,12 +12,13 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     
     <link rel="shortcut icon" href="img/pnw.ico" type="image/x-icon">
-    
-    <script src="https://unpkg.com/leaflet@1.0.2/dist/leaflet.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-    <script src="js/perfect-scrollbar.js"></script>
-    <script src="js/leaflet-search.js"></script>
    
+    <script src="https://unpkg.com/leaflet@1.0.2/dist/leaflet.js"></script>
+    <script type="text/javascript" src="js/leaflet-search.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script type="text/javascript" src="../js/clickFunction.js"></script>
+    <script src="js/perfect-scrollbar.js"></script>
+    
 </head>
 <body>
 		<button id="collapse" onclick="collapse()">
@@ -26,21 +27,21 @@
 		<div id="infoPanel">
 		<div id="top">
 			<h1>Outdoor Activities</h1>
-			<img src="img/tent_icon.png" id="image" style="display:inline-block;"> <br/>
+			<img src="img/tent_icon.png" id="titleImage"> <br/>
 			<div id="buttons">
 				<div class="dropdown">
-  					<button class="dropbtn"><b id="selection">Select Activity</b><p id="arrow">&#9660;</p></button>
+  					<button class="dropbtn"><b id="dataType">Select Activity</b><p id="arrow">&#9660;</p></button>
   					<div class="dropdown-content">
-						<button type="button" id="but1" onclick="camping()" class="selection" style="float:left; display:inline; background:rgba(242, 242, 242, 0.8);">Camping</button>
-						<button type="button" id="but2" onclick="skiing()" class="selection" style="float:right; display:inline;">Skiing</button>
-						<button type="button" id="but3" onclick="rafting()" class="selection" style="float:left; display:inline;">Rafting</button>
-						<button type="button" id="but4" onclick="mountaineering()" class="selection" style="float:right; display:inline;">Mountaineering</button>
+						<button type="button" id="but1" class="selection" style="float:left; display:inline; background:rgba(242, 242, 242, 0.8);">Camping</button>
+						<button type="button" id="but2" class="selection" style="float:right; display:inline;">Skiing</button>
+						<button type="button" id="but3" class="selection" style="float:left; display:inline;">Mountaineering</button>
+						<button type="button" id="but4" class="selection" style="float:right; display:inline;">Rafting</button>
  				   </div>
 				</div>
 			</div>
-			<div id="camping" style="display:unset;">
+			<div id="leg_1" style="display:unset;">
 				<h1 class="activity" style="margin-bottom:0;">Camping</h1><!--initial activity displayed-->
-				<div><h2 id="title" style="display:inline; width:200px; white-space:normal; margin:0;"># of Campsites</h2><h2 id="title" style="display:inline; white-space:normal; padding-left:24px; margin:0;">Owner</h2></div>
+				<div><h2 id="title" style="display:inline-block;"># of Campsites</h2><h2 id="title" style="padding-left:24px;display:inline-block;">Owner</h2></div>
 				<div style="width: 150px; display:inline-block;"><b class ="circle" style="width:22px; height:22px;"></b><p id="leg1" style="padding-left:35px; position:relative; margin-bottom:5px;">200+</p></div><b class ="circle" style="background:#0066cc; width:22px; height:22px; border:none;"></b><p style="padding-left:30px;">Federal</p><br/>
 				<div style="width: 150px; display:inline-block;"><b class ="circle" style="width:18px; height:18px;"></b><p id="leg2" style="padding-left:35px; position:relative; margin-bottom:5px;">100 - 200</p></div><b class ="circle" style="background:#377e35; width:22px; height:22px; border:none;"></b><p style="padding-left:30px;">State</p><br/>
 				<div style="width: 150px; display:inline-block;"><b class ="circle" style="width:14px; height:14px;"></b><p id="leg3" style="padding-left:35px; position:relative; margin-bottom:5px;">50 - 100</p></div><b class ="circle" style="background:#904b9b; width:22px; height:22px; border:none;"></b><p style="padding-left:30px;">Local</p><br/>
@@ -49,9 +50,10 @@
 				<p id="description" style="font-weight:bold; padding:0; display:block; white-space:normal; width:280px;">Number of campsites at a particular campground</p>
 				</br></br></br>
 			</div>
-			<div id="skiing" style="display:none;">
-				<h1 class="activity" style="margin-bottom:0;">Skiing/Snowboarding</h1><br/>
-				<h2 id="title" style="display:inline; width:200px; white-space:normal; line-height:20px; bottom:8px; position: relative;">Annual Snowfall</h2><img src="img/skiing.png" id="image2" style="display:inline-block; float:right; margin-top:10px;"><br/>
+			<div id="leg_2" style="display:none;">
+				<h1 class="activity" style="margin-bottom:0;">Skiing/Snowboarding</h1>
+				<h2 id="title" >Annual Snowfall</h2><img src="img/skiing.png" id="image2" style="display:inline-block; float:right; margin-top:20px;">
+				<br/>
 				<b id ="highest" style="background:#54278f; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p>&nbsp</p><p id="leg1">&nbsp100+</p><br/>
 				<b id ="midhigh" style="background:#756bb1; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2">&nbsp50 - 100</p><br/>
 				<b id ="middle" style="background:#9e9ac8; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg3">&nbsp25 - 50</p><br/>
@@ -61,19 +63,19 @@
 				<br/><img src="img/ski_resort.png" style="height:30px; width:30px; bottom: 8px; position:relative;"><p style="padding:0; font-size:18px; bottom:17px; position:relative;">&nbspSki Resort</p>
 				</br>
 			</div>
-			<div id="rafting" style="display:none;">
+			<div id="leg_4" style="display:none;">
 				<h1 class="activity">River Rafting</h1>
-				<h2 id="title" style="display:inline; width:200px; white-space:normal;">Rapid Class</h2><img src="img/raft.png" id="image2" style="display:inline-block; float:right; margin-top:5px; width:80px; height:80px;"> 
-				<br>
+				<h2 id="title">Rapid Class</h2><img src="img/raft.png" id="image2" style="display:inline-block; margin-top:20px; float:right; width:80px; height:80px;"> 
+				<br/>
 				<img src='img/raft_icon2.png' style="width:28px; height:28px;"><p>&nbsp</p><p id="leg1" style="left:30px; position:absolute;">Class IV-V</p><br/>
 				<img src='img/raft_icon.png' style="width:20px; height:20px;"><p>&nbsp</p><p id="leg2" style="left:30px; position:absolute;">Class I-III</p><br/>
 				<b id ="highest" style="background:#3399ff; height:3px; vertical-align:middle; position:relative; margin-top:5px;"></b><p>&nbsp</p><p id="leg2" style="left:30px; position:absolute;margin-top:5px;">Raftable River Section</p><br/><br/>
 				<p id="description" style="font-weight:bold; padding:0; display:block; white-space:normal; width:280px;">Rapid class based on the highest level rapid in each river. Only the sections of each river suitable for rafting are shown.</p>
 				</br></br></br><br/><br/>
 			</div>
-			<div id="mountains" style="display:none;">
+			<div id="leg_3" style="display:none;">
 				<h1 class="activity">Mountaineering</h1>
-				<h2 id="title" style="display:inline; width:200px; white-space:normal;">Elevation (Terrain, Mountain)</h2><img src="img/climbing.png" id="image2" style="display:inline-block; float:right; margin-top:40px; width:65px; height:65px;"> 
+				<h2 id="title">Elevation (Terrain, Mountain)</h2><img src="img/climbing.png" id="image2" style="display:inline-block; float:right; margin-top:50px; width:65px; height:65px;"> 
 				<br/>
 				<div style="height:20px;"><b id ="lowest" style="background:rgba(37,37,37,0.7); position: relative; margin-bottom:5px;border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p>&nbsp</p><p id="leg1" style="padding-left:45px;">12,000+</p><img src="img/mountain_icon1.png" style="width:27px; height:27px; padding-left:15px; overflow:hidden; display:inline-block;"><br></div>
 				<div style="height:20px;"><b id ="lowest" style="background:rgba(99,99,99,0.7); position: relative; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2" style="padding-left:45px;">9,000 - 12,000</p><img src="img/mountain_icon2.png" style="width:21px; height:21px; padding-left:15px;"><br></div>
@@ -88,31 +90,46 @@
 					<div id="text">
     		            <!--<p3>The history of recreational camping is often traced back to Thomas Hiram Holding, a British travelling tailor, but it was actually first popularised in the UK on the river Thames. By the 1880s large numbers of visitors took part in the pastime, which was connected to the late Victorian craze for pleasure boating. The early camping equipment was very heavy, so it was convenient to transport it by boat or to use craft that converted into tents.[1] Although Thomas Hiram Holding is often seen as the father of modern camping in the UK, he was responsible for popularising a different type of camping in the early twentieth century. He experienced the activity in the wild from his youth, when he had spent much time with his parents traveling across the American prairies. Later he embarked on a cycling and camping tour with some friends across Ireland.[2] His book on his Ireland experience, Cycle and Camp in Connemara led to the formation of the first camping group in 1901, the Association of Cycle Campers, later to become the Camping and Caravanning Club.[3] He wrote The Campers Handbook in 1908, so that he could share his enthusiasm for the great outdoors with the world.[4] Possibly the first commercial camping ground in the world was Cunningham’s camp, near Douglas, Isle of Man, which opened in 1894. In 1906 the Association of Cycle Campers opened its first own camping site, in Weybridge.[5] By that time the organization had several hundred members. In 1910 the Association was merged into the National Camping Club. Although WW1 was responsible for a certain hiatus in camping activity, the association received a new lease of life after the war when Sir Robert Baden-Powell (founder of the Boy Scouts movement) became its president. The International Federation of Camping Clubs (Federation Internationale de Camping et de Caravanning) was founded in 1932 with national clubs from all over the world affiliating with it. By the 1960s camping had become an established family holiday standard and today camp sites are ubiqitous across Europe and North America.[6]</p3>
 						-->
-						<p3 style="font-weight:bold; line-height:36px;">Quick Facts:</p3><br/>
-						<p3 id="facts" style="line-height:20px;">&#9900 Approximately 40% of PNW residents participate in developed camping.<br/><br/>&#9900 Developed camping is more popular than primitive camping, and includes car-camping, RV camping, or camper cabins.</p3>
-						<br/>
-						<table id="skiTable" style="width:80%; margin-left:40px; display:none;">
-							<tr>
-    							<th>State</th>
-    							<th>Ski</th> 
+						<div id="facts_1" style="display:unset">
+							<p3 style="font-weight:bold; line-height:36px;">Quick Facts:</p3><br/>
+							<p3 id="facts" style="line-height:20px;">&#9900 Approximately 40% of PNW residents participate in developed camping.<br/><br/>&#9900 Developed camping is more popular than primitive camping, and includes car-camping, RV camping, or camper cabins.</p3>
+  						</div>
+  						<div id="facts_2" style="display:none">
+							<p3 style="font-weight:bold; line-height:36px;">Quick Facts:</p3><br/>
+							<p3 id="facts" style="line-height:20px;">&#9900 Timberline Resort on Mount Hood has the highest true-up vertical drop in the region, at 3,690 feet. <br/><br/>&#9900 The Summit at Snoqualmie is the most visited ski resort in the region.<br/><br/>&#9900 Resident Ski/Snowboard participation by state:</p3>
+							<br/>
+							<table id="skiTable" style="width:80%; margin-left:40px;">
+								<tr>
+    								<th>State</th>
+    								<th>Ski</th> 
     							<th>Snow-<br/>board</th>
-  							</tr>
-  							<tr>
-    							<td>ID</td>
-    							<td>6.4%</td> 
-    							<td>1.0%</td>
-  							</tr>
- 	 						<tr>
-    							<td>OR</td>
-    							<td>2.3%</td> 
-    							<td>2.8%</td>
-  							</tr>
-  							<tr>
-    							<td>WA</td>
-    							<td>3.4%</td> 
-    							<td>5.1%</td>
-  							</tr>
-					</table>
+  								</tr>
+  								<tr>
+    								<td>ID</td>
+    								<td>6.4%</td> 
+    								<td>1.0%</td>
+  								</tr>
+ 	 							<tr>
+    								<td>OR</td>
+    								<td>2.3%</td> 
+    								<td>2.8%</td>
+  								</tr>
+  								<tr>
+    								<td>WA</td>
+    								<td>3.4%</td> 
+    								<td>5.1%</td>
+  								</tr>
+  							</table>
+  						</div>
+  						<div id="facts_3" style="display:none">
+							<p3 style="font-weight:bold; line-height:36px;">Quick Facts:</p3><br/>
+							<p3 id="facts" style="line-height:20px;">&#9900 Mount Rainier is the tallest mountain in the PNW, at 14,411 feet.<br/><br/>&#9900 Three major ranges are present in the PNW: the Pacific Coast Range, the Cascades, and the Northern Rocky Mountains</p3>
+  						</div>
+  						<div id="facts_4" style="display:none">
+							<p3 style="font-weight:bold; line-height:36px;">Quick Facts:</p3><br/>
+							<p3 id="facts" style="line-height:20px;">&#9900 Approximately 12% of Pacific Northwest residents participate in some form of white-water activity (rafting, kayaking, canoeing).</p3>
+  						</div>
+	
 					</div>
 					<br/>
 			</div>
@@ -123,7 +140,7 @@
 				<a href="#popup1" id="arrow" style="display:inline-block;">
 					<i class="fa fa-info-circle" aria-hidden="true" style="padding-left:83px;"></i>
 				</a>
-				<a href="rec_index.html.html" id="arrow" style="display:inline-block;" target="_blank">
+				<a href="rec_index.html" id="arrow" style="display:inline-block;">
 					<i class="fa fa-home" aria-hidden="true" style="padding-left:0;"></i>
 				</a>
 				<a href="fishing_index.html" id="arrow" style="display:inline-block;">
@@ -185,6 +202,8 @@
 <script src="assets/hiking.js"></script>
 <script src="assets/mountains.js"></script>
 <script>
+//////////////base functions (these never change)///////////////////////
+	//////////////function for the info panel collapse button///////////////////////
 	var collapsed = false;
     function collapse(){
     	if (collapsed == false){
@@ -203,10 +222,10 @@
     	}
     	
     }
-	//initialize map
+//////////////Initialize map///////////////////////
 	var map = L.map('map', {center: [45.56, -119.75], zoom: 7, zoomControl:false});
 	//map.setMaxBounds(map.getBounds());
-	///////////////////////make zoom level correspond to browser size////////////////////////////////
+///////////////////////make zoom level correspond to browser size////////////////////////////////
 	window.addEventListener('load', function(event){
     	var width = document.documentElement.clientWidth;
     	if (width < 1500 && width > 800) {
@@ -217,7 +236,7 @@
         	map.setZoom(5);
         	}
 	});
-///////////////////////add tiled basemap////////////////////////////////
+////////////////////////////////basemap layers////////////////////////////////
 	var Esri_WorldTerrain = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer/tile/{z}/{y}/{x}', {
 		attribution: 'Tiles &copy; Esri &mdash; Source: USGS, Esri, TANA, DeLorme, and NPS',
 		maxZoom:9,
@@ -245,13 +264,6 @@
 		],
 		pane:'labels'
 	});	
-	
-	map.createPane('labels');
-	map.getPane('labels').style.pointerEvents = 'none';
-	map.getPane('labels').style.zIndex = 650;
-	label.addTo(map);
-///////////////////////additional tile layers////////////////////////////////
-//total parks
 	var backgroundParks = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
 		layers: 'baldricg_PNW_ATLAS:parks_total',
         format: 'image/png',
@@ -259,29 +271,36 @@
 		minZoom:4,
 		transparent:true
 	}).addTo(map);
-//elevation raster	
-	 var elevation = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
-		layers: 'baldricg_PNW_ATLAS:pnwElevation',
-        format: 'image/png',
-		maxZoom:9,
-		minZoom:4,
-		opacity:0.7,
-		transparent:true
-	});
-//average annual snowfall raster	
-    var snowfall = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
-		layers: 'baldricg_PNW_ATLAS:pnw_snowfall',
-        format: 'image/png',
-		maxZoom:9,
-		minZoom:4,
-		opacity:0.7,
-		transparent:true
-	});
-////////////////////////////////////////////////////////////////////
 	
-///////////////////////background geoJson layers////////////////////////////////
-//rivers	
-	function riverSize(e){
+	var pnwStates = $.getJSON("assets/pnw_states.geojson", function(data){
+        pnwStates = L.geoJson(data, {
+        	style: function pnwStatesStyle(){
+				return{
+				opacity: 0.3,
+				color:'#000000',
+				fillOpacity:0,
+				fillColor:'#000000',
+				weight:1
+				};
+			},
+			interactive:false
+        }).addTo(map);
+    });
+    var pnwCounties = $.getJSON("assets/counties2.geojson", function(data){
+        pnwCounties = L.geoJson(data, {
+        	style: function pnwCountiesStyle(){
+				return{
+					opacity: 0.1,
+					color:'#000000',
+					fillOpacity:0,
+					fillColor:'#000000',
+					weight:1
+				};
+			},
+			interactive:false
+        }).addTo(map);
+    });
+    	function riverSize(e){
         return e > 400000 ? 2.5 :
         	   e > 200000 ? 2 :
         	   e > 300000 ? 1.5 :
@@ -301,49 +320,18 @@
 			interactive:false
         }).addTo(map);
     });
-//state outlines	
-    var pnwStates = $.getJSON("assets/pnw_states.geojson", function(data){
-        pnwStates = L.geoJson(data, {
-        	style: function pnwStatesStyle(){
-				return{
-				opacity: 0.3,
-				color:'#000000',
-				fillOpacity:0,
-				fillColor:'#000000',
-				weight:1
-				};
-			},
-			interactive:false
-        }).addTo(map);
-    });
-//county outlines	
-    var pnwCounties = $.getJSON("assets/counties2.geojson", function(data){
-        pnwCounties = L.geoJson(data, {
-        	style: function pnwCountiesStyle(){
-				return{
-					opacity: 0.1,
-					color:'#000000',
-					fillOpacity:0,
-					fillColor:'#000000',
-					weight:1
-				};
-			},
-			interactive:false
-        }).addTo(map);
-    });
-////////////////////////////////////////////////////////////////////
+
+	
+	map.createPane('labels');
+	map.getPane('labels').style.pointerEvents = 'none';
+	map.getPane('labels').style.zIndex = 650;
+	label.addTo(map);
+///////////////////////additional tile layers////////////////////////////////
 	
 ///////////////////////important variables////////////////////////////////
-	//determine whether or not to display background parks
-	var background = 1;
-	//changes based on activity selected
-	data = 0;
-	//determines the height of middle info panel 
+	var data = 1;
 	var boxHeight = 70;
-	//determines which button is highlighted
-	dataButton=['but1','but2','but4','but3'];
-	
-///////////////////////add info panel in the upper right////////////////////////////////
+//////////////function for the info panel collapse button///////////////////////	
 	var info = L.control();
 
 	info.onAdd = function (map) {
@@ -358,17 +346,17 @@
 		else {return props.sites;}
 	}
 	//change info display based on selected activity
-	if (data == 0){
+	if (data == 1){
    		this._div.innerHTML = '<h3 style="margin:0; display:inline-block;">Camp Name</h3><img src="img/tent.png" style="display:inline-block; width:30px; height:30px; position:relative; left:5px; top:5px;"><br/>' + (props ?
         	'<p style="display:inline;">' + props.name + '</p><br/><p style="display:inline">' + nullFinder() + '&nbspcampsites</p>'
        		:'<p style="display:inline;">Hover over campsites</p>');
 		}
-	else if (data == 1){	
+	else if (data == 2){	
 		this._div.innerHTML = '<h3 style="margin:0; display:inline-block;">Resort Name</h3><img src="img/skiing.png" style="display:inline-block; width:30px; height:30px; position:relative; left:5px; top:5px;"><br/>' + (props ?
         	'<p style="display:inline;">' + props.Name + '</p>'
         	:'<p style="display:inline;">Hover over resorts</p>');
 		}
-	else if (data == 2){	
+	else if (data == 3){	
 		this._div.innerHTML = '<h3 style="margin:0; display:inline-block;">Mountain Name</h3><img src="img/climbing.png" style="display:inline-block; width:30px; height:30px; position:relative; left:5px; top:5px;"><br/>' + (props ?
         	'<b>' + props.name + '<b><br/><p style="font-weight:normal; display:inline;">' + props.elev_ft + '&nbspft.</p>'
         	:'<p style="display:inline;">Hover over mountains</p>');
@@ -381,9 +369,27 @@
 	};
 	
 	info.addTo(map);
+////////////////////////////////basemap layers////////////////////////////////
 
-///////////////////////activity types////////////////////////////////
-///////////////////////whitewater rafting ////////////////////////////////////  
+	//elevation raster	
+	 var elevation = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
+		layers: 'baldricg_PNW_ATLAS:pnwElevation',
+        format: 'image/png',
+		maxZoom:9,
+		minZoom:4,
+		opacity:0.7,
+		transparent:true
+	});
+	//average annual snowfall raster	
+    var snowfall = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
+		layers: 'baldricg_PNW_ATLAS:pnw_snowfall',
+        format: 'image/png',
+		maxZoom:9,
+		minZoom:4,
+		opacity:0.7,
+		transparent:true
+	});
+	///////////////////////whitewater rafting ////////////////////////////////////  
 	//icons displayed over rivers
     var raftIcon1 = L.icon({iconSize: [20,20], iconUrl: 'img/raft_icon.png'});
     var raftIcon2 = L.icon({iconSize: [28,28], iconUrl: 'img/raft_icon2.png'});
@@ -400,8 +406,8 @@
     		raftIconHover2;
     }
    //raft icon points
-    var	raftPoints = $.getJSON("assets/rafting_river_points.geojson", function(data){
-        raftPoints = L.geoJson(data, {
+    //var	raftPoints = $.getJSON("assets/rafting_river_points.geojson", function(data){
+      var raftPoints = L.geoJson(null, {
         	pointToLayer: function (feature, latlng) {
     			return L.marker(latlng, {icon:raftIcon(feature.properties.CLASS)}
     				).bindPopup('<b>River Name</b><br/><p style="display:inline;">' + feature.properties.UID + '</p>', {className: 'label_tooltip'});
@@ -418,10 +424,13 @@
             	});
             }
         });
-	});
+     
+     $.getJSON("assets/rafting_river_points.geojson", function(data) {
+        raftPoints.addData(data);
+    });
+    
     //raftable river sections
-    var	riverRafting = $.getJSON("assets/rafting_rivers.geojson", function(data){
-        riverRafting = L.geoJson(data, {
+    var riverRafting = L.geoJson(null, {
         	style:function raftingStyle(feature){
 				return{
 					opacity: 1,
@@ -430,32 +439,11 @@
 				};
 			}
         });
+   
+    $.getJSON("assets/rafting_rivers.geojson", function(data) {
+        riverRafting.addData(data);
     });
-    //rafting function. activated on button selection
-    function rafting() {
-    	document.getElementById(dataButton[data]).style.background = "rgba(242,242,242,0.2)";
-    	data = 3;
-    	boxHeight = 75;
-    	background = 2;
-    	removeLayers();
-    	addParks();
-    	map.addLayer(riverRafting);
-    	map.addLayer(raftPoints);
-    	info.update();
-    	document.getElementById("skiing").style.display = "none";
-    	document.getElementById("camping").style.display = "none";
-    	document.getElementById("mountains").style.display = "none";
-    	document.getElementById("rafting").style.display = "unset";
-    	document.getElementById("skiTable").style.display = "none";
-    	document.getElementById("facts").innerHTML = "&#9900 Approximately 12% of Pacific Northwest residents participate in some form of white-water activity (rafting, kayaking, canoeing)";
-    	//document.getElementById("text").innerHTML = "The International Scale of River Difficulty defines six difficulty grades:" + "<br/>" + "Class 1: Very small rough areas." + "<br/>" + "Class 2: Some rough water, maybe some rocks." + "<br/>" + "Class 3: Small waves, maybe a small drop, but no considerable danger." + "<br/>" + "Class 4: Whitewater, medium waves, maybe rocks, maybe a considerable drop.." + "<br/>" + "Class 5: Whitewater, large waves, large volume, possibility of large rocks and hazards, possibility of a large drop." + "<br/>" + "Class 6: Considered to be so dangerous that they are effectively unnavigable on a reliably safe basis.";
-    	document.getElementById("selection").innerHTML = "Rafting";
-    	document.getElementById(dataButton[data]).style.background = "rgba(242,242,242,1)";
-		var h = $('body').height() - $('#top').height() - boxHeight;
-		$('#attribution').height(h);
-    }
-/////////////////////////////////////////////////////////////////////////  
-///////////////////////camping////////////////////////////////////  
+	///////////////////////camping////////////////////////////////////  
 	//point color, based on ownership
 	function campColor(string) {
 		return string == 'federal' ? '#0066cc':
@@ -472,8 +460,7 @@
 				3;
 	}
 	//camp site layer
-    var	campsites = $.getJSON("assets/camp_sites.geojson", function(data){
-        campsites = L.geoJson(data, {
+    var	campsites = L.geoJson(null, {
         	pointToLayer: function (feature, latlng) {
     			return L.circleMarker(latlng, {
     				color: '#ffffff',
@@ -499,49 +486,19 @@
             		});
     			}
         	}).addTo(map);
-    	});   
+        	
+    $.getJSON("assets/camp_sites.geojson", function(data) {
+        campsites.addData(data);
+    });
     //camping function. activated on button selection	    
-    function camping() {
-    	//reset highlighted button
-    	document.getElementById(dataButton[data]).style.background = "rgba(242,242,242,0.2)";
-    	background = 2;
-    	//change selected activity type
-    	data = 0;
-    	//change height of the middle div
-    	boxHeight = 70;
-    	//clear existing layers
-    	removeLayers();
-    	//add background parks
-    	addParks();
-    	//add campsites
-    	map.addLayer(campsites);
-    	//update info panel
-    	info.update();
-    	//display legend for selected activity, hide other legends
-    	document.getElementById("skiing").style.display = "none";
-    	document.getElementById("rafting").style.display = "none";
-    	document.getElementById("mountains").style.display = "none";
-    	document.getElementById("camping").style.display = "unset";
-    	document.getElementById("skiTable").style.display = "none";
-    	//change text box display
-    	//document.getElementById("text").innerHTML = "The history of recreational camping is often traced back to Thomas Hiram Holding, a British travelling tailor, but it was actually first popularised in the UK on the river Thames. By the 1880s large numbers of visitors took part in the pastime, which was connected to the late Victorian craze for pleasure boating. The early camping equipment was very heavy, so it was convenient to transport it by boat or to use craft that converted into tents.[1] Although Thomas Hiram Holding is often seen as the father of modern camping in the UK, he was responsible for popularising a different type of camping in the early twentieth century. He experienced the activity in the wild from his youth, when he had spent much time with his parents traveling across the American prairies. Later he embarked on a cycling and camping tour with some friends across Ireland.[2] His book on his Ireland experience, Cycle and Camp in Connemara led to the formation of the first camping group in 1901, the Association of Cycle Campers, later to become the Camping and Caravanning Club.[3] He wrote The Campers Handbook in 1908, so that he could share his enthusiasm for the great outdoors with the world.[4] Possibly the first commercial camping ground in the world was Cunningham’s camp, near Douglas, Isle of Man, which opened in 1894. In 1906 the Association of Cycle Campers opened its first own camping site, in Weybridge.[5] By that time the organization had several hundred members. In 1910 the Association was merged into the National Camping Club. Although WW1 was responsible for a certain hiatus in camping activity, the association received a new lease of life after the war when Sir Robert Baden-Powell (founder of the Boy Scouts movement) became its president. The International Federation of Camping Clubs (Federation Internationale de Camping et de Caravanning) was founded in 1932 with national clubs from all over the world affiliating with it. By the 1960s camping had become an established family holiday standard and today camp sites are ubiqitous across Europe and North America.[6]";
-    	document.getElementById("facts").innerHTML = "&#9900 Approximately 40% of PNW residents participate in developed camping.<br/><br/>&#9900 Developed camping is more popular than primitive camping, and includes car-camping, RV camping, or camper cabins.";
-    	//highlight background
-    	document.getElementById("selection").innerHTML = "Camping";
-    	document.getElementById(dataButton[data]).style.background = "rgba(242,242,242,1)";
-    	//middle div (text box) update
-		var h = $('body').height() - $('#top').height() - boxHeight;
-		$('#attribution').height(h);
-    } 
-/////////////////////////////////////////////////////////////////////////  
-///////////////////////skiing////////////////////////////////////   
+ 
+	///////////////////////skiing////////////////////////////////////   
 	//ski resort icon
-    var skiIcon1 = L.icon({iconSize: [25,25], iconUrl: 'img/ski_resort.png'});
+   var skiIcon1 = L.icon({iconSize: [25,25], iconUrl: 'img/ski_resort.png'});
     //ski resort icon on hover
-    var skiIcon2 = L.icon({iconSize: [32,32], iconUrl: 'img/ski_resort_shadow.png'});
+   var skiIcon2 = L.icon({iconSize: [32,32], iconUrl: 'img/ski_resort_shadow.png'});
    //ski resort layer
-    var	skiResorts = $.getJSON("assets/ski_resorts.geojson", function(data){
-        skiResorts = L.geoJson(data, {
+    skiResorts = L.geoJson(null, {
         	pointToLayer: function (feature, latlng) {
     			return L.marker(latlng, {icon:skiIcon1}
     				).bindPopup('<b>Resort Name</b><br/><p style="font-weight:none; display:inline;">' + feature.properties.Name + '</p>', {className: 'label_tooltip'})
@@ -558,31 +515,13 @@
             	});
             }
         });
-	});   
+	
+	$.getJSON("assets/ski_resorts.geojson", function(data) {
+        skiResorts.addData(data);
+    });
  //skiing function. activated on button selection
-    function skiing() {
-    	document.getElementById(dataButton[data]).style.background = "rgba(242,242,242,0.2)";
-    	data = 1;
-    	boxHeight = 72;
-    	removeLayers();
-    	map.removeLayer(backgroundParks);
-    	map.addLayer(snowfall);	
-    	map.addLayer(skiResorts);
-    	info.update();
-    	document.getElementById("camping").style.display = "none";
-    	document.getElementById("rafting").style.display = "none";
-    	document.getElementById("mountains").style.display = "none";
-    	document.getElementById("skiing").style.display = "unset";
-    	document.getElementById("selection").innerHTML = "Skiing";
-    	//document.getElementById("text").innerHTML = "Skiing has a history of almost five millennia.[1] Although modern skiing has evolved from beginnings in Scandinavia, it may have been practiced more than 100 centuries ago in what is now China, according to an interpretation of ancient paintings.[2][3] The word ski is one of a handful of words Norway has exported to the international community. It comes from the Old Norse word skíð which means split piece of wood or firewood.[4][5] Asymmetrical skis were used at least in northern Finland and Sweden until the late 19th century. On one leg the skier wore a long straight non-arching ski for sliding, and on the other a shorter ski for kicking. The bottom of the short ski was either plain or covered with animal skin to aid this use, while the long ski supporting the weight of the skier was treated with animal fat in similar manner to modern ski waxing. Early skiers used one long pole or spear. The first depiction of a skier with two ski poles dates to 1741.[6] Until the mid-19th century skiing was primarily used for transport, and since then has become a recreation and sport.[7] Military ski races were held in Norway during the 18th century,[8] and ski warfare was studied in the late 18th century.[9] As equipment evolved and ski lifts were developed skiing evolved into two main genres during the late 19th and early 20th century, Alpine and Nordic.";
-    	document.getElementById("skiTable").style.display = "unset";
-    	document.getElementById("facts").innerHTML = "&#9900 Timberline Resort on Mount Hood has the highest true-up vertical drop in the region, at 3,690 feet. <br/><br/>&#9900 The Summit at Snoqualmie is the most visited ski resort in the region.<br/><br/>&#9900 Resident Ski/Snowboard participation by state:";
-    	document.getElementById(dataButton[data]).style.background = "rgba(242,242,242,1)";
-		var h = $('body').height() - $('#top').height() - boxHeight;
-		$('#attribution').height(h);
-    }
-/////////////////////////////////////////////////////////////////////////  
-///////////////////////mountaineering////////////////////////////////////     
+
+	///////////////////////mountaineering////////////////////////////////////     
 	//mountain icons  	
     
     var mountainIcon1 = L.icon({iconSize: [23,23], iconUrl: 'img/mountain_icon1.png'});
@@ -622,7 +561,7 @@
     //change icon size based on zoom level
     map.on('zoomend', function() {
     	 var currentZoom = map.getZoom();
-    	 if (data === 2){
+    	 if (data === 3){
     	 	map.removeLayer(mountains);
     		if (currentZoom >= 7){
     	 		mountainIcon1 = L.icon({iconSize: [23,23], iconUrl: 'img/mountain_icon1.png'});
@@ -685,15 +624,22 @@
     	mountains.addTo(map);
     }
    //mountain function
-    var	mountains = L.geoJson(mountainPoints, {pointToLayer: function (feature, latlng) {
-    			return L.circleMarker(latlng, {
-    				radius: 0,
-    				opacity: 0,
-    				fillOpacity: 0,
-    				weight: 0
-    			}).bindPopup('<b>' + feature.properties.name + '</b><br/><p style="display:inline;">' + feature.properties.elev_ft + '&nbspft.</p>', {className: 'label_tooltip'});
-    		}
-    	});
+   var mountains = L.geoJson(mountainPoints, {
+    		pointToLayer: function (feature, latlng) {
+    					return L.marker(latlng, {
+    					icon: iconSelection(feature.properties.elev_ft)}).bindPopup('<b>' + feature.properties.name + '</b><br/><p style="display:inline;">' + feature.properties.elev_ft + '&nbspft.</p>', {className: 'label_tooltip'});		
+    				},
+    		onEachFeature: function(feature, layer) {
+    				layer.on("mouseover",function(e){
+                		info.update(layer.feature.properties);
+                		layer.setIcon(mountainIconHover)
+            		});
+            		layer.on("mouseout",function(e){
+                		info.update();
+                		layer.setIcon(iconSelection(feature.properties.elev_ft))
+            		});
+   				  }
+    		  });
     //add search control for mountains
 	var searchControl =  new L.Control.Search({
 		container: 'findbox',
@@ -708,6 +654,7 @@
   			map.setView(latlng, zoom); // access the zoom
 		}
 	});
+	
     //show popup when search is completed
     searchControl.on('search:locationfound', function(e) {		
 		if(e.layer._popup){
@@ -718,52 +665,24 @@
 	});
 
 	//mountaineering function
-    function mountaineering() {
-    	document.getElementById(dataButton[data]).style.background = "rgba(242,242,242,0.2)";
-    	data = 2;
-    	background = 2;
-    	boxHeight = 80;
-    	map.removeLayer(backgroundParks);
-    	removeLayers();
-    	map.addLayer(elevation);
-    	updateIcon();
-    	map.addControl(searchControl);
-    	info.update();
-    	document.getElementById("mountains").style.display = "unset";
-    	document.getElementById("skiing").style.display = "none";
-    	document.getElementById("camping").style.display = "none";
-    	document.getElementById("rafting").style.display = "none";
-    	document.getElementById("selection").innerHTML = "Mountaineering";
-    	//document.getElementById("text").innerHTML = "The term mountaineering describes the sport of mountain climbing. While some scholars identify mountaineering-related activities as climbing (rock and ice) and trekking up mountains,[2] others are also adding backpacking, hiking, skiing, via ferrata and wilderness activities,[3] and still others state that mountaineering activities also include indoor climbing, sport climbing and bouldering.[4] However most of the scholars, the term mountaineering understand as a climbing (which now refers to adventure climbing or sports climbing) and trekking (hill walking in 'exotic' places).[5][6] Hiking in the mountains can also be a simple form of mountaineering when it involves scrambling, or short stretches of the more basic grades of rock climbing, as well as crossing glaciers.While mountaineering began as attempts to reach the highest point of unclimbed big mountains it has branched into specializations that address different aspects of the mountain and consists of three (3) areas: rock-craft, snow-craft, and skiing, depending on whether the route chosen is over rock, snow or ice. All require experience, athletic ability, and technical knowledge to maintain safety.[7] Mountaineering is often called Alpinism, especially in European languages, which implies climbing routes with minimal equipment in high and often snow and ice-covered mountains such as the Alps, where technical difficulties frequently exceed environmental and physical challenges. A mountaineer who pursues this more technical and minimalist style of mountain climbing is sometimes called an Alpinist, although use of the term may vary between countries and eras. The word alpinism was born in the 19th century to refer to climbing for the purpose of enjoying climbing itself as a sport or recreation, distinct from merely climbing while hunting or as a religious pilgrimage that had been done generally at that time.[8][9]";
-    	document.getElementById("facts").innerHTML = "&#9900 Mount Rainier is the tallest mountain in the PNW, at 14,411 feet.<br/><br/>&#9900 Three major ranges are present in the PNW: the Pacific Coast Range, the Cascades, and the Northern Rocky Mountains";
-    	document.getElementById("skiTable").style.display = "none";
-    	document.getElementById(dataButton[data]).style.background = "rgba(242,242,242,1)";
-		var h = $('body').height() - $('#top').height() - boxHeight;
-		$('#attribution').height(h);
-    }              
-////////////////////////////////////////////////////////////////////////////////////////////////////  
+      
+///////////////////////////////button function////////////////////////////////	
+	var buttonLabels = ['#but1','#but2','#but3','#but4'];
 
-/////////////////////////determine whether or not to add background parks///////////////////////////  
-	function addParks () {
-		if (background == 2){
-			backgroundParks.addTo(map);
-		}
-		else {
-			background = 1;
-		}
-	}
-/////////////////////////clear all layers before adding new layers///////////////////////////  
-	function removeLayers (){
-		map.removeLayer(skiResorts);
-		map.removeLayer(campsites);
-		map.removeLayer(snowfall);
-		map.removeLayer(elevation);
-		map.removeLayer(riverRafting);
-		map.removeLayer(mountains);
-		map.removeLayer(raftPoints);
-		map.removeControl(searchControl);
-	}
+	var buttonFunctions = {
+		but1: {button:'but1', newLayers:[campsites, backgroundParks], newLegend: 'leg_1', newElements:['facts_1'], title:'Camping', variable:1, layerFunction:function(){boxHeight = 70; resizeMiddle();info.update();map.removeControl(searchControl);}},
+		but2: {button:'but2', newLayers:[snowfall, skiResorts], newLegend: 'leg_2', newElements:['facts_2'], title:'Skiing',  variable:2, layerFunction:function(){boxHeight = 72; resizeMiddle();info.update();map.removeControl(searchControl);}},
+		but3: {button:'but3', newLayers:[mountains, elevation], newLegend: 'leg_3', newElements:['facts_3'], title:'Mountaineering',  variable:3, layerFunction:function(){boxHeight = 80; resizeMiddle();info.update();	map.addControl(searchControl);}},
+		but4: {button:'but4', newLayers:[riverRafting, raftPoints, backgroundParks], newLegend: 'leg_4', newElements:['facts_4'], title:'Rafting',  variable:4, layerFunction:function(){boxHeight = 75; resizeMiddle();info.update();map.removeControl(searchControl);}}
+	};
 	
+	$('.main1').clickFunction({
+		buttonFunctions: buttonFunctions,
+		buttonLabels: buttonLabels,
+		selected:buttonFunctions.but1
+	});
+ ///////////////////////////////other miscellaneous functions (these also never change)////////////////////////////////   
+  
 	//add scrolling capabilities to text box
      var container = document.getElementById('text');
 		Ps.initialize(container);
@@ -773,7 +692,7 @@
 	
 	var minHeight = 30; // Define a minimum height for the middle div
 
-	var resizeMiddle = function() {
+	function resizeMiddle() {
     var h = $('body').height() - $('#top').height() - boxHeight;
     		h = h > minHeight ? h : minHeight;
    	 	$('#attribution').height(h);

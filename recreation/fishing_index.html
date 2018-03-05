@@ -17,6 +17,7 @@
     <script src="https://d3js.org/topojson.v1.min.js"></script>
     <script src="https://unpkg.com/leaflet.vectorgrid@latest/dist/Leaflet.VectorGrid.bundled.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script type="text/javascript" src="../js/clickFunction.js"></script>
     
    
 </head>
@@ -26,23 +27,23 @@
 		</button>
 		<div id="infoPanel">
 			<div id="top">
-			<h1 style="padding-left: 40px; padding-bottom:5px;">Fish & Fishing</h1>
-			<img src="img/fish_icon.png" id="image" style="display:inline-block; height:20px;"> <br/>
+			<h1 style="margin-bottom:25px;">Fish & Fishing</h1>
+			<img src="img/fish_icon.png" id="titleImage" style="height:20px;"> <br/>
 			<div id="buttons">
 				<div class="dropdown">
-  					<button class="dropbtn"><b id="selection">Select Species</b><p id="arrow">&#9660;</p></button>
+  					<button class="dropbtn"><b id="dataType">Select Species</b><p id="arrow">&#9660;</p></button>
   					<div class="dropdown-content">
-   						 <button type="button" id="but1" onclick="chinook()" class="selection" style="background:rgba(242, 242, 242, 0.8);">Chinook</button>
-						 <button type="button" id="but2" onclick="steelhead()" class="selection">Steelhead</button>
-						 <button type="button" id="but3" onclick="coho()" class="selection">Coho</button>
-						 <button type="button" id="but4" onclick="chum()" class="selection">Chum</button>
-						 <button type="button" id="but5" onclick="pink()" class="selection">Pink</button>
-						 <button type="button" id="but6" onclick="sockeye()" class="selection">Sockeye</button>
+   						 <button type="button" id="but1" class="selection" style="background:rgba(242, 242, 242, 0.8);">Chinook</button>
+						 <button type="button" id="but2" class="selection">Steelhead</button>
+						 <button type="button" id="but3" class="selection">Coho</button>
+						 <button type="button" id="but4" class="selection">Chum</button>
+						 <button type="button" id="but5" class="selection">Pink</button>
+						 <button type="button" id="but6" class="selection">Sockeye</button>
  				   </div>
 				</div>
 			</div>
-				<div id="chinookLegend">
-					<h2 id="title" style="display:inline; width:200px; white-space:normal;">Chinook Salmon</h2>
+				<div id="leg_1">
+					<h2 id="title">Chinook Salmon</h2>
 					<br>
 					<div id ="none"><b style="background:#3abfbd; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p>&nbsp</p><p id="leg1">&nbspLeast Concern</p><br/></div>
 					<div id ="threat"><b style="background:#9de1e0; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg1">&nbspThreatened</p><br/></div>
@@ -54,14 +55,14 @@
 					<div id="checklist">
 						<p id="checkText" style="padding-right:5px; padding-top:3px; padding-left:0px; font-weight:bold; position:relative; float:left;">Fall Run</p>
 							<label class="switch">
-								<input name="checkbox_name" id="checkbox" type="checkbox" value="checked" onclick="selectRun()" autocomplete="off">
+								<input name="checkbox_name" id="checkbox" type="checkbox" onclick="selectRun()" autocomplete="off">
 								<span class="slider"></span>
 							</label>
 						<p id="checkText2" style="padding-left:5px; padding-top:3px; font-weight:bold;">Spring Run</p><br/>
 					</div>
 				</div>
-				<div id="steelheadLegend" style="display:none;">
-					<h2 id="title" style="display:inline; width:200px; white-space:normal;">Steelhead</h2>
+				<div id="leg_2" style="display:none;">
+					<h2 id="title">Steelhead</h2>
 					<br>
 					<div id ="none"><b style="background:#3abfbd; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p>&nbsp</p><p id="leg1">&nbspLeast Concern</p><br/></div>
 					<div id ="threat"><b style="background:#9de1e0; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg1">&nbspThreatened</p><br/></div>
@@ -70,8 +71,8 @@
 					</br></br>
 					<img src="img/steelhead2.png" id="fishImage" style="display:block;"><br/>
 				</div>
-				<div id="cohoLegend" style="display:none;">
-					<h2 id="title" style="display:inline; width:200px; white-space:normal;">Coho Salmon</h2>
+				<div id="leg_3" style="display:none;">
+					<h2 id="title">Coho Salmon</h2>
 					<br>
 					<div id ="none"><b style="background:#3abfbd; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p>&nbsp</p><p id="leg1">&nbspLeast Concern</p><br/></div>
 					<div id ="threat"><b style="background:#9de1e0; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg1">&nbspThreatened</p><br/></div>
@@ -80,8 +81,8 @@
 					</br></br>
 					<img src="img/soho.png" id="fishImage" style="display:block;"><br/>
 				</div>
-				<div id="chumLegend" style="display:none;">
-					<h2 id="title" style="display:inline; width:200px; white-space:normal;">Chum Salmon</h2>
+				<div id="leg_4" style="display:none;">
+					<h2 id="title">Chum Salmon</h2>
 					<br>
 					<div id ="none"><b style="background:#3abfbd; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p>&nbsp</p><p id="leg1">&nbspLeast Concern</p><br/></div>
 					<div id ="threat"><b style="background:#9de1e0; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg1">&nbspThreatened</p><br/></div>
@@ -92,14 +93,14 @@
 					<div id="checklist">
 						<p id="checkText" style="padding-right:5px; padding-top:3px; padding-left:0px; font-weight:bold; position:relative; float:left;">Fall Run</p>
 							<label class="switch">
-								<input name="checkbox_name" id="checkbox1" type="checkbox" value="checked" onclick="selectRun()" autocomplete="off">
+								<input name="checkbox_name" id="checkbox2" type="checkbox" onclick="selectRun()" autocomplete="off">
 								<span class="slider"></span>
 							</label>
 						<p id="checkText2" style="padding-left:5px; padding-top:3px; font-weight:bold;">Summer Run</p><br/>
 					</div>
 				</div>
-				<div id="pinkLegend" style="display:none;">
-					<h2 id="title" style="display:inline; width:200px; white-space:normal;">Pink Salmon</h2>
+				<div id="leg_5" style="display:none;">
+					<h2 id="title">Pink Salmon</h2>
 					<br>
 					<div id ="none"><b style="background:#3abfbd; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p>&nbsp</p><p id="leg1">&nbspLeast Concern</p><br/></div>
 					<div id ="hist"><b style="background:#ed789b; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p>&nbsp</p><p id="leg2">&nbspHistorical Habitat</p><br/></div><br/>
@@ -109,14 +110,14 @@
 					<div id="checklist">
 						<p id="checkText" style="padding-right:5px; padding-top:3px; padding-left:0px; font-weight:bold; position:relative; float:left;">Odd Year</p>
 							<label class="switch">
-								<input name="checkbox_name" id="checkbox2" type="checkbox" value="checked" onclick="selectRun()" autocomplete="off">
+								<input name="checkbox_name" id="checkbox3" type="checkbox" onclick="selectRun()" autocomplete="off">
 								<span class="slider"></span>
 							</label>
 						<p id="checkText2" style="padding-left:5px; padding-top:3px; font-weight:bold;">Even Year</p><br/>
 					</div>
 				</div>
-				<div id="sockeyeLegend" style="display:none;">
-					<h2 id="title" style="display:inline; width:200px; white-space:normal;">Sockeye Salmon</h2>
+				<div id="leg_6" style="display:none;">
+					<h2 id="title">Sockeye Salmon</h2>
 					<br>
 					<div id ="none"><b style="background:#3abfbd; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p>&nbsp</p><p id="leg1">&nbspLeast Concern</p><br/></div>
 					<div id ="threat"><b style="background:#9de1e0; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg1">&nbspThreatened</p><br/></div>
@@ -130,9 +131,30 @@
 			<div id="attribution">
 				<div id="text" style="margin-top:10px;">
 					<!--<p3 id="information">Chinook salmon (also known as King Salmon) are the largest of the Pacific salmon, with some individuals growing to more than 100 pounds. These huge fish are rare, as most mature chinook are under 50 pounds.</p3> <br/><br/>Most chinook spawn in large rivers such as the Columbia and Snake, although they will also use smaller streams with sufficient water flow. They tend to spawn in the mainstem of streams, where the water flow is high. Because of their size they are able to spawn in larger gravel than most other salmon. Chinook spawn on both sides of the Cascade Range, and some fish travel hundreds of miles upstream before they reach their spawning grounds. Because of the distance, these fish enter streams early and comprise the spring and summer runs. Fall runs spawn closer to the ocean and more often use small coastal streams. All chinook reach their spawning grounds by fall, in time to spawn.<br/><br/>Chinook fry rear in freshwater from three months to a year, depending on the race of chinook and the location. Spring chinook tend to stay in streams for a year; fish in northern areas, where the streams are less productive and growth is slower, also tend to stay longer. Rearing chinook fry use mainstems and their tributaries.</p3>
-				-->
-					<p3 style="font-weight:bold; line-height:36px;">Quick Facts:</p3><br/>
-					<p3 id="facts" style="line-height:20px;">&#9900 Also known as King Salmon.<br/><br/>&#9900 Chinook are the largest Pacific Salmon. The largest ever recorded weighed 126 pounds.<br/><br/>&#9900 Individuals over 30 pounds are known as Tyee Salmon.</p3>
+				-->	<div id="facts_1" style="display:unset;">
+						<p3 style="font-weight:bold; line-height:36px;">Quick Facts:</p3><br/>
+						<p3 id="facts" style="line-height:20px;">&#9900 Also known as King Salmon.<br/><br/>&#9900 Chinook are the largest Pacific Salmon. The largest ever recorded weighed 126 pounds.<br/><br/>&#9900 Individuals over 30 pounds are known as Tyee Salmon.</p3>
+					</div>
+					<div id="facts_2" style="display:none;">
+						<p3 style="font-weight:bold; line-height:36px;">Quick Facts:</p3><br/>
+						<p3 id="facts" style="line-height:20px;">&#9900 Anadromous (ocean-going) version of rainbow trout.<br/><br/>&#9900 Maximum size 40 pounds.<br/><br/>&#9900 Unlike salmon, Steelhead, may survive spawning, and can therefore spawn more than once in their lifetime.</p3>
+					</div>
+					<div id="facts_3" style="display:none;">
+						<p3 style="font-weight:bold; line-height:36px;">Quick Facts:</p3><br/>
+						<p3 id="facts" style="line-height:20px;">&#9900 Maximum size 30 pounds.<br/><br/>&#9900 Juvenile Coho are highly territorial.<br/><br/>&#9900 Coho can be found in urban streams if water quality needs are met.</p3>
+					</div>
+					<div id="facts_4" style="display:none;">
+						<p3 style="font-weight:bold; line-height:36px;">Quick Facts:</p3><br/>
+						<p3 id="facts" style="line-height:20px;">&#9900 Also known as Dog Salmon due to canine-like teeth in spawning males.<br/><br/>&#9900 Maximum size 30 pounds.<br/><br/>&#9900 “Calico” coloration during spawning.</p3>
+					</div>
+					<div id="facts_5" style="display:none;">
+						<p3 style="font-weight:bold; line-height:36px;">Quick Facts:</p3><br/>
+						<p3 id="facts" style="line-height:20px;">&#9900 Also known as humpback salmon.<br/><br/>&#9900 Maximum size 12 pounds.<br/><br/>&#9900 Consistent two-year life cycle.</p3>
+					</div>
+					<div id="facts_6" style="display:none;">
+						<p3 style="font-weight:bold; line-height:36px;">Quick Facts:</p3><br/>
+						<p3 id="facts" style="line-height:20px;">&#9900 Sockeye are known as the most flavorful Pacific Salmon.<br/><br/>&#9900 Maximum size 15 pounds.<br/><br/>&#9900 Only spawn in lake-fed water systems.</p3>
+					</div>
 				</div>
 			</div>
 			<div id="pageChange">
@@ -142,7 +164,7 @@
 				<a href="#popup1" id="arrow" style="display:inline-block;">
 					<i class="fa fa-info-circle" aria-hidden="true" style="padding-left:83px;"></i>
 				</a>
-				<a href="rec_index.html" id="arrow" style="display:inline-block;" target="_blank">
+				<a href="rec_index.html" id="arrow" style="display:inline-block;">
 					<i class="fa fa-home" aria-hidden="true" style="padding-left:0;"></i>
 				</a>
 				<a href="economic_index.html" id="arrow" style="display:inline-block;">
@@ -171,6 +193,8 @@
 		</div>
 
 <script>
+//////////////base functions (these never change)///////////////////////
+	//////////////function that allows topojson layers to be loaded///////////////////////
 	L.TopoJSON = L.GeoJSON.extend({  
   		addData: function(jsonData) {    
     		if (jsonData.type === 'Topology') {
@@ -184,7 +208,7 @@
     		}
   		}  
 	});
-	
+	//////////////function for the info panel collapse button///////////////////////	
 	var collapsed = false;
     function collapse(){
     	if (collapsed == false){
@@ -203,7 +227,7 @@
     	}
     	
     }
-	//initialize map
+//////////////Initialize map///////////////////////
 	var map = L.map('map', {center: [45.56, -119.75], zoom: 7, zoomControl:false});
 	//map.setMaxBounds(map.getBounds());
 ///////////////////////make zoom level correspond to browser size////////////////////////////////
@@ -217,7 +241,7 @@
         	map.setZoom(5);
         	}
 	});
-///////////////////////add tiled basemap////////////////////////////////
+////////////////////////////////basemap layers////////////////////////////////
 	var Esri_WorldTerrain = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer/tile/{z}/{y}/{x}', {
 		attribution: 'Tiles &copy; Esri &mdash; Source: USGS, Esri, TANA, DeLorme, and NPS',
 		maxZoom:8,
@@ -246,50 +270,76 @@
 		pane:'labels'
 	});	
 	
+    var pnwStates = $.getJSON("assets/pnw_states.geojson", function(data){
+        pnwStates = L.geoJson(data, {
+        	style:function pnwStatesStyle(){
+				return{
+					opacity: 0.3,
+					color:'#000000',
+					fillOpacity:0,
+					fillColor:'#000000',
+					weight:1
+				};
+			}
+        }).addTo(map);
+    });
+    var pnwCounties = $.getJSON("assets/counties2.geojson", function(data){
+        pnwCounties = L.geoJson(data, {
+        	style: function pnwCountiesStyle(){
+				return{
+					opacity: 0.1,
+					color:'#000000',
+					fillOpacity:0,
+					fillColor:'#000000',
+					weight:1
+				};
+			}
+        }).addTo(map);
+    });
+    function riverSize(e){
+        return e > 400000 ? 2.5 :
+        	   e > 200000 ? 2 :
+        	   e > 300000 ? 1.5 :
+        	   e > 50000 ? 1 :
+        		0.5;
+    	}   
+    function riverStyle(feature){
+	return{
+		opacity: 0.2,
+		color:'#80bfff',
+		weight: riverSize(feature.properties.length_1)
+		};
+	}
+    var	rivers = $.getJSON("assets/rivers.geojson", function(data){
+        rivers = L.geoJson(data, {
+        	style:riverStyle
+        }).addTo(map);
+    });
+	//lakes      
+    function lakeStyle(feature){
+	return{
+		opacity: 0,
+		fillColor:'#80bfff',
+		fillOpacity:0.3
+		};
+	}
+    var	lakes = $.getJSON("assets/lakes.geojson", function(data){
+        lakes = L.geoJson(data, {
+        	style:lakeStyle
+        }).addTo(map);
+    });
+	
 	map.createPane('labels');
 	map.getPane('labels').style.pointerEvents = 'none';
 	map.getPane('labels').style.zIndex = 650;
 	label.addTo(map);
 	
 ///////////////////////important variables////////////////////////////////
-	//determines which fish is selected
-	var data = 0;
-	//determines which run is selected
+	var data = 1;
 	var run = 0;
-	//determines which button to highlight
-	var buttonNumber = ['but1','but2','but3','but4','but5','but6','but7'];
 	
-///////////////////////fish layer geoJson styling////////////////////////////////
-    
-    
-    /*var chinookGrid;
-	
-	fetch('assets/chinook.json').then(function(response){
-			return response.json();
-		}).then(function(json){
-			chinookGrid = L.vectorGrid.slicer( json, {
-				rendererFactory: L.canvas.tile,
-				vectorTileLayerStyles: {
-					'chinook': fishStyle
-				},
-				getFeatureId: function(f) {
-					return f.properties.type;
-				}
-			}).addTo(map);
-		})
-	
-	function fishStyle (properties, zoom){
-			return {
-				fillColor:setColor(properties.CLASS, properties.STATUS),
-				fillOpacity: setOpacity(properties.run_num),
-				fill: true,
-				stroke: true,
-				color: setColor(properties.CLASS, properties.STATUS),
-				opacity: setOpacity(properties.run_num),
-				weight: 1
-			}
-	}*/
-    
+////////////////////////////display layers//////////////////////
+    ////////////////////////////fish layer//////////////////////
     const fish = new L.TopoJSON();
 
 	$.getJSON('assets/chinook.json')
@@ -330,7 +380,7 @@
 	
     //changes when checkbox is selected
     function selectRun () {
-    	if (document.getElementById('checkbox').checked == true || document.getElementById('checkbox1').checked == true || document.getElementById('checkbox2').checked == true){
+    	if (document.getElementById('checkbox').checked == true || document.getElementById('checkbox2').checked == true || document.getElementById('checkbox3').checked == true){
     		run = 1;
     		fish.eachLayer(handleLayer);
    		}
@@ -339,222 +389,62 @@
     		fish.eachLayer(handleLayer);
     	}
     }
-/////////////////////////////////////////////////////////////////////////////////
-///////////////////////background geoJson layers////////////////////////////////
-//rivers
-    function riverSize(e){
-        return e > 400000 ? 2.5 :
-        	   e > 200000 ? 2 :
-        	   e > 300000 ? 1.5 :
-        	   e > 50000 ? 1 :
-        		0.5;
-    	}   
-    function riverStyle(feature){
-	return{
-		opacity: 0.2,
-		color:'#80bfff',
-		weight: riverSize(feature.properties.length_1)
-		};
+
+///////////////////////////////button function////////////////////////////////	
+	var buttonLabels = ['#but1','#but2','#but3','#but4','#but5','#but6'];
+
+	var buttonFunctions = {
+		but1: {button:'but1', newLegend: 'leg_1', newElements:['facts_1'], title:'Chinook', variable:1, layerFunction:function(){resizeMiddle();resetData();}},
+		but2: {button:'but2', newLegend: 'leg_2', newElements:['facts_2'], title:'Steelhead',  variable:2, layerFunction:function(){resizeMiddle();resetData();}},
+		but3: {button:'but3', newLegend: 'leg_3', newElements:['facts_3'], title:'Coho',  variable:3, layerFunction:function(){resizeMiddle();resetData();}},
+		but4: {button:'but4', newLegend: 'leg_4', newElements:['facts_4'], title:'Chum',  variable:4, layerFunction:function(){resizeMiddle();resetData();}},
+		but5: {button:'but5', newLegend: 'leg_5', newElements:['facts_5'], title:'Pink',  variable:5, layerFunction:function(){resizeMiddle();resetData();}},
+		but6: {button:'but6', newLegend: 'leg_6', newElements:['facts_6'], title:'Sockeye',  variable:6, layerFunction:function(){resizeMiddle();resetData();}}
+	};
+	
+	$('.main1').clickFunction({
+		buttonFunctions: buttonFunctions,
+		buttonLabels: buttonLabels,
+		selected:buttonFunctions.but1
+	});
+
+	function resetData(){
+		if (data == 1){
+			fish.clearLayers();
+    		$.getJSON('assets/chinook.json').done(addFishData);
+    		$("#checkbox").prop("checked", false);
+    		run = 0
+		}
+		if (data == 2){
+			fish.clearLayers();
+    		$.getJSON('assets/steelhead.json').done(addFishData);
+    		run = 0
+		}
+		if (data == 3){
+			fish.clearLayers();
+    		$.getJSON('assets/coho.json').done(addFishData);
+    		run = 0
+		}
+		if (data == 4){
+			fish.clearLayers();
+    		$.getJSON('assets/chum.json').done(addFishData);
+    		$("#checkbox2").prop("checked", false);
+    		run = 0
+		}
+		if (data == 5){
+			fish.clearLayers();
+    		$.getJSON('assets/pink.json').done(addFishData);
+    		$("#checkbox3").prop("checked", false);
+    		run = 0
+		}
+		if (data == 6){
+			fish.clearLayers();
+    		$.getJSON('assets/sockeye.json').done(addFishData);
+    		run = 0
+		}
 	}
-    var	rivers = $.getJSON("assets/rivers.geojson", function(data){
-        rivers = L.geoJson(data, {
-        	style:riverStyle
-        }).addTo(map);
-    });
-//lakes      
-    function lakeStyle(feature){
-	return{
-		opacity: 0,
-		fillColor:'#80bfff',
-		fillOpacity:0.3
-		};
-	}
-    var	lakes = $.getJSON("assets/lakes.geojson", function(data){
-        lakes = L.geoJson(data, {
-        	style:lakeStyle
-        }).addTo(map);
-    });
 
-//state outlines
-    function pnwStatesStyle(){
-	return{
-		opacity: 0.3,
-		color:'#000000',
-		fillOpacity:0,
-		fillColor:'#000000',
-		weight:1
-		};
-	}
-     var pnwStates = $.getJSON("assets/pnw_states.geojson", function(data){
-        pnwStates = L.geoJson(data, {
-        	style:pnwStatesStyle
-        }).addTo(map);
-    });
-//county outlines
-      var pnwCounties = $.getJSON("assets/counties2.geojson", function(data){
-        pnwCounties = L.geoJson(data, {
-        	style: function pnwCountiesStyle(){
-				return{
-					opacity: 0.1,
-					color:'#000000',
-					fillOpacity:0,
-					fillColor:'#000000',
-					weight:1
-				};
-			}
-        }).addTo(map);
-    });
-////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////individual fish functions//////////////////////////////////////////////
-//chinook
-    function chinook() {
-    	//reset highlighted button
-    	document.getElementById(buttonNumber[data]).style.background = "rgba(242,242,242,0.2)";
-    	//determines which fish to display
-    	data = 0;
-    	//default run 
-    	run = 0;
-        	
-    	fish.clearLayers();
-    	$.getJSON('assets/chinook.json')
-  		.done(addFishData);
-  		
-  		document.getElementById("chinookLegend").style.display = "unset";
-  		document.getElementById("steelheadLegend").style.display = "none";
-  		document.getElementById("cohoLegend").style.display = "none";
-  		document.getElementById("chumLegend").style.display = "none";
-		document.getElementById("pinkLegend").style.display = "none";
-		document.getElementById("sockeyeLegend").style.display = "none";
-		
-		$("#checkbox").prop("checked", false);
-		$("#checkbox1").prop("checked", false);
-		$("#checkbox2").prop("checked", false);
-
-    	//document.getElementById('information').innerHTML = "Chinook salmon (also known as King Salmon) are the largest of the Pacific salmon, with some individuals growing to more than 100 pounds. These huge fish are rare, as most mature chinook are under 50 pounds." // <br/><br/>Most chinook spawn in large rivers such as the Columbia and Snake, although they will also use smaller streams with sufficient water flow. They tend to spawn in the mainstem of streams, where the water flow is high. Because of their size they are able to spawn in larger gravel than most other salmon. Chinook spawn on both sides of the Cascade Range, and some fish travel hundreds of miles upstream before they reach their spawning grounds. Because of the distance, these fish enter streams early and comprise the spring and summer runs. Fall runs spawn closer to the ocean and more often use small coastal streams. All chinook reach their spawning grounds by fall, in time to spawn.<br/><br/>Chinook fry rear in freshwater from three months to a year, depending on the race of chinook and the location. Spring chinook tend to stay in streams for a year; fish in northern areas, where the streams are less productive and growth is slower, also tend to stay longer. Rearing chinook fry use mainstems and their tributaries.";
-    	document.getElementById('selection').innerHTML = "Chinook";
-    	document.getElementById('facts').innerHTML = "&#9900 Also known as King Salmon.<br/><br/>&#9900 Chinook are the largest Pacific Salmon. The largest ever recorded weighed 126 pounds.<br/><br/>&#9900 Individuals over 30 pounds are known as Tyee Salmon.";
-    	document.getElementById('but1').style.background = "rgba(242, 242, 242, 0.9)";
-    }  
-//steelhead
-    function steelhead() {
-    	document.getElementById(buttonNumber[data]).style.background = "rgba(242,242,242,0.2)";
-    	data = 1;
-    	run = 0;
-    	
-    	fish.clearLayers();
-    	$.getJSON('assets/steelhead.json')
-  		.done(addFishData);
-  		    	
-    	document.getElementById("chinookLegend").style.display = "none";
-  		document.getElementById("steelheadLegend").style.display = "unset";
-  		document.getElementById("cohoLegend").style.display = "none";
-  		document.getElementById("chumLegend").style.display = "none";
-		document.getElementById("pinkLegend").style.display = "none";
-		document.getElementById("sockeyeLegend").style.display = "none";
-    	
-    	document.getElementById('selection').innerHTML = "Steelhead";
-    	//document.getElementById('but2').style.background = "rgba(242, 242, 242, 0.9)";
-    	document.getElementById('facts').innerHTML = "&#9900 Anadromous (ocean-going) version of rainbow trout.<br/><br/>&#9900 Maximum size 40 pounds.<br/><br/>&#9900 Unlike salmon, Steelhead, may survive spawning, and can therefore spawn more than once in their lifetime.";
-    	//document.getElementById('information').innerHTML = "Steelhead and rainbow trout are the same species, but rainbow are freshwater only, and steelhead are anadromous, or go to sea. Unlike most salmon, steelhead can survive spawning, and can spawn in multiple years."//<br/><br/>Steelhead spawn in the spring. They generally prefer fast water in small-to-large mainstem rivers, and medium-to-large tributaries. In streams with steep gradient and large substrate, they spawn between these steep areas, where the water is flatter and the substrate is small enough to dig into. The steeper areas then make excellent rearing habitat for the juveniles. Like chinook, steelhead have two runs, a summer run and a winter run. Most summer runs are east of the Cascades, and enter streams in summer to reach the spawning grounds by the following spring. A few western Washington rivers also have established runs of summer steelhead. Winter runs spawn closer to the ocean, and require less travel time.<br/><br/>Steelhead fry emerge from the gravel in summer and generally rear for two or three years in freshwater, occasionally one or four years, depending on the productivity of the stream. Streams high in the mountains and those in northern climes are generally less productive. Due to their faster growth, hatchery steelhead smolt at one year of age.";
-    }
-//coho
-    function coho() {
-    	document.getElementById(buttonNumber[data]).style.background = "rgba(242,242,242,0.2)";
-    	data = 2;
-    	run = 0;
-    	
-    	fish.clearLayers();
-    	$.getJSON('assets/coho.json')
-  		.done(addFishData);
-  		    
-    	document.getElementById("chinookLegend").style.display = "none";
-  		document.getElementById("steelheadLegend").style.display = "none";
-  		document.getElementById("cohoLegend").style.display = "unset";
-  		document.getElementById("chumLegend").style.display = "none";
-		document.getElementById("pinkLegend").style.display = "none";
-		document.getElementById("sockeyeLegend").style.display = "none";
-    
-    	document.getElementById('selection').innerHTML = "Coho";
-    	document.getElementById('facts').innerHTML = "&#9900 Maximum size 30 pounds.<br/><br/>&#9900 Juvenile Coho are highly territorial.<br/><br/>&#9900 Coho can be found in urban streams if water quality needs are met.";
-    	//document.getElementById('information').innerHTML = "Coho are a very popular sport fish in Puget Sound. This species uses coastal streams and tributaries, and can even be found in small neighborhood streams."// Coho can even be found in urban settings if their needs of cold, clean, year-round water are met.<br/><br/>Coho spawn in small coastal streams and the tributaries of larger rivers. They prefer areas of mid-velocity water with small to medium sized gravels. Because they use small streams with limited space, they must use many such streams to successfully reproduce, which is why coho can be found in virtually every small coastal stream with a year-round flow.<br/><br/>Returning coho often gather at the mouths of streams and wait for the water flow to rise, such as after a rain storm, before heading upstream. The higher flows and deeper water enable the fish to pass obstacles, such as logs across the stream or beaver dams, that would otherwise be impassable.<br/><br/>Coho have a very regular life history. They are deposited in the gravel as eggs in the fall, emerge from the gravel the next spring, and in their second spring go to sea, about 18 months after being deposited. Coho fry are usually found in the pools of small coastal streams and the tributaries of larger rivers.";
-    	document.getElementById('but3').style.background = "rgba(242, 242, 242, 0.9)";
-    }
-//chum
-     function chum() {
-    	document.getElementById(buttonNumber[data]).style.background = "rgba(242,242,242,0.2)";
-    	data = 3;
-    	run = 0;
-    	
-    	fish.clearLayers();
-    	$.getJSON('assets/chum.json')
-  		.done(addFishData);
-  		   
-   		document.getElementById("chinookLegend").style.display = "none";
-  		document.getElementById("steelheadLegend").style.display = "none";
-  		document.getElementById("cohoLegend").style.display = "none";
-  		document.getElementById("chumLegend").style.display = "unset";
-		document.getElementById("pinkLegend").style.display = "none";
-		document.getElementById("sockeyeLegend").style.display = "none";
-		
-		$("#checkbox").prop("checked", false);
-		$("#checkbox1").prop("checked", false);
-		$("#checkbox2").prop("checked", false);
-   
-    	document.getElementById('selection').innerHTML = "Chum";
-    	document.getElementById('facts').innerHTML = "&#9900 Also known as Dog Salmon due to canine-like teeth in spawning males.<br/><br/>&#9900 Maximum size 30 pounds.<br/><br/>&#9900 “Calico” coloration during spawning.";
-    	//document.getElementById('information').innerHTML = "Male chum salmon develop large teeth during spawning, which resemble canine teeth. As a result, they are nicknamed Dog Salmon. Chum use small coastal streams and the lower reaches of larger rivers."// <br/><br/>Chum use small coastal streams and the lower reaches of larger rivers. They often use the same streams as coho, but coho tend to move further up the watershed and chum generally spawn closer to saltwater. This may be due to their larger size, which requires deeper water to swim in, or their jumping ability, which is inferior to coho. Either way, the result is a watershed divided between the two species, with all the niches filled.<br/><br/>Like coho, chum can be found in virtually every small coastal stream. In the fall, large numbers of chum can often be seen in the lower reaches of these streams, providing opportunities to view wild salmon in a natural environment.<br/><br/>Chum fry do not rear in freshwater for more than a few days. Shortly after they emerge, chum fry move downstream to the estuary and rear there for several months before heading out to the open ocean.";
-    	document.getElementById('but4').style.background = "rgba(242, 242, 242, 0.9)";
-    }
-//pink
-    function pink() {
-    	document.getElementById(buttonNumber[data]).style.background = "rgba(242,242,242,0.2)";
-    	data = 4;
-    	run = 0;
-    	
-    	fish.clearLayers();
-    	$.getJSON('assets/pink.json')
-  		.done(addFishData);
-  		
-  		document.getElementById("chinookLegend").style.display = "none";
-  		document.getElementById("steelheadLegend").style.display = "none";
-  		document.getElementById("cohoLegend").style.display = "none";
-  		document.getElementById("chumLegend").style.display = "none";
-		document.getElementById("pinkLegend").style.display = "unset";
-		document.getElementById("sockeyeLegend").style.display = "none";
-		
-		$("#checkbox").prop("checked", false);
-		$("#checkbox1").prop("checked", false);
-		$("#checkbox2").prop("checked", false);
-  		
-    	document.getElementById('selection').innerHTML = "Pink";
-    	document.getElementById('facts').innerHTML = "&#9900 Also known as humpback salmon.<br/><br/>&#9900 Maximum size 12 pounds.<br/><br/>&#9900 Consistent two-year life cycle.";
-    	//document.getElementById('information').innerHTML = "Male pink salmon develop a large hump on their back during spawning, hence the nickname humpback salmon. This is the smallest of the fall-spawning Pacific salmon."// In Washington, pink salmon runs only occur in odd-numbered years.<br/><br/>Pinks use the mainstems of large rivers and some tributaries, often very close to saltwater. Because their fry move directly to sea after emerging, the closer they spawn to saltwater the better. The shorter journey reduces predation and increases survival. Sometimes pink salmon spawn right in saltwater, avoiding freshwater altogether.<br/><br/>Pinks have a very regular life history, living for two years before returning to spawn the next generation. This is why pink runs in Washington only occur every other year; there are no one-year-old or three-year-old fish to establish runs in the other years.<br/><br/>As mentioned, pink fry do not rear in freshwater. Immediately after emerging they move downstream to the estuary and rear there for several months before heading out to the open ocean. Because of this, pink fry have no spots, which provide camouflage in streams, but are bright chrome for open water.";
-    	document.getElementById('but5').style.background = "rgba(242, 242, 242, 1)";
-    }
-//sockeye
-    function sockeye() {
-    	document.getElementById(buttonNumber[data]).style.background = "rgba(242,242,242,0.2)";
-    	data = 5;
-    	run = 0;
-    	
-    	fish.clearLayers();
-    	$.getJSON('assets/sockeye.json')
-  		.done(addFishData);
-  		
-		document.getElementById("chinookLegend").style.display = "none";
-  		document.getElementById("steelheadLegend").style.display = "none";
-  		document.getElementById("cohoLegend").style.display = "none";
-  		document.getElementById("chumLegend").style.display = "none";
-		document.getElementById("pinkLegend").style.display = "none";
-		document.getElementById("sockeyeLegend").style.display = "unset";
-
-    	document.getElementById('selection').innerHTML = "Sockeye";
-    	document.getElementById('facts').innerHTML = "&#9900 Sockeye are known as the most flavorful Pacific Salmon.<br/><br/>&#9900 Maximum size 15 pounds.<br/><br/>&#9900 Only spawn in lake-fed water systems.";
-    	//document.getElementById('information').innerHTML = "Sockeye are the most flavorful Pacific salmon. Sockeye are unique in that they require a lake to rear in as fry, so the river they choose to spawn in must have an accesible lake."// In Washington, sockeye are found in Lake Washington, Baker Lake, Ozette Lake, Quinault Lake, and Lake Wenatchee.<br/><br/>Sockeye are unique in that they require a lake to rear in as fry, so the river they choose to spawn in must have a lake in the system. This seems to be the most important criteria for choosing a spawning ground, as sockeye adapt to a range of water velocities and substrates.<br/><br/>Large rivers that supplied sufficient room for spawning and rearing historically supported huge runs of sockeye, numbering into the millions. One such run still exists today on the Adams River in British Columbia, a tributary to the Fraser River. The Canadian government has built viewing platforms for visitors, and annual runs of over a million sockeye are common.<br/><br/>Juvenile sockeye rear for one or two years in a lake, although they are also found in the inlet and outlet streams of the lake. Sockeye fry are often preyed on by resident lake fish, and because they use freshwater year-round, they are susceptible to low water quality.";
-    	document.getElementById('but6').style.background = "rgba(242, 242, 242, 1)";
-    }
-////////////////////////////////////////////////////////////////////////////////////////////
-
+///////////////////////////////other miscellaneous functions (these also never change)////////////////////////////////   
 
     new L.Control.Zoom({ position: 'topright' }).addTo(map);
 	document.getElementsByClassName("leaflet-control-attribution")[0].style.visibility = "hidden";
@@ -564,15 +454,14 @@
 	
 	var minHeight = 30; // Define a minimum height for the middle div
 
-	var resizeMiddle = function() {
-    var h = $('body').height() - $('#top').height() - 80;
+	function resizeMiddle() {
+   		var h = $('body').height() - $('#top').height() - 95;
     		h = h > minHeight ? h : minHeight;
    	 	$('#attribution').height(h);
 	}
 
 	$(document).ready(resizeMiddle);
-	$(window).resize(resizeMiddle);
-	
+	$(window).resize(resizeMiddle);    
 	
     //remove standard leaflet attribution
     

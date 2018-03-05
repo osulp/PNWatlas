@@ -30,11 +30,11 @@
 		</button>
 		<div id="infoPanel">
 			<div id="top">
-			<h1 style="text-align:center; padding-left:0; margin-right:30px;">Parks & Protected Areas</h1>
-			<img src="img/park_icon.png" id="image" style="display:inline-block;"> <br/>
+			<h1>Parks & Protected Areas</h1>
+			<img src="img/park_icon.png" id="titleImage"> <br/>
 			<!--<input type="text" name="search" placeholder="Search for a park..."><br/><br/>-->
 			<div id="findbox"></div>
-			<h2 id="title" style="display:inline; width:200px; white-space:normal;">Park Type</h2><img src="img/people.png" id="image2" style="display:inline-block; float:right;"> 
+			<h2 id="title">Park Type</h2><img src="img/people.png" id="image2" style="display:inline-block; float:right;"> 
 			<br>	
 			<div id ="parkLegend">
 				<div class = "legendContainer"><b id ="legend1" class="legend" style="background:#43765d; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b></div><p>&nbsp</p><p id="leg1">&nbspNational Forest<sup class="tooltip">?<span class="tooltiptext">Federally protected and managed forest and woodland areas.</span></sup></p><br/>
@@ -78,7 +78,7 @@
 				<a href="#popup1" id="arrow" style="display:inline-block;">
 					<i class="fa fa-info-circle" aria-hidden="true" style="padding-left:83px;"></i>
 				</a>
-				<a href="rec_index.html.html" id="arrow" style="display:inline-block;" target="_blank">
+				<a href="rec_index.html" id="arrow" style="display:inline-block;">
 					<i class="fa fa-home" aria-hidden="true" style="padding-left:0;"></i>
 				</a>
 				<a href="activities_index.html" id="arrow" style="display:inline-block;">
@@ -123,6 +123,8 @@
 		</div>
     	
 <script>
+//////////////base functions (these never change)///////////////////////	
+	//////////////function for the info panel collapse button///////////////////////
 	var collapsed = false;
     function collapse(){
     	if (collapsed == false){
@@ -141,6 +143,7 @@
     	}
     	
     }
+ 	//////////////function that allows topojson layers to be loaded///////////////////////   
 	L.TopoJSON = L.GeoJSON.extend({  
   		addData: function(jsonData) {    
     		if (jsonData.type === 'Topology') {
@@ -154,10 +157,9 @@
     		}
   		}  
 	});
-	//initialize map
+//////////////Initialize map///////////////////////
 	var map = L.map('map', {center: [45.56, -119.75], zoom: 7, zoomControl:false});
-	//map.setMaxBounds(map.getBounds());
-	///////////////////////make zoom level correspond to browser size////////////////////////////////
+///////////////////////make zoom level correspond to browser size////////////////////////////////
 	window.addEventListener('load', function(event){
     	var width = document.documentElement.clientWidth;
     	if (width < 1500 && width > 800) {
@@ -170,7 +172,7 @@
 	});
 	
 	map.setMaxZoom(10);
-	///////////////////////add tiled basemap////////////////////////////////
+////////////////////////////////basemap layers////////////////////////////////
 	var Esri_WorldTerrain = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer/tile/{z}/{y}/{x}', {
 		attribution: 'Tiles &copy; Esri &mdash; Source: USGS, Esri, TANA, DeLorme, and NPS',
 		maxZoom:10,
@@ -199,14 +201,41 @@
 		pane:'labels'
 	});	
 	
+     var pnwStates = $.getJSON("assets/pnw_states.geojson", function(data){
+        pnwStates = L.geoJson(data, {
+        	style:function pnwStatesStyle(){
+				return{
+					opacity: 0.3,
+					color:'#000000',
+					fillOpacity:0,
+					fillColor:'#000000',
+					weight:1
+				};
+			}
+        }).addTo(map);
+    });
+	
+     var pnwCounties = $.getJSON("assets/counties2.geojson", function(data){
+        pnwCounties = L.geoJson(data, {
+        	style:function pnwCountiesStyle(){
+				return{
+					opacity: 0.2,
+					color:'#000000',
+					fillOpacity:0,
+					fillColor:'#000000',
+					weight:0.5
+				};
+			}
+        }).addTo(map);
+    });
+    
 	map.createPane('labels');
 	map.getPane('labels').style.pointerEvents = 'none';
 	map.getPane('labels').style.zIndex = 650;
 	label.addTo(map);
-	//variable defining which data is selected (park areas or points)
+////////////////////////////////important variables////////////////////////////////		
 	var layer = 1;
-	
-	///////////////////////add info panel in the upper right////////////////////////////////
+////////////////////////////////info control in upper right////////////////////////////////
 	var info = L.control();
 
 	info.onAdd = function (map) {
@@ -228,8 +257,8 @@
 	};
 
 	info.addTo(map);
-	////////////////////////////////////////////////////////////////////////////////////////
-	//////////////////////////////////geoJson styles and layers///////////////////////////////////////// 
+////////////////////////////display layers//////////////////////
+	////////////////////////////BLM land//////////////////////
 	var vectorGrid;
 	
 	fetch('assets/blm.json').then(function(response){
@@ -254,6 +283,7 @@
 			}).addTo(map);
 		})
 	
+	////////////////////////////total parks//////////////////////
 	const totalParks = new L.TopoJSON();
 
 	$.getJSON('assets/parks_total.json')
@@ -303,8 +333,7 @@
       });
       info.update();
     }
-	////////////////////////////////////////////////////////////////////////////////////////
-    //determine point size based on visitation
+	////////////////////////////park points//////////////////////    
     function highlight(e) {
 		 var layer = e.target;
 		 layer.setStyle({
@@ -355,41 +384,7 @@
      $.getJSON("assets/park_points.geojson", function(data) {
         parkPoints.addData(data);
     });
-	//////////////////////////////////////////
-	/////////////Background layers/////////////
-	//gray out non-PNW area
-    //state outlines
-    function pnwStatesStyle(){
-	return{
-		opacity: 0.3,
-		color:'#000000',
-		fillOpacity:0,
-		fillColor:'#000000',
-		weight:1
-		};
-	}
-     var pnwStates = $.getJSON("assets/pnw_states.geojson", function(data){
-        pnwStates = L.geoJson(data, {
-        	style:pnwStatesStyle
-        }).addTo(map);
-    });
-    //county outlines
-    function pnwCountiesStyle(){
-	return{
-		opacity: 0.2,
-		color:'#000000',
-		fillOpacity:0,
-		fillColor:'#000000',
-		weight:0.5
-		};
-	}
-	
-     var pnwCounties = $.getJSON("assets/counties2.geojson", function(data){
-        pnwCounties = L.geoJson(data, {
-        	style:pnwCountiesStyle
-        }).addTo(map);
-    });
-    
+	////////////////////////////wilderness land//////////////////////
     const wilderness = new L.TopoJSON();
     
     $.getJSON('assets/wilderness.json')
@@ -419,18 +414,16 @@
         });
     }
     
-////////////////////////////////////////////////////////////////////////////////////////
 
-//////////////////////////////////////variables for the switch function, allow the legend to change dynamically with selection/////////////////////////////////////////
-var legend = ['legend1','legend2','legend3','legend4','legend5'];
-var legText = ['leg1','leg2','leg3','leg4','leg5'];
-var color = ['#43765d','#28bd98','#95d964','#9dc8b4','#aab955'];	
-var radius = ['28px','19px','15px','10px','5px'];
-var bottom = ['9px','2px','2px','1px','1px'];	
-////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////variables for the switch function, allow the legend to change dynamically with selection/////////////////////////////////////////
+	var legend = ['legend1','legend2','legend3','legend4','legend5'];
+	var legText = ['leg1','leg2','leg3','leg4','leg5'];
+	var color = ['#43765d','#28bd98','#95d964','#9dc8b4','#aab955'];	
+	var radius = ['28px','19px','15px','10px','5px'];
+	var bottom = ['9px','2px','2px','1px','1px'];	
 
-/////////////////////////////////////switch function///////////////////////////////////////////////////	
-function selectSwitch() {
+	/////////////////////////////////////switch function///////////////////////////////////////////////////	
+	function selectSwitch() {
 	//visitation points selected
 	if (document.getElementById('checkbox_id').checked == true){
 		map.removeLayer(totalParks);
@@ -516,15 +509,14 @@ function selectSwitch() {
 		
 	var minHeight = 50; // Define a minimum height for the middle div
 
-	var resizeMiddle = function() {
-    var h = $('body').height() - $('#top').height() - 108;
+	function resizeMiddle() {
+   		var h = $('body').height() - $('#top').height() - 95;
     		h = h > minHeight ? h : minHeight;
    	 	$('#attribution').height(h);
 	}
 
 	$(document).ready(resizeMiddle);
-	$(window).resize(resizeMiddle);
-	
+	$(window).resize(resizeMiddle);    
 	
     //remove standard leaflet attribution
     
