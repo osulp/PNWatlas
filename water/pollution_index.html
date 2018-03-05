@@ -15,6 +15,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
     <script src="js/perfect-scrollbar.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script type="text/javascript" src="../js/clickFunction.js"></script>
     
    
 </head>
@@ -28,17 +29,17 @@
 			<img src="img/pollution_icon.png" id="titleImage" style="display:inline-block;">
 			<div id="buttons">
 				<div class="dropdown">
-  					<button class="dropbtn"><b id="selection">Select Species</b><p id="arrow">&#9660;</p></button>
+  					<button class="dropbtn"><b id="dataType">Select Pollutant</b><p id="arrow">&#9660;</p></button>
   					<div class="dropdown-content">
-   						 <button type="button" id="but1" onclick="total()" class="selection" style="background:rgba(242, 242, 242, 0.8);">Total</button>
-						 <button type="button" id="but2" onclick="metals()" class="selection">Metals</button>
-						 <button type="button" id="but3" onclick="oxygen()" class="selection">Oxygen</button>
-						 <button type="button" id="but4" onclick="pathogens()" class="selection">Pathogens</button>
-						 <button type="button" id="but5" onclick="sediment()" class="selection">Sediment</button>
-						 <button type="button" id="but6" onclick="temperature()" class="selection">Temperature</button>
-						 <button type="button" id="but7" onclick="phosphorus()" class="selection">Phosphorus</button>
-						 <button type="button" id="but8" onclick="nitrogen()" class="selection">Nitrogen</button>
-						 <button type="button" id="but9" onclick="arsenic()" class="selection">Arsenic</button>
+   						 <button type="button" id="but1" class="selection" style="background:rgba(242, 242, 242, 0.8);">Total</button>
+						 <button type="button" id="but2" class="selection">Metals</button>
+						 <button type="button" id="but3" class="selection">Oxygen</button>
+						 <button type="button" id="but4" class="selection">Pathogens</button>
+						 <button type="button" id="but5" class="selection">Sediment</button>
+						 <button type="button" id="but6" class="selection">Temperature</button>
+						 <button type="button" id="but7" class="selection">Phosphorus</button>
+						 <button type="button" id="but8" class="selection">Nitrogen</button>
+						 <button type="button" id="but9" class="selection">Arsenic</button>
  				   </div>
 				</div>
 			</div>
@@ -69,7 +70,7 @@
 				<a href="#popup1" id="arrow" style="display:inline-block;">
 					<i class="fa fa-info-circle" aria-hidden="true" style="padding-left:83px;"></i>
 				</a>
-				<a href="water_resources_index.html" id="arrow" style="display:inline-block;" target="_blank">
+				<a href="water_resources_index.html" id="arrow" style="display:inline-block;">
 					<i class="fa fa-home" aria-hidden="true" style="padding-left:0;"></i>
 				</a>
 				<a href="watershed_index.html" id="arrow" style="display:inline-block;">
@@ -111,6 +112,8 @@
 		</div>
 
 <script>
+//////////////base functions (these never change)///////////////////////
+	//////////////function for the info panel collapse button///////////////////////
 	var collapsed = false;
     function collapse(){
     	if (collapsed == false){
@@ -129,7 +132,7 @@
     	}
     	
     }
-	//initialize map
+//////////////Initialize map///////////////////////
 	var map = L.map('map', {center: [45.61, -119.75], zoom: 7, zoomControl:false});
 	//map.setMaxBounds(map.getBounds());
 ///////////////////////make zoom level correspond to browser size////////////////////////////////
@@ -144,16 +147,15 @@
         	}
 	});
 	
-	//map.setMaxBounds(map.getBounds());
-///////////////////////add tiled basemap////////////////////////////////
-var Esri_WorldTerrain = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer/tile/{z}/{y}/{x}', {
+////////////////////////////////basemap layers////////////////////////////////
+	var Esri_WorldTerrain = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer/tile/{z}/{y}/{x}', {
 		attribution: 'Tiles &copy; Esri &mdash; Source: USGS, Esri, TANA, DeLorme, and NPS',
 		maxZoom:8,
 		minZoom:5,
 		opacity:1
 	}).addTo(map);
 
-var pnwCover = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
+	var pnwCover = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
 		layers: 'baldricg_PNW_ATLAS:pnw_outline2_black',
         format: 'image/png',
 		maxZoom:8,
@@ -163,7 +165,7 @@ var pnwCover = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/b
 	}).addTo(map);
 
 	
-var label = L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_only_labels/{z}/{x}/{y}@2x.png', {
+	var label = L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_only_labels/{z}/{x}/{y}@2x.png', {
 		attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
 		subdomains: 'abcd',
 		maxZoom:10,
@@ -176,7 +178,7 @@ var label = L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/ligh
 		pane:'labels'
 	});	
 
-var pnw_water = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
+	var pnw_water = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
 		layers: 'baldricg_PNW_ATLAS:pnw_water',
         format: 'image/png',
 		maxZoom:8,
@@ -185,6 +187,49 @@ var pnw_water = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/
 		transparent:true,
 		pane: 'water'
 	});
+	
+	
+     var pnwStates = $.getJSON("assets/pnw_states.geojson", function(data){
+        pnwStates = L.geoJson(data, {
+        	style:function pnwStatesStyle(){
+				return{
+					opacity: 1,
+					color:'#666666',
+					fillOpacity:0	,
+					fillColor:'#404040',
+					weight:1.5
+				};
+			},
+        	interactive: false
+        });
+    });
+    
+     var pnwCounties = $.getJSON("assets/counties2.geojson", function(data){
+        pnwCounties = L.geoJson(data, {
+        	style: function pnwCountiesStyle(){
+				return{
+					opacity: 0.7,
+					color:'#999999',
+					weight:0.5
+				};
+			},
+			interactive: false
+        });
+    });
+    var border = 0;
+    function borders() {
+    	if (border == 0){
+    		border = 1;
+    		pnwStates.addTo(map);
+    		pnwCounties.addTo(map);
+    	}
+    	else {
+    		border = 0;
+    		map.removeLayer(pnwStates);
+    		map.removeLayer(pnwCounties);
+    	}
+    } 
+    
 	map.createPane('labels');
 	map.getPane('labels').style.pointerEvents = 'none';
 	map.getPane('labels').style.zIndex = 650;
@@ -197,7 +242,12 @@ var pnw_water = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/
 	
 	map.createPane('tooltip');
 	map.getPane('tooltip').style.zIndex = 700;
-	/////////////////important variables////////////////////////////////
+/////////////////important variables////////////////////////////////
+	var data = 1;
+	var colorValue = ['#fee5d9','#fcae91','#fb6a4a','#de2d26','#a50f15'];
+	var dataValue = [0, 5, 10, 25, 50];
+////////////////////////////////info control in upper right////////////////////////////////
+
     var info = L.control();
 
 	info.onAdd = function (map) {
@@ -211,32 +261,27 @@ var pnw_water = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/
 	};
 
 	info.addTo(map);
-///////////////////////hexgrid layer//////////////////////////////// 
-	
-	var pollutant = 0;
-	var color = ['#fee5d9','#fcae91','#fb6a4a','#de2d26','#a50f15'];
-	var level = [0, 5, 10, 25, 50];
-	var border = 0;
-
+////////////////////////////display layers//////////////////////
+	////////////////////////////hexgrid layers//////////////////////
 	function hexColor (value){
-        	return value > level[4] ? color[4] :
-        			value > level[3] ? color[3] :
-        			value > level[2] ? color[2] :
-        			value > level[1] ? color[1] :
-        			value > level[0] ? color[0] :
+        	return value > dataValue[4] ? colorValue[4] :
+        			value > dataValue[3] ? colorValue[3] :
+        			value > dataValue[2] ? colorValue[2] :
+        			value > dataValue[1] ? colorValue[1] :
+        			value > dataValue[0] ? colorValue[0] :
         				'#ffffff';
         	}
 	
 	function whichProp (feature){
-		return pollutant == 0 ? feature.properties.pol_points:
-			pollutant == 1 ? feature.properties.metals:
-			pollutant == 2 ? feature.properties.oxgyen_dep:
-			pollutant == 3 ? feature.properties.pathogens:
-			pollutant == 4 ? feature.properties.sediment:
-			pollutant == 5 ? feature.properties.temp:
-			pollutant == 6 ? (feature.properties.meanTOT_P/1000).toFixed(2):
-			pollutant == 7 ? (feature.properties.meanTOT_N/1000).toFixed(2):
-			pollutant == 8 ? feature.properties.AS_quart3:
+		return data == 1 ? feature.properties.pol_points:
+			data == 2 ? feature.properties.metals:
+			data == 3 ? feature.properties.oxgyen_dep:
+			data == 4 ? feature.properties.pathogens:
+			data == 5 ? feature.properties.sediment:
+			data == 6 ? feature.properties.temp:
+			data == 7 ? (feature.properties.meanTOT_P/1000).toFixed(2):
+			data == 8 ? (feature.properties.meanTOT_N/1000).toFixed(2):
+			data == 9 ? feature.properties.AS_quart3:
 			feature.properties.pol_points;
 	}
 	
@@ -250,31 +295,31 @@ var pnw_water = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/
 	}
 	
 	function hexFilter(feature) {
-        		if (pollutant == 0){
+        		if (data == 1){
         			if (feature.properties.pol_points > 0)return true
         		}
-        		else if (pollutant == 1){
+        		else if (data == 2){
         			if (feature.properties.metals > 0)return true
         		}
-        		else if (pollutant == 2){
+        		else if (data == 3){
         			if (feature.properties.oxgyen_dep > 0)return true
         		}
-        		else if (pollutant == 3){
+        		else if (data == 4){
         			if (feature.properties.pathogens > 0)return true
         		}
-        		else if (pollutant == 4){
+        		else if (data == 5){
         			if (feature.properties.sediment > 0)return true
         		}
-        		else if (pollutant == 5){
+        		else if (data == 6){
         			if (feature.properties.temp > 0)return true
         		}
-        		else if (pollutant == 6){
+        		else if (data == 7){
         			if (feature.properties.meanTOT_P > 0)return true
         		}
-        		else if (pollutant == 7){
+        		else if (data == 8){
         			if (feature.properties.meanTOT_N > 0)return true
         		}
-        		else if (pollutant == 8){
+        		else if (data == 9){
         			if (feature.properties.AS_quart3 > 0)return true
         		}
     	}
@@ -309,16 +354,19 @@ var pnw_water = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/
     });
     
     function addHexgrid (){
+    	if (hexgrid){
+    		map.removeLayer(hexgrid);
+    	}
     	function popupText(feature){
-    		return pollutant == 0 ? '<b style="display:inline;">Total Impairments:&nbsp</b>' + feature.properties.pol_points :
-				pollutant == 1 ? '<b style="display:inline;">Metal Impairments:&nbsp</b>' + feature.properties.metals:
-				pollutant == 2 ? '<b style="display:inline;">Oxygen Impairments:&nbsp</b>' + feature.properties.oxgyen_dep:
-				pollutant == 3 ? '<b style="display:inline;">Pathogen Impairments:&nbsp</b>' + feature.properties.pathogens:
-				pollutant == 4 ? '<b style="display:inline;">Sediment Impairments:&nbsp</b>' + feature.properties.sediment:
-				pollutant == 5 ? '<b style="display:inline;">Temperature Impairments:&nbsp</b>' + feature.properties.temp:
-				pollutant == 6 ? '<b style="display:inline;">P in Thousands KG/year:&nbsp</b>' + (feature.properties.meanTOT_P/1000).toFixed(2):
-				pollutant == 7 ? '<b style="display:inline;">N in Thousands KG/year:&nbsp</b>' + (feature.properties.meanTOT_N/1000).toFixed(2):
-				pollutant == 8 ? '<b style="display:inline;">Arsenic in &#xb5;/L:&nbsp</b>' +  feature.properties.AS_quart3 + '<br/><b># of Samples:&nbsp</b>' +  feature.properties.AS_pts:
+    		return data == 1 ? '<b style="display:inline;">Total Impairments:&nbsp</b>' + feature.properties.pol_points :
+				data == 2 ? '<b style="display:inline;">Metal Impairments:&nbsp</b>' + feature.properties.metals:
+				data == 3 ? '<b style="display:inline;">Oxygen Impairments:&nbsp</b>' + feature.properties.oxgyen_dep:
+				data == 4 ? '<b style="display:inline;">Pathogen Impairments:&nbsp</b>' + feature.properties.pathogens:
+				data == 5 ? '<b style="display:inline;">Sediment Impairments:&nbsp</b>' + feature.properties.sediment:
+				data == 6 ? '<b style="display:inline;">Temperature Impairments:&nbsp</b>' + feature.properties.temp:
+				data == 7 ? '<b style="display:inline;">P in Thousands KG/year:&nbsp</b>' + (feature.properties.meanTOT_P/1000).toFixed(2):
+				data == 8 ? '<b style="display:inline;">N in Thousands KG/year:&nbsp</b>' + (feature.properties.meanTOT_N/1000).toFixed(2):
+				data == 9 ? '<b style="display:inline;">Arsenic in &#xb5;/L:&nbsp</b>' +  feature.properties.AS_quart3 + '<br/><b># of Samples:&nbsp</b>' +  feature.properties.AS_pts:
 				'<b style="display:inline;">Total Pollutants<br/></b>';
     	}
     	hexgrid = $.getJSON("assets/pollution_hexgrid.geojson", function(data){
@@ -331,216 +379,40 @@ var pnw_water = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/
         }).addTo(map);
     });
     }
-    
-    function total() {
-    	pollutant = 0;
-    	map.removeLayer(hexgrid);
-    	color = ['#fee5d9','#fcae91','#fb6a4a','#de2d26','#a50f15'];	
-    	level = [0, 5, 10, 25, 50];
-    	resetButtons();
-    	document.getElementById('but1').style.background = 'rgba(242, 242, 242, 0.8)';
-    	document.getElementById('title').innerHTML = "Total Impairments";
-    	document.getElementById('description').innerHTML = "Total impairments in waterways. Impairments include Metals, Sediments, Algae, Pathogens, Oxygen Impairment, Ammonia, and more.";
-    	document.getElementById('source').innerHTML = "Impaired waters are listed in the 2015 303(d) list provided by the U.S Environmental Protection Agency.";
-    	document.getElementById("pollutionImage").src = "img/pollution.png";
-    	resizeMiddle();
-    	addHexgrid();
-    	changeLegend();
-    } 
-    function metals() {
-    	pollutant = 1;
-    	map.removeLayer(hexgrid);
-    	color = ['#e5e5cc','#cbcb9a','#b1b168','#76763d','#434323'];	
-    	level = [0, 2, 5, 10, 20];
-    	resetButtons();
-    	document.getElementById('title').innerHTML = "Metal Impairments";
-    	document.getElementById('but2').style.background = 'rgba(242, 242, 242, 0.8)';
-    	document.getElementById('description').innerHTML = "Total metal impairments in waterways. Metals can include Mercury, Iron, Lead, Manganese, Nickel, Zinc, and More.";
-    	document.getElementById('source').innerHTML = "Impaired waters are listed in the 2015 303(d) list provided by the U.S Environmental Protection Agency.";
-    	document.getElementById("pollutionImage").src = "img/mining.png";
-    	resizeMiddle();
-    	addHexgrid();
-    	changeLegend();
-    } 
-    function oxygen() {
-    	pollutant = 2;
-    	map.removeLayer(hexgrid);
-    	color = ['#e0ebeb','#b1cdcd','#83afaf','#507c7c','#283e3e'];
-    	document.getElementById('title').innerHTML = "Oxygen Depletion Impairments";	
-    	resetButtons();
-    	document.getElementById('but3').style.background = 'rgba(242, 242, 242, 0.8)';
-    	document.getElementById('description').innerHTML = "Total oxygen impairments in waterways. Oxygen depletion is usually caused by organic enrichment.";
-    	document.getElementById('source').innerHTML = "Impaired waters are listed in the 2015 303(d) list provided by the U.S Environmental Protection Agency.";
-    	document.getElementById("pollutionImage").src = "img/oxygen.png";
-    	level = [0, 2, 5, 10, 20];
-    	resizeMiddle();
-    	addHexgrid();
-    	changeLegend();
-    }
-    function pathogens() {
-    	pollutant = 3;
-    	map.removeLayer(hexgrid);
-    	color = ['#f1eef6','#d7b5d8','#df65b0','#dd1c77','#980043'];	
-    	document.getElementById('title').innerHTML = "Pathogen Impairments";
-    	resetButtons();
-    	document.getElementById('but4').style.background = 'rgba(242, 242, 242, 0.8)';
-    	level = [0, 5, 10, 15, 20];
-    	document.getElementById('description').innerHTML = "Total pathogen impairments in waterways. Pathogens include E. Coli and Fecal Coliform.";
-    	document.getElementById('source').innerHTML = "Impaired waters are listed in the 2015 303(d) list provided by the U.S Environmental Protection Agency.";
-    	document.getElementById("pollutionImage").src = "img/pathogen.png";
-    	resizeMiddle();
-    	addHexgrid();
-    	changeLegend();
-    }
-    function sediment() {
-    	pollutant = 4;
-    	map.removeLayer(hexgrid);
-    	color = ['#ecd9c6','#d9b38c','#c68c53','#996633','#4d3319'];	
-    	document.getElementById('title').innerHTML = "Sediment Impairments";
-    	resetButtons();
-    	document.getElementById('but5').style.background = 'rgba(242, 242, 242, 0.8)';
-    	document.getElementById('description').innerHTML = "Total sediment impairments in waterways.";
-    	document.getElementById('source').innerHTML = "Impaired waters are listed in the 2015 303(d) list provided by the U.S Environmental Protection Agency.";
-    	document.getElementById("pollutionImage").src = "img/sediment.png";
-    	level = [0, 4, 6, 8, 10];
-    	resizeMiddle();
-    	addHexgrid();
-    	changeLegend();
-    }
-    function temperature() {
-    	pollutant = 5;
-    	map.removeLayer(hexgrid);
-    	color = ['#f2f0f7','#cbc9e2','#9e9ac8','#756bb1','#54278f'];
-    	document.getElementById('title').innerHTML = "Temperature Impairments";	
-    	resetButtons();
-    	document.getElementById('but6').style.background = 'rgba(242, 242, 242, 0.8)';
-    	document.getElementById('description').innerHTML = "Total temperature impairments in each waterways.";
-    	document.getElementById('source').innerHTML = "Impaired waters are listed in the 2015 303(d) list provided by the U.S Environmental Protection Agency.";
-    	level = [0, 5, 10, 15, 20];
-    	document.getElementById("pollutionImage").src = "img/temp.png";
-    	resizeMiddle();
-    	addHexgrid();
-    	changeLegend();
-    }
-    function phosphorus() {
-    	pollutant = 6;
-    	map.removeLayer(hexgrid);
-    	color = ['#edf8fb','#b3cde3','#8c96c6','#8856a7','#810f7c'];
-    	document.getElementById('title').innerHTML = "Phosphorus Inputs (1000s KG/yr)";	
-    	resetButtons();
-    	document.getElementById('but7').style.background = 'rgba(242, 242, 242, 0.8)';
-    	document.getElementById('description').innerHTML = "Total phosphorus input to water in thousands of KG/yr in 2002.";
-    	document.getElementById('source').innerHTML = "Data compiled by U.S Geological Survey.";
-    	document.getElementById("pollutionImage").src = "img/phosphorus.png";
-    	level = [0, 5, 10, 50, 100];
-    	resizeMiddle();
-    	addHexgrid();
-    	changeLegend();
-    }
-    function nitrogen() {
-    	pollutant = 7;
-    	map.removeLayer(hexgrid);
-    	color = ['#fff0b3','#ffe066','#ffd11a','#cca300','#806600'];	
-    	document.getElementById('title').innerHTML = "Nitrogen Inputs (1000s KG/yr)";
-    	resetButtons();
-    	document.getElementById('but8').style.background = 'rgba(242, 242, 242, 0.8)';
-    	document.getElementById('description').innerHTML = "Total nitrogen input to water in thousands of KG/yr in 2002.";
-    	document.getElementById('source').innerHTML = "Data compiled by U.S Geological Survey.";
-    	document.getElementById("pollutionImage").src = "img/nitrogen.png";
-    	level = [0, 10, 50, 250, 1000];
-    	resizeMiddle();
-    	addHexgrid();
-    	changeLegend();
-    }
-    function arsenic() {
-    	pollutant = 8;
-    	map.removeLayer(hexgrid);
-    	color = ['#2c7bb6','#abd9e9','#ffffbf','#fdae61','#d7191c'];
-    	document.getElementById('title').innerHTML = "Arsenic Concentrations in Groundwater (&#xb5;/L)";	
-    	resetButtons();
-    	document.getElementById('but9').style.background = 'rgba(242, 242, 242, 0.8)';
-    	document.getElementById('description').innerHTML = "Arsenic concentrations in &#xb5;/L found in at least 25% of samples. The EPA considers 10 &#xb5;/L the maximum safe concentration.";
-    	document.getElementById('source').innerHTML = "Data obtained from 2003 Trace Elements National Synthesis Project compiled by U.S Geological Survey.";
-    	document.getElementById("pollutionImage").src = "img/arsenic.png";
-    	level = [0, 3, 5, 10, 50];
-    	resizeMiddle();
-    	addHexgrid();
-    	changeLegend();
-    }
-    
+///////////////////////////////button function////////////////////////////////	    
+    var buttonLabels = ['#but1','#but2','#but3','#but4','#but5','#but6','#but7','#but8','#but9'];
+
+	var buttonFunctions = {
+		but1: {button:'but1', title:'Total', variable:1, legendTitle:'Total Impairments', colors:['#fee5d9','#fcae91','#fb6a4a','#de2d26','#a50f15'], values:[0, 5, 10, 25, 50], imageSRC:'img/pollution.png', legendDescription:"Total impairments in waterways. Impairments include Metals, Sediments, Algae, Pathogens, Oxygen Impairment, Ammonia, and more.", layerFunction:function(){addHexgrid();changeLegend();document.getElementById('source').innerHTML = "Impaired waters are listed in the 2015 303(d) list provided by the U.S Environmental Protection Agency.";}},
+		but2: {button:'but2', title:'Metals', variable:2, legendTitle:'Metal Impairments', colors:['#e5e5cc','#cbcb9a','#b1b168','#76763d','#434323'], values:[0, 2, 5, 10, 20], imageSRC:'img/mining.png', legendDescription:"Total metal impairments in waterways. Metals can include Mercury, Iron, Lead, Manganese, Nickel, Zinc, and More.", layerFunction:function(){addHexgrid();changeLegend();document.getElementById('source').innerHTML = "Impaired waters are listed in the 2015 303(d) list provided by the U.S Environmental Protection Agency.";}},
+		but3: {button:'but3', title:'Oxygen', variable:3, legendTitle:'Oxygen Depletion Impairments', colors:['#e0ebeb','#b1cdcd','#83afaf','#507c7c','#283e3e'], values:[0, 2, 5, 10, 20], imageSRC:'img/oxygen.png', legendDescription:"Total oxygen impairments in waterways. Oxygen depletion is usually caused by organic enrichment.", layerFunction:function(){addHexgrid();changeLegend();document.getElementById('source').innerHTML = "Impaired waters are listed in the 2015 303(d) list provided by the U.S Environmental Protection Agency.";}},
+		but4: {button:'but4', title:'Pathogens', variable:4, legendTitle:'Pathogen Impairments', colors:['#f1eef6','#d7b5d8','#df65b0','#dd1c77','#980043'], values:[0, 5, 10, 15, 20], imageSRC:'img/pathogen.png', legendDescription:"Total pathogen impairments in waterways. Pathogens include E. Coli and Fecal Coliform.", layerFunction:function(){addHexgrid();changeLegend();document.getElementById('source').innerHTML = "Impaired waters are listed in the 2015 303(d) list provided by the U.S Environmental Protection Agency.";}},
+		but5: {button:'but5', title:'Sediment', variable:5, legendTitle:'Sediment Impairments', colors:['#ecd9c6','#d9b38c','#c68c53','#996633','#4d3319'], values:[0, 4, 6, 8, 10], imageSRC:'img/sediment.png', legendDescription:"Total sediment impairments in waterways.", layerFunction:function(){addHexgrid();changeLegend();document.getElementById('source').innerHTML = "Impaired waters are listed in the 2015 303(d) list provided by the U.S Environmental Protection Agency.";}},
+		but6: {button:'but6', title:'Temperature', variable:6, legendTitle:'Temperature Impairments', colors:['#f2f0f7','#cbc9e2','#9e9ac8','#756bb1','#54278f'], values:[0, 5, 10, 15, 20], imageSRC:'img/temp.png', legendDescription:"Total temperature impairments in each waterways.", layerFunction:function(){addHexgrid();changeLegend();document.getElementById('source').innerHTML = "Impaired waters are listed in the 2015 303(d) list provided by the U.S Environmental Protection Agency.";}},
+		but7: {button:'but7', title:'Phosphorus', variable:7, legendTitle:'Phosphorus Inputs (1000s KG/yr)', colors:['#edf8fb','#b3cde3','#8c96c6','#8856a7','#810f7c'], values:[0, 5, 10, 50, 100], imageSRC:'img/phosphorus.png', legendDescription:"Total phosphorus input to water in thousands of KG/yr in 2002.", layerFunction:function(){addHexgrid();changeLegend();document.getElementById('source').innerHTML = "Data compiled by U.S Geological Survey.";}},
+		but8: {button:'but8', title:'Nitrogen', variable:8, legendTitle:'Nitrogen Inputs (1000s KG/yr)', colors:['#fff0b3','#ffe066','#ffd11a','#cca300','#806600'], values:[0, 10, 50, 250, 1000], imageSRC:'img/nitrogen.png', legendDescription:"Total nitrogen input to water in thousands of KG/yr in 2002.", layerFunction:function(){addHexgrid();changeLegend();document.getElementById('source').innerHTML = "Data compiled by U.S Geological Survey.";}},
+		but9: {button:'but9', title:'Arsenic', variable:9, legendTitle:'Arsenic Concentrations in Groundwater (&#xb5;/L)', colors:['#2c7bb6','#abd9e9','#ffffbf','#fdae61','#d7191c'], values:[0, 3, 5, 10, 50], imageSRC:'img/pollution.png', legendDescription:"Total impairments in waterways. Impairments include Metals, Sediments, Algae, Pathogens, Oxygen Impairment, Ammonia, and more.", layerFunction:function(){addHexgrid();changeLegend();document.getElementById('source').innerHTML = "Data obtained from 2003 Trace Elements National Synthesis Project compiled by U.S Geological Survey.";}}
+	};
+	
+	$('.main').clickFunction({
+		buttonFunctions: buttonFunctions,
+		buttonLabels: buttonLabels,
+		imageDiv:'pollutionImage',
+		legendUpdate: true,
+		selected:buttonFunctions.but1
+	});
+
     function changeLegend(){
-    	document.getElementById('leg1').innerHTML = level[4] + "+";
-    	document.getElementById('leg2').innerHTML = level[3] + " - " + level[4];
-    	document.getElementById('leg3').innerHTML = level[2] + " - " + level[3];
-    	document.getElementById('leg4').innerHTML = level[1] + " - " + level[2];
-    	document.getElementById('leg5').innerHTML = "Less than " + level[1];
-    	document.getElementById('leg1_block').style.background = color[4];
-    	document.getElementById('leg2_block').style.background = color[3];
-    	document.getElementById('leg3_block').style.background = color[2];
-    	document.getElementById('leg4_block').style.background = color[1];
-    	document.getElementById('leg5_block').style.background = color[0];
+    	document.getElementById('leg1').innerHTML = dataValue[4] + "+";
+    	document.getElementById('leg2').innerHTML = dataValue[3] + " - " + dataValue[4];
+    	document.getElementById('leg3').innerHTML = dataValue[2] + " - " + dataValue[3];
+    	document.getElementById('leg4').innerHTML = dataValue[1] + " - " + dataValue[2];
+    	document.getElementById('leg5').innerHTML = "Less than " + dataValue[1];
+    	
+    	resizeMiddle();
     }
-    
-    function resetButtons(){
-    	document.getElementById('but1').style.background = 'rgba(242, 242, 242, 0.2)';
-    	document.getElementById('but2').style.background = 'rgba(242, 242, 242, 0.2)';
-    	document.getElementById('but3').style.background = 'rgba(242, 242, 242, 0.2)';
-    	document.getElementById('but4').style.background = 'rgba(242, 242, 242, 0.2)';
-    	document.getElementById('but5').style.background = 'rgba(242, 242, 242, 0.2)';
-    	document.getElementById('but6').style.background = 'rgba(242, 242, 242, 0.2)';
-    	document.getElementById('but7').style.background = 'rgba(242, 242, 242, 0.2)';
-    	document.getElementById('but8').style.background = 'rgba(242, 242, 242, 0.2)';
-    	document.getElementById('but9').style.background = 'rgba(242, 242, 242, 0.2)';
-    }
-    
-    
-///////////////////////background geoJson layers////////////////////////////////
 
-//state outlines
-    function pnwStatesStyle(){
-	return{
-		opacity: 1,
-		color:'#666666',
-		fillOpacity:0	,
-		fillColor:'#404040',
-		weight:1.5
-		};
-	}
-     var pnwStates = $.getJSON("assets/pnw_states.geojson", function(data){
-        pnwStates = L.geoJson(data, {
-        	style:pnwStatesStyle,
-        	interactive: false
-        });
-    });
-    
-     var pnwCounties = $.getJSON("assets/counties2.geojson", function(data){
-        pnwCounties = L.geoJson(data, {
-        	style: function pnwCountiesStyle(){
-				return{
-					opacity: 0.7,
-					color:'#999999',
-					weight:0.5
-				};
-			},
-			interactive: false
-        });
-    });
-    
-    function borders() {
-    	if (border == 0){
-    		border = 1;
-    		pnwStates.addTo(map);
-    		pnwCounties.addTo(map);
-    	}
-    	else {
-    		border = 0;
-    		map.removeLayer(pnwStates);
-    		map.removeLayer(pnwCounties);
-    	}
-    } 
-
-////////////////////////////////////////////////////////////////////////////////////////////
-
+///////////////////////////////other miscellaneous functions (these also never change)////////////////////////////////   
 
     new L.Control.Zoom({ position: 'topright' }).addTo(map);
 	document.getElementsByClassName("leaflet-control-attribution")[0].style.visibility = "hidden";

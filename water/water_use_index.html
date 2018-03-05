@@ -15,6 +15,7 @@
     <script src="https://unpkg.com/leaflet@1.0.2/dist/leaflet.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
     <script src="js/perfect-scrollbar.js"></script>
+    <script type="text/javascript" src="../js/clickFunction.js"></script>
     
    
 </head>
@@ -28,42 +29,76 @@
 			<img src="img/water_use_icon.png" id="titleImage" style="display:inline-block;">
 			<div id="buttons">
 				<div class="dropdownSmall">
-  					<button class="dropbtnSmall"><b id="use">Select Use</b><p id="arrow" style="font-size:16px;">&#9660;</p></button>
+  					<button class="dropbtnSmall"><b id="dataType">Select Use</b><p id="arrow" style="font-size:16px;">&#9660;</p></button>
   						<div class="dropdown-contentSmall">
-  							<button type="button" id="but1" onclick="totalFunc()" style="float:left; background:rgba(242, 242, 242, 0.67);" class="selectionSmall">Total</button>
-							<button type="button" id="but2" onclick="publicFunc()" class="selectionSmall" style="float:left;">Public</button>
-							<button type="button" id="but3" onclick="domesticFunc()" style="float:left;" class="selectionSmall">Domestic</button>
-							<button type="button" id="but4" onclick="industrialFunc()" class="selectionSmall" style="float:left;">Industrial</button>
-							<button type="button" id="but5" onclick="thermoFunc()" style="float:left;" class="selectionSmall">Thermoelectric</button>
-							<button type="button" id="but6" onclick="miningFunc()" style="float:left;" class="selectionSmall">Mining</button>
-							<button type="button" id="but7" onclick="livestockFunc()" style="float:left;" class="selectionSmall">Livestock</button>
-							<button type="button" id="but8" onclick="irrigationFunc()" style="float:left;" class="selectionSmall">Irrigation</button>
-							<button type="button" id="but9" onclick="aquaFunc()" style="float:left;" class="selectionSmall">Aquaculture</button>
+  							<button type="button" id="but1" style="float:left; background:rgba(242, 242, 242, 0.67);" class="selectionSmall">Total</button>
+							<button type="button" id="but2" class="selectionSmall" style="float:left;">Public</button>
+							<button type="button" id="but3" style="float:left;" class="selectionSmall">Domestic</button>
+							<button type="button" id="but4" class="selectionSmall" style="float:left;">Industrial</button>
+							<button type="button" id="but5" style="float:left;" class="selectionSmall">Thermoelectric</button>
+							<button type="button" id="but6" style="float:left;" class="selectionSmall">Mining</button>
+							<button type="button" id="but7" style="float:left;" class="selectionSmall">Livestock</button>
+							<button type="button" id="but8" style="float:left;" class="selectionSmall">Irrigation</button>
+							<button type="button" id="but9" style="float:left;" class="selectionSmall">Aquaculture</button>
   						</div>
   				</div>
   				<div class="dropdownSmall">
   					<button class="dropbtnSmall"><b id="water">Select Water</b><p id="arrow" style="font-size:16px;">&#9660;</p></button>
   						<div class="dropdown-contentSmall">
-  							<button type="button" id="total" onclick="totalWaterFunc()" class="selectionSmall" style="background:rgba(242, 242, 242, 0.8);">Total Water</button>
-  							<button type="button" id="surface" onclick="surfaceFunc()" class="selectionSmall">Surface Water</button>
-  							<button type="button" id="ground" onclick="groundFunc()" class="selectionSmall">Groundwater</button>
+  							<button type="button" id="waterBut1" class="selectionSmall" style="background:rgba(242, 242, 242, 0.8);">Total Water</button>
+  							<button type="button" id="waterBut2" class="selectionSmall">Surface Water</button>
+  							<button type="button" id="waterBut3" class="selectionSmall">Groundwater</button>
   						</div>
   				</div>
 			</div>
 			<h2 id="title" style="display:inline-block; width:280px; white-space:normal;">Total Water Use (Mgal/day)</h2><img src="img/total.png" id="image2" style="display:inline-block; float:right;">
 			<br>
-			<b id ="highest" style="background:#045a8d; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p id="leg1" style="margin-left:5px;">1000+</p><br/>
-			<b id ="midhigh" style="background:#2b8cbe; border-left:black 2px solid; border-right:black 2px solid;"></b><p id="leg2" style="margin-left:5px;">500 - 1000</p><br/>
-			<b id ="middle" style="background:#74a9cf; border-left:black 2px solid; border-right:black 2px solid;"></b><p id="leg3" style="margin-left:5px;">250 - 500</p><br/>
-			<b id ="midlow" style="background:#bdc9e1; border-left:black 2px solid; border-right:black 2px solid;"></b><p id="leg4" style="margin-left:5px;">100 - 250</p><br/>
-			<b id ="lowest" style="background:#f1eef6; border-left:black 2px solid; border-right:black 2px solid;"></b><p id="leg5" style="margin-left:5px;">Less than 100</p><br/>
-			<b style="background:#ffffff; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p>&nbsp</p><p id="leg5">&nbsp0 or No Data</p><br/><br/>
+			<b id ="leg5_block" style="background:#045a8d; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p id="leg1_value" style="margin-left:5px;">1000+</p><br/>
+			<b id ="leg4_block" style="background:#2b8cbe; border-left:black 2px solid; border-right:black 2px solid;"></b><p id="leg2_value" style="margin-left:5px;">500 - 1000</p><br/>
+			<b id ="leg3_block" style="background:#74a9cf; border-left:black 2px solid; border-right:black 2px solid;"></b><p id="leg3_value" style="margin-left:5px;">250 - 500</p><br/>
+			<b id ="leg2_block" style="background:#bdc9e1; border-left:black 2px solid; border-right:black 2px solid;"></b><p id="leg4_value" style="margin-left:5px;">100 - 250</p><br/>
+			<b id ="leg1_block" style="background:#f1eef6; border-left:black 2px solid; border-right:black 2px solid;"></b><p id="leg5_value" style="margin-left:5px;">Less than 100</p><br/>
+			<b style="background:#ffffff; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p>&nbsp</p><p id="no_data">&nbsp0 or No Data</p><br/><br/>
 			<p id="description" style="font-weight:bold; padding:0; display:inline-block; white-space:normal; width:280px; position:relative;">Water use in millions of gallons of water per day.</p>
 			</div>
 			<div id="attribution">
 				<div id="text" style="margin-top:15px;">
-					<p3 style="font-weight:bold; line-height:36px;">Quick Facts:</p3><br/>
-					<p3 id="facts" style="line-height:20px;">&#9900 Total water use in Pacific Northwest is 28,920 Mgal/day (2010 data). 20,939 Mgal/day for surface water, and 7,982 Mgal/day for groundwater.<br/><br/>&#9900 Idaho uses more water than Oregon and Washington Combined.<br/><br/>&#9900 Irrigation comprises 77.6% of total water use.</p3>
+					<div id="facts_1" style="display:unset;">
+						<p3 style="font-weight:bold; line-height:36px;">Quick Facts:</p3><br/>
+						<p3 id="facts" style="line-height:20px;">&#9900 Total water use in Pacific Northwest is 28,920 Mgal/day (2010 data). 20,939 Mgal/day for surface water, and 7,982 Mgal/day for groundwater.<br/><br/>&#9900 Idaho uses more water than Oregon and Washington Combined.<br/><br/>&#9900 Irrigation comprises 77.6% of total water use.</p3>
+					</div>
+					<div id="facts_2" style="display:none;">
+						<p3 style="font-weight:bold; line-height:36px;">Quick Facts:</p3><br/>
+						<p3 id="facts" style="line-height:20px;">&#9900 Total public water use in Pacific Northwest is 1,682 Mgal/day (2010 data). 886 Mgal/day for surface water, and 796 Mgal/day for groundwater.<br/><br/>&#9900 Of the three PNW states, Washington has the highest daily public water use.</p3>
+					</div>
+					<div id="facts_3" style="display:none;">
+						<p3 style="font-weight:bold; line-height:36px;">Quick Facts:</p3><br/>
+						<p3 id="facts" style="line-height:20px;">&#9900 Total domestic water use in Pacific Northwest is 259 Mgal/day (2010 data). 7 Mgal/day for surface water, and 252 Mgal/day for groundwater.<br/><br/>&#9900 Of the three PNW states, Washington has the highest daily domestic water use.</p3>
+					</div>
+					<div id="facts_4" style="display:none;">
+						<p3 style="font-weight:bold; line-height:36px;">Quick Facts:</p3><br/>
+						<p3 id="facts" style="line-height:20px;">&#9900 Total industrial water use in Pacific Northwest is 666 Mgal/day (2010 data). 532 Mgal/day for surface water, and 135 Mgal/day for groundwater.<br/><br/>&#9900 Of the three PNW states, Washington has the highest daily industrial water use.</p3>
+					</div>
+					<div id="facts_5" style="display:none;">
+						<p3 style="font-weight:bold; line-height:36px;">Quick Facts:</p3><br/>
+						<p3 id="facts" style="line-height:20px;">&#9900 Total thermoelectric water use in Pacific Northwest is 51 Mgal/day (2010 data). 47 Mgal/day for surface water, and 4 Mgal/day for groundwater.<br/><br/>&#9900 Of the three PNW states, Washington has the highest daily thermoelectric water use.</p3>
+					</div>
+					<div id="facts_6" style="display:none;">
+						<p3 style="font-weight:bold; line-height:36px;">Quick Facts:</p3><br/>
+						<p3 id="facts" style="line-height:20px;">&#9900 Total mining water use in Pacific Northwest is 46 Mgal/day (2010 data). 24 Mgal/day for surface water, and 22 Mgal/day for groundwater.<br/><br/>&#9900 Of the three PNW states, Idaho has the highest daily mining water use.</p3>
+					</div>
+					<div id="facts_7" style="display:none;">
+						<p3 style="font-weight:bold; line-height:36px;">Quick Facts:</p3><br/>
+						<p3 id="facts" style="line-height:20px;">&#9900 Total livestock water use in Pacific Northwest is 92 Mgal/day (2010 data). 32 Mgal/day for surface water, and 60 Mgal/day for groundwater.<br/><br/>&#9900 Of the three PNW states, Idaho has the highest daily livestock water use.</p3>
+					</div>
+					<div id="facts_8" style="display:none;">
+						<p3 style="font-weight:bold; line-height:36px;">Quick Facts:</p3><br/>
+						<p3 id="facts" style="line-height:20px;">&#9900 Total irrigation water use in Pacific Northwest is 22,444 Mgal/day (2010 data). 15,917 Mgal/day for surface water, and 6,527 Mgal/day for groundwater.<br/><br/>&#9900 Of the three PNW states, Idaho has the highest daily irrigation water use.</p3>
+					</div>
+					<div id="facts_9" style="display:none;">
+						<p3 style="font-weight:bold; line-height:36px;">Quick Facts:</p3><br/>
+						<p3 id="facts" style="line-height:20px;">&#9900 Total aquaculture water use in Pacific Northwest is 3,679 Mgal/day (2010 data). 3,494 Mgal/day for surface water, and 185 Mgal/day for groundwater.<br/><br/>&#9900 Of the three PNW states, Idaho has the highest daily aquaculture water use.</p3>
+					</div>
 				</div>
 				<br/>
 			</div>
@@ -74,7 +109,7 @@
 				<a href="#popup1" id="arrow" style="display:inline-block;">
 					<i class="fa fa-info-circle" aria-hidden="true" style="margin-left:83px;"></i>
 				</a>
-				<a href="water_resources_index.html" id="arrow" style="display:inline-block;" target="_blank">
+				<a href="water_resources_index.html" id="arrow" style="display:inline-block;">
 					<i class="fa fa-home" aria-hidden="true"></i>
 				</a>
 				<a href="pollution_index.html" id="arrow" style="display:inline-block;">
@@ -111,6 +146,8 @@
 			</div>
 		</div>
 <script>
+//////////////base functions (these never change)///////////////////////
+	//////////////function for the info panel collapse button///////////////////////
 	var collapsed = false;
     function collapse(){
     	if (collapsed == false){
@@ -129,9 +166,9 @@
     	}
     	
     }
-	//initialize map
+//////////////Initialize map///////////////////////
 	var map = L.map('map', {center: [45.56, -119.75], zoom: 7, zoomControl:false});
-	///////////////////////make zoom level correspond to browser size////////////////////////////////
+///////////////////////make zoom level correspond to browser size////////////////////////////////
 	window.addEventListener('load', function(event){
     	var width = document.documentElement.clientWidth;
     	if (width < 1500 && width > 800) {
@@ -143,7 +180,7 @@
         	}
         update();
 	});
-	////////////////////////////////add tiled basemap////////////////////////////////
+////////////////////////////////basemap layers////////////////////////////////
 	var Esri_WorldTerrain = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer/tile/{z}/{y}/{x}', {
 		attribution: 'Tiles &copy; Esri &mdash; Source: USGS, Esri, TANA, DeLorme, and NPS',
 		maxZoom:8,
@@ -176,15 +213,14 @@
 	map.getPane('labels').style.pointerEvents = 'none';
 	map.getPane('labels').style.zIndex = 650;
 	label.addTo(map);
-	
-	//changes depending on which data type is selected, initial value is for County Employment
-	var data = 0;
+////////////////////////////////important variables////////////////////////////////		
+	var data = 1;
 	var water = 0;
-	//used with DATA variable to select data type corresponding to each button. Odd numbered buttons correspond to state-level data
-	var buttonNumber = ['but1','but2','but3','but4','but5','but6','but7','but8','but9'];
-	
+	var stateLevels = [1000, 500, 250, 100, 500, 250, 100, 50, 250, 100, 50, 10];
+    var dataValue = [0, 1, 2, 3];
+    var colorValue = ['#045a8d','#2b8cbe','#74a9cf','#bdc9e1','#f1eef6'];
 
-    ///////////////////////////////////////////////////////////////////////////////////////	
+////////////////////////////////info control in upper right////////////////////////////////
     var info = L.control();
 
 	info.onAdd = function (map) {
@@ -202,17 +238,7 @@
 				{return 0.00;}
 			else {return dataType(feature);}
 		}
-	//determines which icon to display next to the name
-		function whichImage() {
-			return data == 0 ? '<img src="img/totalEmp.png" id="image3" style="display:inline-block; width:30px; height:30px; position:relative; left:15px; top:10px;"><br/>':
-    		 	data == 1 ? '<img src="img/spend.png" id="image3" style="display:inline-block; width:30px; height:30px; position:relative; left:15px; top:10px;"><br/>':
-    		 	data == 2 ? '<img src="img/wages.png" id="image3" style="display:inline-block; width:30px; height:30px; position:relative; left:15px; top:10px;"><br/>':
-    		 	data == 3 ? '<img src="img/tax.png" id="image3" style="display:inline-block; width:30px; height:30px; position:relative; left:15px; top:10px;"><br/>':
-    		 	data == 4 ? '<img src="img/totalLocalEmp.png" id="image3" style="display:inline-block; width:30px; height:30px; position:relative; left:15px; top:10px;"><br/>':
-    		 	data == 5 ? '<img src="img/localEmp.png" id="image3" style="display:inline-block; width:30px; height:30px; position:relative; left:15px; top:10px;"><br/>':
-    		 	data == 6 ? '<img src="img/wages.png" id="image3" style="display:inline-block; width:30px; height:30px; position:relative; left:15px; top:10px;"><br/>':
-    		 		'<img src="img/tree.png" id="image3" style="display:inline-block; width:30px; height:30px; position:relative; left:15px; top:10px;"><br/>';
-    		}
+
     //actual info display information
    		this._div.innerHTML = (feature ?
        		'<b>' + feature.properties.NAME + ' County</b><br/><b id="displayType" style="display:inline;">' + nullFinder() + '&nbspMgal/day</b><br/>'
@@ -220,62 +246,54 @@
 		};
 
 	info.addTo(map);
-	
-    ///////////////////////////////////////////////////////////////////////////////////////	
-    
-    ////////////////////////////////initial geoJSON styling////////////////////////////////
-    
-    //symbol levels
-    var stateLevels = [1000, 500, 250, 100, 500, 250, 100, 50, 250, 100, 50, 10];
-    var dataSelection = [0, 1, 2, 3];
-    var colors = ['#045a8d','#2b8cbe','#74a9cf','#bdc9e1','#f1eef6'];
+////////////////////////////display layers//////////////////////
+	////////////////////////////water use counties/////////////////////	      
 	//connect color ramp to symbol levels, null values and zeros are shown in white
 	function setColor(density){
-        return density > stateLevels[dataSelection[0]] ? colors[0] :
-            density > stateLevels[dataSelection[1]] ? colors[1] :
-            density > stateLevels[dataSelection[2]] ? colors[2] :
-            density > stateLevels[dataSelection[3]] ? colors[3] :
+        return density > stateLevels[dataValue[0]] ? colorValue[0] :
+            density > stateLevels[dataValue[1]] ? colorValue[1] :
+            density > stateLevels[dataValue[2]] ? colorValue[2] :
+            density > stateLevels[dataValue[3]] ? colorValue[3] :
             density == null ? '#ffffff' :
             isNaN(density) ? '#ffffff' :
             density == 0 ? '#ffffff' :
             density == -1 ? '#ffffff' :
-                colors[4];
+                colorValue[4];
     	}
-    
     
     //style function 
 	function dataType(feature){
 		if (water == 0){
-			return data == 0 ? feature.properties.tot_use:
-    		 	data == 1 ? feature.properties.tot_pub:
-    		 	data == 2 ? feature.properties.tot_dom:
-    		 	data == 3 ? feature.properties.tot_ind:
-    		 	data == 4 ? feature.properties.tot_therm:
-    		 	data == 5 ? feature.properties.tot_mine:
-    		 	data == 6 ? feature.properties.tot_live:
-    		 	data == 7 ? feature.properties.tot_irr:
+			return data == 1 ? feature.properties.tot_use:
+    		 	data == 2 ? feature.properties.tot_pub:
+    		 	data == 3 ? feature.properties.tot_dom:
+    		 	data == 4 ? feature.properties.tot_ind:
+    		 	data == 5 ? feature.properties.tot_therm:
+    		 	data == 6 ? feature.properties.tot_mine:
+    		 	data == 7 ? feature.properties.tot_live:
+    		 	data == 8 ? feature.properties.tot_irr:
     		 		feature.properties.tot_aqua;
 		}
 		else if (water == 1){
-			return data == 0 ? feature.properties.SW_use:
-    		 	data == 1 ? feature.properties.SW_pub:
-    		 	data == 2 ? feature.properties.SW_dom:
-    		 	data == 3 ? feature.properties.SW_ind:
-    		 	data == 4 ? feature.properties.SW_therm:
-    		 	data == 5 ? feature.properties.SW_mine:
-    		 	data == 6 ? feature.properties.SW_live:
-    		 	data == 7 ? feature.properties.SW_irr:
+			return data == 1 ? feature.properties.SW_use:
+    		 	data == 2 ? feature.properties.SW_pub:
+    		 	data == 3 ? feature.properties.SW_dom:
+    		 	data == 4 ? feature.properties.SW_ind:
+    		 	data == 5 ? feature.properties.SW_therm:
+    		 	data == 6 ? feature.properties.SW_mine:
+    		 	data == 7 ? feature.properties.SW_live:
+    		 	data == 8 ? feature.properties.SW_irr:
     		 		feature.properties.SW_aqua;
 		}
-		else {
-			return data == 0 ? feature.properties.GW_use:
-    		 	data == 1 ? feature.properties.GW_pub:
-    		 	data == 2 ? feature.properties.GW_dom:
-    		 	data == 3 ? feature.properties.GW_ind:
-    		 	data == 4 ? feature.properties.GW_therm:
-    		 	data == 5 ? feature.properties.GW_mine:
-    		 	data == 6 ? feature.properties.GW_live:
-    		 	data == 7 ? feature.properties.GW_irr:
+		else if (water == 2) {
+			return data == 1 ? feature.properties.GW_use:
+    		 	data == 2 ? feature.properties.GW_pub:
+    		 	data == 3 ? feature.properties.GW_dom:
+    		 	data == 4 ? feature.properties.GW_ind:
+    		 	data == 5 ? feature.properties.GW_therm:
+    		 	data == 6 ? feature.properties.GW_mine:
+    		 	data == 7 ? feature.properties.GW_live:
+    		 	data == 8 ? feature.properties.GW_irr:
     		 		feature.properties.GW_aqua;
 		}
 	}
@@ -312,6 +330,9 @@
 	var	water_use;
 	
 	function update() {
+		if (water_use){
+			map.removeLayer(water_use);
+		}
 		water_use = $.getJSON("assets/water_use.geojson", function(data){
         		water_use = L.geoJson(data, {
         			style:waterStyle,
@@ -325,11 +346,9 @@
        		 }).addTo(map);
     	});
     }
-	//////////////////////////////////////////////////////////////////////////////
-	
-	//////////////////////////////////////////////////////////////////////////////
-    
- //////////////////////////////////////////////////////////////////////
+	    
+///////////////////////////////button function and related functions////////////////////////////////	
+
      function titleText(){
      	function titleTextWater(){
      		return water == 0 ? "Water Use (Mgal/day)":
@@ -337,224 +356,66 @@
      				"Groundwater Use (Mgal/day)";
     	 }
      	function titleTextUse(){
-     		return data == 0 ? "Total&nbsp":
-     			data == 1 ? "Public&nbsp":
-     			data == 2 ? "Domestic&nbsp":
-     			data == 3 ? "Industrial&nbsp":
-     			data == 4 ? "Thermoelectric&nbsp":
-     			data == 5 ? "Mining&nbsp":
-     			data == 6 ? "Livestock&nbsp":
-     			data == 7 ? "Irrigation&nbsp":
+     		return data == 1 ? "Total&nbsp":
+     			data == 2 ? "Public&nbsp":
+     			data == 3 ? "Domestic&nbsp":
+     			data == 4 ? "Industrial&nbsp":
+     			data == 5 ? "Thermoelectric&nbsp":
+     			data == 6 ? "Mining&nbsp":
+     			data == 7 ? "Livestock&nbsp":
+     			data == 8 ? "Irrigation&nbsp":
     				"Aquaculture&nbsp";
     	 }
-    	 return titleTextUse() + titleTextWater();
+    	 document.getElementById('title').innerHTML = titleTextUse() + titleTextWater();
      }
-      function totalWaterFunc() {
-    	map.removeLayer(water_use);
-    	document.getElementById('surface').style.background = "rgba(242,242,242,0.2)";
-    	document.getElementById('ground').style.background = "rgba(242,242,242,0.2)";
-    	dataSelection = [0, 1, 2, 3];
-    	water = 0;
-    	document.getElementById('title').innerHTML = titleText();
-    	document.getElementById('total').style.background = "rgba(242, 242, 242, 1)";
-    	document.getElementById('water').innerHTML = "Total Water";
-    	legend();
-    	update();
-    }
-    function surfaceFunc() {
-    	map.removeLayer(water_use);
-    	document.getElementById('total').style.background = "rgba(242,242,242,0.2)";
-    	document.getElementById('ground').style.background = "rgba(242,242,242,0.2)";
-    	dataSelection = [4, 5, 6, 7];
-    	water = 1;
-    	document.getElementById('title').innerHTML = titleText();
-    	document.getElementById('surface').style.background = "rgba(242, 242, 242, 1)";
-    	document.getElementById('water').innerHTML = "Surface Water";
-    	legend();
-    	update();
-    }
-    function groundFunc() {
-    	map.removeLayer(water_use);
-    	document.getElementById('total').style.background = "rgba(242,242,242,0.2)";
-    	document.getElementById('surface').style.background = "rgba(242,242,242,0.2)";
-    	dataSelection = [8, 9, 10, 11];
-    	water = 2;
-    	document.getElementById('title').innerHTML = titleText();
-    	document.getElementById('ground').style.background = "rgba(242, 242, 242, 1)";
-    	document.getElementById('water').innerHTML = "Groundwater";
-    	legend();
-    	update();
-    }
-    
-    ///////////////////////////////update data functions, used when users choose between state and county level data////////////////////////////////
-    
-	//employment by state
-    function totalFunc() {
-    	map.removeLayer(water_use);
-    	document.getElementById(buttonNumber[data]).style.background = "rgba(242,242,242,0.2)";
-    	colors = ['#045a8d','#2b8cbe','#74a9cf','#bdc9e1','#f1eef6'];
-    	stateLevels = [1000, 500, 250, 100, 500, 250, 100, 50, 250, 100, 50, 10];
-    	data = 0;
-    	document.getElementById('title').innerHTML = titleText();
-    	document.getElementById('description').innerHTML = "% of population employed in outdoor recreation";
-    	document.getElementById('but1').style.background = "rgba(242, 242, 242, 1)";
-    	document.getElementById("image2").src = "img/total.png";
-    	document.getElementById('description').innerHTML = "Water use in millions of gallons of water per day.";
-    	document.getElementById('use').innerHTML = "Total";
-    	document.getElementById('facts').innerHTML = "&#9900 Total water use in Pacific Northwest is 28,920 Mgal/day (2010 data). 20,939 Mgal/day for surface water, and 7,982 Mgal/day for groundwater.<br/><br/>&#9900 Idaho uses more water than Oregon and Washington Combined.<br/><br/>&#9900 Irrigation comprises 77.6% of total water use.";
-		legend();
-		update();
-    }  
-    //spending by state
-    function publicFunc() {
-    	map.removeLayer(water_use);
-    	document.getElementById(buttonNumber[data]).style.background = "rgba(242,242,242,0.2)";
-    	colors = ['#a50f15','#de2d26','#fb6a4a','#fcae91','#fee5d9'];
-    	stateLevels = [50, 25, 10, 5, 25, 10, 5, 2.5, 25, 10, 5, 2.5];
-    	data = 1;
-    	document.getElementById('title').innerHTML = titleText();
-    	document.getElementById('but2').style.background = "rgba(242, 242, 242, 1)";
-    	document.getElementById('description').innerHTML = "Per capita outdoor recreation spending in dollars";
-    	document.getElementById("image2").src = "img/public.png";
-    	document.getElementById('description').innerHTML = "Public self-supplied water use in millions of gallons of water per day. Includes deliveries to domestic users.";
-    	document.getElementById('use').innerHTML = "Public";
-    	document.getElementById('facts').innerHTML = "&#9900 Total public water use in Pacific Northwest is 1,682 Mgal/day (2010 data). 886 Mgal/day for surface water, and 796 Mgal/day for groundwater.<br/><br/>&#9900 Of the three PNW states, Washington has the highest daily public water use.";
-    	legend();
-    	update();
-    }
-    //wages by state
-    function domesticFunc() {
-    	map.removeLayer(water_use);
-    	document.getElementById(buttonNumber[data]).style.background = "rgba(242,242,242,0.2)";
-    	colors = ['#006837','#31a354','#78c679','#c2e699','#ffffcc'];
-    	stateLevels = [10, 5, 2.5, 1, 0.5, 0.25, 0.1, 0.05, 10, 5, 2.5, 1];
-    	data = 2;
-    	document.getElementById('title').innerHTML = titleText();
-    	document.getElementById('description').innerHTML = "Average annual outdoor recreation wages in thousands of dollars";
-    	document.getElementById('but3').style.background = "rgba(242, 242, 242, 1)";
-    	document.getElementById("image2").src = "img/domestic.png";
-    	document.getElementById('description').innerHTML = "Domestic self-supplied water use in millions of gallons of water per day. Does not include deliveries from public water providers.";
-    	document.getElementById('use').innerHTML = "Domestic";
-    	document.getElementById('facts').innerHTML = "&#9900 Total domestic water use in Pacific Northwest is 259 Mgal/day (2010 data). 7 Mgal/day for surface water, and 252 Mgal/day for groundwater.<br/><br/>&#9900 Of the three PNW states, Washington has the highest daily domestic water use.";
-    	legend();
-    	update();
-    }
-    //taxes by state
-     function industrialFunc() {
-    	map.removeLayer(water_use);
-    	document.getElementById(buttonNumber[data]).style.background = "rgba(242,242,242,0.2)";
-    	colors = ['#993404','#d95f0e','#fe9929','#fed98e','#fdedce'];
-    	stateLevels = [25, 10, 5, 2.5, 25, 10, 5, 2.5, 5, 2.5, 1, 0.5];
-    	data = 3;
-    	document.getElementById('title').innerHTML = titleText();
-    	document.getElementById('description').innerHTML = "Per capita outdoor recreation tax revenue in dollars";
-    	document.getElementById('but4').style.background = "rgba(242, 242, 242, 1)";
-    	document.getElementById("image2").src = "img/industry.png";
-    	document.getElementById('description').innerHTML = "Industrial self-supplied water use in millions of gallons of water per day.";
-    	document.getElementById('use').innerHTML = "Industrial";
-    	document.getElementById('facts').innerHTML = "&#9900 Total industrial water use in Pacific Northwest is 666 Mgal/day (2010 data). 532 Mgal/day for surface water, and 135 Mgal/day for groundwater.<br/><br/>&#9900 Of the three PNW states, Washington has the highest daily industrial water use.";
-    	legend();
-    	update();
-    }
-    //employment by county
-    function thermoFunc() {
-    	map.removeLayer(water_use);
-    	document.getElementById(buttonNumber[data]).style.background = "rgba(242,242,242,0.2)";
-    	colors = ['#810f7c','#8856a7','#8c96c6','#b3cde3','#edf8fb'];
-    	stateLevels = [20, 10, 5, 1, 20, 10, 5, 1, 1, 0.75, 0.5, 0.25];
-    	data = 4;
-    	document.getElementById('title').innerHTML = titleText();
-    	document.getElementById('description').innerHTML = "% of population employed in outdoor recreation";
-    	document.getElementById('but5').style.background = "rgba(242, 242, 242, 1)";
-    	document.getElementById("image2").src = "img/thermo.png";
-    	document.getElementById('description').innerHTML = "Self-supplied water use for thermoelectricity in millions of gallons of water per day.";
-    	document.getElementById('use').innerHTML = "Thermoelectric";
-    	document.getElementById('facts').innerHTML = "&#9900 Total thermoelectric water use in Pacific Northwest is 51 Mgal/day (2010 data). 47 Mgal/day for surface water, and 4 Mgal/day for groundwater.<br/><br/>&#9900 Of the three PNW states, Washington has the highest daily thermoelectric water use.";
-    	legend();
-    	update();
-    }
-    //employment in local government by county
-    function miningFunc() {
-    	map.removeLayer(water_use);
-    	document.getElementById(buttonNumber[data]).style.background = "rgba(242,242,242,0.2)";
-    	colors = ['#734d26','#9e6934','#c48a4e','#d8b18a','#ecd9c6'];
-    	stateLevels = [2.5, 1, 0.5, 0.25, 1, 0.5, 0.25, 0.1, 1, 0.5, 0.25, 0.1];
-    	data = 5;
-    	document.getElementById('title').innerHTML = titleText();
-    	document.getElementById('description').innerHTML = "% of population employed in local government parks & recreation organizations";
-    	document.getElementById('but6').style.background = "rgba(242, 242, 242, 1)";
-    	document.getElementById("image2").src = "img/mines.png";
-    	document.getElementById('description').innerHTML = "Self-supplied water use for mining in millions of gallons of water per day.";
-    	document.getElementById('use').innerHTML = "Mining";
-    	document.getElementById('facts').innerHTML = "&#9900 Total mining water use in Pacific Northwest is 46 Mgal/day (2010 data). 24 Mgal/day for surface water, and 22 Mgal/day for groundwater.<br/><br/>&#9900 Of the three PNW states, Idaho has the highest daily mining water use.";
-    	legend();
-    	update();	
-    }
-    //local government wages by county
-    function livestockFunc() {
-    	map.removeLayer(water_use);
-    	document.getElementById(buttonNumber[data]).style.background = "rgba(242,242,242,0.2)";
-    	colors = ['#666600','#959735','#c5ca81','#d8e39c','#f0f4d7'];
-    	stateLevels = [2.5, 1, 0.5, 0.25, 1, 0.5, 0.25, 0.1, 2.5, 1, 0.25, 0.1];
-    	data = 6;
-    	document.getElementById('title').innerHTML = titleText();
-    	document.getElementById('description').innerHTML = "Average annual wages for full-time local gov. parks & rec. employees in thousands of dollars";
-    	document.getElementById('but7').style.background = "rgba(242, 242, 242, 1)";
-    	document.getElementById("image2").src = "img/livestock.png";
-    	document.getElementById('description').innerHTML = "Self-supplied water use for livestock in millions of gallons of water per day.";
-    	document.getElementById('use').innerHTML = "Livestock";
-    	document.getElementById('facts').innerHTML = "&#9900 Total livestock water use in Pacific Northwest is 92 Mgal/day (2010 data). 32 Mgal/day for surface water, and 60 Mgal/day for groundwater.<br/><br/>&#9900 Of the three PNW states, Idaho has the highest daily livestock water use.";
-    	legend();
-    	update();
-    }
-    function irrigationFunc() {
-    	map.removeLayer(water_use);
-    	document.getElementById(buttonNumber[data]).style.background = "rgba(242,242,242,0.2)";
-    	colors = ['#006d2c','#31a354','#74c476','#bae4b3','#edf8e9'];
-    	stateLevels = [500, 250, 100, 25, 500, 250, 100, 25, 250, 100, 25, 10];
-    	data = 7;
-    	document.getElementById('title').innerHTML = titleText();
-    	document.getElementById('description').innerHTML = "Average annual wages for full-time local gov. parks & rec. employees in thousands of dollars";
-    	document.getElementById('but8').style.background = "rgba(242, 242, 242, 1)";
-    	document.getElementById("image2").src = "img/irrigation.png";
-    	document.getElementById('description').innerHTML = "Self-supplied water use for irrigation in millions of gallons of water per day.";
-    	document.getElementById('use').innerHTML = "Irrigation";
-    	document.getElementById('facts').innerHTML = "&#9900 Total irrigation water use in Pacific Northwest is 22,444 Mgal/day (2010 data). 15,917 Mgal/day for surface water, and 6,527 Mgal/day for groundwater.<br/><br/>&#9900 Of the three PNW states, Idaho has the highest daily irrigation water use.";
-    	legend();
-    	update();
-    }
-    function aquaFunc() {
-    	map.removeLayer(water_use);
-    	document.getElementById(buttonNumber[data]).style.background = "rgba(242,242,242,0.2)";
-    	colors = ['#004d38','#009970','#00cc99','#66ffd9','#ccfff2'];
-    	stateLevels = [100, 50, 25, 10, 100, 50, 25, 10, 10, 5, 2.5, 1];
-    	data = 8;
-    	document.getElementById('title').innerHTML = titleText();
-    	document.getElementById('description').innerHTML = "Average annual wages for full-time local gov. parks & rec. employees in thousands of dollars";
-    	document.getElementById('but9').style.background = "rgba(242, 242, 242, 1)";
-    	document.getElementById("image2").src = "img/aqua.png";
-    	document.getElementById('description').innerHTML = "Self-supplied water use for aquaculture in millions of gallons of water per day.";
-    	document.getElementById('use').innerHTML = "Aquaculture";
-    	document.getElementById('facts').innerHTML = "&#9900 Total aquaculture water use in Pacific Northwest is 3,679 Mgal/day (2010 data). 3,494 Mgal/day for surface water, and 185 Mgal/day for groundwater.<br/><br/>&#9900 Of the three PNW states, Idaho has the highest daily aquaculture water use.";
-    	legend();
-    	update();
-    }
-    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
-      function legend(){
-      	document.getElementById('leg1').innerHTML = stateLevels[dataSelection[0]] + "+";
-    	document.getElementById('leg2').innerHTML = stateLevels[dataSelection[1]] + " - " + stateLevels[dataSelection[0]];
-    	document.getElementById('leg3').innerHTML = stateLevels[dataSelection[2]] + " - " + stateLevels[dataSelection[1]];
-    	document.getElementById('leg4').innerHTML = stateLevels[dataSelection[3]] + " - " + stateLevels[dataSelection[2]];
-    	document.getElementById('leg5').innerHTML = "Less than " + stateLevels[dataSelection[3]];
-    	
-    	document.getElementById('highest').style.background = colors[0];
-    	document.getElementById('midhigh').style.background = colors[1];
-    	document.getElementById('middle').style.background = colors[2];
-    	document.getElementById('midlow').style.background = colors[3];
-    	document.getElementById('lowest').style.background = colors[4];
+    var buttonLabels = ['#waterBut1','#waterBut2','#waterBut3'];
+
+	var buttonFunctions = {
+		but1: {button:'waterBut1', title:'Total Water', values:[0, 1, 2, 3], layerFunction:function(){water = 0; legend(); update(); titleText();}},
+		but2: {button:'waterBut2', title:'Surface Water', values:[4, 5, 6, 7], layerFunction:function(){water = 1; legend(); update(); titleText();}},
+		but3: {button:'waterBut3', title:'Groundwater', values:[8, 9, 10, 11], layerFunction:function(){water = 2; legend(); update(); titleText();}}
+	};
+	
+	$('.main').clickFunction({
+		buttonFunctions: buttonFunctions,
+		buttonLabels: buttonLabels,
+		titleContainer:'water',
+		legendUpdate: true,
+		selected:buttonFunctions.but1
+	});
+
+	var buttonLabels2 = ['#but1','#but2','#but3','#but4','#but5','#but6','#but7','#but8','#but9'];
+
+	var buttonFunctions2 = {
+		but1: {button:'but1', title:'Total', variable:1, newElements:['facts_1'], imageSRC:"img/total.png", colors:['#045a8d','#2b8cbe','#74a9cf','#bdc9e1','#f1eef6'], legendDescription:'Water use in millions of gallons of water per day.', layerFunction:function(){stateLevels = [1000, 500, 250, 100, 500, 250, 100, 50, 250, 100, 50, 10]; legend(); update(); titleText();}},
+		but2: {button:'but2', title:'Public', variable:2, newElements:['facts_2'], imageSRC:"img/public.png", colors:['#a50f15','#de2d26','#fb6a4a','#fcae91','#fee5d9'], legendDescription:'Public self-supplied water use in millions of gallons of water per day. Includes deliveries to domestic users.', layerFunction:function(){stateLevels = [50, 25, 10, 5, 25, 10, 5, 2.5, 25, 10, 5, 2.5]; legend(); update();titleText();}},
+		but3: {button:'but3', title:'Domestic', variable:3, newElements:['facts_3'], imageSRC:"img/domestic.png", colors:['#006837','#31a354','#78c679','#c2e699','#ffffcc'], legendDescription:'Domestic self-supplied water use in millions of gallons of water per day. Does not include deliveries from public water providers.', layerFunction:function(){stateLevels = [10, 5, 2.5, 1, 0.5, 0.25, 0.1, 0.05, 10, 5, 2.5, 1]; legend(); update();titleText();}},
+		but4: {button:'but4', title:'Industrial', variable:4, newElements:['facts_4'], imageSRC:"img/industry.png", colors:['#993404','#d95f0e','#fe9929','#fed98e','#fdedce'], legendDescription:'Industrial self-supplied water use in millions of gallons of water per day.', layerFunction:function(){stateLevels = [25, 10, 5, 2.5, 25, 10, 5, 2.5, 5, 2.5, 1, 0.5]; legend(); update();titleText();}},
+		but5: {button:'but5', title:'Thermo', variable:5, newElements:['facts_5'], imageSRC:"img/thermo.png", colors:['#810f7c','#8856a7','#8c96c6','#b3cde3','#edf8fb'], legendDescription:'Self-supplied water use for thermoelectricity in millions of gallons of water per day.', layerFunction:function(){stateLevels = [20, 10, 5, 1, 20, 10, 5, 1, 1, 0.75, 0.5, 0.25]; legend(); update();titleText();}},
+		but6: {button:'but6', title:'Mining', variable:6, newElements:['facts_6'], imageSRC:"img/mines.png", colors:['#734d26','#9e6934','#c48a4e','#d8b18a','#ecd9c6'], legendDescription:'Self-supplied water use for mining in millions of gallons of water per day.', layerFunction:function(){stateLevels = [2.5, 1, 0.5, 0.25, 1, 0.5, 0.25, 0.1, 1, 0.5, 0.25, 0.1]; legend(); update();titleText();}},
+		but7: {button:'but7', title:'Livestock', variable:7, newElements:['facts_7'], imageSRC:"img/livestock.png", colors:['#666600','#959735','#c5ca81','#d8e39c','#f0f4d7'], legendDescription:'Self-supplied water use for livestock in millions of gallons of water per day.', layerFunction:function(){stateLevels = [2.5, 1, 0.5, 0.25, 1, 0.5, 0.25, 0.1, 2.5, 1, 0.25, 0.1]; legend(); update();titleText();}},
+		but8: {button:'but8', title:'Irrigation', variable:8, newElements:['facts_8'], imageSRC:"img/irrigation.png", colors:['#006d2c','#31a354','#74c476','#bae4b3','#edf8e9'], legendDescription:'Self-supplied water use for irrigation in millions of gallons of water per day.', layerFunction:function(){stateLevels = [1000, 500, 250, 100, 500, 250, 100, 50, 250, 100, 50, 10]; legend(); update();titleText();}},
+		but9: {button:'but9', title:'Aquaculture', variable:9, newElements:['facts_9'], mageSRC:"img/aqua.png", colors:['#004d38','#009970','#00cc99','#66ffd9','#ccfff2'], legendDescription:'Self-supplied water use for aquaculture in millions of gallons of water per day.', layerFunction:function(){stateLevels = [100, 50, 25, 10, 100, 50, 25, 10, 10, 5, 2.5, 1]; legend(); update();titleText();}},
+	};
+	
+	$('.main2').clickFunction({
+		buttonFunctions: buttonFunctions2,
+		buttonLabels: buttonLabels2,
+		imageDiv:'image2',
+		legendUpdate: true,
+		selected:buttonFunctions2.but1
+	});
+      
+    function legend(){
+      	document.getElementById('leg1_value').innerHTML = stateLevels[dataValue[0]] + "+";
+    	document.getElementById('leg2_value').innerHTML = stateLevels[dataValue[1]] + " - " + stateLevels[dataValue[0]];
+    	document.getElementById('leg3_value').innerHTML = stateLevels[dataValue[2]] + " - " + stateLevels[dataValue[1]];
+    	document.getElementById('leg4_value').innerHTML = stateLevels[dataValue[3]] + " - " + stateLevels[dataValue[2]];
+    	document.getElementById('leg5_value').innerHTML = "Less than " + stateLevels[dataValue[3]];
       	
       	resizeMiddle();
       } 
+ ///////////////////////////////other miscellaneous functions (these also never change)////////////////////////////////   
        
    	//add zoom control
     new L.Control.Zoom({ position: 'topright' }).addTo(map);

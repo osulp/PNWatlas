@@ -55,7 +55,7 @@
 				<a href="#popup1" id="arrow" style="display:inline-block;">
 					<i class="fa fa-info-circle" aria-hidden="true" style="padding-left:83px;"></i>
 				</a>
-				<a href="water_resources_index.html" id="arrow" style="display:inline-block;" target="_blank">
+				<a href="water_resources_index.html" id="arrow" style="display:inline-block;">
 					<i class="fa fa-home" aria-hidden="true" style="padding-left:0;"></i>
 				</a>
 				<a href="water_use_index.html" id="arrow" style="display:inline-block;">
@@ -93,6 +93,8 @@
 		</div>
 
 <script>
+//////////////base functions (these never change)///////////////////////
+	//////////////function for the info panel collapse button///////////////////////
 	var collapsed = false;
     function collapse(){
     	if (collapsed == false){
@@ -111,7 +113,7 @@
     	}
     	
     }
-    
+	//////////////function that allows topojson layers to be loaded///////////////////////    
 	L.TopoJSON = L.GeoJSON.extend({  
   		addData: function(jsonData) {    
     		if (jsonData.type === 'Topology') {
@@ -125,9 +127,8 @@
     		}
   		}  
 	});
-	//initialize map
+//////////////Initialize map///////////////////////
 	var map = L.map('map', {center: [45.61, -119.75], zoom: 7, zoomControl:false});
-	//map.setMaxBounds(map.getBounds());
 ///////////////////////make zoom level correspond to browser size////////////////////////////////
 	window.addEventListener('load', function(event){
     	var width = document.documentElement.clientWidth;
@@ -140,16 +141,15 @@
         	}
 	});
 	
-	//map.setMaxBounds(map.getBounds());
-///////////////////////add tiled basemap////////////////////////////////
-var Esri_WorldTerrain = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer/tile/{z}/{y}/{x}', {
+////////////////////////////////basemap layers////////////////////////////////
+	var Esri_WorldTerrain = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer/tile/{z}/{y}/{x}', {
 		attribution: 'Tiles &copy; Esri &mdash; Source: USGS, Esri, TANA, DeLorme, and NPS',
 		maxZoom:8,
 		minZoom:5,
 		opacity:1
 	}).addTo(map);
 	
-var pnwCover = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
+	var pnwCover = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
 		layers: 'baldricg_PNW_ATLAS:pnw_outline2_black',
         format: 'image/png',
 		maxZoom:8,
@@ -159,7 +159,7 @@ var pnwCover = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/b
 	}).addTo(map);
 
 	
-var label = L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_only_labels/{z}/{x}/{y}@2x.png', {
+	var label = L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_only_labels/{z}/{x}/{y}@2x.png', {
 		attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
 		subdomains: 'abcd',
 		maxZoom:10,
@@ -171,7 +171,20 @@ var label = L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/ligh
 		],
 		pane:'labels'
 	});	
-
+     var pnwStates = $.getJSON("assets/pnw_states.geojson", function(data){
+        pnwStates = L.geoJson(data, {
+        	style: function pnwStatesStyle(){
+				return{
+					opacity: 1,
+					color:'#666666',
+					fillOpacity:0	,
+					fillColor:'#404040',
+					weight:1
+				};
+		},
+        	interactive: false
+        }).addTo(map);
+    });
 	map.createPane('labels');
 	map.getPane('labels').style.pointerEvents = 'none';
 	map.getPane('labels').style.zIndex = 650;
@@ -179,8 +192,7 @@ var label = L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/ligh
 
 	map.createPane('tooltip');
 	map.getPane('tooltip').style.zIndex = 700;
-	/////////////////important variables////////////////////////////////
-    
+////////////////////////////////info control in upper right////////////////////////////////
     
 	var info = L.control();
 
@@ -209,7 +221,8 @@ var label = L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/ligh
 		};
 
 	info.addTo(map);
-///////////////////////hexgrid layer//////////////////////////////// 
+////////////////////////////display layers//////////////////////
+	////////////////////////////aquifers//////////////////////
 	const topoLayer = new L.TopoJSON();
 
 	$.getJSON('assets/aquifers.json')
@@ -255,8 +268,6 @@ var label = L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/ligh
     }
     
     function enterLayer(){
-     // var countryName = this.feature.properties.name;
-      //$countryName.text(countryName).show();
       this.bringToFront();
       this.setStyle({
         	fillOpacity: 1,
@@ -267,7 +278,6 @@ var label = L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/ligh
     }
     
     function leaveLayer(){
-     // $countryName.hide();
       this.setStyle({
         	fillOpacity: 0.6,
         	color:gwColor(this.feature.properties.ROCK_TYPE,this.feature.properties.re_cat),
@@ -275,96 +285,8 @@ var label = L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/ligh
       });
       info.update();
     }
-	/*
-	function highlight(e) {
-		 var layer = e.target;
-		 layer.setStyle({
-        	fillOpacity: 1,
-        	fillColor:gwColor(layer.feature.properties.ROCK_TYPE, layer.feature.properties.re_cat),
-        	color:'#ffffff',
-        	opacity:1
-        	
-    	 });
-    	 layer.bringToFront();
-		}
-	
-	//reset feature function
-	function resetHighlight(e) {
-		 groundwater.resetStyle(e.target);
-	}
-
-	function gwColor(rock, recharge){
-		return rock == '100' && recharge == 1 ? '#e6ecff':
-			rock == '100' && recharge == 2 ? '#99b3ff':
-			rock == '100' && recharge == 3 ? '#4d79ff':
-			rock == '100' && recharge == 4 ? '#0033cc':
-			rock == '600' && recharge == 1 ? '#ecf9ec':
-			rock == '600' && recharge == 2 ? '#b3e6b3':
-			rock == '600' && recharge == 3 ? '#66cc66':
-			rock == '600' && recharge == 4 ? '#267326':
-			rock == '999' && recharge == 1 ? '#ebebe0':
-			rock == '999' && recharge == 2 ? '#ccccb3':
-			rock == '999' && recharge == 3 ? '#a3a375':
-			rock == '999' && recharge == 4 ? '#5c5c3d':
-			rock == '400' && recharge == 2 ? '#c19cef':
-			rock == '400' && recharge == 3 ? '#8461af':
-				'#ffffff';
-	}
-	
-	function gwStyle(feature){
-		return{
-			opacity: 1,
-			fillOpacity:0.6,
-			fillColor:gwColor(feature.properties.ROCK_TYPE, feature.properties.re_cat),
-			color:gwColor(feature.properties.ROCK_TYPE, feature.properties.re_cat),
-			stroke:0.1,
-			weight:0.5
-			};
-	}
-	
-	function rechargeDisplay(cat) {
-		return cat == 1 ? '0 - 20 mm/yr':
-			cat == 2 ? '20 - 100 mm/yr':
-			cat == 3 ? '100 - 500 mm/yr':
-			'500+ mm/yr';
-	}
-    	
-    var	groundwater = $.getJSON("assets/aquifers.geojson", function(data){
-        groundwater = L.geoJson(data, {
-        	style:gwStyle,
-        	onEachFeature: function(feature, featureLayer) {
-        		featureLayer.bindTooltip('<b style="display:inline;">'+ feature.properties.ROCK_NAME + '<br/>' + rechargeDisplay(feature.properties.re_cat) + '</b>', {sticky:true, pane:'tooltip', className: 'label_tooltip'});
-        		featureLayer.bindPopup('<b style="display:inline;">'+ feature.properties.ROCK_NAME + '<br/>' + rechargeDisplay(feature.properties.re_cat) + '</b>', {sticky:true, pane:'tooltip', className: 'label_popup'});
-        		featureLayer.on({
-        			mouseover: highlight,
-        			mouseout: resetHighlight,
-   				});
-
-        	}
-        }).addTo(map);
-    });
-    */
-///////////////////////background-color geoJson layers////////////////////////////////
-
-//state outlines
-    function pnwStatesStyle(){
-	return{
-		opacity: 1,
-		color:'#666666',
-		fillOpacity:0	,
-		fillColor:'#404040',
-		weight:1
-		};
-	}
-     var pnwStates = $.getJSON("assets/pnw_states.geojson", function(data){
-        pnwStates = L.geoJson(data, {
-        	style:pnwStatesStyle,
-        	interactive: false
-        }).addTo(map);
-    });
     
-////////////////////////////////////////////////////////////////////////////////////////////
-
+ ///////////////////////////////other miscellaneous functions (these also never change)////////////////////////////////  
 
     new L.Control.Zoom({ position: 'topright' }).addTo(map);
 	document.getElementsByClassName("leaflet-control-attribution")[0].style.visibility = "hidden";
