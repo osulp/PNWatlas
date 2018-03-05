@@ -39,7 +39,8 @@ html, body{
 div#infoPanel h1 {
 	font-family: Baskerville, "Baskerville Old Face", "Hoefler Text", Garamond, "Times New Roman", serif;
 	font-size:30px;
-	padding-left: 10px;
+	width:280px;
+	text-align:center;
 }
 div#infoPanel .activity{
 	padding-left:0;
@@ -47,11 +48,13 @@ div#infoPanel .activity{
 	font-size: 25px;	
 	margin-bottom:5px;
 	margin-top:10px;
+	text-align:left;
 }
 
 div#infoPanel h2{
 	font-size:18px;
-	line-height: 40px;
+	line-height:16px;
+	display:inline-block;
 }
 
 div#infoPanel b {
@@ -103,13 +106,13 @@ div#text p3 {
 th, td {
     padding-right: 15px;
 }
-div#infoPanel img#image {
+div#infoPanel img#titleImage {
 	width: 280px;
 	height: 50px;
 	padding-right:20px;
 	position:relative;
 	bottom:15px;
-	float:center;
+	display:inline-block; 
 	}
 div#infoPanel img#image2  {
 	width: 100px;
@@ -131,17 +134,6 @@ div#infoPanel img#fishImage {
 	position:relative;
 	float:center;
 	margin: 15px 0px 10px 25px;
-	}
-
-#text {
-	overflow:hidden;
-	text-align: justify;
-	position: relative;
-	height:100%;	
-	}
-#attribution{
-	margin-right:20px;
-	width:280px;
 	}
 
 .leaflet-container {
@@ -202,20 +194,6 @@ div#buttons .selection:hover, button#but1:hover {
 	background: rgba(242, 242, 242, 1) !important;
 	cursor:pointer;
 }
-div.info.leaflet-control {
-	font-family: Baskerville, "Baskerville Old Face", "Hoefler Text", Garamond, "Times New Roman", serif;
-	background-color: rgba(255,255,255,0.8);
-	padding: 10px;
-	padding-top:0;
-	border-radius:5px;
-	font-size:16px;
-	box-shadow: 2px 2px 3px #888888;
-}
-.label{
-	opacity:0;
-	background-color:rgba(255,255,255,0);
-	
-}
 .dropbtn {
     background: #fff;
 	border-radius:.125em;
@@ -255,6 +233,8 @@ div.info.leaflet-control {
 	box-shadow:         0px 0px 10px 0px rgba(191, 191, 191, 0.67);
 	cursor:pointer;
 }
+
+
 /* small button  */
 div#buttons .selectionSmall {
 	width:130px;
@@ -317,6 +297,21 @@ div#buttons .selectionSmall:hover {
 	cursor:pointer;
 }
 
+
+div.info.leaflet-control {
+	font-family: Baskerville, "Baskerville Old Face", "Hoefler Text", Garamond, "Times New Roman", serif;
+	background-color: rgba(255,255,255,0.8);
+	padding: 10px;
+	padding-top:0;
+	border-radius:5px;
+	font-size:16px;
+	box-shadow: 2px 2px 3px #888888;
+}
+.label{
+	opacity:0;
+	background-color:rgba(255,255,255,0);
+	
+}
 /* The slider */
 .switch {
   position: relative;
@@ -400,6 +395,17 @@ a#arrow{
 	font-family: Baskerville, "Baskerville Old Face", "Hoefler Text", Garamond, "Times New Roman", serif;
 	font-size:16px;
 }
+#text {
+	overflow:hidden;
+	text-align: justify;
+	position: relative;
+	height:100%;	
+	}
+#attribution{
+	margin-right:20px;
+	width:280px;
+	}
+
 /*Source popup*/
 .overlay {
   position: fixed;
