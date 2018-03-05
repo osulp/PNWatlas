@@ -16,6 +16,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
     <script src="https://d3js.org/topojson.v1.min.js"></script>
     <script src="js/perfect-scrollbar.js"></script>
+    <script type="text/javascript" src="../js/clickFunction.js"></script>
     
    
 </head>
@@ -29,12 +30,12 @@
 			<img src="img/renewable.png" id="titleImage" style="display:inline-block;">
 			<div id="buttons">
 				<div class="dropdown">
-  					<button class="dropbtn"><b id="bar2">Select Class</b><p id="arrow">&#9660;</p></button>
+  					<button class="dropbtn"><b id="dataType">Select Class</b><p id="arrow">&#9660;</p></button>
   					<div class="dropdown-content">
-   						 <button type="button" id="but1" onclick="wind()" class="selection" style="background:rgba(242, 242, 242, 0.8);">Wind</button>
-						 <button type="button" id="but2" onclick="solar()" class="selection">Solar</button>
-						 <button type="button" id="but3" onclick="geothermal()" class="selection">Geothermal</button>
-						 <button type="button" id="but4" onclick="biomass()" class="selection">Biomass</button>
+   						 <button type="button" id="but1" class="selection" style="background:rgba(242, 242, 242, 0.8);">Wind</button>
+						 <button type="button" id="but2" class="selection">Solar</button>
+						 <button type="button" id="but3" class="selection">Geothermal</button>
+						 <button type="button" id="but4" class="selection">Biomass</button>
  				   </div>
 				</div>
 			</div>
@@ -104,7 +105,10 @@
 			</div>
 			<div id="attribution">
 				<div id="text">
-					<p3 id="textBody">Wind power is the use of air flow through wind turbines to mechanically power generators for electric power. Wind power, as an alternative to burning fossil fuels, is plentiful, renewable, widely distributed, clean, produces no greenhouse gas emissions during operation, consumes no water, and uses little land. The net effects on the environment are far less problematic than those of nonrenewable power sources. Wind farms consist of many individual wind turbines which are connected to the electric power transmission network. Onshore wind is an inexpensive source of electric power, competitive with or in many places cheaper than coal or gas plants. Offshore wind is steadier and stronger than on land, and offshore farms have less visual impact, but construction and maintenance costs are considerably higher. Small onshore wind farms can feed some energy into the grid or provide electric power to isolated off-grid locations.</p3>			
+					<p3 id="facts_1" style="display:unset">Wind power is the use of air flow through wind turbines to mechanically power generators for electric power. Wind power, as an alternative to burning fossil fuels, is plentiful, renewable, widely distributed, clean, produces no greenhouse gas emissions during operation, consumes no water, and uses little land. The net effects on the environment are far less problematic than those of nonrenewable power sources. Wind farms consist of many individual wind turbines which are connected to the electric power transmission network. Onshore wind is an inexpensive source of electric power, competitive with or in many places cheaper than coal or gas plants. Offshore wind is steadier and stronger than on land, and offshore farms have less visual impact, but construction and maintenance costs are considerably higher. Small onshore wind farms can feed some energy into the grid or provide electric power to isolated off-grid locations.</p3>			
+					<p3 id="facts_2" style="display:none"></p3>
+					<p3 id="facts_3" style="display:none"></p3>
+					<p3 id="facts_4" style="display:none"></p3>
 				</div>
 			<div id="pageChange">
 				<a href="water_use_index.html" id="arrow" style="display:inline-block;">
@@ -113,7 +117,7 @@
 				<a href="#popup1" id="arrow" style="display:inline-block;">
 					<i class="fa fa-info-circle" aria-hidden="true" style="padding-left:83px;"></i>
 				</a>
-				<a href="energy_index.html" id="arrow" style="display:inline-block;" target="_blank">
+				<a href="energy_index.html" id="arrow" style="display:inline-block;">
 					<i class="fa fa-home" aria-hidden="true" style="padding-left:0;"></i>
 				</a>
 				<a href="watershed_index.html" id="arrow" style="display:inline-block;">
@@ -242,10 +246,7 @@ var label = L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/ligh
 	map.createPane('tooltip');
 	map.getPane('tooltip').style.zIndex = 700;
 	//changes depending on which data type is selected, initial value is for County Employment
-	var data = 0;
-	var water = 0;
 	//used with DATA variable to select data type corresponding to each button. Odd numbered buttons correspond to state-level data
-	var buttonNumber = ['but1','but2','but3','but4','but5','but6','but7','but8','but9'];
 	
 
     ///////////////////////////////////////////////////////////////////////////////////////	
@@ -262,7 +263,7 @@ var label = L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/ligh
 			return bioSwitch == 0 ? feature.total_soli:
 					feature.total_ch4.toFixed(2);
 		}
-		if (data < 3){
+		if (data < 4){
    			this._div.innerHTML = ('<p style="display:inline; font-weight:bold;">Hover Over Map</p>');
 			}
 		else {	
@@ -276,8 +277,7 @@ var label = L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/ligh
     
     ////////////////////////////////initial geoJSON styling////////////////////////////////
 
-	var data = 0;
-	var classButtonType = 'but1';
+	var data = 1;
 	var bioSwitch=0;
 	
 	function damSize(e){
@@ -314,25 +314,28 @@ var label = L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/ligh
 	var dams;
 		
 	function damFilter(feature) {
-			if ( data == 0){
+			if ( data == 1){
 				return feature.properties.PrimSource == "wind" ? true:
 					false;
 			}
-			if ( data == 1){
+			if ( data == 2){
 				return feature.properties.PrimSource == "solar" ? true:
 					false;
 			}
-			if ( data == 2){
+			if ( data == 3){
 				return feature.properties.PrimSource == "geothermal" ? true:
 					false;
 			}
-			if ( data == 3){
+			if ( data == 4){
 				return feature.properties.PrimSource == "biomass" ? true:
 					false;
 			}
     	}	
 	
     function addDams(){
+    	if (dams){
+    		map.removeLayer(dams);
+    	}
     	dams = $.getJSON("assets/pnw_power_plants.geojson", function(data){
         	dams = L.geoJson(data, {
         		pointToLayer: pointStyle,
@@ -346,6 +349,7 @@ var label = L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/ligh
     			filter:damFilter
         	}).addTo(map);
    	 	});
+   	 	resizeMiddle();
 	}
 	
 	addDams();
@@ -477,9 +481,22 @@ var label = L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/ligh
     }
 	
 	
-	//////////////////////////////////////////////////////////////////////////////
-	var legType = 'leg_1';
+	//////////////////////////////////////////////////////////////////////////////	
+	var buttonLabels = ['#but1','#but2','#but3','#but4'];
+
+	var buttonFunctions = {
+		but1: {button:'but1', newLayers:[windPotential], newLegend: 'leg_1', newElements:['facts_1'], title:'Wind', variable:1, layerFunction:function(){addDams();}},
+		but2: {button:'but2', newLayers:[solarIrr], newLegend: 'leg_2', newElements:['facts_2'], title:'Solar',  variable:2, layerFunction:function(){addDams();}},
+		but3: {button:'but3', newLayers:[geo], newLegend: 'leg_3', newElements:['facts_3'], title:'Geothermal',  variable:3, layerFunction:function(){addDams();}},
+		but4: {button:'but4', newLayers:[bio], newLegend: 'leg_4', newElements:['facts_4'], title:'Biomass',  variable:4, layerFunction:function(){addDams();}}
+	};
 	
+	$('.main1').clickFunction({
+		buttonFunctions: buttonFunctions,
+		buttonLabels: buttonLabels,
+		selected:buttonFunctions.but1
+	});
+	/*
     function wind(){
     	data = 0;
     	document.getElementById(classButtonType).style.background = "rgba(242, 242, 242, 0.2)";
@@ -553,7 +570,7 @@ var label = L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/ligh
     	addDams();
     	resizeMiddle();
     }
-    
+    */
     function bioType(){
     	if (document.getElementById('checkbox_id').checked == true){
     		bioSwitch = 1;

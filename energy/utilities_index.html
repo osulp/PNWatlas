@@ -19,7 +19,7 @@
     <script src="js/Chart.bundle.js"></script>
     <script src="js/Chart.PieceLabel.min.js"></script>
     <script src="js/perfect-scrollbar.js"></script>
-    
+     <script type="text/javascript" src="../js/clickFunction.js"></script>
    
 </head>
 <body>
@@ -32,16 +32,16 @@
 			<img src="img/utilities_icon.png" id="titleImage" style="display:inline-block;">
 			<div id="buttons">
 				<div class="dropdown">
-  					<button class="dropbtn"><b id="selection">Select Power Type</b><p id="arrow">&#9660;</p></button>
+  					<button class="dropbtn"><b id="dataType">Select Power Type</b><p id="arrow">&#9660;</p></button>
   					<div class="dropdown-content">
-   						 <button type="button" id="but0" onclick="total()" class="selection" style="background:rgba(242, 242, 242, 0.8);">Total</button>
-						 <button type="button" id="but1" onclick="hydro()" class="selection">Hydroelectric</button>
-						 <button type="button" id="but2" onclick="fossil()" class="selection">Fossil Fuel</button>
-						 <button type="button" id="but3" onclick="wind()" class="selection">Wind</button>
-						 <button type="button" id="but4" onclick="solar()" class="selection">Solar</button>
-						 <button type="button" id="but5" onclick="bio()" class="selection">Biomass</button>
-						 <button type="button" id="but6" onclick="geo()" class="selection">Geothermal</button>
-						 <button type="button" id="but7" onclick="other()" class="selection">Other</button>   
+   						 <button type="button" id="but1" class="selection" style="background:rgba(242, 242, 242, 0.8);">Total</button>
+						 <button type="button" id="but2" class="selection">Hydroelectric</button>
+						 <button type="button" id="but3" class="selection">Fossil Fuel</button>
+						 <button type="button" id="but4" class="selection">Wind</button>
+						 <button type="button" id="but5" class="selection">Solar</button>
+						 <button type="button" id="but6" class="selection">Biomass</button>
+						 <button type="button" id="but7" class="selection">Geothermal</button>
+						 <button type="button" id="but8" class="selection">Other</button>   
  				   </div>
 				</div>
 			</div>  
@@ -82,7 +82,7 @@
 				<a href="#popup1" id="arrow" style="display:inline-block;">
 					<i class="fa fa-info-circle" aria-hidden="true" style="padding-left:83px;"></i>
 				</a>
-				<a href="energy_index.html" id="arrow" style="display:inline-block;" target="_blank">
+				<a href="energy_index.html" id="arrow" style="display:inline-block;">
 					<i class="fa fa-home" aria-hidden="true" style="padding-left:0;"></i>
 				</a>
 				<a href="groundwater_index.html" id="arrow" style="display:inline-block;">
@@ -189,9 +189,8 @@
 	
 
 ///////////////////////important variables////////////////////////////////
-	var data = 0; 
-	var layers = 0;//switch between watershed scales
-	
+	var data = 1; 
+	var layers = 0;	
 	//geoJSON variables
 	
 ///////////////////////info panel////////////////////////////////
@@ -445,67 +444,67 @@
 		
 	function damFilter(feature) {
 			if (layers == 1){
-				if ( data == 0 && feature.properties.id == vectorSelectionArea ){
+				if ( data == 1 && feature.properties.id == vectorSelectionArea ){
 					return true;
 				}	
-				if ( data == 1 && feature.properties.id == vectorSelectionArea ){
+				if ( data == 2 && feature.properties.id == vectorSelectionArea ){
 					return feature.properties.PrimSource == "hydroelectric" ? true:
 						false;
 				}
-				if ( data == 2 && feature.properties.id == vectorSelectionArea ){
+				if ( data == 3 && feature.properties.id == vectorSelectionArea ){
 					return feature.properties.PrimSource == "coal" || feature.properties.PrimSource == "natural gas" || feature.properties.PrimSource == "petroleum" ? true:
 						false;
 				}
-				if ( data == 3 && feature.properties.id == vectorSelectionArea ){
+				if ( data == 4 && feature.properties.id == vectorSelectionArea ){
 					return feature.properties.PrimSource == "wind" ? true:
 						false;
 				}
-				if ( data == 4 && feature.properties.id == vectorSelectionArea ){
+				if ( data == 5 && feature.properties.id == vectorSelectionArea ){
 					return feature.properties.PrimSource == "solar" ? true:
 						false;
 				}
-				if ( data == 5 && feature.properties.id == vectorSelectionArea ){
+				if ( data == 6 && feature.properties.id == vectorSelectionArea ){
 					return feature.properties.PrimSource == "biomass" ? true:
 						false;
 				}
-				if ( data == 6 && feature.properties.id == vectorSelectionArea ){
+				if ( data == 7 && feature.properties.id == vectorSelectionArea ){
 					return feature.properties.PrimSource == "geothermal" ? true:
 						false;
 				}
-				if ( data == 7 && feature.properties.id == vectorSelectionArea ){
+				if ( data == 8 && feature.properties.id == vectorSelectionArea ){
 					return feature.properties.PrimSource == "other" || feature.properties.PrimSource == "nuclear" ? true:
 						false;
 				}
     		}	
     	else {
-    		if ( data == 0){
+    		if ( data == 1){
 					return true;
 				}	
-				if ( data == 1){
+				if ( data == 2){
 					return feature.properties.PrimSource == "hydroelectric" ? true:
 						false;
 				}
-				if ( data == 2){
+				if ( data == 3){
 					return feature.properties.PrimSource == "coal" || feature.properties.PrimSource == "natural gas" || feature.properties.PrimSource == "petroleum" ? true:
 						false;
 				}
-				if ( data == 3){
+				if ( data == 4){
 					return feature.properties.PrimSource == "wind" ? true:
 						false;
 				}
-				if ( data == 4){
+				if ( data == 5){
 					return feature.properties.PrimSource == "solar" ? true:
 						false;
 				}
-				if ( data == 5){
+				if ( data == 6){
 					return feature.properties.PrimSource == "biomass" ? true:
 						false;
 				}
-				if ( data == 6){
+				if ( data == 7){
 					return feature.properties.PrimSource == "geothermal" ? true:
 						false;
 				}
-				if ( data == 7){
+				if ( data == 8){
 					return feature.properties.PrimSource == "other" || feature.properties.PrimSource == "nuclear" ? true:
 						false;
 				}
@@ -513,13 +512,11 @@
     	}
 	
     function addDams(){
+    	if (dams){
+    		map.removeLayer(dams);
+    	}
     	dams = $.getJSON("assets/pnw_power_plants.geojson", function(data){
         	dams = L.geoJson(data, {
-        		/*pointToLayer: function (feature, latlng) {
-    					return L.marker(latlng, {
-    						icon: optionSelection(feature.properties.PrimSource, feature.properties.Total_MW)
-    					}).bindTooltip('<h3 style="display:inline;">' + feature.properties.Plant_Name + '</h3><br/><p style="display:inline;">Operator:&nbsp' + feature.properties.Utility_Na + '&nbsp<br/>Type:&nbsp' + feature.properties.PrimSource + '<br/>Capacity:&nbsp' + feature.properties.Total_MW + ' MW</p>', {className: 'label_tooltip', pane:'tooltip'});		
-    				}*/
         		pointToLayer: pointStyle,
     			onEachFeature: function(feature, featureLayer) {
         			featureLayer.bindTooltip('<h3 style="display:inline;">' + feature.properties.Plant_Name + '</h3><br/><p style="display:inline;">Operator:&nbsp' + feature.properties.Utility_Na + '&nbsp<br/>Type:&nbsp' + feature.properties.PrimSource + '<br/>Capacity:&nbsp' + feature.properties.Total_MW + ' MW</p>', {className: 'label_tooltip', pane:'tooltip'});
@@ -531,6 +528,7 @@
     			filter:damFilter
         	}).addTo(map);
    	 	});
+   	 	resizeMiddle();
 	}
 	
 	addDams();
@@ -551,8 +549,27 @@
         }).addTo(map);
     });
 ///////////////////////tooltip info////////////////////////////////
- 	var buttonType = 'but0';
- 	
+ 	var buttonLabels = ['#but1','#but2','#but3','#but4','#but5','#but6','#but7','#but8'];
+
+	var buttonFunctions = {
+		but1: {button:'but1', title:'Total', imageSRC:"img/icons/total.png", variable:1, layerFunctionTop:function(){addDams();}},
+		but2: {button:'but2', title:'Hydroelectric', imageSRC:"img/icons/dam.png", variable:2, layerFunctionTop:function(){addDams();}},
+		but3: {button:'but3', title:'Fossil Fuel', imageSRC:"img/icons/fossil.png", variable:3, layerFunctionTop:function(){addDams();}},
+		but4: {button:'but4', title:'Wind', imageSRC:"img/icons/wind.png", variable:4, layerFunctionTop:function(){addDams();}},
+		but5: {button:'but5', title:'Solar', imageSRC:"img/icons/solar.png", variable:5, layerFunctionTop:function(){addDams();}},
+		but6: {button:'but6', title:'Biomass', imageSRC:"img/icons/biomass.png", variable:6, layerFunctionTop:function(){addDams();}},
+		but7: {button:'but7', title:'Geothermal', imageSRC:"img/icons/geothermal.png", variable:7, layerFunctionTop:function(){addDams();}},
+		but8: {button:'but8', title:'Other', imageSRC:"img/icons/nuclear.png", variable:8, layerFunctionTop:function(){addDams();}},
+	};
+	
+	$('.main').clickFunction({
+		buttonFunctions: buttonFunctions,
+		buttonLabels: buttonLabels,
+		imageDiv:'image2',
+		legendUpdate: true,
+		selected:buttonFunctions.but1
+	});
+ /*	
  	function total(){
  		document.getElementById(buttonType).style.background = "rgba(242, 242, 242, 0.2)";
     	buttonType = 'but0';
@@ -640,7 +657,8 @@
  		map.removeLayer(dams);
 		addDams();
 		resizeMiddle();
- 	}
+ 	}*/
+ 	
  	function reset(){
  		layers = 0;
  		document.getElementById('title').innerHTML = "SELECT UTILITY AREA";
