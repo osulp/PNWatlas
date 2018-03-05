@@ -16,10 +16,11 @@
     <script src="https://unpkg.com/leaflet@1.0.2/dist/leaflet.js"></script>
     <!--<script src="http://rawgit.com/geodesign/spatialsankey/master/spatialsankey.js"></script>-->
      <script src="https://unpkg.com/leaflet.vectorgrid@latest/dist/Leaflet.VectorGrid.bundled.js"></script>
-    <script src="js/perfect-scrollbar.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tween.js/17.1.1/Tween.min.js"></script>
     <script src="https://unpkg.com/papaparse@4.3.6/papaparse.min.js"></script>
     <script src="js/CanvasFlowmapLayer.js"></script>
+    <script type="text/javascript" src="../js/clickFunction.js"></script>
+    <script src="js/perfect-scrollbar.js"></script>
 
    
 </head>
@@ -33,11 +34,11 @@
 			<img src="img/migration_icon.png" id="titleImage" style="display:inline-block;">
 			<div id="buttons">
 				<div class="dropdown">
-  					<button class="dropbtn"><b id="flow">Select Flow</b><p id="arrow">&#9660;</p></button>
+  					<button class="dropbtn"><b id="dataType">Select Flow</b><p id="arrow">&#9660;</p></button>
   					<div class="dropdown-content">
-   						 <button type="button" id="but1" onclick="net()" class="selection" style="background:rgba(242, 242, 242, 0.8);">Net Flow</button>
-						 <button type="button" id="but2" onclick="inflow()" class="selection">Inflow</button>
-						 <button type="button" id="but3" onclick="outflow()" class="selection">Outflow</button>
+   						 <button type="button" id="but1" class="selection" style="background:rgba(242, 242, 242, 0.8);">Net Flow</button>
+						 <button type="button" id="but2" class="selection">Inflow</button>
+						 <button type="button" id="but3" class="selection">Outflow</button>
  				   </div>
 				</div>
 			</div>
@@ -56,7 +57,7 @@
 			<div id ="none"><hr style="color:#4db8ff; width:35px; float:left; height:1px; background-color:#4db8ff; line-height:20px; vertical-align:middle; display:inline; border:none;"/><p id="leg1" style="padding-left:5px;">0 to 25</p></div><div id ="none" style="padding-left:150px;"><hr style="color:#ff9c33; width:35px; float:left; height:1px; background-color:#ff9c33; line-height:20px; vertical-align:middle; display:inline; border:none;"/><p id="leg1" style="padding-left:5px;">0 to 25</p></div><br/>
 			<div id ="none"><hr style="color:#0099ff; width:35px; float:left; height:2px; background-color:#0099ff; line-height:20px; vertical-align:middle; display:inline; border:none;"/><p id="leg1" style="padding-left:5px;">25 - 100</p></div><div id ="none" style="padding-left:150px;"><hr style="color:#e67700; width:35px; float:left; height:2px; background-color:#e67700; line-height:20px; vertical-align:middle; display:inline; border:none;"/><p id="leg1" style="padding-left:5px;">25 to 100</p></div><br/>
 			<div id ="none"><hr style="color:#006bb3; width:35px; float:left; height:4px; background-color:#006bb3; line-height:20px; vertical-align:middle; display:inline; border:none;"/><p id="leg1" style="padding-left:5px;">100+</p></div><div id ="none" style="padding-left:150px;"><hr style="color:#e67700; width:35px; float:left; height:4px; background-color:#e67700; line-height:20px; vertical-align:middle; display:inline; border:none;"/><p id="leg1" style="padding-left:5px;">100+</p></div><br/>
-			<p id="description2" style="font-weight:bold; text-align:justify; white-space:normal; padding-left:0px; width:280px; display:inline-block; font-size:14px; position:relative;">Net migration (inflow - outflow) between counties. Negative values represent net outflow between counties, while positive values represent net inflow.</p>
+			<p id="description" style="font-weight:bold; text-align:justify; white-space:normal; padding-left:0px; width:280px; display:inline-block; font-size:14px; position:relative;">Net migration (inflow - outflow) between counties. Negative values represent net outflow between counties, while positive values represent net inflow.</p>
 			
 			</div>
 			<div id="attribution">
@@ -71,7 +72,7 @@
 				<a href="#popup1" id="arrow" style="display:inline-block;">
 					<i class="fa fa-info-circle" aria-hidden="true" style="padding-left:83px;"></i>
 				</a>
-				<a href="population_index.html" id="arrow" style="display:inline-block;" target="_blank">
+				<a href="population_index.html" id="arrow" style="display:inline-block;">
 					<i class="fa fa-home" aria-hidden="true" style="padding-left:0;"></i>
 				</a>
 				<a href="watershed_index.html" id="arrow" style="display:inline-block;">
@@ -105,6 +106,8 @@
 		</div>
 	</div>
 <script>
+//////////////base functions (these never change)///////////////////////   
+	//////////////function for the info panel collapse button///////////////////////
     var collapsed = false;
     function collapse(){
     	if (collapsed == false){
@@ -123,8 +126,9 @@
     	}
     	
     }
+//////////////Initialize map///////////////////////    
 	var map = L.map('map', {center: [45.56, -119.75],  zoom: 6, zoomControl:false});
-	///////////////////////make zoom level correspond to browser size////////////////////////////////
+///////////////////////make zoom level correspond to browser size////////////////////////////////
 	window.addEventListener('load', function(event){
     	var width = document.documentElement.clientWidth;
     	if (width < 1500 && width > 800) {
@@ -135,8 +139,7 @@
         	map.setZoom(5);
         	}
 	});
-
-	////////////////////////////////add tiled basemap////////////////////////////////
+////////////////////////////////basemap layers////////////////////////////////
 	var Esri_WorldTerrain = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer/tile/{z}/{y}/{x}', {
 		attribution: 'Tiles &copy; Esri &mdash; Source: USGS, Esri, TANA, DeLorme, and NPS',
 		maxZoom:10,
@@ -187,13 +190,13 @@
 	map.getPane('labels').style.pointerEvents = 'none';
 	map.getPane('labels').style.zIndex = 700;
 	label.addTo(map);
-	
+////////////////////////////////important variables////////////////////////////////		
 	var remove = false;
 	var canvasRenderer = L.canvas();
 	var jsonRenderer = L.svg({pane:'json'});
 	var oneToManyFlowmapLayer;
-	var flowType = 0;
-	
+	var data = 1;
+////////////////////////////////info control in upper right////////////////////////////////
 	 var info = L.control();
 
 	info.onAdd = function (map) {
@@ -220,15 +223,16 @@
 		};
 
 	info.addTo(map);
-	
+////////////////////////////display layers//////////////////////
+	////////////////////////////flow layer!//////////////////////	
 	function addFlow(){
 		if (remove == true){
 				oneToManyFlowmapLayer.clearAllPathSelections();
 				//remove = false;
 			}
 		function flowSelection(){
-			return flowType == 0 ? 'assets/net_migration.csv':
-				flowType == 1 ? 'assets/inflow.csv':
+			return data == 1 ? 'assets/net_migration.csv':
+				data == 2 ? 'assets/inflow.csv':
 					'assets/outflow.csv';
 		}
 	  Papa.parse(flowSelection(), {
@@ -380,9 +384,9 @@
         oneToManyFlowmapLayer.selectFeaturesForPathDisplayById('target', selection, false, 'SELECTION_NEW');
       }
     });
-    
+
     }
-    
+    ////////////////////////////county layer//////////////////////
     var selection = 41005;
     var clickSelection;
     var prevClick;
@@ -453,6 +457,13 @@
 			addFlow();
 			remove = true;
 		}
+
+	}
+	
+	function clearLayer(){
+		if (prevClick){
+			counties.resetStyle(prevClick);
+		}
 	}
 	
     var	counties = $.getJSON("assets/migration_counties.geojson", function(data){
@@ -470,132 +481,22 @@
         }).addTo(map);
     });
 
-   /* 
-    var highlightCounties;
-    var clickCounties;
-	var clearHighlightCounties = function() {
-		if (highlightCounties != clickCounties) {
-			counties.resetFeatureStyle(highlightCounties);
-		}
-		highlightCounties = null;
-	};
-	var clearClickCounties = function() {
-		if (clickCounties) {
-			counties.resetFeatureStyle(clickCounties);
-		}
-		clickCounties = null;
+//////////////////////////button function///////////////////////////////////////////////////
+	var buttonLabels = ['#but1','#but2','#but3'];
+
+	var buttonFunctions = {
+		but1: {button:'but1', title:'Net Flow', variable:1, legendDescription: "Net migration (inflow - outflow) between counties. Negative values represent net outflow between counties, while positive values represent net inflow.", layerFunction:function(){selection=0; addFlow();clearLayer();}},
+		but2: {button:'but2', title:'Inflow', variable:2, legendDescription: "Total inflow to selected county from other counties.", layerFunction:function(){selection=0; addFlow();clearLayer();}},
+		but3: {button:'but3', title:'Outflow', variable:3, legendDescription: "Total outflow from selected county to other counties.", layerFunction:function(){selection=0; addFlow();clearLayer();}}
 	};
 	
-	var filter = function(e){
-		if (e.layer.properties.pnw == 1){
-			return true;
-		} else {
-			return false;
-			}
-	}
-
-    var counties = $.getJSON("assets/migration_counties.geojson", function(data){
-    	counties = L.vectorGrid.slicer(data, {
-			rendererFactory: L.svg.tile,
-			vectorTileLayerStyles: {
-				sliced: function(properties, zoom) {
-					return {
-						radius: 4,
-        				stroke: true,
-						fill: true,
-        				weight: 0.35,
-        				opacity:0.8,
-        				color: '#b3b3b3',
-        				fillColor: '#e6f3ff',
-        				fillOpacity: 0.7
-					}
-				}
-			},
-			interactive: filter,
-			getFeatureId: function(f) {
-				return f.properties.ID_1;
-			}
-		})
-		.on('mouseover', function(e) {
-			var properties = e.layer.properties;
-			
-			clearHighlightCounties();
-			highlightCounties = properties.ID_1;
-
-			var style = {
-					stroke: true,
-					fill: true,
-					radius: 4,
-        			weight: 0.35,
-        			opacity:0.8,
-        			color: '#b3b3b3',
-        			fillColor: '#999999',
-        			fillOpacity: 1
-			};
-			
-			counties.setFeatureStyle(properties.ID_1, style);
-		})
-		.on('click', function(e) {
-			var properties = e.layer.properties;
-			
-			selection = properties.ID_1;
-			addFlow();
-			remove = true;
-			//remove = true;
-			
-			clearClickCounties();
-			highlightCounties = null;
-			clickCounties = properties.ID_1;
-						
-			var style = {
-				stroke: true,
-				fill: true,
-				radius: 4,
-        		weight: 0.35,
-        		opacity:0.8,
-        		color: '#b3b3b3',
-        		fillColor: '#999999',
-        		fillOpacity: 1
-			};
-			
-			
-
-			counties.setFeatureStyle(properties.ID_1, style);
-		}).addTo(map);
+	$('.main').clickFunction({
+		buttonFunctions: buttonFunctions,
+		buttonLabels: buttonLabels,
+		legendUpdate:true,
+		selected:buttonFunctions.but1
 	});
-*/
-	//////////////////////////////////////////////////////////////////////////////
-	
-	function net(){
-		flowType = 0;
-		selection = 0;
-		addFlow();
-		document.getElementById('but1').style.background = "rgba(242, 242, 242, 1)";
-		document.getElementById('but2').style.background = "rgba(242, 242, 242, 0.2)";
-		document.getElementById('but3').style.background = "rgba(242, 242, 242, 0.2)";
-		document.getElementById('description2').innerHTML = "Net migration (inflow - outflow) between counties. Negative values represent net outflow between counties, while positive values represent net inflow.";
-	}
-	function inflow(){
-		flowType = 1;
-		selection = 0;
-		addFlow();
-		document.getElementById('but1').style.background = "rgba(242, 242, 242, 0.2)";
-		document.getElementById('but2').style.background = "rgba(242, 242, 242, 1)";
-		document.getElementById('but3').style.background = "rgba(242, 242, 242, 0.2)";
-		document.getElementById('flow').innerHTML = "Inflow";
-		document.getElementById('description2').innerHTML = "Total inflow to selected county from other counties.";
-	}
-	function outflow(){
-		flowType = 2;
-		selection = 0;
-		addFlow();
-		document.getElementById('but1').style.background = "rgba(242, 242, 242, 0.2)";
-		document.getElementById('but2').style.background = "rgba(242, 242, 242, 0.2)";
-		document.getElementById('but3').style.background = "rgba(242, 242, 242, 1)";
-		document.getElementById('flow').innerHTML = "Outflow";
-		document.getElementById('description2').innerHTML = "Total outflow from selected county to other counties.";
-	}
-	
+ ///////////////////////////////other miscellaneous functions (these also never change)////////////////////////////////   	
     new L.Control.Zoom({ position: 'bottomright' }).addTo(map);
 	document.getElementsByClassName("leaflet-control-attribution")[0].style.visibility = "hidden";
 	//add scrolling capabilities to text box

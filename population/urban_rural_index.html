@@ -15,8 +15,8 @@
     <script src="https://unpkg.com/leaflet@1.0.2/dist/leaflet.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
     <script src="https://d3js.org/topojson.v1.min.js"></script>
+    <script type="text/javascript" src="../js/clickFunction.js"></script>
     <script src="js/perfect-scrollbar.js"></script>
-    
    
 </head>
 <body>
@@ -29,20 +29,20 @@
 			<img src="img/urban_rural_icon.png" id="titleImage" style="height:60px;">
 			<div id="buttons">
 				<div class="dropdownSmall">
-  					<button class="dropbtnSmall"><b id="bar2">Select Class</b><p id="arrow">&#9660;</p></button>
+  					<button class="dropbtnSmall"><b id="dataClass">Select Class</b><p id="arrow">&#9660;</p></button>
   					<div class="dropdown-contentSmall">
-   						 <button type="button" id="classBut1" onclick="total()" class="selectionSmall" style="background:rgba(242, 242, 242, 0.8);">Total</button>
-						 <button type="button" id="classBut2" onclick="urban()" class="selectionSmall">Urban</button>
-						 <button type="button" id="classBut3" onclick="rural()" class="selectionSmall">Rural</button>
+   						 <button type="button" id="classBut1" class="selectionSmall" style="background:rgba(242, 242, 242, 0.8);">Total</button>
+						 <button type="button" id="classBut2" class="selectionSmall">Urban</button>
+						 <button type="button" id="classBut3" class="selectionSmall">Rural</button>
  				   </div>
 				</div>
 				<div class="dropdownSmall">
-  					<button class="dropbtnSmall"><b id="bar">Select Data</b><p id="arrow">&#9660;</p></button>
+  					<button class="dropbtnSmall"><b id="dataType">Select Data</b><p id="arrow">&#9660;</p></button>
   					<div class="dropdown-contentSmall">
-   						 <button type="button" id="but1" onclick="classification()" class="selectionSmall" style="background:rgba(242, 242, 242, 0.8);">Classification</button>
-						 <button type="button" id="but2" onclick="income()" class="selectionSmall">Income</button>
-						 <button type="button" id="but3" onclick="education()" class="selectionSmall">Education</button>
-						 <button type="button" id="but4" onclick="employment()" class="selectionSmall">Employment</button>
+   						 <button type="button" id="but1" class="selectionSmall" style="background:rgba(242, 242, 242, 0.8);">Classification</button>
+						 <button type="button" id="but2" class="selectionSmall">Income</button>
+						 <button type="button" id="but3" class="selectionSmall">Education</button>
+						 <button type="button" id="but4" class="selectionSmall">Employment</button>
  				   </div>
 				</div>
 			</div>
@@ -96,7 +96,7 @@
 				<a href="#popup1" id="arrow" style="display:inline-block;">
 					<i class="fa fa-info-circle" aria-hidden="true" style="padding-left:83px;"></i>
 				</a>
-				<a href="population_index.html" id="arrow" style="display:inline-block;" target="_blank">
+				<a href="population_index.html" id="arrow" style="display:inline-block;">
 					<i class="fa fa-home" aria-hidden="true" style="padding-left:0;"></i>
 				</a>
 				<a href="watershed_index.html" id="arrow" style="display:inline-block;">
@@ -138,6 +138,8 @@
 			</div>
 		</div>
 <script>
+//////////////base functions (these never change)///////////////////////	
+	//////////////function for the info panel collapse button///////////////////////
 	var collapsed = false;
     function collapse(){
     	if (collapsed == false){
@@ -156,7 +158,7 @@
     	}
     	
     }
-    
+	//////////////function that allows topojson layers to be loaded///////////////////////    
     L.TopoJSON = L.GeoJSON.extend({  
   		addData: function(jsonData) {    
     		if (jsonData.type === 'Topology') {
@@ -170,9 +172,9 @@
     		}
   		}  
 	});
-	//initialize map
+//////////////Initialize map///////////////////////
 	var map = L.map('map', {center: [45.56, -119.75], zoom: 7, zoomControl:false});
-	///////////////////////make zoom level correspond to browser size////////////////////////////////
+///////////////////////make zoom level correspond to browser size////////////////////////////////
 	window.addEventListener('load', function(event){
     	var width = document.documentElement.clientWidth;
     	if (width < 1500 && width > 800) {
@@ -183,15 +185,15 @@
         	map.setZoom(5);
         	}
 	});
-	////////////////////////////////add tiled basemap////////////////////////////////
-var Esri_WorldTerrain = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer/tile/{z}/{y}/{x}', {
+////////////////////////////////basemap layers////////////////////////////////
+	var Esri_WorldTerrain = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer/tile/{z}/{y}/{x}', {
 		attribution: 'Tiles &copy; Esri &mdash; Source: USGS, Esri, TANA, DeLorme, and NPS',
 		maxZoom:10,
 		minZoom:5,
 		opacity:1
 	}).addTo(map);
 
-var pnwCover = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
+	var pnwCover = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
 		layers: 'baldricg_PNW_ATLAS:pnw_outline2_black',
         format: 'image/png',
 		maxZoom:10,
@@ -201,7 +203,7 @@ var pnwCover = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/b
 	}).addTo(map);
 
 	
-var label = L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_only_labels/{z}/{x}/{y}@2x.png', {
+	var label = L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_only_labels/{z}/{x}/{y}@2x.png', {
 		attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
 		subdomains: 'abcd',
 		maxZoom:10,
@@ -212,7 +214,22 @@ var label = L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/ligh
 			new L.LatLng(40.5,-111.5)
 		],
 		pane:'labels'
-	});	
+	});
+	
+	var pnwStates = $.getJSON("assets/pnw_states.geojson", function(data){
+        pnwStates = L.geoJson(data, {
+        	style:	function pnwStatesStyle(){
+				return{
+				opacity: 1,
+				color:'#666666',
+				fillOpacity:0	,
+				fillColor:'#404040',
+				weight:1
+			};
+		},
+        	interactive: false
+        }).addTo(map);
+    });	
 	
 	
 	map.createPane('labels');
@@ -222,14 +239,14 @@ var label = L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/ligh
 	
 	map.createPane('tooltip');
 	map.getPane('tooltip').style.zIndex = 700;
-	//changes depending on which data type is selected, initial value is for County Employment
-	var data = 0;
-	var water = 0;
-	//used with DATA variable to select data type corresponding to each button. Odd numbered buttons correspond to state-level data
-	var buttonNumber = ['but1','but2','but3','but4','but5','but6','but7','but8','but9'];
 	
+////////////////////////////////important variables////////////////////////////////	
+	var colorValue = ['#ffffcc','#c2e699','#78c679','#31a354','#006837'];
+	var dataValue = [20000,30000,40000,50000];
+	var data = 1;
+	var check = 0;//used for the urban/rural filter
 
-    ///////////////////////////////////////////////////////////////////////////////////////	
+////////////////////////////////info control in upper right////////////////////////////////
   	var info = L.control();
 
 	info.onAdd = function (map) {
@@ -246,37 +263,32 @@ var label = L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/ligh
 				{return 0;}
 			else {return prop;}
 		}
-		if (data == 0){
+		if (data == 1){
    		this._div.innerHTML = (feature ?
         	'<h3 style="margin:0; display:inline-block;">'+ feature.NAME +'</h3><br/>' + '<p style="display:inline;">' + feature.text_class + '</p>'
-       		:'<p style="display:inline;">Hover over Map</p>');
+       		:'<p style="display:inline; font-weight:bold;">Hover over Map</p>');
 		}
-		else if (data == 1){	
-			this._div.innerHTML = (feature ?
-        	'<h3 style="margin:0; display:inline-block;">'+ feature.NAME +'</h3><br/>' + '<p style="display:inline;">' + feature.text_class + '</br></p><p style="display:inline; font-weight:bold;">$' + nullFinder(feature.income_cap) + '</p><p style="display:inline"> Income per Cap.</p>'
-       		:'<p style="display:inline;">Hover over Map</p>');
-			}	
 		else if (data == 2){	
 			this._div.innerHTML = (feature ?
+        	'<h3 style="margin:0; display:inline-block;">'+ feature.NAME +'</h3><br/>' + '<p style="display:inline;">' + feature.text_class + '</br></p><p style="display:inline; font-weight:bold;">$' + nullFinder(feature.income_cap) + '</p><p style="display:inline"> Income per Cap.</p>'
+       		:'<p style="display:inline; font-weight:bold;">Hover over Map</p>');
+			}	
+		else if (data == 3){	
+			this._div.innerHTML = (feature ?
         	'<h3 style="margin:0; display:inline-block;">'+ feature.NAME +'</h3><br/>' + '<p style="display:inline;">' + feature.text_class + '</br></p><p style="display:inline; font-weight:bold;">' + nullFinder(((feature.bachelors/feature.popOver25)*100).toFixed(2)) + '%</p><p style="display:inline"> w/ Bachelors</p>'
-       		:'<p style="display:inline;">Hover over Map</p>');
+       		:'<p style="display:inline; font-weight:bold;">Hover over Map</p>');
 			}
 		else {	
 			this._div.innerHTML = (feature ?
         	'<h3 style="margin:0; display:inline-block;">'+ feature.NAME +'</h3><br/>' + '<p style="display:inline;">' + feature.text_class + '</br></p><p style="display:inline; font-weight:bold;">' + nullFinder(((feature.unemployed/feature.labor_forc)*100).toFixed(2)) + '%</p><p style="display:inline"> Unemployed</p>'
-       		:'<p style="display:inline;">Hover over Map</p>');
+       		:'<p style="display:inline; font-weight:bold;">Hover over Map</p>');
        	}
 	};
 
 	info.addTo(map);
     
-    ////////////////////////////////initial geoJSON styling////////////////////////////////
-	
-	var colors = ['#ffffcc','#c2e699','#78c679','#31a354','#006837'];
-	var dataValue = [20000,30000,40000,50000];
-	var data = 0;
-	var check = 0;
-	
+////////////////////////////display layers//////////////////////
+	////////////////////////////urban/rural census blocks//////////////////////
 	function urbanRural(type){
 		return type == 'u' ? '#80bfff':
 			   type == 'c' ? '#ffff80':
@@ -284,18 +296,18 @@ var label = L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/ligh
 	}
 	
 	function placeColor(data){
-		return data > dataValue[3] ? colors[4]:
-			   data > dataValue[2] ? colors[3]:
-			   data > dataValue[1] ? colors[2]:
-			   data > dataValue[0] ? colors[1]:
-				colors[0];
+		return data > dataValue[3] ? colorValue[4]:
+			   data > dataValue[2] ? colorValue[3]:
+			   data > dataValue[1] ? colorValue[2]:
+			   data > dataValue[0] ? colorValue[1]:
+				colorValue[0];
 	}
 	
 	function placeStyle(feature){
 		function whichColor(){
-			return data == 0 ? urbanRural(feature.properties.type_class):
-				data == 1 ? placeColor(feature.properties.income_cap):
-				data == 2 ? placeColor(((feature.properties.bachelors/feature.properties.popOver25)*100).toFixed(2)):
+			return data == 1 ? urbanRural(feature.properties.type_class):
+				data == 2 ? placeColor(feature.properties.income_cap):
+				data == 3 ? placeColor(((feature.properties.bachelors/feature.properties.popOver25)*100).toFixed(2)):
 					placeColor(((feature.properties.unemployed/feature.properties.labor_forc)*100).toFixed(2));
 			
 		}
@@ -340,6 +352,9 @@ var label = L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/ligh
 	var places;
 
 	function addData(){
+		if (places){
+			map.removeLayer(places);
+		}
 		places = $.getJSON("assets/urban_rural.geojson", function(data){
         places = L.geoJson(data, {
         	style: placeStyle,
@@ -355,111 +370,39 @@ var label = L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/ligh
       });
     }
     addData();
-      
-    var buttonType = 'but1';
-    var classButtonType = 'classBut1';
-    var legType = 'leg_1';
-    
-    function total(){
-    	document.getElementById(classButtonType).style.background = "rgba(242, 242, 242, 0.2)";
-    	classButtonType = 'classBut1';
-    	document.getElementById(classButtonType).style.background = "rgba(242, 242, 242, 1)";
-    	document.getElementById('bar2').innerHTML = "Total";
-    	map.removeLayer(places);
-    	check = 0;
-    	addData();
-    }
-    function urban(){
-    	document.getElementById(classButtonType).style.background = "rgba(242, 242, 242, 0.2)";
-    	classButtonType = 'classBut2';
-    	document.getElementById(classButtonType).style.background = "rgba(242, 242, 242, 1)";
-    	document.getElementById('bar2').innerHTML = "Urban";
-    	map.removeLayer(places);
-    	check = 1;
-    	addData();
-    }
-    function rural(){
-    	document.getElementById(classButtonType).style.background = "rgba(242, 242, 242, 0.2)";
-    	classButtonType = 'classBut3';
-    	document.getElementById(classButtonType).style.background = "rgba(242, 242, 242, 1)";
-    	document.getElementById('bar2').innerHTML = "Rural";
-    	map.removeLayer(places);
-    	check = 2;
-    	addData();
-    }
-    function classification(){
-    	document.getElementById(legType).style.display = "none";
-    	legType = 'leg_1';
-    	document.getElementById(legType).style.display = "unset";
-    	map.removeLayer(places);
-    	data = 0;
-    	document.getElementById(buttonType).style.background = "rgba(242, 242, 242, 0.2)";
-    	buttonType = 'but1';
-    	document.getElementById('but1').style.background = "rgba(242, 242, 242, 1)";
-    	document.getElementById('bar').innerHTML = "Classification";
-    	addData();
-    }
-    function income(){
-    	document.getElementById(legType).style.display = "none";
-    	legType = 'leg_2';
-    	document.getElementById(legType).style.display = "unset";
-    	document.getElementById(classButtonType).style.display = "unset";
-    	map.removeLayer(places);
-    	data = 1;
-    	document.getElementById(buttonType).style.background = "rgba(242, 242, 242, 0.2)";
-    	buttonType = 'but2';
-    	document.getElementById('but2').style.background = "rgba(242, 242, 242, 1)";
-    	colors = ['#ffffcc','#c2e699','#78c679','#31a354','#006837'];
-		dataValue = [15000,25000,35000,45000];
-		document.getElementById('bar').innerHTML = "Income";
-    	addData();
-    }
-    function education(){
-    	document.getElementById(legType).style.display = "none";
-    	legType = 'leg_3';
-    	document.getElementById(legType).style.display = "unset";
-    	map.removeLayer(places);
-    	data = 2;
-    	document.getElementById(buttonType).style.background = "rgba(242, 242, 242, 0.2)";
-    	buttonType = 'but3';
-    	document.getElementById('but3').style.background = "rgba(242, 242, 242, 1)";
-    	colors = ['#fef0d9','#fdcc8a','#fc8d59','#e34a33','#b30000'];
-		dataValue = [15,25,35,45];
-		document.getElementById('bar').innerHTML = "Education";
-    	addData();
-    }
-	function employment(){
-		document.getElementById(legType).style.display = "none";
-    	legType = 'leg_4';
-    	document.getElementById(legType).style.display = "unset";
-		map.removeLayer(places);
-		data = 3;
-		document.getElementById(buttonType).style.background = "rgba(242, 242, 242, 0.2)";
-    	buttonType = 'but4';
-    	document.getElementById('but4').style.background = "rgba(242, 242, 242, 1)";
-    	colors = ['#edf8fb','#b3cde3','#8c96c6','#8856a7','#810f7c'];
-		dataValue = [5,7.5,10,12.5];
-		document.getElementById('bar').innerHTML = "Employment";
-    	addData();
-    }
-      
-	///////////////////////////////add outline layers////////////////////////////////
-	function pnwStatesStyle(){
-	return{
-		opacity: 1,
-		color:'#666666',
-		fillOpacity:0	,
-		fillColor:'#404040',
-		weight:1
-		};
-	}
-     var pnwStates = $.getJSON("assets/pnw_states.geojson", function(data){
-        pnwStates = L.geoJson(data, {
-        	style:pnwStatesStyle,
-        	interactive: false
-        }).addTo(map);
-    });
-	//////////////////////////////////////////////////////////////////////////////
+
+///////////////////////////////button function////////////////////////////////	
+
+    var buttonLabels = ['#classBut1','#classBut2','#classBut3'];
+
+	var buttonFunctions = {
+		but1: {button:'classBut1', title:'Total', layerFunction:function(){check = 0; addData();}},
+		but2: {button:'classBut2', title:'Urban', layerFunction:function(){check = 1; addData();}},
+		but3: {button:'classBut3', title:'Rural', layerFunction:function(){check = 2; addData();}}
+	};
+	
+	$('.main').clickFunction({
+		buttonFunctions: buttonFunctions,
+		buttonLabels: buttonLabels,
+		titleContainer:'dataClass',
+		selected:buttonFunctions.but1
+	});
+	var buttonLabels2 = ['#but1','#but2','#but3','#but4'];
+
+	var buttonFunctions2 = {
+		but1: {button:'but1', title:'Classification', newLegend:"leg_1", variable:1,layerFunction:function(){addData();}},
+		but2: {button:'but2', title:'Income', newLegend:"leg_2", variable:2, colors:['#ffffcc','#c2e699','#78c679','#31a354','#006837'], values:[15000,25000,35000,45000] ,layerFunction:function(){addData();}},
+		but3: {button:'but3', title:'Education', newLegend:"leg_3", variable:3, colors:['#fef0d9','#fdcc8a','#fc8d59','#e34a33','#b30000'], values:[15,25,35,45] ,layerFunction:function(){addData();}},
+		but4: {button:'but4', title:'Employment', newLegend:"leg_4", variable:4, colors:['#edf8fb','#b3cde3','#8c96c6','#8856a7','#810f7c'], values:[5,7.5,10,12.5] ,layerFunction:function(){addData();}}
+	};
+	
+ 	$('.something').clickFunction({
+		buttonFunctions: buttonFunctions2,
+		buttonLabels: buttonLabels2,
+		selected: buttonFunctions2.but1
+	});
+   
+ /////////////////////////other miscellaneous functions (these also never change)////////////////////////////////   
 
    	//add zoom control
     new L.Control.Zoom({ position: 'topright' }).addTo(map);

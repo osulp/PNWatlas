@@ -17,6 +17,7 @@
     <script src="https://d3js.org/topojson.v1.min.js"></script>
     <script src="js/Chart.bundle.js"></script>
     <script src="js/Chart.PieceLabel.min.js"></script>
+    <script type="text/javascript" src="../js/clickFunction.js"></script>
     <script src="js/perfect-scrollbar.js"></script>
    
 </head>
@@ -32,17 +33,19 @@
 				<div class="dropdown">
   					<button class="dropbtn"><b id="dataType">Select Data</b><p id="arrow">&#9660;</p></button>
   					<div class="dropdown-content">
-   						 <button type="button" id="but1" onclick="race()" class="selection" style="background:rgba(242, 242, 242, 0.8);">Race</button>
-						 <button type="button" id="but2" onclick="age()" class="selection">Age</button>
+   						 <button type="button" id="but1" class="selection" style="background:rgba(242, 242, 242, 0.8);">Race</button>
+						 <button type="button" id="but2" class="selection">Age</button>
  				   </div>
 				</div>
 			</div>
-			<div id='legend' style="display:none;">
+			<div id='leg_1' style="display:unset;">
+				<p id="description" style="font-weight:bold; margin-top: 10px;text-align:justify; white-space:normal; padding-left:0px; width:280px; display:block; position:relative; line-height:20px;">Map colored based on a composite of racial population percentages. More intense colors suggest a greater percentage of a single race, while browns and grays suggest racial diversity.</p>
+			</div>
+			<div id='leg_2' style="display:none;">
 				<h2 id="title" style="display:block; width:280px; white-space:normal;">Median Age</h2>
 				<b id="leg2_block" style="background:linear-gradient(to right, #fcfbfd, #dadaeb, #9e9ac8, #6a51a3, #3f007d); height:32px; border:black 2px solid; width: 280px;"></b><br/><br/>
 				<p style="padding-left:0; word-spacing:47px;">25 35 45 55 65</p></br>
 			</div>
-			<p id="description" style="font-weight:bold; margin-top: 10px;text-align:justify; white-space:normal; padding-left:0px; width:280px; display:block; position:relative; line-height:20px;">Map colored based on a composite of racial population percentages. More intense colors suggest a greater percentage of a single race, which browns and grays suggest racial diversity.</p>
 			
 			</div>
 			<div id="attribution">
@@ -59,7 +62,7 @@
 				<a href="#popup1" id="arrow" style="display:inline-block;">
 					<i class="fa fa-info-circle" aria-hidden="true" style="padding-left:83px;"></i>
 				</a>
-				<a href="population_index.html" id="arrow" style="display:inline-block;" target="_blank">
+				<a href="population_index.html" id="arrow" style="display:inline-block;">
 					<i class="fa fa-home" aria-hidden="true" style="padding-left:0;"></i>
 				</a>
 				<a href="watershed_index.html" id="arrow" style="display:inline-block;">
@@ -92,6 +95,8 @@
 			</div>
 		</div>
 <script>
+//////////////base functions (these never change)///////////////////////
+	//////////////function for the info panel collapse button///////////////////////
 	var collapsed = false;
     function collapse(){
     	if (collapsed == false){
@@ -110,7 +115,7 @@
     	}
     	
     }
-    
+	//////////////function that allows topojson layers to be loaded///////////////////////    
     L.TopoJSON = L.GeoJSON.extend({  
   		addData: function(jsonData) {    
     		if (jsonData.type === 'Topology') {
@@ -124,9 +129,9 @@
     		}
   		}  
 	});
-	//initialize map
+//////////////Initialize map///////////////////////
 	var map = L.map('map', {center: [45.56, -119.75], zoom: 7, zoomControl:false});
-	///////////////////////make zoom level correspond to browser size////////////////////////////////
+///////////////////////make zoom level correspond to browser size////////////////////////////////
 	window.addEventListener('load', function(event){
     	var width = document.documentElement.clientWidth;
     	if (width < 1500 && width > 800) {
@@ -137,8 +142,7 @@
         	map.setZoom(5);
         	}
 	});
-	////////////////////////////////add tiled basemap////////////////////////////////
-    
+////////////////////////////////basemap layers////////////////////////////////    
 	var Esri_WorldTerrain = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer/tile/{z}/{y}/{x}', {
 		attribution: 'Tiles &copy; Esri &mdash; Source: USGS, Esri, TANA, DeLorme, and NPS',
 		maxZoom:10,
@@ -155,23 +159,6 @@
 		transparent:true,
 	}).addTo(map);
 	
-	var pnwDemographics = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
-		layers: 'baldricg_PNW_ATLAS:pnw_demographics',
-        format: 'image/png',
-		maxZoom:10,
-		minZoom:4,
-		opacity:0.7,
-		transparent:true,
-	}).addTo(map);
-	
-	 var pnwAge = L.tileLayer('med_age_tiles/{z}/{x}/{y}.png', {
-        maxZoom:10,
-		minZoom:4,
-		opacity:0.7,
-        tms: false,
-        transparent:true,
-      });
-	
 	var label = L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_only_labels/{z}/{x}/{y}@2x.png', {
 		attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
 		subdomains: 'abcd',
@@ -185,7 +172,34 @@
 		pane:'labels'
 	});	
 	
-	
+	var pnwStates = $.getJSON("assets/pnw_states.geojson", function(data){
+        pnwStates = L.geoJson(data, {
+        	style:function pnwStatesStyle(){
+				return{
+					opacity: 1,
+					color:'#ffffff',
+					fillOpacity:0,
+					weight:1
+				};
+			},
+        	interactive: false
+        }).addTo(map);
+    });
+    
+    var pnwCounties = $.getJSON("assets/counties2.geojson", function(data){
+        pnwCounties = L.geoJson(data, {
+        	style: function pnwCountiesStyle(){
+				return{
+					opacity: 0.5,
+					fillOpacity:0,
+					color:'#ffffff',
+					weight:0.25
+				};
+			},
+			interactive: false
+        }).addTo(map);
+    });
+    
 	map.createPane('labels');
 	map.getPane('labels').style.pointerEvents = 'none';
 	map.getPane('labels').style.zIndex = 700;
@@ -193,12 +207,10 @@
 	
 	map.createPane('tooltip');
 	map.getPane('tooltip').style.zIndex = 750;
-	//changes depending on which data type is selected, initial value is for County Employment
-	var data = 0;
-	
-
-    
-    ////////////////////////////////initial geoJSON styling////////////////////////////////
+////////////////////////////////important variables////////////////////////////////		
+	var data = 1;
+////////////////////////////display layers//////////////////////
+    ////////////////////////////demographics topoJson for chart display//////////////////////
     const demographics = new L.TopoJSON();
 
 	$.getJSON('assets/block_group_demographics.json')
@@ -229,7 +241,7 @@
         	fillOpacity: 0.25,
         	opacity:1
     	 });
-    	 if (data == 0){
+    	 if (data == 1){
     	 	chart.data.datasets[0].data[0] = this.feature.properties.white;
 		 	chart.data.datasets[0].data[1] = this.feature.properties.black;
 		 	chart.data.datasets[0].data[2] = this.feature.properties.asian;
@@ -268,7 +280,7 @@
         	opacity:0
     	 });
     }
-  
+  	////////////////////////////race chart//////////////////////
     var ctx = document.getElementById("chartContainer").getContext('2d');
 	
 	var options =  {
@@ -315,7 +327,7 @@
 	}
 	
 	var chart = new Chart(ctx, options);
-		
+	////////////////////////////age chart//////////////////////	
 	var ctx2 = document.getElementById("chartContainer2").getContext('2d');
 	
 	var ageOptions =  {
@@ -384,106 +396,39 @@
        		}
     	}
 	}
-	
 	var chart2 = new Chart(ctx2, ageOptions);
+	////////////////////////////race tilelayer//////////////////////
+	var pnwDemographics = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
+		layers: 'baldricg_PNW_ATLAS:pnw_demographics',
+        format: 'image/png',
+		maxZoom:10,
+		minZoom:4,
+		opacity:0.7,
+		transparent:true,
+	}).addTo(map);
+	////////////////////////////age tilelayer//////////////////////
+	var pnwAge = L.tileLayer('med_age_tiles/{z}/{x}/{y}.png', {
+        maxZoom:10,
+		minZoom:4,
+		opacity:0.7,
+        tms: false,
+        transparent:true,
+      });
+///////////////////////////////button function////////////////////////////////		
+	var buttonLabels = ['#but1','#but2'];
+
+	var buttonFunctions = {
+		but1: {button:'but1', newLayers:[pnwDemographics], newLegend: 'leg_1', title:'Race', newElements:['chartContainer'], variable:1, layerFunction:function(){document.getElementById('description2').innerHTML = "Population of each racial group within one census block group.";}},
+		but2: {button:'but2', newLayers:[pnwAge], newLegend: 'leg_2', title:'Age', newElements:['chartContainer2'], variable:2, layerFunction:function(){document.getElementById('description2').innerHTML = "Population of each age group within a census block group.";}}
+	};
 	
-	function race(){
-		map.removeLayer(pnwAge);
-		map.addLayer(pnwDemographics);
-		data = 0;
-	    /*chart.data.labels[0] = "White";
-	    chart.data.labels[1] = "Black";
-    	chart.data.labels[2] = "Asian";
-    	chart.data.labels[3] = "Latino/Hisp.";
-    	chart.data.labels[4] = "Indigenous";
-    	chart.data.labels[5] = "Other";
-		chart.data.datasets[0].backgroundColor[0] = '#80b1d3';
-		chart.data.datasets[0].backgroundColor[1] = '#9fdf9f';
-		chart.data.datasets[0].backgroundColor[2] = '#bebada';
-		chart.data.datasets[0].backgroundColor[3] = '#fb8072';
-		chart.data.datasets[0].backgroundColor[4] = '#ffffb3';
-		chart.data.datasets[0].backgroundColor[5] = '#fdb462';
-		chart.data.datasets[0].data[0] = 50;
-		chart.data.datasets[0].data[1] = 50;
-		chart.data.datasets[0].data[2] = 50;
-		chart.data.datasets[0].data[3] = 50;
-		chart.data.datasets[0].data[4] = 50;
-	 	chart.data.datasets[0].data[5] = 50;*/
-	 	//chart.update();
-	 	//chart = new Chart(ctx, options);
-	 	document.getElementById('chartContainer').style.display = 'unset';
-		document.getElementById('chartContainer2').style.display = 'none';
-		document.getElementById('dataType').innerHTML = 'Race';
-		document.getElementById('legend').style.display = 'none';
-		document.getElementById('description').innerHTML = "Map colored based on a composite of racial population percentages. More intense colors suggest a greater percentage of a single race, which browns and grays suggest racial diversity.";
-		document.getElementById('description2').innerHTML = "Population of each racial group within one census block group.";
-		document.getElementById('but1').style.background = "rgba(242, 242, 242, 1)";
-		document.getElementById('but2').style.background = "rgba(242, 242, 242, 0.2)";
-	}
-	function age(){
-		map.removeLayer(pnwDemographics);
-		map.addLayer(pnwAge);
-		data = 1;
-		/*chart.data.labels[0] = "Under 5";
-    	chart.data.labels[1] = "5 - 17";
-    	chart.data.labels[2] = "18 - 24";
-    	chart.data.labels[3] = "25 - 39";
-    	chart.data.labels[4] = "40 - 59";
-    	chart.data.labels[5] = "60+";
-		chart.data.datasets[0].backgroundColor[0] = '#4575b4';
-		chart.data.datasets[0].backgroundColor[1] = '#91bfdb';
-		chart.data.datasets[0].backgroundColor[2] = '#e0f3f8';
-		chart.data.datasets[0].backgroundColor[3] = '#fee090';
-		chart.data.datasets[0].backgroundColor[4] = '#fc8d59';
-		chart.data.datasets[0].backgroundColor[5] = '#d73027';
-		chart.data.datasets[0].data[0] = 50;
-		chart.data.datasets[0].data[1] = 50;
-		chart.data.datasets[0].data[2] = 50;
-		chart.data.datasets[0].data[3] = 50;
-		chart.data.datasets[0].data[4] = 50;
-	 	chart.data.datasets[0].data[5] = 50;*/
-		//chart.update();
-		//chart = new Chart(ctx, ageOptions);
-		document.getElementById('chartContainer2').style.display = 'unset';
-		document.getElementById('chartContainer').style.display = 'none';
-		document.getElementById('legend').style.display = 'unset';
-		document.getElementById('dataType').innerHTML = 'Age';
-		document.getElementById('description').innerHTML = "";
-		document.getElementById('description2').innerHTML = "Population of each age group within a census block group.";
-		document.getElementById('but1').style.background = "rgba(242, 242, 242, 0.2)";
-		document.getElementById('but2').style.background = "rgba(242, 242, 242, 1)";
-	}
+	$('.main').clickFunction({
+		buttonFunctions: buttonFunctions,
+		buttonLabels: buttonLabels,
+		selected:buttonFunctions.but1
+	});
 	
-	///////////////////////////////add outline layers////////////////////////////////
-	function pnwStatesStyle(){
-	return{
-		opacity: 1,
-		color:'#ffffff',
-		fillOpacity:0,
-		weight:1
-		};
-	}
-     var pnwStates = $.getJSON("assets/pnw_states.geojson", function(data){
-        pnwStates = L.geoJson(data, {
-        	style:pnwStatesStyle,
-        	interactive: false
-        }).addTo(map);
-    });
-    
-     var pnwCounties = $.getJSON("assets/counties2.geojson", function(data){
-        pnwCounties = L.geoJson(data, {
-        	style: function pnwCountiesStyle(){
-				return{
-					opacity: 0.5,
-					fillOpacity:0,
-					color:'#ffffff',
-					weight:0.25
-				};
-			},
-			interactive: false
-        }).addTo(map);
-    });
-	//////////////////////////////////////////////////////////////////////////////
+///////////////////////////////other miscellaneous functions (these also never change)////////////////////////////////   
 
    	//add zoom control
     new L.Control.Zoom({ position: 'topright' }).addTo(map);
