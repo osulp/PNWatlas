@@ -38,7 +38,9 @@ html, body{
 	}
 div#infoPanel h1 {
 	font-family: Baskerville, "Baskerville Old Face", "Hoefler Text", Garamond, "Times New Roman", serif;
-	font-size:30px;
+	font-size:35px;
+	margin-top:15px;
+	letter-spacing: 1px;
 	width:280px;
 	text-align:center;
 }
@@ -52,17 +54,16 @@ div#infoPanel .activity{
 }
 
 div#infoPanel h2{
-	font-size:18px;
-	line-height:16px;
+	font-size:20px;
+	line-height:20px;
 	display:inline-block;
 }
 
 div#infoPanel b {
-	width: 35px;
-    height: 20px;
-    line-height:25px;
+	width: 50px;
+    height: 30px;
+    line-height:30px;
 	display:inline-block;
-	position: absolute;
 	opacity:0.8;
 }
 div#infoPanel b.circle {
@@ -78,21 +79,26 @@ div#infoPanel b.circle {
 	position:relative;
 }
 
-div.legendContainer {
-	width: 35px;
-	height: 35px;
-	position:absolute;
-}
-
 div#infoPanel p {
 	display:inline-block;
-	line-height:20px;
-	font-size:16px;
+	line-height:26px;
+	font-size:18px;
 	position: absolute;
+	margin:0;
+	margin-top:3px;
+	white-space:nowrap;
+	}
+div#infoPanel p#description {
+	display:inline-block;
+	line-height:22px;
+	font-size:18px;
+	position: absolute;
+	font-weight:bold;
 	padding-left: 40px;
 	margin:0;
+	margin-top:3px;
 	white-space:nowrap;
-}
+	}
 div#infoPanel p2 {
 	display:inline-block;
 	line-height:25px;
@@ -133,7 +139,7 @@ div#infoPanel img#fishImage {
 	height: 80px;
 	position:relative;
 	float:center;
-	margin: 15px 0px 10px 25px;
+	margin: 45px 0px 10px 25px;
 	}
 
 .leaflet-container {
@@ -164,7 +170,8 @@ div#buttons b {
 	font-size:18px; 
 	bottom:2px;
 	position:relative;
-	font-weight:normal
+	font-weight:normal;
+	height:25px;
 }
 div#buttons #arrow {
 	color:#e6e6e6; 
@@ -189,10 +196,11 @@ div#buttons .selection {
    font-family: Baskerville, "Baskerville Old Face", "Hoefler Text", Garamond, "Times New Roman", serif;
    font-size:14px;
 }
-div#buttons .selection:hover, button#but1:hover {
+div#buttons .selection:hover{
 	width:135px;
 	background: rgba(242, 242, 242, 1) !important;
 	cursor:pointer;
+
 }
 .dropbtn {
     background: #fff;
@@ -207,7 +215,7 @@ div#buttons .selection:hover, button#but1:hover {
     border-width:2px;
     font-family: Baskerville, "Baskerville Old Face", "Hoefler Text", Garamond, "Times New Roman", serif;
     text-align:left;
-    padding:3px;
+    padding:1px 3px 2px 2px;
     color:#4d4d4d;
     height:35px;
 }
@@ -265,8 +273,8 @@ div#buttons .selectionSmall:hover {
     border-width:2px;
     font-family: Baskerville, "Baskerville Old Face", "Hoefler Text", Garamond, "Times New Roman", serif;
     text-align:left;
-    padding:3px;
     color:#4d4d4d;
+    height:32px;
 }
 
 /* The container <div> - needed to position the dropdown content */
@@ -297,7 +305,7 @@ div#buttons .selectionSmall:hover {
 	cursor:pointer;
 }
 
-
+/*leaflet styles*/
 div.info.leaflet-control {
 	font-family: Baskerville, "Baskerville Old Face", "Hoefler Text", Garamond, "Times New Roman", serif;
 	background-color: rgba(255,255,255,0.8);
@@ -306,6 +314,14 @@ div.info.leaflet-control {
 	border-radius:5px;
 	font-size:16px;
 	box-shadow: 2px 2px 3px #888888;
+}
+.label_tooltip {
+	font-family: Baskerville, "Baskerville Old Face", "Hoefler Text", Garamond, "Times New Roman", serif;
+	font-size:14px;
+	padding:5px;
+	margin:0px;
+	border:1px solid black;
+	background:#ffffff;
 }
 .label{
 	opacity:0;
@@ -391,13 +407,9 @@ a#arrow{
 #arrow:hover{
 	color:white;
 }
-.label_tooltip {
-	font-family: Baskerville, "Baskerville Old Face", "Hoefler Text", Garamond, "Times New Roman", serif;
-	font-size:16px;
-}
+
 #text {
 	overflow:hidden;
-	text-align: justify;
 	position: relative;
 	height:100%;	
 	}
