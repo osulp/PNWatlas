@@ -25,55 +25,51 @@
 		</button>
 		<div id="infoPanel">
 			<div id="top">
-			<h1>Outdoor Economy</h1>
-			<img src="img/economic_icon.png" id="titleImage" > <br/>
-			<div id="buttons">
-				<div class="dropdown">
-					<button class="dropbtn"><b id="dataType">Select Dataset</b><p id="arrow">&#9660;</p></button>
-						<div class="dropdown-content">
-							<p style="font-size:16px;float:left; ">County</p>
-							<p style="font-size:16px;">State</p>
-							<button type="button" id="but2" style="float:left; background:rgba(242, 242, 242, 0.67);" class="selection">Employment</button>
-							<button type="button" id="but1" class="selection" style="float:right;">Employment</button>
-							<button type="button" id="but3" style="font-size:12px; float:left;" class="selection">Local Gov. Employment</button>
-							<button type="button" id="but4" class="selection" style="float:right;">Spending</button>
-							<button type="button" id="but5" style="float:left;" class="selection">Local Gov. Wages</button>
-							<button type="button" id="but6" style="float:right;" class="selection">Wages</button>
-							<button type="button" id="but7" style="float:right;" class="selection">Taxes</button>
-						</div>
+				<h1>Outdoor Economy</h1>
+				<img src="img/economic_icon.png" id="titleImage" > <br/>
+				<div id="buttons">
+					<div class="dropdown">
+						<button class="dropbtn"><b id="dataType">Select Dataset</b><p id="arrow">&#9660;</p></button>
+							<div class="dropdown-content">
+								<p style="font-size:16px;float:left; ">County</p>
+								<p style="font-size:16px;">State</p>
+								<button type="button" id="but2" style="float:left; background:rgba(242, 242, 242, 0.67);" class="selection">Employment</button>
+								<button type="button" id="but1" class="selection" style="float:right;">Employment</button>
+								<button type="button" id="but3" style="font-size:12px; float:left;" class="selection">Local Gov. Employment</button>
+								<button type="button" id="but4" class="selection" style="float:right;">Spending</button>
+								<button type="button" id="but5" style="float:left;" class="selection">Local Gov. Wages</button>
+								<button type="button" id="but6" style="float:right;" class="selection">Wages</button>
+								<button type="button" id="but7" style="float:right;" class="selection">Taxes</button>
+							</div>
+					</div>
 				</div>
-			</div>
-			<h2 id="title">% Employment</h2><img src="img/totalEmp.png" id="image2" style="display:inline-block; float:right;"> 
-			<br/>
-			<b id ="leg5_block" style="background:#54278f; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p>&nbsp</p><p id="leg1_value">&nbsp2+</p><br/>
-			<b id ="leg4_block" style="background:#756bb1; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2_value">&nbsp1 - 2</p><br/>
-			<b id ="leg3_block" style="background:#9e9ac8; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg3_value">&nbsp0.5 - 1</p><br/>
-			<b id ="leg2_block" style="background:#cbc9e2; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg4_value">&nbsp0.2 - 0.5</p><br/>
-			<b id ="leg1_block" style="background:#f2f0f7; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg5_value">&nbspLess than 0.2</p><br/>
-			<b style="background:#ffffff; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p>&nbsp</p><p id="no_data">&nbsp0 or No Data</p><br/><br/>
-			<p id="description" style="font-weight:bold; padding:0; display:block; white-space:normal; width:280px;">% of population employed in outdoor recreation industry</p>
-			</br></br>
 			</div>
 			<div id="attribution">
-				<div id="text" style="margin-top:25px;">
-					<!--<p3>Beneficial use is related to the physical and social rewards that goal-directed activity instills in individuals or groups. Some outdoor goal-directed activities are: backpacking, canoeing, canyoning, caving, climbing, hiking, hill walking, hunting, kayaking, and rafting. Arguably broader groupings of goal-directed outdoor activities would include water sports, snow sports, and horseback riding. Goal-directed outdoor activities are predominantly physical, though they may also be mentally, emotionally, and spiritually rewarding. The outdoors as a physical or social setting may meet the needs of physical health, self-sufficiency, risk-taking, the building of social ties (including teambuilding), and the needs of achievement (such as practicing, enhancing and challenging skills, testing stamina and endurance, and seeking adventure or excitement). The outdoors can be an environment in which people "show what they can do".[2] Pleasurable appreciation encourages experiences of being "let in on nature's show".[2] Enhancement of inner perceptual and/or spiritual life may be experienced through outdoor activities and outdoor-related activities such as nature study, aesthetic contemplation, meditation, painting, photography, archeological or historical research, and indigenous culture among others. These activities may also be physically rewarding. Many people in modern civilizations believe that the value of nature is found only in its "utilitarian value" (beneficial use). They would discount the inner perceptual and/or spiritual benefits of the "intrinsic value of nature" that may be experienced during pleasurable appreciation.</p3>
-					-->
+				<div id="text">
+					<h2 id="title">% Employment</h2><img src="img/totalEmp.png" id="image2" style="display:inline-block; right:15px; margin-top:60px;"> 
+					<br/>
+					<div style="height:32px;"><b id ="leg5_block" style="background:#54278f; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p>&nbsp</p><p id="leg1_value">&nbsp2+</p></div>
+					<div style="height:30px;"><b id ="leg4_block" style="background:#756bb1; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2_value">&nbsp1 - 2</p></div>
+					<div style="height:30px;"><b id ="leg3_block" style="background:#9e9ac8; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg3_value">&nbsp0.5 - 1</p></div>
+					<div style="height:30px;"><b id ="leg2_block" style="background:#cbc9e2; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg4_value">&nbsp0.2 - 0.5</p></div>
+					<div style="height:30px;"><b id ="leg1_block" style="background:#f2f0f7; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg5_value">&nbspLess than 0.2</p></div>
+					<div style="height:32px;"><b style="background:#ffffff; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p>&nbsp</p><p id="no_data">&nbsp0 or No Data</p></div><br/>
+					<p id="description" style="font-weight:bold; padding:0; display:block; white-space:normal; width:280px;">% of population employed in outdoor recreation industry</p>
 				</div>
-				<br/>
-			</div>
-			<div id="pageChange">
-				<a href="fishing_index.html" id="arrow" style="display:inline-block;">
-					<i class="fa fa-arrow-left" aria-hidden="true" style=""></i>
-				</a>
-				<a href="#popup1" id="arrow" style="display:inline-block;">
-					<i class="fa fa-info-circle" aria-hidden="true" style="margin-left:83px;"></i>
-				</a>
-				<a href="rec_index.html" id="arrow" style="display:inline-block;">
-					<i class="fa fa-home" aria-hidden="true"></i>
-				</a>
-				<a href="hunting_index.html" id="arrow" style="display:inline-block;">
-					<i class="fa fa-arrow-right" aria-hidden="true" style="margin-left:82px;"></i>
-				</a>
+				<div id="pageChange">
+					<a href="fishing_index.html" id="arrow" style="display:inline-block;">
+						<i class="fa fa-arrow-left" aria-hidden="true" style=""></i>
+					</a>
+					<a href="#popup1" id="arrow" style="display:inline-block;">
+						<i class="fa fa-info-circle" aria-hidden="true" style="margin-left:83px;"></i>
+					</a>
+					<a href="rec_index.html" id="arrow" style="display:inline-block;">
+						<i class="fa fa-home" aria-hidden="true"></i>
+					</a>
+					<a href="hunting_index.html" id="arrow" style="display:inline-block;">
+						<i class="fa fa-arrow-right" aria-hidden="true" style="margin-left:82px;"></i>
+					</a>
+				</div>
 			</div>
 		</div>
     	<div id="map" style="width: 100%; height: 100%;"></div>

@@ -27,109 +27,110 @@
 		</button>
 		<div id="infoPanel">
 			<div id="top">
-			<h1 style="margin-bottom:25px;">Fish & Fishing</h1>
-			<img src="img/fish_icon.png" id="titleImage" style="height:20px;"> <br/>
-			<div id="buttons">
-				<div class="dropdown">
-  					<button class="dropbtn"><b id="dataType">Select Species</b><p id="arrow">&#9660;</p></button>
-  					<div class="dropdown-content">
-   						 <button type="button" id="but1" class="selection" style="background:rgba(242, 242, 242, 0.8);">Chinook</button>
-						 <button type="button" id="but2" class="selection">Steelhead</button>
-						 <button type="button" id="but3" class="selection">Coho</button>
-						 <button type="button" id="but4" class="selection">Chum</button>
-						 <button type="button" id="but5" class="selection">Pink</button>
-						 <button type="button" id="but6" class="selection">Sockeye</button>
- 				   </div>
-				</div>
-			</div>
-				<div id="leg_1">
-					<h2 id="title">Chinook Salmon</h2>
-					<br>
-					<div id ="none"><b style="background:#3abfbd; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p>&nbsp</p><p id="leg1">&nbspLeast Concern</p><br/></div>
-					<div id ="threat"><b style="background:#9de1e0; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg1">&nbspThreatened</p><br/></div>
-					<div id ="end"><b style="background:#f9d2de; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg1">&nbspEndangered</p><br/></div>
-					<div id ="hist"><b style="background:#ed789b; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p>&nbsp</p><p id="leg2">&nbspHistorical Habitat</p><br/></div><br/>
-					<p id="description" style="font-weight:bold; padding:0; display:block; white-space:normal; width:280px;">Current population status and historical distribution of Chinook Salmon</p>
-					</br></br>
-					<img src="img/chinook2.png" id="fishImage" style="display:block;"><br/>
-					<div id="checklist">
-						<p id="checkText" style="padding-right:5px; padding-top:3px; padding-left:0px; font-weight:bold; position:relative; float:left;">Fall Run</p>
-							<label class="switch">
-								<input name="checkbox_name" id="checkbox" type="checkbox" onclick="selectRun()" autocomplete="off">
-								<span class="slider"></span>
-							</label>
-						<p id="checkText2" style="padding-left:5px; padding-top:3px; font-weight:bold;">Spring Run</p><br/>
+				<h1 style="margin-bottom:25px;">Fish & Fishing</h1>
+				<img src="img/fish_icon.png" id="titleImage" style="height:20px;"> <br/>
+				<div id="buttons">
+					<div class="dropdown">
+						<button class="dropbtn"><b id="dataType">Select Species</b><p id="arrow">&#9660;</p></button>
+						<div class="dropdown-content">
+							 <button type="button" id="but1" class="selection" style="background:rgba(242, 242, 242, 0.8);">Chinook</button>
+							 <button type="button" id="but2" class="selection">Steelhead</button>
+							 <button type="button" id="but3" class="selection">Coho</button>
+							 <button type="button" id="but4" class="selection">Chum</button>
+							 <button type="button" id="but5" class="selection">Pink</button>
+							 <button type="button" id="but6" class="selection">Sockeye</button>
+					   </div>
 					</div>
-				</div>
-				<div id="leg_2" style="display:none;">
-					<h2 id="title">Steelhead</h2>
-					<br>
-					<div id ="none"><b style="background:#3abfbd; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p>&nbsp</p><p id="leg1">&nbspLeast Concern</p><br/></div>
-					<div id ="threat"><b style="background:#9de1e0; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg1">&nbspThreatened</p><br/></div>
-					<div id ="hist"><b style="background:#ed789b; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p>&nbsp</p><p id="leg2">&nbspHistorical Habitat</p><br/></div><br/>
-					<p id="description" style="font-weight:bold; padding:0; display:block; white-space:normal; width:280px;">Current population status and historical distribution of Steelhead</p>
-					</br></br>
-					<img src="img/steelhead2.png" id="fishImage" style="display:block;"><br/>
-				</div>
-				<div id="leg_3" style="display:none;">
-					<h2 id="title">Coho Salmon</h2>
-					<br>
-					<div id ="none"><b style="background:#3abfbd; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p>&nbsp</p><p id="leg1">&nbspLeast Concern</p><br/></div>
-					<div id ="threat"><b style="background:#9de1e0; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg1">&nbspThreatened</p><br/></div>
-					<div id ="hist"><b style="background:#ed789b; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p>&nbsp</p><p id="leg2">&nbspHistorical Habitat</p><br/></div><br/>
-					<p id="description" style="font-weight:bold; padding:0; display:block; white-space:normal; width:280px;">Current population status and historical distribution of Coho Salmon</p>
-					</br></br>
-					<img src="img/soho.png" id="fishImage" style="display:block;"><br/>
-				</div>
-				<div id="leg_4" style="display:none;">
-					<h2 id="title">Chum Salmon</h2>
-					<br>
-					<div id ="none"><b style="background:#3abfbd; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p>&nbsp</p><p id="leg1">&nbspLeast Concern</p><br/></div>
-					<div id ="threat"><b style="background:#9de1e0; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg1">&nbspThreatened</p><br/></div>
-					<div id ="hist"><b style="background:#ed789b; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p>&nbsp</p><p id="leg2">&nbspHistorical Habitat</p><br/></div><br/>
-					<p id="description" style="font-weight:bold; padding:0; display:block; white-space:normal; width:280px;">Current population status and historical distribution of Chum Salmon</p>
-					</br></br>
-					<img src="img/chum2.png" id="fishImage" style="display:block;"><br/>
-					<div id="checklist">
-						<p id="checkText" style="padding-right:5px; padding-top:3px; padding-left:0px; font-weight:bold; position:relative; float:left;">Fall Run</p>
-							<label class="switch">
-								<input name="checkbox_name" id="checkbox2" type="checkbox" onclick="selectRun()" autocomplete="off">
-								<span class="slider"></span>
-							</label>
-						<p id="checkText2" style="padding-left:5px; padding-top:3px; font-weight:bold;">Summer Run</p><br/>
-					</div>
-				</div>
-				<div id="leg_5" style="display:none;">
-					<h2 id="title">Pink Salmon</h2>
-					<br>
-					<div id ="none"><b style="background:#3abfbd; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p>&nbsp</p><p id="leg1">&nbspLeast Concern</p><br/></div>
-					<div id ="hist"><b style="background:#ed789b; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p>&nbsp</p><p id="leg2">&nbspHistorical Habitat</p><br/></div><br/>
-					<p id="description" style="font-weight:bold; padding:0; display:block; white-space:normal; width:280px;">Current population status and historical distribution of Pink Salmon</p>
-					</br></br>
-					<img src="img/pink2.png" id="fishImage" style="display:block;"><br/>
-					<div id="checklist">
-						<p id="checkText" style="padding-right:5px; padding-top:3px; padding-left:0px; font-weight:bold; position:relative; float:left;">Odd Year</p>
-							<label class="switch">
-								<input name="checkbox_name" id="checkbox3" type="checkbox" onclick="selectRun()" autocomplete="off">
-								<span class="slider"></span>
-							</label>
-						<p id="checkText2" style="padding-left:5px; padding-top:3px; font-weight:bold;">Even Year</p><br/>
-					</div>
-				</div>
-				<div id="leg_6" style="display:none;">
-					<h2 id="title">Sockeye Salmon</h2>
-					<br>
-					<div id ="none"><b style="background:#3abfbd; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p>&nbsp</p><p id="leg1">&nbspLeast Concern</p><br/></div>
-					<div id ="threat"><b style="background:#9de1e0; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg1">&nbspThreatened</p><br/></div>
-					<div id ="end"><b style="background:#f9d2de; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg1">&nbspEndangered</p><br/></div>
-					<div id ="hist"><b style="background:#ed789b; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p>&nbsp</p><p id="leg2">&nbspHistorical Habitat</p><br/></div><br/>
-					<p id="description" style="font-weight:bold; padding:0; display:block; white-space:normal; width:280px;">Current population status and historical distribution of Sockeye Salmon</p>
-					</br></br>
-					<img src="img/sockeye2.png" id="fishImage" style="display:block;"><br/>
 				</div>
 			</div>
 			<div id="attribution">
-				<div id="text" style="margin-top:10px;">
+				<div id="text">
+					<div id="leg_1">
+						<h2 id="title">Chinook Salmon</h2>
+						<br>
+						<div id ="none" style="height:32px;"><b style="background:#3abfbd; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p>&nbsp</p><p id="leg1">&nbspLeast Concern</p></div>
+						<div id ="threat" style="height:30px;"><b style="background:#9de1e0; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg1">&nbspThreatened</p></div>
+						<div id ="end" style="height:30px;"><b style="background:#f9d2de; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg1">&nbspEndangered</p></div>
+						<div id ="hist" style="height:32px;"><b style="background:#ed789b; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p>&nbsp</p><p id="leg2">&nbspHistorical Habitat</p></div><br/>
+						<p id="description" style="font-weight:bold; padding:0; display:block; white-space:normal; width:280px;">Current population status and historical distribution of Chinook Salmon</p>
+						</br></br>
+						<img src="img/chinook2.png" id="fishImage" style="display:block;"><br/>
+						<div id="checklist">
+							<p id="checkText" style="padding-right:5px; padding-left:0px; font-weight:bold; position:relative; float:left;">Fall Run</p>
+								<label class="switch" style="margin-top:5px;">
+									<input name="checkbox_name" id="checkbox" type="checkbox" onclick="selectRun()" autocomplete="off">
+									<span class="slider"></span>
+								</label>
+							<p id="checkText2" style="padding-left:5px; font-weight:bold;">Spring Run</p><br/>
+						</div>
+					</div>
+					<div id="leg_2" style="display:none;">
+						<h2 id="title">Steelhead</h2>
+						<br>
+						<div id ="none" style="height:32px;"><b style="background:#3abfbd; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p>&nbsp</p><p id="leg1">&nbspLeast Concern</p></div>
+						<div id ="threat" style="height:30px;"><b style="background:#9de1e0; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg1">&nbspThreatened</p></div>
+						<div id ="hist" style="height:32px;"><b style="background:#ed789b; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p>&nbsp</p><p id="leg2">&nbspHistorical Habitat</p></div><br/>
+						<p id="description" style="font-weight:bold; padding:0; display:block; white-space:normal; width:280px;">Current population status and historical distribution of Steelhead</p>
+						</br></br>
+						<img src="img/steelhead2.png" id="fishImage" style="display:block;"><br/>
+					</div>
+					<div id="leg_3" style="display:none;">
+						<h2 id="title">Coho Salmon</h2>
+						<br>
+						<div id ="none" style="height:32px;"><b style="background:#3abfbd; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p>&nbsp</p><p id="leg1">&nbspLeast Concern</p></div>
+						<div id ="threat" style="height:30px;"><b style="background:#9de1e0; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg1">&nbspThreatened</p></div>
+						<div id ="hist" style="height:32px;"><b style="background:#ed789b; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p>&nbsp</p><p id="leg2">&nbspHistorical Habitat</p></div><br/>
+						<p id="description" style="font-weight:bold; padding:0; display:block; white-space:normal; width:280px;">Current population status and historical distribution of Coho Salmon</p>
+						</br></br>
+						<img src="img/soho.png" id="fishImage" style="display:block;"><br/>
+					</div>
+					<div id="leg_4" style="display:none;">
+						<h2 id="title">Chum Salmon</h2>
+						<br>
+						<div id ="none" style="height:32px;"><b style="background:#3abfbd; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p>&nbsp</p><p id="leg1">&nbspLeast Concern</p></div>
+						<div id ="threat" style="height:30px;"><b style="background:#9de1e0; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg1">&nbspThreatened</p></div>
+						<div id ="hist" style="height:32px;"><b style="background:#ed789b; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p>&nbsp</p><p id="leg2">&nbspHistorical Habitat</p></div><br/>
+						<p id="description" style="font-weight:bold; padding:0; display:block; white-space:normal; width:280px;">Current population status and historical distribution of Chum Salmon</p>
+						</br></br>
+						<img src="img/chum2.png" id="fishImage" style="display:block;"><br/>
+						<div id="checklist">
+							<p id="checkText" style="padding-right:5px; padding-left:0px; font-weight:bold; position:relative; float:left;">Fall Run</p>
+								<label class="switch" style="margin-top:5px;">
+									<input name="checkbox_name" id="checkbox2" type="checkbox" onclick="selectRun()" autocomplete="off">
+									<span class="slider"></span>
+								</label>
+							<p id="checkText2" style="padding-left:5px; font-weight:bold;">Summer Run</p><br/>
+						</div>
+					</div>
+					<div id="leg_5" style="display:none;">
+						<h2 id="title">Pink Salmon</h2>
+						<br>
+						<div id ="none" style="height:32px;"><b style="background:#3abfbd; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p>&nbsp</p><p id="leg1">&nbspLeast Concern</p></div>
+						<div id ="hist" style="height:32px;"><b style="background:#ed789b; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p>&nbsp</p><p id="leg2">&nbspHistorical Habitat</p></div><br/>
+						<p id="description" style="font-weight:bold; padding:0; display:block; white-space:normal; width:280px;">Current population status and historical distribution of Pink Salmon</p>
+						</br></br>
+						<img src="img/pink2.png" id="fishImage" style="display:block;"><br/>
+						<div id="checklist">
+							<p id="checkText" style="padding-right:5px; padding-left:0px; font-weight:bold; position:relative; float:left;">Odd Year</p>
+								<label class="switch" style="margin-top:5px;">
+									<input name="checkbox_name" id="checkbox3" type="checkbox" onclick="selectRun()" autocomplete="off">
+									<span class="slider"></span>
+								</label>
+							<p id="checkText2" style="padding-left:5px; font-weight:bold;">Even Year</p><br/>
+						</div>
+					</div>
+					<div id="leg_6" style="display:none;">
+						<h2 id="title">Sockeye Salmon</h2>
+						<br>
+						<div id ="none" style="height:32px;"><b style="background:#3abfbd; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p>&nbsp</p><p id="leg1">&nbspLeast Concern</p></div>
+						<div id ="threat" style="height:30px;"><b style="background:#9de1e0; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg1">&nbspThreatened</p></div>
+						<div id ="end" style="height:30px;"><b style="background:#f9d2de; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg1">&nbspEndangered</p></div>
+						<div id ="hist" style="height:32px;"><b style="background:#ed789b; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p>&nbsp</p><p id="leg2">&nbspHistorical Habitat</p></div><br/>
+						<p id="description" style="font-weight:bold; padding:0; display:block; white-space:normal; width:280px;">Current population status and historical distribution of Sockeye Salmon</p>
+						</br></br>
+						<img src="img/sockeye2.png" id="fishImage" style="display:block;"><br/>
+					</div>
+					<br/>
 					<!--<p3 id="information">Chinook salmon (also known as King Salmon) are the largest of the Pacific salmon, with some individuals growing to more than 100 pounds. These huge fish are rare, as most mature chinook are under 50 pounds.</p3> <br/><br/>Most chinook spawn in large rivers such as the Columbia and Snake, although they will also use smaller streams with sufficient water flow. They tend to spawn in the mainstem of streams, where the water flow is high. Because of their size they are able to spawn in larger gravel than most other salmon. Chinook spawn on both sides of the Cascade Range, and some fish travel hundreds of miles upstream before they reach their spawning grounds. Because of the distance, these fish enter streams early and comprise the spring and summer runs. Fall runs spawn closer to the ocean and more often use small coastal streams. All chinook reach their spawning grounds by fall, in time to spawn.<br/><br/>Chinook fry rear in freshwater from three months to a year, depending on the race of chinook and the location. Spring chinook tend to stay in streams for a year; fish in northern areas, where the streams are less productive and growth is slower, also tend to stay longer. Rearing chinook fry use mainstems and their tributaries.</p3>
 				-->	<div id="facts_1" style="display:unset;">
 						<p3 style="font-weight:bold; line-height:36px;">Quick Facts:</p3><br/>
@@ -156,20 +157,20 @@
 						<p3 id="facts" style="line-height:20px;">&#9900 Sockeye are known as the most flavorful Pacific Salmon.<br/><br/>&#9900 Maximum size 15 pounds.<br/><br/>&#9900 Only spawn in lake-fed water systems.</p3>
 					</div>
 				</div>
-			</div>
-			<div id="pageChange">
-				<a href="activities_index.html" id="arrow" style="display:inline-block;">
-					<i class="fa fa-arrow-left" aria-hidden="true" style=""></i>
-				</a>
-				<a href="#popup1" id="arrow" style="display:inline-block;">
-					<i class="fa fa-info-circle" aria-hidden="true" style="padding-left:83px;"></i>
-				</a>
-				<a href="rec_index.html" id="arrow" style="display:inline-block;">
-					<i class="fa fa-home" aria-hidden="true" style="padding-left:0;"></i>
-				</a>
-				<a href="economic_index.html" id="arrow" style="display:inline-block;">
-					<i class="fa fa-arrow-right" aria-hidden="true" style="padding-left:82px;"></i>
-				</a>
+				<div id="pageChange">
+					<a href="activities_index.html" id="arrow" style="display:inline-block;">
+						<i class="fa fa-arrow-left" aria-hidden="true" style=""></i>
+					</a>
+					<a href="#popup1" id="arrow" style="display:inline-block;">
+						<i class="fa fa-info-circle" aria-hidden="true" style="padding-left:83px;"></i>
+					</a>
+					<a href="rec_index.html" id="arrow" style="display:inline-block;">
+						<i class="fa fa-home" aria-hidden="true" style="padding-left:0;"></i>
+					</a>
+					<a href="economic_index.html" id="arrow" style="display:inline-block;">
+						<i class="fa fa-arrow-right" aria-hidden="true" style="padding-left:82px;"></i>
+					</a>
+				</div>
 			</div>
 		</div>
     	<div id="map" style="width: 100%; height: 100%;"></div>
@@ -413,34 +414,40 @@
 			fish.clearLayers();
     		$.getJSON('assets/chinook.json').done(addFishData);
     		$("#checkbox").prop("checked", false);
-    		run = 0
+    		run = 0;
+    		fish.eachLayer(handleLayer);
 		}
 		if (data == 2){
 			fish.clearLayers();
     		$.getJSON('assets/steelhead.json').done(addFishData);
-    		run = 0
+    		run = 0;
+    		fish.eachLayer(handleLayer);
 		}
 		if (data == 3){
 			fish.clearLayers();
     		$.getJSON('assets/coho.json').done(addFishData);
-    		run = 0
+    		run = 0;
+    		fish.eachLayer(handleLayer);
 		}
 		if (data == 4){
 			fish.clearLayers();
     		$.getJSON('assets/chum.json').done(addFishData);
     		$("#checkbox2").prop("checked", false);
-    		run = 0
+    		run = 0;
+    		fish.eachLayer(handleLayer);
 		}
 		if (data == 5){
 			fish.clearLayers();
     		$.getJSON('assets/pink.json').done(addFishData);
     		$("#checkbox3").prop("checked", false);
-    		run = 0
+    		run = 0;
+    		fish.eachLayer(handleLayer);
 		}
 		if (data == 6){
 			fish.clearLayers();
     		$.getJSON('assets/sockeye.json').done(addFishData);
-    		run = 0
+    		run = 0;
+    		fish.eachLayer(handleLayer);
 		}
 	}
 

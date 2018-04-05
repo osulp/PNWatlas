@@ -15,9 +15,9 @@
     
     <link rel="shortcut icon" href="img/pnw.ico" type="image/x-icon">
     
+     <script src="js/perfect-scrollbar.js"></script>
     <script src="https://unpkg.com/leaflet@1.0.2/dist/leaflet.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-    <script src="js/perfect-scrollbar.js"></script>
     <script src="js/leaflet-search.js"></script>
     <script src="js/leaflet_pattern.js"></script>
     <script src="https://d3js.org/topojson.v1.min.js"></script>
@@ -30,60 +30,59 @@
 		</button>
 		<div id="infoPanel">
 			<div id="top">
-			<h1>Parks & Protected Areas</h1>
-			<img src="img/park_icon.png" id="titleImage"> <br/>
-			<!--<input type="text" name="search" placeholder="Search for a park..."><br/><br/>-->
-			<div id="findbox"></div>
-			<h2 id="title">Park Type</h2><img src="img/people.png" id="image2" style="display:inline-block; float:right;"> 
-			<br>	
-			<div id ="parkLegend">
-				<div class = "legendContainer"><b id ="legend1" class="legend" style="background:#43765d; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b></div><p>&nbsp</p><p id="leg1">&nbspNational Forest<sup class="tooltip">?<span class="tooltiptext">Federally protected and managed forest and woodland areas.</span></sup></p><br/>
-				<div class = "legendContainer"><b id ="legend2" class="legend" style="background:#28bd98; border-left:black 2px solid; border-right:black 2px solid;"></b></div><p>&nbsp</p><p id="leg2">&nbspNational Wildlife<sup class="tooltip">?<span class="tooltiptext">Areas designated with the purpose of conserving fish, wildlife and plants.</span></sup></p><br/>
-				<div class = "legendContainer"><b id ="legend3" class="legend" style="background:#95d964; border-left:black 2px solid; border-right:black 2px solid;"></b></div><p>&nbsp</p><p id="leg3">&nbspNational Park<sup class="tooltip">?<span class="tooltiptext">Includes National Parks, Monuments, Scenic Areas, Volcanic Areas, and Recreation Areas.</span></sup></p><br/>
-				<div class = "legendContainer"><b id ="legend4" class="legend" style="background:#9dc8b4; border-left:black 2px solid; border-right:black 2px solid;"></b></div><p>&nbsp</p><p id="leg4">&nbspState Forest<sup class="tooltip">?<span class="tooltiptext">Forested areas maintained by state forestry or national resources departments.</span></sup></p><br/>
-				<div class = "legendContainer"><b id ="legend5" class="legend" style="background:#aab955; border-left:black 2px solid; border-right:black 2px solid;"></b></div><p>&nbsp</p><p id="leg5">&nbspState Park<sup class="tooltip">?<span class="tooltiptext">Recreation areas managed by state parks and recreation bureaus.</span></sup></p><br/>
-				<div class = "legendContainer"><b id ="legend5" class="legend" style="background:#d6d6c2; border-left:black 2px solid; border-right:black 2px solid;"></b></div><p>&nbsp</p><p id="leg5">&nbspBLM Land<sup class="tooltip">?<span class="tooltiptext">Land owned by the Bureau of Land Management. Open to hunting, fishing, and other recreation activities, typically with less infrastructure.</span></sup></p><br/>
-				<div class = "legendContainer"><b id ="legend6" class="legend" style="background:repeating-linear-gradient(45deg, rgba(255,255,255,0), rgba(255,255,255,0) 10%, #407259 15%, #407259 15%); border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b></div><p>&nbsp</p><p id="leg5">&nbspWilderness Area<sup class="tooltip">?<span class="tooltiptext">Areas of federally protected wilderness. Human access is limited.</span></sup></p><br/><br/>
-				<p id="description" style="font-weight:bold; padding:0; display:block; white-space:normal; width:280px;">County/Municipal Parks are not represented in the map.</p>
-			</div>	
-			<div id ="pointLegend" style="display:none;">
-				<div class = "legendContainer"><b id ="legend1" class="circle" style="background:rgba(0,77,0,0.8); height:28px; width:28px; bottom:9px; border:none;"></b></div><p>&nbsp</p><p id="leg1">1,000+</p><br/>
-				<div class = "legendContainer"><b id ="legend2" class="circle" style="background:rgba(0,77,0,0.8); height:19px; width:19px; bottom:2px; border:none;"></b></div><p>&nbsp</p><p id="leg2">500 - 1,000</p><br/>
-				<div class = "legendContainer"><b id ="legend3" class="circle" style="background:rgba(0,77,0,0.8); height:15px; width:15px; bottom:2px; border:none;"></b></div><p>&nbsp</p><p id="leg3">250 - 500</p><br/>
-				<div class = "legendContainer"><b id ="legend4" class="circle" style="background:rgba(0,77,0,0.8); height:10px; width:10px; bottom:1px; border:none;"></b></div><p>&nbsp</p><p id="leg4">100 - 250</p><br/>
-				<div class = "legendContainer"><b id ="legend5" class="circle" style="background:rgba(0,77,0,0.8); height:5px; width:5px; bottom:1px; border:none;"></b></div><p>&nbsp</p><p id="leg5">Less than 100</p><br/><br/>
-				<p id="description" style="font-weight:bold; padding:0; display:block; white-space:normal; width:280px;">Annual visitation in thousands of day-use visitors.</p>
-			</div>
-			<br/><br/><br/>
+				<h1>Parks & Protected Areas</h1>
+				<img src="img/park_icon.png" id="titleImage"> <br/>
+				<div id="findbox"></div>
 			</div>
 			<div id="attribution">
-				<p style="padding-right:5px; padding-top:3px; padding-left:0px; font-weight:bold; position:relative; float:left;">Parks</p>
+				<div id="text">
+					<div id ="parkLegend">
+						<h2 id="title">Park Type</h2><img src="img/people.png" id="image2" style="display:inline-block; margin-top:100px; right:10px;"> 
+						<div class = "legendContainer" style="height:32px;"><b id ="legend1" class="legend" style="background:#43765d; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p>&nbsp</p><p id="leg1">&nbspNational Forest<sup class="tooltip">?<span class="tooltiptext">Federally protected and managed forest and woodland areas.</span></sup></p></div>
+						<div class = "legendContainer" style="height:30px;"><b id ="legend2" class="legend" style="background:#28bd98; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2">&nbspNational Wildlife<sup class="tooltip">?<span class="tooltiptext">Areas designated with the purpose of conserving fish, wildlife and plants.</span></sup></p></div>
+						<div class = "legendContainer" style="height:30px;"><b id ="legend3" class="legend" style="background:#95d964; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg3">&nbspNational Park<sup class="tooltip">?<span class="tooltiptext">Includes National Parks, Monuments, Scenic Areas, Volcanic Areas, and Recreation Areas.</span></sup></p></div>
+						<div class = "legendContainer" style="height:30px;"><b id ="legend4" class="legend" style="background:#9dc8b4; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg4">&nbspState Forest<sup class="tooltip">?<span class="tooltiptext">Forested areas maintained by state forestry or national resources departments.</span></sup></p></div>
+						<div class = "legendContainer" style="height:30px;"><b id ="legend5" class="legend" style="background:#aab955; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg5">&nbspState Park<sup class="tooltip">?<span class="tooltiptext">Recreation areas managed by state parks and recreation bureaus.</span></sup></p></div>
+						<div class = "legendContainer" style="height:30px;"><b id ="legend5" class="legend" style="background:#d6d6c2; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg5">&nbspBLM Land<sup class="tooltip">?<span class="tooltiptext">Land owned by the Bureau of Land Management. Open to hunting, fishing, and other recreation activities, typically with less infrastructure.</span></sup></p></div>
+						<div class = "legendContainer" style="height:32px;"><b id ="legend6" class="legend" style="background:repeating-linear-gradient(45deg, rgba(255,255,255,0), rgba(255,255,255,0) 10%, #407259 15%, #407259 15%); border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p>&nbsp</p><p id="leg5">&nbspWilderness Area<sup class="tooltip">?<span class="tooltiptext">Areas of federally protected wilderness. Human access is limited.</span></sup></p></div>
+						<br/>
+						<p id="description" style="font-weight:bold; padding:0; display:block; white-space:normal; width:280px; margin-bottom:15px;">County/Municipal Parks are not represented in the map.</p>
+					</div>	
+					<div id ="pointLegend" style="display:none;">
+						<h2 id="title">Annual Visitation</h2><img src="img/people.png" id="image2" style="display:inline-block; right:10px;"> 
+						<div class = "legendContainer" style="height:32px;"><b id ="legend1" class="circle" style="background:rgba(0,77,0,0.8); height:28px; width:28px; bottom:9px; border:none;"></b><p id="leg1" style="margin-left:15px; line-height:18px;">1,000+</p></div>
+						<div class = "legendContainer" style="height:30px;"><b id ="legend2" class="circle" style="background:rgba(0,77,0,0.8); height:19px; width:19px; bottom:2px; border:none;"></b><p id="leg2" style="margin-left:22px; line-height:18px;">500 - 1,000</p></div>
+						<div class = "legendContainer" style="height:30px;"><b id ="legend3" class="circle" style="background:rgba(0,77,0,0.8); height:15px; width:15px; bottom:2px; border:none;"></b><p id="leg3" style="margin-left:26px; line-height:18px;">250 - 500</p></div>
+						<div class = "legendContainer" style="height:30px;"><b id ="legend4" class="circle" style="background:rgba(0,77,0,0.8); height:10px; width:10px; bottom:1px; border:none;"></b><p id="leg4" style="margin-left:30px; line-height:18px;">100 - 250</p></div>
+						<div class = "legendContainer" style="height:32px;"><b id ="legend5" class="circle" style="background:rgba(0,77,0,0.8); height:5px; width:5px; bottom:1px; border:none;"></b><p id="leg5" style="margin-left:35px; line-height:18px;">Less than 100</p></div>
+						<p id="description" style="font-weight:bold; padding:0; display:block; white-space:normal; width:280px;">Annual visitation in thousands of day-use visitors.</p>
+					</div>
+					<div style="margin-top:60px">
+						<p style="padding-right:5px; padding-left:0px; font-weight:bold; position:relative; float:left;">Parks</p>
 						<label class="switch">
-							<input name="checkbox_name" id="checkbox_id" type="checkbox" value="check" onclick="selectSwitch()" autocomplete="off">
+						<input name="checkbox_name" id="checkbox_id" type="checkbox" value="check" onclick="selectSwitch()" autocomplete="off">
 							<span class="slider" id="park"></span>
 						</label>
-					<p style="padding-left:5px; padding-top:3px; font-weight:bold;">Visitation</p><br/>
-				<div id="text" style="margin-top:10px;">
-						<!--<p3>While the Pacific Northwest contains a staggering amount of natural beauty, much of the most scenic land is located in arid or mountainous locations. When Euro-American settlers used the Homestead Act to move west, there were vast tracts of land undesirable for farming. This included the Cascade and Rocky Mountain forests, the high deserts of southern Oregon and Idaho, and certain tracts of the Pacific Coast Range. As a result, the federal government maintained ownership of these lands. The establishment of Yellowstone National Park in 1872 was the first event in what would be a major change in government attitudes towards conservation. Aside from Yellowstone, which has a thin sliver of area in Eastern Idaho, the first National Park in the PNW was Mount Rainier, founded in 1899, and Crater Lake, founded in 1902. Today, nearly half of all Pacific Northwest land is federally owned, primarily by the Forest Service and Bureau of Land Management. Each public land designation maintains different protections, and has different recreation opportunities. </br></br>At the state level, early efforts to create parks were hamstrung by the necessity of land acquisition. The first official state park in the Pacific Northwest was Heyburn State Park in Northern Idaho. Land for Heyburn State Park was taken from the Coeur D’Alene Indian Reservation, which surrounds it on all sides. In Oregon, the State Highway Commission originally managed state parks. Effort to create parks was spurred by the increasing popularity of the automobile, and the resulting demand for roadside campgrounds. As a result, many of Oregon’s 241 State Parks are located near state highways, and contain campsites. Washington’s State Parks began as a legislative committee in 1913, although it received no legislative funding, relying solely on user fees. Like Oregon, many of the land acquisitions made by the early Washington Parks Committee were along state highways.</br></br>In the late 20th, and early 21st centuries, all three PNW state parks and recreation bureaus have faced budgetary challenges. In Washington, a ballot measure in the early 1990s capped increases in park user fees, resulting in a revenue deficit that led to cuts in maintenance and staffing. Even as park usage dramatically increased, Washington State Parks had a multi-million dollar backlog of maintenance projects. New funding initiatives have been proposed in recent years. The Oregon Department of Parks and Recreation solved some of its budgetary woes with the use of state lottery funding. In 2017, the Governor of Oregon created a new Director of Outdoor Recreation position, with the goal of improved communication between public and private interests. Idaho, while facing major funding cuts, has prevented park closures through new retail programs, such as park passes, and camper cabin rentals. </p3>
-				-->
+						<p style="padding-left:5px; font-weight:bold;">Visitation</p><br/>
+					</div>
+					<br/>
 					<p3 style="font-weight:bold; line-height:36px;">Quick Facts:</p3><br/>
 					<p3 id="facts" style="line-height:20px;">&#9900 49% of land in the Pacific Northwest is federally owned.<br/><br/>&#9900 There are 451 total state parks in Oregon, Idaho and Washington.<br/><br/>&#9900 Olympic National Park is the most visited park in the region, receiving an annual average of over three million annual visitors</p3>
 				</div>
-				<br/>
-			</div>
-			<div id="pageChange">
-				<a href="hunting_index.html" id="arrow" style="display:inline-block;">
-					<i class="fa fa-arrow-left" aria-hidden="true" style=""></i>
-				</a>
-				<a href="#popup1" id="arrow" style="display:inline-block;">
-					<i class="fa fa-info-circle" aria-hidden="true" style="padding-left:83px;"></i>
-				</a>
-				<a href="rec_index.html" id="arrow" style="display:inline-block;">
-					<i class="fa fa-home" aria-hidden="true" style="padding-left:0;"></i>
-				</a>
-				<a href="activities_index.html" id="arrow" style="display:inline-block;">
-					<i class="fa fa-arrow-right" aria-hidden="true" style="padding-left:82px;"></i>
-				</a>
+				<div id="pageChange">
+					<a href="hunting_index.html" id="arrow" style="display:inline-block;">
+						<i class="fa fa-arrow-left" aria-hidden="true" style=""></i>
+					</a>
+					<a href="#popup1" id="arrow" style="display:inline-block;">
+						<i class="fa fa-info-circle" aria-hidden="true" style="padding-left:83px;"></i>
+					</a>
+					<a href="rec_index.html" id="arrow" style="display:inline-block;">
+						<i class="fa fa-home" aria-hidden="true" style="padding-left:0;"></i>
+					</a>
+					<a href="activities_index.html" id="arrow" style="display:inline-block;">
+						<i class="fa fa-arrow-right" aria-hidden="true" style="padding-left:82px;"></i>
+					</a>
+				</div>
 			</div>
 		</div>
     	<div id="map" style="width: 100%; height: 100%;"></div>
@@ -183,7 +182,7 @@
 		layers: 'baldricg_PNW_ATLAS:pnw_outline2_black',
         format: 'image/png',
 		maxZoom:10,
-		minZoom:5,
+		minZoom:4,
 		opacity:0.3,
 		transparent:true,
 	}).addTo(map);
@@ -192,7 +191,7 @@
 		attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
 		subdomains: 'abcd',
 		maxZoom:10,
-		minZoom:5,
+		minZoom:4,
 		tileSize:256,
 		bounds:[
 			new L.LatLng(49.56,-125.25),
