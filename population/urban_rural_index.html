@@ -25,84 +25,85 @@
 		</button>
 		<div id="infoPanel">
 			<div id="top">
-			<h1>Urban/Rural</h1>
-			<img src="img/urban_rural_icon.png" id="titleImage" style="height:60px;">
-			<div id="buttons">
-				<div class="dropdownSmall">
-  					<button class="dropbtnSmall"><b id="dataClass">Select Class</b><p id="arrow">&#9660;</p></button>
-  					<div class="dropdown-contentSmall">
-   						 <button type="button" id="classBut1" class="selectionSmall" style="background:rgba(242, 242, 242, 0.8);">Total</button>
-						 <button type="button" id="classBut2" class="selectionSmall">Urban</button>
-						 <button type="button" id="classBut3" class="selectionSmall">Rural</button>
- 				   </div>
+				<h1>Urban/Rural</h1>
+				<img src="img/urban_rural_icon.png" id="titleImage" style="height:60px;">
+				<div id="buttons">
+					<div class="dropdownSmall">
+						<button class="dropbtnSmall"><b id="dataClass">Select Class</b><p id="arrow">&#9660;</p></button>
+						<div class="dropdown-contentSmall">
+							 <button type="button" id="classBut1" class="selectionSmall" style="background:rgba(242, 242, 242, 0.8);">Total</button>
+							 <button type="button" id="classBut2" class="selectionSmall">Urban</button>
+							 <button type="button" id="classBut3" class="selectionSmall">Rural</button>
+					   </div>
+					</div>
+					<div class="dropdownSmall">
+						<button class="dropbtnSmall"><b id="dataType">Select Data</b><p id="arrow">&#9660;</p></button>
+						<div class="dropdown-contentSmall">
+							 <button type="button" id="but1" class="selectionSmall" style="background:rgba(242, 242, 242, 0.8);">Classification</button>
+							 <button type="button" id="but2" class="selectionSmall">Income</button>
+							 <button type="button" id="but3" class="selectionSmall">Education</button>
+							 <button type="button" id="but4" class="selectionSmall">Employment</button>
+					   </div>
+					</div>
 				</div>
-				<div class="dropdownSmall">
-  					<button class="dropbtnSmall"><b id="dataType">Select Data</b><p id="arrow">&#9660;</p></button>
-  					<div class="dropdown-contentSmall">
-   						 <button type="button" id="but1" class="selectionSmall" style="background:rgba(242, 242, 242, 0.8);">Classification</button>
-						 <button type="button" id="but2" class="selectionSmall">Income</button>
-						 <button type="button" id="but3" class="selectionSmall">Education</button>
-						 <button type="button" id="but4" class="selectionSmall">Employment</button>
- 				   </div>
-				</div>
-			</div>
-			<div id="leg_1" style="display:unset;">
-				<h2 id="title" style="display:block; width:280px; white-space:normal;">Urban/Rural Classification</h2><img src="img/class_icon.png" style="display:inline-block; float:right; width: 90px; height:70px; position:absolute; margin-top:-5px; right:50px;">
-				<div><b id="leg1_block" style="background:#80bfff; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p>&nbsp</p><p id="leg1" style="margin-left:5px;">Urbanized Area</p><br/></div>
-				<div><b id="leg2_block" style="background:#ffff80; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2" style="margin-left:5px;">Urban Cluster</p><br/></div>
-				<div><b id="leg3_block" style="background:#9fdf9f; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p>&nbsp</p><p id="leg3" style="margin-left:5px;">Rural Area</p><br/></div>
-				<br/>
-				<p id="description" style="font-weight:bold; text-align:justify; white-space:normal; padding-left:0px; width:280px; display:block; position:relative;">Urbanized Area/Urban Cluster classifications determined by U.S Census Bureau.</p>
-			</div>	
-			<div id="leg_2" style="display:none;">
-				<h2 id="title" style="display:block; width:280px; white-space:normal;">Per Capita Annual Income</h2><img src="img/income_icon.png" id="image3" style="display:inline-block; float:right;width: 90px; height: 90px;position:absolute; margin-top:10px; right:50px;">
-				<div><b id="leg1_block" style="background:#006837; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p>&nbsp</p><p id="leg1" style="margin-left:5px;">$45+</p><br/></div>
-				<div><b id="leg2_block" style="background:#31a354; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2" style="margin-left:5px;">$35 - $45</p><br/></div>
-				<div><b id="leg3_block" style="background:#78c679; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2" style="margin-left:5px;">$25 - $35</p><br/></div>
-				<div><b id="leg4_block" style="background:#c2e699; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2" style="margin-left:5px;">$15 - $25</p><br/></div>
-				<div><b id="leg5_block" style="background:#ffffcc; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p>&nbsp</p><p id="leg3" style="margin-left:5px;">Less than $15</p><br/></div>
-				<br/>
-				<p id="description" style="font-weight:bold; text-align:justify; white-space:normal; padding-left:0px; width:280px; display:block; position:relative;">Average annual per capita income in thousands of dollars. Data from 2011-2015 American Community Survey.</p>
-			</div>	
-			<div id="leg_3" style="display:none;">
-				<h2 id="title" style="display:block; width:280px; white-space:normal;">% With Bachelor's Degree</h2><img src="img/education_icon.png" id="image4" style="display:inline-block; float:right;width: 90px; height: 90px; position:absolute; margin-top:0px; right:50px;">
-				<div><b id="leg1_block" style="background:#b30000; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p>&nbsp</p><p id="leg1" style="margin-left:5px;">45+</p><br/></div>
-				<div><b id="leg2_block" style="background:#e34a33; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2" style="margin-left:5px;">35 - 45</p><br/></div>
-				<div><b id="leg3_block" style="background:#fc8d59; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2" style="margin-left:5px;">25 - 35</p><br/></div>
-				<div><b id="leg4_block" style="background:#fdcc8a; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2" style="margin-left:5px;">15 -  25</p><br/></div>
-				<div><b id="leg5_block" style="background:#fef0d9; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p>&nbsp</p><p id="leg3" style="margin-left:5px;">Less than 15</p><br/></div>
-				<br/>
-				<p id="description" style="font-weight:bold; text-align:justify; white-space:normal; padding-left:0px; width:280px; display:block; position:relative;">Percent of population over 25 with a bachelor's degree. Data from 2011-2015 American Community Survey.</p>
-			</div>
-			<div id="leg_4" style="display:none;">
-				<h2 id="title" style="display:block; width:280px; white-space:normal;">% Unemployment</h2><img src="img/employment_icon.png" id="image5" style="display:inline-block; float:right; width: 110px; height: 100px; position:absolute;margin-top:0px;right:35px;">
-				<div><b id="leg1_block" style="background:#810f7c; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p>&nbsp</p><p id="leg1" style="margin-left:5px;">12.5+</p><br/></div>
-				<div><b id="leg2_block" style="background:#8856a7; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2" style="margin-left:5px;">10 -  12.5</p><br/></div>
-				<div><b id="leg3_block" style="background:#8c96c6; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2" style="margin-left:5px;">7.5 -  10</p><br/></div>
-				<div><b id="leg4_block" style="background:#b3cde3; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2" style="margin-left:5px;">5 -  2.5</p><br/></div>
-				<div><b id="leg5_block" style="background:#edf8fb; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p>&nbsp</p><p id="leg3" style="margin-left:5px;">Less than 5</p><br/></div>
-				<br/>
-				<p id="description" style="font-weight:bold; text-align:justify; white-space:normal; padding-left:0px; width:280px; display:block; position:relative;">Percent of unemployed workforce. Data from 2011-2015 American Community Survey.</p>
-			</div>
 			</div>
 			<div id="attribution">
-				<div id="text" style="margin-top:10px;">
+				<div id="text">
+					<div id="leg_1" style="display:unset;">
+						<h2 id="title" style="display:block; width:280px; white-space:normal;">Urban/Rural Classification</h2><img src="img/class_icon.png" style="display:inline-block; float:right; width: 90px; height:70px; position:absolute; margin-top:10px; right:15px;">
+						<div style="height:32px;"><b id="leg1_block" style="background:#80bfff; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p>&nbsp</p><p id="leg1" style="margin-left:5px;">Urbanized Area</p></div>
+						<div style="height:30px;"><b id="leg2_block" style="background:#ffff80; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2" style="margin-left:5px;">Urban Cluster</p></div>
+						<div style="height:32px;"><b id="leg3_block" style="background:#9fdf9f; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p>&nbsp</p><p id="leg3" style="margin-left:5px;">Rural Area</p></div>
+						<br/>
+						<p id="description" style="font-weight:bold; text-align:justify; white-space:normal; padding-left:0px; width:280px; display:block; position:relative;">Urbanized Area/Urban Cluster classifications determined by U.S Census Bureau.</p>
+					</div>	
+					<div id="leg_2" style="display:none;">
+						<h2 id="title" style="display:block; width:280px; white-space:normal;">Per Capita Annual Income</h2><img src="img/income_icon.png" id="image3" style="display:inline-block; float:right;width: 90px; height: 90px;position:absolute; margin-top:20px; right:20px;">
+						<div style="height:32px;"><b id="leg1_block" style="background:#006837; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p>&nbsp</p><p id="leg1" style="margin-left:5px;">$45+</p></div>
+						<div style="height:30px;"><b id="leg2_block" style="background:#31a354; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2" style="margin-left:5px;">$35 - $45</p></div>
+						<div style="height:30px;"><b id="leg3_block" style="background:#78c679; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2" style="margin-left:5px;">$25 - $35</p></div>
+						<div style="height:30px;"><b id="leg4_block" style="background:#c2e699; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2" style="margin-left:5px;">$15 - $25</p></div>
+						<div style="height:32px;"><b id="leg5_block" style="background:#ffffcc; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p>&nbsp</p><p id="leg3" style="margin-left:5px;">Less than $15</p></div>
+						<br/>
+						<p id="description" style="font-weight:bold; text-align:justify; white-space:normal; padding-left:0px; width:280px; display:block; position:relative;">Average annual per capita income in thousands of dollars. Data from 2011-2015 American Community Survey.</p>
+					</div>	
+					<div id="leg_3" style="display:none;">
+						<h2 id="title" style="display:block; width:280px; white-space:normal;">% With Bachelor's Degree</h2><img src="img/education_icon.png" id="image4" style="display:inline-block; float:right;width: 90px; height: 90px; position:absolute; margin-top:20px; right:20px;">
+						<div style="height:32px;"><b id="leg1_block" style="background:#b30000; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p>&nbsp</p><p id="leg1" style="margin-left:5px;">45+</p></div>
+						<div style="height:30px;"><b id="leg2_block" style="background:#e34a33; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2" style="margin-left:5px;">35 - 45</p></div>
+						<div style="height:30px;"><b id="leg3_block" style="background:#fc8d59; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2" style="margin-left:5px;">25 - 35</p></div>
+						<div style="height:30px;"><b id="leg4_block" style="background:#fdcc8a; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2" style="margin-left:5px;">15 -  25</p></div>
+						<div style="height:32px;"><b id="leg5_block" style="background:#fef0d9; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p>&nbsp</p><p id="leg3" style="margin-left:5px;">Less than 15</p></div>
+						<br/>
+						<p id="description" style="font-weight:bold; text-align:justify; white-space:normal; padding-left:0px; width:280px; display:block; position:relative;">Percent of population over 25 with a bachelor's degree. Data from 2011-2015 American Community Survey.</p>
+					</div>
+					<div id="leg_4" style="display:none;">
+						<h2 id="title" style="display:block; width:280px; white-space:normal;">% Unemployment</h2><img src="img/employment_icon.png" id="image5" style="display:inline-block; float:right; width: 110px; height: 100px; position:absolute;margin-top:20px; right:15px;">
+						<div style="height:32px;"><b id="leg1_block" style="background:#810f7c; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p>&nbsp</p><p id="leg1" style="margin-left:5px;">12.5+</p></div>
+						<div style="height:30px;"><b id="leg2_block" style="background:#8856a7; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2" style="margin-left:5px;">10 -  12.5</p></div>
+						<div style="height:30px;"><b id="leg3_block" style="background:#8c96c6; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2" style="margin-left:5px;">7.5 -  10</p></div>
+						<div style="height:30px;"><b id="leg4_block" style="background:#b3cde3; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2" style="margin-left:5px;">5 -  2.5</p></div>
+						<div style="height:32px;"><b id="leg5_block" style="background:#edf8fb; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p>&nbsp</p><p id="leg3" style="margin-left:5px;">Less than 5</p></div>
+						<br/>
+						<p id="description" style="font-weight:bold; text-align:justify; white-space:normal; padding-left:0px; width:280px; display:block; position:relative;">Percent of unemployed workforce. Data from 2011-2015 American Community Survey.</p>
+					</div>	
+					</br>		
 					<p3 id="facts" style="line-height:20px;">&#9900 Urbanized Areas: areas with at least 50,000 people.<br/><br/>&#9900 Urban Clusters: Areas between 2,500 and 50,000 people.<br/><br/>&#9900 Rural Areas: All population, housing, and territory not included within an urban area or cluster.</p3>		
 				</div>
-			<div id="pageChange">
-				<a href="water_use_index.html" id="arrow" style="display:inline-block;">
-					<i class="fa fa-arrow-left" aria-hidden="true" style=""></i>
-				</a>
-				<a href="#popup1" id="arrow" style="display:inline-block;">
-					<i class="fa fa-info-circle" aria-hidden="true" style="padding-left:83px;"></i>
-				</a>
-				<a href="population_index.html" id="arrow" style="display:inline-block;">
-					<i class="fa fa-home" aria-hidden="true" style="padding-left:0;"></i>
-				</a>
-				<a href="watershed_index.html" id="arrow" style="display:inline-block;">
-					<i class="fa fa-arrow-right" aria-hidden="true" style="padding-left:82px;"></i>
-				</a>
-			</div>
+				<div id="pageChange">
+					<a href="water_use_index.html" id="arrow" style="display:inline-block;">
+						<i class="fa fa-arrow-left" aria-hidden="true" style=""></i>
+					</a>
+					<a href="#popup1" id="arrow" style="display:inline-block;">
+						<i class="fa fa-info-circle" aria-hidden="true" style="padding-left:83px;"></i>
+					</a>
+					<a href="population_index.html" id="arrow" style="display:inline-block;">
+						<i class="fa fa-home" aria-hidden="true" style="padding-left:0;"></i>
+					</a>
+					<a href="watershed_index.html" id="arrow" style="display:inline-block;">
+						<i class="fa fa-arrow-right" aria-hidden="true" style="padding-left:82px;"></i>
+					</a>
+				</div>
 			</div>
 		</div>
     	<div id="map" style="width: 100%; height: 100%;"></div>
@@ -230,7 +231,6 @@
         	interactive: false
         }).addTo(map);
     });	
-	
 	
 	map.createPane('labels');
 	map.getPane('labels').style.pointerEvents = 'none';

@@ -27,47 +27,48 @@
 		</button>
 		<div id="infoPanel" style="background-color: rgba(255,255,255,1);">
 			<div id="top">
-			<h1 >Demographics</h1>
-			<img src="img/migration_icon.png" id="titleImage" style="display:inline-block;">
-			<div id="buttons">
-				<div class="dropdown">
-  					<button class="dropbtn"><b id="dataType">Select Data</b><p id="arrow">&#9660;</p></button>
-  					<div class="dropdown-content">
-   						 <button type="button" id="but1" class="selection" style="background:rgba(242, 242, 242, 0.8);">Race</button>
-						 <button type="button" id="but2" class="selection">Age</button>
- 				   </div>
+				<h1 >Demographics</h1>
+				<img src="img/migration_icon.png" id="titleImage" style="display:inline-block;">
+				<div id="buttons">
+					<div class="dropdown">
+						<button class="dropbtn"><b id="dataType">Select Data</b><p id="arrow">&#9660;</p></button>
+						<div class="dropdown-content">
+							 <button type="button" id="but1" class="selection" style="background:rgba(242, 242, 242, 0.8);">Race</button>
+							 <button type="button" id="but2" class="selection">Age</button>
+					   </div>
+					</div>
 				</div>
 			</div>
-			<div id='leg_1' style="display:unset;">
-				<p id="description" style="font-weight:bold; margin-top: 10px;text-align:justify; white-space:normal; padding-left:0px; width:280px; display:block; position:relative; line-height:20px;">Map colored based on a composite of racial population percentages. More intense colors suggest a greater percentage of a single race, while browns and grays suggest racial diversity.</p>
-			</div>
-			<div id='leg_2' style="display:none;">
-				<h2 id="title" style="display:block; width:280px; white-space:normal;">Median Age</h2>
-				<b id="leg2_block" style="background:linear-gradient(to right, #fcfbfd, #dadaeb, #9e9ac8, #6a51a3, #3f007d); height:32px; border:black 2px solid; width: 280px;"></b><br/><br/>
-				<p style="padding-left:0; word-spacing:47px;">25 35 45 55 65</p></br>
-			</div>
-			
-			</div>
 			<div id="attribution">
-				<br/>
-				<h2 style="margin-top:0;">Hover Over Map for Details</h2>
-				<canvas id="chartContainer" style="height: 160px ; width: 280px; display:unset; margin-left:-10px;"></canvas>
-				<canvas id="chartContainer2" style="height: 260px ; width: 280px; display:none;"></canvas>
-				<p id="description2" style="font-weight:bold; text-align:justify; white-space:normal; padding-left:0px; width:280px; display:block; position:relative; line-height:20px;">Population of each racial group within one census block group.</p>
-			</div>
-			<div id="pageChange">
-				<a href="water_use_index.html" id="arrow" style="display:inline-block;">
-					<i class="fa fa-arrow-left" aria-hidden="true" style=""></i>
-				</a>
-				<a href="#popup1" id="arrow" style="display:inline-block;">
-					<i class="fa fa-info-circle" aria-hidden="true" style="padding-left:83px;"></i>
-				</a>
-				<a href="population_index.html" id="arrow" style="display:inline-block;">
-					<i class="fa fa-home" aria-hidden="true" style="padding-left:0;"></i>
-				</a>
-				<a href="watershed_index.html" id="arrow" style="display:inline-block;">
-					<i class="fa fa-arrow-right" aria-hidden="true" style="padding-left:82px;"></i>
-				</a>
+				<div id="text">
+					<div id='leg_1' style="display:unset;">
+						<p id="description" style="font-weight:bold; margin-top: 10px;text-align:justify; white-space:normal; padding-left:0px; width:280px; display:block; position:relative;">Map colored based on a composite of racial population percentages. More intense colors suggest a greater percentage of a single race, while browns and grays suggest racial diversity.</p>
+					</div>
+					<div id='leg_2' style="display:none;">
+						<h2 id="title" style="display:block; width:280px; white-space:normal;">Median Age</h2>
+						<b id="leg2_block" style="background:linear-gradient(to right, #fcfbfd, #dadaeb, #9e9ac8, #6a51a3, #3f007d); height:32px; border:black 2px solid; width: 280px;"></b><br/>
+						<p style="padding-left:0; word-spacing:42px;">25 35 45 55 65</p></br>
+					</div>
+					<br/>
+					<h2 style="margin-top:0;">Hover Over Map for Details</h2>
+					<canvas id="chartContainer" style="height: 160px ; width: 280px; display:unset; margin-left:-10px;"></canvas>
+					<canvas id="chartContainer2" style="height: 260px ; width: 280px; display:none;"></canvas>
+					<p id="description2" style="font-weight:bold; margin-top: 10px;text-align:justify; white-space:normal; padding-left:0px; width:280px; display:block; position:relative;">Population of each racial group within one census block group.</p>
+				</div>
+				<div id="pageChange">
+					<a href="water_use_index.html" id="arrow" style="display:inline-block;">
+						<i class="fa fa-arrow-left" aria-hidden="true" style=""></i>
+					</a>
+					<a href="#popup1" id="arrow" style="display:inline-block;">
+						<i class="fa fa-info-circle" aria-hidden="true" style="padding-left:83px;"></i>
+					</a>
+					<a href="population_index.html" id="arrow" style="display:inline-block;">
+						<i class="fa fa-home" aria-hidden="true" style="padding-left:0;"></i>
+					</a>
+					<a href="watershed_index.html" id="arrow" style="display:inline-block;">
+						<i class="fa fa-arrow-right" aria-hidden="true" style="padding-left:82px;"></i>
+					</a>
+				</div>
 			</div>
 		</div>
     	<div id="map" style="width: 100%; height: 100%;"></div>
@@ -437,7 +438,7 @@
 	document.getElementsByClassName("leaflet-control-attribution")[0].style.visibility = "hidden";
 	
 	//add scrolling capabilities to text box
-     var container = document.getElementById('attribution');
+     var container = document.getElementById('text');
 		Ps.initialize(container);
 	
 	//update text box to be correct size

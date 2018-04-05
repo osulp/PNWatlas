@@ -30,54 +30,53 @@
 	</button>
     <div id="infoPanel">
 			<div id="top">
-			<h1>Internal Migration</h1>
-			<img src="img/migration_icon.png" id="titleImage" style="display:inline-block;">
-			<div id="buttons">
-				<div class="dropdown">
-  					<button class="dropbtn"><b id="dataType">Select Flow</b><p id="arrow">&#9660;</p></button>
-  					<div class="dropdown-content">
-   						 <button type="button" id="but1" class="selection" style="background:rgba(242, 242, 242, 0.8);">Net Flow</button>
-						 <button type="button" id="but2" class="selection">Inflow</button>
-						 <button type="button" id="but3" class="selection">Outflow</button>
- 				   </div>
+				<h1>Internal Migration</h1>
+				<img src="img/migration_icon.png" id="titleImage" style="display:inline-block;">
+				<div id="buttons">
+					<div class="dropdown">
+						<button class="dropbtn"><b id="dataType">Select Flow</b><p id="arrow">&#9660;</p></button>
+						<div class="dropdown-content">
+							 <button type="button" id="but1" class="selection" style="background:rgba(242, 242, 242, 0.8);">Net Flow</button>
+							 <button type="button" id="but2" class="selection">Inflow</button>
+							 <button type="button" id="but3" class="selection">Outflow</button>
+					   </div>
+					</div>
 				</div>
 			</div>
-			<br/>
-			<h2 id="title" class="large">Select a County</h2><br/>
-			<h2 id="title1">Net Migration per 1000 People</h2><img src="img/migration_icon2.png" id="migration" style="display:inline-block; float:right;">
-			<div><b id="leg1_block" style="background:#99d6ff; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p>&nbsp</p><p id="leg1" style="margin-left:15px;">25+</p><br/></div>
-			<div><b id="leg2_block" style="background:#ccebff; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2" style="margin-left:15px;">5 to 25</p><br/></div>
-			<div><b id="leg3_block" style="background:#f2f2f2; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg3" style="margin-left:15px;">-5 to 5</p><br/></div>
-			<div><b id="leg4_block" style="background:#ffe6cc; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg4" style="margin-left:15px;">-25 to -5</p><br/></div>
-			<div><b id="leg5_block" style="background:#ffce99; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p>&nbsp</p><p id="leg5" style="margin-left:15px;">Less than -25</p><br/></div>
-			<p id="description1" style="font-weight:bold; text-align:justify; white-space:normal; padding-left:0px; width:280px; display:block; position:relative;font-size:14px; padding-top:10px;">Net migration (inflow - outflow) per 1000 people per county. Estimates from 2011-2015.</p>
-			
-			<h2 id="title">Migration Flow</h2>
-			<div id ="none"><p id="leg1" style="padding-left:0px; font-size:14px; font-weight:bold;">Inflow</p></div><div id ="none" style="padding-left:150px;"><p id="leg1" style="padding-left:0px; font-size:14px; font-weight:bold;">Outflow</p></div><br/>
-			<div id ="none"><hr style="color:#4db8ff; width:35px; float:left; height:1px; background-color:#4db8ff; line-height:20px; vertical-align:middle; display:inline; border:none;"/><p id="leg1" style="padding-left:5px;">0 to 25</p></div><div id ="none" style="padding-left:150px;"><hr style="color:#ff9c33; width:35px; float:left; height:1px; background-color:#ff9c33; line-height:20px; vertical-align:middle; display:inline; border:none;"/><p id="leg1" style="padding-left:5px;">0 to 25</p></div><br/>
-			<div id ="none"><hr style="color:#0099ff; width:35px; float:left; height:2px; background-color:#0099ff; line-height:20px; vertical-align:middle; display:inline; border:none;"/><p id="leg1" style="padding-left:5px;">25 - 100</p></div><div id ="none" style="padding-left:150px;"><hr style="color:#e67700; width:35px; float:left; height:2px; background-color:#e67700; line-height:20px; vertical-align:middle; display:inline; border:none;"/><p id="leg1" style="padding-left:5px;">25 to 100</p></div><br/>
-			<div id ="none"><hr style="color:#006bb3; width:35px; float:left; height:4px; background-color:#006bb3; line-height:20px; vertical-align:middle; display:inline; border:none;"/><p id="leg1" style="padding-left:5px;">100+</p></div><div id ="none" style="padding-left:150px;"><hr style="color:#e67700; width:35px; float:left; height:4px; background-color:#e67700; line-height:20px; vertical-align:middle; display:inline; border:none;"/><p id="leg1" style="padding-left:5px;">100+</p></div><br/>
-			<p id="description" style="font-weight:bold; text-align:justify; white-space:normal; padding-left:0px; width:280px; display:inline-block; font-size:14px; position:relative;">Net migration (inflow - outflow) between counties. Negative values represent net outflow between counties, while positive values represent net inflow.</p>
-			
-			</div>
+			</br>
 			<div id="attribution">
-				<div id="text" style="margin-top:10px;">
-					
+				<div id="text">
+					<h2 id="title" class="large">Select a County</h2><br/>
+					<h2 id="title1">Net Migration per 1000 People</h2><img src="img/migration_icon2.png" id="migration" style="display:inline-block; right:10px; margin-top:75px;">
+					<div style="height:32px;"><b id="leg1_block" style="background:#99d6ff; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p>&nbsp</p><p id="leg1" style="margin-left:15px;">25+</p></div>
+					<div style="height:30px;"><b id="leg2_block" style="background:#ccebff; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2" style="margin-left:15px;">5 to 25</p></div>
+					<div style="height:30px;"><b id="leg3_block" style="background:#f2f2f2; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg3" style="margin-left:15px;">-5 to 5</p></div>
+					<div style="height:30px;"><b id="leg4_block" style="background:#ffe6cc; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg4" style="margin-left:15px;">-25 to -5</p></div>
+					<div style="height:32px;"><b id="leg5_block" style="background:#ffce99; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p>&nbsp</p><p id="leg5" style="margin-left:15px;">Less than -25</p></div>
+					<p id="description" style="font-weight:bold; text-align:justify; white-space:normal; padding-left:0px; width:280px; display:block; position:relative; padding-top:10px;">Net migration (inflow - outflow) per 1000 people per county. Estimates from 2011-2015.</p>
+			
+					<h2 id="title" style="margin-bottom:5px;"">Migration Flow</h2>
+					<div id ="none"><p id="leg1" style="padding-left:0px; font-weight:bold;">Inflow</p></div><div id ="none" style="padding-left:150px;"><p id="leg1" style="padding-left:0px; font-weight:bold;">Outflow</p></div><br/><br/>
+					<div id ="none"><hr style="color:#4db8ff; width:35px; float:left; height:1px; background-color:#4db8ff; line-height:20px; vertical-align:middle; display:inline; border:none;"/><p id="leg1" style="padding-left:10px; margin-top:-5px;">0 to 25</p></div><div id ="none" style="padding-left:150px;"><hr style="color:#ff9c33; width:35px; float:left; height:1px; background-color:#ff9c33; line-height:20px; vertical-align:middle; display:inline; border:none;"/><p id="leg1" style="padding-left:10px; margin-top:-5px;">0 to 25</p></div><br/>
+					<div id ="none"><hr style="color:#0099ff; width:35px; float:left; height:2px; background-color:#0099ff; line-height:20px; vertical-align:middle; display:inline; border:none;"/><p id="leg1" style="padding-left:10px; margin-top:-5px;">25 - 100</p></div><div id ="none" style="padding-left:150px;"><hr style="color:#e67700; width:35px; float:left; height:2px; background-color:#e67700; line-height:20px; vertical-align:middle; display:inline; border:none;"/><p id="leg1" style="padding-left:10px; margin-top:-5px;">25 to 100</p></div><br/>
+					<div id ="none"><hr style="color:#006bb3; width:35px; float:left; height:4px; background-color:#006bb3; line-height:20px; vertical-align:middle; display:inline; border:none;"/><p id="leg1" style="padding-left:10px; margin-top:-5px;">100+</p></div><div id ="none" style="padding-left:150px;"><hr style="color:#e67700; width:35px; float:left; height:4px; background-color:#e67700; line-height:20px; vertical-align:middle; display:inline; border:none;"/><p id="leg1" style="padding-left:10px; margin-top:-5px;">100+</p></div><br/>
+					<p id="description" style="font-weight:bold; text-align:justify; white-space:normal; padding-left:0px; width:280px; display:inline-block; position:relative;">Net migration (inflow - outflow) between counties. Negative values represent net outflow between counties, while positive values represent net inflow.</p>
+			
 				</div>
-			</div>
-			<div id="pageChange">
-				<a href="water_use_index.html" id="arrow" style="display:inline-block;">
-					<i class="fa fa-arrow-left" aria-hidden="true" style=""></i>
-				</a>
-				<a href="#popup1" id="arrow" style="display:inline-block;">
-					<i class="fa fa-info-circle" aria-hidden="true" style="padding-left:83px;"></i>
-				</a>
-				<a href="population_index.html" id="arrow" style="display:inline-block;">
-					<i class="fa fa-home" aria-hidden="true" style="padding-left:0;"></i>
-				</a>
-				<a href="watershed_index.html" id="arrow" style="display:inline-block;">
-					<i class="fa fa-arrow-right" aria-hidden="true" style="padding-left:82px;"></i>
-				</a>
+				<div id="pageChange">
+					<a href="water_use_index.html" id="arrow" style="display:inline-block;">
+						<i class="fa fa-arrow-left" aria-hidden="true" style=""></i>
+					</a>
+					<a href="#popup1" id="arrow" style="display:inline-block;">
+						<i class="fa fa-info-circle" aria-hidden="true" style="padding-left:83px;"></i>
+					</a>
+					<a href="population_index.html" id="arrow" style="display:inline-block;">
+						<i class="fa fa-home" aria-hidden="true" style="padding-left:0;"></i>
+					</a>
+					<a href="watershed_index.html" id="arrow" style="display:inline-block;">
+						<i class="fa fa-arrow-right" aria-hidden="true" style="padding-left:82px;"></i>
+					</a>
+				</div>
 			</div>
 		</div>
     <div id="map" style="width: 100%; height: 100%;"></div>
