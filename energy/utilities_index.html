@@ -28,66 +28,65 @@
 		</button>
 		<div id="infoPanel">
 			<div id="top">
-			<h1>Electric Utilities</h1>
-			<img src="img/utilities_icon.png" id="titleImage" style="display:inline-block;">
-			<div id="buttons">
-				<div class="dropdown">
-  					<button class="dropbtn"><b id="dataType">Select Power Type</b><p id="arrow">&#9660;</p></button>
-  					<div class="dropdown-content">
-   						 <button type="button" id="but1" class="selection" style="background:rgba(242, 242, 242, 0.8);">Total</button>
-						 <button type="button" id="but2" class="selection">Hydroelectric</button>
-						 <button type="button" id="but3" class="selection">Fossil Fuel</button>
-						 <button type="button" id="but4" class="selection">Wind</button>
-						 <button type="button" id="but5" class="selection">Solar</button>
-						 <button type="button" id="but6" class="selection">Biomass</button>
-						 <button type="button" id="but7" class="selection">Geothermal</button>
-						 <button type="button" id="but8" class="selection">Other</button>   
- 				   </div>
-				</div>
-			</div>  
-			<br/>
-			<h2 id="title" style="display:inline; width:200px; white-space:normal; font-size:24px; margin-right:10px;">SELECT UTILITY AREA</h2><br/>
-			<div id="areaLegend">	
-				<h2 id="customers" style="margin: 5px 0px;">Customers:</h2><br/>
-				<h2 id="city" style="margin: 5px 0px;">BASE CITY</h2><br/>
-				<h2 id="plants" style="margin: 5px 0px;">Owned Power Plants:</h2><br/>
-				<div id="chartLegend" style="margin-top:40px; position:absolute;">
-					<b2 style="background-color:#000000;"></b2><p style="font-size:14px;">Generated</p>
-					<b2 style="background-color:#ffffff; margin-top:30px;"></b2><p style="margin-top:30px; font-size:14px;">Purchased</p>
-				</div>
-				<canvas id="chartContainer" style="height: 100px; width: 200px; margin-left:50px; display:inline;"></canvas>
-				<h2 id="plants" style="display:inline; width:200px; white-space:normal; font-size:16px;">Net Power Supply in MWH for 2015</h2><br/>
-			</div>
-				<button type="button" id="button2" onclick="reset()" style="display:none;" >Reset Selection</button> 
+				<h1>Electric Utilities</h1>
+				<img src="img/utilities_icon.png" id="titleImage" style="display:inline-block;">
+				<div id="buttons">
+					<div class="dropdown">
+						<button class="dropbtn"><b id="dataType">Select Power Type</b><p id="arrow">&#9660;</p></button>
+						<div class="dropdown-content">
+							 <button type="button" id="but1" class="selection" style="background:rgba(242, 242, 242, 0.8);">Total</button>
+							 <button type="button" id="but2" class="selection">Hydroelectric</button>
+							 <button type="button" id="but3" class="selection">Fossil Fuel</button>
+							 <button type="button" id="but4" class="selection">Wind</button>
+							 <button type="button" id="but5" class="selection">Solar</button>
+							 <button type="button" id="but6" class="selection">Biomass</button>
+							 <button type="button" id="but7" class="selection">Geothermal</button>
+							 <button type="button" id="but8" class="selection">Other</button>   
+					   </div>
+					</div>
+				</div>  
 			</div>
 			<div id="attribution">
+				<br/>
 				<div id="text" style="margin-top:10px;">
+					<h2 id="title" style="display:inline; width:200px; white-space:normal; font-size:24px; margin-right:10px;">SELECT UTILITY AREA</h2><br/>
+					<div id="areaLegend">	
+						<h2 id="customers" style="margin: 5px 0px;">Customers:</h2><br/>
+						<h2 id="city" style="margin: 5px 0px;">BASE CITY</h2><br/>
+						<h2 id="plants" style="margin: 5px 0px;">Owned Power Plants:</h2><br/>
+						<div id="chartLegend" style="margin-top:40px; position:absolute;">
+							<b2 style="background-color:#000000;"></b2><p style="font-size:14px; margin-left:40px;margin-top:-1px;">Generated</p>
+							<b2 style="background-color:#ffffff; margin-top:30px;"></b2><p style="margin-top:30px; font-size:14px; margin-left:40px;">Purchased</p>
+						</div>
+						<canvas id="chartContainer" style="height: 100px; width: 200px; margin-left:50px; display:inline;"></canvas>
+						<h2 id="plants" style="display:inline; width:200px; white-space:normal; font-size:16px;">Net Power Supply in MWH for 2015</h2><br/>
+					</div>
+					<button type="button" id="button2" onclick="reset()" style="display:none;" >Reset Selection</button> 
 					<hr>
 					<div id = "damLegend">
-						<h3 style="margin:0; padding:0; font-size:16px;display:inline;">Power Capacity (MW)</h3><br/><img src="img/icons/total.png" id="image2">
-						<div id="damLegendSide" style="height:27px;"><div id ="size"><b class="circle" style="background:rgba(0,0,0,1); width:25px; height:25px; border: white 1px solid;"></b></div><div id="sizeLabel"><p style="padding-left:36px;">&nbsp1000+</p></div></div>
-						<div id="damLegendSide" style="height:25px;"><div id ="size"><b class="circle" style="background:rgba(0,0,0,1); width:21px; height:21px; border: white 1px solid;"></b></div><div id="sizeLabel"><p style="padding-left:36px;">&nbsp500 - 1000</p></div></div>
-						<div id="damLegendSide" style="height:24px;"><div id ="size"><b class="circle" style="background:rgba(0,0,0,1); width:18px; height:18px; border: white 1px solid;"></b></div><div id="sizeLabel"><p style="padding-left:36px;">&nbsp250 - 500</p></div></div>
-						<div id="damLegendSide" style="height:22px;"><div id ="size"><b class="circle" style="background:rgba(0,0,0,1); width:14px; height:14px; border: white 1px solid;"></b></div><div id="sizeLabel"><p style="padding-left:36px;">&nbsp50 - 250</p></div></div>
-						<div id="damLegendSide" style="height:20px;"><div id ="size"><b class="circle" style="background:rgba(0,0,0,1); width:9px; height:9px; border: white 1px solid;"></b></div><div id="sizeLabel"><p style="padding-left:36px;">&nbspLess than 50</p></div></div>
+						<h3 style="margin:0; padding:0; font-size:16px;display:inline;">Power Capacity (MW)</h3><br/><img src="img/icons/total.png" id="image2" style="right:20px; margin-top:10px;">
+						<div id="damLegendSide" style="height:27px;"><b class="circle" style="background:rgba(0,0,0,1); width:25px; height:25px; border: white 1px solid;"></b><p style="padding-left:15px;">&nbsp1000+</p></div>
+						<div id="damLegendSide" style="height:25px;"><b class="circle" style="background:rgba(0,0,0,1); width:21px; height:21px; border: white 1px solid;"></b><p style="padding-left:20px;">&nbsp500 - 1000</p></div>
+						<div id="damLegendSide" style="height:24px;"><b class="circle" style="background:rgba(0,0,0,1); width:18px; height:18px; border: white 1px solid;"></b><p style="padding-left:23px;">&nbsp250 - 500</p></div>
+						<div id="damLegendSide" style="height:22px;"><b class="circle" style="background:rgba(0,0,0,1); width:14px; height:14px; border: white 1px solid;"></b><p style="padding-left:27px;">&nbsp50 - 250</p></div>
+						<div id="damLegendSide" style="height:20px;"><b class="circle" style="background:rgba(0,0,0,1); width:9px; height:9px; border: white 1px solid;"></b><p style="padding-left:31px;">&nbspLess than 50</p></div>
 					</div>
-				</br>
-				<p3>Watersheds are independent of political boundaries, which makes watershed management challenging. An upstream water user can be in a different county, or state, or country than a downstream user, and there could be dozens of municipal water users between them. In the mid-20th century, the United States Bureau of Reclamation and Army Corps of Engineers both had a single prevailing strategy for watershed management: build dams. It has taken decades to understand the effects these widespread damming efforts have had on watershed health, not to mention the water conflicts they have created. Nowadays, basin-wide agreements are becoming more commonplace. The Columbia River Treaty was the first, in 1964, and other rivers within the region have followed with agreements of their own. Watershed Councils exist to monitor and advocate for the health of entire watersheds. Their advocacy, as well as tribal groups, have actualized efforts to remove dams throughout the region.</p3>
+					</br>
 				</div>
-			</div>
-			<div id="pageChange">
-				<a href="pollution_index.html" id="arrow" style="display:inline-block;">
-					<i class="fa fa-arrow-left" aria-hidden="true" style=""></i>
-				</a>
-				<a href="#popup1" id="arrow" style="display:inline-block;">
-					<i class="fa fa-info-circle" aria-hidden="true" style="padding-left:83px;"></i>
-				</a>
-				<a href="energy_index.html" id="arrow" style="display:inline-block;">
-					<i class="fa fa-home" aria-hidden="true" style="padding-left:0;"></i>
-				</a>
-				<a href="groundwater_index.html" id="arrow" style="display:inline-block;">
-					<i class="fa fa-arrow-right" aria-hidden="true" style="padding-left:82px;"></i>
-				</a>
+				<div id="pageChange">
+					<a href="pollution_index.html" id="arrow" style="display:inline-block;">
+						<i class="fa fa-arrow-left" aria-hidden="true" style=""></i>
+					</a>
+					<a href="#popup1" id="arrow" style="display:inline-block;">
+						<i class="fa fa-info-circle" aria-hidden="true" style="padding-left:83px;"></i>
+					</a>
+					<a href="energy_index.html" id="arrow" style="display:inline-block;">
+						<i class="fa fa-home" aria-hidden="true" style="padding-left:0;"></i>
+					</a>
+					<a href="groundwater_index.html" id="arrow" style="display:inline-block;">
+						<i class="fa fa-arrow-right" aria-hidden="true" style="padding-left:82px;"></i>
+					</a>
+				</div>
 			</div>
 		</div>
     	<div id="map" style="width:100%; height: 100%;"></div>

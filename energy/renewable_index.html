@@ -26,104 +26,100 @@
 		</button>
 		<div id="infoPanel">
 			<div id="top">
-			<h1>Renewable Energy</h1>
-			<img src="img/renewable.png" id="titleImage" style="display:inline-block;">
-			<div id="buttons">
-				<div class="dropdown">
-  					<button class="dropbtn"><b id="dataType">Select Class</b><p id="arrow">&#9660;</p></button>
-  					<div class="dropdown-content">
-   						 <button type="button" id="but1" class="selection" style="background:rgba(242, 242, 242, 0.8);">Wind</button>
-						 <button type="button" id="but2" class="selection">Solar</button>
-						 <button type="button" id="but3" class="selection">Geothermal</button>
-						 <button type="button" id="but4" class="selection">Biomass</button>
- 				   </div>
+				<h1>Renewable Energy</h1>
+				<img src="img/renewable.png" id="titleImage" style="display:inline-block;">
+				<div id="buttons">
+					<div class="dropdown">
+						<button class="dropbtn"><b id="dataType">Select Class</b><p id="arrow">&#9660;</p></button>
+						<div class="dropdown-content">
+							 <button type="button" id="but1" class="selection" style="background:rgba(242, 242, 242, 0.8);">Wind</button>
+							 <button type="button" id="but2" class="selection">Solar</button>
+							 <button type="button" id="but3" class="selection">Geothermal</button>
+							 <button type="button" id="but4" class="selection">Biomass</button>
+					   </div>
+					</div>
 				</div>
-			</div>
-			<div id="leg_1" style="display:unset;">
-				<h2 id="title" style="display:block; width:280px; white-space:normal;">Wind Energy Potential</h2><img src="img/icons/wind.png" id="image2" style="right:40px; margin-top:5px;">
-				<div><b id="leg1_block" style="background:#08519c; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p>&nbsp</p><p id="leg1" style="margin-left:5px;">Class 7</p><br/></div>
-				<div><b id="leg2_block" style="background:#3182bd; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2" style="margin-left:5px;">Class 6</p><br/></div>
-				<div><b id="leg3_block" style="background:#6baed6; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2" style="margin-left:5px;">Class 5</p><br/></div>
-				<div><b id="leg4_block" style="background:#9ecae1; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2" style="margin-left:5px;">Class 4</p><br/></div>
-				<div><b id="leg5_block" style="background:#c6dbef; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p>&nbsp</p><p id="leg3" style="margin-left:5px;">Class 3</p></div><br/>
-				<div><b id="leg6_block" style="background:#eff3ff; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p>&nbsp</p><p id="leg3" style="margin-left:5px;">Class 2</p></div><br/>
-				<br/>
-				<p id="description" style="font-weight:bold; text-align:justify; white-space:normal; padding-left:0px; width:280px; display:block; position:relative;">Wind energy potential class. Higher classes correspond with greater potential.</p>
-				<br/>
-				<p style="font-weight:bold; text-align:justify; white-space:normal; padding-left:0px; width:280px; display:block; position:relative; margin-bottom:5px;">Power capacity in MW.</p>
-				<b class="circle" style="background:black; border: 2px solid white; width:18px; height:18px; margin-bottom:3px; position:relative;"></b><p2 style="display:inline;">&nbsp50+</p2><b class="circle" style="margin-left: 10px; background:black; border: 2px solid white; width:12px; height:12px; margin-bottom:3px; position:relative;"></b><p2 style="display:inline;">&nbsp10 - 50</p2><b class="circle" style="margin-left: 10px; background:black; border: 2px solid white; width:7px; height:7px; margin-bottom:3px; position:relative;"></b><p2 style="display:inline;">&nbspLess than 10</p2><br/>
-				
-			</div>	
-			<div id="leg_2" style="display:none;">
-				<h2 id="title" style="display:block; width:280px; white-space:normal;">Solar Irradiance</h2><img src="img/icons/solar.png" id="image2" style="right:40px; margin-top:0px;">
-				<div><b id="leg1_block" style="background:#b30000; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p>&nbsp</p><p id="leg1" style="margin-left:5px;">5.5+</p><br/></div>
-				<div><b id="leg2_block" style="background:#e34a33; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2" style="margin-left:5px;">5 - 5.5</p><br/></div>
-				<div><b id="leg3_block" style="background:#fc8d59; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2" style="margin-left:5px;">4.5 - 5</p><br/></div>
-				<div><b id="leg4_block" style="background:#fdcc8a; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2" style="margin-left:5px;">4 - 4.5</p><br/></div>
-				<div><b id="leg5_block" style="background:#fef0d9; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p>&nbsp</p><p id="leg3" style="margin-left:5px;">Less than 4</p><br/></div>
-				<br/>
-				<p id="description" style="font-weight:bold; text-align:justify; white-space:normal; padding-left:0px; width:280px; display:block; position:relative;">Average daily solar irradiance in kWh/m2/day. Higher values correspond with greater solar potential.</p>
-				<br/>
-				<p style="font-weight:bold; text-align:justify; white-space:normal; padding-left:0px; width:280px; display:block; position:relative; margin-bottom:5px;">Power capacity in MW.</p>
-				<b class="circle" style="background:black; border: 2px solid white; width:18px; height:18px; margin-bottom:3px; position:relative;"></b><p2 style="display:inline;">&nbsp50+</p2><b class="circle" style="margin-left: 10px; background:black; border: 2px solid white; width:12px; height:12px; margin-bottom:3px; position:relative;"></b><p2 style="display:inline;">&nbsp10 - 50</p2><b class="circle" style="margin-left: 10px; background:black; border: 2px solid white; width:7px; height:7px; margin-bottom:3px; position:relative;"></b><p2 style="display:inline;">&nbspLess than 10</p2><br/>
-			</div>	
-			<div id="leg_3" style="display:none;">
-				<h2 id="title" style="display:block; width:280px; white-space:normal;">Geothermal Potential</h2><img src="img/icons/geothermal.png" id="image2" style="right:40px; margin-top:0px;">
-				<div><b id="leg1_block" style="background:#4b4b34; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p>&nbsp</p><p id="leg1" style="margin-left:5px;">Class 1</p><br/></div>
-				<div><b id="leg2_block" style="background:#787854; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2" style="margin-left:5px;">Class 2</p><br/></div>
-				<div><b id="leg3_block" style="background:#abab87; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2" style="margin-left:5px;">Class 3</p><br/></div>
-				<div><b id="leg4_block" style="background:#cbcbb4; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2" style="margin-left:5px;">Class 4</p><br/></div>
-				<div><b id="leg6_block" style="background:#ebebe0; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p>&nbsp</p><p id="leg3" style="margin-left:5px;">Class 5</p></div><br/>
-				<br/>
-				<p id="description" style="font-weight:bold; text-align:justify; white-space:normal; padding-left:0px; width:280px; display:block; position:relative;">Geothermal energy potential class. Lower classes correspond with greater potential.</p>
-				<br/>
-				<p style="font-weight:bold; text-align:justify; white-space:normal; padding-left:0px; width:280px; display:block; position:relative; margin-bottom:5px;">Power capacity in MW.</p>
-				<b class="circle" style="background:black; border: 2px solid white; width:18px; height:18px; margin-bottom:3px; position:relative;"></b><p2 style="display:inline;">&nbsp50+</p2><b class="circle" style="margin-left: 10px; background:black; border: 2px solid white; width:12px; height:12px; margin-bottom:3px; position:relative;"></b><p2 style="display:inline;">&nbsp10 - 50</p2><b class="circle" style="margin-left: 10px; background:black; border: 2px solid white; width:7px; height:7px; margin-bottom:3px; position:relative;"></b><p2 style="display:inline;">&nbspLess than 10</p2><br/>
-			</div>
-			<div id="leg_4" style="display:none;">
-				<h2 id="bioTitle" style="display:block; width:280px; white-space:normal;">Solid Biomass Production</h2><img src="img/icons/biomass.png" id="image2" style="right:50px; margin-top:0px;">
-				<div><b style="background:#006d2c; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p>&nbsp</p><p id="leg1_bio" style="margin-left:5px;">500+</p><br/></div>
-				<div><b style="background:#31a354; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2_bio" style="margin-left:5px;">300 - 500</p><br/></div>
-				<div><b style="background:#74c476; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg3_bio" style="margin-left:5px;">150 - 300</p><br/></div>
-				<div><b style="background:#bae4b3; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg4_bio" style="margin-left:5px;">50 - 150</p><br/></div>
-				<div><b style="background:#edf8e9; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p>&nbsp</p><p id="leg5_bio" style="margin-left:5px;">Less than 50</p></div><br/>
-				<br/>
-				<p id="bioDescription" style="font-weight:bold; text-align:justify; white-space:normal; padding-left:0px; width:280px; display:block; position:relative;">Biomass production by county in thousands of metric tons/year. Only a fraction of biomass produced is used for heat/electricity.</p>
-				<br/>
-				<p style="font-weight:bold; text-align:justify; white-space:normal; padding-left:0px; width:280px; display:block; position:relative; margin-bottom:5px;">Power capacity in MW.</p>
-				<b class="circle" style="background:black; border: 2px solid white; width:18px; height:18px; margin-bottom:3px; position:relative;"></b><p2 style="display:inline;">&nbsp50+</p2><b class="circle" style="margin-left: 10px; background:black; border: 2px solid white; width:12px; height:12px; margin-bottom:3px; position:relative;"></b><p2 style="display:inline;">&nbsp10 - 50</p2><b class="circle" style="margin-left: 10px; background:black; border: 2px solid white; width:7px; height:7px; margin-bottom:3px; position:relative;"></b><p2 style="display:inline;">&nbspLess than 10</p2><br/>
-				<br/>
-				<div id="checklist">
-					<p id="checkText" style="padding-right:5px; padding-left:0px; font-weight:bold; font-style:italic; position:relative; float:left; display:inline;">Solid Biomass</p>
-						<label class="switch">
-							<input name="checkbox_name" id="checkbox_id" type="checkbox" value="check" onclick="bioType()" autocomplete="off">
-							<span class="slider"></span>
-						</label>
-					<p id="checkText2" style="padding-left:5px; font-weight:bold; font-style:italic; display:inline;">Biomethane</p><br/>
-				</div>
-			</div>
 			</div>
 			<div id="attribution">
 				<div id="text">
-					<p3 id="facts_1" style="display:unset">Wind power is the use of air flow through wind turbines to mechanically power generators for electric power. Wind power, as an alternative to burning fossil fuels, is plentiful, renewable, widely distributed, clean, produces no greenhouse gas emissions during operation, consumes no water, and uses little land. The net effects on the environment are far less problematic than those of nonrenewable power sources. Wind farms consist of many individual wind turbines which are connected to the electric power transmission network. Onshore wind is an inexpensive source of electric power, competitive with or in many places cheaper than coal or gas plants. Offshore wind is steadier and stronger than on land, and offshore farms have less visual impact, but construction and maintenance costs are considerably higher. Small onshore wind farms can feed some energy into the grid or provide electric power to isolated off-grid locations.</p3>			
+					<div id="leg_1" style="display:unset;">
+						<h2 id="title" style="display:block; width:280px; white-space:normal;">Wind Energy Potential</h2><img src="img/icons/wind.png" id="image2" style="right:20px; margin-top:25px;">
+						<div style="height:32px;"><b id="leg1_block" style="background:#08519c; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p>&nbsp</p><p id="leg1" style="margin-left:5px;">Class 7</p></div>
+						<div style="height:30px;"><b id="leg2_block" style="background:#3182bd; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2" style="margin-left:5px;">Class 6</p></div>
+						<div style="height:30px;"><b id="leg3_block" style="background:#6baed6; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2" style="margin-left:5px;">Class 5</p></div>
+						<div style="height:30px;"><b id="leg4_block" style="background:#9ecae1; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2" style="margin-left:5px;">Class 4</p></div>
+						<div style="height:30px;"><b id="leg5_block" style="background:#c6dbef; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p>&nbsp</p><p id="leg3" style="margin-left:5px;">Class 3</p></div>
+						<div style="height:32px;"><b id="leg6_block" style="background:#eff3ff; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p>&nbsp</p><p id="leg3" style="margin-left:5px;">Class 2</p></div><br/>
+						<p id="description" style="font-weight:bold; text-align:justify; white-space:normal; padding-left:0px; width:280px; display:block; position:relative;">Wind energy potential class. Higher classes correspond with greater potential.</p>
+						<br/>
+						<p style="font-weight:bold; text-align:justify; white-space:normal; padding-left:0px; width:280px; display:block; position:relative; margin-bottom:5px;">Power capacity in MW.</p>
+						<b class="circle" style="background:black; border: 2px solid white; width:18px; height:18px; margin-bottom:3px; position:relative;"></b><p2 style="display:inline;">&nbsp50+</p2><b class="circle" style="margin-left: 10px; background:black; border: 2px solid white; width:12px; height:12px; margin-bottom:3px; position:relative;"></b><p2 style="display:inline;">&nbsp10 - 50</p2><b class="circle" style="margin-left: 10px; background:black; border: 2px solid white; width:7px; height:7px; margin-bottom:3px; position:relative;"></b><p2 style="display:inline;">&nbspLess than 10</p2><br/>
+						<br/>
+					</div>	
+					<div id="leg_2" style="display:none;">
+						<h2 id="title" style="display:block; width:280px; white-space:normal;">Solar Irradiance</h2><img src="img/icons/solar.png" id="image2" style="right:20px; margin-top:0px;">
+						<div style="height:32px;"><b id="leg1_block" style="background:#b30000; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p>&nbsp</p><p id="leg1" style="margin-left:5px;">5.5+</p></div>
+						<div style="height:30px;"><b id="leg2_block" style="background:#e34a33; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2" style="margin-left:5px;">5 - 5.5</p></div>
+						<div style="height:30px;"><b id="leg3_block" style="background:#fc8d59; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2" style="margin-left:5px;">4.5 - 5</p></div>
+						<div style="height:30px;"><b id="leg4_block" style="background:#fdcc8a; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2" style="margin-left:5px;">4 - 4.5</p></div>
+						<div style="height:32px;"><b id="leg5_block" style="background:#fef0d9; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p>&nbsp</p><p id="leg3" style="margin-left:5px;">Less than 4</p></div></br>
+						<p id="description" style="font-weight:bold; text-align:justify; white-space:normal; padding-left:0px; width:280px; display:block; position:relative;">Average daily solar irradiance in kWh/m2/day. Higher values correspond with greater solar potential.</p>
+						<br/>
+						<p style="font-weight:bold; text-align:justify; white-space:normal; padding-left:0px; width:280px; display:block; position:relative; margin-bottom:5px;">Power capacity in MW.</p>
+						<b class="circle" style="background:black; border: 2px solid white; width:18px; height:18px; margin-bottom:3px; position:relative;"></b><p2 style="display:inline;">&nbsp50+</p2><b class="circle" style="margin-left: 10px; background:black; border: 2px solid white; width:12px; height:12px; margin-bottom:3px; position:relative;"></b><p2 style="display:inline;">&nbsp10 - 50</p2><b class="circle" style="margin-left: 10px; background:black; border: 2px solid white; width:7px; height:7px; margin-bottom:3px; position:relative;"></b><p2 style="display:inline;">&nbspLess than 10</p2><br/>
+					</div>	
+					<div id="leg_3" style="display:none;">
+						<h2 id="title" style="display:block; width:280px; white-space:normal;">Geothermal Potential</h2><img src="img/icons/geothermal.png" id="image2" style="right:30px; margin-top:20px;">
+						<div style="height:32px;"><b id="leg1_block" style="background:#4b4b34; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p>&nbsp</p><p id="leg1" style="margin-left:5px;">Class 1</p></div>
+						<div style="height:30px;"><b id="leg2_block" style="background:#787854; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2" style="margin-left:5px;">Class 2</p></div>
+						<div style="height:30px;"><b id="leg3_block" style="background:#abab87; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2" style="margin-left:5px;">Class 3</p></div>
+						<div style="height:30px;"><b id="leg4_block" style="background:#cbcbb4; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2" style="margin-left:5px;">Class 4</p></div>
+						<div style="height:32px;"><b id="leg6_block" style="background:#ebebe0; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p>&nbsp</p><p id="leg3" style="margin-left:5px;">Class 5</p></div><br/>
+						<p id="description" style="font-weight:bold; text-align:justify; white-space:normal; padding-left:0px; width:280px; display:block; position:relative;">Geothermal energy potential class. Lower classes correspond with greater potential.</p>
+						<br/>
+						<p style="font-weight:bold; text-align:justify; white-space:normal; padding-left:0px; width:280px; display:block; position:relative; margin-bottom:5px;">Power capacity in MW.</p>
+						<b class="circle" style="background:black; border: 2px solid white; width:18px; height:18px; margin-bottom:3px; position:relative;"></b><p2 style="display:inline;">&nbsp50+</p2><b class="circle" style="margin-left: 10px; background:black; border: 2px solid white; width:12px; height:12px; margin-bottom:3px; position:relative;"></b><p2 style="display:inline;">&nbsp10 - 50</p2><b class="circle" style="margin-left: 10px; background:black; border: 2px solid white; width:7px; height:7px; margin-bottom:3px; position:relative;"></b><p2 style="display:inline;">&nbspLess than 10</p2><br/>
+					</div>
+					<div id="leg_4" style="display:none;">
+						<h2 id="bioTitle" style="display:block; width:280px; white-space:normal;">Solid Biomass Production</h2><img src="img/icons/biomass.png" id="image2" style="right:25px; margin-top:20px;">
+						<div style="height:32px;"><b style="background:#006d2c; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p>&nbsp</p><p id="leg1_bio" style="margin-left:5px;">500+</p></div>
+						<div style="height:30px;"><b style="background:#31a354; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2_bio" style="margin-left:5px;">300 - 500</p></div>
+						<div style="height:30px;"><b style="background:#74c476; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg3_bio" style="margin-left:5px;">150 - 300</p></div>
+						<div style="height:30px;"><b style="background:#bae4b3; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg4_bio" style="margin-left:5px;">50 - 150</p></div>
+						<div style="height:32px;"><b style="background:#edf8e9; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p>&nbsp</p><p id="leg5_bio" style="margin-left:5px;">Less than 50</p></div><br/>
+						<p id="bioDescription" style="font-weight:bold; text-align:justify; white-space:normal; padding-left:0px; width:280px; display:block; position:relative;">Biomass production by county in thousands of metric tons/year. Only a fraction of biomass produced is used for heat/electricity.</p>
+						<br/>
+						<p style="font-weight:bold; text-align:justify; white-space:normal; padding-left:0px; width:280px; display:block; position:relative; margin-bottom:5px;">Power capacity in MW.</p>
+						<b class="circle" style="background:black; border: 2px solid white; width:18px; height:18px; margin-bottom:3px; position:relative;"></b><p2 style="display:inline;">&nbsp50+</p2><b class="circle" style="margin-left: 10px; background:black; border: 2px solid white; width:12px; height:12px; margin-bottom:3px; position:relative;"></b><p2 style="display:inline;">&nbsp10 - 50</p2><b class="circle" style="margin-left: 10px; background:black; border: 2px solid white; width:7px; height:7px; margin-bottom:3px; position:relative;"></b><p2 style="display:inline;">&nbspLess than 10</p2><br/>
+						<br/>
+						<div id="checklist">
+							<p id="checkText" style="padding-right:5px; padding-left:0px; font-weight:bold; font-style:italic; position:relative; float:left; display:inline;">Solid Biomass</p>
+								<label class="switch">
+									<input name="checkbox_name" id="checkbox_id" type="checkbox" value="check" onclick="bioType()" autocomplete="off">
+									<span class="slider"></span>
+								</label>
+							<p id="checkText2" style="padding-left:5px; font-weight:bold; font-style:italic; display:inline;">Biomethane</p><br/>
+						</div>
+					</div>
+					<p3 id="facts_1" style="display:none"></p3>			
 					<p3 id="facts_2" style="display:none"></p3>
 					<p3 id="facts_3" style="display:none"></p3>
 					<p3 id="facts_4" style="display:none"></p3>
 				</div>
-			<div id="pageChange">
-				<a href="water_use_index.html" id="arrow" style="display:inline-block;">
-					<i class="fa fa-arrow-left" aria-hidden="true" style=""></i>
-				</a>
-				<a href="#popup1" id="arrow" style="display:inline-block;">
-					<i class="fa fa-info-circle" aria-hidden="true" style="padding-left:83px;"></i>
-				</a>
-				<a href="energy_index.html" id="arrow" style="display:inline-block;">
-					<i class="fa fa-home" aria-hidden="true" style="padding-left:0;"></i>
-				</a>
-				<a href="watershed_index.html" id="arrow" style="display:inline-block;">
-					<i class="fa fa-arrow-right" aria-hidden="true" style="padding-left:82px;"></i>
-				</a>
-			</div>
+				<div id="pageChange">
+					<a href="water_use_index.html" id="arrow" style="display:inline-block;">
+						<i class="fa fa-arrow-left" aria-hidden="true" style=""></i>
+					</a>
+					<a href="#popup1" id="arrow" style="display:inline-block;">
+						<i class="fa fa-info-circle" aria-hidden="true" style="padding-left:83px;"></i>
+					</a>
+					<a href="energy_index.html" id="arrow" style="display:inline-block;">
+						<i class="fa fa-home" aria-hidden="true" style="padding-left:0;"></i>
+					</a>
+					<a href="watershed_index.html" id="arrow" style="display:inline-block;">
+						<i class="fa fa-arrow-right" aria-hidden="true" style="padding-left:82px;"></i>
+					</a>
+				</div>
 			</div>
 		</div>
     	<div id="map" style="width: 100%; height: 100%;"></div>
