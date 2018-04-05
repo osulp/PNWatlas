@@ -25,44 +25,44 @@
 		</button>
 		<div id="infoPanel">
 			<div id="top">
-			<h1>Water Use</h1>
-			<img src="img/water_use_icon.png" id="titleImage" style="display:inline-block;">
-			<div id="buttons">
-				<div class="dropdownSmall">
-  					<button class="dropbtnSmall"><b id="dataType">Select Use</b><p id="arrow" style="font-size:16px;">&#9660;</p></button>
-  						<div class="dropdown-contentSmall">
-  							<button type="button" id="but1" style="float:left; background:rgba(242, 242, 242, 0.67);" class="selectionSmall">Total</button>
-							<button type="button" id="but2" class="selectionSmall" style="float:left;">Public</button>
-							<button type="button" id="but3" style="float:left;" class="selectionSmall">Domestic</button>
-							<button type="button" id="but4" class="selectionSmall" style="float:left;">Industrial</button>
-							<button type="button" id="but5" style="float:left;" class="selectionSmall">Thermoelectric</button>
-							<button type="button" id="but6" style="float:left;" class="selectionSmall">Mining</button>
-							<button type="button" id="but7" style="float:left;" class="selectionSmall">Livestock</button>
-							<button type="button" id="but8" style="float:left;" class="selectionSmall">Irrigation</button>
-							<button type="button" id="but9" style="float:left;" class="selectionSmall">Aquaculture</button>
-  						</div>
-  				</div>
-  				<div class="dropdownSmall">
-  					<button class="dropbtnSmall"><b id="water">Select Water</b><p id="arrow" style="font-size:16px;">&#9660;</p></button>
-  						<div class="dropdown-contentSmall">
-  							<button type="button" id="waterBut1" class="selectionSmall" style="background:rgba(242, 242, 242, 0.8);">Total Water</button>
-  							<button type="button" id="waterBut2" class="selectionSmall">Surface Water</button>
-  							<button type="button" id="waterBut3" class="selectionSmall">Groundwater</button>
-  						</div>
-  				</div>
+				<h1>Water Use</h1>
+				<img src="img/water_use_icon.png" id="titleImage" style="display:inline-block;">
+				<div id="buttons">
+					<div class="dropdownSmall">
+						<button class="dropbtnSmall"><b id="dataType">Select Use</b><p id="arrow" style="font-size:16px;">&#9660;</p></button>
+							<div class="dropdown-contentSmall">
+								<button type="button" id="but1" style="float:left; background:rgba(242, 242, 242, 0.67);" class="selectionSmall">Total</button>
+								<button type="button" id="but2" class="selectionSmall" style="float:left;">Public</button>
+								<button type="button" id="but3" style="float:left;" class="selectionSmall">Domestic</button>
+								<button type="button" id="but4" class="selectionSmall" style="float:left;">Industrial</button>
+								<button type="button" id="but5" style="float:left;" class="selectionSmall">Thermoelectric</button>
+								<button type="button" id="but6" style="float:left;" class="selectionSmall">Mining</button>
+								<button type="button" id="but7" style="float:left;" class="selectionSmall">Livestock</button>
+								<button type="button" id="but8" style="float:left;" class="selectionSmall">Irrigation</button>
+								<button type="button" id="but9" style="float:left;" class="selectionSmall">Aquaculture</button>
+							</div>
+					</div>
+					<div class="dropdownSmall">
+						<button class="dropbtnSmall"><b id="water">Select Water</b><p id="arrow" style="font-size:16px;">&#9660;</p></button>
+							<div class="dropdown-contentSmall">
+								<button type="button" id="waterBut1" class="selectionSmall" style="background:rgba(242, 242, 242, 0.8);">Total Water</button>
+								<button type="button" id="waterBut2" class="selectionSmall">Surface Water</button>
+								<button type="button" id="waterBut3" class="selectionSmall">Groundwater</button>
+							</div>
+					</div>
+				</div>
 			</div>
-			<h2 id="title" style="display:inline-block; width:280px; white-space:normal;">Total Water Use (Mgal/day)</h2><img src="img/total.png" id="image2" style="display:inline-block; float:right;">
-			<br>
-			<b id ="leg5_block" style="background:#045a8d; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p id="leg1_value" style="margin-left:5px;">1000+</p><br/>
-			<b id ="leg4_block" style="background:#2b8cbe; border-left:black 2px solid; border-right:black 2px solid;"></b><p id="leg2_value" style="margin-left:5px;">500 - 1000</p><br/>
-			<b id ="leg3_block" style="background:#74a9cf; border-left:black 2px solid; border-right:black 2px solid;"></b><p id="leg3_value" style="margin-left:5px;">250 - 500</p><br/>
-			<b id ="leg2_block" style="background:#bdc9e1; border-left:black 2px solid; border-right:black 2px solid;"></b><p id="leg4_value" style="margin-left:5px;">100 - 250</p><br/>
-			<b id ="leg1_block" style="background:#f1eef6; border-left:black 2px solid; border-right:black 2px solid;"></b><p id="leg5_value" style="margin-left:5px;">Less than 100</p><br/>
-			<b style="background:#ffffff; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p>&nbsp</p><p id="no_data">&nbsp0 or No Data</p><br/><br/>
-			<p id="description" style="font-weight:bold; padding:0; display:inline-block; white-space:normal; width:280px; position:relative;">Water use in millions of gallons of water per day.</p>
-			</div>
-			<div id="attribution">
-				<div id="text" style="margin-top:15px;">
+			<div id="attribution">		
+				<div id="text">	
+					<h2 id="title" style="display:inline-block; width:280px; white-space:normal;">Total Water Use (Mgal/day)</h2><img src="img/total.png" id="image2" style="display:inline-block; right:25px; margin-top:80px;">
+					<br>
+					<div style="height:32px;"><b id ="leg5_block" style="background:#045a8d; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p id="leg1_value" style="margin-left:5px;">1000+</p></div>
+					<div style="height:30px;"><b id ="leg4_block" style="background:#2b8cbe; border-left:black 2px solid; border-right:black 2px solid;"></b><p id="leg2_value" style="margin-left:5px;">500 - 1000</p></div>
+					<div style="height:30px;"><b id ="leg3_block" style="background:#74a9cf; border-left:black 2px solid; border-right:black 2px solid;"></b><p id="leg3_value" style="margin-left:5px;">250 - 500</p></div>
+					<div style="height:30px;"><b id ="leg2_block" style="background:#bdc9e1; border-left:black 2px solid; border-right:black 2px solid;"></b><p id="leg4_value" style="margin-left:5px;">100 - 250</p></div>
+					<div style="height:30px;"><b id ="leg1_block" style="background:#f1eef6; border-left:black 2px solid; border-right:black 2px solid;"></b><p id="leg5_value" style="margin-left:5px;">Less than 100</p></div>
+					<div style="height:32px;"><b style="background:#ffffff; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p>&nbsp</p><p id="no_data">&nbsp0 or No Data</p></div><br/>
+					<p id="description" style="font-weight:bold; padding:0; display:inline-block; white-space:normal; width:280px; position:relative;">Water use in millions of gallons of water per day.</p>
 					<div id="facts_1" style="display:unset;">
 						<p3 style="font-weight:bold; line-height:36px;">Quick Facts:</p3><br/>
 						<p3 id="facts" style="line-height:20px;">&#9900 Total water use in Pacific Northwest is 28,920 Mgal/day (2010 data). 20,939 Mgal/day for surface water, and 7,982 Mgal/day for groundwater.<br/><br/>&#9900 Idaho uses more water than Oregon and Washington Combined.<br/><br/>&#9900 Irrigation comprises 77.6% of total water use.</p3>
@@ -100,21 +100,20 @@
 						<p3 id="facts" style="line-height:20px;">&#9900 Total aquaculture water use in Pacific Northwest is 3,679 Mgal/day (2010 data). 3,494 Mgal/day for surface water, and 185 Mgal/day for groundwater.<br/><br/>&#9900 Of the three PNW states, Idaho has the highest daily aquaculture water use.</p3>
 					</div>
 				</div>
-				<br/>
-			</div>
-			<div id="pageChange">
-				<a href="groundwater_index.html" id="arrow" style="display:inline-block;">
-					<i class="fa fa-arrow-left" aria-hidden="true" style=""></i>
-				</a>
-				<a href="#popup1" id="arrow" style="display:inline-block;">
-					<i class="fa fa-info-circle" aria-hidden="true" style="margin-left:83px;"></i>
-				</a>
-				<a href="water_resources_index.html" id="arrow" style="display:inline-block;">
-					<i class="fa fa-home" aria-hidden="true"></i>
-				</a>
-				<a href="pollution_index.html" id="arrow" style="display:inline-block;">
-					<i class="fa fa-arrow-right" aria-hidden="true" style="margin-left:82px;"></i>
-				</a>
+				<div id="pageChange">
+					<a href="groundwater_index.html" id="arrow" style="display:inline-block;">
+						<i class="fa fa-arrow-left" aria-hidden="true" style=""></i>
+					</a>
+					<a href="#popup1" id="arrow" style="display:inline-block;">
+						<i class="fa fa-info-circle" aria-hidden="true" style="margin-left:83px;"></i>
+					</a>
+					<a href="water_resources_index.html" id="arrow" style="display:inline-block;">
+						<i class="fa fa-home" aria-hidden="true"></i>
+					</a>
+					<a href="pollution_index.html" id="arrow" style="display:inline-block;">
+						<i class="fa fa-arrow-right" aria-hidden="true" style="margin-left:82px;"></i>
+					</a>
+				</div>
 			</div>
 		</div>
     	<div id="map" style="width: 100%; height: 100%;"></div>
@@ -395,7 +394,7 @@
 		but6: {button:'but6', title:'Mining', variable:6, newElements:['facts_6'], imageSRC:"img/mines.png", colors:['#734d26','#9e6934','#c48a4e','#d8b18a','#ecd9c6'], legendDescription:'Self-supplied water use for mining in millions of gallons of water per day.', layerFunction:function(){stateLevels = [2.5, 1, 0.5, 0.25, 1, 0.5, 0.25, 0.1, 1, 0.5, 0.25, 0.1]; legend(); update();titleText();}},
 		but7: {button:'but7', title:'Livestock', variable:7, newElements:['facts_7'], imageSRC:"img/livestock.png", colors:['#666600','#959735','#c5ca81','#d8e39c','#f0f4d7'], legendDescription:'Self-supplied water use for livestock in millions of gallons of water per day.', layerFunction:function(){stateLevels = [2.5, 1, 0.5, 0.25, 1, 0.5, 0.25, 0.1, 2.5, 1, 0.25, 0.1]; legend(); update();titleText();}},
 		but8: {button:'but8', title:'Irrigation', variable:8, newElements:['facts_8'], imageSRC:"img/irrigation.png", colors:['#006d2c','#31a354','#74c476','#bae4b3','#edf8e9'], legendDescription:'Self-supplied water use for irrigation in millions of gallons of water per day.', layerFunction:function(){stateLevels = [1000, 500, 250, 100, 500, 250, 100, 50, 250, 100, 50, 10]; legend(); update();titleText();}},
-		but9: {button:'but9', title:'Aquaculture', variable:9, newElements:['facts_9'], mageSRC:"img/aqua.png", colors:['#004d38','#009970','#00cc99','#66ffd9','#ccfff2'], legendDescription:'Self-supplied water use for aquaculture in millions of gallons of water per day.', layerFunction:function(){stateLevels = [100, 50, 25, 10, 100, 50, 25, 10, 10, 5, 2.5, 1]; legend(); update();titleText();}},
+		but9: {button:'but9', title:'Aquaculture', variable:9, newElements:['facts_9'], imageSRC:"img/aqua.png", colors:['#004d38','#009970','#00cc99','#66ffd9','#ccfff2'], legendDescription:'Self-supplied water use for aquaculture in millions of gallons of water per day.', layerFunction:function(){stateLevels = [100, 50, 25, 10, 100, 50, 25, 10, 10, 5, 2.5, 1]; legend(); update();titleText();}},
 	};
 	
 	$('.main2').clickFunction({

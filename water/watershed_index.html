@@ -26,72 +26,72 @@
 		</button>
 		<div id="infoPanel">
 			<div id="top">
-			<h1>Watershed Guide</h1>
-			<img src="img/watershed_icon.png" id="image2" style="display:inline-block;">
-			<div id="buttons">
-				<div class="dropdown">
-  					<button class="dropbtn"><b id="selection">Select Scale</b><p id="arrow">&#9660;</p></button>
-  					<div class="dropdown-content">
-   						 <button type="button" id="but1" onclick="HUC4()" class="species" style="background:rgba(242, 242, 242, 0.8);">Regional</button>
-						 <button type="button" id="but2" onclick="HUC6()" class="species">Subregional</button>
-						 <button type="button" id="but3" onclick="HUC8()" class="species">Local</button>
- 				   </div>
+				<h1>Watersheds</h1>
+				<img src="img/watershed_icon.png" id="image2" style="display:inline-block;">
+				<div id="buttons">
+					<div class="dropdown">
+						<button class="dropbtn"><b id="selection">Select Scale</b><p id="arrow">&#9660;</p></button>
+						<div class="dropdown-content">
+							 <button type="button" id="but1" onclick="HUC4()" class="selection" style="background:rgba(242, 242, 242, 0.8);">Regional</button>
+							 <button type="button" id="but2" onclick="HUC6()" class="selection">Subregional</button>
+							 <button type="button" id="but3" onclick="HUC8()" class="selection">Local</button>
+					   </div>
+					</div>
 				</div>
 			</div>
 			<br/>
-			<h2 id="title" style="display:inline; width:200px; white-space:normal; font-size:30px;">Select a Watershed</h2><br/>
-			<h2 style="display:inline; width:200px; white-space:normal;">Area:</h2>
-			<h2 id="area" style="display:inline; width:200px; white-space:normal;"></h2><br/>
-			<h2 id="dams_title" style="display:inline; width:200px; white-space:normal;">Large Dams<sup class="tooltip">?<span class="tooltiptext">Dams higher than 50 ft. or capacity greater than 5000 acre ft.</span></sup>:</h2>
-			<h2 id="dams" style="display:inline; width:200px; white-space:normal;"></h2><br/>
-			<h2 style="display:inline; width:200px; white-space:normal;">Population:</h2>
-			<h2 id="population" style="display:inline; width:200px; white-space:normal;"></h2><br/>
-			<h2 style="display:inline; width:200px; white-space:normal;">States/Provinces<sup class="tooltip">?<span class="tooltiptext">States and Provinces intersected by the river basin</span></sup>:</h2>
-			<h2 id="states" style="display:inline; width:200px; white-space:normal;"></h2><br/>
-			<h2 style="display:inline; width:200px; white-space:normal;">Counties<sup class="tooltip">?<span class="tooltiptext">Number of Counties intersected by the river basin. BC is one county.</span></sup>:</h2>
-			<h2 id="counties" style="display:inline; width:200px; white-space:normal;"></h2><br/>
-			<h2 style="display:inline; width:200px; white-space:normal;">Cities<sup class="tooltip">?<span class="tooltiptext">Incorporated Cities and selected Census Designated Places with population over 1 person</span></sup>:</h2>
-			<h2 id="cities" style="display:inline; width:200px; white-space:normal;"></h2><br/>
-			<label class="switch">
-					<input name="checkbox_name" id="checkbox_id" type="checkbox" value="check" onclick="borders()" autocomplete="off">
-					<span class="slider"></span>
-			</label>
-				<p style="padding-left:5px; padding-top:12px; font-weight:bold;">Toggle Political Borders</p><br/>
-			</div>
 			<div id="attribution">
-				<div id="text" style="margin-top:10px;">
+				<div id="text">
+					<h2 id="title" style="display:inline; width:200px; white-space:normal; text-align:left; font-size:30px;">Select a Watershed</h2><br/>
+					<h2 style="display:inline; width:200px; white-space:normal;">Area:</h2>
+					<h2 id="area" style="display:inline; width:200px; white-space:normal;"></h2><br/>
+					<h2 id="dams_title" style="display:inline; width:200px; white-space:normal;">Large Dams<sup class="tooltip">?<span class="tooltiptext">Dams higher than 50 ft. or capacity greater than 5000 acre ft.</span></sup>:</h2>
+					<h2 id="dams" style="display:inline; width:200px; white-space:normal;"></h2><br/>
+					<h2 style="display:inline; width:200px; white-space:normal;">Population:</h2>
+					<h2 id="population" style="display:inline; width:200px; white-space:normal;"></h2><br/>
+					<h2 style="display:inline; width:200px; white-space:normal;">States/Provinces<sup class="tooltip">?<span class="tooltiptext">States and Provinces intersected by the river basin</span></sup>:</h2>
+					<h2 id="states" style="display:inline; width:200px; white-space:normal;"></h2><br/>
+					<h2 style="display:inline; width:200px; white-space:normal;">Counties<sup class="tooltip">?<span class="tooltiptext">Number of Counties intersected by the river basin. BC is one county.</span></sup>:</h2>
+					<h2 id="counties" style="display:inline; width:200px; white-space:normal;"></h2><br/>
+					<h2 style="display:inline; width:200px; white-space:normal;">Cities<sup class="tooltip">?<span class="tooltiptext">Incorporated Cities and selected Census Designated Places with population over 1 person</span></sup>:</h2>
+					<h2 id="cities" style="display:inline; width:200px; white-space:normal;"></h2><br/>
+					<label class="switch">
+							<input name="checkbox_name" id="checkbox_id" type="checkbox" value="check" onclick="borders()" autocomplete="off">
+							<span class="slider"></span>
+					</label>
+						<p style="padding-left:5px; padding-top:12px; font-weight:bold;">Toggle Political Borders</p><br/>
 					<hr>
-					<div id ="none"><b style="background:#80bfff;"></b><p>&nbsp</p><p id="leg1">Lake/Reservoir</p></div><div id ="none" style="padding-left:150px;"><b style="background:#d9d9d9;"></b><p>&nbsp</p><p id="leg1">Urban Area</p></div><br/>
-					<div id ="none"><b style="background:#b3daff;"></b><p>&nbsp</p><p id="leg1">Seasonal Lake</p></div><div id ="none" style="padding-left:150px;"><b style="background:#ededdc;"></b><p>&nbsp</p><p id="leg1">Tribal Land</p></div><br/>
-					<div id ="none"><hr style="color:#80bfff; width:35px; float:left; height:2px; background-color:#80bfff; line-height:20px; vertical-align:middle; display:inline; border:none;"/><p id="leg1" style="padding-left:5px;">River</p></div><div id ="none" style="padding-left:150px;"><hr style="color:#00cc99; width:35px; float:left; height:2px; background-color:#00cc99; line-height:20px; vertical-align:middle; display:inline; border:none;"/><p id="leg1" style="padding-left:5px;">Canal</p></div><br/>
-					<hr style="color:#80bfff; width:35px; float:left; height:2px; background-color:#ffffff; line-height:20px; vertical-align:middle; display:inline; border:none; border-top:2px dashed #80bfff;"/><p id="leg1" style="padding-left:5px;">Seasonal River</p><br/>
+					<div style="width:135px; display:inline-block;"><b style="background:#80bfff;"></b><p id="leg1" style="margin-left:5px;">Lake</p></div><div style="width:130px; display:inline-block;"><b style="background:#d9d9d9;"></b><p id="leg1" style="margin-left:5px;">Urban Area</p></div>	
+					<div style="width:135px; display:inline-block;"><b style="background:#b3daff;"></b><p id="leg1" style="margin-left:5px;">Seas. Lake</p></div><div id ="none" style="width:130px; display:inline-block;"><b style="background:#ededdc;"></b><p>&nbsp</p><p id="leg1" style="margin-left:5px;">Tribal Land</p></div><br/>
+					<div style="width:135px; display:inline-block;"><hr style="color:#80bfff; width:50px; float:left; height:4px; background-color:#80bfff; line-height:20px; margin-top:10px; display:inline; border:none;"/><p id="leg1" style="padding-left:5px;">River</p></div><div id ="none" style="width:135px; display:inline-block;"><hr style="color:#00cc99; width:50px; float:left; height:4px; background-color:#00cc99; line-height:20px; margin-top:10px; display:inline; border:none;"/><p id="leg1" style="padding-left:5px;">Canal</p></div><br/>
+					<hr style="color:#80bfff; width:50px; float:left; height:4px; background-color:#ffffff; line-height:20px; margin-top:10px; display:inline; border:none; border-top:4px dashed #80bfff;"/><p id="leg1" style="padding-left:5px;">Seas. River</p><br/>
 					<br/>
 					<div id = "damLegend">
 						<h3 style="margin:0; padding:0; font-size:16px;display:inline;">Dam Height in Ft. &nbsp Hazard Rating</h3><br/>
-						<div id="damLegendSide"><div id ="size"><b class="circle" style="background:#ffffff; width:17px; height:17px; border: black 1px solid;"></b></div><div id="sizeLabel"><p style="padding-left:36px;">&nbsp301+</p></div></div><div id="damLegendSide" style="margin-left:150px;"><div id ="size"><b class="circle" style="background:#ff0000; width:16px; height:16px; border: #d9d9d9 1px solid;"></b></div><div id="sizeLabel"><p style="padding-left:36px;">&nbspHigh</p></div></div><br/>
-						<div id="damLegendSide"><div id ="size"><b class="circle" style="background:#ffffff; width:13px; height:13px; border: black 1px solid;"></b></div><div id="sizeLabel"><p style="padding-left:36px;">&nbsp201 - 300</p></div></div><div id="damLegendSide" style="margin-left:150px;"><div id ="size"><b class="circle" style="background:#ffff99; width:16px; height:16px; border: #d9d9d9 1px solid;"></b></div><div id="sizeLabel"><p style="padding-left:36px;">&nbspSignificant</p></div></div><br/>
-						<div id="damLegendSide"><div id ="size"><b class="circle" style="background:#ffffff; width:9px; height:9px; border: black 1px solid;"></b></div><div id="sizeLabel"><p style="padding-left:36px;">&nbsp101 - 200</p></div></div><div id="damLegendSide" style="margin-left:150px;"><div id ="size"><b class="circle" style="background:#33cc33; width:16px; height:16px; border: #d9d9d9 1px solid;"></b></div><div id="sizeLabel"><p style="padding-left:36px;">&nbspLow</p></div></div><br/>
-						<div id ="size"><b class="circle" style="background:#ffffff; width:6px; height:6px; border: black 1px solid;"></b></div><div id="sizeLabel"><p style="padding-left:36px;">&nbsp26 - 100</p></div><br/>
-						<div id ="size"><b class="circle" style="background:#ffffff; width:3px; height:3px; border: black 1px solid;"></b></div><div id="sizeLabel"><p style="padding-left:36px;">&nbsp0 - 25</p></div>
+						<div id="damLegendSide" style="margin-bottom:5px;"><div id ="size"><b class="circle" style="background:#ffffff; width:17px; height:17px; border: black 1px solid;"></b></div><div id="sizeLabel"><p style="padding-left:36px;">&nbsp301+</p></div></div><div id="damLegendSide" style="margin-left:150px;"><div id ="size"><b class="circle" style="background:#ff0000; width:16px; height:16px; border: #d9d9d9 1px solid;"></b></div><div id="sizeLabel"><p style="padding-left:36px;">&nbspHigh</p></div></div><br/>
+						<div id="damLegendSide" style="margin-bottom:5px;"><div id ="size"><b class="circle" style="background:#ffffff; width:13px; height:13px; border: black 1px solid;"></b></div><div id="sizeLabel"><p style="padding-left:36px;">&nbsp201 - 300</p></div></div><div id="damLegendSide" style="margin-left:150px;"><div id ="size"><b class="circle" style="background:#ffff99; width:16px; height:16px; border: #d9d9d9 1px solid;"></b></div><div id="sizeLabel"><p style="padding-left:36px;">&nbspSignificant</p></div></div><br/>
+						<div id="damLegendSide" style="margin-bottom:5px;"><div id ="size"><b class="circle" style="background:#ffffff; width:9px; height:9px; border: black 1px solid;"></b></div><div id="sizeLabel"><p style="padding-left:36px;">&nbsp101 - 200</p></div></div><div id="damLegendSide" style="margin-left:150px;"><div id ="size"><b class="circle" style="background:#33cc33; width:16px; height:16px; border: #d9d9d9 1px solid;"></b></div><div id="sizeLabel"><p style="padding-left:36px;">&nbspLow</p></div></div><br/>
+						<div id ="size" style="margin-bottom:5px;"><b class="circle" style="background:#ffffff; width:6px; height:6px; border: black 1px solid;"></b></div><div id="sizeLabel"><p style="padding-left:36px;">&nbsp26 - 100</p></div><br/>
+						<div id ="size" style="margin-bottom:5px;"><b class="circle" style="background:#ffffff; width:3px; height:3px; border: black 1px solid;"></b></div><div id="sizeLabel"><p style="padding-left:36px;">&nbsp0 - 25</p></div>
 					</div>
 					<br/>
-				<hr>
-				<p3>Watersheds are independent of political boundaries, which makes watershed management challenging. An upstream water user can be in a different county, or state, or country than a downstream user, and there could be dozens of municipal water users between them. In the mid-20th century, the United States Bureau of Reclamation and Army Corps of Engineers both had a single prevailing strategy for watershed management: build dams. It has taken decades to understand the effects these widespread damming efforts have had on watershed health, not to mention the water conflicts they have created. Nowadays, basin-wide agreements are becoming more commonplace. The Columbia River Treaty was the first, in 1964, and other rivers within the region have followed with agreements of their own. Watershed Councils exist to monitor and advocate for the health of entire watersheds. Their advocacy, as well as tribal groups, have actualized efforts to remove dams throughout the region.</p3>
+					<hr>
+					<p3 style="text-align:justify;">Watersheds are independent of political boundaries, which makes watershed management challenging. An upstream water user can be in a different county, or state, or country than a downstream user, and there could be dozens of municipal water users between them. In the mid-20th century, the United States Bureau of Reclamation and Army Corps of Engineers both had a single prevailing strategy for watershed management: build dams. It has taken decades to understand the effects these widespread damming efforts have had on watershed health, not to mention the water conflicts they have created. Nowadays, basin-wide agreements are becoming more commonplace. The Columbia River Treaty was the first, in 1964, and other rivers within the region have followed with agreements of their own. Watershed Councils exist to monitor and advocate for the health of entire watersheds. Their advocacy, as well as tribal groups, have actualized efforts to remove dams throughout the region.</p3>
 				</div>
-			</div>
-			<div id="pageChange">
-				<a href="pollution_index.html" id="arrow" style="display:inline-block;">
-					<i class="fa fa-arrow-left" aria-hidden="true" style=""></i>
-				</a>
-				<a href="#popup1" id="arrow" style="display:inline-block;">
-					<i class="fa fa-info-circle" aria-hidden="true" style="padding-left:83px;"></i>
-				</a>
-				<a href="water_resources_index.html" id="arrow" style="display:inline-block;">
-					<i class="fa fa-home" aria-hidden="true" style="padding-left:0;"></i>
-				</a>
-				<a href="groundwater_index.html" id="arrow" style="display:inline-block;">
-					<i class="fa fa-arrow-right" aria-hidden="true" style="padding-left:82px;"></i>
-				</a>
+				<div id="pageChange">
+					<a href="pollution_index.html" id="arrow" style="display:inline-block;">
+						<i class="fa fa-arrow-left" aria-hidden="true" style=""></i>
+					</a>
+					<a href="#popup1" id="arrow" style="display:inline-block;">
+						<i class="fa fa-info-circle" aria-hidden="true" style="padding-left:83px;"></i>
+					</a>
+					<a href="water_resources_index.html" id="arrow" style="display:inline-block;">
+						<i class="fa fa-home" aria-hidden="true" style="padding-left:0;"></i>
+					</a>
+					<a href="groundwater_index.html" id="arrow" style="display:inline-block;">
+						<i class="fa fa-arrow-right" aria-hidden="true" style="padding-left:82px;"></i>
+					</a>
+				</div>
 			</div>
 		</div>
     	<div id="map" style="width: 100%; height: 100%;"></div>
@@ -203,10 +203,12 @@
 	map.options.maxZoom = 10;
 	map.options.minZoom = 5;
 ///////////////////////basemap tiles////////////////////////////////
+
 	var Esri_WorldTerrain = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer/tile/{z}/{y}/{x}', {
 		attribution: 'Tiles &copy; Esri &mdash; Source: USGS, Esri, TANA, DeLorme, and NPS',
 		maxZoom:10,
-		minZoom:5
+		minZoom:5,
+		opacity:1
 	}).addTo(map);
 	
 	var watershed_outline = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
@@ -433,7 +435,7 @@
 				'watershedHUC6': function(properties, zoom) {
 					return {
 						fillColor:'#cce0ff',
-						fillOpacity: 0.5,
+						fillOpacity: 0.6,
 						stroke: true,
 						fill: true,
 						color: '#1a75ff', 							
@@ -557,7 +559,7 @@
 				'watershed_HU8': function(properties, zoom) {
 					return {
 						fillColor:'#cce0ff',
-						fillOpacity: 0.5,
+						fillOpacity: 0.6,
 						stroke: true,
 						fill: true,
 						color: '#1a75ff', 							

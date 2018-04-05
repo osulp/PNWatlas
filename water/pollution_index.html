@@ -25,57 +25,58 @@
 		</button>
 		<div id="infoPanel">
 			<div id="top">
-			<h1>Water Pollution</h1>
-			<img src="img/pollution_icon.png" id="titleImage" style="display:inline-block;">
-			<div id="buttons">
-				<div class="dropdown">
-  					<button class="dropbtn"><b id="dataType">Select Pollutant</b><p id="arrow">&#9660;</p></button>
-  					<div class="dropdown-content">
-   						 <button type="button" id="but1" class="selection" style="background:rgba(242, 242, 242, 0.8);">Total</button>
-						 <button type="button" id="but2" class="selection">Metals</button>
-						 <button type="button" id="but3" class="selection">Oxygen</button>
-						 <button type="button" id="but4" class="selection">Pathogens</button>
-						 <button type="button" id="but5" class="selection">Sediment</button>
-						 <button type="button" id="but6" class="selection">Temperature</button>
-						 <button type="button" id="but7" class="selection">Phosphorus</button>
-						 <button type="button" id="but8" class="selection">Nitrogen</button>
-						 <button type="button" id="but9" class="selection">Arsenic</button>
- 				   </div>
+				<h1>Water Pollution</h1>
+				<img src="img/pollution_icon.png" id="titleImage" style="display:inline-block; height:40px;">
+				<div id="buttons">
+					<div class="dropdown">
+						<button class="dropbtn"><b id="dataType">Select Pollutant</b><p id="arrow">&#9660;</p></button>
+						<div class="dropdown-content">
+							 <button type="button" id="but1" class="selection" style="background:rgba(242, 242, 242, 0.8);">Total</button>
+							 <button type="button" id="but2" class="selection">Metals</button>
+							 <button type="button" id="but3" class="selection">Oxygen</button>
+							 <button type="button" id="but4" class="selection">Pathogens</button>
+							 <button type="button" id="but5" class="selection">Sediment</button>
+							 <button type="button" id="but6" class="selection">Temperature</button>
+							 <button type="button" id="but7" class="selection">Phosphorus</button>
+							 <button type="button" id="but8" class="selection">Nitrogen</button>
+							 <button type="button" id="but9" class="selection">Arsenic</button>
+					   </div>
+					</div>
 				</div>
 			</div>
-			<h2 id="title">Total Impairments</h2><br/>
-			<img src="img/pollution.png" id="pollutionImage" style="display:inline-block; float:right;"> 
-			<div><b id="leg1_block" style="background:#a50f15; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p>&nbsp</p><p id="leg1" style="margin-left:5px;">50+</p><br/></div>
-			<div><b id="leg2_block" style="background:#de2d26; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2" style="margin-left:5px;">25 - 50</p><br/></div>
-			<div><b id="leg3_block" style="background:#fb6a4a; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg3" style="margin-left:5px;">10 - 25</p><br/></div>
-			<div><b id="leg4_block" style="background:#fcae91; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg4" style="margin-left:5px;">5 - 10</p><br/></div>
-			<div><b id="leg5_block" style="background:#fee5d9; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p>&nbsp</p><p id="leg5" style="margin-left:5px;">Less than 5</p><br/></div><br/>
-			<p id="description" style="font-weight:bold; text-align:justify; white-space:normal; padding-left:0px; width:280px; display:block; position:relative;">Total impairments in waterways. Impairments include Metals, Sediments, Algae, Pathogens, Oxygen Impairment, Ammonia, and more.</p>
-			<p3 id ="source" style="font-style:italic; text-align:justify; white-space:normal; padding-left:0px; width:280px; display:block; position:relative;">Impaired waters are listed in the 2015 303(d) list provided by the U.S Environmental Protection Agency.</p3>
-				<label class="switch">
-					<input name="checkbox_name" id="checkbox_id" type="checkbox" value="check" onclick="borders()" autocomplete="off">
-					<span class="slider"></span>
-				</label>
-				<p style="padding-left:5px; padding-top:12px; font-weight:bold;">Toggle Borders</p><br/>
-			</div>
-			
 			<div id="attribution">
-				<div id="text" style="margin-top:10px;">
+				<div id="text">
+					<h2 id="title">Total Impairments</h2><br/>
+					<img src="img/pollution.png" id="pollutionImage" style="display:inline-block; float:right; right:-15px; margin-top:20px;"> 
+					<div style="height:32px;"><b id="leg1_block" style="background:#a50f15; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p>&nbsp</p><p id="leg1" style="margin-left:5px;">50+</p></div>
+					<div style="height:30px;"><b id="leg2_block" style="background:#de2d26; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2" style="margin-left:5px;">25 - 50</p></div>
+					<div style="height:30px;"><b id="leg3_block" style="background:#fb6a4a; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg3" style="margin-left:5px;">10 - 25</p></div>
+					<div style="height:30px;"><b id="leg4_block" style="background:#fcae91; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg4" style="margin-left:5px;">5 - 10</p></div>
+					<div style="height:32px;"><b id="leg5_block" style="background:#fee5d9; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p>&nbsp</p><p id="leg5" style="margin-left:5px;">Less than 5</p></div><br/>
+					<p id="description" style="font-weight:bold; text-align:justify; white-space:normal; padding-left:0px; width:280px; display:block; position:relative;">Total impairments in waterways. These include Metals, Sediments, Algae, Pathogens, Oxygen Impairment, Ammonia, and more.</p>
+					<p3 id ="source" style="font-style:italic; text-align:justify; white-space:normal; padding-left:0px; width:280px; display:block; position:relative;">Impaired waters are listed in the 2015 303(d) list provided by the U.S Environmental Protection Agency.</p3>
+						<br/>
+						<label class="switch">
+							<input name="checkbox_name" id="checkbox_id" type="checkbox" value="check" onclick="borders()" autocomplete="off">
+							<span class="slider"></span>
+						</label>
+						<p style="padding-left:5px; padding-top:12px; font-weight:bold;">Toggle Borders</p><br/>
+					</div>
 				</div>
-			</div>
-			<div id="pageChange">
-				<a href="water_use_index.html" id="arrow" style="display:inline-block;">
-					<i class="fa fa-arrow-left" aria-hidden="true" style=""></i>
-				</a>
-				<a href="#popup1" id="arrow" style="display:inline-block;">
-					<i class="fa fa-info-circle" aria-hidden="true" style="padding-left:83px;"></i>
-				</a>
-				<a href="water_resources_index.html" id="arrow" style="display:inline-block;">
-					<i class="fa fa-home" aria-hidden="true" style="padding-left:0;"></i>
-				</a>
-				<a href="watershed_index.html" id="arrow" style="display:inline-block;">
-					<i class="fa fa-arrow-right" aria-hidden="true" style="padding-left:82px;"></i>
-				</a>
+				<div id="pageChange">
+					<a href="water_use_index.html" id="arrow" style="display:inline-block;">
+						<i class="fa fa-arrow-left" aria-hidden="true" style=""></i>
+					</a>
+					<a href="#popup1" id="arrow" style="display:inline-block;">
+						<i class="fa fa-info-circle" aria-hidden="true" style="padding-left:83px;"></i>
+					</a>
+					<a href="water_resources_index.html" id="arrow" style="display:inline-block;">
+						<i class="fa fa-home" aria-hidden="true" style="padding-left:0;"></i>
+					</a>
+					<a href="watershed_index.html" id="arrow" style="display:inline-block;">
+						<i class="fa fa-arrow-right" aria-hidden="true" style="padding-left:82px;"></i>
+					</a>
+				</div>
 			</div>
 		</div>
     	<div id="map" style="width: 100%; height: 100%;"></div>
