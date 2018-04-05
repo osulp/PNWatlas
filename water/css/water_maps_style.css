@@ -39,27 +39,31 @@ html, body{
 	}
 div#infoPanel h1 {
 	font-family: Baskerville, "Baskerville Old Face", "Hoefler Text", Garamond, "Times New Roman", serif;
-	font-size:30px;
+	font-size:35px;
+	margin-top:15px;
+	letter-spacing: 1px;
 	width:280px;
 	text-align:center;
 }
 div#infoPanel h2{
-	font-size:18px;
-	line-height:16px;
+	font-size:20px;
+	line-height:20px;
 	display:inline-block;
+	text-align:left;
 }
+
 div#infoPanel b {
-	width: 35px;
-    height: 20px;
-    line-height:25px;
-	display:inline-block;
-	position: absolute;
-	opacity:1;
-}
-div#infoPanel b.groundwater {
-	width: 45px;
+	width: 50px;
     height: 30px;
     line-height:30px;
+	display:inline-block;
+	opacity:0.8;
+}
+}
+div#infoPanel b.groundwater {
+	width: 50px;
+    height: 30px;
+    line-height:36px;
 	display:inline-block;
 	position: relative;
 	opacity:0.8;
@@ -84,13 +88,24 @@ div#infoPanel b.circle {
 }
 div#infoPanel p {
 	display:inline-block;
-	line-height:20px;
-	font-size:16px;
+	line-height:26px;
+	font-size:18px;
 	position: absolute;
+	margin:0;
+	margin-top:3px;
+	white-space:nowrap;
+	}
+div#infoPanel p#description {
+	display:inline-block;
+	line-height:22px;
+	font-size:18px;
+	position: absolute;
+	font-weight:bold;
 	padding-left: 40px;
 	margin:0;
+	margin-top:3px;
 	white-space:nowrap;
-}
+	}
 div#infoPanel p2 {
 	display:inline-block;
 	line-height:20px;
@@ -155,7 +170,8 @@ div#buttons b {
 	font-size:18px; 
 	bottom:2px;
 	position:relative;
-	font-weight:normal
+	font-weight:normal;
+	height:25px;
 }
 div#buttons #arrow {
 	color:#e6e6e6; 
@@ -199,7 +215,7 @@ div#buttons .selection:hover{
     border-width:2px;
     font-family: Baskerville, "Baskerville Old Face", "Hoefler Text", Garamond, "Times New Roman", serif;
     text-align:left;
-    padding:3px;
+    padding:1px 3px 2px 2px;
     color:#4d4d4d;
     height:35px;
 }
@@ -261,8 +277,8 @@ div#buttons .selectionSmall:hover {
     border-width:2px;
     font-family: Baskerville, "Baskerville Old Face", "Hoefler Text", Garamond, "Times New Roman", serif;
     text-align:left;
-    padding:3px;
     color:#4d4d4d;
+    height:32px;
 }
 
 /* The container <div> - needed to position the dropdown content */
@@ -275,7 +291,7 @@ div#buttons .selectionSmall:hover {
 .dropdown-contentSmall {
     display: none;
     position: absolute;
-    background: #ffffff;
+   background: #ffffff;
     width: 135px;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     z-index: 1;
@@ -378,8 +394,7 @@ input:checked + .slider:before {
 div.info.leaflet-control {
 	font-family: Baskerville, "Baskerville Old Face", "Hoefler Text", Garamond, "Times New Roman", serif;
 	background-color: rgba(255,255,255,0.8);
-	padding: 10px;
-	padding-top:0;
+	padding: 5px 10px 5px;
 	border-radius:5px;
 	font-size:16px;
 	box-shadow: 2px 2px 3px #888888;
@@ -391,7 +406,7 @@ div.info.leaflet-control {
 }
 .label_tooltip {
 	font-family: Baskerville, "Baskerville Old Face", "Hoefler Text", Garamond, "Times New Roman", serif;
-	font-size:14px;
+	font-size:16px;
 	padding:5px;
 	margin:0px;
 	border:1px solid black;
