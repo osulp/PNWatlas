@@ -9,7 +9,7 @@ html, body{
 	width:16px;
 	height:30px;
 	top:50%;
-	font-family: Baskerville, "Baskerville Old Face", "Hoefler Text", Garamond, "Times New Roman", serif;
+	font-family: "Goudy Old Style", Garamond, "Big Caslon", "Times New Roman", serif;
 	z-index:500;
 	font-size:18px;
 	padding:3px 4px 0px 0px;
@@ -35,10 +35,10 @@ html, body{
 	padding-right:20px
 	padding-top:20px;
 	color:black;
-	font-family: Baskerville, "Baskerville Old Face", "Hoefler Text", Garamond, "Times New Roman", serif;
+	font-family: "Goudy Old Style", Garamond, "Big Caslon", "Times New Roman", serif;
 	}
 div#infoPanel h1 {
-	font-family: Baskerville, "Baskerville Old Face", "Hoefler Text", Garamond, "Times New Roman", serif;
+	font-family: "Goudy Old Style", Garamond, "Big Caslon", "Times New Roman", serif;
 	font-size:35px;
 	margin-top:15px;
 	letter-spacing: 1px;
@@ -191,7 +191,7 @@ div#buttons .selection {
     border-color: rgba(255,255,255,0);
     margin-bottom:2px;
     margin-left:2px;
-   font-family: Baskerville, "Baskerville Old Face", "Hoefler Text", Garamond, "Times New Roman", serif;
+   font-family: "Goudy Old Style", Garamond, "Big Caslon", "Times New Roman", serif;
    font-size:14px;
 }
 div#buttons .selection:hover{
@@ -211,7 +211,7 @@ div#buttons .selection:hover{
     border-style: solid;
     border-color: rgba(0,0,0,1);
     border-width:2px;
-    font-family: Baskerville, "Baskerville Old Face", "Hoefler Text", Garamond, "Times New Roman", serif;
+    font-family: "Goudy Old Style", Garamond, "Big Caslon", "Times New Roman", serif;
     text-align:left;
     padding:1px 3px 2px 2px;
     color:#4d4d4d;
@@ -254,7 +254,7 @@ div#buttons .selectionSmall {
     border-color: rgba(255,255,255,0);
     margin-bottom:2px;
     margin-left:2px;
-    font-family: Baskerville, "Baskerville Old Face", "Hoefler Text", Garamond, "Times New Roman", serif;
+    font-family: "Goudy Old Style", Garamond, "Big Caslon", "Times New Roman", serif;
     font-size:14px;
 }
 div#buttons .selectionSmall:hover {
@@ -273,7 +273,7 @@ div#buttons .selectionSmall:hover {
     border-style: solid;
     border-color: rgba(0,0,0,1);
     border-width:2px;
-    font-family: Baskerville, "Baskerville Old Face", "Hoefler Text", Garamond, "Times New Roman", serif;
+    font-family: "Goudy Old Style", Garamond, "Big Caslon", "Times New Roman", serif;
     text-align:left;
     color:#4d4d4d;
     height:32px;
@@ -308,7 +308,7 @@ div#buttons .selectionSmall:hover {
 }
 /*map tooltip and info panel styles*/
 div.info.leaflet-control {
-	font-family: Baskerville, "Baskerville Old Face", "Hoefler Text", Garamond, "Times New Roman", serif;
+	font-family: "Goudy Old Style", Garamond, "Big Caslon", "Times New Roman", serif;
 	background-color: rgba(255,255,255,0.8);
 	padding: 5px;
 	padding-left:10px;
@@ -324,7 +324,7 @@ div.info.leaflet-control {
 }
 
 .label_tooltip {
-	font-family: Baskerville, "Baskerville Old Face", "Hoefler Text", Garamond, "Times New Roman", serif;
+	font-family: "Goudy Old Style", Garamond, "Big Caslon", "Times New Roman", serif;
 	font-size:16px;
 	padding:5px;
 	margin:0px;
@@ -435,7 +435,7 @@ a#arrow{
   width: 45%;
   position: relative;
   transition: all 5s ease-in-out;
-  font-family: Baskerville, "Baskerville Old Face", "Hoefler Text", Garamond, "Times New Roman", serif;
+  font-family: "Goudy Old Style", Garamond, "Big Caslon", "Times New Roman", serif;
 }
 
 .popup h2 {
@@ -458,7 +458,7 @@ hr{
   text-decoration: none;
   color: #d9d9d9;
   text-align:right;
-  font-family: Baskerville, "Baskerville Old Face", "Hoefler Text", Garamond, "Times New Roman", serif;
+  font-family: "Goudy Old Style", Garamond, "Big Caslon", "Times New Roman", serif;
 }
 .popup .close:hover {
   color: #b3b3b3;
@@ -474,7 +474,7 @@ hr{
     text-decoration: none;
     display: inline-block;
     font-size: 14px;
-    font-family: Baskerville, "Baskerville Old Face", "Hoefler Text", Garamond, "Times New Roman", serif;
+    font-family: "Goudy Old Style", Garamond, "Big Caslon", "Times New Roman", serif;
     float:right;
 }
 .popup .close2:hover {
