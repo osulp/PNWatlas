@@ -21,47 +21,65 @@
 	<div class="back" >
 		<div class="cover" >
 			<div class="title">
-				<img src="img/tree_green.png">
 				Outdoor Recreation
-				<img src="img/tree_green.png">
 			</div>
 			<div class="title2"  style="margin-bottom:1%;">Atlas of the Pacific Northwest</div>
 			<div id="scroll">
 				<div id="iconRow">
-					<div id="map_1" class="iconBlock">
-						<a href="parks_index.html" style="text-decoration:none; text-align:center; outline: 0;">
-							<img src="img/park_icon_small.png" id="img2" style="display:block; text-align:center;">
-							<h3 style="text-align:center;">Parks & Protected Areas</h3>						
-							<p>Park locations, mangers, and visitation statistics</p>
-						</a>
-					</div>
-					<div id="map_2" class="iconBlock">
-						<a href="activities_index.html" style="text-decoration:none;  text-align:center; outline: 0;">
-							<img src="img/tent_icon_small.png" id="img2" style="display:block; text-align:center;">
-							<h3 style="text-align:center;">Outdoor Activities</h3>
-							<p>Camping, skiing, river rafting and mountaineering</p>
-						</a>
-					</div>
-					<div id="map_3" class="iconBlock">
-						<a href="fishing_index.html" style="text-decoration:none; text-align:center; outline: 0;">
-							<img src="img/fish_icon_small.png" id="img2" style="display:block; text-align:center;">
-							<h3 style="text-align:center;">Fish & Fishing</h3>
-							<p>Anadromous fish habitat, current and historical</p>
-						</a>
-					</div>
-					<div id="map_4" class="iconBlock">
-						<a href="economic_index.html" style="text-decoration:none; text-align:center; outline: 0;">
-							<img src="img/economic_icon_small.png" id="img2" style="display:block; text-align:center;">
-							<h3 style="text-align:center;">Outdoor Economy</h3>
-							<p>Outdoor recreation employment, wages, spending, and taxation</p>
-						</a>
-					</div>
-					<div id="map_5" class="iconBlock">
-						<a href="hunting_index.html" style="text-decoration:none; text-align:center; outline: 0;">
-							<img src="img/hunting_icon_small.png" id="img2" style="display:block; text-align:center;">
-							<h3 style="text-align:center;">Hunting</h3>
-							<p>Annual deer, elk, and bear harvest</p>
-						</a>
+					<div class="iconBlock" id="map_1">
+						<div style="margin-left:30%;">
+							<a href="parks_index.html" style="text-decoration:none; outline: 0;">
+								<img src="img/park_icon_small.png" class="img2" id="img_map1">
+								<div id="text_map1" style="margin-left:100px; display:inline-block;">
+									<h3 style="text-align:center;">Parks & Protected Areas</h3>							
+									<p style="width:60%;">Park locations, mangers, and visitation statistics</p>
+								</div>
+							</a>
+						</div>
+					</div>	
+					<div class="iconBlock" id="map_2">
+						<div style="margin-left:30%;">
+							<a href="activities_index.html" style="text-decoration:none; outline: 0;">					
+								<img src="img/tent_icon_small.png" class="img2" id="img_map2">
+								<div id="text_map2" style="margin-left:100px; display:inline-block;">
+									<h3 style="text-align:center;">Outdoor Activities</h3>							
+									<p>Camping, skiing, river rafting and mountaineering</p>
+								</div>
+							</a>
+						</div>
+					</div>	
+					<div class="iconBlock" id="map_3">
+						<div style="margin-left:30%;">
+							<a href="fishing_index.html" style="text-decoration:none;  outline: 0;">
+								<img src="img/fish_icon_small.png" class="img2" id="img_map3">	
+								<div id="text_map3" style="margin-left:100px; display:inline-block;">
+									<h3 style="text-align:center;">Fish & Fishing</h3>			
+									<p>Anadromous fish habitat, current and historical</p>
+								</div>
+							</a>
+						</div>
+					</div>	
+					<div class="iconBlock" id="map_4">
+						<div style="margin-left:30%;">
+							<a href="economic_index.html" style="text-decoration:none; outline: 0;">
+								<img src="img/economic_icon_small.png" class="img2" id="img_map4">
+								<div id="text_map4" style="margin-left:100px; display:inline-block;">
+									<h3 style="text-align:center;">Outdoor Economy</h3>											
+									<p>Outdoor recreation employment, wages, spending, and taxation</p>
+								</div>
+							</a>
+						</div>
+					</div>	
+					<div class="iconBlock" id="map_5">
+						<div style="margin-left:30%;">
+							<a href="hunting_index.html" style="text-decoration:none; outline: 0;">
+								<img src="img/hunting_icon_small.png" class="img2" id="img_map5">
+								<div id="text_map5" style="margin-left:100px; display:inline-block;">
+									<h3 style="text-align:center;">Hunting</h3>							
+									<p>Annual deer, elk, and bear harvest</p>
+								</div>
+							</a>
+						</div>
 					</div>
 				</div>
 				<div id="text">
@@ -71,10 +89,34 @@
 				<a href="" id="arrow">
 					<i id="down" class="animated zoomIn infinite fa fa-chevron-down" aria-hidden="true"></i>
 				</a>
-				<h2>Oregon State University</h2>
+				<h2>OREGON STATE UNIVERSITY</h2>
 		</div>
+		
 	</div>
 <script>
+
+	var iconRow = ['#img_map1','#img_map2','#img_map3','#img_map4','#img_map5'];
+	var textRow = ['#text_map1','#text_map2','#text_map3','#text_map4','#text_map5'];
+
+	function placeIcon(){
+		for (i = 0; i < 7; i++){
+			var height = ($(textRow[i]).height()/3);
+			$(iconRow[i]).css('margin-top', height);
+		}
+	}
+	
+	$(document).ready(placeIcon);
+	$(window).resize(placeIcon);
+		
+	function textSize(){
+		var height =  $('#title').height() + $('#title2').height() + $('#arrow').height() + $('#university').height() + 50;
+		var windowHeight = $(window).height();
+		var total = windowHeight - height;
+		$('#scroll').css('height', total);
+	}
+	
+	$(document).ready(textSize);
+	$(window).resize(textSize);
 
 	$(function() {
   		$('#map_1').hover(function() {
