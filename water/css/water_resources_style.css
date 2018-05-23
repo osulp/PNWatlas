@@ -210,6 +210,20 @@ a#arrow{
 #arrow:hover{
 	cursor:default;
 }
+a#arrow2{
+	color:black;
+	font-size:20px;
+	position:absolute;
+	top:5px;
+	margin-left:5px;
+	z-index:10;
+	text-align:left;
+	text-decoration:none;
+	font-weight:bold;
+} 
+a#arrow2:hover{
+	color:gray;
+}
 h2{
 	color: rgba(0,0,0,1);
 	font-size: 24px;
