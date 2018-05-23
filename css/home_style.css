@@ -1,5 +1,5 @@
 html, body {
-		font-family: "Goudy Old Style", Garamond, "Big Caslon", "Times New Roman", serif;		
+		font-family: "Goudy Old Style", Garamond, "Big Caslon", "Times New Roman", serif;
 		width:100%;
 		height:100%;
 		margin:0;
@@ -44,7 +44,6 @@ div.back{
 	margin:0;
 	padding:0;
 	background: rgba(255, 255, 255, 0);
-	/*background-image: url("background.jpg");*/
 	background-size: 100% auto;
 }
 div.title{
@@ -65,22 +64,34 @@ div.title img{
 	margin-bottom:-3%;
 }
 div#scroll{
-	height:54%; 
-	position:relative;
+	height:69%; 
+	position:absolute;
 	width:100%;
 }
-img#img2{
-	height: 3vw;
-	width: 2.5vw;
-	position:relative;
+img.img2{
+	height: 25px;
+	width: 50px	;
+	position:absolute;
 	margin:auto;
-	margin-bottom:4px;
+	display:inline;
+	text-align:left;
+	margin-bottom:10px;
 	}
 img#img3{
 	height: 1.5em;
 	position:relative;
 	display:inline;
 	float:center;
+	}
+img.img4{
+	display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top:10px;
+    height:5.5vw;
+    z-index:0;
+    border:black solid 2px;
+    border-radius:5px;
 	}
 div.title2{
 	color: rgba(0,0,0,1);
@@ -99,18 +110,12 @@ h3{
 	line-height: 30px;
 	letter-spacing: 3px;
 	text-align:left;
-	display:block;
+	display:inline;
 	margin-top:0;
 	margin-bottom:0;
+	
 }
-h3:hover{
-	color: rgba(150,150,150,1);
-	padding:0;
-	letter-spacing: 3px;
-	text-align:left;
-	display:block;
-	margin-top:0;
-}
+
 hr{
 	color: rgba(77,115,94,1);
 }
@@ -134,21 +139,21 @@ img#image {
 	}
 
 div#iconRow{
-	/*display: flex;
-    justify-content: space-between;
-    flex-direction:column;*/
     margin: auto;
     left:50%;
     width:50%;
-    
 }	
+div.iconBlock{
+	padding: 10px 0px 0px; 
+}
 p {
 	font-size:18px;
 	color:black;
-	margin:auto;
 	margin-top:0px;
-	text-align:center;
+	text-align:left;
+	width:85%;
 }
+
 p3 {
 	font-size:100%;
 	color:black;
@@ -160,7 +165,7 @@ p3 {
 	position: relative;
 	margin: auto;
     width:50%;
-    margin-top:40px;
+    margin-top:20px;
     font-size:24px;
 }
 .tooltip {
@@ -168,7 +173,8 @@ p3 {
     display: block;
 }
 .tooltip .tooltiptext {
-    font-family: "Goudy Old Style", Garamond, "Big Caslon", "Times New Roman", serif;
+	font-family: "Goudy Old Style", Garamond, "Big Caslon", "Times New Roman", serif;   
+    /*font-family: Baskerville, "Baskerville Old Face", "Hoefler Text", Garamond, "Times New Roman", serif; */
     visibility: hidden;
     background-color: #f2f2f2;
     box-shadow: 2px 2px 1px #595959;
