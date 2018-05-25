@@ -1,1 +1,1 @@
-wgit.com/osulp/PNWatlas/master/food/food_index.html
+rawgit.com/osulp/PNWatlas/master/food/food_index.html
