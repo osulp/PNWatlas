@@ -46,8 +46,8 @@ div#infoPanel h1 {
 	text-align:center;
 }
 div#infoPanel h2{
-	font-size:20px;
-	line-height:20px;
+	font-size:22px;
+	line-height:22px;
 	display:inline-block;
 	text-align:left;
 }
@@ -88,8 +88,8 @@ div#infoPanel b.circle {
 }
 div#infoPanel p {
 	display:inline-block;
-	line-height:26px;
-	font-size:18px;
+	line-height:28px;
+	font-size:20px;
 	position: absolute;
 	margin:0;
 	margin-top:3px;
@@ -97,8 +97,8 @@ div#infoPanel p {
 	}
 div#infoPanel p#description {
 	display:inline-block;
-	line-height:22px;
-	font-size:18px;
+	line-height:24px;
+	font-size:20px;
 	position: absolute;
 	font-weight:bold;
 	padding-left: 40px;
@@ -139,6 +139,8 @@ div#infoPanel img#pollutionImage {
 	}
 div#text p3 {
 	text-align: justify;
+	font-size: 18px;
+	line-height:22px;
 	}
 #damLegendSide{
 	width:140px;
