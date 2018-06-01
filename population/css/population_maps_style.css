@@ -38,11 +38,12 @@ html, body{
 	}
 div#infoPanel h1 {
 	font-family: "Goudy Old Style", Garamond, "Big Caslon", "Times New Roman", serif;
-	font-size:35px;
+	font-size:42px;
 	margin-top:15px;
-	letter-spacing: 1px;
+	letter-spacing: 2px;
 	width:280px;
 	text-align:center;
+	font-variant: small-caps;
 }
 div#infoPanel h1.small{
 	padding-left:0;
