@@ -13,8 +13,10 @@
     
     <script src="https://unpkg.com/leaflet@1.0.2/dist/leaflet.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="js/leaflet_pattern.js"></script>
     <script src="https://d3js.org/topojson.v1.min.js"></script>
     <script src="js/perfect-scrollbar.js"></script>
+     <script type="text/javascript" src="../js/clickFunction.js"></script>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     
@@ -28,23 +30,47 @@
 			<div id="top">
 				<h1>Groundwater</h1>
 				<img src="img/gw_icon.png" id="titleImage" style="display:inline-block;">
+				<div id="buttons">
+					<div class="dropdown">
+						<button class="dropbtn"><b id="dataType">Select Data</b><p id="arrow">&#9660;</p></button>
+						<div class="dropdown-content">
+							 <button type="button" id="but1" class="selection" style="background:rgba(242, 242, 242, 0.8);">Aquifers</button>
+							 <button type="button" id="but2" class="selection">Conservation</button>
+					   </div>
+					</div>
+				</div>
 			</div>
 			<div id="attribution">
 				<div id="text">
-					<h2 id="title" style="line-height: 20px; margin-top:5px; margin-bottom:1px;">Recharge(mm/yr)</h2><h2 style="margin-left:35px;line-height: 20px; margin-top:5px; margin-bottom:1px;">Aquifer</h2><br/>
-					<p2 style="">0</p2><p2 style="left:40px;">20</p2><p2 style="left:85px;">100</p2><p2 style="left:135px;">500+</p2><h2 style="margin-left:220px; margin-top:1px; margin-bottom:5px;">Type</h2>
-					<div style="line-height:32px; height:32px;"><b id="leg1_block" class="groundwater" style="background-color:#e6ecff; border-left:black 2px solid; border-top:black 2px solid; bottom:2px;"></b><b class="groundwater" style="background-color:#99b3ff;border-top:black 2px solid; bottom:2px;"></b><b class="groundwater" style="background-color:#4d79ff; border-top:black 2px solid; bottom:2px;"></b><b class="groundwater" style="background-color:#0033cc; border-right:black 2px solid; border-top:black 2px solid; bottom:2px;"></b><p2 id="leg1" style="line-height:30px;">Sand</p></div>
-					<div style="line-height:30px; height:30px;"><b id="leg1_block" class="groundwater" style="background-color:#ecf9ec; border-left:black 2px solid; "></b><b class="groundwater" style="background-color:#b3e6b9;"></b><b class="groundwater" style="background-color:#66cc66;"></b><b class="groundwater" style="background-color:#267326; border-right:black 2px solid;"></b><p2 id="leg2" style="line-height:30px;">Volcanic</p></div>
-					<div style="line-height:30px; height:30px;"><b id="leg1_block" class="groundwater" style="background-color:#ebebe0; border-left:black 2px solid; border-bottom:black 2px solid;"></b><b class="groundwater" style="background-color:#ccccb3; height:32px;"></b><b class="groundwater" style="height:32px;background-color:#a3a375; "></b><b class="groundwater" style="background-color:#5c5c3d; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p2 id="leg3" style="line-height:30px;">Other</p></div>
-					<div style="line-height:32px; height:32px;"><b id="leg1_block" class="groundwater" style="background-color:#ffffff; opacity:0;"></b><b  class="groundwater" style="background-color:#c19cef; border-left:black 2px solid; border-bottom:black 2px solid;"></b><b class="groundwater" style="background-color:#8461af; border-right:black 2px solid; border-bottom:black 2px solid;"></b><b class="groundwater" style="background-color:#ffffff;opacity:0;"></b><p2 id="leg4" style="line-height:30px;">Carbonate</p></div><br/>			
-					<b2 style="color:#0033cc">Sand and Gravel</b2>
-					<p3>Unconsolidated sand and gravel aquifers are the most productive and easily accesible aquifers in the Pacific Northwest. They are typically shallow, and found in lowland basins. Sand and gravel aquifers commonly yield 20 - 2000 gallons per minute to wells.</p3>
-					<b2 style="color:#267326">Volcanic</b2>
-					<p3>Volcanic rock aquifers are more geologically complex than sand and gravel aquifers, resulting in more variable hydrologic productivity. Volcanic aquifers are often difficult to access, but can hold large volumes of water in rock fractures. Volcanic aquifers can yield 1 - 1000 gallons per minute to wells, but often yield less than 400.</p3>
-					<b2 style="color:#5c5c3d">Other Rocks</b2>
-					<p3>Aquifers categorized as "other" are typically minor hydrologic units that are difficult to access, have poor yields, or both. Other rock yells yield 1 - 100 gallons per minute to wells.</p3>
-					<b2 style="color:#8461af">Carbonate</b2>
-					<p3>In the southeastern corner of Idaho, a small area consists of carbonate rock aquifers. In these areas, aquifers are generally poor yielding, but can be very deep.</p3>
+					<div id="leg_1">
+						<h2 id="title" style="line-height: 20px; margin-top:15px; margin-bottom:3px;">Recharge(mm/yr)</h2><h2 style="margin-left:45px;line-height: 20px; margin-top:5px; margin-bottom:3px;">Aquifer</h2><br/>
+						<p2 style="">0</p2><p2 style="left:40px;">20</p2><p2 style="left:85px;">100</p2><p2 style="left:135px;">500+</p2><h2 style="margin-left:210px; margin-top:1px; margin-bottom:5px;">Type</h2>
+						<div style="line-height:32px; height:32px;"><b id="leg1_block" class="groundwater" style="background-color:#e6ecff; border-left:black 2px solid; border-top:black 2px solid; bottom:2px;"></b><b class="groundwater" style="background-color:#99b3ff;border-top:black 2px solid; bottom:2px;"></b><b class="groundwater" style="background-color:#4d79ff; border-top:black 2px solid; bottom:2px;"></b><b class="groundwater" style="background-color:#0033cc; border-right:black 2px solid; border-top:black 2px solid; bottom:2px;"></b><p2 id="leg1" style="line-height:30px;">Sand</p></div>
+						<div style="line-height:30px; height:30px;"><b id="leg2_block" class="groundwater" style="background-color:#ecf9ec; border-left:black 2px solid; "></b><b class="groundwater" style="background-color:#b3e6b9;"></b><b class="groundwater" style="background-color:#66cc66;"></b><b class="groundwater" style="background-color:#267326; border-right:black 2px solid;"></b><p2 id="leg2" style="line-height:30px;">Volcanic</p></div>
+						<div style="line-height:30px; height:30px;"><b id="leg3_block" class="groundwater" style="background-color:#ebebe0; border-left:black 2px solid; border-bottom:black 2px solid;"></b><b class="groundwater" style="background-color:#ccccb3; height:32px;"></b><b class="groundwater" style="height:32px;background-color:#a3a375; "></b><b class="groundwater" style="background-color:#5c5c3d; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p2 id="leg3" style="line-height:30px;">Other</p></div>
+						<div style="line-height:32px; height:32px;"><b id="leg4_block" class="groundwater" style="background-color:#ffffff; opacity:0;"></b><b  class="groundwater" style="background-color:#c19cef; border-left:black 2px solid; border-bottom:black 2px solid;"></b><b class="groundwater" style="background-color:#8461af; border-right:black 2px solid; border-bottom:black 2px solid;"></b><b class="groundwater" style="background-color:#ffffff;opacity:0;"></b><p2 id="leg4" style="line-height:30px;">Carbonate</p></div><br/>			
+						<b2 style="color:#0033cc">Sand and Gravel</b2>
+						<p3>Unconsolidated sand and gravel aquifers are the most productive and easily accesible aquifers in the Pacific Northwest. They are typically shallow, and found in lowland basins. Sand and gravel aquifers commonly yield 20 - 2000 gallons per minute to wells.</p3>
+						<b2 style="color:#267326; font-size:20px;">Volcanic</b2>
+						<p3>Volcanic rock aquifers are more geologically complex than sand and gravel aquifers, resulting in more variable hydrologic productivity. Volcanic aquifers are often difficult to access, but can hold large volumes of water in rock fractures. Volcanic aquifers can yield 1 - 1000 gallons per minute to wells, but often yield less than 400.</p3>
+						<b2 style="color:#5c5c3d; font-size:20px;">Other Rocks</b2>
+						<p3>Aquifers categorized as "other" are typically minor hydrologic units that are difficult to access, have poor yields, or both. Other rock yells yield 1 - 100 gallons per minute to wells.</p3>
+						<b2 style="color:#8461af; font-size:20px;">Carbonate</b2>
+						<p3>In the southeastern corner of Idaho, a small area consists of carbonate rock aquifers. In these areas, aquifers are generally poor yielding, but can be very deep.</p3>
+					</div>
+					<div id="leg_2" style="display:none;">
+						<h2 id="title" style="display:block; width:280px; white-space:normal;">Conservation Areas</h2>
+						<div style="height:32px;"><b id="leg1_block" style="background:#cc2900; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p>&nbsp</p><p id="leg1" style="margin-left:5px;">Critical Groundwater Area</p></div>
+						<div style="height:32px;"><b id="leg2_block" style="background:#ffa64d; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p>&nbsp</p><p id="leg3" style="margin-left:5px;">Area of Concern</p></div><br/>
+						<div style="height:32px;"><b id="leg3_block" style="background:repeating-linear-gradient(45deg, rgba(255,255,255,0), rgba(255,255,255,0) 10%, #99b3ff 15%, #99b3ff 15%); border:black 2px solid;"></b><p>&nbsp</p><p id="leg3" style="margin-left:5px;">Sole Source Aquifer</p></div><br/>
+						</br>
+						<b2 style="color:#cc2900; font-size:20px;">Critical Groundwater Area</b2>
+						<p3>Critical Groundwater Areas (CGWAs) are where groundwater extraction exceeds groundwater supply, potentially long and short-run causing depletion.</p3>
+						<b2 style="color:#ffa64d; font-size:20px;">Area of Concern</b2>
+						<p3>Areas of Concern are where groundwater levels may be approaching CGWA conditions. In Oregon, these are called Groundwater Limited Areas (GMLAs). in Idaho, they are called Groundwater Management Areas (GWMAs). Washington has no such designations.</p3>
+						<b2 style="color:#4d79ff; font-size:20px;">Sole Source Aquifer</b2>
+						<p3>Sole Source Aquifers provide at least 50% of drinking water in a region. In regions with sole source aquifers, there are no alternatives if the aquifer becomes contaminated or depleted.</p3>
+					</div>
 				</div>
 				<div id="pageChange">
 					<a href="watershed_index.html" id="arrow" style="display:inline-block;">
@@ -148,6 +174,13 @@
 		opacity:1
 	}).addTo(map);
 	
+	var Esri_WorldImagery = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+		attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community',
+		maxZoom:14,
+		minZoom:5,
+		opacity:0.1
+	}).addTo(map);
+	
 	var pnwCover = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
 		layers: 'baldricg_PNW_ATLAS:pnw_outline2_black',
         format: 'image/png',
@@ -170,7 +203,8 @@
 		],
 		pane:'labels'
 	});	
-     var pnwStates = $.getJSON("assets/pnw_states.geojson", function(data){
+	
+    var pnwStates = $.getJSON("assets/pnw_states.geojson", function(data){
         pnwStates = L.geoJson(data, {
         	style: function pnwStatesStyle(){
 				return{
@@ -184,6 +218,26 @@
         	interactive: false
         }).addTo(map);
     });
+    
+    const countyOutlines = new L.TopoJSON();
+
+	$.getJSON('assets/pnw_counties.json')
+  		.done(countyOutlinesAddTopoData);
+
+	function countyOutlinesAddTopoData(topoData) {  
+  		countyOutlines.addData(topoData);
+  		countyOutlines.eachLayer(countyOutlinesHandleLayer);
+	}
+
+	function countyOutlinesHandleLayer(layer){
+        layer.setStyle({
+            weight: 0.25,
+            opacity:1,
+            fillOpacity:0,
+            color: '#808080',
+            interactive:false
+        });
+    }
 	map.createPane('labels');
 	map.getPane('labels').style.pointerEvents = 'none';
 	map.getPane('labels').style.zIndex = 650;
@@ -191,6 +245,8 @@
 
 	map.createPane('tooltip');
 	map.getPane('tooltip').style.zIndex = 700;
+////////////////////////////////important variables////////////////////////////////
+	var data = 1;
 ////////////////////////////////info control in upper right////////////////////////////////
     
 	var info = L.control();
@@ -202,35 +258,42 @@
 	};
 	
 	info.update = function (props) {
-    	function rechargeDisplay(cat) {
-			return cat == 1 ? '0 - 20 mm/yr':
-				cat == 2 ? '20 - 100 mm/yr':
-				cat == 3 ? '100 - 500 mm/yr':
-				'500+ mm/yr';
+		if (data == 1){
+			function rechargeDisplay(cat) {
+				return cat == 1 ? '0 - 20 mm/yr':
+					cat == 2 ? '20 - 100 mm/yr':
+					cat == 3 ? '100 - 500 mm/yr':
+					'500+ mm/yr';
+				}
+			function rechargeName(rock) {
+				return rock == '100' ? 'Sand/Gravel':
+					rock == '600' ? 'Volcanic':
+					rock == '999' ? 'Other Rocks':
+					'Carbonate';
+				}
+			this._div.innerHTML = (props ?
+				'<b style="display:inline;">'+ rechargeName(props.ROCK_TYPE) + '</b></br><p style="display:inline;">' + rechargeDisplay(props.re_cat) + '</p>'
+					: '<h3 style="margin:0; display:inline-block;">Hover over Map</h3>');
 			}
-		function rechargeName(rock) {
-			return rock == '100' ? 'Sand/Gravel':
-				rock == '600' ? 'Volcanic':
-				rock == '999' ? 'Other Rocks':
-				'Carbonate';
+		if (data == 2){
+			this._div.innerHTML = (props ?
+				'<b style="display:inline;">'+ props.NAME  + '</b></br><p style="display:inline;">' + props.type + '</p>'
+					: '<h3 style="margin:0; display:inline-block;">Hover over Map</h3>');
 			}
-    	this._div.innerHTML = (props ?
-       		'<b style="display:inline;">'+ rechargeName(props.ROCK_TYPE) + '</b></br><p style="display:inline;">' + rechargeDisplay(props.re_cat) + '</p>'
-        		: '<h3 style="margin:0; display:inline-block;">Hover over Map</h3>');
 		};
 
 	info.addTo(map);
 ////////////////////////////display layers//////////////////////
 	////////////////////////////aquifers//////////////////////
-	const topoLayer = new L.TopoJSON();
+	const aquifers = new L.TopoJSON();
 
 	$.getJSON('assets/aquifers.json')
   		.done(addTopoData);
 
 	function addTopoData(topoData) {  
-  		topoLayer.addData(topoData);
-  		topoLayer.addTo(map);
-  		topoLayer.eachLayer(handleLayer);
+  		aquifers.addData(topoData);
+  		aquifers.addTo(map);
+  		aquifers.eachLayer(handleLayer);
 	}
 	
 	function gwColor(rock, recharge){
@@ -284,6 +347,100 @@
       });
       info.update();
     }
+    ////////////////////////////////sole source aquifers////////////////////////////////
+    const conservation = new L.TopoJSON();
+
+	$.getJSON('assets/groundwater_conservation_areas.json')
+  		.done(addConservationData);
+
+	function addConservationData(topoData) {  
+  		conservation.addData(topoData);
+  		conservation.eachLayer(handleConservationLayer);
+	}
+	
+	function conservationColor(string){
+		return string == 'GWCA' ? '#cc2900':
+			string == 'GWLA' || string == 'GWMA (ID)' ? '#ffa64d':
+				'#ffffff';
+		}
+	
+	function handleConservationLayer(layer){
+        layer.setStyle({
+          fillColor : conservationColor(layer.feature.properties.type),
+          fillOpacity: 0.6,
+          color:'#ffffff',
+          weight:1,
+          opacity:1
+        });
+        layer.on({
+         	mouseover : enterConLayer,
+            mouseout: leaveConLayer
+        });
+    }
+    
+    function enterConLayer(){
+      this.setStyle({
+        	fillOpacity: 1,
+        	dashArray:4,
+        	color:'#000000',
+        	opacity:1
+      });
+      info.update(this.feature.properties);
+    }
+    
+    function leaveConLayer(){
+      this.setStyle({
+        	fillOpacity: 0.6,
+        	dashArray:null,
+        	color:'#ffffff',
+        	opacity:1
+      });
+      info.update();
+    }
+    ////////////////////////////////sole source aquifers////////////////////////////////
+    const SSA = new L.TopoJSON();
+    
+    $.getJSON('assets/SSA.json')
+  		.done(addSSAData);
+  		
+	var stripes = new L.StripePattern({
+            weight: 1,
+            spaceWeight: 2,
+            height: 3,
+            angle:45,
+            color:'#99b3ff',
+            spaceColor:'#ffffff'
+        });
+        stripes.addTo(map);
+
+	function addSSAData(topoData) {  
+  		SSA.addData(topoData);
+  		SSA.eachLayer(SSALayer);
+	}
+	
+	function SSALayer(layer){
+        layer.setStyle({
+				fillPattern:stripes,
+				opacity:1,
+				color:'#99b3ff',
+				weight:0,
+				fillOpacity:1,
+				interactive:false
+        });
+    }
+ ///////////////////////////////other miscellaneous functions (these also never change)////////////////////////////////     
+    var buttonLabels = ['#but1','#but2'];
+
+	var buttonFunctions = {
+		but1: {button:'but1', newLayers:[aquifers], newLegend: 'leg_1', title:'Aquifers/Recharge', variable:1},
+		but2: {button:'but2', newLayers:[conservation,SSA, countyOutlines], newLegend: 'leg_2', title:'Conservation',  variable:2}
+	};
+	
+	$('.main1').clickFunction({
+		buttonFunctions: buttonFunctions,
+		buttonLabels: buttonLabels,
+		selected:buttonFunctions.but1
+	});
     
  ///////////////////////////////other miscellaneous functions (these also never change)////////////////////////////////  
 

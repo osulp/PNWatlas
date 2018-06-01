@@ -60,7 +60,7 @@
 							<input name="checkbox_name" id="checkbox_id" type="checkbox" value="check" onclick="borders()" autocomplete="off">
 							<span class="slider"></span>
 						</label>
-						<p style="padding-left:5px; padding-top:12px; font-weight:bold;">Toggle Borders</p><br/>
+						<p style="padding-left:5px; padding-top:6px; font-weight:bold;">Toggle Borders</p><br/>
 					</div>
 				</div>
 				<div id="pageChange">
@@ -169,7 +169,7 @@
 	var label = L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_only_labels/{z}/{x}/{y}@2x.png', {
 		attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
 		subdomains: 'abcd',
-		maxZoom:10,
+		maxZoom:8,
 		minZoom:5,
 		tileSize:256,
 		bounds:[
@@ -189,45 +189,29 @@
 		pane: 'water'
 	});
 	
-	
-     var pnwStates = $.getJSON("assets/pnw_states.geojson", function(data){
-        pnwStates = L.geoJson(data, {
-        	style:function pnwStatesStyle(){
-				return{
-					opacity: 1,
-					color:'#666666',
-					fillOpacity:0	,
-					fillColor:'#404040',
-					weight:1.5
-				};
-			},
-        	interactive: false
-        });
-    });
-    
-     var pnwCounties = $.getJSON("assets/counties2.geojson", function(data){
-        pnwCounties = L.geoJson(data, {
-        	style: function pnwCountiesStyle(){
-				return{
-					opacity: 0.7,
-					color:'#999999',
-					weight:0.5
-				};
-			},
-			interactive: false
-        });
-    });
+	var pnwBorders = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
+		layers: 'baldricg_PNW_ATLAS:pnw_borders_black',
+        format: 'image/png',
+		maxZoom:10,
+		minZoom:5,
+		opacity:0.5,
+		transparent:true,
+		pane: 'borders'
+	});
+//create pane to add labels above basemap and geojson features
+	map.createPane('borders');
+	map.getPane('borders').style.pointerEvents = 'none';
+	map.getPane('borders').style.zIndex = 800;
+		
     var border = 0;
     function borders() {
     	if (border == 0){
     		border = 1;
-    		pnwStates.addTo(map);
-    		pnwCounties.addTo(map);
+    		pnwBorders.addTo(map);
     	}
     	else {
     		border = 0;
-    		map.removeLayer(pnwStates);
-    		map.removeLayer(pnwCounties);
+    		map.removeLayer(pnwBorders);
     	}
     } 
     
