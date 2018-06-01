@@ -47,8 +47,8 @@ div#infoPanel h1 {
 	text-align:center;
 }
 div#infoPanel h2{
-	font-size:20px;
-	line-height:20px;
+	font-size:22px;
+	line-height:22px;
 }
 div#infoPanel h2.large{
 	display:inline; 
@@ -77,8 +77,8 @@ div#infoPanel b.circle {
 }
 div#infoPanel p {
 	display:inline-block;
-	line-height:26px;
-	font-size:18px;
+	line-height:28px;
+	font-size:20px;
 	position: absolute;
 	margin:0;
 	margin-top:3px;
@@ -86,8 +86,8 @@ div#infoPanel p {
 	}
 div#infoPanel p#description {
 	display:inline-block;
-	line-height:22px;
-	font-size:18px;
+	line-height:24px;
+	font-size:20px;
 	position: absolute;
 	font-weight:bold;
 	margin:0;
@@ -113,6 +113,8 @@ div#infoPanel img#iconImage  {
 
 div#text p3 {
 	text-align: justify;
+	font-size: 18px;
+	line-height:22px;
 	}
 #text {
 	overflow:hidden;
@@ -652,41 +654,41 @@ div#infoPanel button#button2:hover{
 .weatherEventsFlow{
 	background:#33a02c;
 	border-radius:50%;
-	border: 2px solid white;
-	opacity:0.8;
+	border: 1px solid white;
+	opacity:0.7;
 }
 .weatherEventsFlood{
 	background:#1a6699;
 	border-radius:50%;
-	border: 2px solid white;
-	opacity:0.8;
+	border: 1px solid white;
+	opacity:0.7;
 }
 .weatherEventsTornado{
 	background:#8c8c8c;
 	border-radius:50%;
-	border: 2px solid white;
-	opacity:0.8;
+	border: 1px solid white;
+	opacity:0.7;
 }
 .weatherEventsHail{
 	background:#66b3ff;
 	border-radius:50%;
-	border: 2px solid white;
-	opacity:0.8;
+	border: 1px solid white;
+	opacity:0.7;
 }
 .weatherEventsThunder{
 	background:#a31aff;
 	border-radius:50%;
-	border: 2px solid white;
-	opacity:0.8;
+	border: 1px solid white;
+	opacity:0.7;
 }
 .weatherEventsOther{
 	background:#8c8c8c;
 	border-radius:50%;
-	border: 2px solid white;
-	opacity:0.8;
+	border: 1px solid white;
+	opacity:0.7;
 }
 .weatherEventsSelect{
-	border: 2px solid black;
+	border: 1px solid black;
 }
 
 
