@@ -34,7 +34,6 @@ html, body{
 	padding-left:20px;
 	padding-right:20px
 	padding-top:20px;
-	color:black;
 	font-family: "Goudy Old Style", Garamond, "Big Caslon", "Times New Roman", serif;
 	}
 div#infoPanel h1 {
@@ -45,11 +44,18 @@ div#infoPanel h1 {
 	width:280px;
 	text-align:center;
 }
-div#infoPanel h2{
-	font-size:20px;
-	line-height:20px;
-	display:inline-block;
+div#infoPanel h1.small{
+	padding-left:0;
+	padding-bottom:0px;
+	font-size: 25px;	
+	margin-bottom:5px;
+	margin-top:10px;
 	text-align:left;
+}
+
+div#infoPanel h2{
+	font-size:22px;
+	line-height:22px;
 }
 div#infoPanel h2.large{
 	display:inline; 
@@ -76,26 +82,48 @@ div#infoPanel b.circle {
 	border-style:solid;
 	position:relative;
 }
+div.legendContainer {
+	width: 35px;
+	height: 35px;
+	position:absolute;
+}
 div#infoPanel p {
 	display:inline-block;
-	line-height:26px;
-	font-size:18px;
-	position: relative;
-	margin:0;
-	margin-top:3px;
-	white-space:nowrap;
-	}
-div#infoPanel p#description, div#infoPanel p#description2 {
-	display:inline-block;
-	line-height:22px;
-	font-size:18px;
+	line-height:28px;
+	font-size:20px;
 	position: absolute;
-	font-weight:bold;
-	padding-left: 40px;
 	margin:0;
 	margin-top:3px;
 	white-space:nowrap;
 	}
+div#infoPanel p#description {
+	display:inline-block;
+	line-height:24px;
+	font-size:20px;
+	position: relative;
+	font-weight:bold;
+	margin:0;
+	white-space:nowrap;
+	text-align:left; 
+	white-space:normal; 
+	width:280px; 
+	display:block; 
+	}
+div#infoPanel p2 {
+	display:inline-block;
+	line-height:25px;
+	height: 25px;
+	margin:0;
+	white-space:nowrap;
+	}
+div#text p3 {
+	text-align: justify;
+	font-size: 18px;
+	line-height:22px;
+	}
+th, td {
+    padding-right: 15px;
+}
 div#infoPanel img#titleImage {
 	width: 280px;
 	height: 50px;
@@ -128,6 +156,8 @@ div#infoPanel img#imageHouse {
 
 div#text p3 {
 	text-align: justify;
+	font-size: 18px;
+	line-height:22px;
 	}
 #text {
 	overflow:hidden;
