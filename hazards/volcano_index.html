@@ -59,7 +59,7 @@
 					</div>
 					<div id="leg_2" style="display:none;">
 						<h2 id="title" style="margin-bottom:5px;">Volcanic Geology at Surface</h2>
-						<p2 style="display:block; width:280px; white-space:normal; font-style:italic; margin-bottom:10px; height:18px;">Age in Millions of Years</p2><!--<img src="img/volcano_icon.png" style="right:20px; margin-top:20px;" id="iconImage" >-->
+						<p2 style="display:block; width:280px; white-space:normal; font-style:italic; margin-bottom:10px; height:18px; font-size:20px;">Age in Millions of Years</p2><!--<img src="img/volcano_icon.png" style="right:20px; margin-top:20px;" id="iconImage" >-->
 						<div style="height:32px;"><b id="leg1_block" style="background:#6e111f; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p style="margin-left:5px;">Within 0.01 (Recent)</p></div>
 						<div style="height:30px;"><b id="leg2_block" style="background:#c11d37; border-left:black 2px solid; border-right:black 2px solid;"></b><p style="margin-left:5px;">0.01 - 2.6 (Pleistocene)</p></div>
 						<div style="height:30px;"><b id="leg3_block" style="background:#d4625e; border-left:black 2px solid; border-right:black 2px solid;"></b><p style="margin-left:5px;">2.6 - 5.3 (Pliocene) </p></div>
@@ -300,8 +300,8 @@
    			}
    		}
    		this._div.innerHTML = (props ?
-       		'<b>' + nullFinder() + '</b></br><p id="displayType" style="display:inline;">Age: ' + props.age + '</p><br/>'
-        	: '<b>Hover over map</b>');
+       		'<h2>' + nullFinder() + '</h2><p3 id="displayType" style="display:inline;">Age: ' + props.age + '</p3><br/>'
+        	: '<h2>Hover over map</h2>');
 		};
 
 	info.addTo(map);
