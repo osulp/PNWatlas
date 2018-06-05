@@ -264,12 +264,12 @@ var label = L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/ligh
 					feature.total_ch4.toFixed(2);
 		}
 		if (data < 4){
-   			this._div.innerHTML = ('<p style="display:inline; font-weight:bold;">Hover Over Map</p>');
+   			this._div.innerHTML = ('<h2 style="display:inline; font-weight:bold;">Hover Over Map</h2>');
 			}
 		else {	
 			this._div.innerHTML = (feature ?
-        	'<h3 style="margin:0; display:inline-block;">'+ feature.CNTY_NAME +'</h3><br/>' + '<p style="display:inline; font-weight:bold;">' + bioType() + ' tons/yr</p>'
-       		:'<p style="display:inline; font-weight:bold;">Hover Over Map</p>');
+        	'<h2 style="margin:0; display:inline-block;">'+ feature.CNTY_NAME +'</h2><br/>' + '<p3 style="display:inline; font-weight:bold;">' + bioType() + ' tons/yr</p3>'
+       		:'<h2 style="display:inline; font-weight:bold;">Hover Over Map</h2>');
        	}
 	};
 

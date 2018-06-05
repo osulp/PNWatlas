@@ -205,8 +205,8 @@
 	info.update = function (feature) {
     //actual info display information
    		this._div.innerHTML = (feature ?
-       		'<b>' + feature.NAME + '</b>'
-        		: '<b>Hover over map</b>');
+       		'<h2>' + feature.NAME + '</h2>'
+        		: '<h2>Hover over map</h2>');
 		};
 
 	info.addTo(map);
