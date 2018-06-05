@@ -249,8 +249,8 @@
 
     //actual info display information
    		this._div.innerHTML = (feature ?
-       		'<b>' + feature.properties.NAME + ' County</b><br/><b id="displayType" style="display:inline;">' + nullFinder() + '&nbspMgal/day</b><br/>'
-        		: '<b>Hover over map</b>');
+       		'<h2>' + feature.properties.NAME + ' County</h2><p3 id="displayType" style="display:inline;">' + nullFinder() + '&nbspMgal/day</p3><br/>'
+        		: '<h2>Hover over map</h2>');
 		};
 
 	info.addTo(map);

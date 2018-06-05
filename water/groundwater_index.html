@@ -272,13 +272,13 @@
 					'Carbonate';
 				}
 			this._div.innerHTML = (props ?
-				'<b style="display:inline;">'+ rechargeName(props.ROCK_TYPE) + '</b></br><p style="display:inline;">' + rechargeDisplay(props.re_cat) + '</p>'
-					: '<h3 style="margin:0; display:inline-block;">Hover over Map</h3>');
+				'<h2 style="display:inline;">'+ rechargeName(props.ROCK_TYPE) + '</h2></br><p3 style="display:inline;">' + rechargeDisplay(props.re_cat) + '</p3>'
+					: '<h2 style="margin:0; display:inline-block;">Hover over Map</h2>');
 			}
 		if (data == 2){
 			this._div.innerHTML = (props ?
-				'<b style="display:inline;">'+ props.NAME  + '</b></br><p style="display:inline;">' + props.type + '</p>'
-					: '<h3 style="margin:0; display:inline-block;">Hover over Map</h3>');
+				'<h2 style="display:inline;">'+ props.NAME  + '</h2></br><p3 style="display:inline;">' + props.type + '</p3>'
+					: '<h2 style="margin:0; display:inline-block;">Hover over Map</h2>');
 			}
 		};
 
