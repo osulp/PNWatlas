@@ -238,9 +238,9 @@
 		else {return animalType(props);}
 	}
 	//actual info content
-    this._div.innerHTML = '<h3 style="margin:0;padding-top:10px;">Game Management Unit</h3>' +  (props ?
-        '<b>' + props.NAME + '</b><br/>State:&nbsp' + props.STATE + '<br/><p id="displayType" style="display:inline;">' + displayType() + '</p>' + nullFinder() + '<br/>'
-        : 'Hover over map');
+    this._div.innerHTML = (props ?
+        '<h2>' + props.NAME + '<br/>' + props.STATE + '</h2><p3 id="displayType" style="display:inline;">' + displayType() + nullFinder() + '</p3><br/>'
+        : '<h2>Hover over map</h2>');
 	};
 	
 	//determine which data type to display in info control

@@ -226,9 +226,9 @@
     		 		'<img src="img/tree.png" id="image3" style="display:inline-block; width:30px; height:30px; position:relative; left:15px; top:10px;"><br/>';
     		}
     //actual info display information
-   		this._div.innerHTML = '<h3 style="margin:0; display:inline-block;">'+ stateCounty() +'</h3>' + whichImage() +  (props ?
-       		'<b>' + whichName() + '</b><br/><p id="displayType" style="display:inline;">' + displayType() + '</p>' + nullFinder() + '<br/>'
-        	: 'Hover over map');
+   		this._div.innerHTML = (props ?
+       		'<h2 style="font-weight:bold;">' + whichName() + '</h2><p3 id="displayType" style="display:inline;">' + displayType() + '</p3>' + nullFinder() + '<br/>'
+        	:'<h2>Hover over map</h2>');
 		};
 
 	info.addTo(map);

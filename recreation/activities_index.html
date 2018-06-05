@@ -323,6 +323,10 @@
 	map.getPane('labels').style.pointerEvents = 'none';
 	map.getPane('labels').style.zIndex = 650;
 	label.addTo(map);
+	
+		
+	map.createPane('tooltip');
+	map.getPane('tooltip').style.zIndex = 700;
 ///////////////////////additional tile layers////////////////////////////////
 	
 ///////////////////////important variables////////////////////////////////
@@ -337,32 +341,13 @@
     	return this._div;
 	};
 	
-	info.update = function (props) {
-	function nullFinder(){
-		if (props.sites == null){return 'N/A';}
-		else {return props.sites;}
+	function nullFinder(props){
+		if (props == null){return 'N/A';}
+		else {return props;}
 	}
-	//change info display based on selected activity
-	if (data == 1){
-   		this._div.innerHTML = '<h3 style="margin:0; display:inline-block;">Camp Name</h3><img src="img/tent.png" style="display:inline-block; width:30px; height:30px; position:relative; left:5px; top:5px;"><br/>' + (props ?
-        	'<p style="display:inline;">' + props.name + '</p><br/><p style="display:inline">' + nullFinder() + '&nbspcampsites</p>'
-       		:'<p style="display:inline;">Hover over campsites</p>');
-		}
-	else if (data == 2){	
-		this._div.innerHTML = '<h3 style="margin:0; display:inline-block;">Resort Name</h3><img src="img/skiing.png" style="display:inline-block; width:30px; height:30px; position:relative; left:5px; top:5px;"><br/>' + (props ?
-        	'<p style="display:inline;">' + props.Name + '</p>'
-        	:'<p style="display:inline;">Hover over resorts</p>');
-		}
-	else if (data == 3){	
-		this._div.innerHTML = '<h3 style="margin:0; display:inline-block;">Mountain Name</h3><img src="img/climbing.png" style="display:inline-block; width:30px; height:30px; position:relative; left:5px; top:5px;"><br/>' + (props ?
-        	'<b>' + props.name + '<b><br/><p style="font-weight:normal; display:inline;">' + props.elev_ft + '&nbspft.</p>'
-        	:'<p style="display:inline;">Hover over mountains</p>');
-		}
-	else {	
-		this._div.innerHTML = '<h3 style="margin:0; display:inline-block;">River Name</h3><img src="img/raft.png" style="display:inline-block; width:30px; height:30px; position:relative; left:5px; top:5px;"><br/>' + (props ?
-        		'<p style="display:inline;">' + props.UID + '</p>'
-       			:'<p style="display:inline;">Hover over rivers</p>');
-		}
+	
+	info.update = function (props) {
+   		this._div.innerHTML = ('<b style="font-size:24px;">Hover over Map</b>');
 	};
 	
 	info.addTo(map);
@@ -407,7 +392,7 @@
       var raftPoints = L.geoJson(null, {
         	pointToLayer: function (feature, latlng) {
     			return L.marker(latlng, {icon:raftIcon(feature.properties.CLASS)}
-    				).bindPopup('<b>River Name</b><br/><p style="display:inline;">' + feature.properties.UID + '</p>', {className: 'label_tooltip'});
+    				).bindTooltip('<h2 style="margin:0;">River Name</h2><p style="display:inline; font-size:18px;">' + feature.properties.UID + '</p>', {className: 'label_tooltip', pane:'tooltip'});
     			},
     		onEachFeature: function(feature,layer)
             {
@@ -466,7 +451,7 @@
     				opacity: 1,
     				fillOpacity: 0.7,
     				weight: 0.5
-    			}).bindPopup('<b>' + feature.properties.name + '</b><br/><p style="display:inline;">' + feature.properties.sites + '&nbspCampsites</p>', {className: 'label_tooltip'});
+    			}).bindTooltip('<h2 style="margin:0;">' + feature.properties.name + '</h2><p style="display:inline; font-size:18px;">' + nullFinder(feature.properties.sites) + '&nbspCampsites</p>', {className: 'label_tooltip' , pane:'tooltip'});
     			},
     		onEachFeature: function (feature, layer){
     			layer.on("mouseover",function(e){
@@ -498,7 +483,7 @@
     skiResorts = L.geoJson(null, {
         	pointToLayer: function (feature, latlng) {
     			return L.marker(latlng, {icon:skiIcon1}
-    				).bindPopup('<b>Resort Name</b><br/><p style="font-weight:none; display:inline;">' + feature.properties.Name + '</p>', {className: 'label_tooltip'})
+    				).bindTooltip('<h2 style="margin:0;">' + feature.properties.Name + '</h2>', {className: 'label_tooltip', pane:'tooltip'})
     			},
     		onEachFeature: function(feature,layer)
             {
@@ -605,7 +590,7 @@
     	mountains = L.geoJson(mountainPoints, {
     		pointToLayer: function (feature, latlng) {
     					return L.marker(latlng, {
-    					icon: iconSelection(feature.properties.elev_ft)}).bindPopup('<b>' + feature.properties.name + '</b><br/><p style="display:inline;">' + feature.properties.elev_ft + '&nbspft.</p>', {className: 'label_tooltip'});		
+    					icon: iconSelection(feature.properties.elev_ft)}).bindTooltip('<h2 style="margin:0;">' + feature.properties.name + '</h2><p style="display:inline; font-size:18px;">' + feature.properties.elev_ft + '&nbspft.</p>', {className: 'label_tooltip', pane:'tooltip'});		
     				},
     		onEachFeature: function(feature, layer) {
     				layer.on("mouseover",function(e){
@@ -624,7 +609,7 @@
    var mountains = L.geoJson(mountainPoints, {
     		pointToLayer: function (feature, latlng) {
     					return L.marker(latlng, {
-    					icon: iconSelection(feature.properties.elev_ft)}).bindPopup('<b>' + feature.properties.name + '</b><br/><p style="display:inline;">' + feature.properties.elev_ft + '&nbspft.</p>', {className: 'label_tooltip'});		
+    					icon: iconSelection(feature.properties.elev_ft)}).bindTooltip('<h2 style="margin:0;">' + feature.properties.name + '</h2><p style="display:inline; font-size:18px;">' + feature.properties.elev_ft + '&nbspft.</p>', {className: 'label_tooltip', pane:'tooltip'});		
     				},
     		onEachFeature: function(feature, layer) {
     				layer.on("mouseover",function(e){
