@@ -270,23 +270,23 @@
 		}
 		if (data == 1){
    		this._div.innerHTML = (feature ?
-        	'<h3 style="margin:0; display:inline-block;">'+ feature.NAME +'</h3><br/>' + '<p style="display:inline;">' + feature.text_class + '</p>'
-       		:'<p style="display:inline; font-weight:bold;">Hover over Map</p>');
+        	'<h2 style="margin:0; display:inline-block;">'+ feature.NAME +'</h2><br/>' + '<p3 style="display:inline;">' + feature.text_class + '</p3>'
+       		:'<h2>Hover over Map</h2>');
 		}
 		else if (data == 2){	
 			this._div.innerHTML = (feature ?
-        	'<h3 style="margin:0; display:inline-block;">'+ feature.NAME +'</h3><br/>' + '<p style="display:inline;">' + feature.text_class + '</br></p><p style="display:inline; font-weight:bold;">$' + nullFinder(feature.income_cap) + '</p><p style="display:inline"> Income per Cap.</p>'
-       		:'<p style="display:inline; font-weight:bold;">Hover over Map</p>');
+        	'<h2 style="margin:0; display:inline-block;">'+ feature.NAME +'</h2><br/>' + '<p3 style="display:inline;">' + feature.text_class + '</br></p3><p3 style="display:inline; font-weight:bold;">$' + nullFinder(feature.income_cap) + '<p3/><p3 style="display:inline"> Income per Cap.</p3>'
+       		:'<h2>Hover over Map</h2>');
 			}	
 		else if (data == 3){	
 			this._div.innerHTML = (feature ?
-        	'<h3 style="margin:0; display:inline-block;">'+ feature.NAME +'</h3><br/>' + '<p style="display:inline;">' + feature.text_class + '</br></p><p style="display:inline; font-weight:bold;">' + nullFinder(((feature.bachelors/feature.popOver25)*100).toFixed(2)) + '%</p><p style="display:inline"> w/ Bachelors</p>'
-       		:'<p style="display:inline; font-weight:bold;">Hover over Map</p>');
+        	'<h2 style="margin:0; display:inline-block;">'+ feature.NAME +'</h2><br/>' + '<p3 style="display:inline;">' + feature.text_class + '</br></p3><p3 style="display:inline; font-weight:bold;">' + nullFinder(((feature.bachelors/feature.popOver25)*100).toFixed(2)) + '%</p3><p3 style="display:inline"> w/ Bachelors</p3>'
+       		:'<h2>Hover over Map</h2>');
 			}
 		else {	
 			this._div.innerHTML = (feature ?
-        	'<h3 style="margin:0; display:inline-block;">'+ feature.NAME +'</h3><br/>' + '<p style="display:inline;">' + feature.text_class + '</br></p><p style="display:inline; font-weight:bold;">' + nullFinder(((feature.unemployed/feature.labor_forc)*100).toFixed(2)) + '%</p><p style="display:inline"> Unemployed</p>'
-       		:'<p style="display:inline; font-weight:bold;">Hover over Map</p>');
+        	'<h2 style="margin:0; display:inline-block;">'+ feature.NAME +'</h2><br/>' + '<p3 style="display:inline;">' + feature.text_class + '</br></p3><p3 style="display:inline; font-weight:bold;">' + nullFinder(((feature.unemployed/feature.labor_forc)*100).toFixed(2)) + '%</p3><p3 style="display:inline"> Unemployed</p3>'
+       		:'<h2>Hover over Map</h2>');
        	}
 	};
 

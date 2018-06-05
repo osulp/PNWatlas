@@ -275,8 +275,8 @@
 
 		}
 			this._div.innerHTML = (feature ?
-        		'<h3 style="margin:0; display:inline-block;">'+ feature.NAME +'</h3><br/>' + '<p style="display:inline;">Total Pop.: </p><p style="display:inline; font-weight:bold;">' + feature.population + '</p><br/><p style="display:inline;">' + whichRegion() + ' Pop.: </p><p style="font-weight:bold; display:inline;">' + whichPopData() +'</p><br/><p style="display:inline; font-weight:bold;">' + whichData() + '%</p>'
-       			:'<p style="display:inline; font-weight:bold;">Hover over Map for Details</p>');
+        		'<h2 style="margin:0; display:inline-block;">'+ feature.NAME +'</h2><br/>' + '<p3 style="display:inline;">Total Pop.: </p3><p3 style="display:inline; font-weight:bold;">' + feature.population + '</p3><br/><p3 style="display:inline;">' + whichRegion() + ' Pop.: </p3><p3 style="font-weight:bold; display:inline;">' + whichPopData() +'</p3><br/><p3 style="display:inline; font-weight:bold;">' + whichData() + '%</p3>'
+       			:'<h2 style="display:inline; font-weight:bold;">Hover over Map for Details</h2>');
 	};
 
 	info.addTo(map);
