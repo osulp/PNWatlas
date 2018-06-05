@@ -274,18 +274,18 @@
 	info.update = function (props) {	
 		if (data == 2){
    			this._div.innerHTML = (props ?
-       			'<b>' + props.COUNTY_NAM + ' County</b><br/>Tract ' + props.NAME + '<br/><b style="font-weight:normal;">' + props.SNAP_per + '% Receiving SNAP</b>'
-        		: '<b>Hover over map</b>');
+       			'<h2>' + props.COUNTY_NAM + ' County</h2><p3>Tract ' + props.NAME + '<br/>' + props.SNAP_per + '% Receiving SNAP</h3>'
+        		: '<b style="font-size:24px;">Hover over map</b>');
 			}
 		if (data == 3){
    			this._div.innerHTML = (props ?
-       			'<b>' + props.COUNTY_NAM + ' County</b><br/>Tract ' + props.NAME + '<br/><b style="font-weight:normal;">' + props.pov_rate + '% Poverty Rate</b>'
-        		: '<b>Hover over map</b>');
+       			'<h2>' + props.COUNTY_NAM + ' County</h2><p3>Tract ' + props.NAME + '<br/>' + props.pov_rate + '% Poverty Rate</p3>'
+        		: '<b style="font-size:24px;">Hover over map</b>');
 			}
 		if (data == 4){
    			this._div.innerHTML = (props ?
-       			'<b>' + props.NAME + ' County</b><br/><b style="font-weight:normal;">' + (props.per_ins * 100).toFixed(2) +'% Food Insecure Pop.<br/>'+ (props.per_ch_ins * 100).toFixed(2) + '% Food Insecure Children</b>'
-        		: '<b>Hover over map</b>');
+       			'<h2>' + props.NAME + ' County</h2><p3>' + (props.per_ins * 100).toFixed(2) +'% Food Insecure Pop.<br/>'+ (props.per_ch_ins * 100).toFixed(2) + '% Food Insecure Children</p3>'
+        		: '<b style="font-size:24px;">Hover over map</b>');
 			}
 	};
 

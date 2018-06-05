@@ -263,12 +263,12 @@
 	
 	info.update = function (props) {	
    		if (data == 1){
-   			this._div.innerHTML = ('<b>Hover over map</b>');
+   			this._div.innerHTML = ('<b style="font-size:24px;">Hover over Map</b>');
         	}
         if (data == 2){
    			this._div.innerHTML = (props ?
-       			'<b style="font-size:20px;">' + props.name + ' AVA<br/></b><b>Popular Grapes: </b><br/><b style="font-weight:normal;">' + props.grapes + '</b>'
-        		: '<b>Hover over map</b>');
+       			'<h2>' + props.name + ' AVA<br/></h2><p3>Popular Grapes: <br/>' + props.grapes + '</p3>'
+        		: '<b style="font-size:24px;">Hover over map</b>');
         	}
 		};
 
