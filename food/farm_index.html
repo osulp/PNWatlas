@@ -61,7 +61,7 @@
 						<p id="description">Average value of agricultural products per farm in thousands of dollars in 2012.</p>
 					</div>	
 					<div id="leg_2" style="display:none;">
-						<h2 id="title" >% Corporate Farms</h2><img src="img/barn_icon.png" id="iconImage" >
+						<h2 id="title" >% Corporate Farms</h2><img src="img/corporate_icon.png" id="iconImage" >
 						<div style="height:32px;"><b id="leg1_block" style="background:#54278f; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p style="margin-left:5px;">20+</p></div>
 						<div style="height:30px;"><b id="leg2_block" style="background:#756bb1; border-left:black 2px solid; border-right:black 2px solid;"></b><p style="margin-left:5px;">15 - 20</p></div>
 						<div style="height:30px;"><b id="leg3_block" style="background:#9e9ac8; border-left:black 2px solid; border-right:black 2px solid;"></b><p style="margin-left:5px;">10 - 15</p></div>
@@ -307,7 +307,7 @@
         	}
         if (data == 2){	
    			this._div.innerHTML = (props ?
-				'<h2 style="margin:0;">' + props.NAME + ' County</h2><p3 style="display:inline-block;">' + nullFinder(props.corp_farms) + '% Corporate Farms<br/>Total Farms (all): ' + props.tot_farms +'</p3>'
+       			'<h2 style="margin:0;">' + props.NAME + ' County</h2><p3 id="chartDescription" style="display:inline-block; margin-top:5px; font-weight:bold;">% Farm Ownership</p3><canvas id="chartContainer" style="margin-left:-5px;"></canvas><p3 id="chartDescription" style="display:inline-block; margin-top:5px;"><br/>Total Farms: ' + props.tot_farms +'</p3>'
         		: '<b style="font-size:24px;">Hover over Map</b>');
         	}
         if (data == 3){	
@@ -371,14 +371,61 @@
         	fillOpacity: 1,
       	});
       	info.update(this.feature.properties);
+      	if (data == 2){
+			$('.info').css("width","280px");
+			var ctx = document.getElementById("chartContainer").getContext('2d');
+			var chart = new Chart(ctx, options);
+			chart.data.datasets[0].data[0] = this.feature.properties.farm_farms;
+			chart.data.datasets[0].data[1] = this.feature.properties.part_farms;
+			chart.data.datasets[0].data[2] = this.feature.properties.corp_farms;
+			chart.update();
+      	}
     }
     
     function farmResetHighlight(){
       	this.setStyle({
         	fillOpacity: 0.7,
       	});
+      	$('.info').css("width","200px");
       	info.update();
     }
+	////////////////////////////////chart options////////////////////////////////    
+    var options =  {
+    	type: 'pie',
+    		data: {
+        		labels: ["Family", "Parternship", "Corporation"],
+        		datasets: [{
+            		data: [50,50,50],
+           			backgroundColor: [
+                		'#cbc9e2',
+                		'#7d7ab8',
+                		'#54278f'
+            		],
+            		borderColor: [
+                		'#404040',
+                		'#404040',
+                		'#404040'
+            		],
+            	borderWidth: 0
+        	}]
+    	},
+    	options: {
+       		responsive: true,
+       		legend: {
+       			position: 'left',
+       			labels: {
+       				fontColor:'#000000'
+       			}
+       		},
+       		pieceLabel: {
+    			render: 'value',
+    			fontColor:'#000000'
+  			},
+       		tooltips:{
+       			enabled:false
+       		}
+    	}
+	}
 ////////////////////////////////prime farmland no data layer////////////////////////////////
 	const zone = new L.TopoJSON();
     
