@@ -32,7 +32,7 @@
 			<!--Upper half of the info panel. This part of the info panel will always remain the same size. This usually includes the data selection and the main legend. Try not to make this too tall, or it will be cut off on smaller screens.-->
 			<div id="top"> 
 				<h1>Farms</h1><!--Map title-->
-				<img src="img/crop_banner.png" id="titleImage" > <br/><!--Banner image-->
+				<img src="img/farm_banner.png" id="titleImage" > <br/><!--Banner image-->
 				<!--Dropdown menu for dataset selection-->
 				<div id="buttons">
 					<div class="dropdown">
@@ -51,7 +51,7 @@
 				<div id="text">
 					<!--Legends for each dataset-->
 					<div id="leg_1" style="display:unset;">
-						<h2 id="title" >Average Farm Value ($1000s)</h2><img src="img/seed_icon.png" id="iconImage" >
+						<h2 id="title" style="line-height:28px;">Average Product Value per Farm ($1000s)</h2><img src="img/farm_icon.png" id="iconImage" style="margin-top:10px;">
 						<div style="height:32px;"><b id="leg1_block" style="background:#006837; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p style="margin-left:5px;">500+</p></div>
 						<div style="height:30px;"><b id="leg2_block" style="background:#31a354; border-left:black 2px solid; border-right:black 2px solid;"></b><p style="margin-left:5px;">250 - 500</p></div>
 						<div style="height:30px;"><b id="leg3_block" style="background:#78c679; border-left:black 2px solid; border-right:black 2px solid;"></b><p style="margin-left:5px;">100 - 250</p></div>
@@ -61,7 +61,7 @@
 						<p id="description">Average value of agricultural products per farm in thousands of dollars in 2012.</p>
 					</div>	
 					<div id="leg_2" style="display:none;">
-						<h2 id="title" >% Corporate Farms</h2><img src="img/fruit_icon.png" id="iconImage" >
+						<h2 id="title" >% Corporate Farms</h2><img src="img/barn_icon.png" id="iconImage" >
 						<div style="height:32px;"><b id="leg1_block" style="background:#54278f; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p style="margin-left:5px;">20+</p></div>
 						<div style="height:30px;"><b id="leg2_block" style="background:#756bb1; border-left:black 2px solid; border-right:black 2px solid;"></b><p style="margin-left:5px;">15 - 20</p></div>
 						<div style="height:30px;"><b id="leg3_block" style="background:#9e9ac8; border-left:black 2px solid; border-right:black 2px solid;"></b><p style="margin-left:5px;">10 - 15</p></div>
@@ -69,10 +69,10 @@
 						<div style="height:30px;"><b id="leg5_block" style="background:#f2f0f7; border-left:black 2px solid; border-right:black 2px solid;"></b><p style="margin-left:5px;">Less than 5</p></div>
 						<div style="height:32px;"><b id="leg5_block" style="background:#ffffff; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p style="margin-left:5px;">No Data</p></div>
 						<br/>
-						<p id="description">Percent of all farms owned by corporations. Other farms are owned by individuals, families, or partnerships.</p>
+						<p id="description">Percent of all farms operated by corporations. Other farms are owned by individuals, families, or partnerships.</p>
 					</div>	
 					<div id="leg_3" style="display:none;">
-						<h2 id="title" >% Farmland Irrigated </h2><img src="img/veg_icon.png" id="iconImage" >
+						<h2 id="title" >% Farmland Irrigated </h2><img src="img/irrigation_icon.png" id="iconImage" >
 						<div style="height:32px;"><b id="leg1_block" style="background:#08519c; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p style="margin-left:5px;">50+</p></div>
 						<div style="height:30px;"><b id="leg2_block" style="background:#3182bd; border-left:black 2px solid; border-right:black 2px solid;"></b><p style="margin-left:5px;">25 - 50</p></div>
 						<div style="height:30px;"><b id="leg3_block" style="background:#6baed6; border-left:black 2px solid; border-right:black 2px solid;"></b><p style="margin-left:5px;">10 - 25</p></div>
@@ -111,10 +111,10 @@
 						<p3 style="font-weight:bold; line-height:36px;">Fast Facts:</p3><br/>
 						<p3 id="facts">&#9900&nbspMinidoka County, Idaho had the highest percentage of irrigated farmland in 2012 at 83.79%</p3><br/><br/>
 					</div>
-					<div id="facts_4" style="display:none;>
+					<div id="facts_4" style="display:none;">
 						<br/>
 						<p3 style="font-weight:bold; line-height:36px;">Prime Farmland:</p3><br/>
-						<p3 id="facts">Field Crops comprise 26.49% of Pacific Northwest crop sales</p3><br/><br/>
+						<p3 id="facts" style="text-align:justify;">Prime Farmland is defined by the USDA as land with "the best combination of physical and chemical characteristics for producing food, feed, forage, fiber, and oilseed crops and is available for these uses." Modern land use practices have caused areas of prime farmland to be lost as land is developed. As a result, pressure is applied to more marginal land, which is more difficult to manage and cultivate.</p3><br/><br/>
 					</div>
 				</div>
 			<!--Bottom part of the info panel. This part of the info panel includes arrows to shift between maps, the info button that contains the map sources, and the home button to return to the chapter title screen.-->
@@ -146,11 +146,12 @@
 				<div class="content">
 					<p2 style="font-size:20px">Geographic Data</p2><br><br/>
                     <div class="source">
-                    	<b><p2>Dataset Name/Description: <a href = "https://outdoorindustry.org/advocacy/" target="_blank">Data Source</a></p2></b><br>
+                    	<b><p2>Farm Value, Ownership, and Irrigation: <a href = "https://www.agcensus.usda.gov/Publications/2012/Online_Resources/Ag_Census_Web_Maps/Data_download/index.php" target="_blank">USDA Census of Agriculture</a></p2></b><br>
+                    		<p3>Data table was downloaded from "Data Download" link. Table columns used in maps are: y12_M017, y12_M020, y12_M022, and y12_M021. See full documentation for full listing of columns used in tables. Data from 2012.<p3>
                     </div>
-                    <div class="source">
-                		<b><p2>Dataset Name/Description: <a href = "https://factfinder.census.gov/faces/tableservices/jsf/pages/productview.xhtml?pid=ECN_2012_US_00A1&prodType=table" target="_blank">Data Source</a></p2></b><br>
-                			<p3>If there is any additional information about how the data were created/processed, that would go here.<p3>
+                	<div class="source">
+                		<b><p2>Prime Farmland: <a href = "https://datagateway.nrcs.usda.gov/GDGOrder.aspx?order=QuickState" target="_blank">USDA Natural Resources Conservation Service</a></p2></b><br>
+                			<p3>gSSURGO datasets were downloaded for ID, OR, and WA, and joined with mapunit tables for each state.<p3>
                 	</div>
 				</div>
 				<hr>
@@ -210,7 +211,7 @@
 ////////////////////////////////basemap layers////////////////////////////////
 	var Esri_WorldTerrain = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer/tile/{z}/{y}/{x}', {
 		attribution: 'Tiles &copy; Esri &mdash; Source: USGS, Esri, TANA, DeLorme, and NPS',
-		maxZoom:10,
+		maxZoom:12,
 		minZoom:5,
 		opacity:1
 	}).addTo(map);
@@ -218,7 +219,7 @@
 	var pnwCover = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
 		layers: 'baldricg_PNW_ATLAS:pnw_outline2_black',
         format: 'image/png',
-		maxZoom:10,
+		maxZoom:12,
 		minZoom:5,
 		opacity:0.3,
 		transparent:true,
@@ -236,7 +237,7 @@
 	var urbanAreas = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
 		layers: 'baldricg_PNW_ATLAS:pnw_urban_areas',
         format: 'image/png',
-		maxZoom:10,
+		maxZoom:12,
 		minZoom:4,
 		opacity:0.8,
 		transparent:true
@@ -245,7 +246,7 @@
 	var label = L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_only_labels/{z}/{x}/{y}@2x.png', {
 		attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
 		subdomains: 'abcd',
-		maxZoom:10,
+		maxZoom:12,
 		minZoom:5,
 		tileSize:256,
 		bounds:[
@@ -258,7 +259,7 @@
 	var prime_farmland = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
 		layers: 'baldricg_PNW_ATLAS:prime_farmland_raster',
         format: 'image/png',
-		maxZoom:10,
+		maxZoom:12,
 		minZoom:5,
 		opacity:0.8,
 		transparent:true,
@@ -306,7 +307,7 @@
         	}
         if (data == 2){	
    			this._div.innerHTML = (props ?
-				'<h2 style="margin:0;">' + props.NAME + ' County</h2><p3 style="display:inline-block;">' + nullFinder(props.corp_farms) + '% Corporate Farms<br/>Total Farms: ' + props.tot_farms +'</p3>'
+				'<h2 style="margin:0;">' + props.NAME + ' County</h2><p3 style="display:inline-block;">' + nullFinder(props.corp_farms) + '% Corporate Farms<br/>Total Farms (all): ' + props.tot_farms +'</p3>'
         		: '<b style="font-size:24px;">Hover over Map</b>');
         	}
         if (data == 3){	
