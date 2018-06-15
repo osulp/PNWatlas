@@ -1,5 +1,19 @@
+@font-face {
+    font-family: GoudyOld;
+    src: url(fonts/GOUDOS.ttf);
+}
+@font-face {
+    font-family: GoudyOld;
+    src: url(fonts/GOUDOSB.ttf);
+    font-weight:bold;
+}
+@font-face {
+    font-family: GoudyOld;
+    src: url(fonts/GOUDOSI.ttf);
+    font-style:italic;
+}
 html, body {
-		font-family: "Goudy Old Style", Garamond, "Big Caslon", "Times New Roman", serif;
+		font-family:GoudyOld;
 		width:100%;
 		height:100%;
 		margin:0;
@@ -158,7 +172,7 @@ p {
 p3 {
 	font-size:100%;
 	color:black;
-	font-family: "Goudy Old Style", Garamond, "Big Caslon", "Times New Roman", serif;
+	font-family:GoudyOld;
 }
 
 #text {
@@ -174,7 +188,7 @@ p3 {
     display: block;
 }
 .tooltip .tooltiptext {
-	font-family: "Goudy Old Style", Garamond, "Big Caslon", "Times New Roman", serif;   
+	font-family:GoudyOld;   
     /*font-family: Baskerville, "Baskerville Old Face", "Hoefler Text", Garamond, "Times New Roman", serif; */
     visibility: hidden;
     background-color: #f2f2f2;

@@ -1,4 +1,18 @@
-html, body{
+
+@font-face {
+    font-family: GoudyOld;
+    src: url(fonts/GOUDOS.ttf);
+}
+@font-face {
+    font-family: GoudyOld;
+    src: url(fonts/GOUDOSB.ttf);
+    font-weight:bold;
+}
+@font-face {
+    font-family: GoudyOld;
+    src: url(fonts/GOUDOSI.ttf);
+    font-style:italic;
+}html, body{
    height: 100%;
    margin:0;
 }
@@ -9,7 +23,7 @@ html, body{
 	width:16px;
 	height:30px;
 	top:50%;
-	font-family: "Goudy Old Style", Garamond, "Big Caslon", "Times New Roman", serif;
+	font-family:GoudyOld;
 	z-index:500;
 	font-size:18px;
 	padding:3px 4px 0px 0px;
@@ -34,10 +48,10 @@ html, body{
 	padding-left:20px;
 	padding-right:20px
 	padding-top:20px;
-	font-family: "Goudy Old Style", Garamond, "Big Caslon", "Times New Roman", serif;
+	font-family:GoudyOld;
 	}
 div#infoPanel h1 {
-	font-family: "Goudy Old Style", Garamond, "Big Caslon", "Times New Roman", serif;
+	font-family:GoudyOld;
 	font-size:42px;
 	margin-top:15px;
 	letter-spacing: 2px;
@@ -196,7 +210,7 @@ div#buttons .selection {
     border-color: rgba(255,255,255,0);
     margin-bottom:2px;
     margin-left:2px;
-   font-family: "Goudy Old Style", Garamond, "Big Caslon", "Times New Roman", serif;
+   font-family:GoudyOld;
    font-size:14px;
 }
 div#buttons .selection:hover{
@@ -216,7 +230,7 @@ div#buttons .selection:hover{
     border-style: solid;
     border-color: rgba(0,0,0,1);
     border-width:2px;
-    font-family: "Goudy Old Style", Garamond, "Big Caslon", "Times New Roman", serif;
+    font-family:GoudyOld;
     text-align:left;
     padding:1px 3px 2px 2px;
     color:#4d4d4d;
@@ -255,7 +269,7 @@ div#buttons .selectionSmall {
     border-color: rgba(255,255,255,0);
     margin-bottom:2px;
     margin-left:2px;
-    font-family: "Goudy Old Style", Garamond, "Big Caslon", "Times New Roman", serif;
+    font-family:GoudyOld;
     font-size:14px;
 }
 div#buttons .selectionSmall:hover {
@@ -274,7 +288,7 @@ div#buttons .selectionSmall:hover {
     border-style: solid;
     border-color: rgba(0,0,0,1);
     border-width:2px;
-    font-family: "Goudy Old Style", Garamond, "Big Caslon", "Times New Roman", serif;
+    font-family:GoudyOld;
     text-align:left;
     color:#4d4d4d;
     height:32px;
@@ -310,7 +324,7 @@ div#buttons .selectionSmall:hover {
 
 /*leaflet styles*/
 div.info.leaflet-control {
-	font-family: "Goudy Old Style", Garamond, "Big Caslon", "Times New Roman", serif;
+	font-family:GoudyOld;
 	background-color: rgba(255,255,255,0.8);
 	padding: 10px;
 	padding-top:5;
@@ -326,7 +340,7 @@ div.info.leaflet-control p3 {
 	font-size:18px;
 }
 .label_tooltip {
-	font-family: "Goudy Old Style", Garamond, "Big Caslon", "Times New Roman", serif;
+	font-family:GoudyOld;
 	font-size:14px;
 	padding:5px;
 	margin:0px;
@@ -455,7 +469,7 @@ a#arrow{
   width: 45%;
   position: relative;
   transition: all 5s ease-in-out;
-  font-family: "Goudy Old Style", Garamond, "Big Caslon", "Times New Roman", serif;
+  font-family:GoudyOld;
 }
 
 .popup h2 {
@@ -478,7 +492,7 @@ hr{
   text-decoration: none;
   color: #d9d9d9;
   text-align:right;
-  font-family: "Goudy Old Style", Garamond, "Big Caslon", "Times New Roman", serif;
+  font-family:GoudyOld;
 }
 .popup .close:hover {
   color: #b3b3b3;
@@ -494,7 +508,7 @@ hr{
     text-decoration: none;
     display: inline-block;
     font-size: 14px;
-    font-family: "Goudy Old Style", Garamond, "Big Caslon", "Times New Roman", serif;
+    font-family:GoudyOld;
     float:right;
 }
 .popup .close2:hover {
