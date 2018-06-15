@@ -1,15 +1,15 @@
 @font-face {
     font-family: GoudyOld;
-    src: url(fonts/GOUDOS.ttf);
+    src: url(fonts/GOUDOS.TTF);
 }
 @font-face {
     font-family: GoudyOld;
-    src: url(fonts/GOUDOSB.ttf);
+    src: url(fonts/GOUDOSB.TTF);
     font-weight:bold;
 }
 @font-face {
     font-family: GoudyOld;
-    src: url(fonts/GOUDOSI.ttf);
+    src: url(fonts/GOUDOSI.TTF);
     font-style:italic;
 }
 html, body{
