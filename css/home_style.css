@@ -1,5 +1,20 @@
+@font-face {
+    font-family: GoudyOld;
+    src: url(fonts/GOUDOS.ttf);
+}
+@font-face {
+    font-family: GoudyOld;
+    src: url(fonts/GOUDOSB.ttf);
+    font-weight:bold;
+}
+@font-face {
+    font-family: GoudyOld;
+    src: url(fonts/GOUDOSI.ttf);
+    font-style:italic;
+}
+
 html, body {
-		font-family: "Goudy Old Style", Garamond, "Big Caslon", "Times New Roman", serif;
+		font-family: GoudyOld;
 		width:100%;
 		height:100%;
 		margin:0;
@@ -50,7 +65,7 @@ div.title{
 	color: rgba(0,0,0,1);
 	font-size: 5vw;
 	font-weight:600;
-	letter-spacing: 10px;
+	/*letter-spacing: 10px;*/
 	text-align:center;
 	padding-right:5%;
 	padding-left:5%;
@@ -98,7 +113,7 @@ div.title2{
 	font-size: 2vw;
 	font-weight:600;
 	margin-top:0;
-	letter-spacing: 10px;
+	/*letter-spacing: 10px;*/
 	text-align:center;
 	padding-right:5%;
 	padding-left:5%;
@@ -108,7 +123,7 @@ h3{
 	padding:0;
 	font-size: 30px;
 	line-height: 30px;
-	letter-spacing: 3px;
+	/*letter-spacing: 3px;*/
 	text-align:left;
 	display:inline;
 	margin-top:0;
@@ -157,7 +172,7 @@ p {
 p3 {
 	font-size:100%;
 	color:black;
-	font-family: "Goudy Old Style", Garamond, "Big Caslon", "Times New Roman", serif;
+	font-family: GoudyOld;
 }
 
 #text {
@@ -173,7 +188,7 @@ p3 {
     display: block;
 }
 .tooltip .tooltiptext {
-	font-family: "Goudy Old Style", Garamond, "Big Caslon", "Times New Roman", serif;   
+	font-family:GoudyOld;   
     /*font-family: Baskerville, "Baskerville Old Face", "Hoefler Text", Garamond, "Times New Roman", serif; */
     visibility: hidden;
     background-color: #f2f2f2;
