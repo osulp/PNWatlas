@@ -64,7 +64,6 @@ div.title{
 	color: rgba(0,0,0,1);
 	font-size: 5vw;
 	font-weight:600;
-	letter-spacing: 10px;
 	text-align:center;
 	padding-right:5%;
 	padding-left:5%;
@@ -112,7 +111,6 @@ div.title2{
 	font-size: 2vw;
 	font-weight:600;
 	margin-top:0;
-	letter-spacing: 10px;
 	text-align:center;
 	padding-right:5%;
 	padding-left:5%;
