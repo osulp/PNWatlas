@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+     <title>Invasive Species</title>
+    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.2/dist/leaflet.css" /> 
+    <link rel="stylesheet" href="css/wildlife_maps_style.css" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Maven+Pro" rel="stylesheet">
+    <link rel="stylesheet" href="css/perfect-scrollbar.css" />
+    
+    <link rel="shortcut icon" href="img/pnw.ico" type="image/x-icon">
+    
+    <script src="https://unpkg.com/leaflet@1.0.2/dist/leaflet.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="js/perfect-scrollbar.js"></script>
+    <script src="js/leaflet-heat.js"></script>
+    <script src="https://d3js.org/topojson.v1.min.js"></script>
+    <script src="https://unpkg.com/leaflet.vectorgrid@latest/dist/Leaflet.VectorGrid.bundled.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script type="text/javascript" src="../js/clickFunction.js"></script>
+    
+</head>
+<body>
+		<!--This is the button that collapses the info panel-->
+		<button id="collapse" onclick="collapse()">
+			<i class="fa fa-chevron-left" id ="collapse-arrow" aria-hidden="true"></i>
+		</button>
+		<!--Info panel on the left side of the screen. Dataset selection, legends, and additional information about the map is presented here.-->
+		<div id="infoPanel">
+			<!--Upper half of the info panel. This part of the info panel will always remain the same size. This usually includes the data selection and the main legend. Try not to make this too tall, or it will be cut off on smaller screens.-->
+			<div id="top"> 
+				<h1>Invasive Species</h1><!--Map title-->
+				<img src="img/invasive_banner.png" id="titleImageCircle" > <br/><!--Banner image-->
+				<!--Dropdown menu for dataset selection-->
+				<button type="button" id="plant_button" style="background:rgba(225, 225, 225, 1);" class="typeSelection">Flora</button>
+				<button type="button" id="animal_button" onclick="animalSelect()" class="typeSelection">Fauna</button>
+				<div id="buttons">
+					<div class="dropdown">
+						<button class="dropbtn"><b id="dataType">Select Plant</b><p id="arrow">&#9660;</p></button>
+							<div class="dropdown-content">
+								<button type="button" id="but1" style="background:rgba(242, 242, 242, 0.67);" class="selection">Scotch Broom</button>
+								<button type="button" id="but2" class="selection">Canada Thistle</button>
+								<button type="button" id="but3" class="selection">Leafy Spurge</button>
+								<button type="button" id="but4" class="selection">Scotch Thistle</button>
+								<button type="button" id="but5" class="selection">Spotted Knapweed</button>
+								<button type="button" id="but6" class="selection">Garlic Mustard</button>
+								<button type="button" id="but7" class="selection">Blackberry</button>
+								<button type="button" id="but8" class="selection">Cheatgrass</button>
+							</div>
+					</div>
+				</div>
+			</div>
+			<!--Middle half of the info panel. This part of the info panel is dynamic! It will adjust to the current screen size, and works with the Perfect-Scrollbar.js plugin to create a dynamic scrollbar within the section.-->
+			<div id="attribution">
+				<div id="text">
+					<!--Legends for each dataset-->
+					<div id="leg_1" style="display:unset;">
+						<h2 id="title" >Scotch Broom Concentration</h2>
+						<div style="height:44px;"><b id="leg1_block" style="background:linear-gradient(to right, #ffffff 0%, #ffff66 30%, #b3b300 50%, #99cc00 70%, #558000 90%); width:270px; height:40px; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid; border-bottom:black 2px solid;"></b><p style="margin-left:5px;"></div>
+						<p>Low</p><p style="margin-left:230px;">High</p>
+						<br/><br/>
+						<p id="description">Concentration of Scotch Broom observations from 2005 to present.</p>
+						<img src="img/scotch_broom.png" id="invasiveIconImage" >
+					</div>	
+					<div id="leg_2" style="display:none;">
+						<h2 id="title" >Canada Thistle Concentration</h2>
+						<div style="height:44px;"><b id="leg1_block" style="background:linear-gradient(to right, #ffffff 0%, #ffff66 30%, #b3b300 50%, #99cc00 70%, #558000 90%); width:270px; height:40px; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid; border-bottom:black 2px solid;"></b><p style="margin-left:5px;"></div>
+						<p>Low</p><p style="margin-left:230px;">High</p>
+						<br/><br/>
+						<p id="description">Concentration of Canada Thistle observations from 2005 to present.</p>
+						<img src="img/canada_thistle.png" id="invasiveIconImage" >
+					</div>
+					<div id="leg_3" style="display:none;">
+						<h2 id="title" >Leafy Spurge Concentration</h2>
+						<div style="height:44px;"><b id="leg1_block" style="background:linear-gradient(to right, #ffffff 0%, #ffff66 30%, #b3b300 50%, #99cc00 70%, #558000 90%); width:270px; height:40px; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid; border-bottom:black 2px solid;"></b><p style="margin-left:5px;"></div>
+						<p>Low</p><p style="margin-left:230px;">High</p>
+						<br/><br/>
+						<p id="description">Concentration of Leafy Spurge observations from 2005 to present.</p>
+						<img src="img/leafy_spurge.png" id="invasiveIconImage" >
+					</div>	
+					<div id="leg_4" style="display:none;">
+						<h2 id="title" >Scotch Thistle Concentration</h2>
+						<div style="height:44px;"><b id="leg1_block" style="background:linear-gradient(to right, #ffffff 0%, #ffff66 30%, #b3b300 50%, #99cc00 70%, #558000 90%); width:270px; height:40px; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid; border-bottom:black 2px solid;"></b><p style="margin-left:5px;"></div>
+						<p>Low</p><p style="margin-left:230px;">High</p>
+						<br/><br/>
+						<p id="description">Concentration of Scotch Thistle observations from 2005 to present.</p>
+						<img src="img/scotch_thistle.png" id="invasiveIconImage" >
+					</div>	
+					<div id="leg_5" style="display:none;">
+						<h2 id="title" >Spotted Knapweed Concentration</h2>
+						<div style="height:44px;"><b id="leg1_block" style="background:linear-gradient(to right, #ffffff 0%, #ffff66 30%, #b3b300 50%, #99cc00 70%, #558000 90%); width:270px; height:40px; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid; border-bottom:black 2px solid;"></b><p style="margin-left:5px;"></div>
+						<p>Low</p><p style="margin-left:230px;">High</p>
+						<br/><br/>
+						<p id="description">Concentration of Spotted Knapweed observations from 2005 to present.</p>
+						<img src="img/spotted_knapweed.png" id="invasiveIconImage" >
+					</div>	
+					<div id="leg_6" style="display:none;">
+						<h2 id="title" >Garlic Mustard Concentration</h2>
+						<div style="height:44px;"><b id="leg1_block" style="background:linear-gradient(to right, #ffffff 0%, #ffff66 30%, #b3b300 50%, #99cc00 70%, #558000 90%); width:270px; height:40px; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid; border-bottom:black 2px solid;"></b><p style="margin-left:5px;"></div>
+						<p>Low</p><p style="margin-left:230px;">High</p>
+						<br/><br/>
+						<p id="description">Concentration of Garlic Mustard observations from 2005 to present.</p>
+						<img src="img/garlic_mustard.png" id="invasiveIconImage" >
+					</div>		
+					<div id="leg_7" style="display:none;">
+						<h2 id="title" >Himalayan Blackberry Concentration</h2>
+						<div style="height:44px;"><b id="leg1_block" style="background:linear-gradient(to right, #ffffff 0%, #ffff66 30%, #b3b300 50%, #99cc00 70%, #558000 90%); width:270px; height:40px; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid; border-bottom:black 2px solid;"></b><p style="margin-left:5px;"></div>
+						<p>Low</p><p style="margin-left:230px;">High</p>
+						<br/><br/>
+						<p id="description">Concentration of Himalayan Blackberry observations from 2005 to present.</p>
+						<img src="img/blackberry.png" id="invasiveIconImage" >
+					</div>
+					<div id="leg_8" style="display:none;">
+						<h2 id="title" >Cheatgrass Concentration</h2>
+						<div style="height:44px;"><b id="leg1_block" style="background:linear-gradient(to right, #ffffff 0%, #ffff66 30%, #b3b300 50%, #99cc00 70%, #558000 90%); width:270px; height:40px; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid; border-bottom:black 2px solid;"></b><p style="margin-left:5px;"></div>
+						<p>Low</p><p style="margin-left:230px;">High</p>
+						<br/><br/>
+						<p id="description">Concentration of Cheatgrass observations from 2005 to present.</p>
+						<img src="img/cheatgrass.png" id="invasiveIconImage" >
+					</div>
+					<!--Additional information for each dataset-->
+					<div id="facts_1">
+						<!--scotch broom-->
+						<br/>
+						<p3 style="font-weight:bold; line-height:36px;">Fast Facts:</p3><br/>
+						<p3 id="facts">&#9900&nbspNative to Europe.</p3><br/><br/>
+						<p3 id="facts">&#9900&nbspIntroduced for dune control and as a highway ornamental.</p3><br/><br/>
+						<p3 id="facts">&#9900&nbspCostly to contain due to prolific seed production (up to 10,000 a year).</p3><br/><br/>
+						<p3 id="facts">&#9900&nbspEstimated annual costs to contain Scotch Broom in Oregon exceed $47 million.</p3>
+					</div>
+					<div id="facts_2" style="display:none;">
+						<!--canada thistle-->
+						<br/>
+						<p3 style="font-weight:bold; line-height:36px;">Fast Facts:</p3><br/>
+						<p3 id="facts">&#9900&nbspNative to Europe and Asia.</p3><br/><br/>
+						<p3 id="facts">&#9900&nbspProbably introduced to Canada as a crop contaminant.</p3><br/><br/>
+						<p3 id="facts">&#9900&nbspGrows in circular patches and replaces native plants as it spreads.</p3><br/><br/>
+						<p3 id="facts">&#9900&nbspCan result in crop reduction up to 25%.</p3><br/><br/>
+					</div>
+					<div id="facts_3" style="display:none;">
+						<!--leafy spurge-->
+						<br/>
+						<p3 style="font-weight:bold; line-height:36px;">Fast Facts:</p3><br/>
+						<p3 id="facts">&#9900&nbspNative to Europe and Asia.</p3><br/><br/>
+						<p3 id="facts">&#9900&nbspProbably introduced as a contaminant in imported grain.</p3><br/><br/>
+						<p3 id="facts">&#9900&nbspDisrupts the health of pastures and rangeland.</p3><br/><br/>
+						<p3 id="facts">&#9900&nbspSecretes a milky sap that is irritating to human skin, and may cause hair loss on horses.</p3><br/><br/>
+					</div>
+					<div id="facts_4" style="display:none;">
+						<!--scotch thistle-->
+						<br/>
+						<p3 style="font-weight:bold; line-height:36px;">Fast Facts:</p3><br/>
+						<p3 id="facts">&#9900&nbspNative to Europe and Eastern Asia.</p3><br/><br/>
+						<p3 id="facts">&#9900&nbspProbably an escaped ornamental.</p3><br/><br/>
+						<p3 id="facts">&#9900&nbspPrimarily invades rangeland and pine woodland, seriously diminishing native crop production.</p3><br/><br/>
+					</div>
+					<div id="facts_5" style="display:none;">
+						<!--spotted knapweed-->
+						<br/>
+						<p3 style="font-weight:bold; line-height:36px;">Fast Facts:</p3><br/>
+						<p3 id="facts">&#9900&nbspNative to Europe.</p3><br/><br/>
+						<p3 id="facts">&#9900&nbspProbably introduced as a contaminant in seeds and livestock.</p3><br/><br/>
+						<p3 id="facts">&#9900&nbspForms dense strands, completely excluding native plants.</p3><br/><br/>
+						<p3 id="facts">&#9900&nbspCosts for control often exceed the potential economic benefits from grazing.</p3><br/><br/>
+					</div>
+					<div id="facts_6" style="display:none;">
+						<!--garlic mustard-->
+						<br/>
+						<p3 style="font-weight:bold; line-height:36px;">Fast Facts:</p3><br/>
+						<p3 id="facts">&#9900&nbspNative to Europe.</p3><br/><br/>
+						<p3 id="facts">&#9900&nbspOriginally cultivated for food and medecine.</p3><br/><br/>
+						<p3 id="facts">&#9900&nbspDisplaces vegetation in the forest understory, which decreases forage availability for deer.</p3><br/><br/>
+					</div>
+					<div id="facts_7" style="display:none;">
+						<!--blackberry-->
+						<br/>
+						<p3 style="font-weight:bold; line-height:36px;">Fast Facts:</p3><br/>
+						<p3 id="facts">&#9900&nbspNative to the Himalayas.</p3><br/><br/>
+						<p3 id="facts">&#9900&nbspIntroduced for berry production.</p3><br/><br/>
+						<p3 id="facts">&#9900&nbspOne of the most economically disruptive of all noxious weeds in the PNW.</p3><br/><br/>
+						<p3 id="facts">&#9900&nbspDisplaces native plant species and dominates many riparian habitats.</p3><br/><br/>
+					</div>
+					<div id="facts_8" style="display:none;">
+						<!--cheatgrass-->
+						<br/>
+						<p3 style="font-weight:bold; line-height:36px;">Fast Facts:</p3><br/>
+						<p3 id="facts">&#9900&nbspNative to Europe and Asia.</p3><br/><br/>
+						<p3 id="facts">&#9900&nbspIntroduced as a contaminant in imported grain and straw packing material.</p3><br/><br/>
+						<p3 id="facts">&#9900&nbspCan quickly overwhelm native plants.</p3><br/><br/>
+						<p3 id="facts">&#9900&nbspCheatgrass strands dry out earlier than most native plants, increasing risk for an earlier fire season.</p3><br/><br/>
+					</div>
+				</div>
+			<!--Bottom part of the info panel. This part of the info panel includes arrows to shift between maps, the info button that contains the map sources, and the home button to return to the chapter title screen.-->
+				<div id="pageChange">
+					<a href="fishing_index.html" id="arrow" style="display:inline-block;"><!--Left arrow button-->
+						<i class="fa fa-arrow-left" aria-hidden="true" style=""></i>
+					</a>
+					<a href="#popup1" id="arrow" style="display:inline-block;"><!--Info button for map sources-->
+						<i class="fa fa-info-circle" aria-hidden="true" style="margin-left:83px;"></i>
+					</a>
+					<a href="food_index.html" id="arrow" style="display:inline-block;" target="_blank"><!--Home button-->
+						<i class="fa fa-home" aria-hidden="true"></i>
+					</a>
+					<a href="hunting_index.html" id="arrow" style="display:inline-block;"><!--Right arrow button-->
+						<i class="fa fa-arrow-right" aria-hidden="true" style="margin-left:82px;"></i>
+					</a>
+				</div>
+			</div>
+		</div>
+		<div id="infoPanel2" style="display:none;">
+			<!--Upper half of the info panel. This part of the info panel will always remain the same size. This usually includes the data selection and the main legend. Try not to make this too tall, or it will be cut off on smaller screens.-->
+			<div id="top2"> 
+				<h1>Invasive Species</h1><!--Map title-->
+				<img src="img/invasive_banner.png" id="titleImageCircle" > <br/><!--Banner image-->
+				<!--Dropdown menu for dataset selection-->
+				<button type="button" id="plant_button" onclick="plantSelect()" class="typeSelection">Flora</button>
+				<button type="button" id="animal_button" style="background:rgba(225, 225, 225, 1);" class="typeSelection">Fauna</button>
+				<div id="buttons">
+					<div class="dropdown">
+						<button class="dropbtn"><b id="animalType">Select Animal</b><p id="arrow">&#9660;</p></button>
+							<div class="dropdown-content">
+								<button type="button" id="animalBut1" style="background:rgba(242, 242, 242, 0.67);" class="selection">Nutria</button>
+								<button type="button" id="animalBut2" class="selection">Bullfrog</button>
+								<button type="button" id="animalBut3" class="selection">Starling</button>
+								<button type="button" id="animalBut4" class="selection">Crayfish</button>
+							</div>
+					</div>
+				</div>
+			</div>
+			<!--Middle half of the info panel. This part of the info panel is dynamic! It will adjust to the current screen size, and works with the Perfect-Scrollbar.js plugin to create a dynamic scrollbar within the section.-->
+			<div id="attribution2">
+				<div id="text2">
+					<!--Legends for each dataset-->
+					<div id="animal_leg_1" style="display:unset;">
+						<h2 id="title" >Nutria Concentration</h2>
+						<div style="height:44px;"><b id="leg1_block" style="background:linear-gradient(to right, #ffffff 0%, #ffe699 30%, #cc9900 50%, #ac7339 70%, #604020 90%); width:270px; height:40px; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid; border-bottom:black 2px solid;"></b><p style="margin-left:5px;"></div>
+						<p>Low</p><p style="margin-left:230px;">High</p>
+						<br/><br/>
+						<p id="description">Concentration of Nutria observations from 2005 to present.</p>
+						<br/>
+						<img src="img/nutria.png" id="fishImage" style="margin-left:-10px;">
+					</div>
+					<div id="animal_leg_2" style="display:none;">
+						<h2 id="title" >Bullfrog Concentration</h2>
+						<div style="height:44px;"><b id="leg1_block" style="background:linear-gradient(to right, #ffffff 0%, #ffe699 30%, #cc9900 50%, #ac7339 70%, #604020 90%); width:270px; height:40px; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid; border-bottom:black 2px solid;"></b><p style="margin-left:5px;"></div>
+						<p>Low</p><p style="margin-left:230px;">High</p>
+						<br/><br/>
+						<p id="description">Concentration of Bullfrog observations from 2005 to present.</p>
+						<img src="img/bullfrog.png" id="invasiveIconImage" >
+					</div>	
+					<div id="animal_leg_3" style="display:none;">
+						<h2 id="title" >European Starling Concentration</h2>
+						<div style="height:44px;"><b id="leg1_block" style="background:linear-gradient(to right, #ffffff 0%, #ffe699 30%, #cc9900 50%, #ac7339 70%, #604020 90%); width:270px; height:40px; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid; border-bottom:black 2px solid;"></b><p style="margin-left:5px;"></div>
+						<p>Low</p><p style="margin-left:230px;">High</p>
+						<br/><br/>
+						<p id="description">Concentration of European Starling observations from 2007 to present.</p>
+						<img src="img/starling.png" id="invasiveIconImage" >
+					</div>	
+					<div id="animal_leg_4" style="display:none;">
+						<h2 id="title" >Invasive Crayfish Concentration</h2>
+						<div style="height:44px;"><b id="leg1_block" style="background:linear-gradient(to right, #ffffff 0%, #ffe699 30%, #cc9900 50%, #ac7339 70%, #604020 90%); width:270px; height:40px; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid; border-bottom:black 2px solid;"></b><p style="margin-left:5px;"></div>
+						<p>Low</p><p style="margin-left:230px;">High</p>
+						<br/><br/>
+						<p id="description">Concentration of invasive Crayfish observations from 2005 to present.</p>
+						<img src="img/crayfish.png" id="invasiveIconImage" style="height:200px;">
+					</div>		
+					<!--Additional information for each dataset-->
+					<div id="animal_facts_1">
+						<!--nutria-->
+						<p3 style="font-weight:bold; line-height:36px;">Fast Facts:</p3><br/>
+						<p3 id="facts">&#9900&nbspNative to South America.</p3><br/><br/>
+						<p3 id="facts">&#9900&nbspIntroduced for fur farming in the early 1900s.</p3><br/><br/>
+						<p3 id="facts">&#9900&nbspConstruct burrows in wetlands, which can cause considerable erosion.</p3><br/><br/>
+						<p3 id="facts">&#9900&nbspThey have nearly eliminated populations of native muskrat.</p3><br/><br/>
+					</div>
+					<div id="animal_facts_2" style="display:none;">
+						<!--bullfrog-->
+						<p3 style="font-weight:bold; line-height:36px;">Fast Facts:</p3><br/>
+						<p3 id="facts">&#9900&nbspNative to the Eastern United States.</p3><br/><br/>
+						<p3 id="facts">&#9900&nbspIntroduced as a food item.</p3><br/><br/>
+						<p3 id="facts">&#9900&nbspCan lay up to 20,000 eggs annually, often 2-4 times as much as native frog species.</p3><br/><br/>
+						<p3 id="facts">&#9900&nbspAggressive predators, known to decimate populations of native turtles and frogs.</p3><br/><br/>
+					</div>
+					<div id="animal_facts_3" style="display:none;">
+						<!--starling-->
+						<p3 style="font-weight:bold; line-height:36px;">Fast Facts:</p3><br/>
+						<p3 id="facts">&#9900&nbspNative to Europe.</p3><br/><br/>
+						<p3 id="facts">&#9900&nbspFirst introduced to New York in 1890, and spread across the continental United States.</p3><br/><br/>
+						<p3 id="facts">&#9900&nbspThrive in urban areas, where they are known to outcompete native songbirds.</p3><br/><br/>
+					</div>
+					<div id="animal_facts_4" style="display:none;">
+						<!--crayfish-->
+						<p3 style="font-weight:bold; line-height:36px;">Fast Facts:</p3><br/>
+						<p3 id="facts">&#9900&nbspThere are four invasive crayfish species in the Pacific Northwest: Rusty Crayfish, Red Swamp Crayfish, Ringed Crayfish, and Virile Crayfish.</p3><br/><br/>
+						<p3 id="facts">&#9900&nbspAll invasive crayfish present are native to the Eastern United States.</p3><br/><br/>
+						<p3 id="facts">&#9900&nbspCompete with the native Signal Crayfish.</p3><br/><br/>
+						<p3 id="facts">&#9900&nbspSpecific introduction paths are unknown, but it is likely that invasive crayfish were introduced as live bait or as released pets.</p3><br/><br/>
+					</div>
+				</div>
+			<!--Bottom part of the info panel. This part of the info panel includes arrows to shift between maps, the info button that contains the map sources, and the home button to return to the chapter title screen.-->
+				<div id="pageChange2">
+					<a href="fishing_index.html" id="arrow" style="display:inline-block;"><!--Left arrow button-->
+						<i class="fa fa-arrow-left" aria-hidden="true" style=""></i>
+					</a>
+					<a href="#popup1" id="arrow" style="display:inline-block;"><!--Info button for map sources-->
+						<i class="fa fa-info-circle" aria-hidden="true" style="margin-left:83px;"></i>
+					</a>
+					<a href="food_index.html" id="arrow" style="display:inline-block;" target="_blank"><!--Home button-->
+						<i class="fa fa-home" aria-hidden="true"></i>
+					</a>
+					<a href="hunting_index.html" id="arrow" style="display:inline-block;"><!--Right arrow button-->
+						<i class="fa fa-arrow-right" aria-hidden="true" style="margin-left:82px;"></i>
+					</a>
+				</div>
+			</div>
+		</div>
+    	<div id="map" style="width: 100%; height: 100%;"></div>
+    	<!--<div id="temp" style="display:none;"><canvas id="chartContainer1" style="height: 110; width: 50%; margin-left:-5px;"></canvas></div>-->
+    	
+    	<!--Map sources popup-->
+    	<div id="popup1" class="overlay">
+			<div class="popup">
+				<h2 style="display:inline; font-size:32px;">Sources</h2>
+				<a class="close" href="#" style="display:inline;">×</a>
+				<hr>
+				<div class="content">
+					<p2 style="font-size:20px">Geographic Data</p2><br><br/>
+                    	<div class="source">
+                    		<b><p2>Invasive Species Sightings: <a href = "https://www.eddmaps.org/distribution/" target="_blank">EDD Maps</a></p2></b><br>
+                    			<p3>Used for all included species.<p3>
+                   	 	</div>
+                    <p2 style="font-size:20px">Text Data</p2><br><br/>
+                    	<div class="source">
+                    		<b><p2>Scotch Broom: <a href = "https://www.oregon.gov/oda/shared/Documents/Publications/Weeds/ScotchBroomProfile.pdf" target="_blank">Oregon Department of Agriculture</a></p2></b><br>
+                    	</div>	
+                    	<div class="source">
+                    		<b><p2>Leafy Spurge: <a href = "https://www.oregon.gov/ODA/shared/Documents/Publications/Weeds/LeafySpurgeProfile.pdf" target="_blank">Oregon Department of Agriculture</a></p2></b><br>
+                    	</div>	
+                    	<div class="source">
+                    		<b><p2>Spotted Knapweed: <a href = "https://www.oregon.gov/ODA/shared/Documents/Publications/Weeds/SpottedKnapweedProfile.pdf" target="_blank">Oregon Department of Agriculture</a></p2></b><br>
+                    	</div>	
+                    	<div class="source">
+                    		<b><p2>Himalayan Blackberry: <a href = "https://www.oregon.gov/ODA/shared/Documents/Publications/Weeds/ArmeniaBlackberryProfile.pdf" target="_blank">Oregon Department of Agriculture</a></p2></b><br>
+                    	</div>	
+                    	<div class="source">
+                    		<b><p2>Canada Thistle: <a href = "https://www.oregon.gov/ODA/shared/Documents/Publications/Weeds/CanadaThistleProfile.pdf" target="_blank">Oregon Department of Agriculture</a></p2></b><br>
+                    	</div>	
+                    	<div class="source">
+                    		<b><p2>Scotch Thistle: <a href = "https://www.oregon.gov/oda/shared/Documents/Publications/Weeds/ScotchThistleProfile.pdf" target="_blank">Oregon Department of Agriculture</a></p2></b><br>
+                    	</div>
+                    	<div class="source">
+                    		<b><p2>Garlic Mustard: <a href = "https://www.oregon.gov/ODA/shared/Documents/Publications/Weeds/GarlicMustardProfile.pdf" target="_blank">Oregon Department of Agriculture</a></p2></b><br>
+                    	</div>	
+                    	<div class="source">
+                    		<b><p2>Cheatgrass: <a href = "https://www.usu.edu/weeds/plant_species/weedspecies/cheatgrass.html" target="_blank">Utah State University</a></p2></b><br>
+                    	</div>	
+                    	<div class="source">
+                    		<b><p2>Nutria: <a href = "https://myodfw.com/wildlife-viewing/species/invasive-species" target="_blank">Oregon Department of Fish and Wildlife</a></p2></b><br>
+                    	</div>	
+                    	<div class="source">
+                    		<b><p2>European Starling: <a href = "https://wdfw.wa.gov/living/starlings.html" target="_blank">Washington Department of Fish and Wildlife</a></p2></b><br>
+                    	</div>
+                    	<div class="source">
+                    		<b><p2>Bullfrog: <a href = "https://www.dfw.state.or.us/conservationstrategy/invasive_species/docs/bullfrog_fact_sheet.pdf" target="_blank">Oregon Department of Fish and Wildlife</a></p2></b><br>
+                    	</div>	
+                    	<div class="source">
+                    		<b><p2>Crayfish: <a href = "https://www.dfw.state.or.us/conservationstrategy/invasive_species/docs/Crayfish_Comparison.pdf" target="_blank">Oregon Department of Fish and Wildlife</a></p2></b><br>
+                    	</div>	
+                    <p2 style="font-size:20px">Image Data</p2><br><br/>
+						<div class="source">
+							<b><p2>Spotted Knapweed: <a href = "https://commons.wikimedia.org/wiki/Centaurea_stoebe#/media/File:Centaurea_stoebe_281007b.jpg" target="_blank">Courtesy of Bernd Haynold, acquired from Wikimedia Commons.</a></p2></b><br>
+						</div>
+				</div>
+				<hr>
+				<p2 style="float:right; font-size:12px;">Map created with Leaflet.</p2>
+				<br/>
+				<a class="close2" href="#" style="display:inline;">Close</a>
+			</div>
+		</div>
+<script src="assets/scotch_broom.js"></script>
+<script src="assets/leafy_spurge.js"></script>
+<script src="assets/garlic_mustard.js"></script>
+<script src="assets/poison_hemlock.js"></script>
+<script src="assets/scotch_thistle.js"></script>
+<script src="assets/spotted_knapweed.js"></script>
+<script src="assets/canada_thistle.js"></script>
+<script src="assets/blackberry.js"></script>
+<script src="assets/cheatgrass.js"></script>
+<script src="assets/nutria.js"></script>
+<script src="assets/bullfrog.js"></script>
+<script src="assets/crayfish.js"></script>
+<script src="assets/starling.js"></script>
+<script>
+//////////////base functions (these never change)///////////////////////
+	function animalSelect(){
+		plantShift();
+		document.getElementById("infoPanel2").style.display = "unset";
+		document.getElementById("infoPanel").style.display = "none";
+		resizeMiddle2();
+		Ps.destroy(container);
+		Ps.initialize(container2);
+	}
+	function plantSelect(){
+		animalShift();
+		document.getElementById("infoPanel2").style.display = "none";
+		document.getElementById("infoPanel").style.display = "unset";
+		resizeMiddle();
+		Ps.destroy(container2);
+		Ps.initialize(container);
+	}
+	
+	function plantShift(){
+		if (data == 1){map.removeLayer(buttonFunctions.but1.newLayers[0]);}
+		if (data == 2){map.removeLayer(buttonFunctions.but2.newLayers[0]);}
+		if (data == 3){map.removeLayer(buttonFunctions.but3.newLayers[0]);}
+		if (data == 4){map.removeLayer(buttonFunctions.but4.newLayers[0]);}
+		if (data == 5){map.removeLayer(buttonFunctions.but5.newLayers[0]);}
+		if (data == 6){map.removeLayer(buttonFunctions.but6.newLayers[0]);}
+		if (data == 7){map.removeLayer(buttonFunctions.but7.newLayers[0]);}
+		if (data == 8){map.removeLayer(buttonFunctions.but8.newLayers[0]);}
+		if (animal == 1){map.addLayer(buttonFunctions2.but1.newLayers[0]);}
+		if (animal == 2){map.addLayer(buttonFunctions2.but2.newLayers[0]);}
+		if (animal == 3){map.addLayer(buttonFunctions2.but3.newLayers[0]);}
+		if (animal == 4){map.addLayer(buttonFunctions2.but4.newLayers[0]);}
+	}
+	
+	function animalShift(){
+		if (animal == 1){map.removeLayer(buttonFunctions2.but1.newLayers[0]);}
+		if (animal == 2){map.removeLayer(buttonFunctions2.but2.newLayers[0]);}
+		if (animal == 3){map.removeLayer(buttonFunctions2.but3.newLayers[0]);}
+		if (animal == 4){map.removeLayer(buttonFunctions2.but4.newLayers[0]);}
+		if (data == 1){map.addLayer(buttonFunctions.but1.newLayers[0]);}
+		if (data == 2){map.addLayer(buttonFunctions.but2.newLayers[0]);}
+		if (data == 3){map.addLayer(buttonFunctions.but3.newLayers[0]);}
+		if (data == 4){map.addLayer(buttonFunctions.but4.newLayers[0]);}
+		if (data == 5){map.addLayer(buttonFunctions.but5.newLayers[0]);}
+		if (data == 6){map.addLayer(buttonFunctions.but6.newLayers[0]);}
+		if (data == 7){map.addLayer(buttonFunctions.but7.newLayers[0]);}
+		if (data == 8){map.addLayer(buttonFunctions.but8.newLayers[0]);}
+	}
+	
+	var collapsed = false;
+ 	//////////////function for the info panel collapse button///////////////////////
+    function collapse(){
+    	if (collapsed == false){
+    		document.getElementById("infoPanel").style.transition = "display 2s";
+    		document.getElementById("infoPanel").style.display = "none";
+    		document.getElementById("collapse").style.left = '0px';
+    		document.getElementById("collapse").style.paddingLeft = '2px';
+    		document.getElementById("collapse-arrow").className = "fa fa-chevron-right";
+    		collapsed = true;
+    	} else{
+    		document.getElementById("infoPanel").style.display = "unset";
+    		document.getElementById("collapse").style.left = '320px';
+    		document.getElementById("collapse").style.paddingLeft = '0px';
+    		document.getElementById("collapse-arrow").className = "fa fa-chevron-left";
+    		collapsed = false;
+    	}
+    	
+    }
+	//////////////function that allows topojson layers to be loaded///////////////////////
+    L.TopoJSON = L.GeoJSON.extend({  
+  		addData: function(jsonData) {    
+    		if (jsonData.type === 'Topology') {
+      			for (key in jsonData.objects) {
+       			 geojson = topojson.feature(jsonData, jsonData.objects[key]);
+       			 L.GeoJSON.prototype.addData.call(this, geojson);
+      		}
+    	}    
+    	else {
+      		L.GeoJSON.prototype.addData.call(this, jsonData);
+    		}
+  		}  
+	});
+//////////////Initialize map///////////////////////
+	var map = L.map('map', {center: [45.56, -119.75], zoom: 7, zoomControl:false});
+///////////////////////make zoom level correspond to browser size////////////////////////////////
+	window.addEventListener('load', function(event){
+    	var width = document.documentElement.clientWidth;
+    	if (width < 1500 && width > 800) {
+        	map.setView(new L.LatLng(45.56, -121.75), 6); 
+    		}  else if (width > 1501) {
+        	map.setZoom(7);
+        	} else {
+        	map.setZoom(5);
+        	}
+	});
+////////////////////////////////basemap layers////////////////////////////////
+	var CartoDB_PositronNoLabels = L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_nolabels/{z}/{x}/{y}.png', {
+		attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
+		subdomains: 'abcd',
+		maxZoom:10,
+		minZoom:5,
+		opacity:1
+	}).addTo(map);
+	
+	var Esri_WorldImagery = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+		attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community',
+		maxZoom:10,
+		minZoom:5,
+		opacity:0.3
+	}).addTo(map);
+	
+	var Esri_WorldTerrain = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer/tile/{z}/{y}/{x}', {
+		attribution: 'Tiles &copy; Esri &mdash; Source: USGS, Esri, TANA, DeLorme, and NPS',
+		maxZoom:10,
+		minZoom:5,
+		opacity:0.2
+	}).addTo(map);
+
+	var pnwCover = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
+		layers: 'baldricg_PNW_ATLAS:pnw_outline2_black',
+        format: 'image/png',
+		maxZoom:10,
+		minZoom:5,
+		opacity:0.3,
+		transparent:true,
+	}).addTo(map);
+	
+	var pnw_borders = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
+		layers: 'baldricg_PNW_ATLAS:pnw_borders',
+        format: 'image/png',
+		maxZoom:10,
+		minZoom:5,
+		opacity:1,
+		transparent:true,
+	}).addTo(map);
+	
+	var label = L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_only_labels/{z}/{x}/{y}@2x.png', {
+		attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
+		subdomains: 'abcd',
+		maxZoom:10,
+		minZoom:5,
+		tileSize:256,
+		bounds:[
+			new L.LatLng(49.56,-125.25),
+			new L.LatLng(40.5,-111.5)
+		],
+		pane:'labels'
+	});	
+	
+	//labels pane allows
+	map.createPane('labels');
+	map.getPane('labels').style.pointerEvents = 'none';
+	map.getPane('labels').style.zIndex = 700;
+	label.addTo(map);
+	
+	map.createPane('tooltip');
+	map.getPane('tooltip').style.pointerEvents = 'none';
+	map.getPane('tooltip').style.zIndex = 800;
+
+
+////////////////////////////////important variables////////////////////////////////
+	var data = 1;
+	var animal = 1;
+
+////////////////////////////display layers//////////////////////
+	////////////////////////////////amphibian////////////////////////////////  	
+  	/*function geoJson2heat(geojson) {
+		return geojson.features.map(function(feature) {
+			return [parseFloat(feature.geometry.coordinates[1]), parseFloat(feature.geometry.coordinates[0])];
+		});
+	}
+	var geoData = geoJson2heat(scotch_broom2,1);*/
+	
+	scotch_broom = scotch_broom.map(function (p) { return [p[0], p[1]]; });
+  	var scotch_broom_heat = L.heatLayer(scotch_broom,{blur:30,gradient:{0.2: '#ffffff', 0.4: '#ffff66', 0.6: '#b3b300', 0.8: '#99cc00',1: '#558000'}}).addTo(map);
+  	
+  	leafy_spurge = leafy_spurge.map(function (p) { return [p[0], p[1]]; });
+  	var leafy_spurge_heat = L.heatLayer(leafy_spurge,{blur:30,gradient:{0.2: '#8a8a5c', 0.4: '#ffff66', 0.6: '#b3b300', 0.8: '#99cc00',1: '#558000'}});
+  	
+  	garlic_mustard = garlic_mustard.map(function (p) { return [p[0], p[1]]; });
+  	var garlic_mustard_heat = L.heatLayer(garlic_mustard,{blur:30,gradient:{0.2: '#8a8a5c', 0.4: '#ffff66', 0.6: '#b3b300', 0.8: '#99cc00',1: '#558000'}});
+
+  	scotch_thistle = scotch_thistle.map(function (p) { return [p[0], p[1]]; });
+  	var scotch_thistle_heat = L.heatLayer(scotch_thistle,{blur:30,gradient:{0.2: '#8a8a5c', 0.4: '#ffff66', 0.6: '#b3b300', 0.8: '#99cc00',1: '#558000'}});
+  	
+  	spotted_knapweed = spotted_knapweed.map(function (p) { return [p[0], p[1]]; });
+  	var spotted_knapweed_heat = L.heatLayer(spotted_knapweed,{blur:30,gradient:{0.2: '#8a8a5c', 0.4: '#ffff66', 0.6: '#b3b300', 0.8: '#99cc00',1: '#558000'}});
+  	
+  	canada_thistle = canada_thistle.map(function (p) { return [p[0], p[1]]; });
+  	var canada_thistle_heat = L.heatLayer(canada_thistle,{blur:30,gradient:{0.2: '#8a8a5c', 0.4: '#ffff66', 0.6: '#b3b300', 0.8: '#99cc00',1: '#558000'}});
+  	
+  	blackberry = blackberry.map(function (p) { return [p[0], p[1]]; });
+  	var blackberry_heat = L.heatLayer(blackberry,{blur:30,gradient:{0.2: '#8a8a5c', 0.4: '#ffff66', 0.6: '#b3b300', 0.8: '#99cc00',1: '#558000'}});
+  	
+  	cheatgrass = cheatgrass.map(function (p) { return [p[0], p[1]]; });
+  	var cheatgrass_heat = L.heatLayer(cheatgrass,{blur:30,gradient:{0.2: '#8a8a5c', 0.4: '#ffff66', 0.6: '#b3b300', 0.8: '#99cc00',1: '#558000'}});
+  	
+  	nutria = nutria.map(function (p) { return [p[0], p[1]]; });
+  	var nutria_heat = L.heatLayer(nutria,{blur:30,gradient:{0.2: '#808080', 0.4: '#ffe699', 0.6: '#cc9900', 0.8: '#ac7339',1: '#604020'}});
+  	
+  	bullfrog = bullfrog.map(function (p) { return [p[0], p[1]]; });
+  	var bullfrog_heat = L.heatLayer(bullfrog,{blur:30,gradient:{0.2: '#808080', 0.4: '#ffe699', 0.6: '#cc9900', 0.8: '#ac7339',1: '#604020'}});
+  	
+  	crayfish = crayfish.map(function (p) { return [p[0], p[1]]; });
+  	var crayfish_heat = L.heatLayer(crayfish,{blur:30, minOpacity:0.5,gradient:{0.2: '#808080', 0.4: '#ffe699', 0.6: '#cc9900', 0.8: '#ac7339',1: '#604020'}});
+  	
+  	starling = starling.map(function (p) { return [p[0], p[1]]; });
+  	var starling_heat = L.heatLayer(starling,{blur:30,gradient:{0.2: '#808080', 0.4: '#ffe699', 0.6: '#cc9900', 0.8: '#ac7339',1: '#604020'}});
+     
+///////////////////////////////button function////////////////////////////////
+	//this function uses the ClickFunction plugin to easily add/remove layers, change legends, styling and anything else when a new dataset is selected from the dropdown buttons  		
+	var buttonLabels = ['#but1','#but2','#but3','#but4','#but5','#but6','#but7','#but8'];//add button IDs here
+	
+	var buttonFunctions = {
+		but1: {button:'but1', 
+			newLayers:[scotch_broom_heat], 
+			newElements:['facts_1'],
+			newLegend: 'leg_1', 
+			title:'Scotch Broom', 
+			variable:1,
+		},
+		but2: {button:'but2', 
+			newLayers:[canada_thistle_heat], 
+			newElements:['facts_2'],
+			newLegend: 'leg_2', 
+			title:'Canada Thistle', 
+			variable:2,
+		},
+		but3: {button:'but3', 
+			newLayers:[leafy_spurge_heat], 
+			newElements:['facts_3'],
+			newLegend: 'leg_3', 
+			title:'Leafy Spurge', 
+			variable:3,
+		},
+		but4: {button:'but4', 
+			newLayers:[scotch_thistle_heat], 
+			newElements:['facts_4'],
+			newLegend: 'leg_4', 
+			title:'Scotch Thistle', 
+			variable:4,
+		},
+		but5: {button:'but5', 
+			newLayers:[spotted_knapweed_heat], 
+			newElements:['facts_5'],
+			newLegend: 'leg_5', 
+			title:'Spotted Knapweed', 
+			variable:5,
+		},
+		but6: {button:'but6', 
+			newLayers:[garlic_mustard_heat], 
+			newElements:['facts_6'],
+			newLegend: 'leg_6', 
+			title:'Garlic Mustard', 
+			variable:6,
+		},
+		but7: {button:'but7', 
+			newLayers:[blackberry_heat], 
+			newElements:['facts_7'],
+			newLegend: 'leg_7', 
+			title:'Himalayan Blackberry', 
+			variable:7,
+		},
+		but8: {button:'but8', 
+			newLayers:[cheatgrass_heat], 
+			newElements:['facts_8'],
+			newLegend: 'leg_8', 
+			title:'Cheatgrass', 
+			variable:8,
+		}
+	};
+	
+	$('.function').clickFunction({
+		buttonFunctions: buttonFunctions,
+		buttonLabels: buttonLabels,
+		selected:buttonFunctions.but1 //choose which button is initially selected
+	});
+	
+	
+	///////////////////////////////button function2////////////////////////////////
+	var buttonLabels2 = ['#animalBut1','#animalBut2','#animalBut3','#animalBut4'];//add button IDs here
+	
+	var buttonFunctions2 = {
+		but1: {button:'animalBut1', 
+			newLayers:[nutria_heat], 
+			newElements:['animal_facts_1'],
+			newLegend: 'animal_leg_1', 
+			title:'Nutria', 
+			layerFunction: function(){
+				animal = 1;
+				}
+		},
+		but2: {button:'animalBut2', 
+			newLayers:[bullfrog_heat], 
+			newElements:['animal_facts_2'],
+			newLegend: 'animal_leg_2', 
+			title:'Bullfrog', 
+			layerFunction: function(){
+				animal = 2;
+				}
+		},
+		but3: {button:'animalBut3', 
+			newLayers:[starling_heat], 
+			newElements:['animal_facts_3'],
+			newLegend: 'animal_leg_3', 
+			title:'Starling', 
+			layerFunction: function(){
+				animal = 3;
+				}
+		},
+		but4: {button:'animalBut4', 
+			newLayers:[crayfish_heat], 
+			newElements:['animal_facts_4'],
+			newLegend: 'animal_leg_4', 
+			title:'Crayfish', 
+			layerFunction: function(){
+				animal = 4;
+				}
+		}
+	};
+	
+	$('.function').clickFunction({
+		titleContainer:'animalType',
+		buttonFunctions: buttonFunctions2,
+		buttonLabels: buttonLabels2,
+		selected:buttonFunctions2.but1 //choose which button is initially selected
+	});
+	
+ ///////////////////////////////other miscellaneous functions (these also never change)////////////////////////////////   
+   	//add zoom control
+    new L.Control.Zoom({ position: 'bottomright' }).addTo(map);
+    
+    //remove leaflet attribution
+	document.getElementsByClassName("leaflet-control-attribution")[0].style.visibility = "hidden";
+	
+	//add scrolling capabilities to text box
+    var container2 = document.getElementById('text2');
+    var container = document.getElementById('text');
+		Ps.initialize(container);
+	
+	//update text box to be correct size
+	var minHeight = 50; // Define a minimum height for the middle div
+
+	function resizeMiddle() {
+   		var h = $('body').height() - $('#top').height() - 95;
+    		h = h > minHeight ? h : minHeight;
+   	 	$('#attribution').height(h);
+	}
+	
+	function resizeMiddle2() {
+   		var h = $('body').height() - $('#top2').height() - 95;
+    		h = h > minHeight ? h : minHeight;
+   	 	$('#attribution2').height(h);
+	}
+	
+	function resizePopup() {
+   		var h = $('.popup').height() - 90;
+    		h = h > minHeight ? h : minHeight;
+   	 	$('.popup .content').height(h);
+	}
+	$(document).ready(resizePopup);
+	$(window).resize(resizePopup);
+
+	$(document).ready(resizeMiddle);
+	$(window).resize(resizeMiddle); 
+	$(window).resize(resizeMiddle2);    
+
+</script>
+</body>
+</html>

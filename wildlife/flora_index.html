@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+     <title>Flora</title>
+    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.2/dist/leaflet.css" /> 
+    <link rel="stylesheet" href="css/wildlife_maps_style.css" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Maven+Pro" rel="stylesheet">
+    <link rel="stylesheet" href="css/perfect-scrollbar.css" />
+    
+    <link rel="shortcut icon" href="img/pnw.ico" type="image/x-icon">
+    
+    <script src="https://unpkg.com/leaflet@1.0.2/dist/leaflet.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="js/perfect-scrollbar.js"></script>
+    <script src="https://d3js.org/topojson.v1.min.js"></script>
+    <script src="js/leaflet_pattern.js"></script>
+    <script src="https://unpkg.com/leaflet.vectorgrid@latest/dist/Leaflet.VectorGrid.bundled.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script type="text/javascript" src="../js/clickFunction.js"></script>
+    
+</head>
+<body>
+		<!--This is the button that collapses the info panel-->
+		<button id="collapse" onclick="collapse()">
+			<i class="fa fa-chevron-left" id ="collapse-arrow" aria-hidden="true"></i>
+		</button>
+		<!--Info panel on the left side of the screen. Dataset selection, legends, and additional information about the map is presented here.-->
+		<div id="infoPanel">
+			<!--Upper half of the info panel. This part of the info panel will always remain the same size. This usually includes the data selection and the main legend. Try not to make this too tall, or it will be cut off on smaller screens.-->
+			<div id="top"> 
+				<h1>Flora</h1><!--Map title-->
+				<img src="img/flora_icon.png" id="titleImageCircle" > <br/><!--Banner image-->
+				<!--Dropdown menu for dataset selection-->
+				<div id="buttons">
+					<div class="dropdown">
+						<button class="dropbtn"><b id="dataType">Select Dataset</b><p id="arrow">&#9660;</p></button>
+							<div class="dropdown-content">
+								<button type="button" id="but1" style="background:rgba(242, 242, 242, 0.67);" class="selection">Ecoregions</button>
+								<button type="button" id="but2" class="selection">Forest Cover</button>
+								<br/>
+								<p style="font-size:16px; padding-left:75px; margin-bottom:10px;">Selected Species</p>
+								<br/>
+								<button type="button" id="but3" class="selection">Douglas Fir</button>
+								<button type="button" id="but4" class="selection">Western Hemlock</button>
+								<button type="button" id="but5" class="selection">Ponderosa Pine</button>
+								<button type="button" id="but6" class="selection">Grand Fir</button>
+								<button type="button" id="but7" class="selection">Juniper</button>
+								<button type="button" id="but8" class="selection">Sagebrush</button>
+							</div>
+					</div>
+				</div>
+			</div>
+			<!--Middle half of the info panel. This part of the info panel is dynamic! It will adjust to the current screen size, and works with the Perfect-Scrollbar.js plugin to create a dynamic scrollbar within the section.-->
+			<div id="attribution">
+				<div id="text">
+					<!--Legends for each dataset-->
+					<div id="leg_1" style="display:unset;">
+						<h2 id="eco_title" style="font-size:30px; margin-bottom:10px;">Select an Ecoregion</h2>
+						<div id="ecoregion" style="display:none">
+							<h2 id="eco_main" style="margin-top:5px; margin-bottom:5px; display:block;">Vancouverian Forest, Agricultural Land</h2>
+							<img id="eco_image" src="img/klamath_mountains.png" style="width:280px; margin-top:5px;">
+							<p id="description" style="display:inline;">Common Species: </p>
+							<p id="eco_description" style="font-weight:normal;display:inline;"></p>
+							<br/>
+						</div>
+						<h2 id="title" >Vegetation Types</h2>
+						<div style="height:32px;"><b id="leg1_block" style="background:#377e57; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p style="margin-left:5px;">Vancouverian Forest<sup class="tooltip">?<span class="tooltiptext">Maritime forests dominated by conifer species. Varying precipitation. Fir, Hemlock and Spruce varieties are prominent.</span></sup></p></div>
+						<div style="height:30px;"><b id="leg2_block" style="background:#1b5335; border-left:black 2px solid; border-right:black 2px solid;"></b><p style="margin-left:5px;">Rocky Mountain Forest<sup class="tooltip">?<span class="tooltiptext">Inland forests where conifer species are common. Includes dry and alpine climate zones. Fir, Pine, Juniper, and Hemlock varieties are prominent.</span></sup></p></div>
+						<div style="height:30px;"><b id="leg3_block" style="background:#779d64; border-left:black 2px solid; border-right:black 2px solid;"></b><p style="margin-left:5px;">Utah Pinyon Forest<sup class="tooltip">?<span class="tooltiptext">Woodland/Scrubland characterized by the presence of Pinyon and Juniper varieties.</span></sup></p></div>
+						<div style="height:30px;"><b id="leg4_block" style="background:#416c34; border-left:black 2px solid; border-right:black 2px solid;"></b><p style="margin-left:5px;">California Forest<sup class="tooltip">?<span class="tooltiptext">Dry upland forests characterized by broad-leafed deciduous trees and conifers. Oak, Pine, Fir varieties are prominent.</span></sup></p></div>
+						<div style="height:30px;"><b id="leg4_block" style="background:#85bd97; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p style="margin-left:5px;">Harvested/Burned Forest<sup class="tooltip">?<span class="tooltiptext">Forest land that has been affected by logging, wildfires, or other disturbances.</span></sup></p></div><br/>
+						<div style="height:30px;"><b id="leg4_block" style="background:#5ca79e; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p style="margin-left:5px;">Freshwater Marsh/Bog<sup class="tooltip">?<span class="tooltiptext">Riparian and swamp shrublands with shallow water and a variety of herbaceous vegetation.</span></sup></p></div>
+						<div style="height:30px;"><b id="leg4_block" style="background:#afdfe9; border-left:black 2px solid; border-right:black 2px solid;"></b><p style="margin-left:5px;">Salt Marsh<sup class="tooltip">?<span class="tooltiptext">Wetlands with salinity of at least 0.5 ppt. Characterized by fluctuating water levels.</span></sup></p></div>
+						<div style="height:32px;"><b id="leg5_block" style="background:#409bd8; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p style="margin-left:5px;">Open Water<sup class="tooltip">?<span class="tooltiptext">Rivers, lakes, and reservoirs.</span></sup></p></div><br/>
+						<div style="height:30px;"><b id="leg4_block" style="background:#d0ccb3; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p style="margin-left:5px;">Scrubland/Grassland<sup class="tooltip">?<span class="tooltiptext">Includes both cool-temperate grassland and Mediterranean chaparral shrubland.</span></sup></p></div>
+						<div style="height:30px;"><b id="leg4_block" style="background:#e5dfbd; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p style="margin-left:5px;">Desert/Semi-Desert<sup class="tooltip">?<span class="tooltiptext">Occurs in dry, cool-temperate climates, dominated by low shrubs. Sagebrush varieties are prominent.</span></sup></p></div><br/>
+						<div style="height:30px;"><b id="leg4_block" style="background:#d4cadd; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p style="margin-left:5px;">Alpine Tundra<sup class="tooltip">?<span class="tooltiptext">Occurs at high elevations in mountain ranges.</span></sup></p></div>
+						<div style="height:30px;"><b id="leg4_block" style="background:#90839d; border-left:black 2px solid; border-right:black 2px solid;"></b><p style="margin-left:5px;">Bare Rock<sup class="tooltip">?<span class="tooltiptext">Exposed rock formation.</span></sup></p></div>
+						<div style="height:30px;"><b id="leg4_block" style="background:#ffffff; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p style="margin-left:5px;">Glacier/Ice Field<sup class="tooltip">?<span class="tooltiptext">Area of ice cover.</span></sup></p></div><br/>
+						<div style="height:30px;"><b id="leg4_block" style="background:#e3efcc; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p style="margin-left:5px;">Agriculture/Introduced<sup class="tooltip">?<span class="tooltiptext">Includes agricultural areas, as well as areas of non-agricultural introduced vegetation.</span></sup></p></div>
+						<div style="height:30px;"><b id="leg4_block" style="background:#d5d5d5; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p style="margin-left:5px;">Urban Area<sup class="tooltip">?<span class="tooltiptext">Area of urban land cover.</span></sup></p></div>
+						<br/>
+						<p id="description">Vegetation type based on 2011 USGS GAP Analysis data.</p>
+					</div>	
+					<div id="leg_2" style="display:none;">
+						<h2 id="title" >Change in Forest Cover</h2><img src="img/white_oak.gif" id="iconImage" style="height:100px; width:120px; margin-top:60px; right:10px;">
+						<div style="height:32px;"><b id="leg1_block" style="background:#41ab5d; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p style="margin-left:5px;">Forest Cover</p></div>
+						<div style="height:30px;"><b id="leg2_block" style="background:#ff3333; border-left:black 2px solid; border-right:black 2px solid;"></b><p style="margin-left:5px;">Forest Loss</p></div>
+						<div style="height:32px;"><b id="leg3_block" style="background:#4d6dff; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p style="margin-left:5px;">Forest Gain</p></div>
+						<br/>
+						<p id="description">Change in forest cover between. Total forest cover from 2000, forest gain from 2000 to 2012, and forest loss from 2000 to 2017. Forest loss includes both human and anthropogenic causes.</p>
+					</div>	
+					<div id="leg_3" style="display:none;">
+						<h2 id="title" >Douglas Fir Basal Area (Sq Ft./Acre)</h2>
+						<div style="height:44px;"><b id="leg1_block" style="background:linear-gradient(to right, #f7fcf5 0%, #e5f5e0 10%, #c7e9c0 20%, #a1d99b 30%, #74c476 40%, #41ab5d 50%, #238b45 60%, #006d2c 70%, #005722 80%, #003514 90%); width:270px; height:40px; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid; border-bottom:black 2px solid;"></b><p style="margin-left:5px;"></div>
+						<p>0</p><p style="margin-left:236px;">160+</p><br/><br/>
+						<p id="description">Basal area represents the cross section (square footage) of tree trunks at the base over an acre.</p>
+						<br/>
+						<img src="img/douglas_fir.gif" style="height:160px; width:100px; margin-left:80px;">
+					</div>	
+					<div id="leg_4" style="display:none;">
+						<h2 id="title" >Western Hemlock Basal Area (Sq Ft./Acre)</h2>
+						<div style="height:44px;"><b id="leg1_block" style="background:linear-gradient(to right, #f7fcf5 0%, #e5f5e0 10%, #c7e9c0 20%, #a1d99b 30%, #74c476 40%, #41ab5d 50%, #238b45 60%, #006d2c 70%, #005722 80%, #003514 90%); width:270px; height:40px; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid; border-bottom:black 2px solid;"></b><p style="margin-left:5px;"></div>
+						<p>0</p><p style="margin-left:236px;">130+</p><br/><br/>
+						<p id="description">Basal area represents the cross section (square footage) of tree trunks at the base over an acre.</p>
+						<br/>
+						<img src="img/western_hemlock.gif"  style="height:160px; width:100px; margin-left:80px;">
+					</div>	
+					<div id="leg_5" style="display:none;">
+						<h2 id="title" >Ponderosa Pine Basal Area (Sq Ft./Acre)</h2>
+						<div style="height:44px;"><b id="leg1_block" style="background:linear-gradient(to right, #f7fcf5 0%, #e5f5e0 10%, #c7e9c0 20%, #a1d99b 30%, #74c476 40%, #41ab5d 50%, #238b45 60%, #006d2c 70%, #005722 80%, #003514 90%); width:270px; height:40px; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid; border-bottom:black 2px solid;"></b><p style="margin-left:5px;"></div>
+						<p>0</p><p style="margin-left:242px;">80+</p><br/><br/>
+						<p id="description">Basal area represents the cross section (square footage) of tree trunks at the base over an acre.</p>
+						<br/>
+						<img src="img/ponderosa_pine.gif" style="height:160px; width:100px; margin-left:80px;">
+					</div>	
+					<div id="leg_6" style="display:none;">
+						<h2 id="title" >Grand Fir Basal Area (Sq Ft./Acre)</h2>
+						<div style="height:44px;"><b id="leg1_block" style="background:linear-gradient(to right, #f7fcf5 0%, #e5f5e0 10%, #c7e9c0 20%, #a1d99b 30%, #74c476 40%, #41ab5d 50%, #238b45 60%, #006d2c 70%, #005722 80%, #003514 90%); width:270px; height:40px; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid; border-bottom:black 2px solid;"></b><p style="margin-left:5px;"></div>
+						<p>0</p><p style="margin-left:242px;">65+</p><br/><br/>
+						<p id="description">Basal area represents the cross section (square footage) of tree trunks at the base over an acre.</p>
+						<br/>
+						<img src="img/grand_fir.gif" style="height:160px; width:100px; margin-left:80px;">
+					</div>		
+					<div id="leg_7" style="display:none;">
+						<h2 id="title" >Juniper Basal Area (Sq Ft./Acre)</h2>
+						<div style="height:44px;"><b id="leg1_block" style="background:linear-gradient(to right, #f7fcf5 0%, #e5f5e0 10%, #c7e9c0 20%, #a1d99b 30%, #74c476 40%, #41ab5d 50%, #238b45 60%, #006d2c 70%, #005722 80%, #003514 90%); width:270px; height:40px; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid; border-bottom:black 2px solid;"></b><p style="margin-left:5px;"></div>
+						<p>0</p><p style="margin-left:242px;">16+</p><br/><br/>
+						<p id="description">Includes basal area of Western Juniper, Utah Juniper, and Rocky Mountain Juniper. Basal area represents the cross section (square footage) of tree trunks at the base over an acre.</p>
+						<br/>
+						<img src="img/western_juniper.png" style="height:160px; width:100px; margin-left:80px;">
+					</div>
+					<div id="leg_8" style="display:none;">
+						<h2 id="title" style="line-height:28px;">Sagebrush Distribution</h2>
+						<div style="height:32px;"><b id="leg1_block" style="background:#d6d3bd; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p style="margin-left:5px; font-size:18px;">Wyoming/Basin Big Sagebrush</p></div>
+						<div style="height:30px;"><b id="leg2_block" style="background:#adaa9a; border-left:black 2px solid; border-right:black 2px solid;"></b><p style="margin-left:5px;">Mountain Big Sagebrush</p></div>
+						<div style="height:30px;"><b id="leg3_block" style="background:#6d6957; border-left:black 2px solid; border-right:black 2px solid;"></b><p style="margin-left:5px;">Threetip Sagebrush</p></div>
+						<div style="height:30px;"><b id="leg4_block" style="background:#afc6aa; border-left:black 2px solid; border-right:black 2px solid;"></b><p style="margin-left:5px;">Low Sagebrush</p></div>
+						<div style="height:32px;"><b id="leg5_block" style="background:#62835c; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p style="margin-left:5px;">Black Sagebrush</p></div>
+						<br/>
+						<p id="description">Distribution of dominant sagebrush species and subspecies.</p>
+						<img src="img/sagebrush.png" style="height:160px; width:160px; margin-left:45px;">
+					</div>		
+					<!--Additional information for each dataset-->
+					<div id="facts_1">
+					
+					</div>
+					<div id="facts_2" style="display:none;">
+						<br/>
+						<p3 style="font-weight:bold; line-height:36px;">Fast Facts:</p3><br/>
+						<p3 id="facts">&#9900&nbspAs of 2011, the Douglas Fir was the most logged tree in the Pacific Northwest.</p3><br/><br/>
+						<p3 id="facts">&#9900&nbspIn 2017, over 1.8 million acres of forest were affected by wildfires.</p3><br/><br/>
+					</div>
+					<div id="facts_3" style="display:none;">
+						<br/>
+						<p3 style="font-weight:bold; line-height:36px;">Fast Facts:</p3><br/>
+						<p3 id="facts">&#9900&nbspScientific name: Pseudotsuga menziesii.</p3><br/><br/>
+						<p3 id="facts">&#9900&nbspCan grow between 70 and 330 ft. tall. Larger specimens are found in the Coast Range.</p3><br/><br/>
+						<p3 id="facts">&#9900&nbspState tree of Oregon.</p3><br/><br/>
+						<p3 id="facts">&#9900&nbspNot considered a true fir, such as Grand Fir or Subalpine Fir.</p3><br/><br/>
+					</div>
+					<div id="facts_4" style="display:none;">
+						<br/>
+						<p3 style="font-weight:bold; line-height:36px;">Fast Facts:</p3><br/>
+						<p3 id="facts">&#9900&nbspScientific name: Tsuga heterophylla.</p3><br/><br/>
+						<p3 id="facts">&#9900&nbspCan grow between 165 and 240 ft. tall.</p3><br/><br/>
+						<p3 id="facts">&#9900&nbspState tree of Washington.</p3><br/><br/>
+						<p3 id="facts">&#9900&nbspExtremely shade tolerant, and able grow under the canopies of larger trees, such as Douglas Fir or Sitka Spruce.</p3><br/><br/>
+					</div>
+					<div id="facts_5" style="display:none;">
+						<br/>
+						<p3 style="font-weight:bold; line-height:36px;">Fast Facts:</p3><br/>
+						<p3 id="facts">&#9900&nbspScientific name: Pinus ponderosa.</p3><br/><br/>
+						<p3 id="facts">&#9900&nbspCan grow over 200 ft. tall.</p3><br/><br/>
+						<p3 id="facts">&#9900&nbspTwo subspecies of Ponderosa Pine are present within the PNW: Pacific Ponderosa and Columbia Ponderosa.</p3><br/><br/>
+					</div>
+					<div id="facts_6" style="display:none;">
+						<br/>
+						<p3 style="font-weight:bold; line-height:36px;">Fast Facts:</p3><br/>
+						<p3 id="facts">&#9900&nbspScientific name: Abies grandis.</p3><br/><br/>
+						<p3 id="facts">&#9900&nbspCan grow between 120 and 210 ft. tall.</p3><br/><br/>
+						<p3 id="facts">&#9900&nbspIn the logging industry, Grand Fir is known as "hem fir".</p3><br/><br/>
+						<p3 id="facts">&#9900&nbspCommonly used as a Christmas tree.</p3><br/><br/>
+					</div>
+					<div id="facts_7" style="display:none;">
+						<br/>
+						<p3 style="font-weight:bold; line-height:36px;">Fast Facts:</p3><br/>
+						<p3 id="facts">&#9900&nbspScientific name: Juniperus.</p3><br/><br/>
+						<p3 id="facts">&#9900&nbspWestern Juniper is common throughout central Oregon, Utah Juniper is common in Southern Idaho, and Rocky Mountain Juniper is common in Eastern Idaho.</p3><br/><br/>
+						<p3 id="facts">&#9900&nbspTypically between 30 and 60 feet tall.</p3><br/><br/>
+						<p3 id="facts">&#9900&nbspJuniper berries are used in the production of Gin.</p3><br/><br/>
+					</div>
+					<div id="facts_8" style="display:none;">
+						<br/>
+						<p3 style="font-weight:bold; line-height:36px;">Fast Facts:</p3><br/>
+						<p3 id="facts">&#9900&nbspScientific name:  Artemisia.</p3><br/><br/>
+						<p3 id="facts">&#9900&nbspBig Sagebrush and its subspecies are the most widespread sagebrush varieties in the PNW.</p3><br/><br/>
+						<p3 id="facts">&#9900&nbspImportant for a variety of native species, including Sage Grouse, Pronghorn, and Mule Deer.</p3><br/><br/>
+					</div>
+				</div>
+			<!--Bottom part of the info panel. This part of the info panel includes arrows to shift between maps, the info button that contains the map sources, and the home button to return to the chapter title screen.-->
+				<div id="pageChange">
+					<a href="fishing_index.html" id="arrow" style="display:inline-block;"><!--Left arrow button-->
+						<i class="fa fa-arrow-left" aria-hidden="true" style=""></i>
+					</a>
+					<a href="#popup1" id="arrow" style="display:inline-block;"><!--Info button for map sources-->
+						<i class="fa fa-info-circle" aria-hidden="true" style="margin-left:83px;"></i>
+					</a>
+					<a href="food_index.html" id="arrow" style="display:inline-block;" target="_blank"><!--Home button-->
+						<i class="fa fa-home" aria-hidden="true"></i>
+					</a>
+					<a href="hunting_index.html" id="arrow" style="display:inline-block;"><!--Right arrow button-->
+						<i class="fa fa-arrow-right" aria-hidden="true" style="margin-left:82px;"></i>
+					</a>
+				</div>
+			</div>
+		</div>
+    	<div id="map" style="width: 100%; height: 100%;"></div>
+    	<!--<div id="temp" style="display:none;"><canvas id="chartContainer1" style="height: 110; width: 50%; margin-left:-5px;"></canvas></div>-->
+    	
+    	<!--Map sources popup-->
+    	<div id="popup1" class="overlay">
+			<div class="popup">
+				<h2 style="display:inline; font-size:32px;">Sources</h2>
+				<a class="close" href="#" style="display:inline;">×</a>
+				<hr>
+				<div class="content">
+					<p2 style="font-size:20px">Geographic Data</p2><br><br/>
+                    <div class="source">
+                    	<b><p2>Level 3 Ecoregions: <a href = "https://www.epa.gov/eco-research/level-iii-and-iv-ecoregions-continental-united-states" target="_blank">US Environmental Protection Agency</a></p2></b><br>
+                    </div>
+                	<div class="source">
+                		<b><p2>Vegetation Type: <a href = "https://gapanalysis.usgs.gov/gaplandcover/data/download/" target="_blank">USGS Gap Analysis</a></p2></b><br>
+                			<p3>Raster data downloaded for each state and merged.<p3>
+                	</div>
+                	<div class="source">
+                		<b><p2>Forest Cover, Gain, and Loss: <a href = "http://earthenginepartners.appspot.com/science-2013-global-forest/download_v1.5.html" target="_blank">University of Maryland</a></p2></b><br>
+                			<p3>The following datasets were downloaded: Global forest cover gain 2000–2012, Year of gross forest cover loss event, Tree canopy cover for year 2000.<p3>
+                	</div>
+                	<div class="source">
+                		<b><p2>Tree Species: <a href = "https://www.fs.usda.gov/rds/archive/Product/RDS-2013-0013" target="_blank">US Forest Service</a></p2></b><br>
+                			<p3>RDS-2013-0013_RasterMaps_s10-s350.zip and RDS-2013-0013_RasterMaps_s601-s825.zip were downloaded. Datasets based on FIA species codes.<p3>
+                	</div>
+                	<div class="source">
+                		<b><p2>Sagebrush: <a href = "https://databasin.org/datasets/d904c24857de45238508580e4cd818eb">Data Basin</a></p2></b><br>
+                	</div>
+                	<p2 style="font-size:20px">Other Data</p2><br><br/>
+                    <div class="source">
+                    	<b><p2>Lumber Statistics: <a href = "https://www.agcensus.usda.gov/Publications/2012/Online_Resources/Ag_Census_Web_Maps/Data_download/index.php" target="_blank">USDA Census of Agriculture</a></p2></b><br>
+                    </div>
+                	<div class="source">
+                		<b><p2>Fire Acreage Stats: <a href = "https://www.fs.usda.gov/Internet/FSE_DOCUMENTS/fseprd572804.pdf" target="_blank">US Forest Service</a></p2></b><br>
+                	</div>
+                	<p2 style="font-size:20px">Image Sources</p2><br><br/>
+                    <div class="source">
+                    	<b><p2>Tree Silhouettes: <a href = "https://tidcf.nrcan.gc.ca/en/trees/all/a" target="_blank">Natural Resources Canada</a></p2></b><br>
+                    </div>
+                    <div class="source">
+						<b><p2>Incense Cedar Photograph: <a href = "https://commons.wikimedia.org/wiki/File:Calocedrus_decurrens_Yosemite_NP.jpg" target="_blank"></a>Victor R. Ruiz</p2></b><br>
+                			<p3>Heavily Modified.<p3>
+                	</div>
+                	<div class="source">
+                		<b><p2>Bluebunch Wheatgrass Drawing: <a href = "https://www.flickr.com/photos/msulibrary/4464890183" target="_blank"></a>University of Montana</p2></b><br>
+                			<p3>Heavily Modified.<p3>
+                	</div>
+                	<div class="source">
+                		<b><p2>Sandberg Bluegrass, Needle-and-Thread Drawings: <a href = "https://plants.usda.gov/java/usageGuidelines?imageID=posc_001_avd.tif" target="_blank"></a>US Natural Resources Conservation Service</p2></b><br>
+                			<p3>USDA-NRCS PLANTS Database / Hitchcock, A.S. (rev. A. Chase). 1950. Manual of the grasses of the United States. USDA Miscellaneous Publication No. 200. Washington, DC.<p3>
+                    </div>
+				</div>
+				<hr>
+				<p2 style="float:right; font-size:12px;">Map created with Leaflet.</p2>
+				<br/>
+				<a class="close2" href="#" style="display:inline;">Close</a>
+			</div>
+		</div>
+<script>
+//////////////base functions (these never change)///////////////////////
+	var collapsed = false;
+ 	//////////////function for the info panel collapse button///////////////////////
+    function collapse(){
+    	if (collapsed == false){
+    		document.getElementById("infoPanel").style.transition = "display 2s";
+    		document.getElementById("infoPanel").style.display = "none";
+    		document.getElementById("collapse").style.left = '0px';
+    		document.getElementById("collapse").style.paddingLeft = '2px';
+    		document.getElementById("collapse-arrow").className = "fa fa-chevron-right";
+    		collapsed = true;
+    	} else{
+    		document.getElementById("infoPanel").style.display = "unset";
+    		document.getElementById("collapse").style.left = '320px';
+    		document.getElementById("collapse").style.paddingLeft = '0px';
+    		document.getElementById("collapse-arrow").className = "fa fa-chevron-left";
+    		collapsed = false;
+    	}
+    	
+    }
+	//////////////function that allows topojson layers to be loaded///////////////////////
+    L.TopoJSON = L.GeoJSON.extend({  
+  		addData: function(jsonData) {    
+    		if (jsonData.type === 'Topology') {
+      			for (key in jsonData.objects) {
+       			 geojson = topojson.feature(jsonData, jsonData.objects[key]);
+       			 L.GeoJSON.prototype.addData.call(this, geojson);
+      		}
+    	}    
+    	else {
+      		L.GeoJSON.prototype.addData.call(this, jsonData);
+    		}
+  		}  
+	});
+//////////////Initialize map///////////////////////
+	var map = L.map('map', {center: [45.56, -119.75], zoom: 7, zoomControl:false});
+///////////////////////make zoom level correspond to browser size////////////////////////////////
+	window.addEventListener('load', function(event){
+    	var width = document.documentElement.clientWidth;
+    	if (width < 1500 && width > 800) {
+        	map.setView(new L.LatLng(45.56, -121.75), 6); 
+    		}  else if (width > 1501) {
+        	map.setZoom(7);
+        	} else {
+        	map.setZoom(5);
+        	}
+	});
+////////////////////////////////basemap layers////////////////////////////////
+	var Esri_WorldTerrain = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer/tile/{z}/{y}/{x}', {
+		attribution: 'Tiles &copy; Esri &mdash; Source: USGS, Esri, TANA, DeLorme, and NPS',
+		maxZoom:10,
+		minZoom:5,
+		opacity:1
+	}).addTo(map);
+
+	var pnwCover = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
+		layers: 'baldricg_PNW_ATLAS:pnw_outline2_black',
+        format: 'image/png',
+		maxZoom:10,
+		minZoom:5,
+		opacity:0.3,
+		transparent:true,
+	}).addTo(map);
+	
+	var pnwCounties = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
+		layers: 'baldricg_PNW_ATLAS:pnw_borders_black',
+        format: 'image/png',
+		maxZoom:10,
+		minZoom:5,
+		opacity:0.5,
+		transparent:true,
+	});
+	
+	var label = L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_only_labels/{z}/{x}/{y}@2x.png', {
+		attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
+		subdomains: 'abcd',
+		maxZoom:10,
+		minZoom:5,
+		tileSize:256,
+		bounds:[
+			new L.LatLng(49.56,-125.25),
+			new L.LatLng(40.5,-111.5)
+		],
+		pane:'labels'
+	});	
+	
+	//labels pane allows
+	map.createPane('labels');
+	map.getPane('labels').style.pointerEvents = 'none';
+	map.getPane('labels').style.zIndex = 700;
+	label.addTo(map);
+	
+	map.createPane('tooltip');
+	map.getPane('tooltip').style.pointerEvents = 'none';
+	map.getPane('tooltip').style.zIndex = 800;
+	
+	map.createPane('json');
+	map.getPane('json').style.pointerEvents = 'none';
+	map.getPane('json').style.zIndex = 700;
+	
+	const pnw_outline = new L.TopoJSON(null, {
+  		interactive:false,
+  		renderer:jsonRenderer
+	});
+
+    const pnw_counties = new L.TopoJSON(null, {
+  		interactive:false,
+  		//renderer:jsonRenderer
+	});
+    
+    $.getJSON('assets/pnw_counties.json')
+  		.done(countyAddTopoData);
+
+	function countyAddTopoData(topoData) {  
+  		pnw_counties.addData(topoData);
+  		pnw_counties.addTo(map)
+  		pnw_counties.eachLayer(countyHandleLayer);
+	}
+      
+	function countyHandleLayer(layer){
+    	layer.setStyle({
+            weight: 0.25,
+            opacity: 1,
+            fillOpacity:0,
+            color: '#999999',
+        });
+
+    }
+
+
+////////////////////////////////important variables////////////////////////////////
+	var data = 1;
+	var jsonRenderer = L.svg({pane:'json'});
+	var selection;
+	var ecoClick;
+	var click = false;
+////////////////////////////display layers//////////////////////
+	////////////////////////////////ecoregion lines////////////////////////////////
+  	const ecoregion_level3 = new L.TopoJSON(null, {
+  		onEachFeature: function(feature, featureLayer){
+  				featureLayer.bindTooltip('<h3 style="display:inline;">' + feature.properties.US_L3NAME + '</h3>', {className: 'label_tooltip',pane:'tooltip', sticky:true});
+  			}
+	});
+	
+	$.getJSON('assets/ecoregions_level3.json')
+  		.done(level3AddTopoData);
+
+	function level3AddTopoData(topoData) {  
+  		ecoregion_level3.addData(topoData);
+  		ecoregion_level3.addTo(map)
+  		ecoregion_level3.eachLayer(level3HandleLayer);
+	}
+	
+	function level3Color(){
+		var r = Math.floor(Math.random() * (85 - 45 + 1)) + 45;
+		//var g = Math.floor(Math.random() * (max - min + 1)) + min;
+		//var b = Math.floor(Math.random() * (max - min + 1)) + min;
+		var color= "hsl("+147+" ,"+50+"%,"+ r+"%)";
+			return color;
+	}
+      
+	function level3HandleLayer(layer){
+    	layer.setStyle({
+            weight: 1.5,
+            opacity: 0.5,
+            color: '#ffffff',
+            fillOpacity:opacitySwitch(),
+            fillColor:'#ffffff',
+            dashArray:4,
+        });
+        layer.on({
+         	mouseover : level3Highlight,
+            mouseout: level3ResetHighlight,
+            click: onClick
+        });
+    }
+    
+    function opacitySwitch(){
+    	if (click == true){
+    		return 0.7;
+    	}
+    	else {return 0;}
+    }
+    
+    function level3Highlight(){
+		if (ecoClick != this){
+		 	this.bringToFront();
+		 	if (click == true){
+				this.setStyle({
+					fillOpacity:0.3,
+				 });
+			}else{
+				this.setStyle({
+					fillOpacity:0.7,
+				 });
+			}
+    	}
+	}
+	function level3ResetHighlight(){
+		if (ecoClick != this){
+		 	if (click == true){
+				this.setStyle({
+					fillOpacity:0.7,
+				 });
+			}else{
+				this.setStyle({
+					fillOpacity:0,
+				 });
+			}
+    	}
+	}
+	function onClick(){
+		click = true;
+		ecoregion_level3.eachLayer(level3HandleLayer);
+		if (ecoClick){
+    		ecoClick.setStyle({
+    			fillOpacity: 0.7,
+    		})
+    	}
+    	this.setStyle({
+        	fillOpacity:0
+    	 });
+    	 this.bringToFront();
+    	 map.fitBounds([
+    			[this.feature.properties.y1, this.feature.properties.x1],
+    			[this.feature.properties.y2, this.feature.properties.x2]
+			]);
+    	ecoClick = this;
+    	selection = this.feature.properties.US_L3CODE;
+    	
+    	$('#ecoregion').css('display', 'unset');
+    	$('#eco_title').text(this.feature.properties.US_L3NAME);
+    	$('#eco_main').text(this.feature.properties.desc);
+    	$('#eco_description').text(this.feature.properties.trees);
+    	$('#eco_image').attr("src",this.feature.properties.link);
+	}
+    
+    
+    ////////////////////////////////ecoregions////////////////////////////////
+	
+	var tree_cover_total = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
+		layers: 'baldricg_PNW_ATLAS:tree_cover_total',
+        format: 'image/png',
+		maxZoom:10,
+		minZoom:5,
+		opacity:0.5,
+		transparent:true,
+	});
+	
+	var tree_loss = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
+		layers: 'baldricg_PNW_ATLAS:tree_loss_total',
+        format: 'image/png',
+		maxZoom:10,
+		minZoom:5,
+		opacity:0.5,
+		transparent:true,
+	});
+	
+	var tree_gain = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
+		layers: 'baldricg_PNW_ATLAS:tree_gain_total',
+        format: 'image/png',
+		maxZoom:10,
+		minZoom:5,
+		opacity:0.5,
+		transparent:true,
+	});
+	
+	var douglas_fir = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
+		layers: 'baldricg_PNW_ATLAS:douglas_fir',
+        format: 'image/png',
+		maxZoom:10,
+		minZoom:5,
+		opacity:0.8,
+		transparent:true,
+	});
+	
+	var ponderosa_pine = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
+		layers: 'baldricg_PNW_ATLAS:ponderosa_pine',
+        format: 'image/png',
+		maxZoom:10,
+		minZoom:5,
+		opacity:0.8,
+		transparent:true,
+	});
+	
+	var western_hemlock = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
+		layers: 'baldricg_PNW_ATLAS:western_hemlock',
+        format: 'image/png',
+		maxZoom:10,
+		minZoom:5,
+		opacity:0.8,
+		transparent:true,
+	});
+	
+	var grand_fir = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
+		layers: 'baldricg_PNW_ATLAS:grand_fir',
+        format: 'image/png',
+		maxZoom:10,
+		minZoom:5,
+		opacity:0.8,
+		transparent:true,
+	});
+	
+	var sagebrush = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
+		layers: 'baldricg_PNW_ATLAS:sagebrush',
+        format: 'image/png',
+		maxZoom:10,
+		minZoom:5,
+		opacity:0.9,
+		transparent:true,
+	});
+	
+	var western_juniper = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
+		layers: 'baldricg_PNW_ATLAS:western_juniper',
+        format: 'image/png',
+		maxZoom:10,
+		minZoom:5,
+		opacity:0.9,
+		transparent:true,
+	});
+	
+	var utah_juniper = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
+		layers: 'baldricg_PNW_ATLAS:utah_juniper',
+        format: 'image/png',
+		maxZoom:10,
+		minZoom:5,
+		opacity:0.9,
+		transparent:true,
+	});
+	
+	var rocky_mountain_juniper = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
+		layers: 'baldricg_PNW_ATLAS:rocky_mountain_juniper',
+        format: 'image/png',
+		maxZoom:10,
+		minZoom:5,
+		opacity:0.5,
+		transparent:true,
+	});
+	
+	var land_cover = L.tileLayer('land_cover/{z}/{x}/{y}.png', {
+        maxZoom:10,
+		minZoom:5,
+		opacity:0.6,
+        tms: false,
+        transparent:true,
+      }).addTo(map);
+///////////////////////////////button function////////////////////////////////
+	//this function uses the ClickFunction plugin to easily add/remove layers, change legends, styling and anything else when a new dataset is selected from the dropdown buttons  		
+	var buttonLabels = ['#but1','#but2','#but3','#but4','#but5','#but6','#but7','#but8'];//add button IDs here
+
+	var buttonFunctions = {
+		but1: {button:'but1', 
+			newLayers:[ecoregion_level3, land_cover], 
+			newElements:['facts_1'],
+			newLegend: 'leg_1', 
+			title:'Ecoregions', 
+			variable:1,
+			layerFunction: function(){
+				$('#ecoregion').css('display', 'none');
+				$('#eco_title').text('Select an Ecoregion');
+				click = false;
+				ecoClick = null;
+				ecoregion_level3.eachLayer(level3HandleLayer);
+			}
+		},
+		but2: {button:'but2', 
+			newLayers:[tree_cover_total, tree_loss, tree_gain], 
+			newElements:['facts_2'],
+			newLegend: 'leg_2', 
+			title:'Forest Cover', 
+			variable:2,
+		},
+		but3: {button:'but3', 
+			newLayers:[douglas_fir], 
+			newElements:['facts_3'],
+			newLegend: 'leg_3', 
+			title:'Douglas Fir', 
+			variable:3,
+		},
+		but4: {button:'but4',//button ID 
+			newLayers:[western_hemlock],
+			newElements:['facts_4'],
+			newLegend: 'leg_4', //legend div ID
+			title:'Western Hemlock', //title to display in dropdown menu
+			variable:4, //update the 'data' variable
+		},
+		but5: {button:'but5',//button ID 
+			newLayers:[ponderosa_pine],
+			newElements:['facts_5'],
+			newLegend: 'leg_5', //legend div ID
+			title:'Ponderosa Pine', //title to display in dropdown menu
+			variable:5, //update the 'data' variable
+		},
+		but6: {button:'but6',//button ID 
+			newLayers:[grand_fir],
+			newElements:['facts_6'],
+			newLegend: 'leg_6', //legend div ID
+			title:'Grand Fir', //title to display in dropdown menu
+			variable:6, //update the 'data' variable
+		},
+		but7: {button:'but7',//button ID 
+			newLayers:[western_juniper, utah_juniper, rocky_mountain_juniper],
+			newElements:['facts_7'],
+			newLegend: 'leg_7', //legend div ID
+			title:'Juniper', //title to display in dropdown menu
+			variable:7, //update the 'data' variable
+		},
+		but8: {button:'but8',//button ID 
+			newLayers:[sagebrush],
+			newElements:['facts_8'],
+			newLegend: 'leg_8', //legend div ID
+			title:'Sagebrush', //title to display in dropdown menu
+			variable:8, //update the 'data' variable
+		}
+	};
+	
+	$('.function').clickFunction({
+		buttonFunctions: buttonFunctions,
+		buttonLabels: buttonLabels,
+		selected:buttonFunctions.but1 //choose which button is initially selected
+	});
+	
+ ///////////////////////////////other miscellaneous functions (these also never change)////////////////////////////////   
+   	//add zoom control
+    new L.Control.Zoom({ position: 'bottomright' }).addTo(map);
+    
+    //remove leaflet attribution
+	document.getElementsByClassName("leaflet-control-attribution")[0].style.visibility = "hidden";
+	
+	//add scrolling capabilities to text box
+     var container = document.getElementById('text');
+		Ps.initialize(container);
+	
+	//update text box to be correct size
+	var minHeight = 50; // Define a minimum height for the middle div
+
+	function resizeMiddle() {
+   		var h = $('body').height() - $('#top').height() - 95;
+    		h = h > minHeight ? h : minHeight;
+   	 	$('#attribution').height(h);
+	}
+	
+	function resizePopup() {
+   		var h = $('.popup').height() - 90;
+    		h = h > minHeight ? h : minHeight;
+   	 	$('.popup .content').height(h);
+	}
+	$(document).ready(resizePopup);
+	$(window).resize(resizePopup);
+	
+	$(document).ready(resizeMiddle);
+	$(window).resize(resizeMiddle);  
+ 
+
+</script>
+</body>
+</html>
