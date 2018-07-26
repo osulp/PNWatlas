@@ -128,7 +128,14 @@ div#infoPanel p2 {
 	position: absolute;
 	padding-left: 5px;
 	}
-		
+div#infoPanel img#titleImageCircle{
+	width: 60px;
+	height: 60px;
+	left:110px;
+	position:relative;
+	bottom:15px;
+	display:inline-block; 
+	}		
 div#infoPanel img#titleImage {
 	width: 280px;
 	height: 50px;
@@ -467,6 +474,7 @@ div.info.leaflet-control p3 {
   position: relative;
   transition: all 5s ease-in-out;
   font-family:GoudyOld;
+  height:50%;
 }
 
 .popup h2 {
@@ -511,8 +519,7 @@ hr{
 	cursor:pointer;
 }
 .popup .content {
-  max-height: 30%;
-  overflow: auto;
+	overflow: auto;
 }
 .popup div.source{
 	padding-bottom:15px;

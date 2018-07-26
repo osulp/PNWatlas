@@ -102,7 +102,14 @@ div#infoPanel p2 {
 div#text p3 {
 	text-align:justify;
 	}
-		
+div#infoPanel img#titleImageCircle{
+	width: 60px;
+	height: 60px;
+	left:110px;
+	position:relative;
+	bottom:15px;
+	display:inline-block; 
+	}		
 div#infoPanel img#image {
 	width: 280px;
 	height: 20px;
@@ -373,6 +380,7 @@ a#arrow{
   position: relative;
   transition: all 5s ease-in-out;
   font-family:GoudyOld;
+  height:50%;
 }
 
 .popup h2 {
@@ -415,7 +423,6 @@ a#arrow{
 	cursor:pointer;
 }
 .popup .content {
-  max-height: 30%;
   overflow: auto;
 }
 .popup div.source{
