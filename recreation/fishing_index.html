@@ -28,7 +28,7 @@
 		<div id="infoPanel">
 			<div id="top">
 				<h1 style="margin-bottom:25px;">Fish & Fishing</h1>
-				<img src="img/fish_icon.png" id="titleImage" style="height:20px;"> <br/>
+				<img src="img/fish_icon.png" id="titleImageCircle" style="height:20px;"> <br/>
 				<div id="buttons">
 					<div class="dropdown">
 						<button class="dropbtn"><b id="dataType">Select Species</b><p id="arrow">&#9660;</p></button>
@@ -466,6 +466,14 @@
     		h = h > minHeight ? h : minHeight;
    	 	$('#attribution').height(h);
 	}
+	
+	function resizePopup() {
+   		var h = $('.popup').height() - 90;
+    		h = h > minHeight ? h : minHeight;
+   	 	$('.popup .content').height(h);
+	}
+	$(document).ready(resizePopup);
+	$(window).resize(resizePopup);
 
 	$(document).ready(resizeMiddle);
 	$(window).resize(resizeMiddle);    

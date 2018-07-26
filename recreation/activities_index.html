@@ -27,7 +27,7 @@
 		<div id="infoPanel">
 			<div id="top">
 				<h1>Outdoor Activities</h1>
-				<img src="img/tent_icon.png" id="titleImage"> <br/>
+				<img src="img/activities_icon.png" id="titleImageCircle"> <br/>
 				<div id="buttons">
 					<div class="dropdown">
 						<button class="dropbtn"><b id="dataType">Select Activity</b><p id="arrow">&#9660;</p></button>
@@ -679,6 +679,14 @@
     		h = h > minHeight ? h : minHeight;
    	 	$('#attribution').height(h);
 	}
+	
+	function resizePopup() {
+   		var h = $('.popup').height() - 90;
+    		h = h > minHeight ? h : minHeight;
+   	 	$('.popup .content').height(h);
+	}
+	$(document).ready(resizePopup);
+	$(window).resize(resizePopup);
 
 	$(document).ready(resizeMiddle);
 	$(window).resize(resizeMiddle);

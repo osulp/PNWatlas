@@ -32,7 +32,7 @@
 					<div class="iconBlock" id="map_1">
 						<div style="margin-left:30%;">
 							<a href="parks_index.html" style="text-decoration:none; outline: 0;">
-								<img src="img/park_icon_small.png" class="img2" id="img_map1">
+								<img src="img/park_icon.png" class="img2" id="img_map1">
 								<div id="text_map1" style="margin-left:100px; display:inline-block;">
 									<h3 style="text-align:center;">Protected Lands</h3>							
 									<p style="width:60%;">Parks, park managers, visitation statistics</p>
@@ -43,7 +43,7 @@
 					<div class="iconBlock" id="map_2">
 						<div style="margin-left:30%;">
 							<a href="activities_index.html" style="text-decoration:none; outline: 0;">					
-								<img src="img/tent_icon_small.png" class="img2" id="img_map2">
+								<img src="img/activities_icon.png" class="img2" id="img_map2">
 								<div id="text_map2" style="margin-left:100px; display:inline-block;">
 									<h3 style="text-align:center;">Outdoor Activities</h3>							
 									<p>Camping, skiing, river rafting, mountaineering</p>
@@ -53,31 +53,20 @@
 					</div>	
 					<div class="iconBlock" id="map_3">
 						<div style="margin-left:30%;">
-							<a href="fishing_index.html" style="text-decoration:none;  outline: 0;">
-								<img src="img/fish_icon_small.png" class="img2" id="img_map3">	
-								<div id="text_map3" style="margin-left:100px; display:inline-block;">
-									<h3 style="text-align:center;">Fish & Fishing</h3>			
-									<p>Anadromous fish habitat, current, historical</p>
-								</div>
-							</a>
-						</div>
-					</div>	
-					<div class="iconBlock" id="map_4">
-						<div style="margin-left:30%;">
 							<a href="economic_index.html" style="text-decoration:none; outline: 0;">
-								<img src="img/economic_icon_small.png" class="img2" id="img_map4">
-								<div id="text_map4" style="margin-left:100px; display:inline-block;">
+								<img src="img/economic_icon.png" class="img2" id="img_map3">
+								<div id="text_map3" style="margin-left:100px; display:inline-block;">
 									<h3 style="text-align:center;">Outdoor Economy</h3>											
 									<p>Outdoor recreation employment, wages, spending, taxation</p>
 								</div>
 							</a>
 						</div>
 					</div>	
-					<div class="iconBlock" id="map_5">
+					<div class="iconBlock" id="map_4">
 						<div style="margin-left:30%;">
 							<a href="hunting_index.html" style="text-decoration:none; outline: 0;">
-								<img src="img/hunting_icon_small.png" class="img2" id="img_map5">
-								<div id="text_map5" style="margin-left:100px; display:inline-block;">
+								<img src="img/hunting_icon.png" class="img2" id="img_map4">
+								<div id="text_map4" style="margin-left:100px; display:inline-block;">
 									<h3 style="text-align:center;">Hunting</h3>							
 									<p>Annual deer, elk, bear harvest</p>
 								</div>
@@ -98,12 +87,12 @@
 	</div>
 <script>
 
-	var iconRow = ['#img_map1','#img_map2','#img_map3','#img_map4','#img_map5'];
-	var textRow = ['#text_map1','#text_map2','#text_map3','#text_map4','#text_map5'];
+	var iconRow = ['#img_map1','#img_map2','#img_map3','#img_map4'];
+	var textRow = ['#text_map1','#text_map2','#text_map3','#text_map4'];
 
 	function placeIcon(){
-		for (i = 0; i < 7; i++){
-			var height = ($(textRow[i]).height()/3);
+		for (i = 0; i < 4; i++){
+			var height = ($(textRow[i]).height()/4);
 			$(iconRow[i]).css('margin-top', height);
 		}
 	}
@@ -137,23 +126,16 @@
 	});
 	$(function() {
   		$('#map_3').hover(function() {
-    		$('#map_3').css('background-image', 'url("img/fish_background.png")');
+    		$('#map_3').css('background-image', 'url("img/economic_background.png")');
   		}, function() {
     		$('#map_3').css('background-image', 'initial');
   		});
 	});
 	$(function() {
   		$('#map_4').hover(function() {
-    		$('#map_4').css('background-image', 'url("img/economic_background.png")');
+    		$('#map_4').css('background-image', 'url("img/hunting_background.png")');
   		}, function() {
     		$('#map_4').css('background-image', 'initial');
-  		});
-	});
-	$(function() {
-  		$('#map_5').hover(function() {
-    		$('#map_5').css('background-image', 'url("img/hunting_background.png")');
-  		}, function() {
-    		$('#map_5').css('background-image', 'initial');
   		});
 	});
 	

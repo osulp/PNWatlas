@@ -30,8 +30,8 @@
 		</button>
 		<div id="infoPanel">
 			<div id="top">
-				<h1 style="font-size:38px;">Protected Land</h1>
-				<img src="img/park_icon.png" id="titleImage"> <br/>
+				<h1 style="font-size:38px;">Protected Lands</h1>
+				<img src="img/park_icon.png" id="titleImageCircle"> <br/>
 				<div id="findbox"></div>
 			</div>
 			<div id="attribution">
@@ -67,7 +67,7 @@
 					</div>
 					<br/>
 					<p3 style="font-weight:bold; line-height:36px;">Quick Facts:</p3><br/>
-					<p3 id="facts" style="line-height:20px;">&#9900 49% of land in the Pacific Northwest is federally owned.<br/><br/>&#9900 There are 451 total state parks in Oregon, Idaho and Washington.<br/><br/>&#9900 Olympic National Park is the most visited park in the region, receiving an annual average of over three million annual visitors</p3>
+					<p3 id="facts" style="line-height:20px;">&#9900 49% of land in the Pacific Northwest is federally owned.<br/><br/>&#9900 There are 451 total state parks in Oregon, Idaho and Washington.<br/><br/>&#9900 Olympic National Park is the most visited park in the region, receiving an average of over three million annual visitors</p3>
 				</div>
 				<div id="pageChange">
 					<a href="hunting_index.html" id="arrow" style="display:inline-block;">
@@ -513,6 +513,14 @@
     		h = h > minHeight ? h : minHeight;
    	 	$('#attribution').height(h);
 	}
+	
+	function resizePopup() {
+   		var h = $('.popup').height() - 90;
+    		h = h > minHeight ? h : minHeight;
+   	 	$('.popup .content').height(h);
+	}
+	$(document).ready(resizePopup);
+	$(window).resize(resizePopup);
 
 	$(document).ready(resizeMiddle);
 	$(window).resize(resizeMiddle);    
