@@ -155,6 +155,14 @@ div#infoPanel img#iconImage  {
 	right:20px;
 	display:inline-block;
 	}
+div#infoPanel img#titleImageCircle{
+	width: 60px;
+	height: 60px;
+	left:110px;
+	position:relative;
+	bottom:15px;
+	display:inline-block; 
+	}
 div#infoPanel img#mediumIconImage {	
 	width: 150px;
 	height: 150px;
@@ -500,6 +508,7 @@ a#arrow{
   position: relative;
   transition: all 5s ease-in-out;
   font-family:GoudyOld;
+  height:50%;
 }
 
 .popup h2 {
@@ -546,7 +555,6 @@ hr{
 	cursor:pointer;
 }
 .popup .content {
-  max-height: 30%;
   overflow: auto;
 }
 .popup div.source{
