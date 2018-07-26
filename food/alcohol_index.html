@@ -31,7 +31,7 @@
 			<!--Upper half of the info panel. This part of the info panel will always remain the same size. This usually includes the data selection and the main legend. Try not to make this too tall, or it will be cut off on smaller screens.-->
 			<div id="top"> 
 				<h1>Alcohol Production</h1><!--Map title-->
-				<img src="img/alcohol_banner.png" id="titleImage" > <br/><!--Banner image-->
+				<img src="img/alcohol_icon.png" id="titleImageCircle" > <br/><!--Banner image-->
 				<!--Dropdown menu for dataset selection-->
 				<div id="buttons">
 					<div class="dropdown">
@@ -435,6 +435,14 @@
     		h = h > minHeight ? h : minHeight;
    	 	$('#attribution').height(h);
 	}
+	
+	function resizePopup() {
+   		var h = $('.popup').height() - 90;
+    		h = h > minHeight ? h : minHeight;
+   	 	$('.popup .content').height(h);
+	}
+	$(document).ready(resizePopup);
+	$(window).resize(resizePopup);
 
 	$(document).ready(resizeMiddle);
 	$(window).resize(resizeMiddle);    

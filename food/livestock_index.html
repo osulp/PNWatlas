@@ -31,7 +31,7 @@
 			<!--Upper half of the info panel. This part of the info panel will always remain the same size. This usually includes the data selection and the main legend. Try not to make this too tall, or it will be cut off on smaller screens.-->
 			<div id="top"> 
 				<h1>Livestock</h1><!--Map title-->
-				<img src="img/livestock_banner.png" id="titleImage" > <br/><!--Banner image-->
+				<img src="img/livestock_icon.png" id="titleImageCircle" > <br/><!--Banner image-->
 				<!--Dropdown menu for dataset selection-->
 				<!--<div id="buttons">
 					/div class="dropdown">
@@ -50,7 +50,7 @@
 				<div id="text">
 					<!--Legends for each dataset-->
 					<div id="leg_1" style="display:unset;">
-						<h2 id="title" style="margin-top:0;">Livestock (% of Total Ag. Sales)</h2><img src="img/livestock_icon.png" id="iconImage" style="width:120px; height:120px;">
+						<h2 id="title" style="margin-top:0;">Livestock (% of Total Ag. Sales)</h2><img src="img/animal_icon.png" id="iconImage" style="width:120px; height:120px;">
 						<div style="height:32px;"><b id="leg1_block" style="background:#a63603; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p style="margin-left:5px;">80+</p></div>
 						<div style="height:30px;"><b id="leg2_block" style="background:#e6550d; border-left:black 2px solid; border-right:black 2px solid;"></b><p style="margin-left:5px;">60 - 80</p></div>
 						<div style="height:30px;"><b id="leg3_block" style="background:#fd8d3c; border-left:black 2px solid; border-right:black 2px solid;"></b><p style="margin-left:5px;">40 - 60</p></div>
@@ -367,6 +367,15 @@
     		h = h > minHeight ? h : minHeight;
    	 	$('#attribution').height(h);
 	}
+	
+	function resizePopup() {
+   		var h = $('.popup').height() - 90;
+    		h = h > minHeight ? h : minHeight;
+   	 	$('.popup .content').height(h);
+	}
+	
+	$(document).ready(resizePopup);
+	$(window).resize(resizePopup);
 
 	$(document).ready(resizeMiddle);
 	$(window).resize(resizeMiddle);    
