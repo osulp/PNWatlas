@@ -27,7 +27,8 @@
 		<div id="infoPanel">
 			<div id="top">
 				<h1>Watersheds</h1>
-				<img src="img/watershed_icon.png" id="image2" style="display:inline-block;">
+				<br/>
+				<img src="img/watershed_icon.png" id="titleImageCircle" style="display:inline-block;">
 				<div id="buttons">
 					<div class="dropdown">
 						<button class="dropbtn"><b id="selection">Select Scale</b><p id="arrow">&#9660;</p></button>
@@ -1102,6 +1103,14 @@ function removeLayers(){
     		h = h > minHeight ? h : minHeight;
    	 	$('#attribution').height(h);
 	}
+	
+	function resizePopup() {
+   		var h = $('.popup').height() - 90;
+    		h = h > minHeight ? h : minHeight;
+   	 	$('.popup .content').height(h);
+	}
+	$(document).ready(resizePopup);
+	$(window).resize(resizePopup);
 
 	$(document).ready(resizeMiddle);
 	$(window).resize(resizeMiddle);

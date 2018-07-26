@@ -32,7 +32,7 @@
 					<div class="iconBlock" id="map_1">
 						<div style="margin-left:30%;">
 							<a href="watershed_index.html" style="text-decoration:none; outline: 0;">
-								<img src="img/water_icon_small.png" class="img2" id="img_map1">
+								<img src="img/watershed_icon.png" class="img2" id="img_map1">
 								<div id="text_map1" style="margin-left:100px; display:inline-block;">
 									<h3 style="text-align:center;">Watersheds</h3>							
 									<p style="width:60%;">Watershed boundaries, rivers, lakes, dams</p>
@@ -43,7 +43,7 @@
 					<div class="iconBlock" id="map_2">
 						<div style="margin-left:30%;">
 							<a href="groundwater_index.html" style="text-decoration:none; outline: 0;">					
-								<img src="img/groundwater_small.png" class="img2" id="img_map2">
+								<img src="img/groundwater_icon.png" class="img2" id="img_map2">
 								<div id="text_map2" style="margin-left:100px; display:inline-block;">
 									<h3 style="text-align:center;">Groundwater</h3>							
 									<p>Aquifer rock type, annual recharge</p>
@@ -54,7 +54,7 @@
 					<div class="iconBlock" id="map_3">
 						<div style="margin-left:30%;">
 							<a href="water_use_index.html" style="text-decoration:none;  outline: 0;">
-								<img src="img/water_use_small.png" class="img2" id="img_map3">	
+								<img src="img/water_use_icon.png" class="img2" id="img_map3">	
 								<div id="text_map3" style="margin-left:100px; display:inline-block;">
 									<h3 style="text-align:center;">Water Use</h3>			
 									<p>Surface water, groundwater, water use categories</p>
@@ -65,7 +65,7 @@
 					<div class="iconBlock" id="map_4">
 						<div style="margin-left:30%;">
 							<a href="pollution_index.html" style="text-decoration:none; outline: 0;">
-								<img src="img/pollution_small.png" class="img2" id="img_map4">
+								<img src="img/pollution_icon.png" class="img2" id="img_map4">
 								<div id="text_map4" style="margin-left:100px; display:inline-block;">
 									<h3 style="text-align:center;">Water Pollution</h3>											
 									<p>Identified pollutants, nitrogen, phosphorus, arsenic</p>
@@ -91,7 +91,7 @@
 
 	function placeIcon(){
 		for (i = 0; i < 7; i++){
-			var height = ($(textRow[i]).height()/3);
+			var height = ($(textRow[i]).height()/4);
 			$(iconRow[i]).css('margin-top', height);
 		}
 	}

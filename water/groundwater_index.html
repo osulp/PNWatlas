@@ -29,7 +29,7 @@
 		<div id="infoPanel">
 			<div id="top">
 				<h1 style="font-size:39px;">Groundwater</h1>
-				<img src="img/gw_icon.png" id="titleImage" style="display:inline-block;">
+				<img src="img/groundwater_icon.png" id="titleImageCircle" style="display:inline-block;">
 				<div id="buttons">
 					<div class="dropdown">
 						<button class="dropbtn"><b id="dataType">Select Data</b><p id="arrow">&#9660;</p></button>
@@ -457,6 +457,14 @@
     		h = h > minHeight ? h : minHeight;
    	 	$('#attribution').height(h);
 	}
+	
+	function resizePopup() {
+   		var h = $('.popup').height() - 90;
+    		h = h > minHeight ? h : minHeight;
+   	 	$('.popup .content').height(h);
+	}
+	$(document).ready(resizePopup);
+	$(window).resize(resizePopup);
 
 	$(document).ready(resizeMiddle);
 	$(window).resize(resizeMiddle);
