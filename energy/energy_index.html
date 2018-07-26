@@ -32,7 +32,7 @@
 					<div class="iconBlock" id="map_1">
 						<div style="margin-left:30%;">
 							<a href="utilities_index.html" style="text-decoration:none; outline: 0;">
-								<img src="img/icons/dam_small.png" class="img2" id="img_map1">
+								<img src="img/energy_icon.png" class="img2" id="img_map1">
 								<div id="text_map1" style="margin-left:100px; display:inline-block;">
 									<h3 style="text-align:center;">Electric Utilities</h3>							
 									<p style="width:60%;">Utility areas, power plants, power consumption</p>
@@ -43,7 +43,7 @@
 					<div class="iconBlock" id="map_2">
 						<div style="margin-left:30%;">
 							<a href="renewable_index.html" style="text-decoration:none; outline: 0;">					
-								<img src="img/icons/windmill_small.png" class="img2" id="img_map2">
+								<img src="img/renewable_icon.png" class="img2" id="img_map2">
 								<div id="text_map2" style="margin-left:100px; display:inline-block;">
 									<h3 style="text-align:center;">Renewable Energy</h3>							
 									<p>Wind, solar, biomass, geothermal</p>
@@ -69,7 +69,7 @@
 
 	function placeIcon(){
 		for (i = 0; i < 7; i++){
-			var height = ($(textRow[i]).height()/3);
+			var height = ($(textRow[i]).height()/4);
 			$(iconRow[i]).css('margin-top', height);
 		}
 	}

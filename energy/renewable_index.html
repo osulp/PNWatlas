@@ -27,7 +27,7 @@
 		<div id="infoPanel">
 			<div id="top">
 				<h1>Renewable Energy</h1>
-				<img src="img/renewable.png" id="titleImage" style="display:inline-block;">
+				<img src="img/renewable_icon.png" id="titleImageCircle" style="display:inline-block;">
 				<div id="buttons">
 					<div class="dropdown">
 						<button class="dropbtn"><b id="dataType">Select Class</b><p id="arrow">&#9660;</p></button>
@@ -560,6 +560,14 @@ var label = L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/ligh
     		h = h > minHeight ? h : minHeight;
    	 	$('#attribution').height(h);
 	}
+	
+	function resizePopup() {
+   		var h = $('.popup').height() - 90;
+    		h = h > minHeight ? h : minHeight;
+   	 	$('.popup .content').height(h);
+	}
+	$(document).ready(resizePopup);
+	$(window).resize(resizePopup);
 
 	$(document).ready(resizeMiddle);
 	$(window).resize(resizeMiddle);
