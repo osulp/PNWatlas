@@ -618,6 +618,7 @@ hr{
     z-index: 1;
     font-weight:none;
     font-size:14px;
+    line-height:18px;
     /* Position the tooltip text - see examples below! */
 
 }
