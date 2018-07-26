@@ -31,7 +31,7 @@
     <div id="infoPanel">
 			<div id="top">
 				<h1>Internal Migration</h1>
-				<img src="img/migration_icon.png" id="titleImage" style="display:inline-block;">
+				<img src="img/migration_icon.png" id="titleImageCircle" style="display:inline-block;">
 				<div id="buttons">
 					<div class="dropdown">
 						<button class="dropbtn"><b id="dataType">Select Flow</b><p id="arrow">&#9660;</p></button>
@@ -105,7 +105,6 @@
                     	<b><p2>County-to-County Migration: <a href = "https://waterdata.usgs.gov/id/nwis/water_use?format=html_table&rdb_compression=file&wu_area=County&wu_year=2010&wu_county=ALL&wu_category=ALL&wu_county_nms=--ALL%2BCounties--&wu_category_nms=--ALL%2BCategories--" target="_blank">United States Census</a></p2></b><br>
                     		<p3>Notes: ACS data from 2011-2015.</p3>
                     </div>
-                    <hr>
                     <p2 style="font-size:20px">Javascript Plugins</p2><br><br/>
                     <div class="source">
                     	<b><p2>Leaflet Canvas Flowmap Layer: <a href = "https://github.com/jwasilgeo/Leaflet.Canvas-Flowmap-Layer" target="_blank">Github</a></p2></b><br>
@@ -535,6 +534,14 @@
     		h = h > minHeight ? h : minHeight;
    	 	$('#attribution').height(h);
 	}
+	
+	function resizePopup() {
+   		var h = $('.popup').height() - 90;
+    		h = h > minHeight ? h : minHeight;
+   	 	$('.popup .content').height(h);
+	}
+	$(document).ready(resizePopup);
+	$(window).resize(resizePopup);
 
 	$(document).ready(resizeMiddle);
 	$(window).resize(resizeMiddle);

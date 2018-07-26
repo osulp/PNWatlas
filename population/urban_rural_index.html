@@ -26,7 +26,7 @@
 		<div id="infoPanel">
 			<div id="top">
 				<h1>Urban/Rural</h1>
-				<img src="img/urban_rural_icon.png" id="titleImage" style="height:60px;">
+				<img src="img/urban_rural_icon.png" id="titleImageCircle" style="height:60px;">
 				<div id="buttons">
 					<div class="dropdownSmall">
 						<button class="dropbtnSmall"><b id="dataClass">Select Class</b><p id="arrow">&#9660;</p></button>
@@ -427,6 +427,14 @@
     		h = h > minHeight ? h : minHeight;
    	 	$('#attribution').height(h);
 	}
+	
+	function resizePopup() {
+   		var h = $('.popup').height() - 90;
+    		h = h > minHeight ? h : minHeight;
+   	 	$('.popup .content').height(h);
+	}
+	$(document).ready(resizePopup);
+	$(window).resize(resizePopup);
 
 	$(document).ready(resizeMiddle);
 	$(window).resize(resizeMiddle);
