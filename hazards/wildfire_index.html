@@ -6,7 +6,7 @@
     
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.2/dist/leaflet.css" /> 
     <link rel="stylesheet" href="js/jquery-ui.css">
-     <link rel="stylesheet" href="css/jquery-ui-slider-pips.css" />
+    <link rel="stylesheet" href="css/jquery-ui-slider-pips.css" />
     <link rel="stylesheet" href="css/hazard_map_style.css" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Maven+Pro" rel="stylesheet">
     <link rel="stylesheet" href="css/perfect-scrollbar.css" />
@@ -18,7 +18,7 @@
     <script src="https://unpkg.com/leaflet@1.0.2/dist/leaflet.js"></script>
     <script src="https://d3js.org/topojson.v1.min.js"></script>
     <script type="text/javascript" src="../js/clickFunction.js"></script>
-   <script src="js/jquery-ui.js"></script>
+    <script src="js/jquery-ui.js"></script>
     <script src="js/jquery-ui-slider-pips.js"</script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/8.5.1/nouislider.min.js"></script>
 	<script src="js/perfect-scrollbar.js"></script>
@@ -31,7 +31,7 @@
 		<div id="infoPanel">
 			<div id="top">
 				<h1>Wildfires</h1>
-				<img src="img/tree_image.png" id="titleImage" style="display:inline-block;">
+				<img src="img/fire_icon.png" id="titleImageCircle" style="display:inline-block;">
 				<div id="buttons">
 					<div class="dropdown">
 						<button class="dropbtn"><b id="dataType">Select Class</b><p id="arrow">&#9660;</p></button>
@@ -46,7 +46,7 @@
 			<div id="attribution">
 				<div id="text" style="text-align:left;">
 					<div id="leg_1" style="display:unset;">
-						<h2 id="title" style="display:block; width:280px; white-space:normal;">Modern Wildfires</h2><img src="img/wildfire_icon.png" id="iconImage" style="right:20px; margin-top:-10px;">
+						<h2 id="title" style="display:block; width:280px; white-space:normal;">Modern Wildfires</h2><img src="img/tree.png" id="iconImage" style="right:20px; margin-top:-10px;">
 						<div style="height:32px;"><b id="leg1_block" style="background:#e62e00; border:black 2px solid;"></b><p>&nbsp</p><p id="leg1" style="margin-left:5px;">Wildfire</p></div><br/>
 						<div style="height:30px;"><b id="leg2_block" style="background:#aed0bf; border-left:black 2px solid; border-right:black 2px solid;border-top:black 2px solid;"></b><p>&nbsp</p><p id="leg2" style="margin-left:5px;">Public Land</p></div>
 						<div style="height:32px;"><b id="leg3_block" style="background:#bfbfbf; border-left:black 2px solid; border-right:black 2px solid;border-bottom:black 2px solid;"></b><p>&nbsp</p><p id="leg2" style="margin-left:5px;">Urban Area</p></div>
@@ -55,7 +55,7 @@
 						<br/>	
 					</div>	
 					<div id="leg_2" style="display:none;">
-						<h2 id="title" style="display:block; width:280px; white-space:normal;">Historical Wildfires</h2><img src="img/wildfire_icon.png" id="iconImage" style="right:20px; margin-top:-10px;">
+						<h2 id="title" style="display:block; width:280px; white-space:normal;">Historical Wildfires</h2><img src="img/tree.png" id="iconImage" style="right:20px; margin-top:-10px;">
 						<div style="height:32px;"><b id="leg1_block" style="background:#e62e00; border:black 2px solid;"></b><p>&nbsp</p><p id="leg1" style="margin-left:5px;">Wildfire</p></div><br/>
 						<div style="height:30px;"><b id="leg2_block" style="background:#aed0bf; border-left:black 2px solid; border-right:black 2px solid;border-top:black 2px solid;"></b><p>&nbsp</p><p id="leg2" style="margin-left:5px;">Public Land</p></div>
 						<div style="height:32px;"><b id="leg3_block" style="background:#bfbfbf; border-left:black 2px solid; border-right:black 2px solid;border-bottom:black 2px solid;"></b><p>&nbsp</p><p id="leg2" style="margin-left:5px;">Urban Area</p></div>
@@ -64,7 +64,7 @@
 						<p id="description" style="font-weight:normal; font-style:italic; text-align:justify; white-space:normal; padding-left:0px; width:280px; display:block; position:relative;">These data are subject to limited geographic availability, and are not comprehensive.</p>
 					</div>	
 					<div id="leg_3" style="display:none;">
-						<h2 id="title" style="display:block; width:280px; white-space:normal;">Wildfire Risk</h2><img src="img/wildfire_icon.png" id="iconImage" style="right:20px;">
+						<h2 id="title" style="display:block; width:280px; white-space:normal;">Wildfire Risk</h2><img src="img/tree.png" id="iconImage" style="right:20px;">
 						<div style="height:32px;"><b id="leg1_block" style="background:#e3350c; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p>&nbsp</p><p id="leg1" style="margin-left:5px;">Very High</p></div>
 						<div style="height:30px;"><b id="leg2_block" style="background:#d16f49; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2" style="margin-left:5px;">High</p></div>
 						<div style="height:30px;"><b id="leg3_block" style="background:#bc9e81; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2" style="margin-left:5px;">Moderate</p></div>
@@ -132,6 +132,7 @@
                      <div class="source">
                     	<b><p2>Wildfire Risk <a href = "https://www.fs.usda.gov/rds/archive/Product/RDS-2015-0046" target="_blank">United States Forest Service</a></p2></b><br>
                     </div>
+                </div>
 				<hr>
 				<p2 style="float:right; font-size:12px;">Map created with Leaflet.</p2>
 				<br/>
@@ -204,7 +205,6 @@
 		transparent:true,
 	}).addTo(map);
 
-	
 	var label = L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_only_labels/{z}/{x}/{y}@2x.png', {
 		attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
 		subdomains: 'abcd',
@@ -557,6 +557,14 @@
     		h = h > minHeight ? h : minHeight;
    	 	$('#attribution').height(h);
 	}
+	
+	function resizePopup() {
+   		var h = $('.popup').height() - 90;
+    		h = h > minHeight ? h : minHeight;
+   	 	$('.popup .content').height(h);
+	}
+	$(document).ready(resizePopup);
+	$(window).resize(resizePopup);
 
 	$(document).ready(resizeMiddle);
 	$(window).resize(resizeMiddle);

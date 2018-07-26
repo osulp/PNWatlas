@@ -32,7 +32,7 @@
 		<div id="infoPanel">
 			<div id="top">
 				<h1>Extreme Weather</h1>
-				<img src="img/weather_title.png" id="titleImage" style="display:inline-block;">
+				<img src="img/storm_icon.png" id="titleImageCircle" style="display:inline-block;">
 			</div>
 			<div id="attribution">
 				<div id="text">
@@ -82,6 +82,7 @@
                     <div class="source">
                     	<b><p2>Storm Events: <a href = "https://www.ncdc.noaa.gov/stormevents/ftp.jsp" target="_blank">NOAA</a></p2></b><br>
                     </div>
+                </div>
 				<hr>
 				<p2 style="float:right; font-size:12px;">Map created with Leaflet.</p2>
 				<br/>
@@ -324,6 +325,14 @@
     		h = h > minHeight ? h : minHeight;
    	 	$('#attribution').height(h);
 	}
+	
+	function resizePopup() {
+   		var h = $('.popup').height() - 90;
+    		h = h > minHeight ? h : minHeight;
+   	 	$('.popup .content').height(h);
+	}
+	$(document).ready(resizePopup);
+	$(window).resize(resizePopup);
 
 	$(document).ready(resizeMiddle);
 	$(window).resize(resizeMiddle);
