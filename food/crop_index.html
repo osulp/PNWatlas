@@ -125,17 +125,11 @@
 				</div>
 			<!--Bottom part of the info panel. This part of the info panel includes arrows to shift between maps, the info button that contains the map sources, and the home button to return to the chapter title screen.-->
 				<div id="pageChange">
-					<a href="fishing_index.html" id="arrow" style="display:inline-block;"><!--Left arrow button-->
-						<i class="fa fa-arrow-left" aria-hidden="true" style=""></i>
+					<a href="#popup1" id="arrow" style="display:inline-block;">
+						<i class="fa fa-info-circle" aria-hidden="true" style="padding-left:105px;"></i>
 					</a>
-					<a href="#popup1" id="arrow" style="display:inline-block;"><!--Info button for map sources-->
-						<i class="fa fa-info-circle" aria-hidden="true" style="margin-left:83px;"></i>
-					</a>
-					<a href="food_index.html" id="arrow" style="display:inline-block;" target="_blank"><!--Home button-->
-						<i class="fa fa-home" aria-hidden="true"></i>
-					</a>
-					<a href="hunting_index.html" id="arrow" style="display:inline-block;"><!--Right arrow button-->
-						<i class="fa fa-arrow-right" aria-hidden="true" style="margin-left:82px;"></i>
+					<a href="#popup2" id="arrow" style="display:inline-block;">
+						<i class="fa fa-home" aria-hidden="true" style="padding-left:0;"></i>
 					</a>
 				</div>
 			</div>
@@ -164,6 +158,23 @@
 				<p2 style="float:right; font-size:12px;">Map created with Leaflet.</p2>
 				<br/>
 				<a class="close2" href="#" style="display:inline;">Close</a>
+			</div>
+		</div>
+		
+		<div id="popup2" class="overlay2">
+			<div class="popup2">
+				<a class="close" href="#" style="display:inline;">×</a>
+				<div class="content">
+					<a href="food_index.html" style="font-weight:bold; text-decoration:none;">Food Home</a>
+					<hr>
+					<a href="access_index.html" style="text-decoration:underline;">Food Access</a>
+					<a href="crop_index.html" style="text-decoration:underline;">Crop Production</a>
+					<a href="livestock_index.html" style="text-decoration:underline;">Livestock</a>
+					<a href="alcohol_index.html" style="text-decoration:underline;">Alcohol Production</a>
+					<a href="farm_index.html" style="text-decoration:underline;">Farms</a>
+					<hr>
+					<a href="../index.html" style="font-weight:bold; text-decoration:none;">Atlas Home</a>
+				</div>
 			</div>
 		</div>
 <script>
