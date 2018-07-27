@@ -576,7 +576,66 @@ hr{
     width: 70%;
   }
 }
+/*chapter selection*/
+.overlay2 {
+  position: fixed;
+  bottom: 55px;
+  left: 60px;
+  background: rgba(0, 0, 0, 0.7);
+  transition: opacity 500ms;
+  visibility: hidden;
+  opacity: 0;
+  z-index:1000;
+  width:160px;
+}
+.overlay2:target {
+  visibility: visible;
+  opacity: 1;
+}
 
+.popup2 {
+  padding:10px;
+  background: #fff;
+  width: 100%;
+  position: relative;
+  transition: all 5s ease-in-out;
+  font-family:GoudyOld;
+  height:100%;
+  box-shadow: 3px 3px 2px #4d4d4d;
+  border:2px black solid;
+}
+
+.popup2 h2 {
+  font-size:20px;
+  margin-top: 0;
+  color: #333;
+  font-weight:bold;
+}
+.popup2 a {
+  display:block;
+  font-size:20px;
+  line-height:28px;
+  color:#000000;
+}
+.popup2 a:hover {
+  color:#8c8c8c;
+  cursor:pointer;
+}
+
+.popup2 .close{
+  top:5px;
+  right:8px;
+  position: absolute;
+  transition: all 200ms;
+  font-size: 20px;
+  text-decoration: none;
+  color: #a6a6a6;
+  text-align:right;
+  font-family:GoudyOld;
+}
+.popup2 .close:hover {
+  color: #737373;
+}
 /* div tooltip */
 .tooltip {
     position: relative;
