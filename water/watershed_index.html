@@ -17,6 +17,7 @@
     <script src="https://unpkg.com/leaflet.vectorgrid@latest/dist/Leaflet.VectorGrid.bundled.js"></script>
     <script src="https://d3js.org/topojson.v1.min.js"></script>
     <script src="js/perfect-scrollbar.js"></script>
+    <script type="text/javascript" src="../js/clickFunction.js"></script>
     
    
 </head>
@@ -31,11 +32,11 @@
 				<img src="img/watershed_icon.png" id="titleImageCircle" style="display:inline-block;">
 				<div id="buttons">
 					<div class="dropdown">
-						<button class="dropbtn"><b id="selection">Select Scale</b><p id="arrow">&#9660;</p></button>
+						<button class="dropbtn"><b id="dataType">Select Scale</b><p id="arrow">&#9660;</p></button>
 						<div class="dropdown-content">
-							 <button type="button" id="but1" onclick="HUC4()" class="selection" style="background:rgba(242, 242, 242, 0.8);">Regional</button>
-							 <button type="button" id="but2" onclick="HUC6()" class="selection">Subregional</button>
-							 <button type="button" id="but3" onclick="HUC8()" class="selection">Local</button>
+							 <button type="button" id="but1" class="selection" style="background:rgba(242, 242, 242, 0.8);">Regional</button>
+							 <button type="button" id="but2" class="selection">Subregional</button>
+							 <button type="button" id="but3" class="selection">Local</button>
 					   </div>
 					</div>
 				</div>
@@ -43,41 +44,52 @@
 			<br/>
 			<div id="attribution">
 				<div id="text">
-					<h2 id="title" style="display:inline; width:200px; white-space:normal; text-align:left; font-size:30px;">Select a Watershed</h2><br/>
-					<h2 style="display:inline; width:200px; white-space:normal;">Area:</h2>
-					<h2 id="area" style="display:inline; width:200px; white-space:normal;"></h2><br/>
-					<h2 id="dams_title" style="display:inline; width:200px; white-space:normal;">Large Dams<sup class="tooltip">?<span class="tooltiptext">Dams higher than 50 ft. or capacity greater than 5000 acre ft.</span></sup>:</h2>
-					<h2 id="dams" style="display:inline; width:200px; white-space:normal;"></h2><br/>
-					<h2 style="display:inline; width:200px; white-space:normal;">Population:</h2>
-					<h2 id="population" style="display:inline; width:200px; white-space:normal;"></h2><br/>
-					<h2 style="display:inline; width:200px; white-space:normal;">States/Provinces<sup class="tooltip">?<span class="tooltiptext">States and Provinces intersected by the river basin</span></sup>:</h2>
-					<h2 id="states" style="display:inline; width:200px; white-space:normal;"></h2><br/>
-					<h2 style="display:inline; width:200px; white-space:normal;">Counties<sup class="tooltip">?<span class="tooltiptext">Number of Counties intersected by the river basin. BC is one county.</span></sup>:</h2>
-					<h2 id="counties" style="display:inline; width:200px; white-space:normal;"></h2><br/>
-					<h2 style="display:inline; width:200px; white-space:normal;">Cities<sup class="tooltip">?<span class="tooltiptext">Incorporated Cities and selected Census Designated Places with population over 1 person</span></sup>:</h2>
-					<h2 id="cities" style="display:inline; width:200px; white-space:normal;"></h2><br/>
+					<h2 id="title" style="width:280px; white-space:normal; text-align:left; font-size:30px; margin-bottom:10px; margin-top:10px;">Select a Watershed</h2>
+					<div id="watershed_desc" style="display:none;">
+						<h2 style="display:inline; width:200px; white-space:normal;">Area:</h2>
+						<h2 id="area" style="display:inline; width:200px; white-space:normal;"></h2><br/>
+						<h2 id="dams_title" style="display:inline; width:200px; white-space:normal;">Large Dams<sup class="tooltip">?<span class="tooltiptext">Dams higher than 50 ft. or capacity greater than 5000 acre ft.</span></sup>:</h2>
+						<h2 id="dams" style="display:inline; width:200px; white-space:normal;"></h2><br/>
+						<h2 style="display:inline; width:200px; white-space:normal;">Population:</h2>
+						<h2 id="population" style="display:inline; width:200px; white-space:normal;"></h2><br/>
+						<h2 style="display:inline; width:200px; white-space:normal;">States/Provinces<sup class="tooltip">?<span class="tooltiptext">States and Provinces intersected by the river basin</span></sup>:</h2>
+						<h2 id="states" style="display:inline; width:200px; white-space:normal;"></h2><br/>
+						<h2 style="display:inline; width:200px; white-space:normal;">Counties<sup class="tooltip">?<span class="tooltiptext">Number of Counties intersected by the river basin. BC is one county.</span></sup>:</h2>
+						<h2 id="counties" style="display:inline; width:200px; white-space:normal;"></h2><br/>
+						<h2 style="display:inline; width:200px; white-space:normal;">Cities<sup class="tooltip">?<span class="tooltiptext">Incorporated Cities and selected Census Designated Places with population over 1 person</span></sup>:</h2>
+						<h2 id="cities" style="display:inline; width:200px; white-space:normal;"></h2><br/>
+					</div>
+					<br/>
 					<label class="switch">
 							<input name="checkbox_name" id="checkbox_id" type="checkbox" value="check" onclick="borders()" autocomplete="off">
 							<span class="slider"></span>
 					</label>
-						<p style="padding-left:5px; padding-top:12px; font-weight:bold;">Toggle Political Borders</p><br/>
-					<hr>
-					<div style="width:135px; display:inline-block;"><b style="background:#80bfff;"></b><p id="leg1" style="margin-left:5px;">Lake</p></div><div style="width:130px; display:inline-block;"><b style="background:#d9d9d9;"></b><p id="leg1" style="margin-left:5px;">Urban Area</p></div>	
-					<div style="width:135px; display:inline-block;"><b style="background:#b3daff;"></b><p id="leg1" style="margin-left:5px;">Seas. Lake</p></div><div id ="none" style="width:130px; display:inline-block;"><b style="background:#ededdc;"></b><p>&nbsp</p><p id="leg1" style="margin-left:5px;">Tribal Land</p></div><br/>
-					<div style="width:135px; display:inline-block;"><hr style="color:#80bfff; width:50px; float:left; height:4px; background-color:#80bfff; line-height:20px; margin-top:10px; display:inline; border:none;"/><p id="leg1" style="padding-left:5px;">River</p></div><div id ="none" style="width:135px; display:inline-block;"><hr style="color:#00cc99; width:50px; float:left; height:4px; background-color:#00cc99; line-height:20px; margin-top:10px; display:inline; border:none;"/><p id="leg1" style="padding-left:5px;">Canal</p></div><br/>
-					<hr style="color:#80bfff; width:50px; float:left; height:4px; background-color:#ffffff; line-height:20px; margin-top:10px; display:inline; border:none; border-top:4px dashed #80bfff;"/><p id="leg1" style="padding-left:5px;">Seas. River</p><br/>
-					<br/>
-					<div id = "damLegend">
-						<h3 style="margin:0; padding:0; font-size:16px;display:inline;">Dam Height in Ft. &nbsp Hazard Rating</h3><br/>
-						<div id="damLegendSide" style="margin-bottom:5px;"><div id ="size"><b class="circle" style="background:#ffffff; width:17px; height:17px; border: black 1px solid;"></b></div><div id="sizeLabel"><p style="padding-left:36px;">&nbsp301+</p></div></div><div id="damLegendSide" style="margin-left:150px;"><div id ="size"><b class="circle" style="background:#ff0000; width:16px; height:16px; border: #d9d9d9 1px solid;"></b></div><div id="sizeLabel"><p style="padding-left:36px;">&nbspHigh</p></div></div><br/>
-						<div id="damLegendSide" style="margin-bottom:5px;"><div id ="size"><b class="circle" style="background:#ffffff; width:13px; height:13px; border: black 1px solid;"></b></div><div id="sizeLabel"><p style="padding-left:36px;">&nbsp201 - 300</p></div></div><div id="damLegendSide" style="margin-left:150px;"><div id ="size"><b class="circle" style="background:#ffff99; width:16px; height:16px; border: #d9d9d9 1px solid;"></b></div><div id="sizeLabel"><p style="padding-left:36px;">&nbspSignificant</p></div></div><br/>
-						<div id="damLegendSide" style="margin-bottom:5px;"><div id ="size"><b class="circle" style="background:#ffffff; width:9px; height:9px; border: black 1px solid;"></b></div><div id="sizeLabel"><p style="padding-left:36px;">&nbsp101 - 200</p></div></div><div id="damLegendSide" style="margin-left:150px;"><div id ="size"><b class="circle" style="background:#33cc33; width:16px; height:16px; border: #d9d9d9 1px solid;"></b></div><div id="sizeLabel"><p style="padding-left:36px;">&nbspLow</p></div></div><br/>
-						<div id ="size" style="margin-bottom:5px;"><b class="circle" style="background:#ffffff; width:6px; height:6px; border: black 1px solid;"></b></div><div id="sizeLabel"><p style="padding-left:36px;">&nbsp26 - 100</p></div><br/>
-						<div id ="size" style="margin-bottom:5px;"><b class="circle" style="background:#ffffff; width:3px; height:3px; border: black 1px solid;"></b></div><div id="sizeLabel"><p style="padding-left:36px;">&nbsp0 - 25</p></div>
+					<p style="padding-left:5px; padding-top:12px; font-weight:bold;">Toggle Political Borders</p><br/>
+					<div id="watershed_legend" style="display:none">
+						<br/><br/>
+						<div style="height:32px;"><b id="leg1_block" style="background:#80bfff; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p>&nbsp</p><p id="leg1" style="margin-left:5px;">Lake</p></div>
+						<div style="height:32px;"><b id="leg1_block" style="background:#b3daff; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p>&nbsp</p><p id="leg1" style="margin-left:5px;">Seasonal Lake</p></div>
+						<br/>
+						<div style="width:200px; display:inline-block;"><hr style="color:#80bfff; width:52px; float:left; height:4px; background-color:#80bfff; line-height:20px; margin-top:15px; display:inline; border:none;"/><p id="leg1" style="padding-left:5px;">River</p></div>
+						<div style="width:200px; display:inline-block;"><hr style="color:#00cc99; width:52px; float:left; height:4px; background-color:#00cc99; line-height:20px; margin-top:15px; display:inline; border:none;"/><p id="leg1" style="padding-left:5px;">Canal</p></div><br/>
+						<div style="width:200px; display:inline-block;"><hr style="color:#80bfff; width:52px; float:left; height:4px; background-color:#ffffff; line-height:20px; margin-top:15px; display:inline; border:none; border-top:4px dashed #80bfff;"/><p id="leg1" style="padding-left:5px;">Seasonal River</p></div><br/>
+						<br/>
+						<div style="height:32px;"><b id="leg1_block" style="background:#d9d9d9; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p>&nbsp</p><p id="leg1" style="margin-left:5px;">Urban Area</p></div>
+						<div style="height:32px;"><b id="leg1_block" style="background:#ededdc; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p>&nbsp</p><p id="leg1" style="margin-left:5px;">Tribal Land</p></div>
+						<br/>
+						<div id = "damLegend">
+							<h3 style="margin:0; padding:0; font-size:20px;display:inline;">Dam Height in Ft.</h3><br/>
+							<div id ="size" style="margin-bottom:10px;"><b class="circle" style="background:#000000; width:17px; height:17px; border: black 1px solid;"></b></div><div id="sizeLabel"><p style="padding-left:36px;">&nbsp301+</p></div><br/>
+							<div id ="size" style="margin-bottom:10px;"><b class="circle" style="background:#000000; width:13px; height:13px; border: black 1px solid;"></b></div><div id="sizeLabel"><p style="padding-left:36px;">&nbsp201 - 300</p></div><br/>
+							<div id ="size" style="margin-bottom:10px;"><b class="circle" style="background:#000000; width:9px; height:9px; border: black 1px solid;"></b></div><div id="sizeLabel"><p style="padding-left:36px;">&nbsp101 - 200</p></div><br/>
+							<div id ="size" style="margin-bottom:10px;"><b class="circle" style="background:#000000; width:6px; height:6px; border: black 1px solid;"></b></div><div id="sizeLabel"><p style="padding-left:36px;">&nbsp26 - 100</p></div><br/>
+							<div id ="size" style="margin-bottom:10px;"><b class="circle" style="background:#000000; width:3px; height:3px; border: black 1px solid;"></b></div><div id="sizeLabel"><p style="padding-left:36px;">&nbsp0 - 25</p></div>
+						</div>
 					</div>
 					<br/>
-					<hr>
+					<!--
 					<p3 style="text-align:justify;">Watersheds are independent of political boundaries, which makes watershed management challenging. An upstream water user can be in a different county, or state, or country than a downstream user, and there could be dozens of municipal water users between them. In the mid-20th century, the United States Bureau of Reclamation and Army Corps of Engineers both had a single prevailing strategy for watershed management: build dams. It has taken decades to understand the effects these widespread damming efforts have had on watershed health, not to mention the water conflicts they have created. Nowadays, basin-wide agreements are becoming more commonplace. The Columbia River Treaty was the first, in 1964, and other rivers within the region have followed with agreements of their own. Watershed Councils exist to monitor and advocate for the health of entire watersheds. Their advocacy, as well as tribal groups, have actualized efforts to remove dams throughout the region.</p3>
+					-->
 				</div>
 				<div id="pageChange">
 					<a href="#popup1" id="arrow" style="display:inline-block;">
@@ -214,12 +226,20 @@
 	map.options.maxZoom = 10;
 	map.options.minZoom = 5;
 ///////////////////////basemap tiles////////////////////////////////
-
+	
 	var Esri_WorldTerrain = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer/tile/{z}/{y}/{x}', {
 		attribution: 'Tiles &copy; Esri &mdash; Source: USGS, Esri, TANA, DeLorme, and NPS',
 		maxZoom:10,
 		minZoom:5,
 		opacity:1
+	}).addTo(map);
+	
+	var CartoDB_PositronNoLabels = L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_nolabels/{z}/{x}/{y}.png', {
+		attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
+		subdomains: 'abcd',
+		maxZoom:10,
+		minZoom:5,
+		opacity:0.5
 	}).addTo(map);
 	
 	var watershed_outline = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
@@ -255,19 +275,20 @@
 	
 
 ///////////////////////important variables////////////////////////////////
-	var scale = 0; //switch between watershed scales
+	var data = 1; //switch between watershed scales
 	var layers = 0; //determine if watershed has already been selected when switching scales 
 	var hoverSelection; //used with info control to determine which data to display
 	
 	var border = 0;
 	//geoJSON variables
-	var damsHUC8;
+	var dams;
 	var cities;
 	var reservations;
 	var rivers; 
 	var riversHUC8;
 	var lakes;
 	var lakesHUC8;
+	var clickID;
 	
 	
 ///////////////////////info panel////////////////////////////////
@@ -284,387 +305,294 @@
 	};
 
 ///////////////////////HUC4 (regional) scale////////////////////////////////	
-    var highlightHUC4;
     var clickHUC4;
-    var vectorSelectionHUC4;
-	var clearHighlightHUC4 = function() {
-		if (highlightHUC4 != clickHUC4) {
-			watershedHUC4.resetFeatureStyle(highlightHUC4);
-		}
-		highlightHUC4 = null;
-	};
-	var clearClickHUC4 = function() {
-		if (clickHUC4) {
-			watershedHUC4.resetFeatureStyle(clickHUC4);
-		}
-		clickHUC4 = null;
-	};
-
 	var watershedHUC4;
-
-	fetch('assets/watershedHUC4.json').then(function(response){
-			return response.json();
-		}).then(function(json){
-    //var watershedHUC4 = $.getJSON("http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=baldricg_PNW_ATLAS:watershed_HU4&maxFeatures=10&outputFormat=application%2Fjson", function(data){
-    	watershedHUC4 = L.vectorGrid.slicer(json, {
-			rendererFactory: L.svg.tile,
-			vectorTileLayerStyles: {
-				'watershedHUC4': function(properties, zoom) {
-					return {
-						fillColor:'#cce0ff',
-						fillOpacity: 0.6,
-						stroke: true,
-						fill: true,
-						color: '#1a75ff', 							
-						opacity: 0.5,
-						weight: 1,
-						dashArray:4
-					}
-				}
-			},
-			interactive: true,
-			getFeatureId: function(f) {
-				return f.properties.TNMID;
-			}
-		})
-		.on('mouseover', function(e) {		
-			var properties = e.layer.properties;
-			
-			clearHighlightHUC4();
-			highlightHUC4 = properties.TNMID;
-
-			var style = {
-				fillColor:'#cce0ff',
-				fillOpacity: 0.9,
-				stroke: true,
-				fill: true,
-				color: '#1a75ff', 							
-				opacity: 0.5,
-				weight: 1,
-			};
-			
-			watershedHUC4.setFeatureStyle(properties.TNMID, style);
-		})
-		.on('mouseout', function(e) {
-			clearHighlightHUC4();
-		})
-		.on('click', function(e) {
-			var properties = e.layer.properties;
-			
-			info.addTo(map);
-			
-			clearClickHUC4();
-			highlightHUC4 = null;
-			clickHUC4 = properties.TNMID;
-			clickID = properties.HUC4;
-			/*
-			var popup = L.popup({className:'label_tooltip'})
-    			.setLatLng(e.latlng)
-    			.setContent('<p>Hello world!<br/>This is a nice popup.</p>')
-    			.openOn(map);
-					*/			
-			var style = {
-				fillColor:'#cce0ff',
-				fillOpacity: 0.9,
-				stroke: true,
-				fill: true,
-				color: '#1a75ff', 							
-				opacity: 0.5,
-				weight: 1,
-			};
-			
-			if (vectorSelectionHUC4 == 1){
-		    	map.removeLayer(dams);
-		   		map.removeLayer(rivers);
-		   		map.removeLayer(cities);
-		   		map.removeLayer(lakes);
-		   		map.removeLayer(reservations);
-		   	}
-				
-			vectorSelectionHUC4 = 1;
-			layers = 1;
-			
-			addReservations();
-			addCities();
-			$.when(cities).done(function(){
-				addLakes();
-				addRivers();
-				$.when(rivers).done(function(){
-					addDams();
-				});
-			});
-			
-			
-			document.getElementById('title').innerHTML = properties.Name;
-			document.getElementById('area').innerHTML = properties.area_sqmi + '&nbspSq. Mi.';
-			document.getElementById('dams').innerHTML = properties.dams_major;
-			document.getElementById('population').innerHTML = properties.POPULATION;
-			document.getElementById('cities').innerHTML = properties.cities_001;
-			document.getElementById('states').innerHTML = properties.States;
-			document.getElementById('counties').innerHTML = properties.counties;
-			
-			map.fitBounds([
-    			[properties.y1, properties.x1 - 0.8],
-    			[properties.y2, properties.x2 - 0.8]
-			]);
-			
-			
-			watershedHUC4.setFeatureStyle(properties.TNMID, style);
-		}).addTo(map);
-	})
-
-		
-	$.getJSON("http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=baldricg_PNW_ATLAS:watershedHUC4&maxFeatures=1500&outputFormat=application%2Fjson", function(data) {
-        watershedHUC4.addData(data);
-    });
-///////////////////////HUC6 (subregional) scale////////////////////////////////	    
-    var highlightHUC6;
-    var clickHUC6;
-    var vectorSelectionHUC6;
-	var clearHighlightHUC6 = function() {
-		if (highlightHUC6 != clickHUC6) {
-			watershedHUC6.resetFeatureStyle(highlightHUC6);
-		}
-		highlightHUC6 = null;
-	};
-	var clearClickHUC6 = function() {
-		if (clickHUC6) {
-			watershedHUC6.resetFeatureStyle(clickHUC6);
-		}
-		clickHUC6 = null;
-	};
 	
-    var watershedHUC6;
-
-	fetch('assets/watershedHUC6.json').then(function(response){
-			return response.json();
-		}).then(function(json){
-    //var watershedHUC4 = $.getJSON("http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=baldricg_PNW_ATLAS:watershed_HU4&maxFeatures=10&outputFormat=application%2Fjson", function(data){
-    	watershedHUC6 = L.vectorGrid.slicer(json, {
-			rendererFactory: L.svg.tile,
-			vectorTileLayerStyles: {
-				'watershedHUC6': function(properties, zoom) {
-					return {
-						fillColor:'#cce0ff',
-						fillOpacity: 0.6,
-						stroke: true,
-						fill: true,
-						color: '#1a75ff', 							
-						opacity: 0.5,
-						weight: 1,
-						dashArray:4
-					}
-				}
-			},
-			interactive: true,
-			getFeatureId: function(f) {
-				return f.properties.TNMID;
-			}
-		})
-		.on('mouseover', function(e) {
-			var properties = e.layer.properties;
-			
-			clearHighlightHUC6();
-			highlightHUC6 = properties.TNMID;
-
-			var style = {
-				fillColor:'#cce0ff',
-				fillOpacity: 0.9,
-				stroke: true,
-				fill: true,
-				color: '#1a75ff', 							
-				opacity: 0.5,
-				weight: 1,
-			};
-			
-			watershedHUC6.setFeatureStyle(properties.TNMID, style);
-		})
-		.on('mouseout', function(e) {
-			clearHighlightHUC6();
-		})
-		.on('click', function(e) {
-			var properties = e.layer.properties;
-			
-			info.addTo(map);
-			
-			clearClickHUC6();
-			highlightHUC6 = null;
-			clickHUC6 = properties.TNMID;
-			clickID = properties.HUC6;
-						
-			var style = {
-				fillColor:'#cce0ff',
-				fillOpacity: 0.9,
-				stroke: true,
-				fill: true,
-				color: '#1a75ff', 							
-				opacity: 0.5,
-				weight: 1,
-			};
-			
-			if (vectorSelectionHUC6 == 1){
-		    	map.removeLayer(dams);
-		   		map.removeLayer(rivers);
-		   		map.removeLayer(cities);
-		   		map.removeLayer(lakes);
-		   		map.removeLayer(reservations);
-		   	}
-				
-			vectorSelectionHUC6 = 1;
-			layers = 1;
-			
-			addReservations();
-			addCities();
-			$.when(cities).done(function(){
-				addLakes();
-				addRivers();
-				$.when(rivers).done(function(){
-				addDams();
-				});
-			});
-			
-			
-			document.getElementById('title').innerHTML = properties.Name;
-			document.getElementById('area').innerHTML = properties.area_sqmi + '&nbspSq. Mi.';
-			document.getElementById('dams').innerHTML = properties.dams_major;
-			document.getElementById('population').innerHTML = properties.POPULATION;
-			document.getElementById('cities').innerHTML = properties.cities_001;
-			document.getElementById('states').innerHTML = properties.states;
-			document.getElementById('counties').innerHTML = properties.counties;
-			
-			map.fitBounds([
-    			[properties.y1, properties.x1 - 0.7],
-    			[properties.y2, properties.x2 - 0.7] 
-			]);
-			
-			watershedHUC6.setFeatureStyle(properties.TNMID, style);
+	watershedHUC4 = new L.TopoJSON(null, {
 		});
-	});
+		
+	$.getJSON('assets/watershedHUC4.json')
+			.done(watershedHUC4AddTopoData);
+
+	function watershedHUC4AddTopoData(topoData) {  
+		watershedHUC4.addData(topoData);
+		watershedHUC4.addTo(map);
+		watershedHUC4.eachLayer(watershedHUC4HandleLayer);
+	}
+
+	function watershedHUC4HandleLayer(layer){
+		layer.setStyle({
+				fillColor:'#cce0ff',
+				fillOpacity: 0.4,
+				color: '#1a75ff', 							
+				opacity: 0.5,
+				weight: 1,
+				dashArray:4
+		});
+		layer.on({
+				mouseover : HUC4Highlight,
+				mouseout: resetHUC4Highlight,
+				click: HUC4Click
+			});
+	}
+	
+	function HUC4Highlight(){
+		if (clickHUC4 != this){
+			this.setStyle({
+				fillOpacity:0.7,
+			 });
+    	}
+	}
+	
+	function resetHUC4Highlight(){
+		if (clickHUC4 != this){
+			this.setStyle({
+				fillOpacity:0.4,
+			 });
+    	}
+	}
+	
+	function HUC4Click(){
+		resetClickHUC4();
+		
+		info.addTo(map);
+			
+		clickHUC4 = this;
+		clickID = this.feature.properties.HUC4;
+				
+		this.setStyle ({
+			fillOpacity: 0.7,
+		});
+
+		addReservations();
+		addCities();
+		$.when(cities).done(function(){
+			addLakes();
+			addRivers();
+			$.when(rivers).done(function(){
+				addDams();
+			});
+		});
+		
+		buttonFunctions.but1.newLayers.push(dams,rivers,cities,lakes,reservations);
+		
+		$('#watershed_desc').css('display', 'block');
+		$('#watershed_legend').css('display', 'block');
+		document.getElementById('title').innerHTML = this.feature.properties.Name;
+		document.getElementById('area').innerHTML = this.feature.properties.area_sqmi + '&nbspSq. Mi.';
+		document.getElementById('dams').innerHTML = this.feature.properties.dams_major;
+		document.getElementById('population').innerHTML = this.feature.properties.POPULATION;
+		document.getElementById('cities').innerHTML = this.feature.properties.cities_001;
+		document.getElementById('states').innerHTML = this.feature.properties.States;
+		document.getElementById('counties').innerHTML = this.feature.properties.counties;
+		
+		map.fitBounds([
+			[this.feature.properties.y1, this.feature.properties.x1 - 0.8],
+			[this.feature.properties.y2, this.feature.properties.x2 - 0.8]
+		]);
+	}
+	
+	function resetClickHUC4(){
+		if (clickHUC4){
+			clickHUC4.setStyle ({
+				fillOpacity: 0.4,
+			});
+		}
+	}
+
+///////////////////////HUC6 (subregional) scale////////////////////////////////	    
+   	var clickHUC6;
+	var watershedHUC6;
+	
+	watershedHUC6 = new L.TopoJSON(null, {
+		});
+		
+	$.getJSON('assets/watershedHUC6.json')
+			.done(watershedHUC6AddTopoData);
+
+	function watershedHUC6AddTopoData(topoData) {  
+		watershedHUC6.addData(topoData);
+		watershedHUC6.eachLayer(watershedHUC6HandleLayer);
+	}
+
+	function watershedHUC6HandleLayer(layer){
+		layer.setStyle({
+				fillColor:'#cce0ff',
+				fillOpacity: 0.4,
+				color: '#1a75ff', 							
+				opacity: 0.5,
+				weight: 1,
+				dashArray:4
+		});
+		layer.on({
+				mouseover : HUC6Highlight,
+				mouseout: resetHUC6Highlight,
+				click: HUC6Click
+			});
+	}
+	
+	function HUC6Highlight(){
+		if (clickHUC6 != this){
+			this.setStyle({
+				fillOpacity:0.7,
+			 });
+    	}
+	}
+	
+	function resetHUC6Highlight(){
+		if (clickHUC6 != this){
+			this.setStyle({
+				fillOpacity:0.4,
+			 });
+    	}
+	}
+	
+	function HUC6Click(){
+		resetClickHUC6();
+		
+		info.addTo(map);
+			
+		clickHUC6 = this;
+		clickID = this.feature.properties.HUC6;
+				
+		this.setStyle ({
+			fillOpacity: 0.7,
+		});
+
+		console.log(clickID);
+		addReservations();
+		addCities();
+		$.when(cities).done(function(){
+			addLakes();
+			addRivers();
+			$.when(rivers).done(function(){
+				addDams();
+			});
+		});
+		
+		buttonFunctions.but2.newLayers.push(dams,rivers,cities,lakes,reservations);
+		
+		$('#watershed_desc').css('display', 'block');
+		$('#watershed_legend').css('display', 'block');
+		document.getElementById('title').innerHTML = this.feature.properties.Name;
+		document.getElementById('area').innerHTML = this.feature.properties.area_sqmi + '&nbspSq. Mi.';
+		document.getElementById('dams').innerHTML = this.feature.properties.dams_major;
+		document.getElementById('population').innerHTML = this.feature.properties.POPULATION;
+		document.getElementById('cities').innerHTML = this.feature.properties.cities_001;
+		document.getElementById('states').innerHTML = this.feature.properties.States;
+		document.getElementById('counties').innerHTML = this.feature.properties.counties;
+		
+		map.fitBounds([
+			[this.feature.properties.y1, this.feature.properties.x1 - 0.8],
+			[this.feature.properties.y2, this.feature.properties.x2 - 0.8]
+		]);
+		
+	}
+	
+	function resetClickHUC6(){
+		if (clickHUC6){
+			clickHUC6.setStyle ({
+				fillOpacity: 0.4,
+			});
+		}
+	}
     
 ///////////////////////HUC8 (local) scale////////////////////////////////	    
-    var highlight;
-    var click;
-    var vectorSelection;
-	var clearHighlight = function() {
-		if (highlight != click) {
-			watershedHUC8.resetFeatureStyle(highlight);
-		}
-		highlight = null;
-	};
-	var clearClick = function() {
-		if (click) {
-			watershedHUC8.resetFeatureStyle(click);
-		}
-		click = null;
-	};
+   	var clickHUC8;
+	var watershedHUC8;
 	
-    var watershedHUC8;
-
-	fetch('assets/watershedHUC8.json').then(function(response){
-			return response.json();
-		}).then(function(json){
-    //var watershedHUC4 = $.getJSON("http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=baldricg_PNW_ATLAS:watershed_HU4&maxFeatures=10&outputFormat=application%2Fjson", function(data){
-    	watershedHUC8 = L.vectorGrid.slicer(json, {
-			rendererFactory: L.svg.tile,
-			vectorTileLayerStyles: {
-				'watershed_HU8': function(properties, zoom) {
-					return {
-						fillColor:'#cce0ff',
-						fillOpacity: 0.6,
-						stroke: true,
-						fill: true,
-						color: '#1a75ff', 							
-						opacity: 0.5,
-						weight: 1,
-						dashArray:4
-					}
-				}
-			},
-			interactive: true,
-			getFeatureId: function(f) {
-				return f.properties.TNMID;
-			}
-		})
-		.on('mouseover', function(e) {
-			var properties = e.layer.properties;
-			
-			clearHighlight();
-			highlight = properties.TNMID;
-
-			var style = {
-				fillColor:'#cce0ff',
-				fillOpacity: 0.9,
-				stroke: true,
-				fill: true,
-				color: '#1a75ff', 							
-				opacity: 0.5,
-				weight: 1,
-			};
-			
-			watershedHUC8.setFeatureStyle(properties.TNMID, style);
-		})
-		.on('mouseout', function(e) {
-			clearHighlight();
-		})
-		.on('click', function(e) {
-			var properties = e.layer.properties;
-			
-			info.addTo(map);
-			
-			clearClick();
-			highlight = null;
-			click = properties.TNMID;
-			clickID = properties.HUC8;
-						
-			var style = {
-				fillColor:'#cce0ff',
-				fillOpacity: 0.9,
-				stroke: true,
-				fill: true,
-				color: '#1a75ff', 							
-				opacity: 0.5,
-				weight: 1,
-			};
-			
-			if (vectorSelection == 1){
-		    	map.removeLayer(damsHUC8);
-		   		map.removeLayer(riversHUC8);
-		   		map.removeLayer(cities);
-		   		map.removeLayer(lakesHUC8);
-		   		map.removeLayer(reservations);
-		   	}
-				
-			vectorSelection = 1;
-			layers = 1;
-			
-			addReservations();
-			addCities();
-			$.when(cities).done(function(){
-				addLakesHUC8();
-				addRiversHUC8();
-				$.when(riversHUC8).done(function(){
-					addDamsHUC8();
-				});
-			});
-			
-			
-			document.getElementById('title').innerHTML = properties.Name;
-			document.getElementById('area').innerHTML = properties.area_sqmi + '&nbspSq. Mi.';
-			document.getElementById('dams').innerHTML = properties.dams_total;
-			document.getElementById('population').innerHTML = properties.POPULATION;
-			document.getElementById('cities').innerHTML = properties.cities_001;
-			document.getElementById('states').innerHTML = properties.States;
-			document.getElementById('counties').innerHTML = properties.counties;
-			
-			map.fitBounds([
-    			[properties.y1, properties.x1 - 0.2],
-    			[properties.y2, properties.x2 - 0.2]
-			]);
-			
-			
-			watershedHUC8.setFeatureStyle(properties.TNMID, style);
+	watershedHUC8 = new L.TopoJSON(null, {
 		});
-	});
+		
+	$.getJSON('assets/watershedHUC8.json')
+			.done(watershedHUC8AddTopoData);
+
+	function watershedHUC8AddTopoData(topoData) {  
+		watershedHUC8.addData(topoData);
+		watershedHUC8.eachLayer(watershedHUC8HandleLayer);
+	}
+
+	function watershedHUC8HandleLayer(layer){
+		layer.setStyle({
+				fillColor:'#cce0ff',
+				fillOpacity: 0.4,
+				color: '#1a75ff', 							
+				opacity: 0.5,
+				weight: 1,
+				dashArray:4
+		});
+		layer.on({
+				mouseover : HUC8Highlight,
+				mouseout: resetHUC8Highlight,
+				click: HUC8Click
+			});
+	}
+	
+	function HUC8Highlight(){
+		if (clickHUC8 != this){
+			this.setStyle({
+				fillOpacity:0.7,
+			 });
+    	}
+	}
+	
+	function resetHUC8Highlight(){
+		if (clickHUC8 != this){
+			this.setStyle({
+				fillOpacity:0.4,
+			 });
+    	}
+	}
+	
+	function HUC8Click(){
+		resetClickHUC8();
+		
+		info.addTo(map);
+			
+		clickHUC8 = this;
+		clickID = this.feature.properties.HUC8;
+				
+		this.setStyle ({
+			fillOpacity: 0.7,
+		});
+
+		console.log(clickID);
+		addReservations();
+		addCities();
+		$.when(cities).done(function(){
+			addLakes();
+			addRivers();
+			$.when(rivers).done(function(){
+				addDams();
+			});
+		});
+		
+		buttonFunctions.but3.newLayers.push(dams,rivers,cities,lakes,reservations);
+		
+		$('#watershed_desc').css('display', 'block');
+		$('#watershed_legend').css('display', 'block');
+		document.getElementById('title').innerHTML = this.feature.properties.Name;
+		document.getElementById('area').innerHTML = this.feature.properties.area_sqmi + '&nbspSq. Mi.';
+		document.getElementById('dams').innerHTML = this.feature.properties.dams_total;
+		document.getElementById('population').innerHTML = this.feature.properties.POPULATION;
+		document.getElementById('cities').innerHTML = this.feature.properties.cities_001;
+		document.getElementById('states').innerHTML = this.feature.properties.States;
+		document.getElementById('counties').innerHTML = this.feature.properties.counties;
+		
+		map.fitBounds([
+			[this.feature.properties.y1, this.feature.properties.x1 - 0.2],
+			[this.feature.properties.y2, this.feature.properties.x2 - 0.2]
+		]);
+		
+	}
+	
+	function resetClickHUC8(){
+		if (clickHUC8){
+			clickHUC8.setStyle ({
+				fillOpacity: 0.4,
+			});
+		}
+	}
     
 ///////////////////////tooltip info////////////////////////////////
  
@@ -676,162 +604,177 @@
   
 ///////////////////////dams geoJson styling////////////////////////////////
 
-		//used with hoverSelection to determine correct data to display
-
-	function damHighlight(e) {
-		 var layer = e.target;
-		 layer.setStyle({
-        	fillColor: '#ffffff'
-    	 });
-    	 hoverSelection = 2;
-		}
-	//reset feature function (after highlight)
-	function resetDamHighlight(e) {
-		var layer = e.target;
-		 layer.setStyle({
-			fillColor: damColor(layer.feature.properties.HAZARD)
-    	 });
-	}
-
-	function damSize(e){
-		return e > 300 ? 7:
-			e > 200 ? 5:
-			e > 100 ? 3:
-			e > 25 ? 2:
-				1; 
-	}
-	
-	function damColor(e){
-		return e == 'H' ? '#ff0000':
-			e == 'S' ? '#ffff99':
-				'#33cc33'; 
-	}
+	var dams;
 
     function addDams(){
-    	dams = $.getJSON("http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=baldricg_PNW_ATLAS:national_dams&maxFeatures=1000&outputFormat=application%2Fjson", function(data){
-        	dams = L.geoJson(data, {
-        		pointToLayer: function (feature, latlng) {
-    			return L.circleMarker(latlng, {
-    				color: '#ffffff',
-    				fillColor: damColor(feature.properties.HAZARD),
-    				radius: damSize(feature.properties.HEIGHT),
-    				opacity: 1,
-    				fillOpacity: 1,
-    				weight: 0.5
-    				})
-    			},
-    			onEachFeature: function(feature, featureLayer) {
-        			featureLayer.bindTooltip('<h3 style="display:inline;">' + feature.properties.NAME + '</h3><br/><p style="display:inline;">Height:&nbsp' + feature.properties.HEIGHT + '&nbspft.<br/>Storage:&nbsp' + feature.properties.STORAGE + '&nbspacre ft.<br/>Year Completed:&nbsp' + feature.properties.YEAR + '</p>', {className: 'label_tooltip', pane:'tooltip'});
-        			featureLayer.on({
-        				mouseover: damHighlight,
-        				mouseout: resetDamHighlight,
-        				click: damHighlight
-   					});
-        		},
-    			filter:lakeFilter
-        	}).addTo(map);
-    	});
-
-    }
-    //for HUC8 scale
-    function damSizeHUC8(e){
-		return e > 300 ? 8:
-			e > 200 ? 6.5:
-			e > 100 ? 5:
-			e > 25 ? 3.5:
-				2;
+    	if (dams){
+    		map.removeLayer(dams);
+    	}
+    	
+    	dams = null;
+    	dams = new L.TopoJSON(null, {
+  		  filter: function(feature, layer) {
+				if (data == 1){
+					if (feature.properties.HUC4 == clickID && (feature.properties.HEIGHT > 50 || feature.properties.storage > 5000))return true 
+				}
+				else if (data == 2) {
+					if (feature.properties.HUC6 == clickID && (feature.properties.HEIGHT > 50 || feature.properties.storage > 5000))return true 
+				} 
+				else {
+					if (feature.properties.HUC8 == clickID)return true 
+				}
+  			},
+  			onEachFeature: function(feature, featureLayer){
+  				  featureLayer.bindTooltip('<h3 style="display:inline;">' + feature.properties.NAME + '</h3><br/><p style="display:inline;">Height:&nbsp' + feature.properties.HEIGHT + '&nbspft.<br/>Storage:&nbsp' + feature.properties.STORAGE + '&nbspacre ft.<br/>Year Completed:&nbsp' + feature.properties.YEAR + '<br/>Hazard Rating: '+ feature.properties.HAZARD +'</p>', {className: 'label_tooltip', pane:'tooltip'});
+  			},
+  			pointToLayer: function (feature, latlng) {
+    			return L.circleMarker(latlng, {});
+    		}
+		});
+		
+		$.getJSON('assets/total_dams.json')
+  		.done(addDamData);
+  		
+		function addDamData(topoData) {  
+			dams.addData(topoData);
+			dams.addTo(map);
+			dams.eachLayer(handleDamLayer);
 		}
-    
-    function addDamsHUC8(){
-    	damsHUC8 = $.getJSON("http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=baldricg_PNW_ATLAS:total_dams&maxFeatures=10000&outputFormat=application%2Fjson", function(data){
-        	damsHUC8 = L.geoJson(data, {
-        		pointToLayer: function (feature, latlng) {
-    			return L.circleMarker(latlng, {
-    				color: '#ffffff',
-    				fillColor: damColor(feature.properties.HAZARD),
-    				radius: damSizeHUC8(feature.properties.HEIGHT),
-    				opacity: 1,
-    				fillOpacity: 1,
-    				weight: 0.5
-    				})
-    			},
-    			onEachFeature: function(feature, featureLayer) {
-    				featureLayer.bindTooltip('<h3 style="display:inline;">' + feature.properties.NAME + '</h3><br/><p style="display:inline;">Height:&nbsp' + feature.properties.HEIGHT + '&nbspft.<br/>Storage:&nbsp' + feature.properties.STORAGE + '&nbspacre ft.<br/>Year Completed:&nbsp' + feature.properties.YEAR + '</p>', {className: 'label_tooltip', pane:'tooltip'});
-        			featureLayer.on({
-        				mouseover: damHighlight,
-        				mouseout: resetDamHighlight,
-        				click: damHighlight
-   					});
-        		},
-    			filter:lakeFilterHUC8
-    		}).addTo(map);
-    	});
+	
+		function handleDamLayer(layer){
+        	layer.setStyle({
+          		color: '#ffffff',
+    			fillColor: damColor(layer.feature.properties.HAZARD),
+    			radius: damSize(layer.feature.properties.HEIGHT),
+    			opacity: 1,
+    			fillOpacity: 1,
+    			weight: 0.5
+			});
+			layer.on({
+				mouseover : damHighlight,
+				mouseout: resetDamHighlight
+			});
+    	}	
+    	
+    	function damSize(e){
+			if (data == 1 || data == 2){
+				return e > 300 ? 7:
+					e > 200 ? 5:
+					e > 100 ? 3:
+					e > 25 ? 2:
+						1; 
+				}
+			else{
+				return e > 300 ? 8:
+					e > 200 ? 6.5:
+					e > 100 ? 5:
+					e > 25 ? 3.5:
+						2;
+				}
+		}
+	
+		function damColor(e){
+			return e == 'H' ? '#000000':
+				e == 'S' ? '#000000':
+					'#000000'; 
+		}
+    	
+    	function damHighlight() {
+			 this.setStyle({
+				fillColor: '#ffffff'
+			 });
+		}
+	//reset feature function (after highlight)
+		function resetDamHighlight(e) {
+			 this.setStyle({
+				fillColor: damColor(this.feature.properties.HAZARD)
+			 });
+		}
 
     }
     
 ///////////////////////cities geoJson styling////////////////////////////////
 
-    function cityStyle(feature){
-    	return {
-            	fillColor: '#d9d9d9	',
+    function addCities(){
+    	if (cities){
+    		map.removeLayer(cities);
+    	}
+    	cities = null;
+    	cities = new L.TopoJSON(null, {
+			  	filter: filter,
+				interactive:false
+		});
+		
+		$.getJSON('assets/watershed_city_area.json')
+			.done(cityAddTopoData);
+
+		function cityAddTopoData(topoData) {  
+			cities.addData(topoData);
+			cities.addTo(map);
+			cities.eachLayer(cityHandleLayer);
+		}
+	
+		function cityHandleLayer(layer){
+			layer.setStyle({
+				fillColor: '#d9d9d9	',
             	fillOpacity:0.8,
             	weight: 1,
             	opacity: 0.8,
             	color: '#d9d9d9'
-        	};
-    	}
-    
-    function addCities(){
-    	cities = $.getJSON("http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=baldricg_PNW_ATLAS:watershed_city_areas&maxFeatures=1000&outputFormat=application%2Fjson", function(data){
-        	cities = L.geoJson(data, {
-        		style:cityStyle,
-    			filter:lakeFilter
-        	}).addTo(map).bringToBack();
-    	});
+			});
+
+		}
     }
 ///////////////////////reservations geoJson styling////////////////////////////////    
-    function reservationStyle(feature){
-    	return {
-            	fillColor: '#ededdc',
+    function addReservations(){
+    	if (reservations){
+    		map.removeLayer(reservations);
+    	}
+    	
+    	reservations = null;
+    	reservations = new L.TopoJSON(null, {
+			  	filter:filter,
+				interactive:false
+		});
+		
+		$.getJSON('assets/watershed_reservations.json')
+			.done(reservationAddTopoData);
+
+		function reservationAddTopoData(topoData) {  
+			reservations.addData(topoData);
+			reservations.addTo(map);
+			reservations.eachLayer(resHandleLayer);
+		}
+	
+		function resHandleLayer(layer){
+			layer.setStyle({
+				fillColor: '#ededdc',
             	fillOpacity:0.8,
             	weight: 1,
             	opacity: 0.8,
             	color: '#ededdc'
-        	};
-    	}
-    
-    function addReservations(){
-    	reservations = $.getJSON("http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=baldricg_PNW_ATLAS:watershed_reservations&maxFeatures=100&outputFormat=application%2Fjson", function(data){
-        	reservations = L.geoJson(data, {
-        		style:reservationStyle,
-    			filter:lakeFilter
-        	}).addTo(map).bringToBack();
-    	});
+			});
+
+		}
 
     }
-
-    
 ///////////////////////rivers geoJson styling////////////////////////////////
-    
-     function riverHighlight(e) {
-		 var layer = e.target;
-		 	layer.setStyle({
-        		opacity: 0.4,
-        		color:'#ffffff',
-        		weight:3
-    	 		});
-    	 	hoverSelection = 1;
+     function riverHighlight() {
+		this.setStyle({
+			opacity: 0.4,
+			color:'#ffffff',
+			weight:3
+			});
 	}
 	//reset feature function (after highlight)
-	function resetRiverHighlight(e) {
-		var layer = e.target;
-		layer.setStyle({
-        		opacity: 1,
-        		color:riverColor(layer.feature.properties.FEATURE),
-        		weight: riverSize(layer.feature.properties.level)
+	
+	function resetRiverHighlight() {
+		this.setStyle({
+        		opacity: 0.7,
+        		color:riverColor(this.feature.properties.FEATURE),
+        		weight: riverSize(this.feature.properties.level)
     	 	});
 	}
-    
     
     function riverSize(e){
         return e == 1 ? 2.25 :
@@ -843,7 +786,7 @@
     	
     function riverColor(string){
         return string == 'Canal' ? '#00cc99' :
-        		'#80bfff';
+        		'#3399ff';
     	}  
     	
     function riverDash(string){
@@ -853,136 +796,196 @@
     	
     function riverStyle(feature){
 	return{
-		opacity: 1,
-		color:riverColor(feature.properties.FEATURE),
-		weight: riverSize(feature.properties.level),
-		dashArray: riverDash(feature.properties.FEATURE)
+		opacity: 0.7,
+		color:riverColor(layer.feature.properties.FEATURE),
+		weight: riverSize(layer.feature.properties.level),
+		dashArray: riverDash(layer.feature.properties.FEATURE)
 		};
 	}
     
     function addRivers(){
-    	rivers = $.getJSON("http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=baldricg_PNW_ATLAS:watershed_rivers&maxFeatures=5000&outputFormat=application%2Fjson", function(data){
-        	rivers = L.geoJson(data, {
-        		style:riverStyle,
-        		onEachFeature: function(feature, featureLayer) {
+    	if (rivers){
+    		map.removeLayer(rivers);
+    	}
+    	
+    	rivers = null;
+    	rivers = new L.TopoJSON(null, {
+			  	filter: filter,
+				onEachFeature: function(feature, featureLayer) {
         			featureLayer.bindTooltip('<h3 style="margin:0; display:inline-block;">' +  feature.properties.NAME + '</h3>', {className: 'label_tooltip', pane:'tooltip'});
-        			featureLayer.on({
-        				mouseover: riverHighlight,
-        				mouseout: resetRiverHighlight,
-        				click: riverHighlight
-   					});
-        		},
-        		filter: lakeFilter
-        	}).addTo(map);
-    	});
-    }
-    function addRiversHUC8(){
-    	riversHUC8 = $.getJSON("http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=baldricg_PNW_ATLAS:watershed_rivers_HUC8&maxFeatures=10000&outputFormat=application%2Fjson", function(data){
-        	riversHUC8 = L.geoJson(data, {
-        		style:riverStyle,
-        		onEachFeature: function(feature, featureLayer) {
-        			featureLayer.bindTooltip('<h3 style="margin:0; display:inline-block;">' +  feature.properties.NAME + '</h3>', {className: 'label_tooltip', pane:'tooltip'});
-        			featureLayer.on({
-        				mouseover: riverHighlight,
-        				mouseout: resetRiverHighlight,
-        				click: riverHighlight
-   					});
-        		},
-        		filter: lakeFilterHUC8
-        	}).addTo(map);
-    	});
+        		}
+		});
+		
+		if (data == 1 || data == 2){
+			$.getJSON('assets/watershed_rivers.json')
+				.done(riversAddTopoData);
+		}
+		else{
+			$.getJSON('assets/watershed_riversHUC8.json')
+				.done(riversAddTopoData);
+		}
+
+		function riversAddTopoData(topoData) {  
+			rivers.addData(topoData);
+			rivers.addTo(map);
+			rivers.eachLayer(riversHandleLayer);
+		}
+	
+		function riversHandleLayer(layer){
+			layer.setStyle({
+				opacity: 1,
+				color:riverColor(layer.feature.properties.FEATURE),
+				weight: riverSize(layer.feature.properties.level),
+				dashArray: riverDash(layer.feature.properties.FEATURE)
+			});
+			layer.on({
+				mouseover : riverHighlight,
+				mouseout: resetRiverHighlight
+			});
+		}
     }
     
 ///////////////////////lakes geoJson styling////////////////////////////////
-   
-    function lakeHighlight(e) {
-		 var layer = e.target;
-		 	layer.setStyle({
-        		fillOpacity: 0.4,
-        		opacity: 0.4,
-        		fillColor:'#ffffff',
-        		color:'#ffffff'
-    	 		});
-    	 	hoverSelection = 0;
-	}
-	//reset feature function (after highlight)
-	function resetLakeHighlight(e) {
-		var layer = e.target;
-		layer.setStyle({
-        		fillOpacity: 1,
-        		opacity: 1,
-        		fillColor:lakeColor(layer.feature.properties.FEATURE),
-        		color:lakeColor(layer.feature.properties.FEATURE)
-    	 	});
-	}
-    
-    function lakeColor(string){
-        return string == 'Lake Intermittent' ? '#b3daff' :
-        		'#80bfff';
-    	}  
-    
-    function lakeStyle(feature){
-	return{
-		opacity: 1,
-		fillOpacity: 1,
-		color:lakeColor(feature.properties.FEATURE),
-		fillColor:lakeColor(feature.properties.FEATURE),
-		weight:0.5
-		};
-	}
-	
-	function lakeFilter(feature) {
-			if (scale == 0){
+	function filter(feature) {
+			if (data == 1){
         		if (feature.properties.HUC4 == clickID)return true 
         	}
-        	else if (scale == 1) {
+        	else if (data == 2) {
         		if (feature.properties.HUC6 == clickID)return true 
         	} 
         	else {
         		if (feature.properties.HUC8 == clickID)return true 
         	}
     	}
-    	
-  function lakeFilterHUC8(feature) {
-        		if (feature.properties.HUC8 == clickID)return true
-    	}
     
     function addLakes(){
-    	lakes = $.getJSON("http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=baldricg_PNW_ATLAS:watershed_lakes&maxFeatures=1000&outputFormat=application%2Fjson", function(data){
-        	lakes = L.geoJson(data, {
-        		style:lakeStyle,
-        		onEachFeature: function(feature, featureLayer) {
+    	if (lakes){
+    		map.removeLayer(lakes);
+    	}
+    	
+    	lakes = null;
+    	lakes = new L.TopoJSON(null, {
+			  	filter: filter,
+				onEachFeature: function(feature, featureLayer) {
         			featureLayer.bindTooltip('<h3 style="margin:0; display:inline-block;">' +  feature.properties.NAME + '</h3>', {className: 'label_tooltip', pane:'tooltip'});
-        			featureLayer.on({
-        				mouseover: lakeHighlight,
-        				mouseout: resetLakeHighlight,
-        				click: lakeHighlight
-   					});
-        		},
-        		filter: lakeFilter
-        	}).addTo(map);
-    	});
+        		}
+		});
+		
+		$.getJSON('assets/watershed_lakes.json')
+			.done(lakesAddTopoData);
+
+		function lakesAddTopoData(topoData) {  
+			lakes.addData(topoData);
+			lakes.addTo(map);
+			lakes.eachLayer(lakeHandleLayer);
+		}
+	
+		function lakeHandleLayer(layer){
+			layer.setStyle({
+				opacity: 0.7,
+				fillOpacity: 0.7,
+				color:lakeColor(layer.feature.properties.FEATURE),
+				fillColor:lakeColor(layer.feature.properties.FEATURE),
+				weight:0.5
+			});
+			layer.on({
+				mouseover : lakeHighlight,
+				mouseout: resetLakeHighlight
+			});
+		}
+    	 
+    	function lakeColor(string){
+        return string == 'Lake Intermittent' ? '#b3daff' :
+        		'#3399ff';
+    	}  
+    	
+    	 function lakeHighlight() {
+				this.setStyle({
+					fillOpacity: 0.4,
+					opacity: 0.4,
+					fillColor:'#ffffff',
+					color:'#ffffff'
+					});
+			}
+		//reset feature function (after highlight)
+		function resetLakeHighlight() {
+				this.setStyle({
+					fillOpacity: 0.7,
+					opacity: 0.7,
+					fillColor:lakeColor(this.feature.properties.FEATURE),
+					color:lakeColor(this.feature.properties.FEATURE)
+				});
+			}
     }
-    
-    function addLakesHUC8(){
-    	lakesHUC8 = $.getJSON("http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=baldricg_PNW_ATLAS:watershed_lakes_HUC8&maxFeatures=10000&outputFormat=application%2Fjson", function(data){
-        	lakesHUC8 = L.geoJson(data, {
-        		style:lakeStyle,
-        		onEachFeature: function(feature, featureLayer) {
-        			featureLayer.bindTooltip('<h3 style="margin:0; display:inline-block;">' +  feature.properties.NAME + '</h3>', {className: 'label_tooltip', pane:'tooltip'});
-        			featureLayer.on({
-        				mouseover: lakeHighlight,
-        				mouseout: resetLakeHighlight,
-        				click: lakeHighlight
-   					});
-        		},
-        		filter: lakeFilter
-        	}).addTo(map);
-    	});
-    }
-    
 
 ////////////////////////////////////////////////////////////////////////////////////////////
+
+	var buttonLabels = ['#but1','#but2','#but3'];
+
+	var buttonFunctions = {
+		but1: {
+			   button:'but1', 
+			   newLayers:[watershedHUC4], 
+			   //newLegend: 'leg_1', 
+			   title:'Regional', 
+			   variable:1,
+			   layerFunction: function(){
+			   		map.setView([46.7, -120.15], 6);
+			   		document.getElementById('dams_title').innerHTML = 'Large Dams<sup class="tooltip">?<span class="tooltiptext">Dams higher than 50 ft. or capacity greater than 5000 acre ft.</span></sup>:';
+			   		document.getElementById('title').innerHTML = "Select a Watershed";
+			   		resetClickHUC4();
+			   		clickHUC4 = null;
+			   		buttonFunctions.but1.newLayers.splice(1);
+			   		buttonFunctions.but2.newLayers.splice(1);
+			   		buttonFunctions.but3.newLayers.splice(1);
+			   		$('#watershed_desc').css('display', 'none');
+			   		$('#watershed_legend').css('display', 'none');
+			   }
+			},
+		but2: {
+			   button:'but2', 
+			   newLayers:[watershedHUC6], 
+			   //newLegend: 'leg_1', 
+			   title:'Subregional', 
+			   variable:2,
+			   layerFunction: function(){
+			   		resetClickHUC6();
+			   		clickHUC6 = null;
+			   		document.getElementById('dams_title').innerHTML = 'Large Dams<sup class="tooltip">?<span class="tooltiptext">Dams higher than 50 ft. or capacity greater than 5000 acre ft.</span></sup>:';
+			   		document.getElementById('title').innerHTML = "Select a Watershed";
+			   		buttonFunctions.but1.newLayers.splice(1);
+			   		buttonFunctions.but2.newLayers.splice(1);
+			   		buttonFunctions.but3.newLayers.splice(1);
+			   		$('#watershed_desc').css('display', 'none');
+			   		$('#watershed_legend').css('display', 'none');
+			   }
+			},
+		but3: {
+			   button:'but3', 
+			   newLayers:[watershedHUC8], 
+			  // newLegend: 'leg_1', 
+			   title:'Local', 
+			   variable:3,
+			   layerFunction: function(){
+			   		resetClickHUC8();
+			   		clickHUC8 = null;
+			   		document.getElementById('dams_title').innerHTML = 'Dams<sup class="tooltip">?<span class="tooltiptext">Dams higher than 10 ft. or capacity greater than 1000 acre ft.</span></sup>:';
+					document.getElementById('title').innerHTML = "Select a Watershed";
+					buttonFunctions.but1.newLayers.splice(1);
+			   		buttonFunctions.but2.newLayers.splice(1);
+			   		buttonFunctions.but3.newLayers.splice(1);
+			   		$('#watershed_desc').css('display', 'none');
+			   		$('#watershed_legend').css('display', 'none');
+			   }
+			}
+	};
+	
+	$('.main1').clickFunction({
+		buttonFunctions: buttonFunctions,
+		buttonLabels: buttonLabels,
+		selected:buttonFunctions.but1
+	});
+
 
 function HUC4(){
 	removeLayers();
@@ -1021,54 +1024,6 @@ function HUC8(){
 	scale=2;
 }
 
-function removeLayers(){
-	if (layers == 1){
-		if (scale == 2){
-			map.removeLayer(damsHUC8);
-			map.removeLayer(cities);
-			map.removeLayer(reservations);
-			map.removeLayer(riversHUC8);
-			map.removeLayer(lakesHUC8);
-			map.removeLayer(watershedHUC8);
-		}
-		else if (scale == 1){
-			map.removeLayer(watershedHUC6);
-			map.removeLayer(dams);
-			map.removeLayer(cities);
-			map.removeLayer(reservations);
-			map.removeLayer(rivers);
-			map.removeLayer(lakes);
-		}
-		else if (scale == 0){
-			map.removeLayer(dams);
-			map.removeLayer(cities);
-			map.removeLayer(reservations);
-			map.removeLayer(rivers);
-			map.removeLayer(lakes);
-			map.removeLayer(watershedHUC4);
-		}
-	} else {
-		if (scale == 2){
-			map.removeLayer(watershedHUC8);
-			map.setView([46.7, -120.15], 6);
-		}
-		else if (scale == 0){
-			map.removeLayer(watershedHUC4);
-		}
-		else {
-			map.removeLayer(watershedHUC6);
-		}
-	}
-	document.getElementById('title').innerHTML = 'Select a Watershed';
-	document.getElementById('area').innerHTML = '';
-	document.getElementById('dams').innerHTML = '';
-	document.getElementById('population').innerHTML = '';
-	document.getElementById('cities').innerHTML = '';
-	document.getElementById('states').innerHTML = '';
-	document.getElementById('counties').innerHTML = '';
-	
-  	map.removeControl(info);
-}
 //////////////////////////////////////border toggle/////////////////////////////////////////////////
 
   var watershedBorders = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
