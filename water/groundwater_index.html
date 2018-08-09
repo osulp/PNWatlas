@@ -115,7 +115,7 @@
 			<div class="popup2">
 				<a class="close" href="#" style="display:inline;">×</a>
 				<div class="content">
-					<a href="water_resources_index.html" style="font-weight:bold; text-decoration:none;">Water Home</a>
+					<a href="water_index.html" style="font-weight:bold; text-decoration:none;">Water Home</a>
 					<hr>
 					<a href="watershed_index.html" style="text-decoration:underline;">Watersheds</a>
 					<a href="groundwater_index.html" style="text-decoration:underline;">Groundwater</a>
@@ -214,40 +214,15 @@
 		pane:'labels'
 	});	
 	
-    var pnwStates = $.getJSON("assets/pnw_states.geojson", function(data){
-        pnwStates = L.geoJson(data, {
-        	style: function pnwStatesStyle(){
-				return{
-					opacity: 1,
-					color:'#666666',
-					fillOpacity:0	,
-					fillColor:'#404040',
-					weight:1
-				};
-		},
-        	interactive: false
-        }).addTo(map);
-    });
-    
-    const countyOutlines = new L.TopoJSON();
-
-	$.getJSON('assets/pnw_counties.json')
-  		.done(countyOutlinesAddTopoData);
-
-	function countyOutlinesAddTopoData(topoData) {  
-  		countyOutlines.addData(topoData);
-  		countyOutlines.eachLayer(countyOutlinesHandleLayer);
-	}
-
-	function countyOutlinesHandleLayer(layer){
-        layer.setStyle({
-            weight: 0.25,
-            opacity:1,
-            fillOpacity:0,
-            color: '#808080',
-            interactive:false
-        });
-    }
+    var pnwCounties = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
+		layers: 'baldricg_PNW_ATLAS:pnw_borders_black',
+        format: 'image/png',
+		maxZoom:10,
+		minZoom:5,
+		opacity:0.6,
+		transparent:true,
+	}).addTo(map);
+	
 	map.createPane('labels');
 	map.getPane('labels').style.pointerEvents = 'none';
 	map.getPane('labels').style.zIndex = 650;
@@ -443,7 +418,7 @@
 
 	var buttonFunctions = {
 		but1: {button:'but1', newLayers:[aquifers], newLegend: 'leg_1', title:'Aquifers/Recharge', variable:1},
-		but2: {button:'but2', newLayers:[conservation,SSA, countyOutlines], newLegend: 'leg_2', title:'Conservation',  variable:2}
+		but2: {button:'but2', newLayers:[conservation,SSA, pnwCounties], newLegend: 'leg_2', title:'Conservation',  variable:2}
 	};
 	
 	$('.main1').clickFunction({

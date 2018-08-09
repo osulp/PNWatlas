@@ -14,6 +14,7 @@
     
     <script src="https://unpkg.com/leaflet@1.0.2/dist/leaflet.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="https://d3js.org/topojson.v1.min.js"></script>
     <script src="js/perfect-scrollbar.js"></script>
     <script type="text/javascript" src="../js/clickFunction.js"></script>
     
@@ -152,7 +153,7 @@
 			<div class="popup2">
 				<a class="close" href="#" style="display:inline;">×</a>
 				<div class="content">
-					<a href="water_resources_index.html" style="font-weight:bold; text-decoration:none;">Water Home</a>
+					<a href="water_index.html" style="font-weight:bold; text-decoration:none;">Water Home</a>
 					<hr>
 					<a href="watershed_index.html" style="text-decoration:underline;">Watersheds</a>
 					<a href="groundwater_index.html" style="text-decoration:underline;">Groundwater</a>
@@ -184,6 +185,20 @@
     	}
     	
     }
+    //////////////function that allows topojson layers to be loaded///////////////////////    
+	L.TopoJSON = L.GeoJSON.extend({  
+  		addData: function(jsonData) {    
+    		if (jsonData.type === 'Topology') {
+      			for (key in jsonData.objects) {
+       			 geojson = topojson.feature(jsonData, jsonData.objects[key]);
+       			 L.GeoJSON.prototype.addData.call(this, geojson);
+      		}
+    	}    
+    	else {
+      		L.GeoJSON.prototype.addData.call(this, jsonData);
+    		}
+  		}  
+	});
 //////////////Initialize map///////////////////////
 	var map = L.map('map', {center: [45.56, -119.75], zoom: 7, zoomControl:false});
 ///////////////////////make zoom level correspond to browser size////////////////////////////////
@@ -267,19 +282,7 @@
 ////////////////////////////display layers//////////////////////
 	////////////////////////////water use counties/////////////////////	      
 	//connect color ramp to symbol levels, null values and zeros are shown in white
-	function setColor(density){
-        return density > stateLevels[dataValue[0]] ? colorValue[0] :
-            density > stateLevels[dataValue[1]] ? colorValue[1] :
-            density > stateLevels[dataValue[2]] ? colorValue[2] :
-            density > stateLevels[dataValue[3]] ? colorValue[3] :
-            density == null ? '#ffffff' :
-            isNaN(density) ? '#ffffff' :
-            density == 0 ? '#ffffff' :
-            density == -1 ? '#ffffff' :
-                colorValue[4];
-    	}
-    
-    //style function 
+	 //style function 
 	function dataType(feature){
 		if (water == 0){
 			return data == 1 ? feature.properties.tot_use:
@@ -315,6 +318,51 @@
     		 		feature.properties.GW_aqua;
 		}
 	}
+	
+	var water_use;
+	
+	function update(){
+	
+	if (water_use){
+		map.removeLayer(water_use);
+	}
+	
+	water_use = new L.TopoJSON();
+
+	$.getJSON('assets/water_use.json')
+  		.done(addTopoData);
+
+	function addTopoData(topoData) {  
+  		water_use.addData(topoData);
+  		water_use.addTo(map);
+  		water_use.eachLayer(handleLayer);
+	}
+	
+	function handleLayer(layer){
+        layer.setStyle({
+			fillColor: setColor(dataType(layer.feature)),
+			fillOpacity: 0.7,
+			weight: 1,
+			opacity: 1,
+			color: '#ffffff',
+        });
+        layer.on({
+         	mouseover : highlight,
+            mouseout: resetHighlight
+        });
+    }
+	
+	function setColor(density){
+        return density > stateLevels[dataValue[0]] ? colorValue[0] :
+            density > stateLevels[dataValue[1]] ? colorValue[1] :
+            density > stateLevels[dataValue[2]] ? colorValue[2] :
+            density > stateLevels[dataValue[3]] ? colorValue[3] :
+            density == null ? '#ffffff' :
+            isNaN(density) ? '#ffffff' :
+            density == 0 ? '#ffffff' :
+            density == -1 ? '#ffffff' :
+                colorValue[4];
+    	}
 
 	function waterStyle(feature) {
         		return {
@@ -327,25 +375,28 @@
     		}
 	
 	//highlight feature function
-	function highlight(e) {
-		 var layer = e.target;
-		 layer.setStyle({
+	function highlight() {
+		 this.setStyle({
         	fillOpacity: 1,
         	color:'#ffffff',
         	dashArray: 4
     	 });
-    	 layer.bringToFront();
-		 info.update(layer.feature);
+    	 this.bringToFront();
+		 info.update(this.feature);
 		}
 	
 	//reset feature function
-	function resetHighlight(e) {
-		 water_use.resetStyle(e.target);
+	function resetHighlight() {
+		 this.setStyle({
+        	fillOpacity: 0.7,
+        	color:'#ffffff',
+        	dashArray: null
+    	 });
 		 info.update();
 	}
-	
+	}
 	//add geoJSON to map
-	var	water_use;
+	/*var	water_use;
 	
 	function update() {
 		if (water_use){
@@ -363,7 +414,7 @@
         		}
        		 }).addTo(map);
     	});
-    }
+    }*/
 	    
 ///////////////////////////////button function and related functions////////////////////////////////	
 
