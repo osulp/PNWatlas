@@ -12,6 +12,216 @@
     src: url(fonts/GOUDOSI.TTF);
     font-style:italic;
 }
+@keyframes slideInFromLeft {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+html, body {
+		font-family: GoudyOld;
+		width:100%;
+		height:100%;
+		margin:0;
+		padding:0;
+		}
+
+/*background image*/	
+div#gradient{
+	background:url(pnw_boundary2.jpg);
+	background-repeat: no-repeat;
+	background-size: 100%;
+	background-position:70% 50%;
+	height:100%;
+	width:100%;
+	-webkit-animation: 1s ease-out 0s 1 slideInFromLeft;  
+	-ms-animation: 1s ease-out 0s 1 slideInFromLeft;
+	animation: 1s ease-out 0s 1 slideInFromLeft;
+}
+
+/*block sections*/
+div.back{
+	margin:0;
+	padding:0;
+	padding-left:20%;
+	background: rgba(255, 255, 255, 0);
+	background-size: 100% auto;
+}
+
+/*chapter menu divs*/
+div.cover{
+	width:100%;
+	height:100%;
+	margin:0 auto;
+	padding:0;
+	border-radius: 10px;
+	height:100%;	
+}
+div#iconRow{
+    margin: auto;
+    left:50%;
+    width:100%;
+}	
+div.iconBlock{
+	padding: 10px 0px 0px 10px; 
+	margin-right:10%;
+}
+/* about section*/
+#text {
+	text-align: justify;
+	position: relative;
+    width:75%;
+    margin-top:20px;
+    font-size:24px;
+    padding-bottom:50px;
+}
+
+/*main title*/
+h4#main_title{
+	display:inline-block;
+	font-size:5.5vw;
+	text-align:left;
+	margin-bottom:10px;
+	position:relative;
+}
+/*section titles*/
+h1.title, h1.title_2, h1.title_3{
+	color: rgba(0,0,0,1);
+	font-size: 5vw;
+	font-weight:600;
+	text-align:left;
+	padding-right:5%;
+	padding-top:10px;
+	width:60%;
+	margin-top:0;
+}
+/*chapter titles*/
+h3{
+	color: rgba(0,0,0,1);
+	padding:0;
+	font-size:30px;
+	line-height: 30px;
+	/*letter-spacing: 3px;*/
+	text-align:left;
+	display:inline;
+	margin-top:0;
+	margin-bottom:0;
+}
+p {
+	font-size:18px;
+	color:black;
+	margin-top:0px;
+	text-align:left;
+	width:85%;
+}
+
+p3 {
+	font-size:100%;
+	color:black;
+	font-family: GoudyOld;
+	position: relative;
+}
+
+/*icon images*/
+img.img2{
+	height: 40px;
+	width: 40px	;
+	position:absolute;
+	margin:auto;
+	display:inline;
+	text-align:left;
+	margin-bottom:10px;
+	}
+
+/*down arrow*/
+a#arrow{
+	color:black;
+	font-size:36px;
+	position:fixed;
+	bottom:45px;
+	z-index:10;
+	width:50%;
+	text-align:center;
+	bottom:0;
+	left:50%;
+	z-index:10;
+	background:inherit;
+	-webkit-animation: 1s ease-out 0s 1 slideInFromLeft;  
+	-ms-animation: 1s ease-out 0s 1 slideInFromLeft;
+	animation: 1s ease-out 0s 1 slideInFromLeft;
+} 
+#arrow:hover{
+	cursor:default;
+}
+
+/*top banner*/
+div#top{
+	top:0;
+	left:0;
+	position:fixed;
+	height:34px;
+	background:black;
+	width:100%;
+	z-index:1000;
+	color:white;
+}
+div#top a{
+	font-size:24px;
+	color: white;
+	margin-top:2px;
+}
+a#banner2{
+	font-family: GoudyOld;
+	font-size:28px;
+	text-align:right;
+	position:absolute;
+	background-color:none;
+	font-weight:normal;
+	border:none;
+	left:0px;
+	padding:0;
+	color:black;
+	text-decoration:none;
+	margin-left:200px;
+}
+a#banner2:hover{
+	color:#4d4d4d;	
+	cursor:pointer;
+}
+a#banner1{
+	font-family: GoudyOld;
+	font-size:28px;
+	text-align:left;
+	position:absolute;
+	font-weight:bold;
+	border:none;
+	right:0px;
+	padding:0;
+	color:black;
+	text-decoration:none;
+	margin-left:10px;
+}
+a#banner1:hover{
+	cursor:default;
+}
+
+/*@font-face {
+    font-family: GoudyOld;
+    src: url(fonts/GOUDOS.TTF);
+}
+@font-face {
+    font-family: GoudyOld;
+    src: url(fonts/GOUDOSB.TTF);
+    font-weight:bold;
+}
+@font-face {
+    font-family: GoudyOld;
+    src: url(fonts/GOUDOSI.TTF);
+    font-style:italic;
+}
 html, body {
 		font-family:GoudyOld;
 		width:100%;
@@ -26,7 +236,6 @@ html, body {
     	from { opacity: 0; }
     	to   { opacity: 1; }
 	}	
-/* Firefox < 16 */
 	@-moz-keyframes fadein {
    	 	from { opacity: 0; }
    	 	to   { opacity: 1; }
@@ -187,7 +396,6 @@ p3 {
 }
 .tooltip .tooltiptext {
 	font-family:GoudyOld;   
-    /*font-family: Baskerville, "Baskerville Old Face", "Hoefler Text", Garamond, "Times New Roman", serif; */
     visibility: hidden;
     background-color: #f2f2f2;
     box-shadow: 2px 2px 1px #595959;
@@ -203,7 +411,6 @@ p3 {
     z-index: 1;
     font-weight:none;
     font-size:12px;
-    /* Position the tooltip text - see examples below! */
 
 }
 .tooltip:hover .tooltiptext {
@@ -254,4 +461,4 @@ h2{
 div#bottom{
 	height:50px;
 	position:relative;
-} 
+} */
