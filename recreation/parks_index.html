@@ -185,14 +185,14 @@
 	var Esri_WorldTerrain = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer/tile/{z}/{y}/{x}', {
 		attribution: 'Tiles &copy; Esri &mdash; Source: USGS, Esri, TANA, DeLorme, and NPS',
 		maxZoom:10,
-		minZoom:4
+		minZoom:5
 	}).addTo(map);
 	
 	var pnwCover = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
 		layers: 'baldricg_PNW_ATLAS:pnw_outline2_black',
         format: 'image/png',
 		maxZoom:10,
-		minZoom:4,
+		minZoom:5,
 		opacity:0.3,
 		transparent:true,
 	}).addTo(map);
@@ -201,7 +201,7 @@
 		attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
 		subdomains: 'abcd',
 		maxZoom:10,
-		minZoom:4,
+		minZoom:5,
 		tileSize:256,
 		bounds:[
 			new L.LatLng(49.56,-125.25),
@@ -210,33 +210,14 @@
 		pane:'labels'
 	});	
 	
-     var pnwStates = $.getJSON("assets/pnw_states.geojson", function(data){
-        pnwStates = L.geoJson(data, {
-        	style:function pnwStatesStyle(){
-				return{
-					opacity: 0.3,
-					color:'#000000',
-					fillOpacity:0,
-					fillColor:'#000000',
-					weight:1
-				};
-			}
-        }).addTo(map);
-    });
-	
-     var pnwCounties = $.getJSON("assets/counties2.geojson", function(data){
-        pnwCounties = L.geoJson(data, {
-        	style:function pnwCountiesStyle(){
-				return{
-					opacity: 0.2,
-					color:'#000000',
-					fillOpacity:0,
-					fillColor:'#000000',
-					weight:0.5
-				};
-			}
-        }).addTo(map);
-    });
+	var pnwCounties = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
+		layers: 'baldricg_PNW_ATLAS:pnw_borders_black',
+        format: 'image/png',
+		maxZoom:10,
+		minZoom:5,
+		opacity:0.6,
+		transparent:true,
+	}).addTo(map);
     
 	map.createPane('labels');
 	map.getPane('labels').style.pointerEvents = 'none';

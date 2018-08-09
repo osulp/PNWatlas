@@ -389,7 +389,7 @@ div.info.leaflet-control p3 {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: #87ab98;
+  background-color: #43765d;
   -webkit-transition: .4s;
   transition: .4s;
   float:center;
@@ -649,7 +649,7 @@ hr{
     position: absolute;
     z-index: 1;
     font-weight:none;
-    font-size:12px;
+    font-size:14px;
     /* Position the tooltip text - see examples below! */
 
 }

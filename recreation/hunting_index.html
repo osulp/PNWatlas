@@ -50,11 +50,11 @@
 				<div id="text">
 					<h2 id="title" style="margin-right:5px; display:inline;">2016 Deer</h2><h2 id="type"> Harvest</h2><img src="img/deer.png" id="image3" style="display:inline-block; float:right; right:-20px; margin-top:10px;"> 
 					<br>
-					<div style="height:32px;"><b id ="leg1_block" style="background:#a50f15; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p>&nbsp</p><p id="leg1_value">&nbsp2000+</p></div>
-					<div style="height:30px;"><b id ="leg2_block" style="background:#de2d26; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2_value">&nbsp1000 - 2000</p></div>
+					<div style="height:32px;"><b id ="leg5_block" style="background:#a50f15; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p>&nbsp</p><p id="leg1_value">&nbsp2000+</p></div>
+					<div style="height:30px;"><b id ="leg4_block" style="background:#de2d26; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2_value">&nbsp1000 - 2000</p></div>
 					<div style="height:30px;"><b id ="leg3_block" style="background:#fb6a4a; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg3_value">&nbsp500 - 1000</p></div>
-					<div style="height:30px;"><b id ="leg4_block" style="background:#fcae91; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg4_value">&nbsp250 - 500</p></div>
-					<div style="height:30px;"><b id ="leg5_block" style="background:#fee5d9; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg5_value">&nbspLess than 250</p></div>
+					<div style="height:30px;"><b id ="leg2_block" style="background:#fcae91; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg4_value">&nbsp250 - 500</p></div>
+					<div style="height:30px;"><b id ="leg1_block" style="background:#fee5d9; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg5_value">&nbspLess than 250</p></div>
 					<div style="height:32px;"><b style="background:#ffffff; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p>&nbsp</p><p id="leg5">&nbsp0 or No Data</p></div><br/>
 					<p id="description" style="font-weight:bold; padding:0; display:block;">Total animals harvested</p>		
 					</br></br>		
@@ -224,6 +224,10 @@
 	map.getPane('labels').style.pointerEvents = 'none';
 	map.getPane('labels').style.zIndex = 650;
 	label.addTo(map);
+	
+	map.createPane('tooltip');
+	map.getPane('tooltip').style.pointerEvents = 'none';
+	map.getPane('tooltip').style.zIndex = 700;
 ///////////////////////important variables////////////////////////////////
 	var levels = [2000, 1000, 500, 250, 2, 1.5, 1, 0.5, 100, 50 ,25, 10];
 	var animal = 1;

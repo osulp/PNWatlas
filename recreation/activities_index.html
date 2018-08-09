@@ -15,7 +15,8 @@
    
     <script src="https://unpkg.com/leaflet@1.0.2/dist/leaflet.js"></script>
     <script type="text/javascript" src="js/leaflet-search.js"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="https://d3js.org/topojson.v1.min.js"></script>
     <script type="text/javascript" src="../js/clickFunction.js"></script>
     <script src="js/perfect-scrollbar.js"></script>
     
@@ -229,6 +230,20 @@
     	}
     	
     }
+    
+    L.TopoJSON = L.GeoJSON.extend({  
+  		addData: function(jsonData) {    
+    		if (jsonData.type === 'Topology') {
+      			for (key in jsonData.objects) {
+       			 geojson = topojson.feature(jsonData, jsonData.objects[key]);
+       			 L.GeoJSON.prototype.addData.call(this, geojson);
+      		}
+    	}    
+    	else {
+      		L.GeoJSON.prototype.addData.call(this, jsonData);
+    		}
+  		}  
+	});
 //////////////Initialize map///////////////////////
 	var map = L.map('map', {center: [45.56, -119.75], zoom: 7, zoomControl:false});
 	//map.setMaxBounds(map.getBounds());
@@ -274,39 +289,41 @@
 	var backgroundParks = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
 		layers: 'baldricg_PNW_ATLAS:parks_total',
         format: 'image/png',
-		maxZoom:9,
+		maxZoom:10,
 		minZoom:4,
 		transparent:true
 	}).addTo(map);
 	
-	var pnwStates = $.getJSON("assets/pnw_states.geojson", function(data){
-        pnwStates = L.geoJson(data, {
-        	style: function pnwStatesStyle(){
-				return{
-				opacity: 0.3,
-				color:'#000000',
-				fillOpacity:0,
-				fillColor:'#000000',
-				weight:1
-				};
-			},
-			interactive:false
-        }).addTo(map);
-    });
-    var pnwCounties = $.getJSON("assets/counties2.geojson", function(data){
-        pnwCounties = L.geoJson(data, {
-        	style: function pnwCountiesStyle(){
-				return{
-					opacity: 0.1,
-					color:'#000000',
-					fillOpacity:0,
-					fillColor:'#000000',
-					weight:1
-				};
-			},
-			interactive:false
-        }).addTo(map);
-    });
+	var pnwCounties = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
+		layers: 'baldricg_PNW_ATLAS:pnw_borders_black',
+        format: 'image/png',
+		maxZoom:10,
+		minZoom:5,
+		opacity:0.6,
+		transparent:true,
+	}).addTo(map);
+	
+	var rivers = new L.TopoJSON(null, {
+  			interactive:false
+		});
+
+	$.getJSON('assets/rivers.json')
+  		.done(riversaddTopoData);
+
+	function riversaddTopoData(topoData) {  
+  		rivers.addData(topoData);
+  		rivers.addTo(map);
+  		rivers.eachLayer(riversHandleLayer);
+	}
+
+	function riversHandleLayer(layer){
+        layer.setStyle({
+            opacity: 0.4,
+			color:'#80bfff',
+			weight: riverSize(layer.feature.properties.length_1)
+        });
+    }
+    
     function riverSize(e){
         return e > 400000 ? 2.5 :
         	   e > 200000 ? 2 :
@@ -314,20 +331,6 @@
         	   e > 50000 ? 1 :
         		0.5;
     	}
-	 	
-    var	rivers = $.getJSON("assets/rivers.geojson", function(data){
-        rivers = L.geoJson(data, {
-        	style:function riverStyle(feature){
-				return{
-					opacity: 0.2,
-					color:'#80bfff',
-					weight: riverSize(feature.properties.length_1)
-				};
-			},
-			interactive:false
-        }).addTo(map);
-    });
-
 	
 	map.createPane('labels');
 	map.getPane('labels').style.pointerEvents = 'none';
@@ -402,7 +405,7 @@
       var raftPoints = L.geoJson(null, {
         	pointToLayer: function (feature, latlng) {
     			return L.marker(latlng, {icon:raftIcon(feature.properties.CLASS)}
-    				).bindTooltip('<h2 style="margin:0;">River Name</h2><p style="display:inline; font-size:18px;">' + feature.properties.UID + '</p>', {className: 'label_tooltip', pane:'tooltip'});
+    				).bindTooltip('<h2 style="margin:0;">River Name</h2><p style="display:inline; font-size:18px;">' + feature.properties.UID + '</p>', {className: 'label_tooltip', pane:'tooltip',direction:'right',offset:L.point({x: 15, y: 0})});
     			},
     		onEachFeature: function(feature,layer)
             {
@@ -493,7 +496,7 @@
     skiResorts = L.geoJson(null, {
         	pointToLayer: function (feature, latlng) {
     			return L.marker(latlng, {icon:skiIcon1}
-    				).bindTooltip('<h2 style="margin:0;">' + feature.properties.Name + '</h2>', {className: 'label_tooltip', pane:'tooltip'})
+    				).bindTooltip('<h2 style="margin:0;">' + feature.properties.Name + '</h2>', {className: 'label_tooltip', pane:'tooltip',direction:'right',offset:L.point({x: 15, y: 0})})
     			},
     		onEachFeature: function(feature,layer)
             {
@@ -600,7 +603,7 @@
     	mountains = L.geoJson(mountainPoints, {
     		pointToLayer: function (feature, latlng) {
     					return L.marker(latlng, {
-    					icon: iconSelection(feature.properties.elev_ft)}).bindTooltip('<h2 style="margin:0;">' + feature.properties.name + '</h2><p style="display:inline; font-size:18px;">' + feature.properties.elev_ft + '&nbspft.</p>', {className: 'label_tooltip', pane:'tooltip'});		
+    					icon: iconSelection(feature.properties.elev_ft)}).bindTooltip('<h2 style="margin:0;">' + feature.properties.name + '</h2><p style="display:inline; font-size:18px;">' + feature.properties.elev_ft + '&nbspft.</p>', {className: 'label_tooltip', pane:'tooltip',direction:'right',offset:L.point({x: 5, y: 0})});		
     				},
     		onEachFeature: function(feature, layer) {
     				layer.on("mouseover",function(e){
@@ -619,7 +622,7 @@
    var mountains = L.geoJson(mountainPoints, {
     		pointToLayer: function (feature, latlng) {
     					return L.marker(latlng, {
-    					icon: iconSelection(feature.properties.elev_ft)}).bindTooltip('<h2 style="margin:0;">' + feature.properties.name + '</h2><p style="display:inline; font-size:18px;">' + feature.properties.elev_ft + '&nbspft.</p>', {className: 'label_tooltip', pane:'tooltip'});		
+    					icon: iconSelection(feature.properties.elev_ft)}).bindTooltip('<h2 style="margin:0;">' + feature.properties.name + '</h2><p style="display:inline; font-size:18px;">' + feature.properties.elev_ft + '&nbspft.</p>', {className: 'label_tooltip', pane:'tooltip',direction:'right',offset:L.point({x: 5, y: 0})});		
     				},
     		onEachFeature: function(feature, layer) {
     				layer.on("mouseover",function(e){
@@ -662,10 +665,10 @@
 	var buttonLabels = ['#but1','#but2','#but3','#but4'];
 
 	var buttonFunctions = {
-		but1: {button:'but1', newLayers:[campsites, backgroundParks], newLegend: 'leg_1', newElements:['facts_1'], title:'Camping', variable:1, layerFunction:function(){boxHeight = 70; resizeMiddle();info.update();map.removeControl(searchControl);}},
+		but1: {button:'but1', newLayers:[campsites, backgroundParks, rivers], newLegend: 'leg_1', newElements:['facts_1'], title:'Camping', variable:1, layerFunction:function(){boxHeight = 70; resizeMiddle();info.update();map.removeControl(searchControl);}},
 		but2: {button:'but2', newLayers:[snowfall, skiResorts], newLegend: 'leg_2', newElements:['facts_2'], title:'Skiing',  variable:2, layerFunction:function(){boxHeight = 72; resizeMiddle();info.update();map.removeControl(searchControl);}},
 		but3: {button:'but3', newLayers:[mountains, elevation], newLegend: 'leg_3', newElements:['facts_3'], title:'Mountaineering',  variable:3, layerFunction:function(){boxHeight = 80; resizeMiddle();info.update();	map.addControl(searchControl);}},
-		but4: {button:'but4', newLayers:[riverRafting, raftPoints, backgroundParks], newLegend: 'leg_4', newElements:['facts_4'], title:'Rafting',  variable:4, layerFunction:function(){boxHeight = 75; resizeMiddle();info.update();map.removeControl(searchControl);}}
+		but4: {button:'but4', newLayers:[riverRafting, raftPoints, backgroundParks, rivers], newLegend: 'leg_4', newElements:['facts_4'], title:'Rafting',  variable:4, layerFunction:function(){boxHeight = 75; resizeMiddle();info.update();map.removeControl(searchControl);}}
 	};
 	
 	$('.main1').clickFunction({

@@ -14,6 +14,7 @@
     
     <script src="https://unpkg.com/leaflet@1.0.2/dist/leaflet.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="https://d3js.org/topojson.v1.min.js"></script>
     <script src="js/perfect-scrollbar.js"></script>
     <script type="text/javascript" src="../js/clickFunction.js"></script>
     
@@ -130,6 +131,20 @@
     	}
     	
     }
+    //////////////function that allows topojson layers to be loaded///////////////////////   
+	L.TopoJSON = L.GeoJSON.extend({  
+  		addData: function(jsonData) {    
+    		if (jsonData.type === 'Topology') {
+      			for (key in jsonData.objects) {
+       			 geojson = topojson.feature(jsonData, jsonData.objects[key]);
+       			 L.GeoJSON.prototype.addData.call(this, geojson);
+      		}
+    	}    
+    	else {
+      		L.GeoJSON.prototype.addData.call(this, jsonData);
+    		}
+  		}  
+	});
 //////////////Initialize map///////////////////////
 	var map = L.map('map', {center: [45.56, -119.75], zoom: 7, zoomControl:false});
 ///////////////////////make zoom level correspond to browser size////////////////////////////////
@@ -159,29 +174,36 @@
 		pane:'labels'
 	});	
 		
-	var	stateOutline = $.getJSON("assets/outline.geojson", function(data){
-        stateOutline = L.geoJson(data, {
-        	style:function outlineStyle(){
-				return{
-					opacity: 0,
-					fillOpacity:0.3,
-					fillColor:'#000000'
-				};
-			}
+    var stateOutline = new L.TopoJSON(null, {
+  			interactive:false
+		});
+
+	$.getJSON('assets/outline.json')
+  		.done(outlineTopo);
+
+	function outlineTopo(topoData) {  
+  		stateOutline.addData(topoData);
+  		stateOutline.eachLayer(handleOutline);
+	}
+
+	function handleOutline(layer){
+        layer.setStyle({
+            opacity: 0,
+			fillOpacity:0.3,
+			fillColor:'#000000'
         });
-    });
-    var	pnwOutline = $.getJSON("assets/pnw_boundary.geojson", function(data){
-        pnwOutline = L.geoJson(data, {
-        	style:function outlineStyle(){
-				return{
-					opacity: 0,
-					fillOpacity:0.3,
-					fillColor:'#000000'
-				};
-			}
-        }).addTo(map);
-    });    
+    }
     
+    
+    var pnwOutline = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
+		layers: 'baldricg_PNW_ATLAS:pnw_outline2_black',
+        format: 'image/png',
+		maxZoom:10,
+		minZoom:5,
+		opacity:0.3,
+		transparent:true,
+	}).addTo(map);
+
 	
 	map.createPane('labels');
 	map.getPane('labels').style.pointerEvents = 'none';
