@@ -16,6 +16,8 @@
     <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://d3js.org/topojson.v1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tween.js/17.1.1/Tween.min.js"></script>
+    <script src="https://unpkg.com/papaparse@4.3.6/papaparse.min.js"></script>
     <script src="js/Chart.bundle.js"></script>
     <script src="js/Chart.PieceLabel.min.js"></script>
     <script type="text/javascript" src="../js/clickFunction.js"></script>
@@ -101,7 +103,7 @@
 						<p id="description" style="font-weight:bold; text-align:justify; white-space:normal; padding-left:0px; width:280px; display:block; position:relative;">Percent of housing units classified as Single Family Homes. Low percentages indicates more multi-family housing units.</p>
 					</div>
 					<h2>Hover Over Map for Details</h2>
-					<h2 id ="displayValue" style="margin-top:0px;">0% Occupied</h2>
+					<h2 id ="displayValue" style="margin-top:0px; text-align:left;">0% Occupied</h2>
 					<canvas id="chartContainer" style="height: 100; width: 50%; margin-left:-10px;"></canvas>
 					<p3 id="chartDescription" style="font-weight:bold; display:inline-block; margin-top:5px;">Housing units by occupancy status.</p3>
 				</div>
@@ -265,6 +267,28 @@
       	data = 1;
  ////////////////////////////display layers//////////////////////
 	////////////////////////////housing blocks//////////////////////
+	var value;
+	var dataTable = {};
+
+	function doStuff(data) {
+		for (var i = 0;i < 8500;i++){
+			dataTable[i] = data[i];
+		}
+	}
+
+	function parseData(url, callBack) {
+		Papa.parse(url, {
+			download: true,
+			header:true,
+			dynamicTyping: true,
+			complete: function(results) {
+				callBack(results.data);
+			}
+		});
+	}
+
+	parseData("assets/housing.csv", doStuff); 
+ 
    	const housingBlocks = new L.TopoJSON();
 
 	$.getJSON('assets/housing_blocks.json')
@@ -280,8 +304,8 @@
         layer.setStyle({
           		opacity: 1,
 				fillOpacity: 0.6,
-				color:setColor(dataType(layer.feature.properties)),
-				fillColor:setColor(dataType(layer.feature.properties)),
+				color:setColor(dataType(layer.feature.properties.ID_1)),
+				fillColor:setColor(dataType(layer.feature.properties.ID_1)),
 				weight:0.5
         });
         layer.on({
@@ -299,14 +323,13 @@
       }
       
       function dataType(props){
-      	  return data == 1 ? (props.occupied/props.tot_units)*100 :
-      	  		 data == 2 ? (props.owned/props.occupied)*100:
-      	  		 data == 3 ? (props.med_year):
-      	  		 data == 4 ? (props.med_value)/1000:
-      	  		 data == 5 ? (props.med_rent):
-      	  		 data == 6 ? (props.per_single):
-      	  		 	(props.occupied/props.tot_units);
-      
+      	  return data == 1 ? (dataTable[props].occupied/dataTable[props].tot_units)*100 :
+      	  		 data == 2 ? (dataTable[props].owned/dataTable[props].occupied)*100:
+      	  		 data == 3 ? (dataTable[props].med_year):
+      	  		 data == 4 ? (dataTable[props].med_value)/1000:
+      	  		 data == 5 ? (dataTable[props].med_rent):
+      	  		 data == 6 ? (dataTable[props].per_single):
+      	  	(dataTable[value].occupied/dataTable[value].tot_units);
       }
       
     function highlight() {
@@ -318,9 +341,11 @@
         	color:'#ffffff',
     	 });
     	 
-    	 var perOccupation = ((this.feature.properties.occupied/this.feature.properties.tot_units)*100).toFixed(0);
-    	 var perOwned = ((this.feature.properties.owned/this.feature.properties.occupied)*100).toFixed(0);
-    	 var perSinglefam = ((this.feature.properties.single_fam/this.feature.properties.tot_units)*100).toFixed(0);
+    	 value = this.feature.properties.ID_1;
+    	 
+    	 var perOccupation = ((dataTable[value].occupied/dataTable[value].tot_units)*100).toFixed(0);
+    	 var perOwned = ((dataTable[value].owned/dataTable[value].occupied)*100).toFixed(0);
+    	 var perSinglefam = ((dataTable[value].single_fam/dataTable[value].tot_units)*100).toFixed(0);
     	 if (data == 1){
     	 	document.getElementById('displayValue').innerHTML = perOccupation + "% Occupied"; 
     	 }
@@ -328,55 +353,55 @@
     	 	document.getElementById('displayValue').innerHTML = perOwned + "% Units Owned";
     	 }
     	 else if (data == 3){
-    	 	document.getElementById('displayValue').innerHTML = "Median Age of Home: " + this.feature.properties.med_year; 
+    	 	document.getElementById('displayValue').innerHTML = "Median Age of Home: " + dataTable[value].med_year; 
     	 }
     	 else if (data == 4){
-    	 	document.getElementById('displayValue').innerHTML = "Median Home Value: $" + this.feature.properties.med_value;
+    	 	document.getElementById('displayValue').innerHTML = "Median Home Value: $" + dataTable[value].med_value;
     	 }
     	 else if (data == 5){
-    	 	document.getElementById('displayValue').innerHTML = "Median Rent: $" + this.feature.properties.med_rent;
+    	 	document.getElementById('displayValue').innerHTML = "Median Rent: $" + dataTable[value].med_rent;
     	 }
     	 else if (data == 6){
     	 	document.getElementById('displayValue').innerHTML = perSinglefam + "% Single Family Homes"; 
     	 }
 
 		if (data == 1){
-		 	chart.data.datasets[0].data[0] = this.feature.properties.vacant;
-		 	chart.data.datasets[0].data[1] = this.feature.properties.occupied;
+		 	chart.data.datasets[0].data[0] = dataTable[value].vacant;
+		 	chart.data.datasets[0].data[1] = dataTable[value].occupied;
 		 	chart.update();
 		}
 		else if (data == 2){
-		 	chart.data.datasets[0].data[0] = this.feature.properties.owned;
-		 	chart.data.datasets[0].data[1] = this.feature.properties.rented;
+		 	chart.data.datasets[0].data[0] = dataTable[value].owned;
+		 	chart.data.datasets[0].data[1] = dataTable[value].rented;
 		 	chart.update();
 		}
 		else if (data == 3){
-		 	chart.data.datasets[0].data[0] = this.feature.properties.pres1990;
-		 	chart.data.datasets[0].data[1] = this.feature.properties.d1980_1989;
-		 	chart.data.datasets[0].data[2] = this.feature.properties.d1970_1979;
-		 	chart.data.datasets[0].data[3] = this.feature.properties.d1960_1969;
-		 	chart.data.datasets[0].data[4] = this.feature.properties.before1960;
+		 	chart.data.datasets[0].data[0] = dataTable[value].pres1990;
+		 	chart.data.datasets[0].data[1] = dataTable[value].d1980_1989;
+		 	chart.data.datasets[0].data[2] = dataTable[value].d1970_1979;
+		 	chart.data.datasets[0].data[3] = dataTable[value].d1960_1969;
+		 	chart.data.datasets[0].data[4] = dataTable[value].before1960;
 		 	chart.update();
 		}
 		else if (data == 4){
-			chart.data.datasets[0].data[0] = this.feature.properties.v500;
-		 	chart.data.datasets[0].data[1] = this.feature.properties.v400_500;
-		 	chart.data.datasets[0].data[2] = this.feature.properties.v250_400;
-		 	chart.data.datasets[0].data[3] = this.feature.properties.v100_250;
-		 	chart.data.datasets[0].data[4] = this.feature.properties.v0_100;
+			chart.data.datasets[0].data[0] = dataTable[value].v500;
+		 	chart.data.datasets[0].data[1] = dataTable[value].v400_500;
+		 	chart.data.datasets[0].data[2] = dataTable[value].v250_400;
+		 	chart.data.datasets[0].data[3] = dataTable[value].v100_250;
+		 	chart.data.datasets[0].data[4] = dataTable[value].v0_100;
 		 	chart.update();
 		}
 		else if (data == 5){
-		 	chart.data.datasets[0].data[0] = this.feature.properties.r2000;
-		 	chart.data.datasets[0].data[1] = this.feature.properties.r1500_2000;
-		 	chart.data.datasets[0].data[2] = this.feature.properties.r1000_1500;
-		 	chart.data.datasets[0].data[3] = this.feature.properties.r500_1000;
-		 	chart.data.datasets[0].data[4] = this.feature.properties.r0_500;
+		 	chart.data.datasets[0].data[0] = dataTable[value].r2000;
+		 	chart.data.datasets[0].data[1] = dataTable[value].r1500_2000;
+		 	chart.data.datasets[0].data[2] = dataTable[value].r1000_1500;
+		 	chart.data.datasets[0].data[3] = dataTable[value].r500_1000;
+		 	chart.data.datasets[0].data[4] = dataTable[value].r0_500;
 		 	chart.update();
 		}
 		else if (data == 6){
-		 	chart.data.datasets[0].data[0] = this.feature.properties.single_fam;
-		 	chart.data.datasets[0].data[1] = this.feature.properties.multi_fam;
+		 	chart.data.datasets[0].data[0] = dataTable[value].single_fam;
+		 	chart.data.datasets[0].data[1] = dataTable[value].multi_fam;
 		 	chart.update();
 		}
 	}
@@ -384,7 +409,7 @@
 	function resetHighlight() {
 		 this.setStyle({
         	fillOpacity: 0.6,
-        	color:setColor(dataType(this.feature.properties))
+        	color:setColor(dataType(this.feature.properties.ID_1))
     	 });
 	}
 	////////////////////////////chart creation for housing blocks//////////////////////

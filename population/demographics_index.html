@@ -15,6 +15,8 @@
      <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://d3js.org/topojson.v1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tween.js/17.1.1/Tween.min.js"></script>
+    <script src="https://unpkg.com/papaparse@4.3.6/papaparse.min.js"></script>
     <script src="js/Chart.bundle.js"></script>
     <script src="js/Chart.PieceLabel.min.js"></script>
     <script type="text/javascript" src="../js/clickFunction.js"></script>
@@ -223,75 +225,101 @@
 	var data = 1;
 ////////////////////////////display layers//////////////////////
     ////////////////////////////demographics topoJson for chart display//////////////////////
-    const demographics = new L.TopoJSON();
+	var value;
+	var dataTable = {};
 
-	$.getJSON('assets/block_group_demographics.json')
-  		.done(addTopoData);
+	function doStuff(data) {
+		for (var i = 0;i < 8500;i++){
+			dataTable[i] = data[i];
+		}
+	}
+
+	function parseData(url, callBack) {
+		Papa.parse(url, {
+			download: true,
+			header:true,
+			dynamicTyping: true,
+			complete: function(results) {
+				callBack(results.data);
+			}
+		});
+	}
+
+	parseData("assets/demographics.csv", doStuff);
+	
+	const demographics = new L.TopoJSON();
+
+	$.getJSON('assets/demographics_block.json')
+		.done(addTopoData);
 
 	function addTopoData(topoData) {  
-  		demographics.addData(topoData);
-  		demographics.addTo(map);
-  		demographics.eachLayer(handleLayer);
+		demographics.addData(topoData);
+		demographics.addTo(map);
+		demographics.eachLayer(handleLayer);
 	}
 
 	function handleLayer(layer){
-        layer.setStyle({
-          		opacity:0,
+		layer.setStyle({
+				opacity:0,
 				color:'#ffffff',
 				fillOpacity: 0,
 				fillColor:'#f2f2f2',
 				weight:0.5
-        });
-        layer.on({
-         	mouseover : highlight,
-            mouseout: resetHighlight
-        });
-    }
-    
+		});
+		layer.on({
+			mouseover : highlight,
+			mouseout: resetHighlight
+		});
+	}
+
 	function highlight(){
+		 console.log(dataTable[1]);
 		 this.setStyle({
-        	fillOpacity: 0.25,
-        	opacity:1
-    	 });
-    	 if (data == 1){
-    	 	chart.data.datasets[0].data[0] = this.feature.properties.white;
-		 	chart.data.datasets[0].data[1] = this.feature.properties.black;
-		 	chart.data.datasets[0].data[2] = this.feature.properties.asian;
-		 	chart.data.datasets[0].data[3] = this.feature.properties.hisp_latin;
-		 	chart.data.datasets[0].data[4] = this.feature.properties.ind_island;
-			chart.data.datasets[0].data[5] = this.feature.properties.other_two;
-		 	chart.update();
-    	 }
-    	 else{
-			document.getElementById('title').innerHTML = "Median Age: " + this.feature.properties.med_age;
-			chart2.data.datasets[0].data[17] = this.feature.properties.aunder5;
-		 	chart2.data.datasets[0].data[16] = this.feature.properties.a5_9;
-		 	chart2.data.datasets[0].data[15] = this.feature.properties.a10_14;
-		 	chart2.data.datasets[0].data[14] = this.feature.properties.a15_19;
-		 	chart2.data.datasets[0].data[13] = this.feature.properties.a20_24;
-			chart2.data.datasets[0].data[12] = this.feature.properties.a25_29;
-			chart2.data.datasets[0].data[11] = this.feature.properties.a30_34;
-		 	chart2.data.datasets[0].data[10] = this.feature.properties.a35_39;
-		 	chart2.data.datasets[0].data[9] = this.feature.properties.a40_44;
-		 	chart2.data.datasets[0].data[8] = this.feature.properties.a45_49;
-		 	chart2.data.datasets[0].data[7] = this.feature.properties.a50_54;
-			chart2.data.datasets[0].data[6] = this.feature.properties.a55_59;
-			chart2.data.datasets[0].data[5] = this.feature.properties.a60_64;
-		 	chart2.data.datasets[0].data[4] = this.feature.properties.a65_69;
-		 	chart2.data.datasets[0].data[3] = this.feature.properties.a70_74;
-		 	chart2.data.datasets[0].data[2] = this.feature.properties.a75_79;
-		 	chart2.data.datasets[0].data[1] = this.feature.properties.a80_84;
-			chart2.data.datasets[0].data[0] = this.feature.properties.a85over;
-		 	chart2.update();
-    	 }
-    }
-    
-    function resetHighlight(){
-    	this.setStyle({
-        	fillOpacity: 0,
-        	opacity:0
-    	 });
-    }
+			fillOpacity: 0.25,
+			opacity:1
+		 });
+		 value = this.feature.properties.ID_1;
+
+		 if (data == 1){
+			chart.data.datasets[0].data[0] = dataTable[value].white;
+			chart.data.datasets[0].data[1] = dataTable[value].black;
+			chart.data.datasets[0].data[2] = dataTable[value].asian;
+			chart.data.datasets[0].data[3] = dataTable[value].hisp_latin;
+			chart.data.datasets[0].data[4] = dataTable[value].ind_island;
+			chart.data.datasets[0].data[5] = dataTable[value].other_two;
+			chart.update();
+		 }
+		 else{
+			document.getElementById('title').innerHTML = "Median Age: " + dataTable[value].med_age;
+			chart2.data.datasets[0].data[17] = dataTable[value].aunder5;
+			chart2.data.datasets[0].data[16] = dataTable[value].a5_9;
+			chart2.data.datasets[0].data[15] = dataTable[value].a10_14;
+			chart2.data.datasets[0].data[14] = dataTable[value].a15_19;
+			chart2.data.datasets[0].data[13] = dataTable[value].a20_24;
+			chart2.data.datasets[0].data[12] = dataTable[value].a25_29;
+			chart2.data.datasets[0].data[11] = dataTable[value].a30_34;
+			chart2.data.datasets[0].data[10] = dataTable[value].a35_39;
+			chart2.data.datasets[0].data[9] = dataTable[value].a40_44;
+			chart2.data.datasets[0].data[8] = dataTable[value].a45_49;
+			chart2.data.datasets[0].data[7] = dataTable[value].a50_54;
+			chart2.data.datasets[0].data[6] = dataTable[value].a55_59;
+			chart2.data.datasets[0].data[5] = dataTable[value].a60_64;
+			chart2.data.datasets[0].data[4] = dataTable[value].a65_69;
+			chart2.data.datasets[0].data[3] = dataTable[value].a70_74;
+			chart2.data.datasets[0].data[2] = dataTable[value].a75_79;
+			chart2.data.datasets[0].data[1] = dataTable[value].a80_84;
+			chart2.data.datasets[0].data[0] = dataTable[value].a85over;
+			chart2.update();
+		 }
+	}
+
+	function resetHighlight(){
+		this.setStyle({
+			fillOpacity: 0,
+			opacity:0
+		 });
+	}
+
   	////////////////////////////race chart//////////////////////
     var ctx = document.getElementById("chartContainer").getContext('2d');
 	

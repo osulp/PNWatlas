@@ -233,20 +233,14 @@
 		pane:'labels'
 	});
 	
-	var pnwStates = $.getJSON("assets/pnw_states.geojson", function(data){
-        pnwStates = L.geoJson(data, {
-        	style:	function pnwStatesStyle(){
-				return{
-				opacity: 1,
-				color:'#666666',
-				fillOpacity:0	,
-				fillColor:'#404040',
-				weight:1
-			};
-		},
-        	interactive: false
-        }).addTo(map);
-    });	
+	var pnwCounties = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
+		layers: 'baldricg_PNW_ATLAS:pnw_states_black',
+        format: 'image/png',
+		maxZoom:10,
+		minZoom:5,
+		opacity:0.8,
+		transparent:true,
+	}).addTo(map);
 	
 	map.createPane('labels');
 	map.getPane('labels').style.pointerEvents = 'none';
@@ -305,6 +299,59 @@
     
 ////////////////////////////display layers//////////////////////
 	////////////////////////////urban/rural census blocks//////////////////////
+	var places;
+	
+	function addData(){
+	
+	if (places){
+			map.removeLayer(places);
+		}
+	
+	places = new L.TopoJSON(null, {
+  		filter: function(feature, layer) {
+  				if (check == 0){
+        			return true
+        		}
+        		else if (check == 1){
+        			if (feature.properties.type_class == 'u' || feature.properties.type_class == 'c')return true
+        		}
+        		else if (check == 2){
+        			if (feature.properties.type_class == 'r')return true
+        		}
+  			}
+  		});
+
+	$.getJSON('assets/urban_rural.json')
+  		.done(addTopoData);
+
+	function addTopoData(topoData) {  
+  		places.addData(topoData);
+  		places.addTo(map);
+  		places.eachLayer(handleLayer);
+	}
+	
+	function handleLayer(layer){
+        layer.setStyle({
+			opacity: 1,
+			fillOpacity: 0.6,
+			color:whichColor(layer.feature),
+			fillColor:whichColor(layer.feature),
+			weight:0.5
+        });
+        layer.on({
+         	mouseover : highlight,
+            mouseout: resetHighlight
+        });
+    }
+	
+	function whichColor(feature){
+			return data == 1 ? urbanRural(feature.properties.type_class):
+				data == 2 ? placeColor(feature.properties.income_cap):
+				data == 3 ? placeColor(((feature.properties.bachelors/feature.properties.popOver25)*100).toFixed(2)):
+					placeColor(((feature.properties.unemployed/feature.properties.labor_forc)*100).toFixed(2));
+			
+		}
+	
 	function urbanRural(type){
 		return type == 'u' ? '#80bfff':
 			   type == 'c' ? '#ffff80':
@@ -319,72 +366,28 @@
 				colorValue[0];
 	}
 	
-	function placeStyle(feature){
-		function whichColor(){
-			return data == 1 ? urbanRural(feature.properties.type_class):
-				data == 2 ? placeColor(feature.properties.income_cap):
-				data == 3 ? placeColor(((feature.properties.bachelors/feature.properties.popOver25)*100).toFixed(2)):
-					placeColor(((feature.properties.unemployed/feature.properties.labor_forc)*100).toFixed(2));
-			
-		}
-      	return{
-				opacity: 1,
-				fillOpacity: 0.6,
-				color:whichColor(),
-				fillColor:whichColor(),
-				weight:0.5
-			};
-      }
 
-	 function highlight(e) {
-		 var layer = e.target;
-		 layer.setStyle({
+	 function highlight() {
+		 this.setStyle({
         	fillOpacity: 1,
         	color:'#ffffff',
-        	opacity:1
         	
     	 });
-    	info.update(layer.feature.properties);
-    	layer.bringToFront();
+    	info.update(this.feature.properties);
+    	this.bringToFront();
     }
     
-    function resetHighlight(e) {
-		places.resetStyle(e.target);
+    function resetHighlight() {
+		this.setStyle({
+        	fillOpacity: 0.6,
+        	color:whichColor(this.feature),
+        	
+    	 });
 		info.update();
 	}
 	
-	function placeFilter(feature) {
-        		if (check == 0){
-        			return true
-        		}
-        		else if (check == 1){
-        			if (feature.properties.type_class == 'u' || feature.properties.type_class == 'c')return true
-        		}
-        		else if (check == 2){
-        			if (feature.properties.type_class == 'r')return true
-        		}
-    	}
-	
-	var places;
+	}
 
-	function addData(){
-		if (places){
-			map.removeLayer(places);
-		}
-		places = $.getJSON("assets/urban_rural.geojson", function(data){
-        places = L.geoJson(data, {
-        	style: placeStyle,
-        	onEachFeature: function(feature, featureLayer) {
-        		featureLayer.on({
-        			mouseover: highlight,
-        			mouseout: resetHighlight,
-        			//click:onClick
-   				});
-        	},
-        	filter:placeFilter
-        }).addTo(map);
-      });
-    }
     addData();
 
 ///////////////////////////////button function////////////////////////////////	
