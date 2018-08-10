@@ -16,6 +16,7 @@
     <script src="https://unpkg.com/leaflet@1.0.2/dist/leaflet.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
     <script src="https://unpkg.com/leaflet.vectorgrid@latest/dist/Leaflet.VectorGrid.bundled.js"></script>
+    <script src="https://d3js.org/topojson.v1.min.js"></script>
     <script src="js/Chart.bundle.js"></script>
     <script src="js/Chart.PieceLabel.min.js"></script>
     <script src="js/perfect-scrollbar.js"></script>
@@ -50,7 +51,7 @@
 				<br/>
 				<div id="text" style="margin-top:10px;">
 					<h2 id="title" style="display:inline; width:200px; white-space:normal; font-size:24px; margin-right:10px;">SELECT UTILITY AREA</h2><br/>
-					<div id="areaLegend">	
+					<div id="areaLegend" style="display:none;">	
 						<h2 id="customers" style="margin: 5px 0px;">Customers:</h2><br/>
 						<h2 id="city" style="margin: 5px 0px;">BASE CITY</h2><br/>
 						<h2 id="plants" style="margin: 5px 0px;">Owned Power Plants:</h2><br/>
@@ -140,7 +141,19 @@
     	}
     	
     }
-	
+	L.TopoJSON = L.GeoJSON.extend({  
+  		addData: function(jsonData) {    
+    		if (jsonData.type === 'Topology') {
+      			for (key in jsonData.objects) {
+       			 geojson = topojson.feature(jsonData, jsonData.objects[key]);
+       			 L.GeoJSON.prototype.addData.call(this, geojson);
+      		}
+    	}    
+    	else {
+      		L.GeoJSON.prototype.addData.call(this, jsonData);
+    		}
+  		}  
+	});
 	//initialize map
 	var map = L.map('map', {center: [45.56, -119.75], zoom: 7, zoomControl:false});
 	///////////////////////make zoom level correspond to browser size////////////////////////////////
@@ -219,21 +232,36 @@
 
 	info.addTo(map);
 ///////////////////////Area (regional) scale////////////////////////////////	
-    var highlightArea;
-    var clickArea;
     var vectorSelectionArea;
-	var clearHighlightArea = function() {
-		if (highlightArea != clickArea) {
-			utilityArea.resetFeatureStyle(highlightArea);
-		}
-		highlightArea = null;
-	};
-	var clearClickArea = function() {
-		if (clickArea) {
-			utilityArea.resetFeatureStyle(clickArea);
-		}
-		clickArea = null;
-	};
+	var clickArea;
+	
+	utilityArea = new L.TopoJSON(null, {
+		});
+		
+	$.getJSON('assets/utility_areas.json')
+			.done(utilityAddTopoData);
+
+	function utilityAddTopoData(topoData) {  
+		utilityArea.addData(topoData);
+		utilityArea.addTo(map);
+		utilityArea.eachLayer(utilityHandleLayer);
+	}
+
+	function utilityHandleLayer(layer){
+		layer.setStyle({
+				fillColor:areaColor(layer.feature.properties.color),
+				fillOpacity: 0.2,
+				color: '#666666', 							
+				opacity: 0.5,
+				weight: 1,
+				dashArray:4
+		});
+		layer.on({
+				mouseover : highlight,
+				mouseout: resetHighlight,
+				click: click
+			});
+	}
 	
 	function areaColor(e){
 		return e == 1 ? '#003333':
@@ -246,94 +274,78 @@
 				e == 8 ? '#0f1f3d':
 				'#260d1a';
 	}
-
-    var utilityArea = $.getJSON("assets/utility_areas.geojson", function(data){
-    	utilityArea = L.vectorGrid.slicer(data, {
-			rendererFactory: L.svg.tile,
-			vectorTileLayerStyles: {
-				sliced: function(properties, zoom) {
-					return {
-						fillColor:areaColor(properties.color),
-						fillOpacity: 0.2,
-						stroke: true,
-						fill: true,
-						color: '#666666', 							
-						opacity: 0.5,
-						weight: 1,
-						dashArray:4
-					}
-				}
-			},
-			interactive: true,
-			getFeatureId: function(f) {
-				return f.properties.ID;
-			}
-		})
-		.on('mouseover', function(e) {		
-			var properties = e.layer.properties;
-			
-			clearHighlightArea();
-			highlightArea = properties.ID;
-
-			var style = {
-				fillColor:'#000000',
-				fillOpacity: 0.6,
-				stroke: true,
-				fill: true,
-				color: '#ffffff', 							
-				opacity: 0.5,
-				weight: 2,
-			};
-			info.update(properties);
-			utilityArea.setFeatureStyle(properties.ID, style);
-		})
-		.on('mouseout', function(e) {
-			clearHighlightArea();
-			info.update();
-		})
-		.on('click', function(e) {
-			var properties = e.layer.properties;
-			
-			info.addTo(map);
-			
-			clearClickArea();
-			highlightArea = null;
-			clickArea = properties.ID;
-			clickID = properties.ID;
-				
-			var style = {
-				fillColor:'#000000',
-				fillOpacity: 0.6,
-				stroke: true,
-				fill: true,
-				color: '#ffffff', 							
-				opacity: 0.5,
-				weight: 2,
-			};
-			//document.getElementById("areaLegend").style.display = "unset";
-
-			vectorSelectionArea = properties.ID;
-			layers = 1;
-			
-			map.removeLayer(dams);
-			addDams();
-			
-			chart.data.datasets[0].data[0] = properties.prch_powe;
-			chart.data.datasets[0].data[1] = properties.gn_power;
- 			chart.update();
-			
-			document.getElementById('title').innerHTML = properties.NAME;
-			document.getElementById('customers').innerHTML = "Customers: " + properties.tot_cust;
-			document.getElementById('city').innerHTML = properties.CITY + ", " + properties.STATE;
-			document.getElementById('plants').innerHTML = "Owned Power Plants: " + properties.own_plants;
-			document.getElementById('button2').style.display = "unset";
-			
-			resizeMiddle();
-		
-			utilityArea.setFeatureStyle(properties.ID, style);
-		}).addTo(map);
-	});
 	
+	function highlight(){
+		if (clickArea != this){
+			this.setStyle({
+				fillColor:'#000000',
+				fillOpacity: 0.6,
+				color: '#ffffff', 							
+				opacity: 0.5,
+				weight: 2,
+			 });
+    	}
+	}
+	
+	function resetHighlight(){
+		if (clickArea != this){
+			this.setStyle({
+				fillColor:areaColor(this.feature.properties.color),
+				fillOpacity: 0.2,
+				color: '#666666', 							
+				opacity: 0.5,
+				weight: 1,
+				dashArray:4
+			 });
+    	}
+	}
+	
+	function click(){
+		resetClick();
+		
+		info.addTo(map);
+			
+		clickArea = this;
+		vectorSelectionArea = this.feature.properties.ID;
+		console.log(vectorSelectionArea);
+				
+		this.setStyle ({
+			fillColor:'#000000',
+			fillOpacity: 0.6,
+			color: '#ffffff', 							
+			opacity: 0.5,
+			weight: 2,
+		});
+
+		layers = 1;
+		addDams();
+				
+		chart.data.datasets[0].data[0] = this.feature.properties.prch_powe;
+		chart.data.datasets[0].data[1] = this.feature.properties.gn_power;
+ 		chart.update();
+ 			
+		document.getElementById('title').innerHTML = this.feature.properties.NAME;
+		document.getElementById('customers').innerHTML = "Customers: " + this.feature.properties.tot_cust;
+		document.getElementById('city').innerHTML = this.feature.properties.CITY + ", " + this.feature.properties.STATE;
+		document.getElementById('plants').innerHTML = "Owned Power Plants: " + this.feature.properties.own_plants;
+		document.getElementById('button2').style.display = "unset";
+		document.getElementById('areaLegend').style.display = "block";
+		
+	}
+	
+	function resetClick(){
+		if (clickArea){
+			clickArea.setStyle ({
+				fillColor:areaColor(clickArea.feature.properties.color),
+				fillOpacity: 0.2,
+				color: '#666666', 							
+				opacity: 0.5,
+				weight: 1,
+				dashArray:4
+			});
+		}
+	}
+    
 	var ctx = document.getElementById("chartContainer").getContext('2d');
 	
 	var options =  {
@@ -393,40 +405,6 @@
 			color: '#ffffff',
         	fillColor: '#000000'
     	 });
-	}
-	
-	function damColor(e){
-		if (e == vectorSelectionArea){
-			return '#ffffff';
-		} 
-		else{
-			return '#000000'
-		}
-	}
-	
-	function damColor2(e, type){
-		if (e == vectorSelectionArea){
-			return '#ffffff';
-		} 
-		else{
-			return type == 'hydroelectric' ? '#005ce6':
-				type == 'natural gas' || type == 'coal' || type == 'petroleum' ? '#ff3300':
-				type == 'wind' ? '#8c1aff':
-				type == 'solar' ? '#ff9900':
-				type == 'biomass' ? '#009933':
-				type == 'geothermal' ? '#8a8a5c':
-				type == 'other' ? '#8c8c8c':
-					'#000000';
-		}
-	}
-	
-	function damOutlineColor(e){
-		if (e == vectorSelectionArea){
-			return '#000000';
-		} 
-		else{
-			return '#ffffff'
-		}
 	}
 	
 	function damSize(e){
@@ -527,7 +505,7 @@
         	dams = L.geoJson(data, {
         		pointToLayer: pointStyle,
     			onEachFeature: function(feature, featureLayer) {
-        			featureLayer.bindTooltip('<h3 style="display:inline;">' + feature.properties.Plant_Name + '</h3><br/><p style="display:inline;">Operator:&nbsp' + feature.properties.Utility_Na + '&nbsp<br/>Type:&nbsp' + feature.properties.PrimSource + '<br/>Capacity:&nbsp' + feature.properties.Total_MW + ' MW</p>', {className: 'label_tooltip', pane:'tooltip'});
+        			featureLayer.bindTooltip('<h3 style="display:inline;">' + feature.properties.Plant_Name + '</h3><br/><p style="display:inline;">Operator:&nbsp' + feature.properties.Utility_Na + '&nbsp<br/>Type:&nbsp' + feature.properties.PrimSource + '<br/>Capacity:&nbsp' + feature.properties.Total_MW + ' MW<br/>'+feature.properties.Total_MW+'</p>', {className: 'label_tooltip', pane:'tooltip'});
         			featureLayer.on({
         				mouseover: damHighlight,
         				mouseout: resetDamHighlight
@@ -674,9 +652,10 @@
 		document.getElementById('city').innerHTML = "BASE CITY";
 		document.getElementById('plants').innerHTML = "Owned Power Plants: ";
 		document.getElementById('button2').style.display = "none";
+		document.getElementById('areaLegend').style.display = "none";
  		map.removeLayer(dams);
 		addDams();
-		clearClickArea();
+		resetClick();
 		chart.data.datasets[0].data[0] = 50;
 		chart.data.datasets[0].data[1] = 50;
 		chart.update();
