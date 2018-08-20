@@ -102,7 +102,8 @@
 						<div style="height:32px;"><b id="leg5_block" style="background:#ca0020; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p>&nbsp</p><p id="leg5" style="margin-left:5px;">Less than 20</p></div><br/>
 						<p id="description" style="font-weight:bold; text-align:justify; white-space:normal; padding-left:0px; width:280px; display:block; position:relative;">Percent of housing units classified as Single Family Homes. Low percentages indicates more multi-family housing units.</p>
 					</div>
-					<h2>Hover Over Map for Details</h2>
+					<h2 id="hover" style="text-align:left;">Hover Over Map for Details</h2>
+					<h2 id="ID" style="margin-bottom:5px; text-align:left; display:none;">County, Census Tract, Block Group</h2>
 					<h2 id ="displayValue" style="margin-top:0px; text-align:left;">0% Occupied</h2>
 					<canvas id="chartContainer" style="height: 100; width: 50%; margin-left:-10px;"></canvas>
 					<p3 id="chartDescription" style="font-weight:bold; display:inline-block; margin-top:5px;">Housing units by occupancy status.</p3>
@@ -259,7 +260,6 @@
         	interactive: false
         }).addTo(map);
     });
-    
 
 ////////////////////////////////important variables////////////////////////////////		    
     var colorValue = ['#f2f0f7','#cbc9e2','#9e9ac8','#756bb1','#54278f'],
@@ -346,6 +346,11 @@
     	 var perOccupation = ((dataTable[value].occupied/dataTable[value].tot_units)*100).toFixed(0);
     	 var perOwned = ((dataTable[value].owned/dataTable[value].occupied)*100).toFixed(0);
     	 var perSinglefam = ((dataTable[value].single_fam/dataTable[value].tot_units)*100).toFixed(0);
+    	 
+    	 $('#hover').css('display', 'none');
+    	 $('#ID').css('display', 'block');
+    	 document.getElementById('ID').innerHTML = dataTable[value].name_1 + " County, Tract " + dataTable[value].TRACTCE + ", Block Group " + dataTable[value].BLKGRPCE; 
+    	 
     	 if (data == 1){
     	 	document.getElementById('displayValue').innerHTML = perOccupation + "% Occupied"; 
     	 }
@@ -615,7 +620,7 @@
  ///////////////////////////////other miscellaneous functions (these also never change)////////////////////////////////   
 
    	//add zoom control
-    new L.Control.Zoom({ position: 'topright' }).addTo(map);
+    new L.Control.Zoom({ position: 'bottomright' }).addTo(map);
     
     //remove leaflet attribution
 	document.getElementsByClassName("leaflet-control-attribution")[0].style.visibility = "hidden";

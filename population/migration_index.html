@@ -14,6 +14,7 @@
     
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
     <script src="https://unpkg.com/leaflet@1.0.2/dist/leaflet.js"></script>
+     <script src="https://d3js.org/topojson.v1.min.js"></script>
     <!--<script src="http://rawgit.com/geodesign/spatialsankey/master/spatialsankey.js"></script>-->
      <script src="https://unpkg.com/leaflet.vectorgrid@latest/dist/Leaflet.VectorGrid.bundled.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tween.js/17.1.1/Tween.min.js"></script>
@@ -148,6 +149,20 @@
     	}
     	
     }
+	//////////////function that allows topojson layers to be loaded///////////////////////    
+    L.TopoJSON = L.GeoJSON.extend({  
+  		addData: function(jsonData) {    
+    		if (jsonData.type === 'Topology') {
+      			for (key in jsonData.objects) {
+       			 geojson = topojson.feature(jsonData, jsonData.objects[key]);
+       			 L.GeoJSON.prototype.addData.call(this, geojson);
+      		}
+    	}    
+    	else {
+      		L.GeoJSON.prototype.addData.call(this, jsonData);
+    		}
+  		}  
+	});
 //////////////Initialize map///////////////////////    
 	var map = L.map('map', {center: [45.56, -119.75],  zoom: 6, zoomControl:false});
 ///////////////////////make zoom level correspond to browser size////////////////////////////////
@@ -250,7 +265,6 @@
 	function addFlow(){
 		if (remove == true){
 				oneToManyFlowmapLayer.clearAllPathSelections();
-				//remove = false;
 			}
 		function flowSelection(){
 			return data == 1 ? 'assets/net_migration.csv':
@@ -388,21 +402,9 @@
         	}
       	 },
           pathDisplayMode: 'selection',
-         /*animationStarted: true,
-          animationEasingFamily: 'Cubic',
-          animationEasingType: 'In',
-          animationDuration: 5000*/
+
         }).addTo(map);
-		/*
-		oneToManyFlowmapLayer.on('click', function(e) {
-          if (e.sharedOriginFeatures.length) {
-            oneToManyFlowmapLayer.selectFeaturesForPathDisplay(e.sharedOriginFeatures, 'SELECTION_NEW');
-          }
-          if (e.sharedDestinationFeatures.length) {
-            oneToManyFlowmapLayer.selectFeaturesForPathDisplay(e.sharedDestinationFeatures, 'SELECTION_NEW');
-          }
-        });
-		*/
+        
         oneToManyFlowmapLayer.selectFeaturesForPathDisplayById('target', selection, false, 'SELECTION_NEW');
       }
     });
@@ -413,69 +415,91 @@
     var clickSelection;
     var prevClick;
       
-    function setColor(value){
-    	return value >= 25 ? '#99d6ff':
-    		value >= 5 && value < 25 ? '#ccebff':
-    		value > -5 && value <= 5 ? '#f2f2f2':
-    		value > -25 && value <= -5 ? '#ffe6cc':
-    			'#ffce99';
-    } 
-    
-    function outlineStyle(feature){
-    	if (feature.properties.pnw == 1){
-			return{
-				radius: 4,
-        		weight: 0.35,
-        		opacity:0.8,
-        		color: '#b3b3b3',
-        		fillColor: setColor(feature.properties.net_rate),
-        		fillOpacity: 0.7
-			};
-		}
-		else{
-			return{
-				radius: 4,
-        		weight: 0.35,
-        		opacity:0.8,
-        		color: '#b3b3b3',
-        		fillColor: '#ffffff',
-        		fillOpacity: 0.7
-			};
-		}
+    const counties = new L.TopoJSON(null, {
+  		renderer:jsonRenderer
+	});
+
+	$.getJSON('assets/migration_counties.json')
+  		.done(addTopoData);
+
+	function addTopoData(topoData) {  
+  		counties.addData(topoData);
+  		counties.addTo(map);
+  		counties.eachLayer(handleLayer);
 	}
-	function highlight(e) {
-		 var layer = e.target;
-		 if (layer.feature.properties.pnw == 1){
-		 	layer.setStyle({
+
+	function handleLayer(layer){
+        layer.setStyle({
+          		radius: 4,
+        		weight: 0.35,
+        		opacity:0.8,
+        		color: '#b3b3b3',
+        		fillColor: setColor(layer.feature.properties.net_rate, layer.feature.properties.pnw),
+        		fillOpacity: 0.7
+        });
+        layer.on({
+         	mouseover : highlight,
+            mouseout: resetHighlight,
+            click:onClick
+        });
+    }
+      
+    function setColor(value, value2){
+    	if (value2 == 1){
+			return value >= 25 ? '#99d6ff':
+				value >= 5 && value < 25 ? '#ccebff':
+				value > -5 && value <= 5 ? '#f2f2f2':
+				value > -25 && value <= -5 ? '#ffe6cc':
+					'#ffce99';
+    		}
+    	else{
+    		return '#ffffff';
+    	}
+    } 
+ 
+	function highlight() {
+		 if (this.feature.properties.pnw == 1){
+		 	this.setStyle({
         		fillOpacity: 1
     	 	});
     	 }
     	 else{
-    	 	layer.setStyle({
+    	 	this.setStyle({
         		fillOpacity: 1,
         		fillColor:'#f2f2f2',
     	 	});
     	 }
-    	 info.update(layer.feature.properties);
+    	 info.update(this.feature.properties);
 		}
-	function resetHighlight(e) {
-		if(prevClick != e.target){
-			counties.resetStyle(e.target);
+	function resetHighlight() {
+		if(prevClick != this){
+			if (this.feature.properties.pnw == 1){
+				this.setStyle({
+					fillOpacity: 0.7
+				});
+			}
+			else{
+				this.setStyle({
+					fillOpacity: 0.7,
+					fillColor:'#ffffff',
+				});
+			 }
 		}
 		info.update();
 	}
-	function onClick(e){
-		var layer = e.target;
-		if (layer.feature.properties.pnw == 1){
+	function onClick(){
+		if (this.feature.properties.pnw == 1){
 			if(prevClick){
-   				counties.resetStyle(prevClick);
+   				prevClick.setStyle({
+					fillOpacity: 0.7
+				});
    				prevClick=null;
 			}
-			layer.setStyle({
+			this.setStyle({
         		fillOpacity: 1
     	 	});
-			selection = layer.feature.properties.ID_1;
-			prevClick = layer;
+			selection = this.feature.properties.ID_1;
+			prevClick = this;
 			addFlow();
 			remove = true;
 		}
@@ -492,25 +516,12 @@
 	
 	function clearLayer(){
 		if (prevClick){
-			counties.resetStyle(prevClick);
+			prevClick.setStyle({
+					fillOpacity: 0.7
+				});
 		}
 	}
 	
-    var	counties = $.getJSON("assets/migration_counties.geojson", function(data){
-        counties = L.geoJson(data, {
-        	style:outlineStyle,
-        	renderer:jsonRenderer,
-        	onEachFeature: function(feature, featureLayer) {
-        				featureLayer.on({
-        					mouseover: highlight,
-        					mouseout: resetHighlight,
-        					click:onClick
-   						});
-   						//featureLayer.bindPopup('<b>'+ dataType(feature) +'&nbspMgal/day</b>', {className: 'label_tooltip'});
-        		}
-        }).addTo(map);
-    });
-
 	function resetLegend(){
 		$("#flowLegend").css("display","none");
 		$("#inflowLegend").css("display","none");

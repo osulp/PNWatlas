@@ -47,12 +47,14 @@
 						<p id="description" style="font-weight:bold; margin-top: 10px;text-align:justify; white-space:normal; padding-left:0px; width:280px; display:block; position:relative;">Map colored based on a composite of racial population percentages. More intense colors suggest a greater percentage of a single race, while browns and grays suggest racial diversity.</p>
 					</div>
 					<div id='leg_2' style="display:none;">
-						<h2 id="title" style="display:block; width:280px; white-space:normal;">Median Age</h2>
+						<h2 id="title" style="display:block; margin-bottom:5px; width:280px; white-space:normal;">Median Age</h2>
 						<b id="leg2_block" style="background:linear-gradient(to right, #fcfbfd, #dadaeb, #9e9ac8, #6a51a3, #3f007d); height:32px; border:black 2px solid; width: 280px;"></b><br/>
 						<p style="padding-left:0; word-spacing:40px;">25 35 45 55 65</p></br>
 					</div>
 					<br/>
-					<h2 style="margin-top:0;">Hover Over Map for Details</h2>
+					<h2 id="hover" style="text-align:left; margin-top:0;">Hover Over Map for Details</h2>
+					<h2 id="ID" style="margin-bottom:5px; text-align:left; margin-top:0; display:none;">County, Census Tract, Block Group</h2>
+					<h2 id="med" style="display:block; margin-top:5px; width:280px; white-space:normal; display:none;">Median Age</h2>
 					<canvas id="chartContainer" style="height: 160px ; width: 280px; display:unset; margin-left:-10px;"></canvas>
 					<canvas id="chartContainer2" style="height: 260px ; width: 280px; display:none;"></canvas>
 					<p id="description2" style="font-weight:bold; margin-top: 10px;text-align:justify; white-space:normal; padding-left:0px; width:280px; display:block; position:relative;">Population of each racial group within one census block group.</p>
@@ -279,6 +281,10 @@
 			opacity:1
 		 });
 		 value = this.feature.properties.ID_1;
+		 
+		 $('#hover').css('display', 'none');
+    	 $('#ID').css('display', 'block');
+    	 document.getElementById('ID').innerHTML = dataTable[value].name + " County, Tract " + dataTable[value].tract_id + ", Block Group " + dataTable[value].block_id; 
 
 		 if (data == 1){
 			chart.data.datasets[0].data[0] = dataTable[value].white;
@@ -290,7 +296,8 @@
 			chart.update();
 		 }
 		 else{
-			document.getElementById('title').innerHTML = "Median Age: " + dataTable[value].med_age;
+			$('#med').css('display', 'block');
+			document.getElementById('med').innerHTML = "Median Age: " + dataTable[value].med_age;
 			chart2.data.datasets[0].data[17] = dataTable[value].aunder5;
 			chart2.data.datasets[0].data[16] = dataTable[value].a5_9;
 			chart2.data.datasets[0].data[15] = dataTable[value].a10_14;
@@ -458,7 +465,7 @@
 	var buttonLabels = ['#but1','#but2'];
 
 	var buttonFunctions = {
-		but1: {button:'but1', newLayers:[pnwDemographics], newLegend: 'leg_1', title:'Race', newElements:['chartContainer'], variable:1, layerFunction:function(){document.getElementById('description2').innerHTML = "Population of each racial group within one census block group.";}},
+		but1: {button:'but1', newLayers:[pnwDemographics], newLegend: 'leg_1', title:'Race', newElements:['chartContainer'], variable:1, layerFunction:function(){document.getElementById('description2').innerHTML = "Population of each racial group within one census block group."; $('#med').css('display', 'none');}},
 		but2: {button:'but2', newLayers:[pnwAge], newLegend: 'leg_2', title:'Age', newElements:['chartContainer2'], variable:2, layerFunction:function(){document.getElementById('description2').innerHTML = "Population of each age group within a census block group.";}}
 	};
 	
