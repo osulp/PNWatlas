@@ -1,0 +1,1172 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+     <title>Fauna</title>
+    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.2/dist/leaflet.css" /> 
+    <link rel="stylesheet" href="css/wildlife_maps_style.css" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Maven+Pro" rel="stylesheet">
+    <link rel="stylesheet" href="css/perfect-scrollbar.css" />
+    
+    <link rel="shortcut icon" href="img/pnw.ico" type="image/x-icon">
+    
+    <meta property="og:title" content="Atlas of the Pacific Northwest: Fauna" />
+    <meta property="og:url" content="https://rawgit.com/osulp/PNWatlas/master/wildlife/fauna_index.html" />
+    <meta property="og:description" content="Fauna maps of the Pacific Northwest."/>
+    
+    <script src="https://unpkg.com/leaflet@1.0.2/dist/leaflet.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="js/Chart.bundle.js"></script>
+    <script src="js/Chart.PieceLabel.min.js"></script>
+    <script src="js/patternomaly.js"></script>
+    <script src="js/perfect-scrollbar.js"></script>
+    <script src="https://d3js.org/topojson.v1.min.js"></script>
+    <script src="js/leaflet_pattern.js"></script>
+    <script src="https://unpkg.com/leaflet.vectorgrid@latest/dist/Leaflet.VectorGrid.bundled.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script type="text/javascript" src="../js/clickFunction.js"></script>
+    
+</head>
+<body>
+		<!--This is the button that collapses the info panel-->
+		<button id="collapse" onclick="collapse()">
+			<i class="fa fa-chevron-left" id ="collapse-arrow" aria-hidden="true"></i>
+		</button>
+		<!--Info panel on the left side of the screen. Dataset selection, legends, and additional information about the map is presented here.-->
+		<div id="infoPanel">
+			<!--Upper half of the info panel. This part of the info panel will always remain the same size. This usually includes the data selection and the main legend. Try not to make this too tall, or it will be cut off on smaller screens.-->
+			<div id="top"> 
+				<h1>Fauna</h1><!--Map title-->
+				<img src="img/fauna_icon.png" id="titleImageCircle" ><br/><!--Banner image-->
+				<!--Dropdown menu for dataset selection-->
+				<div id="buttons">
+					<div class="dropdown">
+						<button class="dropbtn"><b id="dataType">Select Dataset</b><p id="arrow">&#9660;</p></button>
+							<div class="dropdown-content">
+								<button type="button" id="but1" style="background:rgba(242, 242, 242, 0.67);" class="selection">Habitats</button>
+								<br/>
+								<p style="font-size:16px; padding-left:75px; margin-bottom:10px;">Biodiversity</p>
+								<button type="button" id="but2" class="selection">Total</button>
+								<button type="button" id="but3" class="selection">Mammals</button>
+								<button type="button" id="but4" class="selection">Birds</button>
+								<button type="button" id="but5" class="selection">Reptiles</button>
+								<button type="button" id="but6" class="selection">Amphibians</button>
+								<button type="button" id="but7" class="selection">Fish</button>
+								<br/>
+								<p style="font-size:16px; padding-left:75px; margin-bottom:10px;">Species of Concern</p>
+								<br/>
+								<button type="button" id="but8" class="selection">Gray Wolf</button>
+								<button type="button" id="but9" class="selection">Sage Grouse</button>
+								<button type="button" id="but10" class="selection">Spotted Owl</button>
+								<button type="button" id="but11" class="selection">Spotted Frog</button>
+							</div>
+					</div>
+				</div>
+			</div>
+			<!--Middle half of the info panel. This part of the info panel is dynamic! It will adjust to the current screen size, and works with the Perfect-Scrollbar.js plugin to create a dynamic scrollbar within the section.-->
+			<div id="attribution">
+				<div id="text">
+					<!--Legends for each dataset-->
+					<div id="leg_1" style="display:unset;">
+						<div id="leg_1" style="display:unset;">
+						<h2 id="eco_title" style="font-size:30px; margin-bottom:15px;">Select an Ecoregion</h2>
+						<div id="ecoregion" style="display:none">
+							<h2 id="title" style="margin-top:5px;">Habitat Status</h2>
+							<canvas id="ecoChartContainer" style="height: 100; width: 50%; margin-left:-10px;"></canvas><br/>
+							<canvas id="ecoChartContainer2" style="height: 100; width: 50%; margin-left:-10px;"></canvas><br/>
+							<p3 id="description" style="font-weight:bold; display:inline-block; margin-top:5px; text-align:left; font-style:italic; font-weight:normal; margin-bottom:10px;">Altered land includes agriculture, logging and urban areas. Protected land includes public land included in USGS protected lands database.</p3>
+							<p3 id="eco_description" style="font-weight:bold; display:inline-block; margin-top:5px; text-align:left;"></p3>
+							<br/>
+						</div>
+						<h2 id="title" >Habitat Types</h2>
+						<div style="height:32px;"><b id="leg1_block" style="background:#277e4e; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p style="margin-left:5px;">Forest/Woodland</p></div>
+						<div style="height:30px;"><b id="leg4_block" style="background:#5ca79e; border-left:black 2px solid; border-right:black 2px solid;"></b><p style="margin-left:5px;">Freshwater Marsh/Bog</p></div>
+						<div style="height:30px;"><b id="leg4_block" style="background:#afdfe9; border-left:black 2px solid; border-right:black 2px solid;"></b><p style="margin-left:5px;">Salt Marsh</p></div>
+						<div style="height:30px;"><b id="leg5_block" style="background:#409bd8; border-left:black 2px solid; border-right:black 2px solid;"></b><p style="margin-left:5px;">Open Water</p></div>
+						<div style="height:30px;"><b id="leg4_block" style="background:#d0ccb3; border-left:black 2px solid; border-right:black 2px solid;"></b><p style="margin-left:5px;">Scrubland/Grassland</p></div>
+						<div style="height:30px;"><b id="leg4_block" style="background:#e5dfbd; border-left:black 2px solid; border-right:black 2px solid;"></b><p style="margin-left:5px;">Desert/Semi-Desert</p></div>
+						<div style="height:30px;"><b id="leg4_block" style="background:#d4cadd; border-left:black 2px solid; border-right:black 2px solid;"></b><p style="margin-left:5px;">Alpine Tundra</p></div>
+						<div style="height:32px;"><b id="leg4_block" style="background:#ffffff; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p style="margin-left:5px;">Bare Rock/Glacier</p></div><br/>
+						<div style="height:32px;"><b id="leg4_block" style="background:#f2efb9; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p style="margin-left:5px;">Agriculture/Logged</p></div>
+						<div style="height:32px;"><b id="leg4_block" style="background:#f3ec58; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p style="margin-left:5px;">Urban Area</p></div>
+						<br/>
+						<p id="description">Vegetation type based on 2011 USGS GAP Analysis data.</p>
+						<br/>
+						<div id="prot" style="height:34px; display:none; margin-bottom:15px;"><b id="leg1_block" style="background:repeating-linear-gradient(45deg, rgba(255,255,255,0), rgba(255,255,255,0) 5%, #257425 10%); border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid; border-bottom:black 2px solid;"></b><p style="margin-left:5px;">Protected Lands</p></div>
+						<label class="switch" style="margin-top:5px;">
+							<input name="checkbox_name" id="checkbox_id" type="checkbox" value="check" onclick="checkbox()" autocomplete="off">
+							<span class="slider" id="park"></span>
+						</label>
+						<p style="padding-left:5px; padding-top:0px; font-weight:bold;">Toggle Protected Lands</p><br/>
+					</div>
+					</div>	
+					<div id="leg_2" style="display:none;">
+						<h2 id="title" style="margin-bottom:5px;">Total Biodiversity</h2><br/>
+						<h2 id="title" style="margin-top:0; font-size:20px; font-style:italic; font-weight:normal;"># of Vertebrate Species</h2>
+						<div style="height:44px;"><b id="leg1_block" style="background:linear-gradient(to right, #f9f9e0 0%, #d0d8bd 20%, #9bbc99 40%, #55a26c 60%, #398051 80%, #246039 100%); width:270px; height:40px; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid; border-bottom:black 2px solid;"></b><p style="margin-left:5px;"></div>
+						<p>250 and under</p><p style="margin-left:230px;">300+</p>
+						<br/><br/>
+						<p id="description">Includes mammals, birds, reptiles, amphibians, and freshwater fish. Data doesn't include subspecies.</p><br/>
+						<div id="prot1" style="height:34px; display:none; margin-bottom:15px;"><b id="leg1_block" style="background:repeating-linear-gradient(45deg, rgba(255,255,255,0), rgba(255,255,255,0) 5%, #257425 10%); border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid; border-bottom:black 2px solid;"></b><p style="margin-left:5px;">Protected Lands</p></div>
+						<label class="switch" style="margin-top:5px;">
+							<input name="checkbox_name" id="checkbox_id1" type="checkbox" value="check" onclick="checkbox1()" autocomplete="off">
+							<span class="slider" id="park"></span>
+						</label>
+						<p style="padding-left:5px; padding-top:0px; font-weight:bold;">Toggle Protected Lands</p><br/>
+					</div>
+					<div id="leg_3" style="display:none;">
+						<h2 id="title" style="margin-bottom:5px;">Mammal Biodiversity</h2><br/>
+						<h2 id="title" style="margin-top:0; font-size:20px; font-style:italic; font-weight:normal;"># of Mammal Species</h2>
+						<div style="height:44px;"><b id="leg1_block" style="background:linear-gradient(to right, #f9f9e0 0%, #d0d8bd 20%, #9bbc99 40%, #55a26c 60%, #398051 80%, #246039 100%); width:270px; height:40px; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid; border-bottom:black 2px solid;"></b><p style="margin-left:5px;"></div>
+						<p>55 and under</p><p style="margin-left:240px;">70+</p>
+						<br/><br/>
+						<p id="description">Data doesn't include subspecies.</p><br/>
+						<div id="prot2" style="height:34px; display:none; margin-bottom:15px;"><b id="leg1_block" style="background:repeating-linear-gradient(45deg, rgba(255,255,255,0), rgba(255,255,255,0) 5%, #257425 10%); border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid; border-bottom:black 2px solid;"></b><p style="margin-left:5px;">Protected Lands</p></div>
+						<label class="switch" style="margin-top:5px;">
+							<input name="checkbox_name" id="checkbox_id2" type="checkbox" value="check" onclick="checkbox2()" autocomplete="off">
+							<span class="slider" id="park"></span>
+						</label>
+						<p style="padding-left:5px; padding-top:0px; font-weight:bold;">Toggle Protected Lands</p><br/>
+					</div>	
+					<div id="leg_4" style="display:none;">
+						<h2 id="title" style="margin-bottom:5px;">Bird Biodiversity</h2><br/>
+						<h2 id="title" style="margin-top:0; font-size:20px; font-style:italic; font-weight:normal;"># of Bird Species</h2>
+						<div style="height:44px;"><b id="leg1_block" style="background:linear-gradient(to right, #f9f9e0 0%, #d0d8bd 20%, #9bbc99 40%, #55a26c 60%, #398051 80%, #246039 100%); width:270px; height:40px; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid; border-bottom:black 2px solid;"></b><p style="margin-left:5px;"></div>
+						<p>155 and under</p><p style="margin-left:230px;">185+</p>
+						<br/><br/>
+						<p id="description">Data doesn't include subspecies.</p><br/>
+						<div id="prot3" style="height:34px; display:none; margin-bottom:15px;"><b id="leg1_block" style="background:repeating-linear-gradient(45deg, rgba(255,255,255,0), rgba(255,255,255,0) 5%, #257425 10%); border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid; border-bottom:black 2px solid;"></b><p style="margin-left:5px;">Protected Lands</p></div>
+						<label class="switch" style="margin-top:5px;">
+							<input name="checkbox_name" id="checkbox_id3" type="checkbox" value="check" onclick="checkbox3()" autocomplete="off">
+							<span class="slider" id="park"></span>
+						</label>
+						<p style="padding-left:5px; padding-top:0px; font-weight:bold;">Toggle Protected Lands</p><br/>
+					</div>	
+					<div id="leg_5" style="display:none;">
+						<h2 id="title" style="margin-bottom:5px;">Reptile Biodiversity</h2><br/>
+						<h2 id="title" style="margin-top:0; font-size:20px; font-style:italic; font-weight:normal;"># of Reptile Species</h2>
+						<div style="height:44px;"><b id="leg1_block" style="background:linear-gradient(to right, #f9f9e0 0%, #d0d8bd 20%, #9bbc99 40%, #55a26c 60%, #398051 80%, #246039 100%); width:270px; height:40px; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid; border-bottom:black 2px solid;"></b><p style="margin-left:5px;"></div>
+						<p>4 and under</p><p style="margin-left:240px;">16+</p>
+						<br/><br/>
+						<p id="description">Data doesn't include subspecies.</p><br/>
+						<div id="prot4" style="height:34px; display:none; margin-bottom:15px;"><b id="leg1_block" style="background:repeating-linear-gradient(45deg, rgba(255,255,255,0), rgba(255,255,255,0) 5%, #257425 10%); border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid; border-bottom:black 2px solid;"></b><p style="margin-left:5px;">Protected Lands</p></div>
+						<label class="switch" style="margin-top:5px;">
+							<input name="checkbox_name" id="checkbox_id4" type="checkbox" value="check" onclick="checkbox4()" autocomplete="off">
+							<span class="slider" id="park"></span>
+						</label>
+						<p style="padding-left:5px; padding-top:0px; font-weight:bold;">Toggle Protected Lands</p><br/>
+					</div>	
+					<div id="leg_6" style="display:none;">
+						<h2 id="title" style="margin-bottom:5px;">Amphibian Biodiversity</h2><br/>
+						<h2 id="title" style="margin-top:0; font-size:20px; font-style:italic; font-weight:normal;"># of Amphibian Species</h2>
+						<div style="height:44px;"><b id="leg1_block" style="background:linear-gradient(to right, #f9f9e0 0%, #d0d8bd 20%, #9bbc99 40%, #55a26c 60%, #398051 80%, #246039 100%); width:270px; height:40px; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid; border-bottom:black 2px solid;"></b><p style="margin-left:5px;"></div>
+						<p>4 and under</p><p style="margin-left:240px;">13+</p>
+						<br/><br/>
+						<p id="description">Data doesn't include subspecies.</p><br/>
+						<div id="prot5" style="height:34px; display:none; margin-bottom:15px;"><b id="leg1_block" style="background:repeating-linear-gradient(45deg, rgba(255,255,255,0), rgba(255,255,255,0) 5%, #257425 10%); border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid; border-bottom:black 2px solid;"></b><p style="margin-left:5px;">Protected Lands</p></div>
+						<label class="switch" style="margin-top:5px;">
+							<input name="checkbox_name" id="checkbox_id5" type="checkbox" value="check" onclick="checkbox5()" autocomplete="off">
+							<span class="slider" id="park"></span>
+						</label>
+						<p style="padding-left:5px; padding-top:0px; font-weight:bold;">Toggle Protected Lands</p><br/>
+					</div>	
+					<div id="leg_7" style="display:none;">
+						<h2 id="title" style="margin-bottom:5px;">Fish Biodiversity</h2><br/>
+						<h2 id="title" style="margin-top:0; font-size:20px; font-style:italic; font-weight:normal;"># of Fish Species</h2>
+						<div style="height:44px;"><b id="leg1_block" style="background:linear-gradient(to right, #f9f9e0 0%, #d0d8bd 20%, #9bbc99 40%, #55a26c 60%, #398051 80%, #246039 100%); width:270px; height:40px; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid; border-bottom:black 2px solid;"></b><p style="margin-left:5px;"></div>
+						<p>20 and under</p><p style="margin-left:240px;">36+</p>
+						<br/><br/>
+						<p id="description">Data doesn't include subspecies.</p><br/>
+						<div id="prot6" style="height:34px; display:none; margin-bottom:15px;"><b id="leg1_block" style="background:repeating-linear-gradient(45deg, rgba(255,255,255,0), rgba(255,255,255,0) 5%, #257425 10%); border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid; border-bottom:black 2px solid;"></b><p style="margin-left:5px;">Protected Lands</p></div>
+						<label class="switch" style="margin-top:5px;">
+							<input name="checkbox_name" id="checkbox_id6" type="checkbox" value="check" onclick="checkbox6()" autocomplete="off">
+							<span class="slider" id="park"></span>
+						</label>
+						<p style="padding-left:5px; padding-top:0px; font-weight:bold;">Toggle Protected Lands</p><br/>
+					</div>		
+					<div id="leg_8" style="display:none;">
+						<h2 id="title" >Gray Wolf (Canis Lupus)</h2>
+						<div style="height:32px;"><b id="leg1_block" style="background:#339966; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p style="margin-left:5px;">Current Habitat</p></div>
+						<div style="height:32px;"><b id="leg5_block" style="background:repeating-linear-gradient(45deg, rgba(255,255,255,0), rgba(255,255,255,0) 5%, #6b6b47 10%); border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p style="margin-left:5px;">Historical Range</p></div>
+						<br/>
+						<img src="img/gray_wolf.png" id="invasiveIconImage" style="margin-top:0; width:125px; height:125px; margin-left:60px;">
+					</div>	
+					<div id="leg_9" style="display:none;">
+						<h2 id="title" >Greater Sage Grouse (Centrocercus urophasianus)</h2>
+						<div style="height:32px;"><b id="leg1_block" style="background:#339966; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p style="margin-left:5px;">Current Habitat</p></div>
+						<div style="height:32px;"><b id="leg5_block" style="background:repeating-linear-gradient(45deg, rgba(255,255,255,0), rgba(255,255,255,0) 5%, #6b6b47 10%); border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p style="margin-left:5px;">Historical Range</p></div>
+						<br/>
+						<img src="img/sage_grouse.png" id="invasiveIconImage" style="margin-top:0; width:125px; height:125px; margin-left:60px;">
+					</div>	
+					<div id="leg_10" style="display:none;">
+						<h2 id="title" >Northern Spotted Owl (Strix occidentalis caurina)</h2>
+						<div style="height:32px;"><b id="leg1_block" style="background:#339966; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p style="margin-left:5px;">Current Habitat</p></div>
+						<div style="height:32px;"><b id="leg5_block" style="background:repeating-linear-gradient(45deg, rgba(255,255,255,0), rgba(255,255,255,0) 5%, #6b6b47 10%); border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p style="margin-left:5px;">Historical Range</p></div>
+						<br/>
+						<img src="img/spotted_owl.png" id="invasiveIconImage" style="margin-top:0; width:125px; height:125px; margin-left:60px;">
+					</div>	
+					<div id="leg_11" style="display:none;">
+						<h2 id="title" >Oregon Spotted Frog (Rana pretiosa)</h2>
+						<div style="height:32px;"><b id="leg1_block" style="background:#339966; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p style="margin-left:5px;">Critical Habitat</p></div>
+						<div style="height:32px;"><b id="leg5_block" style="background:repeating-linear-gradient(45deg, rgba(255,255,255,0), rgba(255,255,255,0) 5%, #6b6b47 10%); border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p style="margin-left:5px;">Historical Range</p></div>
+						<br/>
+						<img src="img/oregon_spotted_frog.png" id="invasiveIconImage" style="margin-top:0; width:125px; height:125px; margin-left:60px;">
+					</div>	
+					<!--Additional information for each dataset-->
+					<div id="facts_1">
+					</div>
+					<div id="facts_2" style="display:none;">
+						<br/>
+						<p3 style="font-weight:bold; line-height:36px;">Fast Facts:</p3><br/>
+						<p3 id="facts">&#9900&nbspAs of 2002, Idaho had 466 total vertebrate species.</p3><br/><br/>
+						<p3 id="facts">&#9900&nbspAs of 2002, Oregon had 616 total vertebrate species.</p3><br/><br/>
+						<p3 id="facts">&#9900&nbspAs of 2002, Washington had 596 total vertebrate species.</p3><br/><br/>
+					</div>
+					<div id="facts_3" style="display:none;">
+						<br/>
+						<p3 id="facts">&#9900&nbspAs of 2002, Idaho had 105 total mammal species, ranking 12th among US states.</p3><br/><br/>
+						<p3 id="facts">&#9900&nbspAs of 2002, Oregon had 150 total mammal species, ranking 4th among US states.</p3><br/><br/>
+						<p3 id="facts">&#9900&nbspAs of 2002, Washington had 127 total mammal species, ranking 7th among US states.</p3><br/><br/>
+					</div>
+					<div id="facts_4" style="display:none;">
+						<br/>
+						<p3 id="facts">&#9900&nbspAs of 2002, Idaho had 284 total bird species, ranking 35th among US states.</p3><br/><br/>
+						<p3 id="facts">&#9900&nbspAs of 2002, Oregon had 338 total bird species, ranking 14th among US states.</p3><br/><br/>
+						<p3 id="facts">&#9900&nbspAs of 2002, Washington had 372 total bird species, ranking 6th among US states.</p3><br/><br/>
+					</div>
+					<div id="facts_5" style="display:none;">
+						<br/>
+						<p3 id="facts">&#9900&nbspAs of 2002, Idaho had 23 total reptile species, ranking 42nd among US states.</p3><br/><br/>
+						<p3 id="facts">&#9900&nbspAs of 2002, Oregon had 32 total reptile species, ranking 34th among US states.</p3><br/><br/>
+						<p3 id="facts">&#9900&nbspAs of 2002, Washington had 21 total reptile species, ranking 44th among US states.</p3><br/><br/>
+					</div>
+					<div id="facts_6" style="display:none;">
+						<br/>
+						<p3 id="facts">&#9900&nbspAs of 2002, Idaho had 12 total amphibian species, ranking 48th among US states.</p3><br/><br/>
+						<p3 id="facts">&#9900&nbspAs of 2002, Oregon had 31 total amphibian species, ranking 23rd among US states.</p3><br/><br/>
+						<p3 id="facts">&#9900&nbspAs of 2002, Washington had 25 total amphibian species, ranking 28th among US states.</p3><br/><br/>
+					</div>
+					<div id="facts_7" style="display:none;">
+						<br/>
+						<p3 id="facts">&#9900&nbspAs of 2002, Idaho had 42 total fish species, ranking 47th among US states.</p3><br/><br/>
+						<p3 id="facts">&#9900&nbspAs of 2002, Oregon had 65 total fish species, ranking 32nd among US states.</p3><br/><br/>
+						<p3 id="facts">&#9900&nbspAs of 2002, Washington had 51 total fish species, ranking 40th among US states.</p3><br/><br/>
+					</div>
+					<div id="facts_8" style="display:none;">
+						<br/>
+						<p3 style="font-weight:bold; line-height:36px;">Fast Facts:</p3><br/>
+						<p3 id="facts">&#9900&nbspListed as an endangered species in Oregon and Washington. Not listed in Idaho.</p3><br/><br/>
+						<p3 id="facts">&#9900&nbspExtensive predator control programs in the Western U.S eradicated the Gray Wolf population.</p3><br/><br/>
+						<p3 id="facts">&#9900&nbspReintroduction efforts began in Idaho in the mid-1990s, and later spread to Oregon and Washington.</p3><br/><br/>
+					</div>
+					<div id="facts_9" style="display:none;">
+						<br/>
+						<p3 style="font-weight:bold; line-height:36px;">Fast Facts:</p3><br/>
+						<p3 id="facts">&#9900&nbspRemoved from Endangered Species Act protection in 2015, although it is still protected by state governments.</p3><br/><br/>
+						<p3 id="facts">&#9900&nbspHabitat continues to be altered through land clearance.</p3><br/><br/>
+					</div>
+					<div id="facts_10" style="display:none;">
+						<br/>
+						<p3 style="font-weight:bold; line-height:36px;">Fast Facts:</p3><br/>
+						<p3 id="facts">&#9900&nbspListed as a threatened species in Oregon and Washington.</p3><br/><br/>
+						<p3 id="facts">&#9900&nbspPopulation jeopardized by habitat loss and the invasive Barred Owl.</p3><br/><br/>
+						<p3 id="facts">&#9900&nbspDebate over conservation status sparked controversy between the logging industry and environmentalists in the 1990s.</p3><br/><br/>
+					</div>
+					<div id="facts_11" style="display:none;">
+						<br/>
+						<p3 style="font-weight:bold; line-height:36px;">Fast Facts:</p3><br/>
+						<p3 id="facts">&#9900&nbspListed as a threatened species in Oregon and Washington. Listed as vulnerable on the IUCN Red List.</p3><br/><br/>
+						<p3 id="facts">&#9900&nbspPopulation decline due to habitat alteration and the invasive American Bullfrog.</p3><br/><br/>
+					</div>
+				</div>
+			<!--Bottom part of the info panel. This part of the info panel includes arrows to shift between maps, the info button that contains the map sources, and the home button to return to the chapter title screen.-->
+				<div id="pageChange">
+					<a href="#sources" id="arrow" style="display:inline-block;">
+						<i class="fa fa-info-circle" aria-hidden="true" style="padding-left:90px;"></i>
+					</a>
+					<a href="#link_popup" id="arrow" style="display:inline-block;">
+						<i class="fa fa-home" aria-hidden="true" style="padding-left:0;"></i>
+					</a>
+					<a href="#share" class="share" id="arrow" style="display:inline-block;">
+						<i class="fa fa-share-alt " aria-hidden="true" style="padding-left:0;"></i>
+					</a>
+				</div>
+			</div>
+		</div>
+    	<div id="map" style="width: 100%; height: 100%;"></div>
+    	<!--<div id="temp" style="display:none;"><canvas id="chartContainer1" style="height: 110; width: 50%; margin-left:-5px;"></canvas></div>-->
+    	
+    	<!--Map sources popup-->
+    	<div id="sources" class="overlay">
+			<div class="popup">
+				<h2 style="display:inline; font-size:32px;">Sources</h2>
+				<a class="close" href="#" style="display:inline;">×</a>
+				<hr>
+				<div class="content">
+					<p2 style="font-size:20px">Geographic Data</p2><br><br/>
+                    <div class="source">
+                    	<b><p2>Level 3 Ecoregions: <a href = "https://www.epa.gov/eco-research/level-iii-and-iv-ecoregions-continental-united-states" target="_blank">US Environmental Protection Agency</a></p2></b><br>
+                    </div>
+                	<div class="source">
+                		<b><p2>Habitat Type: <a href = "https://gapanalysis.usgs.gov/gaplandcover/data/download/" target="_blank">USGS Gap Analysis</a></p2></b><br>
+                			<p3>Raster data downloaded for each state and merged.<p3>
+                	</div>
+                	<div class="source">
+                		<b><p2>Biodiversity: <a href = "https://biodiversitymapping.org/wordpress/index.php/download/" target="_blank">Biodiveristymapping.org</a></p2></b><br>
+                			<p3>The following datasets were merged: bird_total_richness, mammal_total_richness, reptile_total_richness, amphibian_total_richness, fish_total_richness. Data derived from BirdLife International, IUCN, NatureServe, and USGS.<p3>
+                	</div>
+                	<div class="source">
+                		<b><p2>Current Endangered Species Habitats: <a href = "https://gapanalysis.usgs.gov/species/data/download/">USGS National GAP Analysis Project</a></p2></b><br>
+                			<p3>Distribution data used for Gray Wolf, Northern Spotted Owl, and Greater Sage-Grouse.<p3>
+                	</div>
+                    <div class="source">
+                    	<b><p2>Oregon Spotted Frog Critical Habitat: <a href = "https://catalog.data.gov/dataset/final-critical-habitat-for-oregon-spotted-frog-rana-pretiosa" target="_blank">US Department of the Interior</a></p2></b><br>
+                    </div>
+                	<div class="source">
+                		<b><p2>Gray Wolf/Spotted Owl Historical Range: <a href = "https://gapanalysis.usgs.gov/species/data/download/">USGS National GAP Analysis Project</a></p2></b><br>
+                	</div>
+                    <div class="source">
+                    	<b><p2>Greater Sage Grouse Historical Range: <a href = "https://www.sciencebase.gov/catalog/item/52e17ac3e4b0d0c3df9a3968" target="_blank">USGS ScienceBase Catalog</a></p2></b><br>
+                    </div>
+                    <div class="source">
+						<b><p2>Oregon Spotted Frog Historical Range: <a href = "https://commons.wikimedia.org/wiki/File:Oregon_Spotted_Frog_Rana_pretiosa_distribution_map.png" target="_blank"></a>IUCN Red List</p2></b><br>
+                			<p3>Digitized from image.<p3>
+                	</div>
+                	<p2 style="font-size:20px">Other Data</p2><br><br/>
+					<div class="source">
+						<b><p2>Biodiversity Facts: <a href = "http://www.natureserve.org/library/stateofunions.pdf" target="_blank"></a>Natureserve</p2></b><br>
+							<p3>Data from 2002.<p3>
+                	</div>
+                </div>
+				<hr>
+				<p2 style="float:right; font-size:12px;">Map created with Leaflet.</p2>
+				<br/>
+				<a class="close2" href="#" style="display:inline;">Close</a>
+			</div>
+		</div>
+		
+		<div id="link_popup" class="link_overlay">
+			<div class="link_popup">
+				<a class="close" href="#" style="display:inline;">×</a>
+				<div class="content">
+					<a href="wildlife_index.html" style="font-weight:bold; text-decoration:none;">Wildlife Home</a>
+					<hr>
+					<a href="flora.html" style="text-decoration:underline;">Flora</a>
+					<a href="fauna.html" style="text-decoration:underline;">Fauna</a>
+					<a href="fish.html" style="text-decoration:underline;">Fish</a>
+					<a href="invasive.html" style="text-decoration:underline;">Invasive Species</a>
+					<hr>
+					<a href="../index.html" style="font-weight:bold; text-decoration:none;">Atlas Home</a>
+				</div>
+			</div>
+		</div>
+		
+		<div id="share" class="share_overlay">
+			<div class="share_popup">
+				<a id="clear" href="#" style="display:none;">×</a>
+				<div class="content">
+					<a href="https://facebook.com/sharer.php?u=https://rawgit.com/osulp/PNWatlas/master/wildlife/fauna_index.html" id="arrow" style="display:inline-block;">
+						<i class="fa fa-facebook-square " aria-hidden="true" style="padding-left:0;"></i>
+					</a>
+					<a href="https://twitter.com/home?status=PNW%20Fauna%0Ahttp%3A//rawgit.com/osulp/PNWatlas/master/wildlife/fauna_index.html" id="arrow" style="display:inline-block;">
+						<i class="fa fa-twitter-square " aria-hidden="true" style="padding-left:0;"></i>
+					</a>
+					<a href="" id="arrow" style="display:inline-block;">
+						<i class="fa fa-linkedin-square " aria-hidden="true" style="padding-left:0;"></i>
+					</a>
+				</div>
+			</div>
+		</div>
+<script>
+//////////////base functions (these never change)///////////////////////
+	var collapsed = false;
+ 	//////////////function for the info panel collapse button///////////////////////
+    function collapse(){
+    	if (collapsed == false){
+    		document.getElementById("infoPanel").style.transition = "display 2s";
+    		document.getElementById("infoPanel").style.display = "none";
+    		document.getElementById("collapse").style.left = '0px';
+    		document.getElementById("collapse").style.paddingLeft = '2px';
+    		document.getElementById("collapse-arrow").className = "fa fa-chevron-right";
+    		collapsed = true;
+    	} else{
+    		document.getElementById("infoPanel").style.display = "unset";
+    		document.getElementById("collapse").style.left = '320px';
+    		document.getElementById("collapse").style.paddingLeft = '0px';
+    		document.getElementById("collapse-arrow").className = "fa fa-chevron-left";
+    		collapsed = false;
+    	}
+    	
+    }
+	//////////////function that allows topojson layers to be loaded///////////////////////
+    L.TopoJSON = L.GeoJSON.extend({  
+  		addData: function(jsonData) {    
+    		if (jsonData.type === 'Topology') {
+      			for (key in jsonData.objects) {
+       			 geojson = topojson.feature(jsonData, jsonData.objects[key]);
+       			 L.GeoJSON.prototype.addData.call(this, geojson);
+      		}
+    	}    
+    	else {
+      		L.GeoJSON.prototype.addData.call(this, jsonData);
+    		}
+  		}  
+	});
+//////////////Initialize map///////////////////////
+	var map = L.map('map', {center: [45.56, -119.75], zoom: 7, zoomControl:false});
+///////////////////////make zoom level correspond to browser size////////////////////////////////
+	window.addEventListener('load', function(event){
+    	var width = document.documentElement.clientWidth;
+    	if (width < 1500 && width > 800) {
+        	map.setView(new L.LatLng(45.56, -121.75), 6); 
+    		}  else if (width > 1501) {
+        	map.setZoom(7);
+        	} else {
+        	map.setZoom(5);
+        	}
+	});
+////////////////////////////////basemap layers////////////////////////////////
+	var Esri_WorldTerrain = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer/tile/{z}/{y}/{x}', {
+		attribution: 'Tiles &copy; Esri &mdash; Source: USGS, Esri, TANA, DeLorme, and NPS',
+		maxZoom:10,
+		minZoom:5,
+		opacity:1
+	}).addTo(map);
+
+	var pnwCover = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
+		layers: 'baldricg_PNW_ATLAS:pnw_outline2_black',
+        format: 'image/png',
+		maxZoom:10,
+		minZoom:5,
+		opacity:0.3,
+		transparent:true,
+	}).addTo(map);
+	
+	var pnwCounties = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
+		layers: 'baldricg_PNW_ATLAS:pnw_borders_black',
+        format: 'image/png',
+		maxZoom:10,
+		minZoom:5,
+		opacity:0.5,
+		transparent:true,
+	}).addTo(map);
+	
+	var label = L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_only_labels/{z}/{x}/{y}@2x.png', {
+		attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
+		subdomains: 'abcd',
+		maxZoom:10,
+		minZoom:5,
+		tileSize:256,
+		bounds:[
+			new L.LatLng(49.56,-125.25),
+			new L.LatLng(40.5,-111.5)
+		],
+		pane:'labels'
+	});	
+	
+	//labels pane allows
+	map.createPane('labels');
+	map.getPane('labels').style.pointerEvents = 'none';
+	map.getPane('labels').style.zIndex = 700;
+	label.addTo(map);
+	
+	map.createPane('tooltip');
+	map.getPane('tooltip').style.pointerEvents = 'none';
+	map.getPane('tooltip').style.zIndex = 800;
+	
+	map.createPane('endangered');
+	map.getPane('endangered').style.pointerEvents = 'none';
+	map.getPane('endangered').style.zIndex = 600;
+
+
+////////////////////////////////important variables////////////////////////////////
+	var data = 1;
+	var click;
+	var ecoClick;
+
+////////////////////////////display layers//////////////////////
+	  ////////////////////////////ecoregions//////////////////////
+	 const ecoregion_level3 = new L.TopoJSON(null, {
+  		onEachFeature: function(feature, featureLayer){
+  				featureLayer.bindTooltip('<h3 style="display:inline;">' + feature.properties.US_L3NAME + '</h3>', {className: 'label_tooltip',pane:'tooltip', sticky:true});
+  			}
+	});
+	
+	$.getJSON('assets/ecoregions_fauna.json')
+  		.done(level3AddTopoData);
+
+	function level3AddTopoData(topoData) {  
+  		ecoregion_level3.addData(topoData);
+  		ecoregion_level3.addTo(map)
+  		ecoregion_level3.eachLayer(level3HandleLayer);
+	}
+	
+	function level3HandleLayer(layer){
+    	layer.setStyle({
+            weight: 1.5,
+            opacity: 0.5,
+            color: '#ffffff',
+            fillOpacity:opacitySwitch(),
+            fillColor:'#ffffff',
+            dashArray:4,
+        });
+        layer.on({
+         	mouseover : level3Highlight,
+            mouseout: level3ResetHighlight,
+            click: onClick
+        });
+    }
+    
+    function opacitySwitch(){
+    	if (click == true){
+    		return 0.7;
+    	}
+    	else {return 0;}
+    }
+    
+    function level3Highlight(){
+		if (ecoClick != this){
+		 	this.bringToFront();
+		 	if (click == true){
+				this.setStyle({
+					fillOpacity:0.3,
+				 });
+			}else{
+				this.setStyle({
+					fillOpacity:0.7,
+				 });
+			}
+    	}
+	}
+	function level3ResetHighlight(){
+		if (ecoClick != this){
+		 	if (click == true){
+				this.setStyle({
+					fillOpacity:0.7,
+				 });
+			}else{
+				this.setStyle({
+					fillOpacity:0,
+				 });
+			}
+    	}
+	}
+	function onClick(){
+		ecoregion_level3.bringToFront();
+		click = true;
+		ecoregion_level3.eachLayer(level3HandleLayer);
+		if (ecoClick){
+    		ecoClick.setStyle({
+    			fillOpacity: 0.7,
+    		})
+    	}
+    	this.setStyle({
+        	fillOpacity:0
+    	 });
+    	 this.bringToFront();
+    	 map.fitBounds([
+    			[this.feature.properties.y1, this.feature.properties.x1],
+    			[this.feature.properties.y2, this.feature.properties.x2]
+			]);
+    	ecoClick = this;
+    	selection = this.feature.properties.US_L3CODE;
+    	
+    	eco_chart.data.datasets[0].data[1] = this.feature.properties.per_alt;
+		eco_chart.data.datasets[0].data[0] = 100 - this.feature.properties.per_alt;
+		eco_chart.update();
+		
+		eco_chart2.data.datasets[0].data[0] = this.feature.properties.per_prot;
+		eco_chart2.data.datasets[0].data[1] = 100 - this.feature.properties.per_prot;
+		eco_chart2.update();
+    	
+    	$('#ecoregion').css('display', 'block');
+    	$('#eco_title').text(this.feature.properties.US_L3NAME);
+    	$('#eco_description').text('Common Species: ' + this.feature.properties.species);
+	}
+	
+	var eco_ctx = document.getElementById("ecoChartContainer").getContext('2d');	
+    
+	var eco_options =  {
+    	type: 'pie',
+    		data: {
+        		labels: ["Unaltered","Altered"],
+        		datasets: [{
+            		data: [50,50],
+           			backgroundColor: [
+                		'#31814d',
+                		'#f2efb9'
+            		],
+            		borderColor: [
+                		'#404040',
+                		'#404040'
+            		],
+            	borderWidth: 0
+        	}]
+    	},
+    	options: {
+       		responsive: true,
+       		legend: {
+       			position: 'left',
+       			labels: {
+       				fontColor:'#000000'
+       			}
+       		},
+       		pieceLabel: {
+    			render: 'value',
+    			fontColor:'#000000'
+  			},
+       		tooltips:{
+       			enabled:false
+       		}
+    	}
+	}
+	
+	var eco_chart = new Chart(eco_ctx, eco_options);
+	
+	var eco_ctx2 = document.getElementById("ecoChartContainer2").getContext('2d');	
+    
+	var eco_options2 =  {
+    	type: 'pie',
+    		data: {
+        		labels: ["Protected","Unprotected"],
+        		datasets: [{
+            		data: [50,50],
+           			backgroundColor: [
+                		pattern.draw('diagonal', 'rgba(255, 255, 255,0.2)'),
+            			'#e1e1d0'
+            		],
+            		borderColor: [
+                		'#3fa663',
+                		'#404040'
+            		],
+            	borderWidth: [
+            		1,
+            		0
+            	]
+        	}]
+    	},
+    	options: {
+       		responsive: true,
+       		legend: {
+       			position: 'left',
+       			labels: {
+       				fontColor:'#000000'
+       			}
+       		},
+       		pieceLabel: {
+    			render: 'value',
+    			fontColor:'#000000'
+  			},
+       		tooltips:{
+       			enabled:false
+       		}
+    	}
+	}
+	
+	var eco_chart2 = new Chart(eco_ctx2, eco_options2);
+	
+	const protected_lands = new L.TopoJSON(null, {
+  		interactive:false
+	});
+    ////////////////////////////////protected lands////////////////////////////////  	
+    $.getJSON('assets/protected_lands.json')
+  		.done(addProtData);
+  		
+	var stripes2 = new L.StripePattern({
+            weight: 1,
+            spaceWeight: 5,
+            height: 6,
+            angle:45,
+            color:'#257425',
+            spaceColor:'#ffffff'
+        });
+        stripes2.addTo(map);
+
+	function addProtData(topoData) {  
+  		protected_lands.addData(topoData);
+  		protected_lands.eachLayer(protLayer);
+	}
+	
+	function protLayer(layer){
+        layer.setStyle({
+				fillPattern:stripes2,
+				opacity:0,
+				color:'#005ce6',
+				weight:1,
+				fillOpacity:1,
+				interactive:false
+        });
+    }
+    function checkbox(){
+    	if (document.getElementById('checkbox_id').checked == true){
+    		protected_lands.addTo(map);
+    		ecoregion_level3.bringToFront();
+    		$('#prot').css('display', 'block');
+    	}
+    	else{
+    		map.removeLayer(protected_lands);
+    		$('#prot').css('display', 'none');
+    	}
+    }
+    function checkbox1(){
+    	if (document.getElementById('checkbox_id1').checked == true){
+    		protected_lands.addTo(map);
+    		$('#prot1').css('display', 'block');
+    	}
+    	else{
+    		map.removeLayer(protected_lands);
+    		$('#prot1').css('display', 'none');
+    	}
+    }
+    function checkbox2(){
+    	if (document.getElementById('checkbox_id2').checked == true){
+    		protected_lands.addTo(map);
+    		$('#prot2').css('display', 'block');
+    	}
+    	else{
+    		map.removeLayer(protected_lands);
+    		$('#prot2').css('display', 'none');
+    	}
+    }
+    function checkbox3(){
+    	if (document.getElementById('checkbox_id3').checked == true){
+    		protected_lands.addTo(map);
+    		$('#prot3').css('display', 'block');
+    	}
+    	else{
+    		map.removeLayer(protected_lands);
+    		$('#prot3').css('display', 'none');
+    	}
+    }
+    function checkbox4(){
+    	if (document.getElementById('checkbox_id4').checked == true){
+    		protected_lands.addTo(map);
+    		$('#prot4').css('display', 'block');
+    	}
+    	else{
+    		map.removeLayer(protected_lands);
+    		$('#prot4').css('display', 'none');
+    	}
+    }
+    function checkbox5(){
+    	if (document.getElementById('checkbox_id5').checked == true){
+    		protected_lands.addTo(map);
+    		$('#prot5').css('display', 'block');
+    	}
+    	else{
+    		map.removeLayer(protected_lands);
+    		$('#prot5').css('display', 'none');
+    	}
+    }
+    function checkbox6(){
+    	if (document.getElementById('checkbox_id6').checked == true){
+    		protected_lands.addTo(map);
+    		$('#prot6').css('display', 'block');
+    	}
+    	else{
+    		map.removeLayer(protected_lands);
+    		$('#prot6').css('display', 'none');
+    	}
+    }
+    
+    ////////////////////////////////land_cover////////////////////////////////  	
+	
+    var land_cover = L.tileLayer('land_cover_fauna/{z}/{x}/{y}.png', {
+        maxZoom:10,
+		minZoom:5,
+		opacity:0.6,
+        tms: false,
+        transparent:true,
+      }).addTo(map);
+
+	////////////////////////////////biodiversity////////////////////////////////  	
+	    
+    var biodiversity_raster = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
+		layers: 'baldricg_PNW_ATLAS:biodiversity_total',
+        format: 'image/png',
+		maxZoom:10,
+		minZoom:5,
+		opacity:0.8,
+		transparent:true,
+	});
+	
+	var mammal = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
+		layers: 'baldricg_PNW_ATLAS:mammal_total',
+        format: 'image/png',
+		maxZoom:10,
+		minZoom:5,
+		opacity:0.8,
+		transparent:true,
+	});
+	
+	var bird = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
+		layers: 'baldricg_PNW_ATLAS:bird_total',
+        format: 'image/png',
+		maxZoom:10,
+		minZoom:5,
+		opacity:0.8,
+		transparent:true,
+	});
+	
+	var reptile = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
+		layers: 'baldricg_PNW_ATLAS:reptile_total',
+        format: 'image/png',
+		maxZoom:10,
+		minZoom:5,
+		opacity:0.8,
+		transparent:true,
+	});
+	
+	var amphibian = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
+		layers: 'baldricg_PNW_ATLAS:amphibian_total',
+        format: 'image/png',
+		maxZoom:10,
+		minZoom:5,
+		opacity:0.8,
+		transparent:true,
+	});
+	
+	var fish = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
+		layers: 'baldricg_PNW_ATLAS:fish_total',
+        format: 'image/png',
+		maxZoom:10,
+		minZoom:5,
+		opacity:0.8,
+		transparent:true,
+	});
+    
+	////////////////////////////////gray wolf////////////////////////////////
+  	const wolf_historical = new L.TopoJSON();
+		
+	$.getJSON('assets/wolf_historical.json')
+  		.done(wolfAddTopoData);
+
+	function wolfAddTopoData(topoData) {  
+  		wolf_historical.addData(topoData);
+  		wolf_historical.eachLayer(wolfHandleLayer);
+	}
+	
+	var stripes = new L.StripePattern({
+            weight: 1,
+            spaceWeight: 3,
+            height: 4,
+            angle:45,
+            color:'#6b6b47',
+            spaceColor:'#ffffff'
+        });
+        stripes.addTo(map);
+	
+	function wolfHandleLayer(layer){
+    	layer.setStyle({
+       			fillPattern:stripes,
+       			fillColor: '#ccccb3',
+            	fillOpacity: 0.7,
+            	weight: 1.5,
+            	opacity:0,
+            	color: '#ffffff',
+        });
+
+    }
+    
+    var gray_wolf = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
+		layers: 'baldricg_PNW_ATLAS:gray_wolf_distribution',
+        format: 'image/png',
+		maxZoom:10,
+		minZoom:5,
+		opacity:0.5,
+		transparent:true,
+	});
+	
+	////////////////////////////////gray wolf////////////////////////////////
+  	const sage_grouse_historical = new L.TopoJSON();
+		
+	$.getJSON('assets/sage_grouse_historical.json')
+  		.done(grouseAddTopoData);
+
+	function grouseAddTopoData(topoData) {  
+  		sage_grouse_historical.addData(topoData);
+  		sage_grouse_historical.eachLayer(grouseHandleLayer);
+	}
+	
+	function grouseHandleLayer(layer){
+    	layer.setStyle({
+       			fillPattern:stripes,
+       			fillColor: '#ccccb3',
+            	fillOpacity: 0.7,
+            	weight: 1.5,
+            	opacity:0,
+            	color: '#ffffff',
+        });
+
+    }
+    
+    var sage_grouse = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
+		layers: 'baldricg_PNW_ATLAS:sage_grouse_distribution',
+        format: 'image/png',
+		maxZoom:10,
+		minZoom:5,
+		opacity:0.5,
+		transparent:true,
+	});
+	
+	////////////////////////////////spotted owl////////////////////////////////
+  
+  	const spotted_owl_historical = new L.TopoJSON();
+		
+	$.getJSON('assets/spotted_owl_historical.json')
+  		.done(owlAddTopoData);
+
+	function owlAddTopoData(topoData) {  
+  		spotted_owl_historical.addData(topoData);
+  		spotted_owl_historical.eachLayer(owlHandleLayer);
+	}
+	
+	function owlHandleLayer(layer){
+    	layer.setStyle({
+       			fillPattern:stripes,
+       			fillColor: '#ccccb3',
+            	fillOpacity: 0.7,
+            	weight: 1.5,
+            	opacity:0,
+            	color: '#ffffff',
+        });
+
+    }
+  
+    var spotted_owl = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
+		layers: 'baldricg_PNW_ATLAS:spotted_owl_distribution',
+        format: 'image/png',
+		maxZoom:10,
+		minZoom:5,
+		opacity:0.5,
+		transparent:true,
+	});
+	
+	////////////////////////////////spotted frog////////////////////////////////
+  
+  	const spotted_frog_historical = new L.TopoJSON();
+		
+	$.getJSON('assets/oregon_spotted_frog_historical.json')
+  		.done(histfrogAddTopoData);
+
+	function histfrogAddTopoData(topoData) {  
+  		spotted_frog_historical.addData(topoData);
+  		spotted_frog_historical.eachLayer(histfrogHandleLayer);
+	}
+	
+	function histfrogHandleLayer(layer){
+    	layer.setStyle({
+       			fillPattern:stripes,
+       			fillColor: '#ccccb3',
+            	fillOpacity: 0.7,
+            	weight: 1.5,
+            	opacity:0,
+            	color: '#ffffff',
+        });
+
+    }
+    
+    const spotted_frog = new L.TopoJSON();
+		
+	$.getJSON('assets/oregon_spotted_frog.json')
+  		.done(frogAddTopoData);
+
+	function frogAddTopoData(topoData) {  
+  		spotted_frog.addData(topoData);
+  		spotted_frog.eachLayer(frogHandleLayer);
+	}
+	
+	function frogHandleLayer(layer){
+    	layer.setStyle({
+       			fillColor: '#339966',
+            	fillOpacity: 0.7,
+            	weight: 1.5,
+            	opacity:0,
+            	color: '#ffffff',
+        });
+
+    }
+ 
+///////////////////////////////button function////////////////////////////////
+	//this function uses the ClickFunction plugin to easily add/remove layers, change legends, styling and anything else when a new dataset is selected from the dropdown buttons  		
+	var buttonLabels = ['#but1','#but2','#but3','#but4','#but5','#but6','#but7','#but8','#but9','#but10','#but11'];//add button IDs here
+
+	var buttonFunctions = {
+		but1: {button:'but1', 
+			newLayers:[ecoregion_level3,land_cover], 
+			newElements:['facts_1'],
+			newLegend: 'leg_1', 
+			title:'Habitats', 
+			variable:1,
+			layerFunction: function(){
+				$('#ecoregion').css('display', 'none');
+				$('#eco_title').text('Select an Ecoregion');
+				click = false;
+				ecoClick = null;
+				ecoregion_level3.eachLayer(level3HandleLayer);
+				map.removeLayer(protected_lands);
+				$("#checkbox_id").prop("checked", false);
+			}
+		},
+		but2: {button:'but2', 
+			newLayers:[biodiversity_raster], 
+			newElements:['facts_2'],
+			newLegend: 'leg_2', 
+			title:'Total Biodiversity', 
+			variable:2,
+			layerFunction: function(){
+				map.removeLayer(protected_lands);
+				$('#prot1').css('display', 'none');
+				$("#checkbox_id1").prop("checked", false);
+			}
+		},
+		but3: {button:'but3', 
+			newLayers:[mammal], 
+			newElements:['facts_3'],
+			newLegend: 'leg_3', 
+			title:'Mammals', 
+			variable:3,
+			layerFunction: function(){
+				map.removeLayer(protected_lands);
+				$('#prot2').css('display', 'none');
+				$("#checkbox_id2").prop("checked", false);
+			}
+		},
+		but4: {button:'but4', 
+			newLayers:[bird], 
+			newElements:['facts_4'],
+			newLegend: 'leg_4', 
+			title:'Birds', 
+			variable:4,
+			layerFunction: function(){
+				map.removeLayer(protected_lands);
+				$('#prot3').css('display', 'none');
+				$("#checkbox_id3").prop("checked", false);
+			}
+		},
+		but5: {button:'but5', 
+			newLayers:[reptile], 
+			newElements:['facts_5'],
+			newLegend: 'leg_5', 
+			title:'Reptiles', 
+			variable:5,
+			layerFunction: function(){
+				map.removeLayer(protected_lands);
+				$('#prot4').css('display', 'none');
+				$("#checkbox_id4").prop("checked", false);
+			}
+		},
+		but6: {button:'but6', 
+			newLayers:[amphibian], 
+			newElements:['facts_6'],
+			newLegend: 'leg_6', 
+			title:'Amphibians', 
+			variable:6,
+			layerFunction: function(){
+				map.removeLayer(protected_lands);
+				$('#prot5').css('display', 'none');
+				$("#checkbox_id5").prop("checked", false);
+			}
+		},
+		but7: {button:'but7', 
+			newLayers:[fish], 
+			newElements:['facts_7'],
+			newLegend: 'leg_7', 
+			title:'Fish', 
+			variable:7,
+			layerFunction: function(){
+				map.removeLayer(protected_lands);
+				$('#prot6').css('display', 'none');
+				$("#checkbox_id6").prop("checked", false);
+			}
+		},
+		but8: {button:'but8', 
+			newLayers:[wolf_historical, gray_wolf], 
+			newElements:['facts_8'],
+			newLegend: 'leg_8', 
+			title:'Gray Wolf', 
+			variable:8,
+			layerFunction: function(){
+				map.removeLayer(protected_lands);
+			}
+		},
+		but9: {button:'but9', 
+			newLayers:[sage_grouse_historical,sage_grouse], 
+			newElements:['facts_9'],
+			newLegend: 'leg_9', 
+			title:'Sage Grouse', 
+			variable:9,
+			layerFunction: function(){
+				map.removeLayer(protected_lands);
+			}
+		},
+		but10: {button:'but10', 
+			newLayers:[spotted_owl, spotted_owl_historical], 
+			newElements:['facts_10'],
+			newLegend: 'leg_10', 
+			title:'Spotted Owl', 
+			variable:10,
+			layerFunction: function(){
+				map.removeLayer(protected_lands);
+			}
+		},
+		but11: {button:'but11',//button ID 
+			newLayers:[spotted_frog,spotted_frog_historical],
+			newElements:['facts_11'],
+			newLegend: 'leg_11', //legend div ID
+			title:'Oregon Spotted Frog', //title to display in dropdown menu
+			variable:11, //update the 'data' variable
+			layerFunction: function(){
+				map.removeLayer(protected_lands);
+			}
+		}
+	};
+	
+	$('.function').clickFunction({
+		buttonFunctions: buttonFunctions,
+		buttonLabels: buttonLabels,
+		selected:buttonFunctions.but1 //choose which button is initially selected
+	});
+	
+ ///////////////////////////////other miscellaneous functions (these also never change)////////////////////////////////   
+   	//add zoom control
+    new L.Control.Zoom({ position: 'bottomright' }).addTo(map);
+    
+    //remove leaflet attribution
+	document.getElementsByClassName("leaflet-control-attribution")[0].style.visibility = "hidden";
+	
+	//add scrolling capabilities to text box
+     var container = document.getElementById('text');
+		Ps.initialize(container);
+	
+	//update text box to be correct size
+	var minHeight = 50; // Define a minimum height for the middle div
+
+	function resizeMiddle() {
+   		var h = $('body').height() - $('#top').height() - 95;
+    		h = h > minHeight ? h : minHeight;
+   	 	$('#attribution').height(h);
+	}
+	
+	function resizePopup() {
+   		var h = $('.popup').height() - 90;
+    		h = h > minHeight ? h : minHeight;
+   	 	$('.popup .content').height(h);
+	}
+	$(document).ready(resizePopup);
+	$(window).resize(resizePopup);
+
+	$(document).ready(resizeMiddle);
+	$(window).resize(resizeMiddle);  
+	
+	$(document).click(function(event) {
+		if (!$(event.target).closest(".share_overlay,.share").length) {
+			$('#clear')[0].click();
+		}
+	});
+  
+
+</script>
+</body>
+</html>

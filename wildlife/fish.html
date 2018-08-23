@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+     <title>Fish</title>
+    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.2/dist/leaflet.css" /> 
+    <link rel="stylesheet" href="css/wildlife_maps_style.css" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Maven+Pro" rel="stylesheet">
+    <link rel="stylesheet" href="css/perfect-scrollbar.css" />
+    
+    <link rel="shortcut icon" href="img/pnw.ico" type="image/x-icon">
+    
+    <meta property="og:title" content="Atlas of the Pacific Northwest: Fish" />
+    <meta property="og:url" content="https://rawgit.com/osulp/PNWatlas/master/wildlife/fish_index.html" />
+    <meta property="og:description" content="Fish maps of the Pacific Northwest."/>
+    
+    <script src="https://unpkg.com/leaflet@1.0.2/dist/leaflet.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="js/perfect-scrollbar.js"></script>
+    <script src="https://d3js.org/topojson.v1.min.js"></script>
+    <script src="js/leaflet_pattern.js"></script>
+    <script src="https://unpkg.com/leaflet.vectorgrid@latest/dist/Leaflet.VectorGrid.bundled.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script type="text/javascript" src="../js/clickFunction.js"></script>
+    
+   
+</head>
+<body>
+		<button id="collapse" onclick="collapse()">
+			<i class="fa fa-chevron-left" id ="collapse-arrow" aria-hidden="true"></i>
+		</button>
+		<div id="infoPanel">
+			<div id="top">
+				<h1 style="margin-bottom:25px;">Fish</h1>
+				<img src="img/fish_icon.png" id="titleImageCircle" > <br/>
+				<div id="buttons">
+					<div class="dropdown">
+						<button class="dropbtn"><b id="dataType">Select Species</b><p id="arrow">&#9660;</p></button>
+						<div class="dropdown-content">
+							 <button type="button" id="but1" class="selection" style="background:rgba(242, 242, 242, 0.8);">Chinook</button>
+							 <button type="button" id="but2" class="selection">Steelhead</button>
+							 <button type="button" id="but3" class="selection">Coho</button>
+							 <button type="button" id="but4" class="selection">Chum</button>
+							 <button type="button" id="but5" class="selection">Pink</button>
+							 <button type="button" id="but6" class="selection">Sockeye</button>
+							 <button type="button" id="but7" class="selection">Bull Trout</button>
+							 <button type="button" id="but8" class="selection">Cutthroat Trout</button>
+							 <button type="button" id="but9" class="selection">Sturgeon</button>
+							 <button type="button" id="but10" class="selection">Biodiversity</button>
+					   </div>
+					</div>
+				</div>
+			</div>
+			<div id="attribution">
+				<div id="text">
+					<div id="leg_1">
+						<h2 id="title">Chinook Salmon</h2>
+						<br>
+						<div id ="none" style="height:32px;"><b style="background:#215e53; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p>&nbsp</p><p id="leg1">&nbspLeast Concern</p></div>
+						<div id ="threat" style="height:30px;"><b style="background:#3caa96; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg1">&nbspThreatened</p></div>
+						<div id ="threat" style="height:30px;"><b style="background:#ff9999; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg1">&nbspEndangered</p></div>
+						<div id ="hist" style="height:32px;"><b style="background:#cc0000; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p>&nbsp</p><p id="leg2">&nbspHistorical Habitat</p></div><br/>
+						<p id="description" style="font-weight:bold; padding:0; display:block; white-space:normal; width:280px;">Current population status and historical distribution of Chinook Salmon.</p>
+						<img src="img/chinook2.png" id="fishImage" style="display:block;"><br/>
+						<div id="checklist">
+							<p id="checkText" style="padding-right:5px; padding-left:0px; font-weight:bold; position:relative; float:left;">Fall</p>
+								<label class="switch" style="margin-top:5px;">
+									<input name="checkbox_name" id="checkbox" type="checkbox" onclick="selectRun()" autocomplete="off">
+									<span class="slider"></span>
+								</label>
+							<p id="checkText2" style="padding-left:5px; font-weight:bold;">Spring</p><br/>
+						</div>
+					</div>
+					<div id="leg_2" style="display:none;">
+						<h2 id="title">Steelhead</h2>
+						<br>
+						<div id ="none" style="height:32px;"><b style="background:#215e53; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p>&nbsp</p><p id="leg1">&nbspLeast Concern</p></div>
+						<div id ="threat" style="height:30px;"><b style="background:#3caa96; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg1">&nbspThreatened</p></div>
+						<div id ="hist" style="height:32px;"><b style="background:#cc0000; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p>&nbsp</p><p id="leg2">&nbspHistorical Habitat</p></div><br/>
+						<p id="description" style="font-weight:bold; padding:0; display:block; white-space:normal; width:280px;">Current population status and historical distribution of Steelhead.</p>
+						<img src="img/steelhead2.png" id="fishImage" style="display:block;">
+						<div id="checklist">
+							<p id="checkText" style="padding-right:5px; padding-left:0px; font-weight:bold; position:relative; float:left;">Summer</p>
+								<label class="switch" style="margin-top:5px;">
+									<input name="checkbox_name" id="checkbox2" type="checkbox" onclick="selectRun2()" autocomplete="off">
+									<span class="slider"></span>
+								</label>
+							<p id="checkText2" style="padding-left:5px; font-weight:bold;">Winter</p><br/>
+						</div>
+					</div>
+					<div id="leg_3" style="display:none;">
+						<h2 id="title">Coho Salmon</h2>
+						<br>
+						<div id ="none" style="height:32px;"><b style="background:#215e53; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p>&nbsp</p><p id="leg1">&nbspLeast Concern</p></div>
+						<div id ="threat" style="height:30px;"><b style="background:#3caa96; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg1">&nbspThreatened</p></div>
+						<div id ="hist" style="height:32px;"><b style="background:#cc0000; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p>&nbsp</p><p id="leg2">&nbspHistorical Habitat</p></div><br/>
+						<p id="description" style="font-weight:bold; padding:0; display:block; white-space:normal; width:280px;">Current population status and historical distribution of Coho Salmon.</p>
+						<img src="img/soho.png" id="fishImage" style="display:block;">
+					</div>
+					<div id="leg_4" style="display:none;">
+						<h2 id="title">Chum Salmon</h2>
+						<br>
+						<div id ="none" style="height:32px;"><b style="background:#215e53; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p>&nbsp</p><p id="leg1">&nbspLeast Concern</p></div>
+						<div id ="threat" style="height:30px;"><b style="background:#3caa96; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg1">&nbspThreatened</p></div>
+						<div id ="hist" style="height:32px;"><b style="background:#cc0000; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p>&nbsp</p><p id="leg2">&nbspHistorical Habitat</p></div><br/>
+						<p id="description" style="font-weight:bold; padding:0; display:block; white-space:normal; width:280px;">Current population status and historical distribution of Chum Salmon.</p>
+						<img src="img/chum2.png" id="fishImage" style="display:block;"><br/>
+						<div id="checklist">
+							<p id="checkText" style="padding-right:5px; padding-left:0px; font-weight:bold; position:relative; float:left;">Fall/Winter</p>
+								<label class="switch" style="margin-top:5px;">
+									<input name="checkbox_name" id="checkbox3" type="checkbox" onclick="selectRun3()" autocomplete="off">
+									<span class="slider"></span>
+								</label>
+							<p id="checkText2" style="padding-left:5px; font-weight:bold;">Summer</p><br/>
+						</div>
+					</div>
+					<div id="leg_5" style="display:none;">
+						<h2 id="title">Pink Salmon</h2>
+						<br>
+						<div id ="none" style="height:32px;"><b style="background:#215e53; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p>&nbsp</p><p id="leg1">&nbspLeast Concern</p></div>
+						<div id ="hist" style="height:32px;"><b style="background:#cc0000; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p>&nbsp</p><p id="leg2">&nbspHistorical Habitat</p></div><br/>
+						<p id="description" style="font-weight:bold; padding:0; display:block; white-space:normal; width:280px;">Current population status and historical distribution of Pink Salmon.</p>
+						<img src="img/pink2.png" id="fishImage" style="display:block;"><br/>
+						<div id="checklist">
+							<p id="checkText" style="padding-right:5px; padding-left:0px; font-weight:bold; position:relative; float:left;">Odd Year</p>
+								<label class="switch" style="margin-top:5px;">
+									<input name="checkbox_name" id="checkbox4" type="checkbox" onclick="selectRun4()" autocomplete="off">
+									<span class="slider"></span>
+								</label>
+							<p id="checkText2" style="padding-left:5px; font-weight:bold;">Even Year</p><br/>
+						</div>
+					</div>
+					<div id="leg_6" style="display:none;">
+						<h2 id="title">Sockeye Salmon</h2>
+						<br>
+						<div id ="none" style="height:32px;"><b style="background:#215e53; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p>&nbsp</p><p id="leg1">&nbspLeast Concern</p></div>
+						<div id ="threat" style="height:30px;"><b style="background:#3caa96; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg1">&nbspThreatened</p></div>
+						<div id ="threat" style="height:30px;"><b style="background:#ff9999; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg1">&nbspEndangered</p></div>
+						<div id ="hist" style="height:32px;"><b style="background:#cc0000; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p>&nbsp</p><p id="leg2">&nbspHistorical Habitat</p></div><br/>
+						<p id="description" style="font-weight:bold; padding:0; display:block; white-space:normal; width:280px;">Current population status and historical distribution of Sockeye Salmon.</p>
+						<img src="img/sockeye2.png" id="fishImage" style="display:block;">
+					</div>
+					<div id="leg_7" style="display:none;">
+						<h2 id="title">Bull Trout</h2>
+						<br>
+						<div id ="none" style="height:32px;"><b style="background:#3caa96; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p>&nbsp</p><p id="leg1">&nbspThreatened</p></div>
+						<div id ="hist" style="height:32px;"><b style="background:#cc0000; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p>&nbsp</p><p id="leg2">&nbspHistorical Habitat</p></div><br/>
+						<p id="description" style="font-weight:bold; padding:0; display:block; white-space:normal; width:280px;">Current population status and historical distribution of Bull Trout. Historical habitat data for Idaho not available.</p>
+						<img src="img/bull.png" id="fishImage" style="display:block;">
+					</div>
+					<div id="leg_8" style="display:none;">
+						<h2 id="title">Cutthroat Trout</h2>
+						<div id ="none" style="height:32px;"><b style="background:#215e53; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p>&nbsp</p><p id="leg1">&nbspCurrent Habitat</p></div>
+						<div id ="threat" style="height:30px;"><b style="background:#3caa96; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg1">&nbspThreatened</p></div>
+						<div id ="hist" style="height:32px;"><b style="background:#cc0000; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p>&nbsp</p><p id="leg2">&nbspHistorical Habitat</p></div>
+						<br/>
+						<hr style="color:#000000; width:50px; float:left; height:4px; background-color:#000000; line-height:20px; margin-top:17px; vertical-align:middle; display:inline; border:none;"/><p id="leg1" style="padding-left:7px;">Subspecies Boundary</p>
+						<br/><br/>
+						<p id="description" style="font-weight:bold; padding:0; display:block; white-space:normal; width:280px;">Current population status and historical range of Cutthroat Trout subspecies. Cutthroat trout are not listed in the Endangered Species Act.</p>
+						<img src="img/cutthroat.png" id="fishImage" style="display:block;">
+					</div>
+					<div id="leg_9" style="display:none;">
+						<h2 id="title">White Sturgeon</h2>
+						<div id ="none" style="height:32px;"><b style="background:#215e53; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p>&nbsp</p><p id="leg1">&nbspAbundant/Breeding</p></div>
+						<div id ="threat" style="height:30px;"><b style="background:#3caa96; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg1">&nbspAbundant/Some Breeding</p></div>
+						<div id ="threat" style="height:30px;"><b style="background:#ff9999; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg1">&nbspExtant/Limited Breeding</p></div>
+						<div id ="hist" style="height:32px;"><b style="background:#cc0000; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p>&nbsp</p><p id="leg2">&nbspHistorical Habitat</p></div><br/>
+						<p id="description" style="font-weight:bold; padding:0; display:block; white-space:normal; width:280px;">Current population/breeding status and historical range of White Sturgeon. White Sturgeon aren't listed in the Endangered Species Act, but certain populations are threatened due to damming.</p>
+						<img src="img/sturgeon.png" id="fishImage" style="display:block; margin-bottom:0px;">
+					</div>
+					<div id="leg_10" style="display:none;">
+						<h2 id="title"># of Fish Species</h2>
+						<div id ="none" style="height:32px;"><b style="background:#1b4b43; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p>&nbsp</p><p id="leg1">&nbsp36+</p></div>
+						<div id ="threat" style="height:30px;"><b style="background:#2f8375; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg1">&nbsp32 - 36</p></div>
+						<div id ="threat" style="height:30px;"><b style="background:#44bba7; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg1">&nbsp26 - 32</p></div>
+						<div id ="threat" style="height:30px;"><b style="background:#8fd6ca; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg1">&nbsp20 - 26</p></div>
+						<div id ="hist" style="height:32px;"><b style="background:#daf1ed; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p>&nbsp</p><p id="leg2">&nbspLess than 20</p></div><br/>
+						<p id="description" style="font-weight:bold; padding:0; display:block; white-space:normal; width:280px;">Total number of fish species per HUC8 watershed.</p>
+					</div>
+					<br/>
+					<!--<p3 id="information">Chinook salmon (also known as King Salmon) are the largest of the Pacific salmon, with some individuals growing to more than 100 pounds. These huge fish are rare, as most mature chinook are under 50 pounds.</p3> <br/><br/>Most chinook spawn in large rivers such as the Columbia and Snake, although they will also use smaller streams with sufficient water flow. They tend to spawn in the mainstem of streams, where the water flow is high. Because of their size they are able to spawn in larger gravel than most other salmon. Chinook spawn on both sides of the Cascade Range, and some fish travel hundreds of miles upstream before they reach their spawning grounds. Because of the distance, these fish enter streams early and comprise the spring and summer runs. Fall runs spawn closer to the ocean and more often use small coastal streams. All chinook reach their spawning grounds by fall, in time to spawn.<br/><br/>Chinook fry rear in freshwater from three months to a year, depending on the race of chinook and the location. Spring chinook tend to stay in streams for a year; fish in northern areas, where the streams are less productive and growth is slower, also tend to stay longer. Rearing chinook fry use mainstems and their tributaries.</p3>
+				-->	<div id="facts_1" style="display:unset;">
+						<p3 style="font-weight:bold; line-height:36px;">Quick Facts:</p3><br/>
+						<p3 id="facts" style="line-height:20px;">&#9900 Also known as King Salmon.<br/><br/>&#9900 Chinook are the largest Pacific Salmon. The largest ever recorded weighed 126 pounds.<br/><br/>&#9900 Individuals over 30 pounds are known as Tyee Salmon.<br/><br/>&#9900 Oregon state fish.</p3>
+					</div>
+					<div id="facts_2" style="display:none;">
+						<p3 style="font-weight:bold; line-height:36px;">Quick Facts:</p3><br/>
+						<p3 id="facts" style="line-height:20px;">&#9900 Anadromous (ocean-going) version of rainbow trout.<br/><br/>&#9900 Maximum size 40 pounds.<br/><br/>&#9900 Unlike salmon, Steelhead, may survive spawning, and can therefore spawn more than once in their lifetime.<br/><br/>&#9900 Washington state Fish</p3>
+					</div>
+					<div id="facts_3" style="display:none;">
+						<p3 style="font-weight:bold; line-height:36px;">Quick Facts:</p3><br/>
+						<p3 id="facts" style="line-height:20px;">&#9900 Maximum size 30 pounds.<br/><br/>&#9900 Juvenile Coho are highly territorial.<br/><br/>&#9900 Coho can be found in urban streams if water quality needs are met.</p3>
+					</div>
+					<div id="facts_4" style="display:none;">
+						<p3 style="font-weight:bold; line-height:36px;">Quick Facts:</p3><br/>
+						<p3 id="facts" style="line-height:20px;">&#9900 Also known as Dog Salmon due to canine-like teeth in spawning males.<br/><br/>&#9900 Maximum size 30 pounds.<br/><br/>&#9900 “Calico” coloration during spawning.</p3>
+					</div>
+					<div id="facts_5" style="display:none;">
+						<p3 style="font-weight:bold; line-height:36px;">Quick Facts:</p3><br/>
+						<p3 id="facts" style="line-height:20px;">&#9900 Also known as humpback salmon.<br/><br/>&#9900 Maximum size 12 pounds.<br/><br/>&#9900 Consistent two-year life cycle.</p3>
+					</div>
+					<div id="facts_6" style="display:none;">
+						<p3 style="font-weight:bold; line-height:36px;">Quick Facts:</p3><br/>
+						<p3 id="facts" style="line-height:20px;">&#9900 Sockeye are known as the most flavorful Pacific Salmon.<br/><br/>&#9900 Maximum size 15 pounds.<br/><br/>&#9900 Only spawn in lake-fed water systems.</p3>
+					</div>
+					<div id="facts_7" style="display:none;">
+						<p3 style="font-weight:bold; line-height:36px;">Quick Facts:</p3><br/>
+						<p3 id="facts" style="line-height:20px;">&#9900 Listed as "vulnerable" on IUCN Red List.<br/><br/>&#9900 Require cold water, generally under 55&#8457<br/><br/>&#9900 Formerly believed to the same species as the Dolly Varden Trout.</p3>
+					</div>
+					<div id="facts_8" style="display:none;">
+						<p3 style="font-weight:bold; line-height:36px;">Quick Facts:</p3><br/>
+						<p3 id="facts" style="line-height:20px;">&#9900 Several subspecies defined throughout the PNW.<br/><br/>&#9900 Wide variety of sizes and habitats.<br/><br/>&#9900 Idaho state fish.</p3>
+					</div>
+					<div id="facts_9" style="display:none;">
+						<p3 style="font-weight:bold; line-height:36px;">Quick Facts:</p3><br/>
+						<p3 id="facts" style="line-height:20px;">&#9900 White sturgeon are the largest freshwater fish in North America.<br/><br/>&#9900 Normally anadromous, the construction of impassible dams in the Columbia Basin has resulted in landlocked sturgeon populations.<br/><br/>&#9900 Maximum length 20 feet.</p3>
+					</div>
+					<div id="facts_10" style="display:none;">
+						<p3 style="font-weight:bold; line-height:36px;">Quick Facts:</p3><br/>
+						<p3 id="facts" style="line-height:20px;">&#9900 The North Umpqua Watershed in Southern Oregon has the greatest diversity of fish species in the PNW.<br/><br/>&#9900 The San Juan Islands in Puget Sound has the least diversity of fish species in the PNW.</p3>
+					</div>
+				</div>
+				<div id="pageChange">
+					<a href="#sources" id="arrow" style="display:inline-block;">
+						<i class="fa fa-info-circle" aria-hidden="true" style="padding-left:90px;"></i>
+					</a>
+					<a href="#link_popup" id="arrow" style="display:inline-block;">
+						<i class="fa fa-home" aria-hidden="true" style="padding-left:0;"></i>
+					</a>
+					<a href="#share" class="share" id="arrow" style="display:inline-block;">
+						<i class="fa fa-share-alt " aria-hidden="true" style="padding-left:0;"></i>
+					</a>
+				</div>
+			</div>
+		</div>
+    	<div id="map" style="width: 100%; height: 100%;"></div>
+    	
+    	<div id="sources" class="overlay">
+			<div class="popup">
+				<h2 style="display:inline; font-size:32px;">Sources</h2>
+				<a class="close" href="#" style="display:inline;">×</a>
+				<hr>
+				<div class="content">
+					<p2 style="font-size:20px">Geographic Data</p2><br><br/>
+                    <div class="source">
+                    	<b><p2>Idaho Fish Distribution: <a href = "https://www.streamnet.org/data/interactive-maps-and-gis-data/" target="_blank">StreamNet</a></p2></b><br>
+                    		<p3>Notes: Fish datasets downloaded and clipped to Idaho, with the exception of Lahontan Trout.<p3>
+                    </div>
+                    <div class="source">
+                    	<b><p2>Oregon Fish Distribution: <a href = "https://nrimp.dfw.state.or.us/DataClearinghouse/default.aspx?p=202&XMLname=1167.xml" target="_blank">Oregon Department Fish and Wildlife</a></p2></b><br>
+                    </div>
+                    <div class="source">
+                    	<b><p2>Washington Fish Distribution: <a href = "https://data-wdfw.opendata.arcgis.com/datasets/statewide-washington-integrated-fish-distribution" target="_blank">Washington Department of Fish and Wildlife</a></p2></b><br>
+                    </div>
+                    <div class="source">
+                    	<b><p2>Salmon and Steelhead DPS/ESU Boundaries: <a href = "http://www.westcoast.fisheries.noaa.gov/maps_data/Species_Maps_Data.html" target="_blank">National Oceanic and Atmospheric Administration Fisheries Department</a></p2></b><br>
+                    		<p3>Notes: Combined with salmonoid line datasets.<p3>
+                    </div>
+                    <div class="source">
+                    	<b><p2>Yellowstone Trout Historical Range: <a href = "https://www.nps.gov/subjects/yellowstonescience/images/Figure-1AL-C.jpg?maxwidth=1200&autorotate=false" target="_blank">National Parks Service</a></p2></b><br>
+                    		<p3>Notes: Static map digitized. Only major rivers were digitized.<p3>
+                    </div>
+                    <div class="source">
+                    	<b><p2>Bonneville Trout Historical Range: <a href = "https://idfg.idaho.gov/old-web/docs/fish/planBonCutthroat.pdf" target="_blank">Idaho Department of Fish and Game</a></p2></b><br>
+                    		<p3>Notes: Map on page 3 of document used as reference.<p3>
+                    </div>
+                    <div class="source">
+                    	<b><p2>Westslope Trout Historical Range: <a href = "http://www.westernnativetrout.org/media/trout/westslope-cutthroat-assessment.pdf" target="_blank">Idaho Department of Fish and Game</a></p2></b><br>
+                    		<p3>Notes: Map on page 1 of document used as reference.<p3>
+                    </div>
+                    <div class="source">
+                    	<b><p2>White Sturgeon Population Data: <a href = "https://www.nwcouncil.org/sites/default/files/White_Sturgeon_Framework_review_draft_Feb2013.pdf" target="_blank">Northwest Power and Conservation Council</a></p2></b><br>
+                    		<p3>Notes: Map on page 53 of document used as reference.<p3>
+                    </div>
+                    <div class="source">
+                    	<b><p2>Supplemental Stream Data: <a href = "https://www.streamnet.org/data/interactive-maps-and-gis-data/" target="_blank">StreamNet</a></p2></b><br>
+                    		<p3>Notes: 'Routed Streams' layer downloaded.<p3>
+                    </div>
+				</div>
+				<hr>
+				<p2 style="float:right; font-size:12px;">Map created with Leaflet.</p2>
+				<br/>
+				<a class="close2" href="#" style="display:inline;">Close</a>
+			</div>
+		</div>
+		
+		<div id="link_popup" class="link_overlay">
+			<div class="link_popup">
+				<a class="close" href="#" style="display:inline;">×</a>
+				<div class="content">
+					<a href="wildlife_index.html" style="font-weight:bold; text-decoration:none;">Wildlife Home</a>
+					<hr>
+					<a href="flora.html" style="text-decoration:underline;">Flora</a>
+					<a href="fauna.html" style="text-decoration:underline;">Fauna</a>
+					<a href="fish.html" style="text-decoration:underline;">Fish</a>
+					<a href="invasive.html" style="text-decoration:underline;">Invasive Species</a>
+					<hr>
+					<a href="../index.html" style="font-weight:bold; text-decoration:none;">Atlas Home</a>
+				</div>
+			</div>
+		</div>
+		
+		<div id="share" class="share_overlay">
+			<div class="share_popup">
+				<a id="clear" href="#" style="display:none;">×</a>
+				<div class="content">
+					<a href="https://facebook.com/sharer.php?u=https://rawgit.com/osulp/PNWatlas/master/wildlife/fish_index.html" id="arrow" style="display:inline-block;">
+						<i class="fa fa-facebook-square " aria-hidden="true" style="padding-left:0;"></i>
+					</a>
+					<a href="https://twitter.com/home?status=PNW%20Fish%0Ahttp%3A//rawgit.com/osulp/PNWatlas/master/wildlife/fish_index.html" id="arrow" style="display:inline-block;">
+						<i class="fa fa-twitter-square " aria-hidden="true" style="padding-left:0;"></i>
+					</a>
+					<a href="" id="arrow" style="display:inline-block;">
+						<i class="fa fa-linkedin-square " aria-hidden="true" style="padding-left:0;"></i>
+					</a>
+				</div>
+			</div>
+		</div>
+<script>
+//////////////base functions (these never change)///////////////////////
+	//////////////function that allows topojson layers to be loaded///////////////////////
+	L.TopoJSON = L.GeoJSON.extend({  
+  		addData: function(jsonData) {    
+    		if (jsonData.type === 'Topology') {
+      			for (key in jsonData.objects) {
+       			 geojson = topojson.feature(jsonData, jsonData.objects[key]);
+       			 L.GeoJSON.prototype.addData.call(this, geojson);
+      		}
+    	}    
+    	else {
+      		L.GeoJSON.prototype.addData.call(this, jsonData);
+    		}
+  		}  
+	});
+	//////////////function for the info panel collapse button///////////////////////	
+	var collapsed = false;
+    function collapse(){
+    	if (collapsed == false){
+    		document.getElementById("infoPanel").style.transition = "display 2s";
+    		document.getElementById("infoPanel").style.display = "none";
+    		document.getElementById("collapse").style.left = '0px';
+    		document.getElementById("collapse").style.paddingLeft = '2px';
+    		document.getElementById("collapse-arrow").className = "fa fa-chevron-right";
+    		collapsed = true;
+    	} else{
+    		document.getElementById("infoPanel").style.display = "unset";
+    		document.getElementById("collapse").style.left = '320px';
+    		document.getElementById("collapse").style.paddingLeft = '0px';
+    		document.getElementById("collapse-arrow").className = "fa fa-chevron-left";
+    		collapsed = false;
+    	}
+    	
+    }
+//////////////Initialize map///////////////////////
+	var map = L.map('map', {center: [45.56, -119.75], zoom: 7, zoomControl:false});
+	//map.setMaxBounds(map.getBounds());
+///////////////////////make zoom level correspond to browser size////////////////////////////////
+	window.addEventListener('load', function(event){
+    	var width = document.documentElement.clientWidth;
+    	if (width < 1500 && width > 800) {
+        	map.setView(new L.LatLng(45.56, -121.75), 6); 
+    		}  else if (width > 1501) {
+        	map.setZoom(7);
+        	} else {
+        	map.setZoom(5);
+        	}
+	});
+////////////////////////////////basemap layers////////////////////////////////
+	var Esri_WorldTerrain = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer/tile/{z}/{y}/{x}', {
+		attribution: 'Tiles &copy; Esri &mdash; Source: USGS, Esri, TANA, DeLorme, and NPS',
+		maxZoom:11,
+		minZoom:5
+	}).addTo(map);
+	
+	var pnwCover = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
+		layers: 'baldricg_PNW_ATLAS:pnw_outline2_black',
+        format: 'image/png',
+		maxZoom:11,
+		minZoom:5,
+		opacity:0.6,
+		transparent:true,
+	}).addTo(map);
+	
+	var pnwStates = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
+		layers: 'baldricg_PNW_ATLAS:pnw_states_black',
+        format: 'image/png',
+		maxZoom:11,
+		minZoom:5,
+		opacity:0.5,
+		transparent:true,
+	}).addTo(map);
+	
+	var pnwCounties = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
+		layers: 'baldricg_PNW_ATLAS:counties_black',
+        format: 'image/png',
+		maxZoom:11,
+		minZoom:5,
+		opacity:0.3,
+		transparent:true,
+	}).addTo(map);
+	
+	var label = L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_only_labels/{z}/{x}/{y}@2x.png', {
+		attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
+		subdomains: 'abcd',
+		maxZoom:11,
+		minZoom:5,
+		tileSize:256,
+		bounds:[
+			new L.LatLng(49.56,-125.25),
+			new L.LatLng(40.5,-111.5)
+		],
+		pane:'labels'
+	});	
+	
+	var fish = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
+		layers: 'baldricg_PNW_ATLAS:fall_chinook',
+        format: 'image/png',
+		maxZoom:11,
+		minZoom:5,
+		opacity:1,
+		transparent:true,
+		pane:'fish'
+	});
+	
+
+	map.createPane('labels');
+	map.getPane('labels').style.pointerEvents = 'none';
+	map.getPane('labels').style.zIndex = 650;
+	label.addTo(map);
+	
+	map.createPane('fish');
+	map.getPane('fish').style.pointerEvents = 'none';
+	map.getPane('fish').style.zIndex = 500;
+	fish.addTo(map);
+	
+///////////////////////important variables////////////////////////////////
+	var data = 1;
+	
+///////////////////////info control////////////////////////////////
+	var info = L.control();
+
+	info.onAdd = function (map) {
+    	this._div = L.DomUtil.create('div', 'info2'); // create a div with a class "info"
+    	this.update();
+    	return this._div;
+	};
+	
+	info.update = function (props) {	
+        if (data == 8){
+   			this._div.innerHTML = (props ?
+       			'<h2 style="font-size:22px;">' + props.type + ' </h2>'
+        		: '<b style="font-size:22px;">Hover over Subspecies</b>');
+        	}
+        if (data == 10){
+   			this._div.innerHTML = (props ?
+       			'<h2 style="font-size:22px;">' + props.Join_Count + ' Total Species</h2>'
+        		: '<b style="font-size:22px;">Hover over Watersheds</b>');
+        	}
+		};
+
+////////////////////////////display layers//////////////////////
+    ////////////////////////////cutthroat trout layer////////////////////// 
+    const cutthroat_trout_range = new L.TopoJSON(null, {
+  		interactive:true
+		});
+
+	$.getJSON('assets/cutthroat_trout_range.json')
+  		.done(addCutData);
+
+	function addCutData(topoData) {  
+  		cutthroat_trout_range.addData(topoData);
+  		cutthroat_trout_range.eachLayer(cutHandleLayer);
+	}
+	
+	function cutHandleLayer(layer){
+        layer.setStyle({
+       		fillColor:'#bfbfbf',
+            fillOpacity: 0,
+            opacity: 1,
+            weight:1.5,
+            color:'#404040'
+        });
+        layer.on({
+        	mouseover: troutHighlight,
+            mouseout: troutResetHighlight
+        });
+    }
+    
+    function troutHighlight(){      	      	
+      	this.setStyle({
+        	fillOpacity: 0.7,
+        	color:'#808080',
+      	});
+      	this.bringToFront();
+      	info.update(this.feature.properties);
+    }
+    
+    function troutResetHighlight(){
+      	this.setStyle({
+        	fillOpacity: 0,
+        	color:'#404040',
+      	});
+      	info.update();
+    }
+ 	////////////////////////////sturgeon dams//////////////////////    
+    const fish_total = new L.TopoJSON();
+		
+	$.getJSON('assets/fish_total.json')
+  		.done(fishAddTopoData);
+
+	function fishAddTopoData(topoData) {  
+  		fish_total.addData(topoData);
+  		fish_total.eachLayer(fishHandleLayer);
+	}
+	
+	function setFishColor(num){
+			return  num <= 20 ? '#daf1ed':
+				num < 26 ? '#8fd6ca':
+				num < 32 ? '#44bba7':
+				num < 38 ? '#2f8375':
+					'#1b4b43';
+      }
+      
+	function fishHandleLayer(layer){
+    	layer.setStyle({
+       			fillColor: setFishColor(layer.feature.properties.Join_Count),
+            	fillOpacity: 0.7,
+            	weight: 1,
+            	opacity:0.7,
+            	color:'#ffffff',
+        });
+        layer.on({
+        	mouseover: bioHighlight,
+            mouseout: bioResetHighlight
+        });
+	}
+	
+	function bioHighlight(){      	      	
+      	this.setStyle({
+        	fillOpacity: 1,
+      	});
+      	info.update(this.feature.properties);
+    }
+    
+    function bioResetHighlight(){
+      	this.setStyle({
+        	fillOpacity: 0.7,
+      	});
+      	info.update();
+    }
+    ////////////////////////////fish layer//////////////////////    
+    function selectRun () {
+    	if (document.getElementById('checkbox').checked == true){
+    		map.removeLayer(fish);
+    		fish = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
+				layers: 'baldricg_PNW_ATLAS:spring_chinook',
+        		format: 'image/png',
+				maxZoom:11,
+				minZoom:5,
+				opacity:1,
+				transparent:true,
+				pane:'fish'
+			}).addTo(map);
+   		}
+    	else {
+    		map.removeLayer(fish);
+    		fish = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
+				layers: 'baldricg_PNW_ATLAS:fall_chinook',
+        		format: 'image/png',
+				maxZoom:11,
+				minZoom:5,
+				opacity:1,
+				transparent:true,
+				pane:'fish'
+			}).addTo(map);
+    	}
+    }
+    function selectRun2 () {
+    	if (document.getElementById('checkbox2').checked == true){
+    		map.removeLayer(fish);
+    		fish = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
+				layers: 'baldricg_PNW_ATLAS:winter_steelhead',
+        		format: 'image/png',
+				maxZoom:11,
+				minZoom:5,
+				opacity:1,
+				transparent:true,
+				pane:'fish'
+			}).addTo(map);
+   		}
+    	else {
+    		map.removeLayer(fish);
+    		fish = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
+				layers: 'baldricg_PNW_ATLAS:summer_steelhead',
+        		format: 'image/png',
+				maxZoom:11,
+				minZoom:5,
+				opacity:1,
+				transparent:true,
+				pane:'fish'
+			}).addTo(map);
+    	}
+    }
+	function selectRun3 () {
+    	if (document.getElementById('checkbox3').checked == true){
+    		map.removeLayer(fish);
+    		fish = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
+				layers: 'baldricg_PNW_ATLAS:summer_chum',
+        		format: 'image/png',
+				maxZoom:11,
+				minZoom:5,
+				opacity:1,
+				transparent:true,
+				pane:'fish'
+			}).addTo(map);
+   		}
+    	else {
+    		map.removeLayer(fish);
+    		fish = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
+				layers: 'baldricg_PNW_ATLAS:fall_chum',
+        		format: 'image/png',
+				maxZoom:11,
+				minZoom:5,
+				opacity:1,
+				transparent:true,
+				pane:'fish'
+			}).addTo(map);
+    	}
+    }
+     function selectRun4 () {
+    	if (document.getElementById('checkbox4').checked == true){
+    		map.removeLayer(fish);
+    		fish = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
+				layers: 'baldricg_PNW_ATLAS:even_pink',
+        		format: 'image/png',
+				maxZoom:11,
+				minZoom:5,
+				opacity:1,
+				transparent:true,
+				pane:'fish'
+			}).addTo(map);
+   		}
+    	else {
+    		map.removeLayer(fish);
+    		fish = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
+				layers: 'baldricg_PNW_ATLAS:odd_pink',
+        		format: 'image/png',
+				maxZoom:11,
+				minZoom:5,
+				opacity:1,
+				transparent:true,
+				pane:'fish'
+			}).addTo(map);
+    	}
+    }
+///////////////////////////////button function////////////////////////////////	
+	var buttonLabels = ['#but1','#but2','#but3','#but4','#but5','#but6','#but7','#but8','#but9','#but10'];
+
+	var buttonFunctions = {
+		but1: {button:'but1', newLayers:[],newLegend:'leg_1', newElements:['facts_1'], title:'Chinook', variable:1, layerFunction:function(){resizeMiddle();resetData(); }},
+		but2: {button:'but2', newLayers:[],newLegend:'leg_2', newElements:['facts_2'], title:'Steelhead',  variable:2, layerFunction:function(){resizeMiddle();resetData();}},
+		but3: {button:'but3', newLayers:[],newLegend:'leg_3', newElements:['facts_3'], title:'Coho',  variable:3, layerFunction:function(){resizeMiddle();resetData();}},
+		but4: {button:'but4', newLayers:[],newLegend:'leg_4', newElements:['facts_4'], title:'Chum',  variable:4, layerFunction:function(){resizeMiddle();resetData();}},
+		but5: {button:'but5', newLayers:[],newLegend:'leg_5', newElements:['facts_5'], title:'Pink',  variable:5, layerFunction:function(){resizeMiddle();resetData();}},
+		but6: {button:'but6', newLayers:[],newLegend: 'leg_6', newElements:['facts_6'], title:'Sockeye',  variable:6, layerFunction:function(){resizeMiddle();resetData();}},
+		but7: {button:'but7', newLayers:[], newLegend:'leg_7', newElements:['facts_7'], title:'Bull Trout',  variable:7, layerFunction:function(){resizeMiddle();resetData();}},
+		but8: {button:'but8', newLayers:[cutthroat_trout_range], newLegend:'leg_8', newElements:['facts_8'], title:'Cutthroat Trout',  variable:8, layerFunction:function(){resizeMiddle();resetData();}},
+		but9: {button:'but9', newLayers:[], newLegend:'leg_9', newElements:['facts_9'], title:'White Sturgeon',  variable:9, layerFunction:function(){resizeMiddle();resetData();}},
+		but10: {button:'but10', newLayers:[fish_total], newLegend:'leg_10', newElements:['facts_10'], title:'Fish Biodiversity',  variable:10, layerFunction:function(){resizeMiddle();resetData();}}
+	};
+	
+	$('.main1').clickFunction({
+		buttonFunctions: buttonFunctions,
+		buttonLabels: buttonLabels,
+		selected:buttonFunctions.but1
+	});
+
+	function resetData(){
+		if (data == 1){
+			$('input:checkbox').prop('checked', false);
+			if (info){
+				info.remove(map);
+			}
+			map.removeLayer(fish);
+    		fish = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
+				layers: 'baldricg_PNW_ATLAS:fall_chinook',
+        		format: 'image/png',
+				maxZoom:11,
+				minZoom:5,
+				opacity:1,
+				transparent:true,
+				pane:'fish'
+			}).addTo(map);
+		}
+		if (data == 2){
+			$('input:checkbox').prop('checked', false);
+			if (info){
+				info.remove(map);
+			}
+			map.removeLayer(fish);
+    		fish = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
+				layers: 'baldricg_PNW_ATLAS:summer_steelhead',
+        		format: 'image/png',
+				maxZoom:11,
+				minZoom:5,
+				opacity:1,
+				transparent:true,
+				pane:'fish'
+			}).addTo(map);
+		}
+		if (data == 3){
+			if (info){
+				info.remove(map);
+			}
+			map.removeLayer(fish);
+    		fish = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
+				layers: 'baldricg_PNW_ATLAS:coho',
+        		format: 'image/png',
+				maxZoom:11,
+				minZoom:5,
+				opacity:1,
+				transparent:true,
+				pane:'fish'
+			}).addTo(map);
+		}
+		if (data == 4){
+			$('input:checkbox').prop('checked', false);
+			if (info){
+				info.remove(map);
+			}
+			map.removeLayer(fish);
+    		fish = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
+				layers: 'baldricg_PNW_ATLAS:fall_chum',
+        		format: 'image/png',
+				maxZoom:11,
+				minZoom:5,
+				opacity:1,
+				transparent:true,
+				pane:'fish'
+			}).addTo(map);
+		}
+		if (data == 5){
+			$('input:checkbox').prop('checked', false);
+			if (info){
+				info.remove(map);
+			}
+			map.removeLayer(fish);
+    		fish = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
+				layers: 'baldricg_PNW_ATLAS:odd_pink',
+        		format: 'image/png',
+				maxZoom:11,
+				minZoom:5,
+				opacity:1,
+				transparent:true,
+				pane:'fish'
+			}).addTo(map);
+		}
+		if (data == 6){
+			if (info){
+				info.remove(map);
+			}
+			map.removeLayer(fish);
+    		fish = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
+				layers: 'baldricg_PNW_ATLAS:sockeye',
+        		format: 'image/png',
+				maxZoom:11,
+				minZoom:5,
+				opacity:1,
+				transparent:true,
+				pane:'fish'
+			}).addTo(map);
+		}
+		if (data == 7){
+			if (info){
+				info.remove(map);
+			}
+			map.removeLayer(fish);
+    		fish = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
+				layers: 'baldricg_PNW_ATLAS:bull_trout',
+        		format: 'image/png',
+				maxZoom:11,
+				minZoom:5,
+				opacity:1,
+				transparent:true,
+				pane:'fish'
+			}).addTo(map);
+		}
+		if (data == 8){
+			info.addTo(map);
+			map.removeLayer(fish);
+    		fish = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
+				layers: 'baldricg_PNW_ATLAS:cutthroat_total',
+        		format: 'image/png',
+				maxZoom:11,
+				minZoom:5,
+				opacity:1,
+				transparent:true,
+				pane:'fish'
+			}).addTo(map);
+		}if (data == 9){
+			if (info){
+				info.remove(map);
+			}
+			map.removeLayer(fish);
+    		fish = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
+				layers: 'baldricg_PNW_ATLAS:sturgeon',
+        		format: 'image/png',
+				maxZoom:11,
+				minZoom:5,
+				opacity:1,
+				transparent:true,
+				pane:'fish'
+			}).addTo(map);
+		}
+		if (data == 10){
+			info.addTo(map);
+			map.removeLayer(fish);
+    		fish = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
+				layers: 'baldricg_PNW_ATLAS:sturgeon',
+        		format: 'image/png',
+				maxZoom:11,
+				minZoom:5,
+				opacity:0,
+				transparent:true,
+				pane:'fish'
+			}).addTo(map);
+		}
+	}
+
+///////////////////////////////other miscellaneous functions (these also never change)////////////////////////////////   
+
+    new L.Control.Zoom({ position: 'bottomright' }).addTo(map);
+	document.getElementsByClassName("leaflet-control-attribution")[0].style.visibility = "hidden";
+	//add scrolling capabilities to text box
+     var container = document.getElementById('text');
+		Ps.initialize(container);
+	
+	var minHeight = 30; // Define a minimum height for the middle div
+
+	function resizeMiddle() {
+   		var h = $('body').height() - $('#top').height() - 95;
+    		h = h > minHeight ? h : minHeight;
+   	 	$('#attribution').height(h);
+	}
+	
+	function resizePopup() {
+   		var h = $('.popup').height() - 90;
+    		h = h > minHeight ? h : minHeight;
+   	 	$('.popup .content').height(h);
+	}
+	$(document).ready(resizePopup);
+	$(window).resize(resizePopup);
+
+	$(document).ready(resizeMiddle);
+	$(window).resize(resizeMiddle);    
+	
+    //remove standard leaflet attribution
+    $(document).click(function(event) {
+		if (!$(event.target).closest(".share_overlay,.share").length) {
+			$('#clear')[0].click();
+		}
+	});
+
+
+</script>
+</body>
+</html>
