@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+     <title>Outdoor Economy</title>
+    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.2/dist/leaflet.css" /> 
+    <link rel="stylesheet" href="css/recreation_maps_style.css" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Maven+Pro" rel="stylesheet">
+    <link rel="stylesheet" href="css/perfect-scrollbar.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
+    <link rel="shortcut icon" href="img/pnw.ico" type="image/x-icon">
+    
+    <meta property="og:title" content="Atlas of the Pacific Northwest: Outdoor Economy" />
+    <meta property="og:url" content="https://rawgit.com/osulp/PNWatlas/master/recreation/economic_index.html" />
+    <meta property="og:description" content="Outdoor Economy maps of the Pacific Northwest."/>
+    
+    <script src="https://unpkg.com/leaflet@1.0.2/dist/leaflet.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="https://d3js.org/topojson.v1.min.js"></script>
+    <script src="js/perfect-scrollbar.js"></script>
+    <script type="text/javascript" src="../js/clickFunction.js"></script>
+    
+   
+</head>
+<body id="bootstrap_override">
+		<button id="collapse" onclick="collapse()">
+			<i class="fa fa-chevron-left" id ="collapse-arrow" aria-hidden="true"></i>
+		</button>
+		<div id="infoPanel">
+			<div id="top">
+				<h1>Outdoor Economy</h1>
+				<img src="img/economic_icon.png" id="titleImageCircle" > <br/>
+				<div id="buttons">
+					<div class="dropdown">
+						<button class="dropbtn"><b id="dataType">Select Dataset</b><p id="arrow">&#9660;</p></button>
+							<div class="dropdown-content">
+								<p style="font-size:16px;float:left; ">County</p>
+								<p style="font-size:16px;">State</p>
+								<button type="button" id="but2" style="float:left; background:rgba(242, 242, 242, 0.67);" class="selection">Employment</button>
+								<button type="button" id="but1" class="selection" style="float:right;">Employment</button>
+								<button type="button" id="but3" style="font-size:12px; float:left;" class="selection">Local Gov. Employment</button>
+								<button type="button" id="but4" class="selection" style="float:right;">Spending</button>
+								<button type="button" id="but5" style="float:left;" class="selection">Local Gov. Wages</button>
+								<button type="button" id="but6" style="float:right;" class="selection">Wages</button>
+								<button type="button" id="but7" style="float:right;" class="selection">Taxes</button>
+							</div>
+					</div>
+				</div>
+			</div>
+			<div id="attribution">
+				<div id="text">
+					<h2 id="title">% Employment</h2><img src="img/totalEmp.png" id="image2" style="display:inline-block; right:10px; margin-top:65px;"> 
+					<br/>
+					<div style="height:32px;"><b id ="leg5_block" style="background:#54278f; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p>&nbsp</p><p id="leg1_value">&nbsp2+</p></div>
+					<div style="height:30px;"><b id ="leg4_block" style="background:#756bb1; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2_value">&nbsp1 - 2</p></div>
+					<div style="height:30px;"><b id ="leg3_block" style="background:#9e9ac8; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg3_value">&nbsp0.5 - 1</p></div>
+					<div style="height:30px;"><b id ="leg2_block" style="background:#cbc9e2; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg4_value">&nbsp0.2 - 0.5</p></div>
+					<div style="height:30px;"><b id ="leg1_block" style="background:#f2f0f7; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg5_value">&nbspLess than 0.2</p></div>
+					<div style="height:32px;"><b style="background:#ffffff; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p>&nbsp</p><p id="no_data">&nbsp0 or No Data</p></div><br/>
+					<p id="description" style="font-weight:bold; padding:0; display:block; white-space:normal; width:280px;">% of population employed in outdoor recreation industry</p>
+				</div>
+				<div id="pageChange">
+					<a href="#sources" id="arrow" style="display:inline-block;">
+						<i class="fa fa-info-circle" aria-hidden="true" style="padding-left:90px;"></i>
+					</a>
+					<a href="#link_popup" id="arrow" style="display:inline-block;">
+						<i class="fa fa-home" aria-hidden="true" style="padding-left:0;"></i>
+					</a>
+					<a href="#share" class="share" id="arrow" style="display:inline-block;">
+						<i class="fa fa-share-alt " aria-hidden="true" style="padding-left:0;"></i>
+					</a>
+				</div>
+			</div>
+		</div>
+    	<div id="map" style="width: 100%; height: 100%;"></div>
+    	
+    	<div id="sources" class="overlay">
+			<div class="popup">
+				<h2 style="display:inline; font-size:32px;">Sources</h2>
+				<a class="close" href="#" style="display:inline;">×</a>
+				<hr>
+				<div class="content">
+					<p2 style="font-size:20px">Geographic Data</p2><br><br/>
+                    <div class="source">
+                    	<b><p2>2017 State employment, spending, taxes and wages: <a href = "https://outdoorindustry.org/advocacy/" target="_blank">Outdoor Advocacy</a></p2></b><br>
+                    </div>
+                    <div class="source">
+                		<b><p2>2015 County Private Sector Employment Totals: <a href = "https://factfinder.census.gov/faces/tableservices/jsf/pages/productview.xhtml?pid=ECN_2012_US_00A1&prodType=table" target="_blank">United States Census Bureau</a></p2></b><br>
+                			<p3>Notes: Data obtained using American FactFinder and the following NAICS codes for each PNW county: 71399 (All other amusement and recreation industries), 712190 (Nature parks and other similar institutions), 713920 (Skiing facilities), 451110 (Sporting goods stores), and 7212 (RV parks and recreational camps)<p3>
+                	</div>
+                	<div class="source">
+                		<b style="margin-left:0;"><p2>2015 Local Government Parks and Rec. Employment and Wages/Salaries: <a href = "https://www.census.gov/govs/apes/" target="_blank">United States Census Bureau</a></p2></b><br>
+                			<p3>Notes: Data doesn't include state government parks and rec. employment and wages/salaries. <br/> Individual Unit File was downloaded.<p3>
+                	</div>
+				</div>
+				<hr>
+				<p2 style="float:right; font-size:12px;">Map created with Leaflet.</p2>
+				<br/>
+				<a class="close2" href="#" style="display:inline;">Close</a>
+			</div>
+		</div>
+		
+		<div id="link_popup" class="link_overlay">
+			<div class="link_popup">
+				<a class="close" href="#" style="display:inline;">×</a>
+				<div class="content">
+					<a href="recreation_index.html" style="font-weight:bold; text-decoration:none;">Recreation Home</a>
+					<hr>
+					<a href="parks.html" style="text-decoration:underline;">Protected Lands</a>
+					<a href="activities.html" style="text-decoration:underline;">Outdoor Activities</a>
+					<a href="economic.html" style="text-decoration:underline;">Outdoor Economy</a>
+					<a href="hunting.html" style="text-decoration:underline;">Hunting</a>
+					<hr>
+					<a href="../index.html" style="font-weight:bold; text-decoration:none;">Atlas Home</a>
+				</div>
+			</div>
+		</div>
+		
+		<div id="share" class="share_overlay">
+			<div class="share_popup">
+				<a id="clear" href="#" style="display:none;">×</a>
+				<div class="content">
+					<a href="https://facebook.com/sharer.php?u=https://rawgit.com/osulp/PNWatlas/master/recreation/economic_index.html" id="arrow" style="display:inline-block;">
+						<i class="fa fa-facebook-square " aria-hidden="true" style="padding-left:0;"></i>
+					</a>
+					<a href="https://twitter.com/home?status=PNW%20Outdoor Economy%0Ahttp%3A//rawgit.com/osulp/PNWatlas/master/recreation/economic_index.html" id="arrow" style="display:inline-block;">
+						<i class="fa fa-twitter-square " aria-hidden="true" style="padding-left:0;"></i>
+					</a>
+					<a href="" id="arrow" style="display:inline-block;">
+						<i class="fa fa-linkedin-square " aria-hidden="true" style="padding-left:0;"></i>
+					</a>
+				</div>
+			</div>
+		</div>
+<script>
+//////////////base functions (these never change)///////////////////////
+	//////////////function for the info panel collapse button///////////////////////
+	var collapsed = false;
+    function collapse(){
+    	if (collapsed == false){
+    		document.getElementById("infoPanel").style.transition = "display 2s";
+    		document.getElementById("infoPanel").style.display = "none";
+    		document.getElementById("collapse").style.left = '0px';
+    		document.getElementById("collapse").style.paddingLeft = '2px';
+    		document.getElementById("collapse-arrow").className = "fa fa-chevron-right";
+    		collapsed = true;
+    	} else{
+    		document.getElementById("infoPanel").style.display = "unset";
+    		document.getElementById("collapse").style.left = '320px';
+    		document.getElementById("collapse").style.paddingLeft = '0px';
+    		document.getElementById("collapse-arrow").className = "fa fa-chevron-left";
+    		collapsed = false;
+    	}
+    	
+    }
+    //////////////function that allows topojson layers to be loaded///////////////////////   
+	L.TopoJSON = L.GeoJSON.extend({  
+  		addData: function(jsonData) {    
+    		if (jsonData.type === 'Topology') {
+      			for (key in jsonData.objects) {
+       			 geojson = topojson.feature(jsonData, jsonData.objects[key]);
+       			 L.GeoJSON.prototype.addData.call(this, geojson);
+      		}
+    	}    
+    	else {
+      		L.GeoJSON.prototype.addData.call(this, jsonData);
+    		}
+  		}  
+	});
+//////////////Initialize map///////////////////////
+	var map = L.map('map', {center: [45.56, -119.75], zoom: 7, zoomControl:false});
+///////////////////////make zoom level correspond to browser size////////////////////////////////
+	window.addEventListener('load', function(event){
+    	var width = document.documentElement.clientWidth;
+    	if (width < 1500 && width > 800) {
+        	map.setView(new L.LatLng(45.56, -121.75), 6); 
+    		}  else if (width > 1501) {
+        	map.setZoom(7);
+        	} else {
+        	map.setZoom(5);
+        	}
+	});
+////////////////////////////////basemap layers////////////////////////////////
+	var Esri_WorldTerrain = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer/tile/{z}/{y}/{x}', {
+		attribution: 'Tiles &copy; Esri &mdash; Source: USGS, Esri, TANA, DeLorme, and NPS',
+		maxZoom:8,
+		minZoom:4
+	}).addTo(map);
+	
+	var label = L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_only_labels/{z}/{x}/{y}@2x.png', {
+		attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
+		subdomains: 'abcd',
+		maxZoom:10,
+		minZoom:5,
+		tileSize:256,
+		pane:'labels'
+	});	
+		
+    var stateOutline = new L.TopoJSON(null, {
+  			interactive:false
+		});
+
+	$.getJSON('assets/outline.json')
+  		.done(outlineTopo);
+
+	function outlineTopo(topoData) {  
+  		stateOutline.addData(topoData);
+  		stateOutline.eachLayer(handleOutline);
+	}
+
+	function handleOutline(layer){
+        layer.setStyle({
+            opacity: 0,
+			fillOpacity:0.3,
+			fillColor:'#000000'
+        });
+    }
+    
+    
+    var pnwOutline = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
+		layers: 'baldricg_PNW_ATLAS:pnw_outline2_black',
+        format: 'image/png',
+		maxZoom:10,
+		minZoom:5,
+		opacity:0.3,
+		transparent:true,
+	}).addTo(map);
+
+	
+	map.createPane('labels');
+	map.getPane('labels').style.pointerEvents = 'none';
+	map.getPane('labels').style.zIndex = 650;
+	label.addTo(map);
+////////////////////////////////important variables////////////////////////////////		
+	var data = 5;
+	var dataValue =  [2.0, 1.0, 0.5, 0.2];
+    var colorValue = ['#54278f','#756bb1','#9e9ac8','#cbc9e2','#f2f0f7'];
+////////////////////////////////info control in upper right////////////////////////////////
+
+	var info = L.control();
+
+	info.onAdd = function (map) {
+    	this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
+    	this.update();
+    	return this._div;
+	};
+	
+	info.update = function (props) {
+	//detects whether or not a value is null
+		function nullFinder() {
+			if (dataType(props) == null)
+				{return 'N/A';}
+			else if (isNaN(dataType(props)) == true)
+				{return 0.00;}
+			else {return dataType(props);}
+		}
+	//determines whether to display state name or county name
+		function whichName() {
+			if (data <= 3){
+				return props.name;
+			}else {
+				return props.NAME;
+			}}
+	//determines whether to display 'state' or 'county' next to the unit name 
+		function stateCounty() {
+			if (data <= 3){
+				return 'State';
+			}else {
+				return 'County';
+			}}
+	//determines which icon to display next to the name
+		function whichImage() {
+			return data == 1 ? '<img src="img/totalEmp.png" id="image3" style="display:inline-block; width:30px; height:30px; position:relative; left:15px; top:10px;"><br/>':
+    		 	data == 2 ? '<img src="img/spend.png" id="image3" style="display:inline-block; width:30px; height:30px; position:relative; left:15px; top:10px;"><br/>':
+    		 	data == 3 ? '<img src="img/wages.png" id="image3" style="display:inline-block; width:30px; height:30px; position:relative; left:15px; top:10px;"><br/>':
+    		 	data == 4 ? '<img src="img/tax.png" id="image3" style="display:inline-block; width:30px; height:30px; position:relative; left:15px; top:10px;"><br/>':
+    		 	data == 5 ? '<img src="img/totalLocalEmp.png" id="image3" style="display:inline-block; width:30px; height:30px; position:relative; left:15px; top:10px;"><br/>':
+    		 	data == 6 ? '<img src="img/localEmp.png" id="image3" style="display:inline-block; width:30px; height:30px; position:relative; left:15px; top:10px;"><br/>':
+    		 	data == 7 ? '<img src="img/wages.png" id="image3" style="display:inline-block; width:30px; height:30px; position:relative; left:15px; top:10px;"><br/>':
+    		 		'<img src="img/tree.png" id="image3" style="display:inline-block; width:30px; height:30px; position:relative; left:15px; top:10px;"><br/>';
+    		}
+    //actual info display information
+   		this._div.innerHTML = (props ?
+       		'<h2 style="font-weight:bold;">' + whichName() + '</h2><p3 id="displayType" style="display:inline;">' + displayType() + '</p3>' + nullFinder() + '<br/>'
+        	:'<h2>Hover over map</h2>');
+		};
+
+	info.addTo(map);
+	
+	//determines the datatype and value to display in the info control
+	function dataType (props) {
+    		return data == 1 ? (((props.jobs_thou * 1000) / props.pop_2012)*100).toFixed(2):
+    		 	data == 2 ? ((props.spend_bil / props.pop_2012) * 1000000000).toFixed(0):
+    		 	data == 3 ? ((props.wages_bil*1000000000) / (props.jobs_thou*1000000)).toFixed(2):
+    		 	data == 4 ? ((props.tax_re_bil*1000000000) / props.pop_2012).toFixed(0):
+    		 	data == 5 ? ((props.total_emp/props.population)*100).toFixed(2):
+    		 	data == 6 ? ((props.loc_gov_em/props.population)*100).toFixed(2):
+    		 	data == 7 ? (((props.gov_ft_pay * 12)/props.gov_ft_emp)/1000).toFixed(2):
+    		 		props.jobs_thou;
+    	}
+    //determines the appropriate text to display in the info control
+    function displayType () {
+    		return data == 1 ? "% Employed:&nbsp":
+    		 	data == 2 ? "Per Capita Spending:&nbsp$":
+    		 	data == 3 ? "Avg. Annual Wages <br/> in $1000s:&nbsp":
+    		 	data == 4 ? "Per Capita Tax Revenue:&nbsp$":
+    		 	data == 5 ? "% Employed:&nbsp":
+    		 	data == 6 ? "% Employed:&nbsp":
+    		 	data == 7 ? "Avg. Annual Loc. Gov. <br/> Wages in $1000s:&nbsp":
+    		 		"Thousands of Outdoor Rec. Jobs:";
+    	}
+    
+    function whichName(props) {
+			if (data <= 3){
+				return props.properties.name;
+			}else {
+				return props.properties.NAME;
+				}
+			}
+	function dataTypePop(props) {
+    		return data == 1 ? (((props.properties.jobs_thou * 1000) / props.properties.pop_2012)*100).toFixed(2):
+    		 	data == 2 ? ((props.properties.spend_bil / props.properties.pop_2012) * 1000000000).toFixed(0):
+    		 	data == 3 ? ((props.properties.wages_bil*1000000000) / (props.properties.jobs_thou*1000000)).toFixed(2):
+    		 	data == 4 ? ((props.properties.tax_re_bil*1000000000) / props.properties.pop_2012).toFixed(0):
+    		 	data == 5 ? ((props.properties.total_emp/props.properties.population)*100).toFixed(2):
+    		 	data == 6 ? ((props.properties.loc_gov_em/props.properties.population)*100).toFixed(2):
+    		 	data == 7 ? (((props.properties.gov_ft_pay * 12)/props.properties.gov_ft_emp)/1000).toFixed(2):
+    		 		props.properties.jobs_thou;
+    	}
+	function nullFinder(feature) {
+			if (dataTypePop(feature) == null)
+				{return 'N/A';}
+			else if (isNaN(dataTypePop(feature)) == true)
+				{return '0.00';}
+			else {return dataTypePop(feature);}
+		}
+		    
+////////////////////////////display layers//////////////////////    
+	////////////////////////////economic layers//////////////////////
+	//connect color ramp to symbol levels, null values and zeros are shown in white
+	function setColor(density){
+        return density > dataValue[0] ? colorValue[0] :
+            density > dataValue[1] ? colorValue[1] :
+            density > dataValue[2] ? colorValue[2] :
+            density > dataValue[3] ? colorValue[3] :
+            density == null ? '#ffffff' :
+            isNaN(density) ? '#ffffff' :
+            density == 0 ? '#ffffff' :
+            density == -1 ? '#ffffff' :
+                colorValue[4];
+    	}
+    
+    //style function 
+	function stateStyle(feature) {
+					//determines the appropriate attribute for coloration
+					function selectionType () {
+						return data == 1 ? ((feature.properties.jobs_thou * 1000) / feature.properties.pop_2012)*100:
+    		 				data == 2 ? (feature.properties.spend_bil / feature.properties.pop_2012) * 1000000000:
+    		 				data == 3 ? (feature.properties.wages_bil*1000000000) / (feature.properties.jobs_thou*1000000):
+    		 				data == 4 ? ((feature.properties.tax_re_bil*1000000000)/feature.properties.pop_2012):
+    		 				data == 5 ? (feature.properties.total_emp/feature.properties.population)*100:
+    		 				data == 6 ? (feature.properties.loc_gov_em/feature.properties.population)*100:
+    		 				data == 7 ? ((feature.properties.gov_ft_pay * 12)/feature.properties.gov_ft_emp)/1000:
+    		 					feature.properties.jobs_thou;
+					}
+        		return {
+            		fillColor: setColor(selectionType()),
+            		fillOpacity: 0.7,
+            		weight: 1,
+            		opacity: 1,
+            		color: '#ffffff',
+        		};
+    		}
+	
+	//highlight feature function
+	function highlight(e) {
+		 var layer = e.target;
+		 layer.setStyle({
+        	fillOpacity: 1,
+        	color:'#ffffff',
+        	dashArray: 4
+    	 });
+    	 layer.bringToFront();
+    	 info.update(layer.feature.properties);
+		}
+	
+	//reset feature function
+	function resetHighlight(e) {
+		 states.resetStyle(e.target);
+		 info.update();		 
+	}
+	
+	//add geoJSON to map
+	function update() {
+    	states = $.getJSON("assets/states.geojson", function(data){
+        	states = L.geoJson(data, {
+        		style:stateStyle,
+        		onEachFeature: function(feature, featureLayer) {
+        		featureLayer.on({
+        			mouseover: highlight,
+        			mouseout: resetHighlight,
+   				});
+   				featureLayer.bindPopup('<b>'+ whichName(feature) +'</b><br/><p style="display:inline;">'+ displayType() + nullFinder(feature) + '</p>', {className: 'label_tooltip'});
+        	}
+        	}).addTo(map);
+    	});
+    	info.update();
+    	legend();
+    }
+    
+     function countyUpdate(){
+    	states = $.getJSON("assets/counties.geojson", function(data){
+        	states = L.geoJson(data, {
+        		style:stateStyle,
+        		onEachFeature: function(feature, featureLayer) {
+        		featureLayer.on({
+        			mouseover: highlight,
+        			mouseout: resetHighlight,
+   				});
+   				featureLayer.bindPopup('<b>'+ whichName(feature) +'</b><br/><p style="display:inline;">'+ displayType() + nullFinder(feature) + '</p>', {className: 'label_tooltip'});
+        	}
+        	}).addTo(map);
+    	});
+    	info.update();
+    	legend();
+    }
+    
+    countyUpdate();
+///////////////////////////////button function////////////////////////////////	
+	
+    function legend() {
+    	document.getElementById('leg1_value').innerHTML = "&nbsp" + dataValue[0] + "+";
+    	document.getElementById('leg2_value').innerHTML = "&nbsp" + dataValue[1] + " - " + dataValue[0];
+    	document.getElementById('leg3_value').innerHTML = "&nbsp" + dataValue[2] + " - " + dataValue[1];
+    	document.getElementById('leg4_value').innerHTML = "&nbsp" + dataValue[3] + " - " + dataValue[2];
+    	document.getElementById('leg5_value').innerHTML = "&nbspLess than " + dataValue[3];
+    }
+	
+	function changeExtent(){
+    	if (data <= 4)
+    		{
+    		var width = document.documentElement.clientWidth;
+    			if (width < 1500 && width > 800) {
+        			map.setView(new L.LatLng(37.788, -106), 4); 
+    			}  else if (width > 1501) {
+        			map.setView(new L.LatLng(38.788, -103.019), 5); 
+        		} else {
+        			map.setView(new L.LatLng(38.788, -103.019), 5); 
+        		}
+        	map.addLayer(stateOutline);
+        	map.removeLayer(pnwOutline);
+    		}
+    	else {
+    		var width = document.documentElement.clientWidth;
+    			if (width < 1500 && width > 800) {
+        			map.setView(new L.LatLng(45.56, -121.25), 6);
+    			}  else if (width > 1501) {
+        			map.setView(new L.LatLng(45.56, -119.75), 7); 
+        		} else {
+        			map.setView(new L.LatLng(45.56, -119.75), 7); 
+        		}
+			map.addLayer(pnwOutline);
+        	map.removeLayer(stateOutline);
+
+    	}
+    }
+	var buttonLabels = ['#but1','#but2','#but3','#but4','#but5','#but6','#but7'];
+
+	var buttonFunctions = {
+		but1: {button:'but1', title:'Employment', variable:1, colors:['#006d2c','#2ca25f','#66c2a4','#b2e2e2','#edf8fb'], values:[6.5, 5, 3.5, 2], legendTitle:'% Employment', legendDescription:'% of population employed in outdoor recreation industry', imageSRC:"img/totalEmp.png", layerFunction:function(){changeExtent(); map.removeLayer(states); update();}},
+		but2: {button:'but2', title:'Employment', variable:5, colors:['#54278f','#756bb1','#9e9ac8','#cbc9e2','#f2f0f7'], values:[2.0, 1.0, 0.5, 0.2], legendTitle:'% Employment', legendDescription:'% of population employed in outdoor recreation industry.', imageSRC:"img/totalLocalEmp.png", layerFunction:function(){changeExtent(); map.removeLayer(states); countyUpdate();}},
+		but3: {button:'but3', title:'% Gov. Employment', variable:6, colors:['#a50f15','#de2d26','#fb6a4a','#fcae91','#fee5d9'], values:[0.25, 0.15, 0.10, 0.05], legendTitle:'% Gov. Employment', legendDescription:'% of population employed in local government parks & recreation organizations', imageSRC:"img/localEmp.png", layerFunction:function(){changeExtent();map.removeLayer(states); countyUpdate();}},
+		but4: {button:'but4', title:'Spending', variable:2, colors:['#b30000','#e34a33','#fc8d59','#fdcc8a','#fef0d9'], values:[7000, 5500, 4000, 2500], legendTitle:'Per Capita Spending', legendDescription:'Per capita annual outdoor recreation spending in dollars', imageSRC:"img/spend.png", layerFunction:function(){changeExtent(); map.removeLayer(states); update();}},
+		but5: {button:'but5', title:'Local Gov. Wages', variable:7, colors:['#006837','#31a354','#78c679','#c2e699','#ffffcc'], values:[62, 56, 48, 40], legendTitle:'Average Annual Gov. Wages', legendDescription:'Average annual wages for full-time local gov. parks & rec. employees in thousands of dollars', imageSRC:"img/wages.png", layerFunction:function(){changeExtent(); map.removeLayer(states); countyUpdate();}},
+		but6: {button:'but6', title:'Wages', variable:3, colors:['#016c59','#1c9099','#67a9cf','#bdc9e1','#f6eff7'], values:[41, 37, 32, 27], legendTitle:'Average Annual Wages', legendDescription:'Average annual outdoor recreation wages in thousands of dollars', imageSRC:"img/wages.png", layerFunction:function(){changeExtent(); map.removeLayer(states); update();}},
+		but7: {button:'but7', title:'Taxes', variable:4, colors:['#a63603','#e6550d','#fd8d3c','#fdbe85','#feedde'], values:[375, 300, 225, 150], legendTitle:'Per Capita Tax Revenue', legendDescription:'Per capita annual outdoor recreation tax revenue in dollars', imageSRC:"img/tax.png", layerFunction:function(){changeExtent(); map.removeLayer(states); update();}}
+	};
+	
+ 	$('.main').clickFunction({
+		buttonFunctions: buttonFunctions,
+		buttonLabels: buttonLabels,
+		legendUpdate: true,
+		imageDiv:'image2',
+		selected: buttonFunctions.but2
+
+	});
+///////////////////////////////other miscellaneous functions (these also never change)////////////////////////////////   
+    
+   	//add zoom control
+    new L.Control.Zoom({ position: 'topright' }).addTo(map);
+    
+    //remove leaflet attribution
+	document.getElementsByClassName("leaflet-control-attribution")[0].style.visibility = "hidden";
+	
+	//add scrolling capabilities to text box
+     var container = document.getElementById('text');
+		Ps.initialize(container);
+	
+	//update text box to be correct size
+	var minHeight = 50; // Define a minimum height for the middle div
+
+	function resizeMiddle() {
+   		var h = $('body').height() - $('#top').height() - 95;
+    		h = h > minHeight ? h : minHeight;
+   	 	$('#attribution').height(h);
+	}
+	
+	function resizePopup() {
+   		var h = $('.popup').height() - 90;
+    		h = h > minHeight ? h : minHeight;
+   	 	$('.popup .content').height(h);
+	}
+	$(document).ready(resizePopup);
+	$(window).resize(resizePopup);
+
+	$(document).ready(resizeMiddle);
+	$(window).resize(resizeMiddle);    
+	
+    //remove standard leaflet attribution
+    $(document).click(function(event) {
+		if (!$(event.target).closest(".share_overlay,.share").length) {
+			$('#clear')[0].click();
+		}
+	});
+
+
+</script>
+</body>
+</html>

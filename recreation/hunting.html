@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+     <title>Hunting</title>
+    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.2/dist/leaflet.css" /> 
+	<link href="https://fonts.googleapis.com/css?family=Maven+Pro" rel="stylesheet">
+    <link rel="stylesheet" href="css/perfect-scrollbar.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/recreation_maps_style.css">
+    
+    <link rel="shortcut icon" href="img/pnw.ico" type="image/x-icon">
+    
+    <meta property="og:title" content="Atlas of the Pacific Northwest: Hunting" />
+    <meta property="og:url" content="https://rawgit.com/osulp/PNWatlas/master/recreation/hunting_index.html" />
+    <meta property="og:description" content="Hunting maps of the Pacific Northwest."/>
+    
+    <script src="https://unpkg.com/leaflet@1.0.2/dist/leaflet.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="https://d3js.org/topojson.v1.min.js"></script>
+    <script src="js/perfect-scrollbar.js"></script>
+    <script type="text/javascript" src="../js/clickFunction.js"></script>
+   
+</head>
+<body>
+		<button id="collapse" onclick="collapse()">
+			<i class="fa fa-chevron-left" id ="collapse-arrow" aria-hidden="true"></i>
+		</button>
+		<div id="infoPanel">
+			<div id="top">
+				<h1>Hunting</h1>
+				<img src="img/hunting_icon.png" id="titleImageCircle" style="display:inline-block;"> <br/>
+				<div id="buttons">
+					<div class="dropdownSmall">
+						<button class="dropbtnSmall"><b id="animalType">Select Game</b><p id="arrow">&#9660;</p></button>
+						<div class="dropdown-contentSmall">
+							<button type="button" id="animal_but1" value="Deer" style="float:left; background:rgba(242, 242, 242, 0.8);" class="selectionSmall" >Deer</button>
+							<button type="button" id="animal_but2" value="Elk" style="float:left;" class="selectionSmall">Elk</button>
+							<button type="button" id="animal_but3" value="Bear" style="float:left;" class="selectionSmall">Bear</button>
+						</div>
+					</div>
+					<div class="dropdownSmall">
+						<button class="dropbtnSmall"><b id="dataType">Select Data</b><p id="arrow">&#9660;</p></button>
+						<div class="dropdown-contentSmall">
+							<button type="button" id="but1" class="selectionSmall" style="background:rgba(242, 242, 242, 0.8);">Total</button>
+							<button type="button" id="but2" class="selectionSmall">Density</button>
+							<button type="button" id="but3" class="selectionSmall">M/F Ratio</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div id="attribution">
+				<div id="text">
+					<h2 id="title" style="margin-right:5px; display:inline;">2016 Deer</h2><h2 id="type"> Harvest</h2><img src="img/deer.png" id="image3" style="display:inline-block; float:right; right:-20px; margin-top:10px;"> 
+					<br>
+					<div style="height:32px;"><b id ="leg5_block" style="background:#a50f15; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p>&nbsp</p><p id="leg1_value">&nbsp2000+</p></div>
+					<div style="height:30px;"><b id ="leg4_block" style="background:#de2d26; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2_value">&nbsp1000 - 2000</p></div>
+					<div style="height:30px;"><b id ="leg3_block" style="background:#fb6a4a; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg3_value">&nbsp500 - 1000</p></div>
+					<div style="height:30px;"><b id ="leg2_block" style="background:#fcae91; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg4_value">&nbsp250 - 500</p></div>
+					<div style="height:30px;"><b id ="leg1_block" style="background:#fee5d9; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg5_value">&nbspLess than 250</p></div>
+					<div style="height:32px;"><b style="background:#ffffff; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p>&nbsp</p><p id="leg5">&nbsp0 or No Data</p></div><br/>
+					<p id="description" style="font-weight:bold; padding:0; display:block;">Total animals harvested</p>		
+					</br></br>		
+					<p3 style="font-weight:bold; line-height:36px;">Quick Facts:</p3><br/>
+					<p3 id="facts" style="line-height:20px;">&#9900 Three deer species are present in the Pacific Northwest, Black-Tailed Deer, Mule Deer, and some populations of white-tailed deer.<br/><br/>&#9900 General deer hunting seasons typically begin in late-September, and last through late-November or early December.</p3>
+				</div>
+				<div id="pageChange">
+					<a href="#sources" id="arrow" style="display:inline-block;">
+						<i class="fa fa-info-circle" aria-hidden="true" style="padding-left:90px;"></i>
+					</a>
+					<a href="#link_popup" id="arrow" style="display:inline-block;">
+						<i class="fa fa-home" aria-hidden="true" style="padding-left:0;"></i>
+					</a>
+					<a href="#share" class="share" id="arrow" style="display:inline-block;">
+						<i class="fa fa-share-alt " aria-hidden="true" style="padding-left:0;"></i>
+					</a>
+				</div>
+			</div>
+		</div>
+    	<div id="map" style="width: 100%; height: 100%;"></div>
+    	
+    	<div id="sources" class="overlay">
+			<div class="popup">
+				<h2 style="display:inline; font-size:32px;">Sources</h2>
+				<a class="close" href="#" style="display:inline;">×</a>
+				<hr>
+				<div class="content">
+					<p2 style="font-size:20px">Geographic Data</p2><br><br/>
+                    <div class="source">
+                    	<b><p2>Idaho Game Management Units: <a href = "https://data-idfggis.opendata.arcgis.com/datasets/game-management-units" target="_blank">Idaho Department of Fish and Game</a></p2></b><br>
+                    </div>
+                    <div class="source">
+                    	<b><p2>2016 Idaho Deer Harvest Statistics: <a href = "https://idfg.idaho.gov/ifwis/huntplanner/stats.aspx?season=general&game=deer&yr=2016" target="_blank">Idaho Department of Fish and Game</a></p2></b><br>
+                    </div>
+                    <div class="source">
+                    	<b><p2>2016 Idaho Elk Harvest Statistics: <a href = "https://idfg.idaho.gov/ifwis/huntplanner/stats.aspx?season=general&game=elk&yr=2016" target="_blank">Idaho Department of Fish and Game</a></p2></b><br>
+                    </div>
+                    <div class="source">
+                    	<b><p2>2016 Idaho Bear Harvest Statistics: <a href = "https://idfg.idaho.gov/ifwis/huntplanner/stats.aspx?season=general&game=bear&yr=2016" target="_blank">Idaho Department of Fish and Game</a></p2></b><br>
+                    </div>
+                	<div class="source">
+                    	<b><p2>Oregon Game Management Units: <a href = "https://nrimp.dfw.state.or.us/DataClearinghouse/default.aspx?p=202&XMLname=805.xml" target="_blank">Oregon Department of Fish and Wildlife</a></p2></b><br>
+                    </div>
+                    <div class="source">
+                    	<b><p2>2016 Oregon Deer Harvest Statistics: <a href = "http://www.dfw.state.or.us/resources/Hunting/big_game/controlled_hunts/reports/index.asp" target="_blank">Oregon Department of Fish and Wildlife</a></p2></b><br>
+                    	<p3>Notes: Statistics combined from the following files: <a href="http://www.dfw.state.or.us/resources/hunting/big_game/controlled_hunts/docs/hunts_summary_reports/2016_Rifle_Deer_Harvest_Est_100_Series.pdf" target="_blank">2016 100 Series Deer Harvest</a>,<a href="http://www.dfw.state.or.us/resources/hunting/big_game/controlled_hunts/docs/hunts_summary_reports/2016_Rifle_Antlerless_Deer_Harvest_Est_600_Series.pdf" target="_blank">&nbsp2016 600 Series Deer Harvest</a>, <a href="http://www.dfw.state.or.us/resources/hunting/big_game/controlled_hunts/docs/hunts_summary_reports/2016_Muzzleloader_Deer_Harvest_Est.pdf" target="_blank">2016 Muzzleloader Deer Harvest</a>, <a href="http://www.dfw.state.or.us/resources/hunting/big_game/controlled_hunts/docs/hunts_summary_reports/2016_Archery_Deer_Harvest_Est.pdf" target="_blank">2016 Archery Deer Harvest</a></p3>
+                    </div>
+                    <div class="source">
+                    	<b><p2>2016 Oregon Elk Harvest Statistics: <a href = "http://www.dfw.state.or.us/resources/Hunting/big_game/controlled_hunts/reports/index.asp" target="_blank">Oregon Department of Fish and Wildlife</a></p2></b><br>
+                    	<p3>Notes: Statistics combined from the following files: <a href="http://www.dfw.state.or.us/resources/hunting/big_game/controlled_hunts/docs/hunts_summary_reports/2016_Rifle_Elk_Harvest_Est.pdf" target="_blank">2016 Rifle Harvest</a>,<a href="http://www.dfw.state.or.us/resources/hunting/big_game/controlled_hunts/docs/hunts_summary_reports/2016_Muzzleloader_Elk_Harvest_Est.pdf" target="_blank">&nbsp2016 Muzzleloader Elk Harvest</a>, <a href="http://www.dfw.state.or.us/resources/hunting/big_game/controlled_hunts/docs/hunts_summary_reports/2016_Archery_Elk_Harvest_Est.pdf" target="_blank">2016 Archery Elk Harvest</a></p3>
+                    </div>
+                    <div class="source">
+                    	<b><p2>2016 Oregon Bear Harvest Statistics: <a href = "http://www.dfw.state.or.us/resources/Hunting/big_game/controlled_hunts/reports/index.asp" target="_blank">Oregon Department of Fish and Wildlife</a></p2></b><br>
+                    	<p3>Notes: Statistics combined from the following files: <a href="http://www.dfw.state.or.us/resources/hunting/big_game/controlled_hunts/docs/hunts_summary_reports/2016_Black_Bear_Harvest_Est.pdf" target="_blank">2016 Black Bear Harvest</a></p3>
+                    </div>
+                	<div class="source">
+                    	<b><p2>Washington Game Management Units: <a href = "https://fortress.wa.gov/dfw/public/PublicDownload/wildlife/hunts2017/GMU_Legal_Metadata.html" target="_blank">Washington Department of Fish and Wildlife</a></p2></b><br>
+                    </div>
+                    <div class="source">
+                    	<b><p2>2016 Washington Deer Harvest Statistics: <a href = "http://wdfw.wa.gov/hunting/harvest/2016/reports/deer_combo_dist_all.php" target="_blank">Washington Department of Fish and Wildlife</a></p2></b><br>
+                    </div>
+                    <div class="source">
+                    	<b><p2>2016 Washington Elk Harvest Statistics: <a href = "http://wdfw.wa.gov/hunting/harvest/2016/reports/elk_combo_dist_all.php" target="_blank">Washington Department of Fish and Wildlife</a></p2></b><br>
+                    </div>
+                    <div class="source">
+                    	<b><p2>2016 Washington Bear Harvest Statistics: <a href = "http://wdfw.wa.gov/hunting/harvest/2016/reports/bear_bmu_all.php" target="_blank">Washington Department of Fish and Wildlife</a></p2></b><br>
+                    </div>
+				</div>
+				<hr>
+				<p2 style="float:right; font-size:12px;">Map created with Leaflet.</p2>
+				<br/>
+				<a class="close2" href="#" style="display:inline;">Close</a>
+			</div>
+		</div>
+		
+		<div id="link_popup" class="link_overlay">
+			<div class="link_popup">
+				<a class="close" href="#" style="display:inline;">×</a>
+				<div class="content">
+					<a href="recreation_index.html" style="font-weight:bold; text-decoration:none;">Recreation Home</a>
+					<hr>
+					<a href="parks.html" style="text-decoration:underline;">Protected Lands</a>
+					<a href="activities.html" style="text-decoration:underline;">Outdoor Activities</a>
+					<a href="economic.html" style="text-decoration:underline;">Outdoor Economy</a>
+					<a href="hunting.html" style="text-decoration:underline;">Hunting</a>
+					<hr>
+					<a href="../index.html" style="font-weight:bold; text-decoration:none;">Atlas Home</a>
+				</div>
+			</div>
+		</div>
+		
+		<div id="share" class="share_overlay">
+			<div class="share_popup">
+				<a id="clear" href="#" style="display:none;">×</a>
+				<div class="content">
+					<a href="https://facebook.com/sharer.php?u=https://rawgit.com/osulp/PNWatlas/master/recreation/hunting_index.html" id="arrow" style="display:inline-block;">
+						<i class="fa fa-facebook-square " aria-hidden="true" style="padding-left:0;"></i>
+					</a>
+					<a href="https://twitter.com/home?status=PNW%20Hunting%0Ahttp%3A//rawgit.com/osulp/PNWatlas/master/recreation/hunting_index.html" id="arrow" style="display:inline-block;">
+						<i class="fa fa-twitter-square " aria-hidden="true" style="padding-left:0;"></i>
+					</a>
+					<a href="" id="arrow" style="display:inline-block;">
+						<i class="fa fa-linkedin-square " aria-hidden="true" style="padding-left:0;"></i>
+					</a>
+				</div>
+			</div>
+		</div>
+
+<script>
+//////////////base functions (these never change)///////////////////////	
+	//////////////function that allows topojson layers to be loaded///////////////////////
+	L.TopoJSON = L.GeoJSON.extend({  
+  		addData: function(jsonData) {    
+    		if (jsonData.type === 'Topology') {
+      			for (key in jsonData.objects) {
+       			 geojson = topojson.feature(jsonData, jsonData.objects[key]);
+       			 L.GeoJSON.prototype.addData.call(this, geojson);
+      		}
+    	}    
+    	else {
+      		L.GeoJSON.prototype.addData.call(this, jsonData);
+    		}
+  		}  
+	});
+	//////////////function for the info panel collapse button///////////////////////	
+	var collapsed = false;
+    function collapse(){
+    	if (collapsed == false){
+    		document.getElementById("infoPanel").style.transition = "display 2s";
+    		document.getElementById("infoPanel").style.display = "none";
+    		document.getElementById("collapse").style.left = '0px';
+    		document.getElementById("collapse").style.paddingLeft = '2px';
+    		document.getElementById("collapse-arrow").className = "fa fa-chevron-right";
+    		collapsed = true;
+    	} else{
+    		document.getElementById("infoPanel").style.display = "unset";
+    		document.getElementById("collapse").style.left = '320px';
+    		document.getElementById("collapse").style.paddingLeft = '0px';
+    		document.getElementById("collapse-arrow").className = "fa fa-chevron-left";
+    		collapsed = false;
+    	}
+    	
+    }
+//////////////Initialize map///////////////////////
+	var map = L.map('map', {center: [45.56, -119.75], zoom: 7, zoomControl:false});
+///////////////////////make zoom level correspond to browser size////////////////////////////////
+	window.addEventListener('load', function(event){
+    	var width = document.documentElement.clientWidth;
+    	if (width < 1500 && width > 800) {
+        	map.setView(new L.LatLng(45.56, -121.75), 6); 
+    		}  else if (width > 1501) {
+        	map.setZoom(7);
+        	} else {
+        	map.setZoom(5);
+        	}
+	});
+////////////////////////////////basemap layers////////////////////////////////
+	var Esri_WorldTerrain = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer/tile/{z}/{y}/{x}', {
+			attribution: 'Tiles &copy; Esri &mdash; Source: USGS, Esri, TANA, DeLorme, and NPS',
+			maxZoom: 9,
+			minZoom:5
+		}).addTo(map);
+		
+	var pnwCover = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
+		layers: 'baldricg_PNW_ATLAS:pnw_outline2_black',
+        format: 'image/png',
+		maxZoom:11,
+		minZoom:5,
+		opacity:0.3,
+		transparent:true,
+	}).addTo(map);
+		
+	var label = L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_only_labels/{z}/{x}/{y}@2x.png', {
+		attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
+		subdomains: 'abcd',
+		maxZoom:10,
+		minZoom:5,
+		tileSize:256,
+		bounds:[
+			new L.LatLng(49.56,-125.25),
+			new L.LatLng(40.5,-111.5)
+		],
+		pane:'labels'
+	});	
+	
+	map.createPane('labels');
+	map.getPane('labels').style.pointerEvents = 'none';
+	map.getPane('labels').style.zIndex = 650;
+	label.addTo(map);
+	
+	map.createPane('tooltip');
+	map.getPane('tooltip').style.pointerEvents = 'none';
+	map.getPane('tooltip').style.zIndex = 700;
+///////////////////////important variables////////////////////////////////
+	var levels = [2000, 1000, 500, 250, 2, 1.5, 1, 0.5, 100, 50 ,25, 10];
+	var animal = 1;
+	var dataType = [0,1,2,3];
+	var data = 1;
+	var colorValue = ['#a50f15','#de2d26','#fb6a4a','#fcae91','#fee5d9'];
+	
+////////////////////////////////info control in upper right////////////////////////////////
+	var info = L.control();
+
+	info.onAdd = function (map) {
+    	this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
+    	this.update();
+    	return this._div;
+	};
+	
+	info.update = function (props) {
+	//detects whether or not a value is null
+	function nullFinder() {
+		if (animalType(props) == null)
+			{return 'N/A';}
+		else {return animalType(props);}
+	}
+	//actual info content
+    this._div.innerHTML = (props ?
+        '<h2>' + props.NAME + '<br/>' + props.STATE + '</h2><p3 id="displayType" style="display:inline;">' + displayType() + nullFinder() + '</p3><br/>'
+        : '<h2>Hover over map</h2>');
+	};
+	
+	//determine which data type to display in info control
+	function animalType (props) {
+    		return animal == 1 && data == 1 ? props.deer_total:
+    		 	animal == 1 && data == 2 ? props.deer_dens:
+    		 	animal == 1 && data == 3 ? props.deer_ratio:
+    		 	animal == 2 && data == 1 ? props.elk_total:
+    		 	animal == 2 && data == 2 ? props.elk_dens:
+    		 	animal == 2 && data == 3 ? props.elk_ratio:
+    		 	animal == 3 && data == 1 ? props.bear_total:
+    		 	animal == 3 && data == 2 ? props.bear_dens:
+    		 	animal == 3 && data == 3 ? props.bear_ratio:
+    		 		props.deer_total;
+    		}
+    //determines the appropriate text to display in the info control
+    function displayType () {
+    		return animal == 1 && data == 1 ? "Total Deer Harvest:&nbsp":
+    		 	animal == 1 && data == 2 ? "Harvested Deer Per Sq. Mile:&nbsp":
+    		 	animal == 1 && data == 3 ? "Harvested Deer M/F Ratio:&nbsp":
+    		 	animal == 2 && data == 1 ? "Total Elk Harvest:&nbsp":
+    		 	animal == 2 && data == 2 ? "Harvested Elk Per Sq. Mile:&nbsp":
+    		 	animal == 2 && data == 3 ? "Harvested Elk M/F Ratio:&nbsp":
+    		 	animal == 3 && data == 1 ? "Total Bear Harvest:&nbsp":
+    		 	animal == 3 && data == 2 ? "Harvested Bear Per Sq. Mile:&nbsp":
+    		 	animal == 3 && data == 3 ? "Harvested Bear M/F Ratio:&nbsp":
+    		 		props.deer.total;
+    		}
+    function nullFinder(props) {
+		if (animalType(props) == null)
+			{return 'N/A';}
+		else {return animalType(props);}
+	}
+    	
+	info.addTo(map);
+////////////////////////////display layers//////////////////////
+	////////////////////////////game management units//////////////////////
+	const hunting = new L.TopoJSON();
+
+	$.getJSON('assets/gmu.json')
+  		.done(addTopoData);
+
+	function addTopoData(topoData) {  
+  		hunting.addData(topoData);
+  		hunting.addTo(map);
+  		hunting.eachLayer(handleLayer);
+	}
+	
+	function setColor(density){
+        return density > levels[dataType[0]] ? colorValue[0] :
+            density > levels[dataType[1]] ? colorValue[1] :
+            density > levels[dataType[2]] ? colorValue[2] :
+            density >  levels[dataType[3]] ? colorValue[3] :
+            density == null ? '#ffffff' :
+            density == 0 ? '#ffffff' :
+            density == -1 ? '#ffffff' :
+                colorValue[4];
+    	}
+	
+	
+	function handleLayer(layer){
+        function animalType () {
+						return animal == 1 && data == 1 ? layer.feature.properties.deer_total:
+    		 				animal == 1 && data == 2 ? layer.feature.properties.deer_dens:
+    		 				animal == 1 && data == 3 ? layer.feature.properties.deer_ratio:
+    		 				animal == 2 && data == 1 ? layer.feature.properties.elk_total:
+    		 				animal == 2 && data == 2 ? layer.feature.properties.elk_dens:
+    		 				animal == 2 && data == 3 ? layer.feature.properties.elk_ratio:
+    		 				animal == 3 && data == 1 ? layer.feature.properties.bear_total:
+    		 				animal == 3 && data == 2 ? layer.feature.properties.bear_dens:
+    		 				animal == 3 && data == 3 ? layer.feature.properties.bear_ratio:
+    		 					layer.feature.properties.bear_ratio;
+					}
+        layer.setStyle({
+          fillColor: setColor(animalType()),
+            	fillOpacity: 0.7,
+            	weight: 1.5,
+            	opacity: 0.5,
+            	color: setColor(animalType()),
+        });
+        layer.on({
+         	mouseover : enterLayer,
+            mouseout: leaveLayer
+        });
+    }
+    
+    function enterLayer(){
+      this.bringToFront();
+      this.setStyle({
+        	fillOpacity: 1,
+        	color:'#000000',
+        	dashArray: 4
+      });
+      info.update(this.feature.properties);
+    }
+    
+    function leaveLayer(){
+       function animalType (props) {
+				return animal == 1 && data == 1 ? props.deer_total:
+    		 		   animal == 1 && data == 2 ? props.deer_dens:
+    		 			animal == 1 && data == 3 ? props.deer_ratio:
+    		 			animal == 2 && data == 1 ? props.elk_total:
+    		 			animal == 2 && data == 2 ? props.elk_dens:
+    		 			animal == 2 && data == 3 ? props.elk_ratio:
+    		 			animal == 3 && data == 1 ? props.bear_total:
+    		 			animal == 3 && data == 2 ? props.bear_dens:
+    		 			animal == 3 && data == 3 ? props.bear_ratio:
+    		 				props.bear_ratio;
+				}
+      this.setStyle({
+        	fillOpacity: 0.7,
+        	color:setColor(animalType(this.feature.properties)),
+        	dashArray: null,
+        	opacity: 0.5
+      });
+      info.update();
+    }
+        
+///////////////////////////////button function////////////////////////////////	
+    function legend() {
+    	document.getElementById('leg1_value').innerHTML = "&nbsp" + levels[dataType[0]] + "+";
+    	document.getElementById('leg2_value').innerHTML = "&nbsp" +levels[dataType[1]] + " - " + levels[dataType[0]];
+    	document.getElementById('leg3_value').innerHTML = "&nbsp" +levels[dataType[2]] + " - " + levels[dataType[1]];
+    	document.getElementById('leg4_value').innerHTML = "&nbsp" +levels[dataType[3]] + " - " + levels[dataType[2]];
+    	document.getElementById('leg5_value').innerHTML = "&nbspLess than " + levels[dataType[3]];
+
+    }
+	var buttonLabels = ['#animal_but1','#animal_but2','#animal_but3'];
+
+	var buttonFunctions = {
+		but1: {button:'animal_but1', title:'Deer', topoLayers:[hunting], topoHandler:[handleLayer], imageSRC:"img/deer.png", legendTitle:"2016 Deer", layerFunctionTop:function(){animal = 1; levels = [2000,1000,500,250, 2, 1.5, 1, 0.5, 100, 50 ,25, 10]; legend();}},
+		but2: {button:'animal_but2', title:'Elk', topoLayers:[hunting], topoHandler:[handleLayer], imageSRC:"img/elk.png", legendTitle:"2016 Elk", layerFunctionTop:function(){animal = 2; levels = [500,250,100,50, 1, 0.5, 0.25, 0.1, 50, 25 ,10, 1]; legend();}},
+		but3: {button:'animal_but3', title:'Bear', topoLayers:[hunting], topoHandler:[handleLayer], imageSRC:"img/bear.png", legendTitle:"2015 Bear", layerFunctionTop:function(){animal = 3; levels = [100,50,20,10, 0.15, 0.1, 0.05, 0.01, 5, 2.5 ,1, 0.1]; legend();}}
+	};
+	
+	$('.main').clickFunction({
+		buttonFunctions: buttonFunctions,
+		buttonLabels: buttonLabels,
+		titleContainer:'animalType',
+		imageDiv:'image3',
+		legendUpdate: true,
+		selected:buttonFunctions.but1
+	});
+	var buttonLabels2 = ['#but1','#but2','#but3'];
+
+	var buttonFunctions2 = {
+		but1: {button:'but1', title:'Total', topoLayers:[hunting], topoHandler:[handleLayer], variable:1, colors:['#a50f15','#de2d26','#fb6a4a','#fcae91','#fee5d9'], layerFunctionTop:function(){dataType = [0,1,2,3];document.getElementById('description').innerHTML = "Total animals harvested"; document.getElementById('type').innerHTML = " Harvest"; legend();}},
+		but2: {button:'but2', title:'Density', topoLayers:[hunting], topoHandler:[handleLayer],  variable:2, colors:['#006837','#31a354','#78c679','#c2e699','#ffffcc'], layerFunctionTop:function(){dataType = [4,5,6,7]; document.getElementById('description').innerHTML = "Animals harvested per sq. mi."; document.getElementById('type').innerHTML = " Harvest Density"; legend();}},
+		but3: {button:'but3', title:'M/F Ratio', topoLayers:[hunting], topoHandler:[handleLayer], variable:3, colors:['#045a8d','#2b8cbe','#74a9cf','#bdc9e1','#f1eef6'], layerFunctionTop:function(){dataType = [8,9,10,11]; document.getElementById('description').innerHTML = "Ratio of males to females"; document.getElementById('type').innerHTML = " M/F Ratio"; legend();}}
+	};
+	
+ 	$('.main2').clickFunction({
+		buttonFunctions: buttonFunctions2,
+		buttonLabels: buttonLabels2,
+		legendUpdate: true,
+		selected: buttonFunctions2.but1
+
+	});
+   
+ ///////////////////////////////other miscellaneous functions (these also never change)////////////////////////////////   
+
+	//add scrolling capabilities to text box
+     var container = document.getElementById('text');
+		Ps.initialize(container);
+	
+	//remove zoom
+	new L.Control.Zoom({ position: 'topright' }).addTo(map);
+    //remove standard leaflet attribution
+     document.getElementsByClassName("leaflet-control-attribution")[0].style.visibility = "hidden";
+     
+    var minHeight = 30; // Define a minimum height for the middle div
+
+	function resizeMiddle() {
+   		var h = $('body').height() - $('#top').height() - 95;
+    		h = h > minHeight ? h : minHeight;
+   	 	$('#attribution').height(h);
+	}
+	
+	function resizePopup() {
+   		var h = $('.popup').height() - 90;
+    		h = h > minHeight ? h : minHeight;
+   	 	$('.popup .content').height(h);
+	}
+	$(document).ready(resizePopup);
+	$(window).resize(resizePopup);
+
+	$(document).ready(resizeMiddle);
+	$(window).resize(resizeMiddle);    
+	
+	$(document).click(function(event) {
+		if (!$(event.target).closest(".share_overlay,.share").length) {
+			$('#clear')[0].click();
+		}
+	});
+
+
+</script>
+</body>
+</html>
