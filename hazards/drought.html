@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+     <title>Drought</title>
+    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.2/dist/leaflet.css" /> 
+    <link rel="stylesheet" href="js/jquery-ui.css">
+     <link rel="stylesheet" href="css/jquery-ui-slider-pips.css" />
+    <link rel="stylesheet" href="css/hazard_map_style.css" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Maven+Pro" rel="stylesheet">
+    <link rel="stylesheet" href="css/perfect-scrollbar.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
+    <link rel="shortcut icon" href="img/pnw.ico" type="image/x-icon"> 
+    
+    <meta property="og:title" content="Atlas of the Pacific Northwest: Drought" />
+    <meta property="og:url" content="https://rawgit.com/osulp/PNWatlas/master/hazards/drought_index.html" />
+    <meta property="og:description" content="Drought maps of the Pacific Northwest."/>
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="https://unpkg.com/leaflet@1.0.2/dist/leaflet.js"></script>
+    <script src="https://d3js.org/topojson.v1.min.js"></script>
+    <script type="text/javascript" src="../js/clickFunction.js"></script>
+    <script src="js/jquery-ui.js"></script>
+    <script src="js/jquery-ui-slider-pips.js"</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/8.5.1/nouislider.min.js"></script>
+	<script src="js/perfect-scrollbar.js"></script>
+   
+</head>
+<body>
+		<!--<button id="collapse" onclick="collapse()">
+			<i class="fa fa-chevron-left" id ="collapse-arrow" aria-hidden="true"></i>
+		</button>-->
+		<div id="infoPanel">
+			<div id="top">
+				<h1>Drought</h1>
+				<img src="img/drought_icon.png" id="titleImageCircle" style="display:inline-block;">
+				<div id="buttons">
+					<div class="dropdown">
+						<button class="dropbtn"><b id="dataType">Select Data</b><p id="arrow">&#9660;</p></button>
+						<div class="dropdown-content">
+							 <button type="button" id="but1" class="selection" style="background:rgba(242, 242, 242, 0.8);">Drought Class</button>
+							 <button type="button" id="but2" class="selection">Drought Status</button>
+							 <button type="button" id="but3" class="selection">Precipitation</button>
+					   </div>
+					</div>
+				</div>
+			</div>
+			<div id="attribution">
+				<div id="text">
+					<div id="leg_1" style="display:unset;">
+						<h2 id="title" style="display:block; width:280px; white-space:normal; margin-bottom:5px;">Drought Class</h2>
+						<p2 style="display:block; width:280px; white-space:normal; font-style:italic;  font-size: 18px;">July of Selected Year</p2>
+						<div style="margin-top: 10px; height:32px;"><b id="leg1_block" style="background:#c72800; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p>&nbsp</p><p id="leg1" style="margin-left:5px;">Extreme Drought</p></div>
+						<div style="height:30px;"><b id="leg2_block" style="background:#ca7660; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2" style="margin-left:5px;">Severe Drought</p></div>
+						<div style="height:30px;"><b id="leg3_block" style="background:#c1ab9f; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2" style="margin-left:5px;">Moderate Drought</p></div>
+						<div style="height:32px;"><b id="leg4_block" style="background:#d1d1bd; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p>&nbsp</p><p id="leg2" style="margin-left:5px;">Abnormally Dry</p></div>
+						<br/>
+						<p id="description" style="font-weight:bold; text-align:justify; white-space:normal; padding-left:0px; width:280px; display:block; position:relative;">Drought Classification based on indices of soil moisture, precipitation, groundwater, as well as local observations.</p>
+					</div>	
+					<div id="leg_2" style="display:none;">
+						<h2 id="title" style="display:block; width:280px; white-space:normal;">County Drought Status</h2>
+						<div style="height:32px;"><b id="leg1_block" style="background:#c72800; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p>&nbsp</p><p id="leg1" style="margin-left:5px;">Primary Counties</p></div>
+						<div style="height:30px;"><b id="leg2_block" style="background:#c1ab9f; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2" style="margin-left:5px;">Contiguous Counties</p></div>
+						<div style="height:32px;"><b id="leg3_block" style="background:#ffffff; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p>&nbsp</p><p id="leg2" style="margin-left:5px;">No Official Drought</p></div>
+						<br/>
+						<p id="description" style="font-weight:bold; text-align:justify; white-space:normal; padding-left:0px; width:280px; display:block; position:relative;">Drought Status as approved by the US Secretary of Agriculture. Primary Counties indicate officially declared drought.</p>
+					</div>
+					<div id="leg_3" style="display:none;">
+						<h2 id="title" style="display:block; width:280px; white-space:normal;">Annual Precipitation Anomaly (% of average)</h2>
+						<div style="height:26px;"><b id="leg1_block" style="height:24px; background:#1a9641; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p>&nbsp</p><p id="leg1" style="margin-left:5px;line-height:20px;">240+</p></div>
+						<div style="height:24px;"><b id="leg2_block" style="height:24px;background:#4daf50; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2" style="margin-left:5px; line-height:20px;">220 - 240</p></div>
+						<div style="height:24px;"><b id="leg3_block" style="height:24px;background:#80c75f; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2" style="margin-left:5px; line-height:20px;">200 - 220</p></div>
+						<div style="height:24px;"><b id="leg4_block" style="height:24px;background:#abdb6e; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2" style="margin-left:5px; line-height:20px;">180 - 200</p></div>
+						<div style="height:24px;"><b id="leg5_block" style="height:24px;background:#bde380; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2" style="margin-left:5px; line-height:20px;">160 - 180</p></div>
+						<div style="height:24px;"><b id="leg6_block" style="height:24px;background:#cfeb91; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2" style="margin-left:5px; line-height:20px;">140 - 160</p></div>
+						<div style="height:24px;"><b id="leg7_block" style="height:24px;background:#e1f3a3; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2" style="margin-left:5px; line-height:20px;">120 - 140</p></div>
+						<div style="height:24px;"><b id="leg8_block" style="height:24px;background:#f3fab4; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2" style="margin-left:5px; line-height:20px;">100 - 120</p></div>
+						<div style="height:24px;"><b id="leg9_block" style="height:24px;background:#fff0ad; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2" style="margin-left:5px; line-height:20px;">80 - 100</p></div>
+						<div style="height:24px;"><b id="leg10_block" style="height:24px;background:#febe74; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2" style="margin-left:5px; line-height:20px;">60 - 80</p></div>
+						<div style="height:24px;"><b id="leg11_block" style="height:24px;background:#ee7245; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2" style="margin-left:5px; line-height:20px;">40 - 60</p></div>
+						<div style="height:26px;"><b id="leg12_block" style="height:24px;background:#d7191c; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p>&nbsp</p><p id="leg2" style="margin-left:5px; line-height:20px;">Less than 40</p></div>
+						<br/>
+						<p id="description" style="font-weight:bold; text-align:justify; white-space:normal; padding-left:0px; width:280px; display:block; position:relative;">Percent of average precipitation. Averages taken from 1980 - 2010.</p>
+					</div>
+				</div>	
+				<div id="pageChange">
+					<a href="#sources" id="arrow" style="display:inline-block;">
+						<i class="fa fa-info-circle" aria-hidden="true" style="padding-left:90px;"></i>
+					</a>
+					<a href="#link_popup" id="arrow" style="display:inline-block;">
+						<i class="fa fa-home" aria-hidden="true" style="padding-left:0;"></i>
+					</a>
+					<a href="#share" class="share" id="arrow" style="display:inline-block;">
+						<i class="fa fa-share-alt " aria-hidden="true" style="padding-left:0;"></i>
+					</a>
+				</div>
+			</div>
+			<div id="slider-vertical-class" style="height:200px; font-size:20px; width:10px; position:absolute; left:320px; z-index:2000; top:35%; border-radius: 0px 3px 3px 0px;background:rgba(255,255,255,0.6);border-top: 10px solid rgba(255,255,255,0);border-bottom: 10px solid rgba(255,255,255,0);"></div>
+			<div id="slider-vertical-status" style="display:none; font-size:20px; height:200px; width:10px; position:absolute; left:320px; z-index:2000; top:35%; border-radius: 0px 3px 3px 0px;background:rgba(255,255,255,0.6);border-top: 10px solid rgba(255,255,255,0);border-bottom: 10px solid rgba(255,255,255,0);"></div>
+			<div id="slider-vertical-precip" style="display:none; font-size:20px; height:200px; width:10px; position:absolute; left:320px; z-index:2000; top:35%; border-radius: 0px 3px 3px 0px;background:rgba(255,255,255,0.6);border-top: 10px solid rgba(255,255,255,0);border-bottom: 10px solid rgba(255,255,255,0);"></div>
+		</div>
+    	<div id="map" style="width: 100%; height: 100%;"></div>
+    	
+    	<div id="sources" class="overlay">
+			<div class="popup">
+				<h2 style="display:inline; font-size:32px;">Sources</h2>
+				<a class="close" href="#" style="display:inline;">×</a>
+				<hr>
+				<div class="content">
+					<p2 style="font-size:20px">Geographic Data</p2><br><br/>
+                    <div class="source">
+                    	<b><p2>Drought Classifications: <a href = "https://www1.ncdc.noaa.gov/pub/data/nidis/shapefiles/" target="_blank">NOAA/University of Nebraska</a></p2></b><br>
+                    		<p3>Notes: Data downloaded for July 2012-2017.</p3>
+                    </div>
+                     <div class="source">
+                    	<b><p2>Drought Counties: <a href = "https://www.fsa.usda.gov/programs-and-services/disaster-assistance-program/disaster-designation-information/index" target="_blank">United States Department of Agriculture</a></p2></b><br>
+                    		<p3>Notes: Combined with PNW county dataset.</p3>
+                    </div>
+                    <div class="source">
+                    	<b><p2>Precipitation Anomaly: <a href = "http://prism.oregonstate.edu/recent/" target="_blank">Oregon State University PRISM Group</a></p2></b><br>
+                    		<p3>Notes: Annual precipitation datasets from 2012-2017 subtracted from 1980-2010 30-year normals</p3>
+                    </div>
+				</div>
+				<hr>
+				<p2 style="float:right; font-size:12px;">Map created with Leaflet.</p2>
+				<br/>
+				<a class="close2" href="#" style="display:inline;">Close</a>
+			</div>
+		</div>
+		
+		<div id="link_popup" class="link_overlay">
+			<div class="link_popup">
+				<a class="close" href="#" style="display:inline;">×</a>
+				<div class="content">
+					<a href="hazard_index.html" style="font-weight:bold; text-decoration:none;">Hazards Home</a>
+					<hr>
+					<a href="vulnerability.html" style="text-decoration:underline;">Disaster Risk</a>
+					<a href="earthquake.html" style="text-decoration:underline;">Earthquakes</a>
+					<a href="flood.html" style="text-decoration:underline;">Flooding</a>
+					<a href="volcano.html" style="text-decoration:underline;">Volcanos</a>
+					<a href="drought.html" style="text-decoration:underline;">Drought</a>
+					<a href="weather.html" style="text-decoration:underline;">Extreme Weather</a>
+					<a href="wildfire.html" style="text-decoration:underline;">Wildfires</a>
+					<hr>
+					<a href="../index.html" style="font-weight:bold; text-decoration:none;">Atlas Home</a>
+				</div>
+			</div>
+		</div>
+		
+		<div id="share" class="share_overlay">
+			<div class="share_popup">
+				<a id="clear" href="#" style="display:none;">×</a>
+				<div class="content">
+					<a href="https://facebook.com/sharer.php?u=https://rawgit.com/osulp/PNWatlas/master/hazards/drought_index.html" id="arrow" style="display:inline-block;">
+						<i class="fa fa-facebook-square " aria-hidden="true" style="padding-left:0;"></i>
+					</a>
+					<a href="https://twitter.com/home?status=PNW%20Drought%0Ahttp%3A//rawgit.com/osulp/PNWatlas/master/hazards/drought_index.html" id="arrow" style="display:inline-block;">
+						<i class="fa fa-twitter-square " aria-hidden="true" style="padding-left:0;"></i>
+					</a>
+					<a href="" id="arrow" style="display:inline-block;">
+						<i class="fa fa-linkedin-square " aria-hidden="true" style="padding-left:0;"></i>
+					</a>
+				</div>
+			</div>
+		</div>
+		
+<script>
+//////////////base functions (these never change)///////////////////////
+	//////////////function for the info panel collapse button///////////////////////
+	var collapsed = false;
+    function collapse(){
+    	if (collapsed == false){
+    		document.getElementById("infoPanel").style.transition = "display 2s";
+    		document.getElementById("infoPanel").style.display = "none";
+    		document.getElementById("collapse").style.left = '0px';
+    		document.getElementById("collapse").style.paddingLeft = '2px';
+    		document.getElementById("collapse-arrow").className = "fa fa-chevron-right";
+    		collapsed = true;
+    	} else{
+    		document.getElementById("infoPanel").style.display = "unset";
+    		document.getElementById("collapse").style.left = '320px';
+    		document.getElementById("collapse").style.paddingLeft = '0px';
+    		document.getElementById("collapse-arrow").className = "fa fa-chevron-left";
+    		collapsed = false;
+    	}
+    	
+    }
+//////////////function that allows topojson layers to be loaded///////////////////////
+    L.TopoJSON = L.GeoJSON.extend({  
+  		addData: function(jsonData) {    
+    		if (jsonData.type === 'Topology') {
+      			for (key in jsonData.objects) {
+       			 geojson = topojson.feature(jsonData, jsonData.objects[key]);
+       			 L.GeoJSON.prototype.addData.call(this, geojson);
+      		}
+    	}    
+    	else {
+      		L.GeoJSON.prototype.addData.call(this, jsonData);
+    		}
+  		}  
+	});
+//////////////Initialize map///////////////////////	
+	var map = L.map('map', {center: [45.56, -119.75], zoom: 7, zoomControl:false});
+///////////////////////make zoom level correspond to browser size////////////////////////////////
+	window.addEventListener('load', function(event){
+    	var width = document.documentElement.clientWidth;
+    	if (width < 1500 && width > 800) {
+        	map.setView(new L.LatLng(45.56, -121.75), 6); 
+    		}  else if (width > 1501) {
+        	map.setZoom(7);
+        	} else {
+        	map.setZoom(5);
+        	}
+	});
+////////////////////////////////basemap layers////////////////////////////////
+	var Esri_WorldTerrain = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer/tile/{z}/{y}/{x}', {
+		attribution: 'Tiles &copy; Esri &mdash; Source: USGS, Esri, TANA, DeLorme, and NPS',
+		maxZoom:10,
+		minZoom:5,
+		opacity:1
+	}).addTo(map);
+
+	var pnwCover = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
+		layers: 'baldricg_PNW_ATLAS:pnw_outline2_black',
+        format: 'image/png',
+		maxZoom:10,
+		minZoom:5,
+		opacity:0.3,
+		transparent:true,
+	}).addTo(map);
+
+	
+	var label = L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_only_labels/{z}/{x}/{y}@2x.png', {
+		attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
+		subdomains: 'abcd',
+		maxZoom:10,
+		minZoom:5,
+		tileSize:256,
+		bounds:[
+			new L.LatLng(49.56,-125.25),
+			new L.LatLng(40.5,-111.5)
+		],
+		pane:'labels'
+	});	
+	
+	var pnwStates = $.getJSON("assets/pnw_states.geojson", function(data){
+        pnwStates = L.geoJson(data, {
+        	style:function pnwStatesStyle(){
+				return{
+					opacity: 1,
+					color:'#666666',
+					fillOpacity:0	,
+					fillColor:'#404040',
+					weight:1
+				};
+			},
+        	interactive: false
+        }).addTo(map);
+    });
+    
+    var pnwCounties = $.getJSON("assets/pnw_counties.geojson", function(data){
+        pnwStates = L.geoJson(data, {
+        	style:function pnwStatesStyle(){
+				return{
+					opacity: 1,
+					color:'#999999',
+					fillOpacity:0	,
+					fillColor:'#404040',
+					weight:0.25
+				};
+			},
+        	interactive: false
+        }).addTo(map);
+    });
+	
+	
+	map.createPane('labels');
+	map.getPane('labels').style.pointerEvents = 'none';
+	map.getPane('labels').style.zIndex = 650;
+	label.addTo(map);
+	
+	map.createPane('tooltip');
+	map.getPane('tooltip').style.zIndex = 700;
+	//changes depending on which data type is selected, initial value is for County Employment
+////////////////////////////////important variables////////////////////////////////		
+	var data = 2017;
+	var selection = 1;
+
+////////////////////////////////info control in upper right////////////////////////////////
+  	var info = L.control();
+
+	info.onAdd = function (map) {
+    	this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
+    	this.update();
+    	return this._div;
+	};
+	
+	info.update = function (feature) {
+		function nullFinder(prop) {
+			if (prop == null)
+				{return 0;}
+			else if (isNaN(prop) == true)
+				{return 0;}
+			else {return prop;}
+		}
+		if (selection == 2){
+   			this._div.innerHTML = (feature ?
+        		'<h2 style="margin:0; display:inline-block;">'+ feature.NAME +' County</h2>'
+       			:'<h2>Hover over Map</h2>');
+		}
+
+	};
+    
+////////////////////////////display layers//////////////////////		
+	////////////////////////////drought class//////////////////////
+ 	var droughtClass;
+    
+    function addDroughtClass(){
+    droughtClass = null;
+    droughtClass = new L.TopoJSON(null, {
+  		filter: function(feature, layer) {
+  			return feature.properties.Year_Month == data ? true:
+  				false;
+  			}
+		});
+
+	$.getJSON('assets/drought_total.json')
+  		.done(addDroughtClassData);
+
+	function addDroughtClassData(topoData) {  
+  		droughtClass.addData(topoData);
+  		droughtClass.addTo(map);
+  		droughtClass.eachLayer(handleDroughtClassLayer);
+	}
+	
+	function droughtClassColor(string){
+		return string == 'd0' ? '#d1d1bd':
+			string == 'd1' ? '#c1ab9f':
+			string == 'd2' ? '#ca7660':
+			string == 'd3' ? '#c72800':
+				'#ffffff';
+	}
+	
+	function handleDroughtClassLayer(layer){
+        layer.setStyle({
+          		color:droughtClassColor(layer.feature.properties.Droughtcat),
+        		weight:1,
+        		opacity: 0,
+				fillOpacity:0.7,
+				fillColor:droughtClassColor(layer.feature.properties.Droughtcat)
+    		});
+    	}
+    }
+    
+    addDroughtClass();
+
+    //modern fires slider
+    $( function() {
+    $( "#slider-vertical-class" ).slider({
+      	orientation:"vertical",
+      	range: "min",
+      	min: 2012,
+      	max: 2017,
+      	value: data,
+      	slide: function( event, ui ) {
+        	$( "#amount" ).val( ui.value );
+        		data = ui.value;
+        		if (droughtClass){
+        			droughtClass.remove(map);
+        		}
+        		if (droughtStatus){
+        			droughtStatus.remove(map);
+        		}
+        		if (precip){
+        			precip.remove(map);
+        		}
+    			addDroughtClass();
+      		},
+      	change: function( event, ui ) {
+        	$( "#amount" ).val( ui.value );
+        		data = ui.value;
+        		console.log(data);
+        		if (droughtClass){
+        			droughtClass.remove(map);
+        		}
+        		if (droughtStatus){
+        			droughtStatus.remove(map);
+        		}
+        		if (precip){
+        			precip.remove(map);
+        		}
+    			addDroughtClass();
+      		}
+    	}).slider("pips",{
+    		rest: "label",
+    	});
+  	});
+  	////////////////////////////drought class//////////////////////
+ 	var droughtStatus;
+    
+    function addDroughtStatus(){
+    droughtStatus = null;
+    droughtStatus = new L.TopoJSON(null, {
+		});
+
+	$.getJSON('assets/drought_counties.json')
+  		.done(addDroughtStatusData);
+
+	function addDroughtStatusData(topoData) {  
+  		droughtStatus.addData(topoData);
+  		droughtStatus.addTo(map);
+  		droughtStatus.eachLayer(handleDroughtStatusLayer);
+	}
+
+	function droughtStatusColor(string){
+		return string == '0' ? '#ffffff':
+			string == '1' ? '#c72800':
+			string == '2' ? '#c1ab9f':
+				'#ffffff';
+	}
+		
+	function recolor(layer){
+		return data == 2017 ? layer.feature.properties.d2017:
+			data == 2016 ? layer.feature.properties.d2016:
+			data == 2015 ? layer.feature.properties.d2015:
+			data == 2014 ? layer.feature.properties.d2014:
+			data == 2013 ? layer.feature.properties.d2013:
+				layer.feature.properties.d2012;
+	}
+	
+	function handleDroughtStatusLayer(layer){
+        layer.setStyle({
+          		color:'#e6e6e6',
+        		weight:1,
+        		opacity: 1,
+				fillOpacity:0.7,
+				fillColor:droughtStatusColor(recolor(layer))
+    		});
+    	layer.on({
+         	mouseover : enterDroughtStatus,
+            mouseout: leaveDroughtStatus
+        });
+    	}
+    }
+        
+    function enterDroughtStatus(){
+		this.bringToFront();
+		this.setStyle({
+        	color:'#000000',
+        	fillOpacity: 1,
+        	opacity: 1,
+        	dashArray: 4
+      	});
+      info.update(this.feature.properties);
+    }
+    
+    function leaveDroughtStatus(){
+      	this.setStyle({
+        	color:'#e6e6e6',
+        	fillOpacity: 0.7,
+        	opacity: 1,
+        	dashArray: 0
+     	 });
+      info.update();
+    }
+    //modern fires slider
+    $( function() {
+    $( "#slider-vertical-status" ).slider({
+      	orientation:"vertical",
+      	range: "min",
+      	min: 2012,
+      	max: 2017,
+      	value: data,
+      	slide: function( event, ui ) {
+        	$( "#amount" ).val( ui.value );
+        		data = ui.value;
+        		if (droughtStatus){
+        			droughtStatus.remove(map);
+        		}
+        		if (droughtClass){
+        			droughtClass.remove(map);
+        		}
+        		if (precip){
+        			precip.remove(map);
+        		}
+    			addDroughtStatus();
+      		},
+      	change: function( event, ui ) {
+        	$( "#amount" ).val( ui.value );
+        		data = ui.value;
+        		console.log(data);
+        		if (droughtStatus){
+        			droughtStatus.remove(map);
+        		}
+        		if (droughtClass){
+        			droughtClass.remove(map);
+        		}
+        		if (precip){
+        			precip.remove(map);
+        		}
+    			addDroughtStatus();
+      		}
+    	}).slider("pips",{
+    		rest: "label",
+    	});
+  	});
+  	////////////////////////////drought class//////////////////////
+ 	var precip;
+    
+    function addPrecip(){
+    precip = null;
+    precip = new L.TopoJSON(null, {
+  		filter: function(feature, layer) {
+  			return feature.properties.year == data ? true:
+  				false;
+  			}
+		});
+
+	$.getJSON('assets/anomaly_total.json')
+  		.done(addPrecipData);
+
+	function addPrecipData(topoData) {  
+  		precip.addData(topoData);
+  		precip.addTo(map);
+  		precip.eachLayer(handlePrecipLayer);
+	}
+
+	function droughtStatusColor(string){
+		return string == '20' ? '#d7191c':
+			string == '40' ? '#ee7245':
+			string == '60' ? '#febe74':
+			string == '80' ? '#fff0ad':
+			string == '100' ? '#f3fab4':
+			string == '120' ? '#e1f3a3':
+			string == '140' ? '#cfeb91':
+			string == '160' ? '#bde380':
+			string == '180' ? '#abdb6e':
+			string == '200' ? '#80c75f':
+			string == '220' ? '#4daf50':
+			string == '240' ? '#1a9641':
+				'#1a9641';
+	}
+		
+	function handlePrecipLayer(layer){
+        layer.setStyle({
+          		color:droughtStatusColor(layer.feature.properties.class),
+        		weight:1,
+        		opacity: 1,
+				fillOpacity:0.8,
+				fillColor:droughtStatusColor(layer.feature.properties.class)
+    		});
+
+    	}
+    }
+    //modern fires slider
+    $( function() {
+    $( "#slider-vertical-precip" ).slider({
+      	orientation:"vertical",
+      	range: "min",
+      	min: 2012,
+      	max: 2017,
+      	value: data,
+      	slide: function( event, ui ) {
+        	$( "#amount" ).val( ui.value );
+        		data = ui.value;
+        		if (droughtStatus){
+        			droughtStatus.remove(map);
+        		}
+        		if (droughtClass){
+        			droughtClass.remove(map);
+        		}
+        		if (precip){
+        			precip.remove(map);
+        		}
+    			addPrecip();
+      		},
+      	change: function( event, ui ) {
+        	$( "#amount" ).val( ui.value );
+        		data = ui.value;
+        		console.log(data);
+        		if (droughtStatus){
+        			droughtStatus.remove(map);
+        		}
+        		if (droughtClass){
+        			droughtClass.remove(map);
+        		}
+        		if (precip){
+        			precip.remove(map);
+        		}
+    			addPrecip();
+      		}
+    	}).slider("pips",{
+    		rest: "label",
+    	});
+  	});
+  		
+
+///////////////////////////////button function////////////////////////////////
+	//this function uses the ClickFunction plugin to easily add/remove layers, change legends, styling and anything else when a new dataset is selected from the dropdown buttons  		
+	var buttonLabels = ['#but1','#but2','#but3'];//add button IDs here
+
+	var buttonFunctions = {
+		but1: {button:'but1',//button ID 
+				newLegend: 'leg_1',
+				newElements:['slider-vertical-class'], //legend div ID
+				title:'Drought Class', //title to display in dropdown menu
+				variable:2017, //update the 'data' variable
+				layerFunction:function(){
+						selection = 1;
+						info.remove(map);
+						$("#slider-vertical-class").slider('value',data);
+					}
+			},
+		but2: {button:'but2',//button ID 
+				newLegend: 'leg_2',
+				newElements:['slider-vertical-status'], //legend div ID
+				title:'Drought Status', //title to display in dropdown menu
+				variable:2017, //update the 'data' variable
+				layerFunction:function(){
+						selection = 2;
+						info.addTo(map);
+						$("#slider-vertical-status").slider('value',data);
+					}
+			},
+		but3: {button:'but3',//button ID 
+				newLegend: 'leg_3',
+				newElements:['slider-vertical-precip'], //legend div ID
+				title:'Precipitation', //title to display in dropdown menu
+				variable:2017, //update the 'data' variable
+				layerFunction:function(){
+						selection = 2;
+						info.remove(map);
+						$("#slider-vertical-precip").slider('value',data);
+					}
+			}
+	};
+	
+	$('.main').clickFunction({
+		buttonFunctions: buttonFunctions,
+		buttonLabels: buttonLabels,
+		selected:buttonFunctions.but1 //choose which button is initially selected
+	});
+	
+///////////////////////////////other miscellaneous functions (these also never change)////////////////////////////////   
+   	//add zoom control
+    new L.Control.Zoom({ position: 'bottomright' }).addTo(map);
+    
+    //remove leaflet attribution
+	document.getElementsByClassName("leaflet-control-attribution")[0].style.visibility = "hidden";
+	
+	//add scrolling capabilities to text box
+     var container = document.getElementById('text');
+		Ps.initialize(container);
+	
+	//update text box to be correct size
+	var minHeight = 50; // Define a minimum height for the middle div
+
+	function resizeMiddle() {
+   		var h = $('body').height() - $('#top').height() - 95;
+    		h = h > minHeight ? h : minHeight;
+   	 	$('#attribution').height(h);
+	}
+	
+	function resizePopup() {
+   		var h = $('.popup').height() - 90;
+    		h = h > minHeight ? h : minHeight;
+   	 	$('.popup .content').height(h);
+	}
+	$(document).ready(resizePopup);
+	$(window).resize(resizePopup);
+
+	$(document).ready(resizeMiddle);
+	$(window).resize(resizeMiddle);   
+	
+	$(document).click(function(event) {
+		if (!$(event.target).closest(".share_overlay,.share").length) {
+			$('#clear')[0].click();
+		}
+	});
+ 
+
+
+</script>
+</body>
+</html>
