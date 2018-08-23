@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+     <title>Farms</title>
+    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.2/dist/leaflet.css" /> 
+    <link rel="stylesheet" href="css/food_map_style.css" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Maven+Pro" rel="stylesheet">
+    <link rel="stylesheet" href="css/perfect-scrollbar.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
+    <link rel="shortcut icon" href="img/pnw.ico" type="image/x-icon">
+    
+    <meta property="og:title" content="Atlas of the Pacific Northwest: Farms" />
+    <meta property="og:url" content="https://rawgit.com/osulp/PNWatlas/master/food/farm_index.html" />
+    <meta property="og:description" content="Farm maps of the Pacific Northwest."/>
+    
+    <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://d3js.org/topojson.v1.min.js"></script>
+    <script src="js/leaflet_pattern.js"></script>
+    <script src="js/Chart.bundle.js"></script>
+    <script src="js/Chart.PieceLabel.min.js"></script>
+    <script type="text/javascript" src="../js/clickFunction.js"></script>
+    <script src="js/perfect-scrollbar.js"></script>  
+   
+</head>
+<body>
+		<!--This is the button that collapses the info panel-->
+		<button id="collapse" onclick="collapse()">
+			<i class="fa fa-chevron-left" id ="collapse-arrow" aria-hidden="true"></i>
+		</button>
+		<!--Info panel on the left side of the screen. Dataset selection, legends, and additional information about the map is presented here.-->
+		<div id="infoPanel">
+			<!--Upper half of the info panel. This part of the info panel will always remain the same size. This usually includes the data selection and the main legend. Try not to make this too tall, or it will be cut off on smaller screens.-->
+			<div id="top"> 
+				<h1>Farms</h1><!--Map title-->
+				<img src="img/farm_icon.png" id="titleImageCircle" > <br/><!--Banner image-->
+				<!--Dropdown menu for dataset selection-->
+				<div id="buttons">
+					<div class="dropdown">
+						<button class="dropbtn"><b id="dataType">Select Dataset</b><p id="arrow">&#9660;</p></button>
+							<div class="dropdown-content">
+								<button type="button" id="but1" style="background:rgba(242, 242, 242, 0.67);" class="selection">Farm Value</button>
+								<button type="button" id="but2" class="selection">Ownership</button>
+								<button type="button" id="but3" class="selection">Irrigation</button>
+								<button type="button" id="but4" class="selection">Prime Farmland</button>
+							</div>
+					</div>
+				</div>
+			</div>
+			<!--Middle half of the info panel. This part of the info panel is dynamic! It will adjust to the current screen size, and works with the Perfect-Scrollbar.js plugin to create a dynamic scrollbar within the section.-->
+			<div id="attribution">
+				<div id="text">
+					<!--Legends for each dataset-->
+					<div id="leg_1" style="display:unset;">
+						<h2 id="title" style="line-height:28px;">Average Product Value per Farm ($1000s)</h2><img src="img/value_icon.png" id="iconImage" style="margin-top:10px;">
+						<div style="height:32px;"><b id="leg1_block" style="background:#006837; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p style="margin-left:5px;">500+</p></div>
+						<div style="height:30px;"><b id="leg2_block" style="background:#31a354; border-left:black 2px solid; border-right:black 2px solid;"></b><p style="margin-left:5px;">250 - 500</p></div>
+						<div style="height:30px;"><b id="leg3_block" style="background:#78c679; border-left:black 2px solid; border-right:black 2px solid;"></b><p style="margin-left:5px;">100 - 250</p></div>
+						<div style="height:30px;"><b id="leg4_block" style="background:#c2e699; border-left:black 2px solid; border-right:black 2px solid;"></b><p style="margin-left:5px;">50 - 100</p></div>
+						<div style="height:32px;"><b id="leg5_block" style="background:#ffffcc; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p style="margin-left:5px;">Less than 50</p></div>
+						<br/>
+						<p id="description">Average value of agricultural products per farm in thousands of dollars in 2012.</p>
+					</div>	
+					<div id="leg_2" style="display:none;">
+						<h2 id="title" >% Corporate Farms</h2><img src="img/corporate_icon.png" id="iconImage" >
+						<div style="height:32px;"><b id="leg1_block" style="background:#54278f; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p style="margin-left:5px;">20+</p></div>
+						<div style="height:30px;"><b id="leg2_block" style="background:#756bb1; border-left:black 2px solid; border-right:black 2px solid;"></b><p style="margin-left:5px;">15 - 20</p></div>
+						<div style="height:30px;"><b id="leg3_block" style="background:#9e9ac8; border-left:black 2px solid; border-right:black 2px solid;"></b><p style="margin-left:5px;">10 - 15</p></div>
+						<div style="height:30px;"><b id="leg4_block" style="background:#cbc9e2; border-left:black 2px solid; border-right:black 2px solid;"></b><p style="margin-left:5px;">5 - 10</p></div>
+						<div style="height:30px;"><b id="leg5_block" style="background:#f2f0f7; border-left:black 2px solid; border-right:black 2px solid;"></b><p style="margin-left:5px;">Less than 5</p></div>
+						<div style="height:32px;"><b id="leg5_block" style="background:#ffffff; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p style="margin-left:5px;">No Data</p></div>
+						<br/>
+						<p id="description">Percent of all farms operated by corporations. Other farms are owned by individuals, families, or partnerships.</p>
+					</div>	
+					<div id="leg_3" style="display:none;">
+						<h2 id="title" >% Farmland Irrigated </h2><img src="img/irrigation_icon.png" id="iconImage" >
+						<div style="height:32px;"><b id="leg1_block" style="background:#08519c; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p style="margin-left:5px;">50+</p></div>
+						<div style="height:30px;"><b id="leg2_block" style="background:#3182bd; border-left:black 2px solid; border-right:black 2px solid;"></b><p style="margin-left:5px;">25 - 50</p></div>
+						<div style="height:30px;"><b id="leg3_block" style="background:#6baed6; border-left:black 2px solid; border-right:black 2px solid;"></b><p style="margin-left:5px;">10 - 25</p></div>
+						<div style="height:30px;"><b id="leg4_block" style="background:#bdd7e7; border-left:black 2px solid; border-right:black 2px solid;"></b><p style="margin-left:5px;">5 - 10</p></div>
+						<div style="height:30px;"><b id="leg5_block" style="background:#eff3ff; border-left:black 2px solid; border-right:black 2px solid;"></b><p style="margin-left:5px;">Less than 5</p></div>
+						<div style="height:32px;"><b id="leg5_block" style="background:#ffffff; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p style="margin-left:5px;">No Data</p></div>
+						<br/>
+						<p id="description">Percent of total farmland irrigated.</p>
+					</div>	
+					<div id="leg_4" style="display:none;">
+						<h2 id="title" >Prime Farmland</h2>
+						<div style="height:32px;"><b id="leg1_block" style="background:rgba(64,128,0,0.8); border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p style="margin-left:5px;">Used for Farming</p></div>
+						<div style="height:30px;"><b id="leg2_block" style="background:rgba(230,138,0,0.8); border-left:black 2px solid; border-right:black 2px solid;"></b><p style="margin-left:5px;">Unused</p></div>
+						<div style="height:32px;"><b id="leg2_block" style="background:repeating-linear-gradient(45deg, rgba(255,255,255,0), rgba(255,255,255,0) 10%, #595959 15%, #595959 15%); border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p style="margin-left:5px;">No Data Available</p></div>
+						<br/>
+						<div style="height:34px;"><b id="leg3_block" style="background:#bfbfbf; border-left:black 2px solid; border-right:black 2px solid;border-bottom:black 2px solid;border-top:black 2px solid;"></b><p>&nbsp</p><p id="leg2" style="margin-left:5px;">Urban Area</p></div>
+						<br/>
+						<p id="description">Unused prime farmland includes both undeveloped and developed land.</p>
+					</div>		
+
+					<!--Additional information for each dataset-->
+					<div id="facts_1">
+						<br/>
+						<p3 style="font-weight:bold; line-height:36px;">Fast Facts:</p3><br/>
+						<p3 id="facts">&#9900&nbspThe average value of agricultural output farm an individual farm in the PNW in 2012 was $215,000</p3><br/><br/>
+						<p3 id="facts">&#9900&nbspGooding County, Idaho had the highest average agricultural output in 2012 at $1,581,904</p3><br/><br/>
+					</div>
+					<div id="facts_2" style="display:none;">
+						<br/>
+						<p3 style="font-weight:bold; line-height:36px;">Fast Facts:</p3><br/>
+						<p3 id="facts">&#9900&nbspApproximately 8% of farms in the PNW are owned by corporations.</p3><br/><br/>
+						<p3 id="facts">&#9900&nbspLincoln County, Idaho had the highest percentage of farms operated by corporations in 2012 at 28.43%</p3><br/><br/>
+						<p3 id="facts">&#9900&nbspShoshone County, Idaho had the highest percentage of farms operated by families/individuals in 2012 at 94.44%</p3><br/><br/>
+					</div>
+					<div id="facts_3" style="display:none;">
+						<br/>
+						<p3 style="font-weight:bold; line-height:36px;">Fast Facts:</p3><br/>
+						<p3 id="facts">&#9900&nbspMinidoka County, Idaho had the highest percentage of irrigated farmland in 2012 at 83.79%</p3><br/><br/>
+					</div>
+					<div id="facts_4" style="display:none;">
+						<br/>
+						<p3 style="font-weight:bold; line-height:36px;">Prime Farmland:</p3><br/>
+						<p3 id="facts" style="text-align:justify;">Prime Farmland is defined by the USDA as land with "the best combination of physical and chemical characteristics for producing food, feed, forage, fiber, and oilseed crops and is available for these uses." Modern land use practices have caused areas of prime farmland to be lost as land is developed. As a result, pressure is applied to more marginal land, which is more difficult to manage and cultivate.</p3><br/><br/>
+					</div>
+				</div>
+			<!--Bottom part of the info panel. This part of the info panel includes arrows to shift between maps, the info button that contains the map sources, and the home button to return to the chapter title screen.-->
+				<div id="pageChange">
+					<a href="#sources" id="arrow" style="display:inline-block;">
+						<i class="fa fa-info-circle" aria-hidden="true" style="padding-left:90px;"></i>
+					</a>
+					<a href="#link_popup" id="arrow" style="display:inline-block;">
+						<i class="fa fa-home" aria-hidden="true" style="padding-left:0;"></i>
+					</a>
+					<a href="#share" class="share" id="arrow" style="display:inline-block;">
+						<i class="fa fa-share-alt " aria-hidden="true" style="padding-left:0;"></i>
+					</a>
+				</div>
+			</div>
+		</div>
+    	<div id="map" style="width: 100%; height: 100%;"></div>
+    	<!--<div id="temp" style="display:none;"><canvas id="chartContainer1" style="height: 110; width: 50%; margin-left:-5px;"></canvas></div>-->
+    	
+    	<!--Map sources popup-->
+    	<div id="sources" class="overlay">
+			<div class="popup">
+				<h2 style="display:inline; font-size:32px;">Sources</h2>
+				<a class="close" href="#" style="display:inline;">×</a>
+				<hr>
+				<div class="content">
+					<p2 style="font-size:20px">Geographic Data</p2><br><br/>
+                    <div class="source">
+                    	<b><p2>Farm Value, Ownership, and Irrigation: <a href = "https://www.agcensus.usda.gov/Publications/2012/Online_Resources/Ag_Census_Web_Maps/Data_download/index.php" target="_blank">USDA Census of Agriculture</a></p2></b><br>
+                    		<p3>Data table was downloaded from "Data Download" link. Table columns used in maps are: y12_M017, y12_M020, y12_M022, and y12_M021. See full documentation for full listing of columns used in tables. Data from 2012.<p3>
+                    </div>
+                	<div class="source">
+                		<b><p2>Prime Farmland: <a href = "https://datagateway.nrcs.usda.gov/GDGOrder.aspx?order=QuickState" target="_blank">USDA Natural Resources Conservation Service</a></p2></b><br>
+                			<p3>gSSURGO datasets were downloaded for ID, OR, and WA, and joined with mapunit tables for each state.<p3>
+                	</div>
+				</div>
+				<hr>
+				<p2 style="float:right; font-size:12px;">Map created with Leaflet.</p2>
+				<br/>
+				<a class="close2" href="#" style="display:inline;">Close</a>
+			</div>
+		</div>
+		
+		<div id="link_popup" class="link_overlay">
+			<div class="link_popup">
+				<a class="close" href="#" style="display:inline;">×</a>
+				<div class="content">
+					<a href="food_index.html" style="font-weight:bold; text-decoration:none;">Food Home</a>
+					<hr>
+					<a href="access.html" style="text-decoration:underline;">Food Access</a>
+					<a href="crop.html" style="text-decoration:underline;">Crop Production</a>
+					<a href="livestock.html" style="text-decoration:underline;">Livestock</a>
+					<a href="alcohol.html" style="text-decoration:underline;">Alcohol Production</a>
+					<a href="farm.html" style="text-decoration:underline;">Farms</a>
+					<hr>
+					<a href="../index.html" style="font-weight:bold; text-decoration:none;">Atlas Home</a>
+				</div>
+			</div>
+		</div>
+		
+		<div id="share" class="share_overlay">
+			<div class="share_popup">
+				<a id="clear" href="#" style="display:none;">×</a>
+				<div class="content">
+					<a href="https://facebook.com/sharer.php?u=https://rawgit.com/osulp/PNWatlas/master/food/farm_index.html" id="arrow" style="display:inline-block;">
+						<i class="fa fa-facebook-square " aria-hidden="true" style="padding-left:0;"></i>
+					</a>
+					<a href="https://twitter.com/home?status=PNW%20Farms%0Ahttp%3A//rawgit.com/osulp/PNWatlas/master/food/farm_index.html" id="arrow" style="display:inline-block;">
+						<i class="fa fa-twitter-square " aria-hidden="true" style="padding-left:0;"></i>
+					</a>
+					<a href="" id="arrow" style="display:inline-block;">
+						<i class="fa fa-linkedin-square " aria-hidden="true" style="padding-left:0;"></i>
+					</a>
+				</div>
+			</div>
+		</div>
+<script>
+//////////////base functions (these never change)///////////////////////
+	var collapsed = false;
+ 	//////////////function for the info panel collapse button///////////////////////
+    function collapse(){
+    	if (collapsed == false){
+    		document.getElementById("infoPanel").style.transition = "display 2s";
+    		document.getElementById("infoPanel").style.display = "none";
+    		document.getElementById("collapse").style.left = '0px';
+    		document.getElementById("collapse").style.paddingLeft = '2px';
+    		document.getElementById("collapse-arrow").className = "fa fa-chevron-right";
+    		collapsed = true;
+    	} else{
+    		document.getElementById("infoPanel").style.display = "unset";
+    		document.getElementById("collapse").style.left = '320px';
+    		document.getElementById("collapse").style.paddingLeft = '0px';
+    		document.getElementById("collapse-arrow").className = "fa fa-chevron-left";
+    		collapsed = false;
+    	}
+    	
+    }
+	//////////////function that allows topojson layers to be loaded///////////////////////
+    L.TopoJSON = L.GeoJSON.extend({  
+  		addData: function(jsonData) {    
+    		if (jsonData.type === 'Topology') {
+      			for (key in jsonData.objects) {
+       			 geojson = topojson.feature(jsonData, jsonData.objects[key]);
+       			 L.GeoJSON.prototype.addData.call(this, geojson);
+      		}
+    	}    
+    	else {
+      		L.GeoJSON.prototype.addData.call(this, jsonData);
+    		}
+  		}  
+	});
+//////////////Initialize map///////////////////////
+	var map = L.map('map', {center: [45.56, -119.75], zoom: 7, zoomControl:false});
+///////////////////////make zoom level correspond to browser size////////////////////////////////
+	window.addEventListener('load', function(event){
+    	var width = document.documentElement.clientWidth;
+    	if (width < 1500 && width > 800) {
+        	map.setView(new L.LatLng(45.56, -121.75), 6); 
+    		}  else if (width > 1501) {
+        	map.setZoom(7);
+        	} else {
+        	map.setZoom(5);
+        	}
+	});
+////////////////////////////////basemap layers////////////////////////////////
+	var Esri_WorldTerrain = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer/tile/{z}/{y}/{x}', {
+		attribution: 'Tiles &copy; Esri &mdash; Source: USGS, Esri, TANA, DeLorme, and NPS',
+		maxZoom:12,
+		minZoom:5,
+		opacity:1
+	}).addTo(map);
+
+	var pnwCover = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
+		layers: 'baldricg_PNW_ATLAS:pnw_outline2_black',
+        format: 'image/png',
+		maxZoom:12,
+		minZoom:5,
+		opacity:0.3,
+		transparent:true,
+	}).addTo(map);
+	
+	var pnwCounties = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
+		layers: 'baldricg_PNW_ATLAS:pnw_borders_black',
+        format: 'image/png',
+		maxZoom:12,
+		minZoom:5,
+		opacity:0.5,
+		transparent:true,
+	});
+	
+	var urbanAreas = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
+		layers: 'baldricg_PNW_ATLAS:pnw_urban_areas',
+        format: 'image/png',
+		maxZoom:12,
+		minZoom:4,
+		opacity:0.8,
+		transparent:true
+	});
+	
+	var label = L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_only_labels/{z}/{x}/{y}@2x.png', {
+		attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
+		subdomains: 'abcd',
+		maxZoom:12,
+		minZoom:5,
+		tileSize:256,
+		bounds:[
+			new L.LatLng(49.56,-125.25),
+			new L.LatLng(40.5,-111.5)
+		],
+		pane:'labels'
+	});	
+	
+	var prime_farmland = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
+		layers: 'baldricg_PNW_ATLAS:prime_farmland_raster',
+        format: 'image/png',
+		maxZoom:12,
+		minZoom:5,
+		opacity:0.8,
+		transparent:true,
+		pane:'crop'
+	});
+
+	map.createPane('crop');
+	map.getPane('crop').style.pointerEvents = 'none';
+	map.getPane('crop').style.zIndex = 600;
+
+	//labels pane allows
+	map.createPane('labels');
+	map.getPane('labels').style.pointerEvents = 'none';
+	map.getPane('labels').style.zIndex = 700;
+	label.addTo(map);
+	
+	map.createPane('tooltip');
+	map.getPane('tooltip').style.pointerEvents = 'none';
+	map.getPane('tooltip').style.zIndex = 800;
+
+
+////////////////////////////////important variables////////////////////////////////
+	var colorValue = ['#ffffff','#ffffcc','#c2e699','#78c679','#31a354','#006837'],
+        dataValue = [0,50000,100000,250000,500000],
+      	data = 1;
+	
+////////////////////////////////info control in upper right////////////////////////////////
+	var info = L.control();
+
+	info.onAdd = function (map) {
+    	this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
+    	this.update();
+    	return this._div;
+	};
+	
+	info.update = function (props) {
+		function nullFinder(value){
+			return value == 0 ? 'N/A':
+				value;
+		}	
+        if (data == 1){	
+   			this._div.innerHTML = (props ?
+       			'<h2 style="margin:0;">' + props.NAME + ' County</h2><p3 style="display:inline-block;">Avg. Value of Ag. Projects per Farm (2012): $' + props.ag_value.toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 0}) + '</p3>'
+        		: '<b style="font-size:24px;">Hover over Map</b>');
+        	}
+        if (data == 2){	
+   			this._div.innerHTML = (props ?
+       			'<h2 style="margin:0;">' + props.NAME + ' County</h2><p3 id="chartDescription" style="display:inline-block; margin-top:5px; font-weight:bold;">% Farm Ownership</p3><canvas id="chartContainer" style="margin-left:-5px;"></canvas><p3 id="chartDescription" style="display:inline-block; margin-top:5px;"><br/>Total Farms: ' + props.tot_farms +'</p3>'
+        		: '<b style="font-size:24px;">Hover over Map</b>');
+        	}
+        if (data == 3){	
+   			this._div.innerHTML = (props ?
+				'<h2 style="margin:0;">' + props.NAME + ' County</h2><p3 style="display:inline-block;">' + nullFinder(props.irrigated) + '% Farmland Irrigated</p3>'
+        		: '<b style="font-size:24px;">Hover over Map</b>');
+        	}
+	};
+
+	info.addTo(map);
+
+////////////////////////////display layers//////////////////////
+	////////////////////////////////dataset 1////////////////////////////////
+  	
+  	const countyFarm = new L.TopoJSON(null, {
+  		onEachFeature: function(feature, featureLayer){
+  			}
+		});
+		
+	$.getJSON('assets/farm_counties.json')
+  		.done(farmAddTopoData);
+
+	function farmAddTopoData(topoData) {  
+  		countyFarm.addData(topoData);
+  		countyFarm.eachLayer(farmHandleLayer);
+	}
+	
+	function setColor(num){
+			return  num <= dataValue[0] ? colorValue[0]:
+				num < dataValue[1] ? colorValue[1]:
+				num < dataValue[2] ? colorValue[2]:
+				num < dataValue[3] ? colorValue[3]:
+				num < dataValue[4] ? colorValue[4]:
+					colorValue[5];
+      }
+      
+    function dataType(props){
+    	return data == 1 ? props.ag_value:
+    		data == 2 ? props.corp_farms:
+    		data == 3 ? props.irrigated:
+    			props.irrigation;
+    }
+
+	function farmHandleLayer(layer){
+    	countyFarm.addTo(map);
+    	layer.setStyle({
+       			fillColor: setColor(dataType(layer.feature.properties)),
+            	fillOpacity: 0.7,
+            	weight: 1.5,
+            	opacity: 0.5,
+            	color: '#ffffff',
+        });
+        layer.on({
+         	mouseover: farmHighlight,
+            mouseout: farmResetHighlight
+        });	
+    }
+    
+    function farmHighlight(){      	      	
+      	this.setStyle({
+        	fillOpacity: 1,
+      	});
+      	info.update(this.feature.properties);
+      	if (data == 2){
+			$('.info').css("width","280px");
+			var ctx = document.getElementById("chartContainer").getContext('2d');
+			var chart = new Chart(ctx, options);
+			chart.data.datasets[0].data[0] = this.feature.properties.farm_farms;
+			chart.data.datasets[0].data[1] = this.feature.properties.part_farms;
+			chart.data.datasets[0].data[2] = this.feature.properties.corp_farms;
+			chart.update();
+      	}
+    }
+    
+    function farmResetHighlight(){
+      	this.setStyle({
+        	fillOpacity: 0.7,
+      	});
+      	$('.info').css("width","200px");
+      	info.update();
+    }
+	////////////////////////////////chart options////////////////////////////////    
+    var options =  {
+    	type: 'pie',
+    		data: {
+        		labels: ["Family", "Parternship", "Corporation"],
+        		datasets: [{
+            		data: [50,50,50],
+           			backgroundColor: [
+                		'#cbc9e2',
+                		'#7d7ab8',
+                		'#54278f'
+            		],
+            		borderColor: [
+                		'#404040',
+                		'#404040',
+                		'#404040'
+            		],
+            	borderWidth: 0
+        	}]
+    	},
+    	options: {
+       		responsive: true,
+       		legend: {
+       			position: 'left',
+       			labels: {
+       				fontColor:'#000000'
+       			}
+       		},
+       		pieceLabel: {
+    			render: 'value',
+    			fontColor:'#000000'
+  			},
+       		tooltips:{
+       			enabled:false
+       		}
+    	}
+	}
+////////////////////////////////prime farmland no data layer////////////////////////////////
+	const zone = new L.TopoJSON();
+    
+    $.getJSON('assets/prime_nodata.json')
+  		.done(addZoneData);
+  		
+	var stripes = new L.StripePattern({
+            weight: 1,
+            spaceWeight: 5,
+            height: 6,
+            angle:45,
+            color:'#595959',
+            spaceColor:'#ffffff'
+        });
+        stripes.addTo(map);
+
+
+	function addZoneData(topoData) {  
+  		zone.addData(topoData);
+  		zone.eachLayer(zoneLayer);
+	}
+	
+	function zoneLayer(layer){
+        layer.setStyle({
+				fillPattern:stripes,
+				opacity:0,
+				color:'#595959',
+				weight:1,
+				fillOpacity:1,
+				interactive:false
+        });
+    }
+///////////////////////////////button function////////////////////////////////
+	//this function uses the ClickFunction plugin to easily add/remove layers, change legends, styling and anything else when a new dataset is selected from the dropdown buttons  		
+	var buttonLabels = ['#but1','#but2','#but3','#but4'];//add button IDs here
+
+	var buttonFunctions = {
+		but1: {button:'but1', 
+			topoLayers:[countyFarm], 
+			topoHandler:[farmHandleLayer],
+			newElements:['facts_1'],
+			values:[0,50000,100000,250000,500000],
+			colors:['#ffffff','#ffffcc','#c2e699','#78c679','#31a354','#006837'],
+			newLegend: 'leg_1', 
+			title:'Farm Value', 
+			variable:1,
+			layerFunction:function(){
+				info.addTo(map);
+			}
+		},
+		but2: {button:'but2', 
+			topoLayers:[countyFarm], 
+			topoHandler:[farmHandleLayer],
+			newElements:['facts_2'],
+			values:[0,5,10,15,20],
+			colors:['#ffffff','#f2f0f7','#cbc9e2','#9e9ac8','#756bb1','#54278f'],
+			newLegend: 'leg_2', 
+			title:'Ownership', 
+			variable:2,
+			layerFunction:function(){
+				info.addTo(map);
+			}
+		},
+		but3: {button:'but3', 
+			topoLayers:[countyFarm], 
+			topoHandler:[farmHandleLayer],
+			newElements:['facts_3'],
+			values:[0,5,10,25,50],
+			colors:['#ffffff','#eff3ff','#bdd7e7','#6baed6','#3182bd','#08519c'],
+			newLegend: 'leg_3', 
+			title:'Irrigation', 
+			variable:3,
+			layerFunction:function(){
+				info.addTo(map);
+			}
+		},
+		but4: {button:'but4',//button ID 
+			newLayers:[urbanAreas, zone, prime_farmland, pnwCounties],
+			newElements:['facts_4'],
+			newLegend: 'leg_4', //legend div ID
+			title:'Prime Farmland', //title to display in dropdown menu
+			variable:4, //update the 'data' variable
+			layerFunction:function(){
+				map.removeLayer(countyFarm);
+				info.remove(map);
+			}
+		}
+	};
+	
+	$('.function').clickFunction({
+		buttonFunctions: buttonFunctions,
+		buttonLabels: buttonLabels,
+		selected:buttonFunctions.but1 //choose which button is initially selected
+	});
+	
+ ///////////////////////////////other miscellaneous functions (these also never change)////////////////////////////////   
+   	//add zoom control
+    new L.Control.Zoom({ position: 'bottomright' }).addTo(map);
+    
+    //remove leaflet attribution
+	document.getElementsByClassName("leaflet-control-attribution")[0].style.visibility = "hidden";
+	
+	//add scrolling capabilities to text box
+     var container = document.getElementById('text');
+		Ps.initialize(container);
+	
+	//update text box to be correct size
+	var minHeight = 50; // Define a minimum height for the middle div
+
+	function resizeMiddle() {
+   		var h = $('body').height() - $('#top').height() - 95;
+    		h = h > minHeight ? h : minHeight;
+   	 	$('#attribution').height(h);
+	}
+	
+	function resizePopup() {
+   		var h = $('.popup').height() - 90;
+    		h = h > minHeight ? h : minHeight;
+   	 	$('.popup .content').height(h);
+	}
+	$(document).ready(resizePopup);
+	$(window).resize(resizePopup);
+
+	$(document).ready(resizeMiddle);
+	$(window).resize(resizeMiddle);    
+	
+	$(document).click(function(event) {
+		if (!$(event.target).closest(".share_overlay,.share").length) {
+			$('#clear')[0].click();
+		}
+	});
+
+
+</script>
+</body>
+</html>
