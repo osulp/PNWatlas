@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+     <title>Electric Utilities</title>
+    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.2/dist/leaflet.css" /> 
+    <link rel="stylesheet" href="css/energy_maps_style.css" type="text/css">
+    <link rel="stylesheet" href="css/perfect-scrollbar.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/leaflet_beautify-marker-icon.css" />
+    
+    <link rel="shortcut icon" href="img/pnw.ico" type="image/x-icon">
+    
+    <meta property="og:title" content="Atlas of the Pacific Northwest: Electric Utilities" />
+    <meta property="og:url" content="https://rawgit.com/osulp/PNWatlas/master/energy/utilities_index.html" />
+    <meta property="og:description" content="Electric utility maps of the Pacific Northwest."/>
+    
+    <script src="https://unpkg.com/leaflet@1.0.2/dist/leaflet.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="https://unpkg.com/leaflet.vectorgrid@latest/dist/Leaflet.VectorGrid.bundled.js"></script>
+    <script src="https://d3js.org/topojson.v1.min.js"></script>
+    <script src="js/Chart.bundle.js"></script>
+    <script src="js/Chart.PieceLabel.min.js"></script>
+    <script src="js/perfect-scrollbar.js"></script>
+     <script type="text/javascript" src="../js/clickFunction.js"></script>
+   
+</head>
+<body>
+		<button id="collapse" onclick="collapse()">
+			<i class="fa fa-chevron-left" id ="collapse-arrow" aria-hidden="true"></i>
+		</button>
+		<div id="infoPanel">
+			<div id="top">
+				<h1>Electric Utilities</h1>
+				<img src="img/energy_icon.png" id="titleImageCircle" style="display:inline-block;">
+				<div id="buttons">
+					<div class="dropdown">
+						<button class="dropbtn"><b id="dataType">Select Power Type</b><p id="arrow">&#9660;</p></button>
+						<div class="dropdown-content">
+							 <button type="button" id="but1" class="selection" style="background:rgba(242, 242, 242, 0.8);">Total</button>
+							 <button type="button" id="but2" class="selection">Hydroelectric</button>
+							 <button type="button" id="but3" class="selection">Fossil Fuel</button>
+							 <button type="button" id="but4" class="selection">Wind</button>
+							 <button type="button" id="but5" class="selection">Solar</button>
+							 <button type="button" id="but6" class="selection">Biomass</button>
+							 <button type="button" id="but7" class="selection">Geothermal</button>
+							 <button type="button" id="but8" class="selection">Other</button>   
+					   </div>
+					</div>
+				</div>  
+			</div>
+			<div id="attribution">
+				<br/>
+				<div id="text" style="margin-top:10px;">
+					<h2 id="title" style="display:inline; width:200px; white-space:normal; font-size:24px; margin-right:10px;">SELECT UTILITY AREA</h2><br/>
+					<div id="areaLegend" style="display:none;">	
+						<h2 id="customers" style="margin: 5px 0px;">Customers:</h2><br/>
+						<h2 id="city" style="margin: 5px 0px;">BASE CITY</h2><br/>
+						<h2 id="plants" style="margin: 5px 0px;">Owned Power Plants:</h2><br/>
+						<div id="chartLegend" style="margin-top:40px; position:absolute;">
+							<b2 style="background-color:#000000;"></b2><p style="font-size:14px; margin-left:40px;margin-top:-1px;">Generated</p>
+							<b2 style="background-color:#ffffff; margin-top:30px;"></b2><p style="margin-top:30px; font-size:14px; margin-left:40px;">Purchased</p>
+						</div>
+						<canvas id="chartContainer" style="height: 100px; width: 200px; margin-left:50px; display:inline;"></canvas>
+						<h2 id="plants" style="display:inline; width:200px; white-space:normal; font-size:16px;">Net Power Supply in MWH for 2015</h2><br/>
+					</div>
+					<button type="button" id="button2" onclick="reset()" style="display:none;" >Reset Selection</button> 
+					<hr>
+					<div id = "damLegend">
+						<h3 style="margin:0; padding:0; font-size:22px;display:inline; margin-bottom:15px;">Power Plants</h3><br/><img src="img/icons/total.png" id="image2" style="right:20px; margin-top:10px;">
+						<div id="damLegendSide" style="height:27px;"><b class="circle" style="margin-top:3px; background:rgba(0,0,0,1); width:25px; height:25px; border: white 1px solid;"></b><p style="padding-left:15px;">&nbsp1000+</p></div>
+						<div id="damLegendSide" style="height:25px;"><b class="circle" style="margin-top:5px; background:rgba(0,0,0,1); width:21px; height:21px; border: white 1px solid;"></b><p style="padding-left:20px;">&nbsp500 - 1000</p></div>
+						<div id="damLegendSide" style="height:24px;"><b class="circle" style="margin-top:7px; background:rgba(0,0,0,1); width:18px; height:18px; border: white 1px solid;"></b><p style="padding-left:23px;">&nbsp250 - 500</p></div>
+						<div id="damLegendSide" style="height:22px;"><b class="circle" style="margin-top:9px; background:rgba(0,0,0,1); width:14px; height:14px; border: white 1px solid;"></b><p style="padding-left:27px;">&nbsp50 - 250</p></div>
+						<div id="damLegendSide" style="height:20px;"><b class="circle" style="margin-top:11px; background:rgba(0,0,0,1); width:9px; height:9px; border: white 1px solid;"></b><p style="padding-left:31px;">&nbspLess than 50</p></div><br/>
+						<p id="description" style="font-weight:bold; text-align:justify; white-space:normal; padding-left:0px; width:280px; display:block; position:relative;">Power Capacity (MW).</p>
+					</div>
+					</br>
+				</div>
+				<div id="pageChange">
+					<a href="#sources" id="arrow" style="display:inline-block;">
+						<i class="fa fa-info-circle" aria-hidden="true" style="padding-left:90px;"></i>
+					</a>
+					<a href="#link_popup" id="arrow" style="display:inline-block;">
+						<i class="fa fa-home" aria-hidden="true" style="padding-left:0;"></i>
+					</a>
+					<a href="#share" class="share" id="arrow" style="display:inline-block;">
+						<i class="fa fa-share-alt " aria-hidden="true" style="padding-left:0;"></i>
+					</a>
+				</div>
+			</div>
+		</div>
+    	<div id="map" style="width:100%; height: 100%;"></div>
+    	
+    	<div id="sources" class="overlay">
+			<div class="popup">
+				<h2 style="display:inline; font-size:32px;">Sources</h2>
+				<a class="close" href="#" style="display:inline;">×</a>
+				<hr>
+				<div class="content">
+					<p2 style="font-size:20px">Geographic Data</p2><br><br/>
+                    <div class="source">
+                    	<b><p2>Power Plants: <a href = "https://www.eia.gov/maps/layer_info-m.php" target="_blank">US Energy Information Administration</a></p2></b><br>
+                    </div>
+                    <div class="source">
+                    	<b><p2>Electric Utility Areas: <a href = "https://hifld-dhs-gii.opendata.arcgis.com/datasets/935cef68ca0d470e82a27ef4d3173c41_0" target="_blank">Homeland Infrastructure Foundation-Level Data</a></p2></b><br>
+                    </div>
+				</div>
+				<hr>
+				<p2 style="float:right; font-size:12px;">Map created with Leaflet.</p2>
+				<br/>
+				<a class="close2" href="#" style="display:inline;">Close</a>
+			</div>
+		</div>
+		
+		<div id="link_popup" class="link_overlay">
+			<div class="link_popup">
+				<a class="close" href="#" style="display:inline;">×</a>
+				<div class="content">
+					<a href="energy_index.html" style="font-weight:bold; text-decoration:none;">Energy Home</a>
+					<hr>
+					<a href="utilities.html" style="text-decoration:underline;">Electric Utilities</a>
+					<a href="renewable.html" style="text-decoration:underline;">Renewable Energy</a>
+					<hr>
+					<a href="../index.html" style="font-weight:bold; text-decoration:none;">Atlas Home</a>
+				</div>
+			</div>
+		</div>
+
+		<div id="share" class="share_overlay">
+			<div class="share_popup">
+				<a id="clear" href="#" style="display:none;">×</a>
+				<div class="content">
+					<a href="https://facebook.com/sharer.php?u=https://rawgit.com/osulp/PNWatlas/master/energy/utilities_index.html" id="arrow" style="display:inline-block;">
+						<i class="fa fa-facebook-square " aria-hidden="true" style="padding-left:0;"></i>
+					</a>
+					<a href="https://twitter.com/home?status=PNW%20Livestock%0Ahttp%3A//rawgit.com/osulp/PNWatlas/master/energy/utilities_index.html" id="arrow" style="display:inline-block;">
+						<i class="fa fa-twitter-square " aria-hidden="true" style="padding-left:0;"></i>
+					</a>
+					<a href="" id="arrow" style="display:inline-block;">
+						<i class="fa fa-linkedin-square " aria-hidden="true" style="padding-left:0;"></i>
+					</a>
+				</div>
+			</div>
+		</div>
+<script>
+	var collapsed = false;
+    function collapse(){
+    	if (collapsed == false){
+    		document.getElementById("infoPanel").style.transition = "display 2s";
+    		document.getElementById("infoPanel").style.display = "none";
+    		document.getElementById("collapse").style.left = '0px';
+    		document.getElementById("collapse").style.paddingLeft = '2px';
+    		document.getElementById("collapse-arrow").className = "fa fa-chevron-right";
+    		collapsed = true;
+    	} else{
+    		document.getElementById("infoPanel").style.display = "unset";
+    		document.getElementById("collapse").style.left = '320px';
+    		document.getElementById("collapse").style.paddingLeft = '0px';
+    		document.getElementById("collapse-arrow").className = "fa fa-chevron-left";
+    		collapsed = false;
+    	}
+    	
+    }
+	L.TopoJSON = L.GeoJSON.extend({  
+  		addData: function(jsonData) {    
+    		if (jsonData.type === 'Topology') {
+      			for (key in jsonData.objects) {
+       			 geojson = topojson.feature(jsonData, jsonData.objects[key]);
+       			 L.GeoJSON.prototype.addData.call(this, geojson);
+      		}
+    	}    
+    	else {
+      		L.GeoJSON.prototype.addData.call(this, jsonData);
+    		}
+  		}  
+	});
+	//initialize map
+	var map = L.map('map', {center: [45.56, -119.75], zoom: 7, zoomControl:false});
+	///////////////////////make zoom level correspond to browser size////////////////////////////////
+	window.addEventListener('load', function(event){
+    	var width = document.documentElement.clientWidth;
+    	if (width < 1500 && width > 800) {
+        	map.setView(new L.LatLng(45.56, -121.75), 6); 
+    		}  else if (width > 1501) {
+        	map.setZoom(7);
+        	} else {
+        	map.setZoom(5);
+        	}
+	});
+	
+	map.options.maxZoom = 10;
+	map.options.minZoom = 5;
+///////////////////////basemap tiles////////////////////////////////
+	var Esri_WorldTerrain = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer/tile/{z}/{y}/{x}', {
+		attribution: 'Tiles &copy; Esri &mdash; Source: USGS, Esri, TANA, DeLorme, and NPS',
+		maxZoom:10,
+		minZoom:5
+	}).addTo(map);
+	
+	var watershed_outline = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
+		layers: 'baldricg_PNW_ATLAS:pnw_outline2_black',
+        format: 'image/png',
+		maxZoom:10,
+		minZoom:5,
+		opacity:0.5,
+		transparent:true
+	}).addTo(map);
+///////////////////////label tiles////////////////////////////////	
+	var label = L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_only_labels/{z}/{x}/{y}@2x.png', {
+		attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
+		subdomains: 'abcd',
+		maxZoom:10,
+		minZoom:5,
+		tileSize:256,
+		bounds:[
+			new L.LatLng(49.56,-125.25),
+			new L.LatLng(40.5,-111.5)
+		],
+		pane:'labels'
+	});	
+//create pane to add labels above basemap and geojson features
+	map.createPane('labels');
+	map.getPane('labels').style.pointerEvents = 'none';
+	map.getPane('labels').style.zIndex = 650;
+	label.addTo(map);
+	
+	map.createPane('tooltip');
+	map.getPane('tooltip').style.zIndex = 700;
+	//map.setMaxBounds(map.getBounds());
+	
+
+///////////////////////important variables////////////////////////////////
+	var data = 1; 
+	var layers = 0;	
+	//geoJSON variables
+	
+///////////////////////info panel////////////////////////////////
+	var info = L.control();
+
+	info.onAdd = function (map) {
+    	this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
+    	this.update();
+    	return this._div;
+	};
+	
+	info.update = function (feature) {
+    //actual info display information
+   		this._div.innerHTML = (feature ?
+       		'<h2>' + feature.NAME + '</h2>'
+        		: '<h2>Hover over map</h2>');
+		};
+
+	info.addTo(map);
+///////////////////////Area (regional) scale////////////////////////////////	
+    var vectorSelectionArea;
+	var clickArea;
+	
+	utilityArea = new L.TopoJSON(null, {
+		});
+		
+	$.getJSON('assets/utility_areas.json')
+			.done(utilityAddTopoData);
+
+	function utilityAddTopoData(topoData) {  
+		utilityArea.addData(topoData);
+		utilityArea.addTo(map);
+		utilityArea.eachLayer(utilityHandleLayer);
+	}
+
+	function utilityHandleLayer(layer){
+		layer.setStyle({
+				fillColor:areaColor(layer.feature.properties.color),
+				fillOpacity: 0.2,
+				color: '#666666', 							
+				opacity: 0.5,
+				weight: 1,
+				dashArray:4
+		});
+		layer.on({
+				mouseover : highlight,
+				mouseout: resetHighlight,
+				click: click
+			});
+	}
+	
+	function areaColor(e){
+		return e == 1 ? '#003333':
+				e == 2 ? '#330a00':
+				e == 3 ? '#001a4d':
+				e == 4 ? '#003300':
+				e == 5 ? '#330033':
+				e == 6 ? '#333300':
+				e == 7 ? '#4d2600':
+				e == 8 ? '#0f1f3d':
+				'#260d1a';
+	}
+	
+	function highlight(){
+		if (clickArea != this){
+			this.setStyle({
+				fillColor:'#000000',
+				fillOpacity: 0.6,
+				color: '#ffffff', 							
+				opacity: 0.5,
+				weight: 2,
+			 });
+    	}
+	}
+	
+	function resetHighlight(){
+		if (clickArea != this){
+			this.setStyle({
+				fillColor:areaColor(this.feature.properties.color),
+				fillOpacity: 0.2,
+				color: '#666666', 							
+				opacity: 0.5,
+				weight: 1,
+				dashArray:4
+			 });
+    	}
+	}
+	
+	function click(){
+		resetClick();
+		
+		info.addTo(map);
+			
+		clickArea = this;
+		vectorSelectionArea = this.feature.properties.ID;
+		console.log(vectorSelectionArea);
+				
+		this.setStyle ({
+			fillColor:'#000000',
+			fillOpacity: 0.6,
+			color: '#ffffff', 							
+			opacity: 0.5,
+			weight: 2,
+		});
+
+		layers = 1;
+		addDams();
+				
+		chart.data.datasets[0].data[0] = this.feature.properties.prch_powe;
+		chart.data.datasets[0].data[1] = this.feature.properties.gn_power;
+ 		chart.update();
+ 			
+		document.getElementById('title').innerHTML = this.feature.properties.NAME;
+		document.getElementById('customers').innerHTML = "Customers: " + this.feature.properties.tot_cust;
+		document.getElementById('city').innerHTML = this.feature.properties.CITY + ", " + this.feature.properties.STATE;
+		document.getElementById('plants').innerHTML = "Owned Power Plants: " + this.feature.properties.own_plants;
+		document.getElementById('button2').style.display = "unset";
+		document.getElementById('areaLegend').style.display = "block";
+		
+	}
+	
+	function resetClick(){
+		if (clickArea){
+			clickArea.setStyle ({
+				fillColor:areaColor(clickArea.feature.properties.color),
+				fillOpacity: 0.2,
+				color: '#666666', 							
+				opacity: 0.5,
+				weight: 1,
+				dashArray:4
+			});
+		}
+	}
+    
+	var ctx = document.getElementById("chartContainer").getContext('2d');
+	
+	var options =  {
+    	type: 'pie',
+    		data: {
+        		labels: ["Purchased","Generated"],
+        		datasets: [{
+            		data: [50,50],
+           			backgroundColor: [
+                		'#ffffff',
+                		'#000000',
+            		],
+            		borderColor: [
+                		'#404040',
+                		'#404040',
+            		],
+            	borderWidth: 0
+        	}]
+    	},
+    	options: {
+       		responsive: true,
+       		legend: {
+       			display:false,
+       			position: 'left',
+       			labels: {
+       				fontColor:'#000000'
+       			}
+       		},
+       		pieceLabel: {
+    			render: function (args) {
+   					return args.value.toLocaleString();
+ 				 },
+    			fontColor:'#b3b3b3'
+  			},
+       		tooltips:{
+       			enabled:false
+       		}
+    	}
+	}
+	
+	var chart = new Chart(ctx, options);
+	
+	////////////////////////////////////////////////////////////////
+	
+	function damHighlight(e) {
+		 var layer = e.target;
+		 layer.setStyle({
+        	fillColor: '#ffffff',
+        	color: '#000000'
+    	 });
+    	 hoverSelection = 2;
+		}
+	//reset feature function (after highlight)
+	function resetDamHighlight(e) {
+		var layer = e.target;
+		 layer.setStyle({
+			color: '#ffffff',
+        	fillColor: '#000000'
+    	 });
+	}
+	
+	function damSize(e){
+		return e > 1000 ? 12:
+			e > 500 ? 10:
+			e > 250 ? 8:
+			e > 50 ? 6:
+				4; 
+	}
+	
+	function pointStyle(feature, latlng){
+		return L.circleMarker(latlng, {
+    				color: '#ffffff',
+    				fillColor: '#000000',
+    				radius: damSize(feature.properties.Total_MW),
+    				opacity: 1,
+    				fillOpacity: 1,
+    				weight: 1.5,
+    			})
+    		}
+	
+	var dams;
+		
+	function damFilter(feature) {
+			if (layers == 1){
+				if ( data == 1 && feature.properties.id == vectorSelectionArea ){
+					return true;
+				}	
+				if ( data == 2 && feature.properties.id == vectorSelectionArea ){
+					return feature.properties.PrimSource == "hydroelectric" ? true:
+						false;
+				}
+				if ( data == 3 && feature.properties.id == vectorSelectionArea ){
+					return feature.properties.PrimSource == "coal" || feature.properties.PrimSource == "natural gas" || feature.properties.PrimSource == "petroleum" ? true:
+						false;
+				}
+				if ( data == 4 && feature.properties.id == vectorSelectionArea ){
+					return feature.properties.PrimSource == "wind" ? true:
+						false;
+				}
+				if ( data == 5 && feature.properties.id == vectorSelectionArea ){
+					return feature.properties.PrimSource == "solar" ? true:
+						false;
+				}
+				if ( data == 6 && feature.properties.id == vectorSelectionArea ){
+					return feature.properties.PrimSource == "biomass" ? true:
+						false;
+				}
+				if ( data == 7 && feature.properties.id == vectorSelectionArea ){
+					return feature.properties.PrimSource == "geothermal" ? true:
+						false;
+				}
+				if ( data == 8 && feature.properties.id == vectorSelectionArea ){
+					return feature.properties.PrimSource == "other" || feature.properties.PrimSource == "nuclear" ? true:
+						false;
+				}
+    		}	
+    	else {
+    		if ( data == 1){
+					return true;
+				}	
+				if ( data == 2){
+					return feature.properties.PrimSource == "hydroelectric" ? true:
+						false;
+				}
+				if ( data == 3){
+					return feature.properties.PrimSource == "coal" || feature.properties.PrimSource == "natural gas" || feature.properties.PrimSource == "petroleum" ? true:
+						false;
+				}
+				if ( data == 4){
+					return feature.properties.PrimSource == "wind" ? true:
+						false;
+				}
+				if ( data == 5){
+					return feature.properties.PrimSource == "solar" ? true:
+						false;
+				}
+				if ( data == 6){
+					return feature.properties.PrimSource == "biomass" ? true:
+						false;
+				}
+				if ( data == 7){
+					return feature.properties.PrimSource == "geothermal" ? true:
+						false;
+				}
+				if ( data == 8){
+					return feature.properties.PrimSource == "other" || feature.properties.PrimSource == "nuclear" ? true:
+						false;
+				}
+    		}
+    	}
+	
+    function addDams(){
+    	if (dams){
+    		map.removeLayer(dams);
+    	}
+    	dams = $.getJSON("assets/pnw_power_plants.geojson", function(data){
+        	dams = L.geoJson(data, {
+        		pointToLayer: pointStyle,
+    			onEachFeature: function(feature, featureLayer) {
+        			featureLayer.bindTooltip('<h3 style="display:inline;">' + feature.properties.Plant_Name + '</h3><br/><p style="display:inline;">Operator:&nbsp' + feature.properties.Utility_Na + '&nbsp<br/>Type:&nbsp' + feature.properties.PrimSource + '<br/>Capacity:&nbsp' + feature.properties.Total_MW + ' MW<br/>'+feature.properties.Total_MW+'</p>', {className: 'label_tooltip', pane:'tooltip'});
+        			featureLayer.on({
+        				mouseover: damHighlight,
+        				mouseout: resetDamHighlight
+   					});
+        		},
+    			filter:damFilter
+        	}).addTo(map);
+   	 	});
+   	 	resizeMiddle();
+	}
+	
+	addDams();
+	
+	///////////////////////tooltip info////////////////////////////////
+	
+	var pnwStates = $.getJSON("assets/pnw_states.geojson", function(data){
+        pnwStates = L.geoJson(data, {
+        	style: function pnwCountiesStyle(){
+				return{
+					opacity: 1,
+					color:'#666666',
+					fillOpacity:0,
+					fillColor:'#000000',
+					weight:1
+				};
+			}
+        }).addTo(map);
+    });
+///////////////////////tooltip info////////////////////////////////
+ 	var buttonLabels = ['#but1','#but2','#but3','#but4','#but5','#but6','#but7','#but8'];
+
+	var buttonFunctions = {
+		but1: {button:'but1', title:'Total', imageSRC:"img/icons/total.png", variable:1, layerFunctionTop:function(){addDams();}},
+		but2: {button:'but2', title:'Hydroelectric', imageSRC:"img/icons/dam.png", variable:2, layerFunctionTop:function(){addDams();}},
+		but3: {button:'but3', title:'Fossil Fuel', imageSRC:"img/icons/fossil.png", variable:3, layerFunctionTop:function(){addDams();}},
+		but4: {button:'but4', title:'Wind', imageSRC:"img/icons/wind.png", variable:4, layerFunctionTop:function(){addDams();}},
+		but5: {button:'but5', title:'Solar', imageSRC:"img/icons/solar.png", variable:5, layerFunctionTop:function(){addDams();}},
+		but6: {button:'but6', title:'Biomass', imageSRC:"img/icons/biomass.png", variable:6, layerFunctionTop:function(){addDams();}},
+		but7: {button:'but7', title:'Geothermal', imageSRC:"img/icons/geothermal.png", variable:7, layerFunctionTop:function(){addDams();}},
+		but8: {button:'but8', title:'Other', imageSRC:"img/icons/nuclear.png", variable:8, layerFunctionTop:function(){addDams();}},
+	};
+	
+	$('.main').clickFunction({
+		buttonFunctions: buttonFunctions,
+		buttonLabels: buttonLabels,
+		imageDiv:'image2',
+		legendUpdate: true,
+		selected:buttonFunctions.but1
+	});
+ /*	
+ 	function total(){
+ 		document.getElementById(buttonType).style.background = "rgba(242, 242, 242, 0.2)";
+    	buttonType = 'but0';
+    	document.getElementById(buttonType).style.background = "rgba(242, 242, 242, 1)";
+    	document.getElementById('selection').innerHTML = 'Total';
+    	document.getElementById("image2").src = "img/icons/total.png";
+ 		data = 0;
+ 		map.removeLayer(dams);
+		addDams();
+		resizeMiddle();
+ 	}
+ 	function hydro(){
+ 		document.getElementById(buttonType).style.background = "rgba(242, 242, 242, 0.2)";
+    	buttonType = 'but1';
+    	document.getElementById(buttonType).style.background = "rgba(242, 242, 242, 1)";
+    	document.getElementById('selection').innerHTML = 'Hydroelectric';
+    	document.getElementById("image2").src = "img/icons/dam.png";
+ 		data = 1;
+ 		map.removeLayer(dams);
+		addDams();
+		resizeMiddle();
+ 	}
+ 	function fossil(){
+ 		document.getElementById(buttonType).style.background = "rgba(242, 242, 242, 0.2)";
+    	buttonType = 'but2';
+    	document.getElementById(buttonType).style.background = "rgba(242, 242, 242, 1)";
+    	document.getElementById('selection').innerHTML = 'Fossil Fuel';
+    	document.getElementById("image2").src = "img/icons/fossil.png";
+ 		data = 2;
+ 		map.removeLayer(dams);
+		addDams();
+		resizeMiddle();
+ 	}
+ 	function wind(){
+ 		document.getElementById(buttonType).style.background = "rgba(242, 242, 242, 0.2)";
+    	buttonType = 'but3';
+    	document.getElementById(buttonType).style.background = "rgba(242, 242, 242, 1)";
+    	document.getElementById('selection').innerHTML = 'Wind';
+    	document.getElementById("image2").src = "img/icons/wind.png";
+ 		data = 3;
+ 		map.removeLayer(dams);
+		addDams();
+		resizeMiddle();
+ 	}
+ 	function solar(){
+ 		document.getElementById(buttonType).style.background = "rgba(242, 242, 242, 0.2)";
+    	buttonType = 'but4';
+    	document.getElementById(buttonType).style.background = "rgba(242, 242, 242, 1)";
+    	document.getElementById('selection').innerHTML = 'Solar';
+    	document.getElementById("image2").src = "img/icons/solar.png";
+ 		data = 4;
+ 		map.removeLayer(dams);
+		addDams();
+		resizeMiddle();
+ 	}
+ 	function bio(){
+ 		document.getElementById(buttonType).style.background = "rgba(242, 242, 242, 0.2)";
+    	buttonType = 'but5';
+    	document.getElementById(buttonType).style.background = "rgba(242, 242, 242, 1)";
+    	document.getElementById('selection').innerHTML = 'Biomass';
+    	document.getElementById("image2").src = "img/icons/biomass.png";
+ 		data = 5;
+ 		map.removeLayer(dams);
+		addDams();
+		resizeMiddle();
+ 	}
+ 	function geo(){
+ 		document.getElementById(buttonType).style.background = "rgba(242, 242, 242, 0.2)";
+    	buttonType = 'but6';
+    	document.getElementById(buttonType).style.background = "rgba(242, 242, 242, 1)";
+    	document.getElementById('selection').innerHTML = 'Geothermal';
+    	document.getElementById("image2").src = "img/icons/geothermal.png";
+ 		data = 6;
+ 		map.removeLayer(dams);
+		addDams();
+		resizeMiddle();
+ 	}
+ 	function other(){
+ 		document.getElementById(buttonType).style.background = "rgba(242, 242, 242, 0.2)";
+    	buttonType = 'but7';
+    	document.getElementById(buttonType).style.background = "rgba(242, 242, 242, 1)";
+    	document.getElementById('selection').innerHTML = 'Other';
+    	document.getElementById("image2").src = "img/icons/nuclear.png";
+ 		data = 7;
+ 		map.removeLayer(dams);
+		addDams();
+		resizeMiddle();
+ 	}*/
+ 	
+ 	function reset(){
+ 		layers = 0;
+ 		document.getElementById('title').innerHTML = "SELECT UTILITY AREA";
+		document.getElementById('customers').innerHTML = "Customers: ";
+		document.getElementById('city').innerHTML = "BASE CITY";
+		document.getElementById('plants').innerHTML = "Owned Power Plants: ";
+		document.getElementById('button2').style.display = "none";
+		document.getElementById('areaLegend').style.display = "none";
+ 		map.removeLayer(dams);
+		addDams();
+		resetClick();
+		chart.data.datasets[0].data[0] = 50;
+		chart.data.datasets[0].data[1] = 50;
+		chart.update();
+		resizeMiddle();
+ 	}
+  
+///////////////////////dams geoJson styling////////////////////////////////
+
+
+//////////////////////////////////////border toggle/////////////////////////////////////////////////
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////
+
+
+    new L.Control.Zoom({ position: 'bottomright' }).addTo(map);
+	document.getElementsByClassName("leaflet-control-attribution")[0].style.visibility = "hidden";
+	//add scrolling capabilities to text box
+     var container = document.getElementById('text');
+		Ps.initialize(container);
+	
+	var minHeight = 30; // Define a minimum height for the middle div
+
+	function resizeMiddle() {
+    var h = $('body').height() - $('#top').height() - 80;
+    		h = h > minHeight ? h : minHeight;
+   	 	$('#attribution').height(h);
+	}
+	
+	function resizePopup() {
+   		var h = $('.popup').height() - 90;
+    		h = h > minHeight ? h : minHeight;
+   	 	$('.popup .content').height(h);
+	}
+	$(document).ready(resizePopup);
+	$(window).resize(resizePopup);
+
+	$(document).ready(resizeMiddle);
+	$(window).resize(resizeMiddle);
+	
+	$(document).click(function(event) {
+		if (!$(event.target).closest(".share_overlay,.share").length) {
+			$('#clear')[0].click();
+		}
+	});
+    
+
+</script>
+</body>
+</html>

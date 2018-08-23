@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+     <title>Renewable Energy</title>
+    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.2/dist/leaflet.css" /> 
+    <link rel="stylesheet" href="css/energy_maps_style.css" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Maven+Pro" rel="stylesheet">
+    <link rel="stylesheet" href="css/perfect-scrollbar.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
+    <link rel="shortcut icon" href="img/pnw.ico" type="image/x-icon">
+    
+    <meta property="og:title" content="Atlas of the Pacific Northwest: Renewable Energy" />
+    <meta property="og:url" content="https://rawgit.com/osulp/PNWatlas/master/energy/renewable_index.html" />
+    <meta property="og:description" content="Renewable energy maps of the Pacific Northwest."/>
+    
+    <script src="https://unpkg.com/leaflet@1.0.2/dist/leaflet.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="https://d3js.org/topojson.v1.min.js"></script>
+    <script src="js/perfect-scrollbar.js"></script>
+    <script type="text/javascript" src="../js/clickFunction.js"></script>
+    
+   
+</head>
+<body>
+		<button id="collapse" onclick="collapse()">
+			<i class="fa fa-chevron-left" id ="collapse-arrow" aria-hidden="true"></i>
+		</button>
+		<div id="infoPanel">
+			<div id="top">
+				<h1>Renewable Energy</h1>
+				<img src="img/renewable_icon.png" id="titleImageCircle" style="display:inline-block;">
+				<div id="buttons">
+					<div class="dropdown">
+						<button class="dropbtn"><b id="dataType">Select Class</b><p id="arrow">&#9660;</p></button>
+						<div class="dropdown-content">
+							 <button type="button" id="but1" class="selection" style="background:rgba(242, 242, 242, 0.8);">Wind</button>
+							 <button type="button" id="but2" class="selection">Solar</button>
+							 <button type="button" id="but3" class="selection">Geothermal</button>
+							 <button type="button" id="but4" class="selection">Biomass</button>
+					   </div>
+					</div>
+				</div>
+			</div>
+			<div id="attribution">
+				<div id="text">
+					<div id="leg_1" style="display:unset;">
+						<h2 id="title" style="display:block; width:280px; white-space:normal;">Wind Energy Potential</h2><img src="img/icons/wind.png" id="image2" style="right:20px; margin-top:25px;">
+						<div style="height:32px;"><b id="leg1_block" style="background:#08519c; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p>&nbsp</p><p id="leg1" style="margin-left:5px;">Class 7</p></div>
+						<div style="height:30px;"><b id="leg2_block" style="background:#3182bd; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2" style="margin-left:5px;">Class 6</p></div>
+						<div style="height:30px;"><b id="leg3_block" style="background:#6baed6; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2" style="margin-left:5px;">Class 5</p></div>
+						<div style="height:30px;"><b id="leg4_block" style="background:#9ecae1; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2" style="margin-left:5px;">Class 4</p></div>
+						<div style="height:30px;"><b id="leg5_block" style="background:#c6dbef; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p>&nbsp</p><p id="leg3" style="margin-left:5px;">Class 3</p></div>
+						<div style="height:32px;"><b id="leg6_block" style="background:#eff3ff; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p>&nbsp</p><p id="leg3" style="margin-left:5px;">Class 2</p></div><br/>
+						<p id="description" style="font-weight:bold; text-align:justify; white-space:normal; padding-left:0px; width:280px; display:block; position:relative;">Wind energy potential class. Higher classes correspond with greater potential.</p>
+						<br/>
+						<h2 style="font-weight:bold; text-align:justify; white-space:normal; padding-left:0px; width:280px; display:block; position:relative; margin-bottom:15px;">Wind Power Plants</h2>
+						<b class="circle" style="background:black; border: 2px solid white; width:18px; height:18px; margin-bottom:5px; position:relative;"></b><p2 style="display:inline; font-size:20px;">&nbsp50+</p2><b class="circle" style="margin-left: 10px; background:black; border: 2px solid white; width:12px; height:12px; margin-bottom:5px; position:relative;"></b><p2 style="display:inline; font-size:20px;">&nbsp10 - 50</p2><b class="circle" style="margin-left: 10px; background:black; border: 2px solid white; width:7px; height:7px; margin-bottom:5px; position:relative;"></b><p2 style="display:inline;font-size:20px;">&nbspLess than 10</p2><br/>
+						<p style="font-weight:bold; text-align:justify; white-space:normal; padding-left:0px; width:280px; display:block; position:relative; margin-bottom:5px;">Power capacity in MW.</p>
+						<br/>
+					</div>	
+					<div id="leg_2" style="display:none;">
+						<h2 id="title" style="display:block; width:280px; white-space:normal;">Solar Irradiance</h2><img src="img/icons/solar.png" id="image2" style="right:20px; margin-top:0px;">
+						<div style="height:32px;"><b id="leg1_block" style="background:#b30000; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p>&nbsp</p><p id="leg1" style="margin-left:5px;">5.5+</p></div>
+						<div style="height:30px;"><b id="leg2_block" style="background:#e34a33; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2" style="margin-left:5px;">5 - 5.5</p></div>
+						<div style="height:30px;"><b id="leg3_block" style="background:#fc8d59; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2" style="margin-left:5px;">4.5 - 5</p></div>
+						<div style="height:30px;"><b id="leg4_block" style="background:#fdcc8a; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2" style="margin-left:5px;">4 - 4.5</p></div>
+						<div style="height:32px;"><b id="leg5_block" style="background:#fef0d9; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p>&nbsp</p><p id="leg3" style="margin-left:5px;">Less than 4</p></div></br>
+						<p id="description" style="font-weight:bold; text-align:justify; white-space:normal; padding-left:0px; width:280px; display:block; position:relative;">Average daily solar irradiance in kWh/m2/day. Higher values correspond with greater solar potential.</p>
+						<br/>
+						<h2 style="font-weight:bold; text-align:justify; white-space:normal; padding-left:0px; width:280px; display:block; position:relative; margin-bottom:15px;">Solar Power Plants</h2>
+						<b class="circle" style="background:black; border: 2px solid white; width:18px; height:18px; margin-bottom:5px; position:relative;"></b><p2 style="display:inline; font-size:20px;">&nbsp50+</p2><b class="circle" style="margin-left: 10px; background:black; border: 2px solid white; width:12px; height:12px; margin-bottom:5px; position:relative;"></b><p2 style="display:inline; font-size:20px;">&nbsp10 - 50</p2><b class="circle" style="margin-left: 10px; background:black; border: 2px solid white; width:7px; height:7px; margin-bottom:5px; position:relative;"></b><p2 style="display:inline;font-size:20px;">&nbspLess than 10</p2><br/>
+						<p style="font-weight:bold; text-align:justify; white-space:normal; padding-left:0px; width:280px; display:block; position:relative; margin-bottom:5px;">Power capacity in MW.</p>
+					</div>	
+					<div id="leg_3" style="display:none;">
+						<h2 id="title" style="display:block; width:280px; white-space:normal;">Geothermal Potential</h2><img src="img/icons/geothermal.png" id="image2" style="right:30px; margin-top:20px;">
+						<div style="height:32px;"><b id="leg1_block" style="background:#4b4b34; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p>&nbsp</p><p id="leg1" style="margin-left:5px;">Class 1</p></div>
+						<div style="height:30px;"><b id="leg2_block" style="background:#787854; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2" style="margin-left:5px;">Class 2</p></div>
+						<div style="height:30px;"><b id="leg3_block" style="background:#abab87; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2" style="margin-left:5px;">Class 3</p></div>
+						<div style="height:30px;"><b id="leg4_block" style="background:#cbcbb4; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2" style="margin-left:5px;">Class 4</p></div>
+						<div style="height:32px;"><b id="leg6_block" style="background:#ebebe0; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p>&nbsp</p><p id="leg3" style="margin-left:5px;">Class 5</p></div><br/>
+						<p id="description" style="font-weight:bold; text-align:justify; white-space:normal; padding-left:0px; width:280px; display:block; position:relative;">Geothermal energy potential class. Lower classes correspond with greater potential.</p>
+						<br/>
+						<h2 style="font-weight:bold; text-align:justify; white-space:normal; padding-left:0px; width:280px; display:block; position:relative; margin-bottom:15px;">Geothermal Power Plants</h2>
+						<b class="circle" style="background:black; border: 2px solid white; width:18px; height:18px; margin-bottom:5px; position:relative;"></b><p2 style="display:inline; font-size:20px;">&nbsp50+</p2><b class="circle" style="margin-left: 10px; background:black; border: 2px solid white; width:12px; height:12px; margin-bottom:5px; position:relative;"></b><p2 style="display:inline; font-size:20px;">&nbsp10 - 50</p2><b class="circle" style="margin-left: 10px; background:black; border: 2px solid white; width:7px; height:7px; margin-bottom:5px; position:relative;"></b><p2 style="display:inline;font-size:20px;">&nbspLess than 10</p2><br/>
+						<p style="font-weight:bold; text-align:justify; white-space:normal; padding-left:0px; width:280px; display:block; position:relative; margin-bottom:5px;">Power capacity in MW.</p>
+					</div>
+					<div id="leg_4" style="display:none;">
+						<h2 id="bioTitle" style="display:block; width:280px; white-space:normal;">Solid Biomass Production</h2><img src="img/icons/biomass.png" id="image2" style="right:25px; margin-top:20px;">
+						<div style="height:32px;"><b style="background:#006d2c; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p>&nbsp</p><p id="leg1_bio" style="margin-left:5px;">500+</p></div>
+						<div style="height:30px;"><b style="background:#31a354; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2_bio" style="margin-left:5px;">300 - 500</p></div>
+						<div style="height:30px;"><b style="background:#74c476; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg3_bio" style="margin-left:5px;">150 - 300</p></div>
+						<div style="height:30px;"><b style="background:#bae4b3; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg4_bio" style="margin-left:5px;">50 - 150</p></div>
+						<div style="height:32px;"><b style="background:#edf8e9; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p>&nbsp</p><p id="leg5_bio" style="margin-left:5px;">Less than 50</p></div><br/>
+						<p id="bioDescription" style="font-weight:bold; text-align:justify; white-space:normal; padding-left:0px; width:280px; display:block; position:relative;">Biomass production by county in thousands of metric tons/year. Only a fraction of biomass produced is used for heat/electricity.</p>
+						<br/>
+						<h2 style="font-weight:bold; text-align:justify; white-space:normal; padding-left:0px; width:280px; display:block; position:relative; margin-bottom:15px;">Biomass Power Plants</h2>
+						<b class="circle" style="background:black; border: 2px solid white; width:18px; height:18px; margin-bottom:5px; position:relative;"></b><p2 style="display:inline; font-size:20px;">&nbsp50+</p2><b class="circle" style="margin-left: 10px; background:black; border: 2px solid white; width:12px; height:12px; margin-bottom:5px; position:relative;"></b><p2 style="display:inline; font-size:20px;">&nbsp10 - 50</p2><b class="circle" style="margin-left: 10px; background:black; border: 2px solid white; width:7px; height:7px; margin-bottom:5px; position:relative;"></b><p2 style="display:inline;font-size:20px;">&nbspLess than 10</p2><br/>
+						<p style="font-weight:bold; text-align:justify; white-space:normal; padding-left:0px; width:280px; display:block; position:relative; margin-bottom:5px;">Power capacity in MW.</p>
+						<br/>
+						<div id="checklist">
+							<p id="checkText" style="padding-right:5px; padding-left:0px; font-weight:bold; font-style:italic; position:relative; float:left; display:inline;">Solid Biomass</p>
+								<label class="switch" style="margin-top:5px;">
+									<input name="checkbox_name" id="checkbox_id" type="checkbox" value="check" onclick="bioType()" autocomplete="off">
+									<span class="slider"></span>
+								</label>
+							<p id="checkText2" style="padding-left:5px; font-weight:bold; font-style:italic; display:inline; ">Biomethane</p><br/>
+						</div>
+					</div>
+					<p3 id="facts_1" style="display:none"></p3>			
+					<p3 id="facts_2" style="display:none"></p3>
+					<p3 id="facts_3" style="display:none"></p3>
+					<p3 id="facts_4" style="display:none"></p3>
+				</div>
+				<div id="pageChange">
+					<a href="#sources" id="arrow" style="display:inline-block;">
+						<i class="fa fa-info-circle" aria-hidden="true" style="padding-left:90px;"></i>
+					</a>
+					<a href="#link_popup" id="arrow" style="display:inline-block;">
+						<i class="fa fa-home" aria-hidden="true" style="padding-left:0;"></i>
+					</a>
+					<a href="#share" class="share" id="arrow" style="display:inline-block;">
+						<i class="fa fa-share-alt " aria-hidden="true" style="padding-left:0;"></i>
+					</a>
+				</div>
+			</div>
+		</div>
+    	<div id="map" style="width: 100%; height: 100%;"></div>
+    	
+    	<div id="sources" class="overlay">
+			<div class="popup">
+				<h2 style="display:inline; font-size:32px;">Sources</h2>
+				<a class="close" href="#" style="display:inline;">×</a>
+				<hr>
+				<div class="content">
+					<p2 style="font-size:20px">Geographic Data</p2><br><br/>
+                    <div class="source">
+                    	<b><p2>Power Plants: <a href = "https://www.eia.gov/maps/layer_info-m.php" target="_blank">US Energy Information Administration</a></p2></b><br>
+                    </div>
+                    <div class="source">
+                    	<b><p2>Wind Potential: <a href = "https://www.nrel.gov/gis/data-wind.html" target="_blank">National Renewable Energy Laboratory</a></p2></b><br>
+                    		<p3>Notes: Wind Power Classes based on wind speed at 50 meters.</p3>
+                    </div>
+                    <div class="source">
+                    	<b><p2>Geothermal Potential: <a href = "https://www.nrel.gov/gis/data-geothermal.html" target="_blank">National Renewable Energy Laboratory</a></p2></b><br>
+                    </div>
+                    <div class="source">
+                    	<b><p2>Solar Irriadiance: <a href = "https://www.nrel.gov/gis/data-solar.html" target="_blank">National Renewable Energy Laboratory</a></p2></b><br>
+                    		<p3>Notes: Dataset: Lower 48 and Hawaii DNI 10-km Resolution 1998–2009.</p3>
+                    </div>
+                    <div class="source">
+                    	<b><p2>Biomass by County: <a href = "https://www.nrel.gov/gis/data-biomass.html" target="_blank">National Renewable Energy Laboratory</a></p2></b><br>
+                    </div>
+				</div>
+				<hr>
+				<p2 style="float:right; font-size:12px;">Map created with Leaflet.</p2>
+				<br/>
+				<a class="close2" href="#" style="display:inline;">Close</a>
+			</div>
+		</div>
+		
+		<div id="link_popup" class="link_overlay">
+			<div class="link_popup">
+				<a class="close" href="#" style="display:inline;">×</a>
+				<div class="content">
+					<a href="energy_index.html" style="font-weight:bold; text-decoration:none;">Energy Home</a>
+					<hr>
+					<a href="utilities.html" style="text-decoration:underline;">Electric Utilities</a>
+					<a href="renewable.html" style="text-decoration:underline;">Renewable Energy</a>
+					<hr>
+					<a href="../index.html" style="font-weight:bold; text-decoration:none;">Atlas Home</a>
+				</div>
+			</div>
+		</div>
+		
+		<div id="share" class="share_overlay">
+			<div class="share_popup">
+				<a id="clear" href="#" style="display:none;">×</a>
+				<div class="content">
+					<a href="https://facebook.com/sharer.php?u=https://rawgit.com/osulp/PNWatlas/master/energy/renewable_index.html" id="arrow" style="display:inline-block;">
+						<i class="fa fa-facebook-square " aria-hidden="true" style="padding-left:0;"></i>
+					</a>
+					<a href="https://twitter.com/home?status=PNW%20Livestock%0Ahttp%3A//rawgit.com/osulp/PNWatlas/master/energy/renewable_index.html" id="arrow" style="display:inline-block;">
+						<i class="fa fa-twitter-square " aria-hidden="true" style="padding-left:0;"></i>
+					</a>
+					<a href="" id="arrow" style="display:inline-block;">
+						<i class="fa fa-linkedin-square " aria-hidden="true" style="padding-left:0;"></i>
+					</a>
+				</div>
+			</div>
+		</div>
+		
+<script>
+	
+	var collapsed = false;
+    function collapse(){
+    	if (collapsed == false){
+    		document.getElementById("infoPanel").style.transition = "display 2s";
+    		document.getElementById("infoPanel").style.display = "none";
+    		document.getElementById("collapse").style.left = '0px';
+    		document.getElementById("collapse").style.paddingLeft = '2px';
+    		document.getElementById("collapse-arrow").className = "fa fa-chevron-right";
+    		collapsed = true;
+    	} else{
+    		document.getElementById("infoPanel").style.display = "unset";
+    		document.getElementById("collapse").style.left = '320px';
+    		document.getElementById("collapse").style.paddingLeft = '0px';
+    		document.getElementById("collapse-arrow").className = "fa fa-chevron-left";
+    		collapsed = false;
+    	}
+    	
+    }
+    
+    L.TopoJSON = L.GeoJSON.extend({  
+  		addData: function(jsonData) {    
+    		if (jsonData.type === 'Topology') {
+      			for (key in jsonData.objects) {
+       			 geojson = topojson.feature(jsonData, jsonData.objects[key]);
+       			 L.GeoJSON.prototype.addData.call(this, geojson);
+      		}
+    	}    
+    	else {
+      		L.GeoJSON.prototype.addData.call(this, jsonData);
+    		}
+  		}  
+	});
+	//initialize map
+	var map = L.map('map', {center: [45.56, -119.75], zoom: 7, zoomControl:false});
+	///////////////////////make zoom level correspond to browser size////////////////////////////////
+	window.addEventListener('load', function(event){
+    	var width = document.documentElement.clientWidth;
+    	if (width < 1500 && width > 800) {
+        	map.setView(new L.LatLng(45.56, -121.75), 6); 
+    		}  else if (width > 1501) {
+        	map.setZoom(7);
+        	} else {
+        	map.setZoom(5);
+        	}
+	});
+	////////////////////////////////add tiled basemap////////////////////////////////
+var Esri_WorldTerrain = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer/tile/{z}/{y}/{x}', {
+		attribution: 'Tiles &copy; Esri &mdash; Source: USGS, Esri, TANA, DeLorme, and NPS',
+		maxZoom:10,
+		minZoom:5,
+		opacity:1
+	}).addTo(map);
+
+var pnwCover = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
+		layers: 'baldricg_PNW_ATLAS:pnw_outline2_black',
+        format: 'image/png',
+		maxZoom:10,
+		minZoom:5,
+		opacity:0.5,
+		transparent:true,
+	}).addTo(map);
+
+	
+var label = L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_only_labels/{z}/{x}/{y}@2x.png', {
+		attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
+		subdomains: 'abcd',
+		maxZoom:10,
+		minZoom:5,
+		tileSize:256,
+		bounds:[
+			new L.LatLng(49.56,-125.25),
+			new L.LatLng(40.5,-111.5)
+		],
+		pane:'labels'
+	});	
+	
+	
+	map.createPane('labels');
+	map.getPane('labels').style.pointerEvents = 'none';
+	map.getPane('labels').style.zIndex = 650;
+	label.addTo(map);
+	
+	map.createPane('tooltip');
+	map.getPane('tooltip').style.zIndex = 700;
+	//changes depending on which data type is selected, initial value is for County Employment
+	//used with DATA variable to select data type corresponding to each button. Odd numbered buttons correspond to state-level data
+	
+
+    ///////////////////////////////////////////////////////////////////////////////////////	
+  	var info = L.control();
+
+	info.onAdd = function (map) {
+    	this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
+    	this.update();
+    	return this._div;
+	};
+	
+	info.update = function (feature) {
+		function bioType(){
+			return bioSwitch == 0 ? feature.total_soli:
+					feature.total_ch4.toFixed(2);
+		}
+		if (data < 4){
+   			this._div.innerHTML = ('<h2 style="display:inline; font-weight:bold;">Hover Over Map</h2>');
+			}
+		else {	
+			this._div.innerHTML = (feature ?
+        	'<h2 style="margin:0; display:inline-block;">'+ feature.CNTY_NAME +'</h2><br/>' + '<p3 style="display:inline; font-weight:bold;">' + bioType() + ' tons/yr</p3>'
+       		:'<h2 style="display:inline; font-weight:bold;">Hover Over Map</h2>');
+       	}
+	};
+
+	info.addTo(map);
+    
+    ////////////////////////////////initial geoJSON styling////////////////////////////////
+
+	var data = 1;
+	var bioSwitch=0;
+	
+	function damSize(e){
+		return e > 50 ? 9:
+			e > 10 ? 6:
+				4; 
+	}
+	
+	function damHighlight(e) {
+		 var layer = e.target;
+		 layer.setStyle({
+        	fillColor: '#ffffff'
+    	 });
+		}
+	//reset feature function (after highlight)
+	function resetDamHighlight(e) {
+		var layer = e.target;
+		 layer.setStyle({
+			fillColor: '#000000'
+    	 });
+	}
+	
+	function pointStyle(feature, latlng){
+		return L.circleMarker(latlng, {
+    				color:'#ffffff',
+    				fillColor: '#000000',
+    				radius: damSize(feature.properties.Total_MW),
+    				opacity: 1,
+    				fillOpacity: 1,
+    				weight: 1.5,
+    			})
+    		}
+	
+	var dams;
+		
+	function damFilter(feature) {
+			if ( data == 1){
+				return feature.properties.PrimSource == "wind" ? true:
+					false;
+			}
+			if ( data == 2){
+				return feature.properties.PrimSource == "solar" ? true:
+					false;
+			}
+			if ( data == 3){
+				return feature.properties.PrimSource == "geothermal" ? true:
+					false;
+			}
+			if ( data == 4){
+				return feature.properties.PrimSource == "biomass" ? true:
+					false;
+			}
+    	}	
+	
+    function addDams(){
+    	if (dams){
+    		map.removeLayer(dams);
+    	}
+    	dams = $.getJSON("assets/pnw_power_plants.geojson", function(data){
+        	dams = L.geoJson(data, {
+        		pointToLayer: pointStyle,
+    			onEachFeature: function(feature, featureLayer) {
+        			featureLayer.bindTooltip('<h3 style="display:inline;">' + feature.properties.Plant_Name + '</h3><br/><p style="display:inline;">Operator:&nbsp' + feature.properties.Utility_Na + '&nbsp<br/>Type:&nbsp' + feature.properties.tech_desc + '<br/>Capacity:&nbsp' + feature.properties.Total_MW + ' MW</p>', {className: 'label_tooltip', pane:'tooltip'});
+        			featureLayer.on({
+        				mouseover: damHighlight,
+        				mouseout: resetDamHighlight
+   					});
+        		},
+    			filter:damFilter
+        	}).addTo(map);
+   	 	});
+   	 	resizeMiddle();
+	}
+	
+	addDams();
+	//////////////////////////////////////////////////////////////////////////////
+	var windPotential = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
+		layers: 'baldricg_PNW_ATLAS:wind_potential',
+        format: 'image/png',
+		maxZoom:10,
+		minZoom:5,
+		opacity:0.9,
+		transparent:true,
+	}).addTo(map);
+	//////////////////////////////////////////////////////////////////////////////
+	const geo = new L.TopoJSON();
+
+	$.getJSON('assets/geothermal_potential.json')
+  		.done(addGeoTopoData);
+
+	function addGeoTopoData(topoData) {  
+  		geo.addData(topoData);
+  		geo.eachLayer(handleGeoLayer);
+	}
+	
+	function setGeoColor(density){
+        return density == 1 ? '#4b4b34' :
+            density == 2 ? '#787854' :
+            density == 3 ? '#abab87' :
+            density == 4 ? '#cbcbb4' :
+            density == 5 ? '#ebebe0' :
+                '#ffffff';
+    	}
+	
+	function handleGeoLayer(layer){
+        layer.setStyle({
+          	fillColor: setGeoColor(layer.feature.properties.CLASS),
+            fillOpacity: 0.7,
+            weight: 1.5,
+            opacity: 0.5,
+            color: setGeoColor(layer.feature.properties.CLASS),
+        });
+    }
+
+	
+	//////////////////////////////////////////////////////////////////////////////
+	var solarIrr = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
+		layers: 'baldricg_PNW_ATLAS:pnw_annual_solar_irradiance	',
+        format: 'image/png',
+		maxZoom:10,
+		minZoom:5,
+		opacity:0.7,
+		transparent:true,
+	});
+    //////////////////////////////////////////////////////////////////////////////
+    const bio = new L.TopoJSON();
+
+	$.getJSON('assets/biomass_counties.json')
+  		.done(addBioTopoData);
+
+	function addBioTopoData(topoData) {  
+  		bio.addData(topoData);
+  		bio.eachLayer(handleBioLayer);
+	}
+	
+	function setBioColor(density, density2){
+        if (bioSwitch == 0){
+        	return density > 500000 ? '#006d2c' :
+            	density > 300000 ? '#31a354' :
+            	density > 150000 ? '#74c476' :
+            	density > 50000 ? '#bae4b3' :
+                	'#edf8e9';
+    		}
+    	else {
+    		return density2 > 7000 ? '#006d2c' :
+            	density2 > 5000 ? '#31a354' :
+            	density2 > 3000 ? '#74c476' :
+            	density2 > 1000 ? '#bae4b3' :
+                	'#edf8e9';
+    		}
+    	}
+    
+	
+	function handleBioLayer(layer){
+        layer.setStyle({
+          fillColor: setBioColor(layer.feature.properties.total_soli, layer.feature.properties.total_ch4),
+            	fillOpacity: 0.7,
+            	weight: 0.75,
+            	opacity: 1,
+            	color: '#ffffff',
+        });
+         layer.on({
+         	mouseover : enterLayer,
+            mouseout: leaveLayer
+        });
+    }
+   
+   function enterLayer(){
+      this.setStyle({
+        	fillOpacity: 1,
+        	dashArray: 4
+      });
+      info.update(this.feature.properties);
+    }
+    
+    function leaveLayer(){
+      this.setStyle({
+        	fillOpacity: 0.7,
+        	dashArray: 0
+      });
+      info.update();
+    }
+	
+	
+	//////////////////////////////////////////////////////////////////////////////	
+	var buttonLabels = ['#but1','#but2','#but3','#but4'];
+
+	var buttonFunctions = {
+		but1: {button:'but1', newLayers:[windPotential], newLegend: 'leg_1', newElements:['facts_1'], title:'Wind', variable:1, layerFunction:function(){addDams();}},
+		but2: {button:'but2', newLayers:[solarIrr], newLegend: 'leg_2', newElements:['facts_2'], title:'Solar',  variable:2, layerFunction:function(){addDams();}},
+		but3: {button:'but3', newLayers:[geo], newLegend: 'leg_3', newElements:['facts_3'], title:'Geothermal',  variable:3, layerFunction:function(){addDams();}},
+		but4: {button:'but4', newLayers:[bio], newLegend: 'leg_4', newElements:['facts_4'], title:'Biomass',  variable:4, layerFunction:function(){addDams();}}
+	};
+	
+	$('.main1').clickFunction({
+		buttonFunctions: buttonFunctions,
+		buttonLabels: buttonLabels,
+		selected:buttonFunctions.but1
+	});
+	
+    function bioType(){
+    	if (document.getElementById('checkbox_id').checked == true){
+    		bioSwitch = 1;
+    		document.getElementById('bioTitle').innerHTML = "Biomethane";
+    		document.getElementById('leg1_bio').innerHTML = "7+";
+    		document.getElementById('leg2_bio').innerHTML = "5 - 7";
+    		document.getElementById('leg3_bio').innerHTML = "3 - 5";
+    		document.getElementById('leg4_bio').innerHTML = "1 - 3";
+    		document.getElementById('leg5_bio').innerHTML = "Less than 1";
+    		document.getElementById('bioDescription').innerHTML = "Biomethane production by county in thousands of metric tons/year of methane. Only a fraction of biomethane is used for heat/electricity.";
+			bio.eachLayer(handleBioLayer);
+			resizeMiddle();
+    	}
+    	else{
+    		bioSwitch = 0;
+    		document.getElementById('bioTitle').innerHTML = "Solid Biomass";
+    		document.getElementById('leg1_bio').innerHTML = "500+";
+    		document.getElementById('leg2_bio').innerHTML = "300 - 500";
+    		document.getElementById('leg3_bio').innerHTML = "150 - 300";
+    		document.getElementById('leg4_bio').innerHTML = "50 - 150";
+    		document.getElementById('leg5_bio').innerHTML = "Less than 50";
+    		document.getElementById('bioDescription').innerHTML = "Biomass production by county in thousands of metric tons/year. Only a fraction of biomass produced is used for heat/electricity.";
+			bio.eachLayer(handleBioLayer);
+			resizeMiddle();
+    	}
+    }
+    
+	///////////////////////////////add outline layers////////////////////////////////
+	function pnwStatesStyle(){
+	return{
+		opacity: 1,
+		color:'#666666',
+		fillOpacity:0	,
+		fillColor:'#404040',
+		weight:1
+		};
+	}
+     var pnwStates = $.getJSON("assets/pnw_states.geojson", function(data){
+        pnwStates = L.geoJson(data, {
+        	style:pnwStatesStyle,
+        	interactive: false
+        }).addTo(map);
+    });
+	//////////////////////////////////////////////////////////////////////////////
+
+   	//add zoom control
+    new L.Control.Zoom({ position: 'topright' }).addTo(map);
+    
+    //remove leaflet attribution
+	document.getElementsByClassName("leaflet-control-attribution")[0].style.visibility = "hidden";
+	
+	//add scrolling capabilities to text box
+     var container = document.getElementById('text');
+		Ps.initialize(container);
+	
+	//update text box to be correct size
+	var minHeight = 50; // Define a minimum height for the middle div
+
+	function resizeMiddle() {
+    var h = $('body').height() - $('#top').height() - 65;
+    		h = h > minHeight ? h : minHeight;
+   	 	$('#attribution').height(h);
+	}
+	
+	function resizePopup() {
+   		var h = $('.popup').height() - 90;
+    		h = h > minHeight ? h : minHeight;
+   	 	$('.popup .content').height(h);
+	}
+	$(document).ready(resizePopup);
+	$(window).resize(resizePopup);
+
+	$(document).ready(resizeMiddle);
+	$(window).resize(resizeMiddle);
+	
+    //remove standard leaflet attribution
+    $(document).click(function(event) {
+		if (!$(event.target).closest(".share_overlay,.share").length) {
+			$('#clear')[0].click();
+		}
+	});
+
+
+</script>
+</body>
+</html>
