@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+     <title>Urban/Rural</title>
+    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.2/dist/leaflet.css" /> 
+    <link rel="stylesheet" href="css/population_maps_style.css" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Maven+Pro" rel="stylesheet">
+    <link rel="stylesheet" href="css/perfect-scrollbar.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
+    <link rel="shortcut icon" href="img/pnw.ico" type="image/x-icon">
+    
+    <meta property="og:title" content="Atlas of the Pacific Northwest: Urban/Rural" />
+    <meta property="og:url" content="https://rawgit.com/osulp/PNWatlas/master/population/urban_rural_index.html" />
+    <meta property="og:description" content="Urban/Rural maps of the Pacific Northwest."/>
+    
+    <script src="https://unpkg.com/leaflet@1.0.2/dist/leaflet.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="https://d3js.org/topojson.v1.min.js"></script>
+    <script type="text/javascript" src="../js/clickFunction.js"></script>
+    <script src="js/perfect-scrollbar.js"></script>
+   
+</head>
+<body>
+		<button id="collapse" onclick="collapse()">
+			<i class="fa fa-chevron-left" id ="collapse-arrow" aria-hidden="true"></i>
+		</button>
+		<div id="infoPanel">
+			<div id="top">
+				<h1>Urban/Rural</h1>
+				<img src="img/urban_rural_icon.png" id="titleImageCircle" style="height:60px;">
+				<div id="buttons">
+					<div class="dropdownSmall">
+						<button class="dropbtnSmall"><b id="dataClass">Select Class</b><p id="arrow">&#9660;</p></button>
+						<div class="dropdown-contentSmall">
+							 <button type="button" id="classBut1" class="selectionSmall" style="background:rgba(242, 242, 242, 0.8);">Total</button>
+							 <button type="button" id="classBut2" class="selectionSmall">Urban</button>
+							 <button type="button" id="classBut3" class="selectionSmall">Rural</button>
+					   </div>
+					</div>
+					<div class="dropdownSmall">
+						<button class="dropbtnSmall"><b id="dataType">Select Data</b><p id="arrow">&#9660;</p></button>
+						<div class="dropdown-contentSmall">
+							 <button type="button" id="but1" class="selectionSmall" style="background:rgba(242, 242, 242, 0.8);">Classification</button>
+							 <button type="button" id="but2" class="selectionSmall">Income</button>
+							 <button type="button" id="but3" class="selectionSmall">Education</button>
+							 <button type="button" id="but4" class="selectionSmall">Employment</button>
+					   </div>
+					</div>
+				</div>
+			</div>
+			<div id="attribution">
+				<div id="text">
+					<div id="leg_1" style="display:unset;">
+						<h2 id="title" style="display:block; width:280px; white-space:normal;">Urban/Rural Classification</h2><img src="img/class_icon.png" style="display:inline-block; float:right; width: 90px; height:70px; position:absolute; margin-top:10px; right:15px;">
+						<div style="height:32px;"><b id="leg1_block" style="background:#80bfff; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p>&nbsp</p><p id="leg1" style="margin-left:5px;">Urbanized Area</p></div>
+						<div style="height:30px;"><b id="leg2_block" style="background:#ffff80; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2" style="margin-left:5px;">Urban Cluster</p></div>
+						<div style="height:32px;"><b id="leg3_block" style="background:#9fdf9f; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p>&nbsp</p><p id="leg3" style="margin-left:5px;">Rural Area</p></div>
+						<br/>
+						<p id="description" style="font-weight:bold; text-align:justify; white-space:normal; padding-left:0px; width:280px; display:block; position:relative;">Urbanized Area/Urban Cluster classifications determined by U.S Census Bureau.</p>
+					</div>	
+					<div id="leg_2" style="display:none;">
+						<h2 id="title" style="display:block; width:280px; white-space:normal;">Per Capita Annual Income</h2><img src="img/income_icon.png" id="image3" style="display:inline-block; float:right;width: 90px; height: 90px;position:absolute; margin-top:20px; right:20px;">
+						<div style="height:32px;"><b id="leg1_block" style="background:#006837; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p>&nbsp</p><p id="leg1" style="margin-left:5px;">$45+</p></div>
+						<div style="height:30px;"><b id="leg2_block" style="background:#31a354; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2" style="margin-left:5px;">$35 - $45</p></div>
+						<div style="height:30px;"><b id="leg3_block" style="background:#78c679; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2" style="margin-left:5px;">$25 - $35</p></div>
+						<div style="height:30px;"><b id="leg4_block" style="background:#c2e699; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2" style="margin-left:5px;">$15 - $25</p></div>
+						<div style="height:32px;"><b id="leg5_block" style="background:#ffffcc; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p>&nbsp</p><p id="leg3" style="margin-left:5px;">Less than $15</p></div>
+						<br/>
+						<p id="description" style="font-weight:bold; text-align:justify; white-space:normal; padding-left:0px; width:280px; display:block; position:relative;">Average annual per capita income in thousands of dollars. Data from 2011-2015 American Community Survey.</p>
+					</div>	
+					<div id="leg_3" style="display:none;">
+						<h2 id="title" style="display:block; width:280px; white-space:normal;">% With Bachelor's Degree</h2><img src="img/education_icon.png" id="image4" style="display:inline-block; float:right;width: 90px; height: 90px; position:absolute; margin-top:20px; right:20px;">
+						<div style="height:32px;"><b id="leg1_block" style="background:#b30000; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p>&nbsp</p><p id="leg1" style="margin-left:5px;">45+</p></div>
+						<div style="height:30px;"><b id="leg2_block" style="background:#e34a33; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2" style="margin-left:5px;">35 - 45</p></div>
+						<div style="height:30px;"><b id="leg3_block" style="background:#fc8d59; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2" style="margin-left:5px;">25 - 35</p></div>
+						<div style="height:30px;"><b id="leg4_block" style="background:#fdcc8a; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2" style="margin-left:5px;">15 -  25</p></div>
+						<div style="height:32px;"><b id="leg5_block" style="background:#fef0d9; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p>&nbsp</p><p id="leg3" style="margin-left:5px;">Less than 15</p></div>
+						<br/>
+						<p id="description" style="font-weight:bold; text-align:justify; white-space:normal; padding-left:0px; width:280px; display:block; position:relative;">Percent of population over 25 with a bachelor's degree. Data from 2011-2015 American Community Survey.</p>
+					</div>
+					<div id="leg_4" style="display:none;">
+						<h2 id="title" style="display:block; width:280px; white-space:normal;">% Unemployment</h2><img src="img/employment_icon.png" id="image5" style="display:inline-block; float:right; width: 110px; height: 100px; position:absolute;margin-top:20px; right:15px;">
+						<div style="height:32px;"><b id="leg1_block" style="background:#810f7c; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p>&nbsp</p><p id="leg1" style="margin-left:5px;">12.5+</p></div>
+						<div style="height:30px;"><b id="leg2_block" style="background:#8856a7; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2" style="margin-left:5px;">10 -  12.5</p></div>
+						<div style="height:30px;"><b id="leg3_block" style="background:#8c96c6; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2" style="margin-left:5px;">7.5 -  10</p></div>
+						<div style="height:30px;"><b id="leg4_block" style="background:#b3cde3; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2" style="margin-left:5px;">5 -  2.5</p></div>
+						<div style="height:32px;"><b id="leg5_block" style="background:#edf8fb; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p>&nbsp</p><p id="leg3" style="margin-left:5px;">Less than 5</p></div>
+						<br/>
+						<p id="description" style="font-weight:bold; text-align:justify; white-space:normal; padding-left:0px; width:280px; display:block; position:relative;">Percent of unemployed workforce. Data from 2011-2015 American Community Survey.</p>
+					</div>	
+					</br>	
+					<b2 style="font-size:20px;">Urbanized Areas:</b2> 
+					<p3 id="facts">Areas with at least 50,000 people.</p3><br/><br/>
+					<b2 style="font-size:20px;">Urbanized Clusters:</b2> 
+					<p3 id="facts">Areas between 2,500 and 50,000 people.</p3><br/><br/>
+					<b2 style="font-size:20px;">Rural Areas:</b2> 
+					<p3 id="facts">All population, housing, and territory not included within an urban area or cluster.</p3>		
+				</div>
+				<div id="pageChange">
+					<a href="#sources" id="arrow" style="display:inline-block;">
+						<i class="fa fa-info-circle" aria-hidden="true" style="padding-left:90px;"></i>
+					</a>
+					<a href="#link_popup" id="arrow" style="display:inline-block;">
+						<i class="fa fa-home" aria-hidden="true" style="padding-left:0;"></i>
+					</a>
+					<a href="#share" class="share" id="arrow" style="display:inline-block;">
+						<i class="fa fa-share-alt " aria-hidden="true" style="padding-left:0;"></i>
+					</a>
+				</div>
+			</div>
+		</div>
+    	<div id="map" style="width: 100%; height: 100%;"></div>
+    	
+    	<div id="sources" class="overlay">
+			<div class="popup">
+				<h2 style="display:inline; font-size:32px;">Sources</h2>
+				<a class="close" href="#" style="display:inline;">×</a>
+				<hr>
+				<div class="content">
+					<p2 style="font-size:20px">Geographic Data</p2><br><br/>
+                    <div class="source">
+                    	<b><p2>Urban Areas: <a href = "https://www.census.gov/geo/maps-data/data/cbf/cbf_ua.html" target="_blank">United States Census Bureau</a></p2></b><br>
+                    		<p3>Notes: Combined with place area data.</p3>
+                    </div>
+                     <div class="source">
+                    	<b><p2>Places: <a href = "https://www.census.gov/geo/maps-data/data/cbf/cbf_place.html" target="_blank">United States Census Bureau</a></p2></b><br>
+                    		<p3>Notes: Combined with urban area data.</p3>
+                    </div>
+                    <div class="source">
+                    	<b><p2>County-Level Education, Income and Employment Data: <a href = "https://factfinder.census.gov/faces/tableservices/jsf/pages/productview.xhtml?pid=ACS_15_5YR_S1501&prodType=table" target="_blank">IPUMS: National Historical Geographic Information System</a></p2></b><br>
+                    		<p3>Notes: IPUMS Data selected from ACS 2011-2015. Geographic Level: County. Datasets: Educational Attainment for the Population 25 Years and Over, Employment Status for the Population 16 Years and Over, Per Capita Income in the Past 12 Months (in 2015 Inflation-Adjusted Dollars).</p3>
+                    </div>
+                    <div class="source">
+                    	<b><p2>Place-Level Education, Income and Employment Data: <a href = "https://factfinder.census.gov/faces/tableservices/jsf/pages/productview.xhtml?pid=ACS_15_5YR_S1501&prodType=table" target="_blank">IPUMS: National Historical Geographic Information System</a></p2></b><br>
+                    		<p3>Notes: IPUMS Data selected from ACS 2011-2015. Geographic Level: County By State--Place. Datasets: Educational Attainment for the Population 25 Years and Over, Employment Status for the Population 16 Years and Over, Per Capita Income in the Past 12 Months (in 2015 Inflation-Adjusted Dollars).</p3>
+                    </div>
+				</div>
+				<hr>
+				<p2 style="float:right; font-size:12px;">Map created with Leaflet.</p2>
+				<br/>
+				<a class="close2" href="#" style="display:inline;">Close</a>
+			</div>
+		</div>
+		
+		<div id="link_popup" class="link_overlay">
+			<div class="link_popup">
+				<a class="close" href="#" style="display:inline;">×</a>
+				<div class="content">
+					<a href="population_index.html" style="font-weight:bold; text-decoration:none;">Population Home</a>
+					<hr>
+					<a href="demographics.html" style="text-decoration:underline;">Demographics</a>
+					<a href="housing.html" style="text-decoration:underline;">Housing</a>
+					<a href="migration.html" style="text-decoration:underline;">Internal Migration</a>
+					<a href="urban_rural.html" style="text-decoration:underline;">Urban & Rural</a>
+					<a href="immigration.html" style="text-decoration:underline;">Immigration</a>
+					<hr>
+					<a href="../index.html" style="font-weight:bold; text-decoration:none;">Atlas Home</a>
+				</div>
+			</div>
+		</div>
+		
+		<div id="share" class="share_overlay">
+			<div class="share_popup">
+				<a id="clear" href="#" style="display:none;">×</a>
+				<div class="content">
+					<a href="https://facebook.com/sharer.php?u=https://rawgit.com/osulp/PNWatlas/master/population/urban_rural_index.html" id="arrow" style="display:inline-block;">
+						<i class="fa fa-facebook-square " aria-hidden="true" style="padding-left:0;"></i>
+					</a>
+					<a href="https://twitter.com/home?status=PNW%20Urban/Rural%0Ahttp%3A//rawgit.com/osulp/PNWatlas/master/population/urban_rural_index.html" id="arrow" style="display:inline-block;">
+						<i class="fa fa-twitter-square " aria-hidden="true" style="padding-left:0;"></i>
+					</a>
+					<a href="" id="arrow" style="display:inline-block;">
+						<i class="fa fa-linkedin-square " aria-hidden="true" style="padding-left:0;"></i>
+					</a>
+				</div>
+			</div>
+		</div>
+<script>
+//////////////base functions (these never change)///////////////////////	
+	//////////////function for the info panel collapse button///////////////////////
+	var collapsed = false;
+    function collapse(){
+    	if (collapsed == false){
+    		document.getElementById("infoPanel").style.transition = "display 2s";
+    		document.getElementById("infoPanel").style.display = "none";
+    		document.getElementById("collapse").style.left = '0px';
+    		document.getElementById("collapse").style.paddingLeft = '2px';
+    		document.getElementById("collapse-arrow").className = "fa fa-chevron-right";
+    		collapsed = true;
+    	} else{
+    		document.getElementById("infoPanel").style.display = "unset";
+    		document.getElementById("collapse").style.left = '320px';
+    		document.getElementById("collapse").style.paddingLeft = '0px';
+    		document.getElementById("collapse-arrow").className = "fa fa-chevron-left";
+    		collapsed = false;
+    	}
+    	
+    }
+	//////////////function that allows topojson layers to be loaded///////////////////////    
+    L.TopoJSON = L.GeoJSON.extend({  
+  		addData: function(jsonData) {    
+    		if (jsonData.type === 'Topology') {
+      			for (key in jsonData.objects) {
+       			 geojson = topojson.feature(jsonData, jsonData.objects[key]);
+       			 L.GeoJSON.prototype.addData.call(this, geojson);
+      		}
+    	}    
+    	else {
+      		L.GeoJSON.prototype.addData.call(this, jsonData);
+    		}
+  		}  
+	});
+//////////////Initialize map///////////////////////
+	var map = L.map('map', {center: [45.56, -119.75], zoom: 7, zoomControl:false});
+///////////////////////make zoom level correspond to browser size////////////////////////////////
+	window.addEventListener('load', function(event){
+    	var width = document.documentElement.clientWidth;
+    	if (width < 1500 && width > 800) {
+        	map.setView(new L.LatLng(45.56, -121.75), 6); 
+    		}  else if (width > 1501) {
+        	map.setZoom(7);
+        	} else {
+        	map.setZoom(5);
+        	}
+	});
+////////////////////////////////basemap layers////////////////////////////////
+	var Esri_WorldTerrain = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer/tile/{z}/{y}/{x}', {
+		attribution: 'Tiles &copy; Esri &mdash; Source: USGS, Esri, TANA, DeLorme, and NPS',
+		maxZoom:10,
+		minZoom:5,
+		opacity:1
+	}).addTo(map);
+
+	var pnwCover = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
+		layers: 'baldricg_PNW_ATLAS:pnw_outline2_black',
+        format: 'image/png',
+		maxZoom:10,
+		minZoom:5,
+		opacity:0.3,
+		transparent:true,
+	}).addTo(map);
+
+	
+	var label = L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_only_labels/{z}/{x}/{y}@2x.png', {
+		attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
+		subdomains: 'abcd',
+		maxZoom:10,
+		minZoom:5,
+		tileSize:256,
+		bounds:[
+			new L.LatLng(49.56,-125.25),
+			new L.LatLng(40.5,-111.5)
+		],
+		pane:'labels'
+	});
+	
+	var pnwCounties = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
+		layers: 'baldricg_PNW_ATLAS:pnw_states_black',
+        format: 'image/png',
+		maxZoom:10,
+		minZoom:5,
+		opacity:0.8,
+		transparent:true,
+	}).addTo(map);
+	
+	map.createPane('labels');
+	map.getPane('labels').style.pointerEvents = 'none';
+	map.getPane('labels').style.zIndex = 650;
+	label.addTo(map);
+	
+	map.createPane('tooltip');
+	map.getPane('tooltip').style.zIndex = 700;
+	
+////////////////////////////////important variables////////////////////////////////	
+	var colorValue = ['#ffffcc','#c2e699','#78c679','#31a354','#006837'];
+	var dataValue = [20000,30000,40000,50000];
+	var data = 1;
+	var check = 0;//used for the urban/rural filter
+
+////////////////////////////////info control in upper right////////////////////////////////
+  	var info = L.control();
+
+	info.onAdd = function (map) {
+    	this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
+    	this.update();
+    	return this._div;
+	};
+	
+	info.update = function (feature) {
+		function nullFinder(prop) {
+			if (prop == null)
+				{return 0;}
+			else if (isNaN(prop) == true)
+				{return 0;}
+			else {return prop;}
+		}
+		if (data == 1){
+   		this._div.innerHTML = (feature ?
+        	'<h2 style="margin:0; display:inline-block;">'+ feature.NAME +'</h2><br/>' + '<p3 style="display:inline;">' + feature.text_class + '</p3>'
+       		:'<h2>Hover over Map</h2>');
+		}
+		else if (data == 2){	
+			this._div.innerHTML = (feature ?
+        	'<h2 style="margin:0; display:inline-block;">'+ feature.NAME +'</h2><br/>' + '<p3 style="display:inline;">' + feature.text_class + '</br></p3><p3 style="display:inline; font-weight:bold;">$' + nullFinder(feature.income_cap) + '<p3/><p3 style="display:inline"> Income per Cap.</p3>'
+       		:'<h2>Hover over Map</h2>');
+			}	
+		else if (data == 3){	
+			this._div.innerHTML = (feature ?
+        	'<h2 style="margin:0; display:inline-block;">'+ feature.NAME +'</h2><br/>' + '<p3 style="display:inline;">' + feature.text_class + '</br></p3><p3 style="display:inline; font-weight:bold;">' + nullFinder(((feature.bachelors/feature.popOver25)*100).toFixed(2)) + '%</p3><p3 style="display:inline"> w/ Bachelors</p3>'
+       		:'<h2>Hover over Map</h2>');
+			}
+		else {	
+			this._div.innerHTML = (feature ?
+        	'<h2 style="margin:0; display:inline-block;">'+ feature.NAME +'</h2><br/>' + '<p3 style="display:inline;">' + feature.text_class + '</br></p3><p3 style="display:inline; font-weight:bold;">' + nullFinder(((feature.unemployed/feature.labor_forc)*100).toFixed(2)) + '%</p3><p3 style="display:inline"> Unemployed</p3>'
+       		:'<h2>Hover over Map</h2>');
+       	}
+	};
+
+	info.addTo(map);
+    
+////////////////////////////display layers//////////////////////
+	////////////////////////////urban/rural census blocks//////////////////////
+	var places;
+	
+	function addData(){
+	
+	if (places){
+			map.removeLayer(places);
+		}
+	
+	places = new L.TopoJSON(null, {
+  		filter: function(feature, layer) {
+  				if (check == 0){
+        			return true
+        		}
+        		else if (check == 1){
+        			if (feature.properties.type_class == 'u' || feature.properties.type_class == 'c')return true
+        		}
+        		else if (check == 2){
+        			if (feature.properties.type_class == 'r')return true
+        		}
+  			}
+  		});
+
+	$.getJSON('assets/urban_rural.json')
+  		.done(addTopoData);
+
+	function addTopoData(topoData) {  
+  		places.addData(topoData);
+  		places.addTo(map);
+  		places.eachLayer(handleLayer);
+	}
+	
+	function handleLayer(layer){
+        layer.setStyle({
+			opacity: 1,
+			fillOpacity: 0.6,
+			color:whichColor(layer.feature),
+			fillColor:whichColor(layer.feature),
+			weight:0.5
+        });
+        layer.on({
+         	mouseover : highlight,
+            mouseout: resetHighlight
+        });
+    }
+	
+	function whichColor(feature){
+			return data == 1 ? urbanRural(feature.properties.type_class):
+				data == 2 ? placeColor(feature.properties.income_cap):
+				data == 3 ? placeColor(((feature.properties.bachelors/feature.properties.popOver25)*100).toFixed(2)):
+					placeColor(((feature.properties.unemployed/feature.properties.labor_forc)*100).toFixed(2));
+			
+		}
+	
+	function urbanRural(type){
+		return type == 'u' ? '#80bfff':
+			   type == 'c' ? '#ffff80':
+					'#9fdf9f';
+	}
+	
+	function placeColor(data){
+		return data > dataValue[3] ? colorValue[4]:
+			   data > dataValue[2] ? colorValue[3]:
+			   data > dataValue[1] ? colorValue[2]:
+			   data > dataValue[0] ? colorValue[1]:
+				colorValue[0];
+	}
+	
+
+	 function highlight() {
+		 this.setStyle({
+        	fillOpacity: 1,
+        	color:'#ffffff',
+        	
+    	 });
+    	info.update(this.feature.properties);
+    	this.bringToFront();
+    }
+    
+    function resetHighlight() {
+		this.setStyle({
+        	fillOpacity: 0.6,
+        	color:whichColor(this.feature),
+        	
+    	 });
+		info.update();
+	}
+	
+	}
+
+    addData();
+
+///////////////////////////////button function////////////////////////////////	
+
+    var buttonLabels = ['#classBut1','#classBut2','#classBut3'];
+
+	var buttonFunctions = {
+		but1: {button:'classBut1', title:'Total', layerFunction:function(){check = 0; addData();}},
+		but2: {button:'classBut2', title:'Urban', layerFunction:function(){check = 1; addData();}},
+		but3: {button:'classBut3', title:'Rural', layerFunction:function(){check = 2; addData();}}
+	};
+	
+	$('.main').clickFunction({
+		buttonFunctions: buttonFunctions,
+		buttonLabels: buttonLabels,
+		titleContainer:'dataClass',
+		selected:buttonFunctions.but1
+	});
+	var buttonLabels2 = ['#but1','#but2','#but3','#but4'];
+
+	var buttonFunctions2 = {
+		but1: {button:'but1', title:'Classification', newLegend:"leg_1", variable:1,layerFunction:function(){addData();}},
+		but2: {button:'but2', title:'Income', newLegend:"leg_2", variable:2, colors:['#ffffcc','#c2e699','#78c679','#31a354','#006837'], values:[15000,25000,35000,45000] ,layerFunction:function(){addData();}},
+		but3: {button:'but3', title:'Education', newLegend:"leg_3", variable:3, colors:['#fef0d9','#fdcc8a','#fc8d59','#e34a33','#b30000'], values:[15,25,35,45] ,layerFunction:function(){addData();}},
+		but4: {button:'but4', title:'Employment', newLegend:"leg_4", variable:4, colors:['#edf8fb','#b3cde3','#8c96c6','#8856a7','#810f7c'], values:[5,7.5,10,12.5] ,layerFunction:function(){addData();}}
+	};
+	
+ 	$('.something').clickFunction({
+		buttonFunctions: buttonFunctions2,
+		buttonLabels: buttonLabels2,
+		selected: buttonFunctions2.but1
+	});
+   
+ /////////////////////////other miscellaneous functions (these also never change)////////////////////////////////   
+
+   	//add zoom control
+    new L.Control.Zoom({ position: 'topright' }).addTo(map);
+    
+    //remove leaflet attribution
+	document.getElementsByClassName("leaflet-control-attribution")[0].style.visibility = "hidden";
+	
+	//add scrolling capabilities to text box
+     var container = document.getElementById('text');
+		Ps.initialize(container);
+	
+	//update text box to be correct size
+	var minHeight = 50; // Define a minimum height for the middle div
+
+	function resizeMiddle() {
+    var h = $('body').height() - $('#top').height() - 65;
+    		h = h > minHeight ? h : minHeight;
+   	 	$('#attribution').height(h);
+	}
+	
+	function resizePopup() {
+   		var h = $('.popup').height() - 90;
+    		h = h > minHeight ? h : minHeight;
+   	 	$('.popup .content').height(h);
+	}
+	$(document).ready(resizePopup);
+	$(window).resize(resizePopup);
+
+	$(document).ready(resizeMiddle);
+	$(window).resize(resizeMiddle);
+	
+    //remove standard leaflet attribution
+    $(document).click(function(event) {
+		if (!$(event.target).closest(".share_overlay,.share").length) {
+			$('#clear')[0].click();
+		}
+	});
+
+
+</script>
+</body>
+</html>

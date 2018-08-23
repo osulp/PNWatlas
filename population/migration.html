@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+     <title>Internal Migration</title>
+    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.2/dist/leaflet.css" /> 
+    <link rel="stylesheet" href="css/population_maps_style.css" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Maven+Pro" rel="stylesheet">
+    <link rel="stylesheet" href="css/perfect-scrollbar.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
+    <link rel="shortcut icon" href="img/pnw.ico" type="image/x-icon">
+    
+    <meta property="og:title" content="Atlas of the Pacific Northwest: Internal Migration" />
+    <meta property="og:url" content="https://rawgit.com/osulp/PNWatlas/master/population/migration_index.html" />
+    <meta property="og:description" content="Internal migration maps of the Pacific Northwest."/>
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="https://unpkg.com/leaflet@1.0.2/dist/leaflet.js"></script>
+     <script src="https://d3js.org/topojson.v1.min.js"></script>
+    <!--<script src="http://rawgit.com/geodesign/spatialsankey/master/spatialsankey.js"></script>-->
+     <script src="https://unpkg.com/leaflet.vectorgrid@latest/dist/Leaflet.VectorGrid.bundled.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tween.js/17.1.1/Tween.min.js"></script>
+    <script src="https://unpkg.com/papaparse@4.3.6/papaparse.min.js"></script>
+    <script src="js/CanvasFlowmapLayer.js"></script>
+    <script type="text/javascript" src="../js/clickFunction.js"></script>
+    <script src="js/perfect-scrollbar.js"></script>
+
+   
+</head>
+<body>
+    <button id="collapse" onclick="collapse()">
+		<i class="fa fa-chevron-left" id ="collapse-arrow" aria-hidden="true"></i>
+	</button>
+    <div id="infoPanel">
+			<div id="top">
+				<h1>Internal Migration</h1>
+				<img src="img/migration_icon.png" id="titleImageCircle" style="display:inline-block;">
+				<div id="buttons">
+					<div class="dropdown">
+						<button class="dropbtn"><b id="dataType">Select Flow</b><p id="arrow">&#9660;</p></button>
+						<div class="dropdown-content">
+							 <button type="button" id="but1" class="selection" style="background:rgba(242, 242, 242, 0.8);">Net Flow</button>
+							 <button type="button" id="but2" class="selection">Inflow</button>
+							 <button type="button" id="but3" class="selection">Outflow</button>
+					   </div>
+					</div>
+				</div>
+			</div>
+			</br>
+			<div id="attribution">
+				<div id="text">
+					<h2 id="title" class="large" style="line-height:1;">Select a County</h2><br/>
+					<h2 id="title1">Net Migration per 1000 People</h2><img src="img/migration_icon2.png" id="migration" style="display:inline-block; right:10px; margin-top:15px;">
+					<div style="height:32px;"><b id="leg1_block" style="background:#99d6ff; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p>&nbsp</p><p id="leg1" style="margin-left:15px;">25+</p></div>
+					<div style="height:30px;"><b id="leg2_block" style="background:#ccebff; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2" style="margin-left:15px;">5 to 25</p></div>
+					<div style="height:30px;"><b id="leg3_block" style="background:#f2f2f2; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg3" style="margin-left:15px;">-5 to 5</p></div>
+					<div style="height:30px;"><b id="leg4_block" style="background:#ffe6cc; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg4" style="margin-left:15px;">-25 to -5</p></div>
+					<div style="height:32px;"><b id="leg5_block" style="background:#ffce99; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p>&nbsp</p><p id="leg5" style="margin-left:15px;">Less than -25</p></div>
+					<p id="description" style="font-weight:bold; text-align:justify; white-space:normal; padding-left:0px; width:280px; display:block; position:relative; padding-top:10px;">Net migration (inflow - outflow) per 1000 people per county. Estimates from 2011-2015.</p>
+					<div id="flowLegend" style="display:none;">
+						<h2 id="title" style="margin-bottom:15px;">Net Migration Flow</h2>
+						<div id ="none" style="display:inline-block; width:150px; text-align:left;"><hr style="color:#4db8ff; width:35px; float:left; height:1px; background-color:#4db8ff; line-height:20px; vertical-align:middle; display:inline; border:none;"/><p id="leg1" style="padding-left:10px; margin-top:-5px; display:inline; text-align:left;">0 to 25</p></div><div id ="none" style="display:inline-block; width:130px; text-align:left;"><hr style="color:#ff9c33; width:35px; float:left; height:1px; background-color:#ff9c33; line-height:20px; vertical-align:middle; display:inline; border:none;"/><p id="leg1" style="padding-left:10px; margin-top:-5px; display:inline;">0 to -25</p></div>
+						<div id ="none" style="display:inline-block; width:150px; text-align:left;"><hr style="color:#0099ff; width:35px; float:left; height:2px; background-color:#0099ff; line-height:20px; vertical-align:middle; display:inline; border:none;"/><p id="leg1" style="padding-left:10px; margin-top:-5px; display:inline; text-align:left;">25 - 100</p></div><div id ="none" style="display:inline-block; width:130px; text-align:left;"><hr style="color:#e67700; width:35px; float:left; height:2px; background-color:#e67700; line-height:20px; vertical-align:middle; display:inline; border:none;"/><p id="leg1" style="padding-left:10px; margin-top:-5px; display:inline;">-25 to -100</p></div>
+						<div id ="none" style="display:inline-block; width:150px; text-align:left;"><hr style="color:#006bb3; width:35px; float:left; height:4px; background-color:#006bb3; line-height:20px; vertical-align:middle; display:inline; border:none;"/><p id="leg1" style="padding-left:10px; margin-top:-5px; display:inline; text-align:left;">100+</p></div><div id ="none" style="display:inline-block; width:130px; text-align:left;"><hr style="color:#e67700; width:35px; float:left; height:4px; background-color:#e67700; line-height:20px; vertical-align:middle; display:inline; border:none;"/><p id="leg1" style="padding-left:10px; margin-top:-5px; display:inline;">-100+</p></div>
+						<p id="description2" style="font-weight:bold; text-align:justify; white-space:normal; padding-left:0px; width:280px; display:inline-block; position:relative;">Net migration (inflow - outflow) into/from selected county.</p>
+					</div>
+					<div id="inflowLegend" style="display:none;">
+						<h2 id="title" style="margin-bottom:15px;"">Migration Inflow</h2>
+						<div id ="none" style="display:inline-block; width:150px; text-align:left;"><hr style="color:#4db8ff; width:35px; float:left; height:1px; background-color:#4db8ff; line-height:20px; vertical-align:middle; display:inline; border:none;"/><p id="leg1" style="padding-left:10px; margin-top:-5px; display:inline; text-align:left;">0 to 25</p></div>
+						<div id ="none" style="display:inline-block; width:150px; text-align:left;"><hr style="color:#0099ff; width:35px; float:left; height:2px; background-color:#0099ff; line-height:20px; vertical-align:middle; display:inline; border:none;"/><p id="leg1" style="padding-left:10px; margin-top:-5px; display:inline; text-align:left;">25 - 100</p></div>
+						<div id ="none" style="display:inline-block; width:150px; text-align:left;"><hr style="color:#006bb3; width:35px; float:left; height:4px; background-color:#006bb3; line-height:20px; vertical-align:middle; display:inline; border:none;"/><p id="leg1" style="padding-left:10px; margin-top:-5px; display:inline; text-align:left;">100+</p></div>
+						<p id="description2" style="font-weight:bold; text-align:justify; white-space:normal; padding-left:0px; width:280px; display:inline-block; position:relative;">Inflow into selected county.</p>
+					</div>
+					<div id="outflowLegend" style="display:none;">
+						<h2 id="title" style="margin-bottom:15px;"">Migration Outflow</h2>
+						<div id ="none" style="display:inline-block; width:150px; text-align:left;"><hr style="color:#ff9c33; width:35px; float:left; height:1px; background-color:#ff9c33; line-height:20px; vertical-align:middle; display:inline; border:none;"/><p id="leg1" style="padding-left:10px; margin-top:-5px; display:inline;">0 to 25</p></div>
+						<div id ="none" style="display:inline-block; width:150px; text-align:left;"><hr style="color:#e67700; width:35px; float:left; height:2px; background-color:#e67700; line-height:20px; vertical-align:middle; display:inline; border:none;"/><p id="leg1" style="padding-left:10px; margin-top:-5px; display:inline;">25 to 100</p></div>
+						<div id ="none" style="display:inline-block; width:150px; text-align:left;"><hr style="color:#e67700; width:35px; float:left; height:4px; background-color:#e67700; line-height:20px; vertical-align:middle; display:inline; border:none;"/><p id="leg1" style="padding-left:10px; margin-top:-5px; display:inline;">100+</p></div>
+						<p id="description2" style="font-weight:bold; text-align:justify; white-space:normal; padding-left:0px; width:280px; display:inline-block; position:relative;">Outflow from selected county</p>
+					</div>
+				</div>
+				<div id="pageChange">
+					<a href="#sources" id="arrow" style="display:inline-block;">
+						<i class="fa fa-info-circle" aria-hidden="true" style="padding-left:90px;"></i>
+					</a>
+					<a href="#link_popup" id="arrow" style="display:inline-block;">
+						<i class="fa fa-home" aria-hidden="true" style="padding-left:0;"></i>
+					</a>
+					<a href="#share" class="share" id="arrow" style="display:inline-block;">
+						<i class="fa fa-share-alt " aria-hidden="true" style="padding-left:0;"></i>
+					</a>
+				</div>
+			</div>
+		</div>
+    <div id="map" style="width: 100%; height: 100%;"></div>
+    
+	<div id="sources" class="overlay">
+			<div class="popup">
+				<h2 style="display:inline; font-size:32px;">Sources</h2>
+				<a class="close" href="#" style="display:inline;">×</a>
+				<hr>
+				<div class="content">
+					<p2 style="font-size:20px">Geographic Data</p2><br><br/>
+                    <div class="source">
+                    	<b><p2>County-to-County Migration: <a href = "https://waterdata.usgs.gov/id/nwis/water_use?format=html_table&rdb_compression=file&wu_area=County&wu_year=2010&wu_county=ALL&wu_category=ALL&wu_county_nms=--ALL%2BCounties--&wu_category_nms=--ALL%2BCategories--" target="_blank">United States Census</a></p2></b><br>
+                    		<p3>Notes: ACS data from 2011-2015.</p3>
+                    </div>
+                    <p2 style="font-size:20px">Javascript Plugins</p2><br><br/>
+                    <div class="source">
+                    	<b><p2>Leaflet Canvas Flowmap Layer: <a href = "https://github.com/jwasilgeo/Leaflet.Canvas-Flowmap-Layer" target="_blank">Github</a></p2></b><br>
+                    </div>
+				</div>
+				<hr>
+				<p2 style="float:right; font-size:12px;">Map created with Leaflet.</p2>
+				<br/>
+				<a class="close2" href="#" style="display:inline;">Close</a>
+		</div>
+	</div>
+	
+	<div id="link_popup" class="link_overlay">
+			<div class="link_popup">
+				<a class="close" href="#" style="display:inline;">×</a>
+				<div class="content">
+					<a href="population_index.html" style="font-weight:bold; text-decoration:none;">Population Home</a>
+					<hr>
+					<a href="demographics.html" style="text-decoration:underline;">Demographics</a>
+					<a href="housing.html" style="text-decoration:underline;">Housing</a>
+					<a href="migration.html" style="text-decoration:underline;">Internal Migration</a>
+					<a href="urban_rural.html" style="text-decoration:underline;">Urban & Rural</a>
+					<a href="immigration.html" style="text-decoration:underline;">Immigration</a>
+					<hr>
+					<a href="../index.html" style="font-weight:bold; text-decoration:none;">Atlas Home</a>
+				</div>
+			</div>
+		</div>
+		
+		<div id="share" class="share_overlay">
+			<div class="share_popup">
+				<a id="clear" href="#" style="display:none;">×</a>
+				<div class="content">
+					<a href="https://facebook.com/sharer.php?u=https://rawgit.com/osulp/PNWatlas/master/population/migration_index.html" id="arrow" style="display:inline-block;">
+						<i class="fa fa-facebook-square " aria-hidden="true" style="padding-left:0;"></i>
+					</a>
+					<a href="https://twitter.com/home?status=PNW%20Internal Migration%0Ahttp%3A//rawgit.com/osulp/PNWatlas/master/population/migration_index.html" id="arrow" style="display:inline-block;">
+						<i class="fa fa-twitter-square " aria-hidden="true" style="padding-left:0;"></i>
+					</a>
+					<a href="" id="arrow" style="display:inline-block;">
+						<i class="fa fa-linkedin-square " aria-hidden="true" style="padding-left:0;"></i>
+					</a>
+				</div>
+			</div>
+		</div>
+<script>
+//////////////base functions (these never change)///////////////////////   
+	//////////////function for the info panel collapse button///////////////////////
+    var collapsed = false;
+    function collapse(){
+    	if (collapsed == false){
+    		document.getElementById("infoPanel").style.transition = "display 2s";
+    		document.getElementById("infoPanel").style.display = "none";
+    		document.getElementById("collapse").style.left = '0px';
+    		document.getElementById("collapse").style.paddingLeft = '2px';
+    		document.getElementById("collapse-arrow").className = "fa fa-chevron-right";
+    		collapsed = true;
+    	} else{
+    		document.getElementById("infoPanel").style.display = "unset";
+    		document.getElementById("collapse").style.left = '320px';
+    		document.getElementById("collapse").style.paddingLeft = '0px';
+    		document.getElementById("collapse-arrow").className = "fa fa-chevron-left";
+    		collapsed = false;
+    	}
+    	
+    }
+	//////////////function that allows topojson layers to be loaded///////////////////////    
+    L.TopoJSON = L.GeoJSON.extend({  
+  		addData: function(jsonData) {    
+    		if (jsonData.type === 'Topology') {
+      			for (key in jsonData.objects) {
+       			 geojson = topojson.feature(jsonData, jsonData.objects[key]);
+       			 L.GeoJSON.prototype.addData.call(this, geojson);
+      		}
+    	}    
+    	else {
+      		L.GeoJSON.prototype.addData.call(this, jsonData);
+    		}
+  		}  
+	});
+//////////////Initialize map///////////////////////    
+	var map = L.map('map', {center: [45.56, -119.75],  zoom: 6, zoomControl:false});
+///////////////////////make zoom level correspond to browser size////////////////////////////////
+	window.addEventListener('load', function(event){
+    	var width = document.documentElement.clientWidth;
+    	if (width < 1500 && width > 800) {
+        	map.setView(new L.LatLng(45.56, -121.75), 6); 
+    		}  else if (width > 1501) {
+        	map.setZoom(6);
+        	} else {
+        	map.setZoom(5);
+        	}
+	});
+////////////////////////////////basemap layers////////////////////////////////
+	var Esri_WorldTerrain = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer/tile/{z}/{y}/{x}', {
+		attribution: 'Tiles &copy; Esri &mdash; Source: USGS, Esri, TANA, DeLorme, and NPS',
+		maxZoom:10,
+		minZoom:4,
+		opacity:1
+	}).addTo(map);
+	
+	var states = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
+		layers: 'baldricg_PNW_ATLAS:states',
+        format: 'image/png',
+		maxZoom:8,
+		minZoom:4,
+		opacity:0.5,
+		transparent:true,
+		pane: 'layers'
+	});
+	
+	var outline = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
+		layers: 'baldricg_PNW_ATLAS:us_outline',
+        format: 'image/png',
+		maxZoom:8,
+		minZoom:4,
+		opacity:0.3,
+		transparent:true,
+		pane: 'layers'
+	});
+	
+	var label = L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_only_labels/{z}/{x}/{y}@2x.png', {
+		attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
+		subdomains: 'abcd',
+		maxZoom:10,
+		minZoom:5,
+		opacity:0.7,
+		pane:'labels'
+	});	
+		
+	map.createPane('layers');
+	map.getPane('layers').style.pointerEvents = 'none';
+	map.getPane('layers').style.zIndex = 650;
+	states.addTo(map);
+	outline.addTo(map);
+	
+	map.createPane('json');
+	map.getPane('json').style.pointerEvents = 'auto';
+	map.getPane('json').style.zIndex = 300;
+	
+	map.createPane('labels');
+	map.getPane('labels').style.pointerEvents = 'none';
+	map.getPane('labels').style.zIndex = 700;
+	label.addTo(map);
+////////////////////////////////important variables////////////////////////////////		
+	var remove = false;
+	var canvasRenderer = L.canvas();
+	var jsonRenderer = L.svg({pane:'json'});
+	var oneToManyFlowmapLayer;
+	var data = 1;
+////////////////////////////////info control in upper right////////////////////////////////
+	 var info = L.control();
+
+	info.onAdd = function (map) {
+    	this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
+    	this.update();
+    	return this._div;
+	};
+	
+	info.update = function (feature) {
+		function nullFinder(prop) {
+			if (prop == null)
+				{return 0;}
+			else if (isNaN(prop) == true)
+				{return 0;}
+			else {return prop;}
+		}
+		function display(){
+			return feature.pnw == 1 ? '<h2>' + feature.name + ' County</h2><p3 style="display:inline;">Migration Rate per 1000:&nbsp' + feature.net_rate + '</p3><br/><p3 style="display:inline;">Inflow:&nbsp' + feature.inflow + '</p3><br/><p3 style="display:inline;">Outflow:&nbsp' + feature.outflow + '</p3><br/><p3 style="display:inline;">Net Flow:&nbsp' + feature.net + '</p3>':
+					'<h2>' + feature.name + ' County</h2><p3 style="display:inline;">Inflow (from PNW):&nbsp' + nullFinder(feature.inflow) + '</p3><br/><p3 style="display:inline;">Outflow (to PNW):&nbsp' + nullFinder(feature.outflow) + '</p3>';
+		}
+   		this._div.innerHTML = (feature ?
+        			display()
+        		: '<h2>Hover over map</h2>');
+		};
+
+	info.addTo(map);
+////////////////////////////display layers//////////////////////
+	////////////////////////////flow layer!//////////////////////	
+	function addFlow(){
+		if (remove == true){
+				oneToManyFlowmapLayer.clearAllPathSelections();
+			}
+		function flowSelection(){
+			return data == 1 ? 'assets/net_migration.csv':
+				data == 2 ? 'assets/inflow.csv':
+					'assets/outflow.csv';
+		}
+	  Papa.parse(flowSelection(), {
+      download: true,
+      header: true,
+      dynamicTyping: true,
+      skipEmptyLines: true,
+      complete: function(results) {
+        var geoJsonFeatureCollection = {
+          type: 'FeatureCollection',
+          features: results.data.map(function(datum) {
+            return {
+              type: 'Feature',
+              geometry: {
+                type: 'Point',
+                coordinates: [datum.source_lon, datum.source_lat]
+              },
+              properties: datum
+            }
+          })
+        };
+	
+	  oneToManyFlowmapLayer = L.canvasFlowmapLayer(geoJsonFeatureCollection, {
+          originAndDestinationFieldIds: {
+            originUniqueIdField: 'source',
+            originGeometry: {
+              x: 'source_lon',
+              y: 'source_lat'
+            },
+            destinationUniqueIdField: 'target',
+            destinationGeometry: {
+              x: 'target_lon',
+              y: 'target_lat'
+            }
+          },
+          canvasBezierStyle: {
+            type: 'classBreaks',
+            field: 'flow',
+            classBreakInfos: [
+            {
+              classMinValue: -25,
+              classMaxValue: 0,
+              symbol: {
+                strokeStyle: '#ff9c33',
+                lineWidth: 0.25,
+                lineCap: 'round',
+                shadowColor: '#e67700',
+                shadowBlur: 1.5
+              }
+            },
+            {
+              classMinValue: -100,
+              classMaxValue: -25,
+              symbol: {
+                strokeStyle: '#e67700',
+                lineWidth: 1,
+                lineCap: 'round',
+                shadowColor: '#994f00',
+                shadowBlur: 1.5
+              }
+            },
+            {
+              classMinValue: -1000,
+              classMaxValue: -100,
+              symbol: {
+                strokeStyle: '#e67700',
+                lineWidth: 2,
+                lineCap: 'round',
+                shadowColor: '#994f00',
+                shadowBlur: 1.5
+              }
+            },
+            {
+              classMinValue: 0,
+              classMaxValue: 25,
+              symbol: {
+                strokeStyle: '#4db8ff',
+                lineWidth: 0.25,
+                lineCap: 'round',
+                shadowColor: '#008ae6',
+                shadowBlur: 1.5
+              }
+            }, {
+              classMinValue: 25,
+              classMaxValue: 100,
+              symbol: {
+                strokeStyle: '#0099ff',
+                lineWidth: 1,
+                lineCap: 'round',
+                shadowColor: '#005c99',
+                shadowBlur: 1.5,
+              }
+            }, {
+              classMinValue: 100,
+              classMaxValue: 10000000,
+              symbol: {
+                strokeStyle: '#006bb3',
+                lineWidth: 2,
+                lineCap: 'round',
+                shadowColor: '#003d66',
+                shadowBlur: 1.5,
+              }
+            }],
+            defaultSymbol: {
+              strokeStyle: '#595959',
+              lineWidth: 0.5,
+              lineCap: 'round',
+              shadowColor: '#595959',
+              shadowBlur: 1.5
+            },
+          },
+          style: function(geoJsonFeature) {
+        	if (geoJsonFeature.properties.isOrigin) {
+          		return {
+            		renderer: canvasRenderer, // recommended to use L.canvas()
+            		radius: 0,
+            		weight: 0,
+            		color: 'rgb(0, 0, 0,0)',
+            		fillColor: 'rgba(0, 0, 0, 0)',
+            		fillOpacity: 0
+          		};
+        	} else {
+          		return {
+            		renderer: canvasRenderer,
+            		radius: 0,
+            		weight: 0,
+            		color: 'rgb(0, 0, 0,0)',
+            		fillColor: 'rgba(0, 0, 0, 0)',
+            		fillOpacity: 0.0
+          		};
+        	}
+      	 },
+          pathDisplayMode: 'selection',
+
+        }).addTo(map);
+        
+        oneToManyFlowmapLayer.selectFeaturesForPathDisplayById('target', selection, false, 'SELECTION_NEW');
+      }
+    });
+
+    }
+    ////////////////////////////county layer//////////////////////
+    var selection = 41005;
+    var clickSelection;
+    var prevClick;
+      
+    const counties = new L.TopoJSON(null, {
+  		renderer:jsonRenderer
+	});
+
+	$.getJSON('assets/migration_counties.json')
+  		.done(addTopoData);
+
+	function addTopoData(topoData) {  
+  		counties.addData(topoData);
+  		counties.addTo(map);
+  		counties.eachLayer(handleLayer);
+	}
+
+	function handleLayer(layer){
+        layer.setStyle({
+          		radius: 4,
+        		weight: 0.35,
+        		opacity:0.8,
+        		color: '#b3b3b3',
+        		fillColor: setColor(layer.feature.properties.net_rate, layer.feature.properties.pnw),
+        		fillOpacity: 0.7
+        });
+        layer.on({
+         	mouseover : highlight,
+            mouseout: resetHighlight,
+            click:onClick
+        });
+    }
+      
+    function setColor(value, value2){
+    	if (value2 == 1){
+			return value >= 25 ? '#99d6ff':
+				value >= 5 && value < 25 ? '#ccebff':
+				value > -5 && value <= 5 ? '#f2f2f2':
+				value > -25 && value <= -5 ? '#ffe6cc':
+					'#ffce99';
+    		}
+    	else{
+    		return '#ffffff';
+    	}
+    } 
+ 
+	function highlight() {
+		 if (this.feature.properties.pnw == 1){
+		 	this.setStyle({
+        		fillOpacity: 1
+    	 	});
+    	 }
+    	 else{
+    	 	this.setStyle({
+        		fillOpacity: 1,
+        		fillColor:'#f2f2f2',
+    	 	});
+    	 }
+    	 info.update(this.feature.properties);
+		}
+	function resetHighlight() {
+		if(prevClick != this){
+			if (this.feature.properties.pnw == 1){
+				this.setStyle({
+					fillOpacity: 0.7
+				});
+			}
+			else{
+				this.setStyle({
+					fillOpacity: 0.7,
+					fillColor:'#ffffff',
+				});
+			 }
+		}
+		info.update();
+	}
+	function onClick(){
+		if (this.feature.properties.pnw == 1){
+			if(prevClick){
+   				prevClick.setStyle({
+					fillOpacity: 0.7
+				});
+   				prevClick=null;
+			}
+			this.setStyle({
+        		fillOpacity: 1
+    	 	});
+			selection = this.feature.properties.ID_1;
+			prevClick = this;
+			addFlow();
+			remove = true;
+		}
+		if (data == 1){	
+			$("#flowLegend").css("display","unset");
+		}
+		if (data == 2){	
+			$("#inflowLegend").css("display","unset");
+		}
+		if (data == 3){	
+			$("#outflowLegend").css("display","unset");
+		}
+	}
+	
+	function clearLayer(){
+		if (prevClick){
+			prevClick.setStyle({
+					fillOpacity: 0.7
+				});
+		}
+	}
+	
+	function resetLegend(){
+		$("#flowLegend").css("display","none");
+		$("#inflowLegend").css("display","none");
+		$("#outflowLegend").css("display","none");
+	}
+//////////////////////////button function///////////////////////////////////////////////////
+	var buttonLabels = ['#but1','#but2','#but3'];
+
+	var buttonFunctions = {
+		but1: {button:'but1', title:'Net Flow', variable:1, layerFunction:function(){selection=0; addFlow();clearLayer(); resetLegend();}},
+		but2: {button:'but2', title:'Inflow', variable:2, layerFunction:function(){selection=0; addFlow();clearLayer(); resetLegend();}},
+		but3: {button:'but3', title:'Outflow', variable:3, layerFunction:function(){selection=0; addFlow();clearLayer(); resetLegend();}}
+	};
+	
+	$('.main').clickFunction({
+		buttonFunctions: buttonFunctions,
+		buttonLabels: buttonLabels,
+		legendUpdate:true,
+		selected:buttonFunctions.but1
+	});
+ ///////////////////////////////other miscellaneous functions (these also never change)////////////////////////////////   	
+    new L.Control.Zoom({ position: 'bottomright' }).addTo(map);
+	document.getElementsByClassName("leaflet-control-attribution")[0].style.visibility = "hidden";
+	//add scrolling capabilities to text box
+     var container = document.getElementById('text');
+		Ps.initialize(container);
+	
+	var minHeight = 30; // Define a minimum height for the middle div
+
+	function resizeMiddle() {
+    var h = $('body').height() - $('#top').height() - 95;
+    		h = h > minHeight ? h : minHeight;
+   	 	$('#attribution').height(h);
+	}
+	
+	function resizePopup() {
+   		var h = $('.popup').height() - 90;
+    		h = h > minHeight ? h : minHeight;
+   	 	$('.popup .content').height(h);
+	}
+	$(document).ready(resizePopup);
+	$(window).resize(resizePopup);
+
+	$(document).ready(resizeMiddle);
+	$(window).resize(resizeMiddle);
+    
+    $(document).click(function(event) {
+		if (!$(event.target).closest(".share_overlay,.share").length) {
+			$('#clear')[0].click();
+		}
+	});
+
+
+</script>
+</body>
+</html>

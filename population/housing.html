@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+     <title>Housing</title>
+    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.2/dist/leaflet.css" /> 
+    <link rel="stylesheet" href="css/population_maps_style.css" type="text/css">
+    <link rel="stylesheet" href="https://dc-js.github.io/dc.js/css/dc.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Maven+Pro" rel="stylesheet">
+    <link rel="stylesheet" href="css/perfect-scrollbar.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
+    <link rel="shortcut icon" href="img/pnw.ico" type="image/x-icon">
+    
+    <meta property="og:title" content="Atlas of the Pacific Northwest: Housing" />
+    <meta property="og:url" content="https://rawgit.com/osulp/PNWatlas/master/population/housing_index.html" />
+    <meta property="og:description" content="Housing maps of the Pacific Northwest."/>
+    
+    <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://d3js.org/topojson.v1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tween.js/17.1.1/Tween.min.js"></script>
+    <script src="https://unpkg.com/papaparse@4.3.6/papaparse.min.js"></script>
+    <script src="js/Chart.bundle.js"></script>
+    <script src="js/Chart.PieceLabel.min.js"></script>
+    <script type="text/javascript" src="../js/clickFunction.js"></script>
+    <script src="js/perfect-scrollbar.js"></script>
+   
+</head>
+<body>
+		<button id="collapse" onclick="collapse()">
+			<i class="fa fa-chevron-left" id ="collapse-arrow" aria-hidden="true"></i>
+		</button>
+		<div id="infoPanel">
+			<div id="top" style="margin-bottom:5px;">
+				<h1 style="margin-bottom:30px;">Housing</h1>
+				<img src="img/housing_icon.png" id="titleImageCircle" style="display:inline-block;">
+				<div id="buttons">
+					<div class="dropdown">
+						<button class="dropbtn"><b id="dataType">Select Data</b><p id="arrow">&#9660;</p></button>
+						<div class="dropdown-content">
+							 <button type="button" id="but1" class="selection" style="background:rgba(242, 242, 242, 0.8);">Occupation</button>
+							 <button type="button" id="but2" class="selection">Tenure</button>
+							 <button type="button" id="but3" class="selection">Median Home Age</button>
+							 <button type="button" id="but4" class="selection">Median Value</button>
+							 <button type="button" id="but5" class="selection">Median Rent</button>
+							 <button type="button" id="but6" class="selection">Housing Type</button>
+					   </div>
+					</div>
+				</div>
+			</div>
+			<div id="attribution">
+				<div id="text">
+					<div id="leg_1" style="display:unset;">
+						<h2 id="title">Percent Occupied</h2><img src="img/occupation.png" id="imageHouse" style="display:inline-block; right:0px; margin-top:10px;">
+						<div style="height:32px;"><b id="leg1_block" style="background:#54278f; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p>&nbsp</p><p id="leg1" style="margin-left:5px;">95+</p></div>
+						<div style="height:30px;"><b id="leg2_block" style="background:#756bb1; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2" style="margin-left:5px;">90 - 95</p></div>
+						<div style="height:30px;"><b id="leg3_block" style="background:#9e9ac8; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg3" style="margin-left:5px;">80 - 90</p></div>
+						<div style="height:30px;"><b id="leg4_block" style="background:#cbc9e2; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg4" style="margin-left:5px;">70 - 80</p></div>
+						<div style="height:32px;"><b id="leg5_block" style="background:#f2f0f7; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p>&nbsp</p><p id="leg5" style="margin-left:5px;">Less than 70</p></div><br/>
+						<p id="description" style="font-weight:bold; text-align:justify; white-space:normal; padding-left:0px; width:280px; display:block; position:relative;">Percent of housing units occupied within a census block group.</p>
+					</div>
+					<div id="leg_2" style="display:none;">
+						<h2 id="title">Percent Owned</h2><img src="img/tenure.png" id="imageHouse" style="display:inline-block; right:0px; margin-top:10px;"">
+						<div style="height:32px;"><b id="leg1_block" style="background:#008837; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p>&nbsp</p><p id="leg1" style="margin-left:5px;">90+</p></div>
+						<div style="height:30px;"><b id="leg2_block" style="background:#a6dba0; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2" style="margin-left:5px;">70 - 90</p></div>
+						<div style="height:30px;"><b id="leg3_block" style="background:#f7f7f7; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg3" style="margin-left:5px;">50 - 30</p></div>
+						<div style="height:30px;"><b id="leg4_block" style="background:#c2a5cf; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg4" style="margin-left:5px;">30 - 50</p></div>
+						<div style="height:32px;"><b id="leg5_block" style="background:#7b3294; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p>&nbsp</p><p id="leg5" style="margin-left:5px;">Less than 30</p></div><br/>
+						<p id="description" style="font-weight:bold; text-align:justify; white-space:normal; padding-left:0px; width:280px; display:block; position:relative;">Percent of occupied housing units that are owned. Lower percentages indicate more rental units.</p>
+					</div>
+					<div id="leg_3" style="display:none;">
+						<h2 id="title">Median Home Age</h2><img src="img/age.png" id="imageHouse" style="display:inline-block; right:0px; margin-left:5px; margin-top:20px; width:120px; height:95 	px;">
+						<div style="height:32px;"><b id="leg1_block" style="background:#993404; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p>&nbsp</p><p id="leg1" style="margin-left:5px;">1990 - Pres.</p></div>
+						<div style="height:30px;"><b id="leg2_block" style="background:#d95f0e; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2" style="margin-left:5px;">1980 - 1990</p></div>
+						<div style="height:30px;"><b id="leg3_block" style="background:#fe9929; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg3" style="margin-left:5px;">1970 - 1980</p></div>
+						<div style="height:30px;"><b id="leg4_block" style="background:#fed98e; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg4" style="margin-left:5px;">1960 - 1970</p></div>
+						<div style="height:32px;"><b id="leg5_block" style="background:#ffffd4; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p>&nbsp</p><p id="leg5" style="margin-left:5px;">Before 1960</p></div><br/>
+						<p id="description" style="font-weight:bold; text-align:justify; white-space:normal; padding-left:0px; width:280px; display:block; position:relative;">Median home age within census block group.</p>
+					</div>
+					<div id="leg_4" style="display:none;">
+						<h2 id="title">Median Home Value</h2><img src="img/value.png" id="imageHouse" style="display:inline-block; right:0px; margin-left:5px; margin-top:10px; width:120px;">
+						<div style="height:32px;"><b id="leg1_block" style="background:#006d2c; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p>&nbsp</p><p id="leg1" style="margin-left:5px;">$500+</p></div>
+						<div style="height:30px;"><b id="leg2_block" style="background:#31a354; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2" style="margin-left:5px;">$400 - $500</p></div>
+						<div style="height:30px;"><b id="leg3_block" style="background:#74c476; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg3" style="margin-left:5px;">$250 - $400</p></div>
+						<div style="height:30px;"><b id="leg4_block" style="background:#bae4b3; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg4" style="margin-left:5px;">$100 - $250</p></div>
+						<div style="height:32px;"><b id="leg5_block" style="background:#edf8e9; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p>&nbsp</p><p id="leg5" style="margin-left:5px;">Less than $100</p></div><br/>
+						<p id="description" style="font-weight:bold; text-align:justify; white-space:normal; padding-left:0px; width:280px; display:block; position:relative;">Median value of owned housing units in thousands of dollars.</p>
+					</div>
+					<div id="leg_5" style="display:none;">
+						<h2 id="title">Median Rent</h2><img src="img/rent.png" id="imageHouse" style="display:inline-block; right:0px; margin-left:5px; margin-top:20px; width:100px; height:80px;">
+						<div style="height:32px;"><b id="leg1_block" style="background:#08519c; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p>&nbsp</p><p id="leg1" style="margin-left:5px;">$2000+</p></div>
+						<div style="height:30px;"><b id="leg2_block" style="background:#3182bd; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2" style="margin-left:5px;">$1500 - $2000</p></div>
+						<div style="height:30px;"><b id="leg3_block" style="background:#6baed6; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg3" style="margin-left:5px;">$1000 - $1500</p></div>
+						<div style="height:30px;"><b id="leg4_block" style="background:#bdd7e7; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg4" style="margin-left:5px;">$500 - $1000</p></div>
+						<div style="height:32px;"><b id="leg5_block" style="background:#eff3ff; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p>&nbsp</p><p id="leg5" style="margin-left:5px;">Less than $500</p></div><br/>
+						<p id="description" style="font-weight:bold; text-align:justify; white-space:normal; padding-left:0px; width:280px; display:block; position:relative;">Median rent of rental units in dollars.</p>
+					</div>
+					<div id="leg_6" style="display:none;">
+						<h2 id="title">Percent Single Family Homes</h2><img src="img/single_multi.png" id="imageHouse" style="display:inline-block; right:0px; margin-top:10px;">
+						<div style="height:32px;"><b id="leg1_block" style="background:#0571b0; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p>&nbsp</p><p id="leg1" style="margin-left:5px;">80+</p></div>
+						<div style="height:30px;"><b id="leg2_block" style="background:#92c5de; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2" style="margin-left:5px;">60 - 80</p></div>
+						<div style="height:30px;"><b id="leg3_block" style="background:#f7f7f7; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg3" style="margin-left:5px;">40 - 60</p></div>
+						<div style="height:30px;"><b id="leg4_block" style="background:#f4a582; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg4" style="margin-left:5px;">20 - 40</p></div>
+						<div style="height:32px;"><b id="leg5_block" style="background:#ca0020; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p>&nbsp</p><p id="leg5" style="margin-left:5px;">Less than 20</p></div><br/>
+						<p id="description" style="font-weight:bold; text-align:justify; white-space:normal; padding-left:0px; width:280px; display:block; position:relative;">Percent of housing units classified as Single Family Homes. Low percentages indicates more multi-family housing units.</p>
+					</div>
+					<h2 id="hover" style="text-align:left;">Hover Over Map for Details</h2>
+					<h2 id="ID" style="margin-bottom:5px; text-align:left; display:none;">County, Census Tract, Block Group</h2>
+					<h2 id ="displayValue" style="margin-top:0px; text-align:left;">0% Occupied</h2>
+					<canvas id="chartContainer" style="height: 100; width: 50%; margin-left:-10px;"></canvas>
+					<p3 id="chartDescription" style="font-weight:bold; display:inline-block; margin-top:5px;">Housing units by occupancy status.</p3>
+				</div>
+				<div id="pageChange">
+					<a href="#sources" id="arrow" style="display:inline-block;">
+						<i class="fa fa-info-circle" aria-hidden="true" style="padding-left:90px;"></i>
+					</a>
+					<a href="#link_popup" id="arrow" style="display:inline-block;">
+						<i class="fa fa-home" aria-hidden="true" style="padding-left:0;"></i>
+					</a>
+					<a href="#share" class="share" id="arrow" style="display:inline-block;">
+						<i class="fa fa-share-alt " aria-hidden="true" style="padding-left:0;"></i>
+					</a>
+				</div>
+			</div>
+		</div>
+    	<div id="map" style="width: 100%; height: 100%;"></div>
+    	
+    	<div id="sources" class="overlay">
+			<div class="popup">
+				<h2 style="display:inline; font-size:32px;">Sources</h2>
+				<a class="close" href="#" style="display:inline;">×</a>
+				<hr>
+				<div class="content">
+					<p2 style="font-size:20px">Geographic Data</p2><br><br/>
+                    <div class="source">
+                    	<b><p2>Census Block Groups: <a href = "https://factfinder.census.gov/faces/tableservices/jsf/pages/productview.xhtml?pid=ACS_15_5YR_S1501&prodType=table" target="_blank">IPUMS: National Historical Geographic Information System</a></p2></b><br>
+                    		<p3>Notes: IPUMS Data selected from ACS 2011-2015. Geographic Level: Census Block Group GIS Data.</p3>
+                    </div>
+                    <div class="source">
+                    	<b><p2>Housing Data: <a href = "https://factfinder.census.gov/faces/tableservices/jsf/pages/productview.xhtml?pid=ACS_15_5YR_S1501&prodType=table" target="_blank">IPUMS: National Historical Geographic Information System</a></p2></b><br>
+                    		<p3>Notes: IPUMS Data selected from ACS 2011-2015. Geographic Level: Census Block Group. Datasets: Occupancy Status, Tenure, Median Year Structure Built, Median Gross Rent, Median Value, Units in Structure.</p3>
+                    </div>
+				</div>
+				<hr>
+				<p2 style="float:right; font-size:12px;">Map created with Leaflet.</p2>
+				<br/>
+				<a class="close2" href="#" style="display:inline;">Close</a>
+			</div>
+		</div>
+		
+		<div id="link_popup" class="link_overlay">
+			<div class="link_popup">
+				<a class="close" href="#" style="display:inline;">×</a>
+				<div class="content">
+					<a href="population_index.html" style="font-weight:bold; text-decoration:none;">Population Home</a>
+					<hr>
+					<a href="demographics.html" style="text-decoration:underline;">Demographics</a>
+					<a href="housing.html" style="text-decoration:underline;">Housing</a>
+					<a href="migration.html" style="text-decoration:underline;">Internal Migration</a>
+					<a href="urban_rural.html" style="text-decoration:underline;">Urban & Rural</a>
+					<a href="immigration.html" style="text-decoration:underline;">Immigration</a>
+					<hr>
+					<a href="../index.html" style="font-weight:bold; text-decoration:none;">Atlas Home</a>
+				</div>
+			</div>
+		</div>
+		
+		<div id="share" class="share_overlay">
+			<div class="share_popup">
+				<a id="clear" href="#" style="display:none;">×</a>
+				<div class="content">
+					<a href="https://facebook.com/sharer.php?u=https://rawgit.com/osulp/PNWatlas/master/population/housing_index.html" id="arrow" style="display:inline-block;">
+						<i class="fa fa-facebook-square " aria-hidden="true" style="padding-left:0;"></i>
+					</a>
+					<a href="https://twitter.com/home?status=PNW%20Housing%0Ahttp%3A//rawgit.com/osulp/PNWatlas/master/population/housing_index.html" id="arrow" style="display:inline-block;">
+						<i class="fa fa-twitter-square " aria-hidden="true" style="padding-left:0;"></i>
+					</a>
+					<a href="" id="arrow" style="display:inline-block;">
+						<i class="fa fa-linkedin-square " aria-hidden="true" style="padding-left:0;"></i>
+					</a>
+				</div>
+			</div>
+		</div>
+<script>
+//////////////base functions (these never change)///////////////////////	
+	//////////////function for the info panel collapse button///////////////////////
+	var collapsed = false;
+    function collapse(){
+    	if (collapsed == false){
+    		document.getElementById("infoPanel").style.transition = "display 2s";
+    		document.getElementById("infoPanel").style.display = "none";
+    		document.getElementById("collapse").style.left = '0px';
+    		document.getElementById("collapse").style.paddingLeft = '2px';
+    		document.getElementById("collapse-arrow").className = "fa fa-chevron-right";
+    		collapsed = true;
+    	} else{
+    		document.getElementById("infoPanel").style.display = "unset";
+    		document.getElementById("collapse").style.left = '320px';
+    		document.getElementById("collapse").style.paddingLeft = '0px';
+    		document.getElementById("collapse-arrow").className = "fa fa-chevron-left";
+    		collapsed = false;
+    	}
+    	
+    }
+    //////////////function that allows topojson layers to be loaded///////////////////////
+    L.TopoJSON = L.GeoJSON.extend({  
+  		addData: function(jsonData) {    
+    		if (jsonData.type === 'Topology') {
+      			for (key in jsonData.objects) {
+       			 geojson = topojson.feature(jsonData, jsonData.objects[key]);
+       			 L.GeoJSON.prototype.addData.call(this, geojson);
+      		}
+    	}    
+    	else {
+      		L.GeoJSON.prototype.addData.call(this, jsonData);
+    		}
+  		}  
+	});
+//////////////Initialize map///////////////////////
+	var map = L.map('map', {zoomControl:false}).setView([45.56, -119.75],7);
+///////////////////////make zoom level correspond to browser size////////////////////////////////
+	window.addEventListener('load', function(event){
+    	var width = document.documentElement.clientWidth;
+    	if (width < 1500 && width > 800) {
+        	map.setView(new L.LatLng(45.56, -121.75), 6); 
+    		}  else if (width > 1501) {
+        	map.setZoom(7);
+        	} else {
+        	map.setZoom(5);
+        	}
+	});
+////////////////////////////////basemap layers////////////////////////////////
+	var Esri_WorldTerrain = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer/tile/{z}/{y}/{x}', {
+		attribution: 'Tiles &copy; Esri &mdash; Source: USGS, Esri, TANA, DeLorme, and NPS',
+		maxZoom:11,
+		minZoom:5,
+		opacity:1
+	}).addTo(map);
+
+	var pnwCover = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
+		layers: 'baldricg_PNW_ATLAS:pnw_outline2_black',
+        format: 'image/png',
+		maxZoom:11,
+		minZoom:5,
+		opacity:0.3,
+		transparent:true,
+	}).addTo(map);
+
+	
+	var label = L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_only_labels/{z}/{x}/{y}@2x.png', {
+		attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
+		subdomains: 'abcd',
+		maxZoom:11,
+		minZoom:5,
+		tileSize:256,
+		bounds:[
+			new L.LatLng(49.56,-125.25),
+			new L.LatLng(40.5,-111.5)
+		],
+		pane:'labels'
+	});	
+
+	map.createPane('labels');
+	map.getPane('labels').style.pointerEvents = 'none';
+	map.getPane('labels').style.zIndex = 650;
+	label.addTo(map);
+
+	map.createPane('tooltip');
+	map.getPane('tooltip').style.zIndex = 700;
+	
+	var pnwStates = $.getJSON("assets/pnw_states.geojson", function(data){
+        pnwStates = L.geoJson(data, {
+        	style:function pnwStatesStyle(){
+				return{
+					opacity: 1,
+					color:'#666666',
+					fillOpacity:0	,
+					fillColor:'#404040',
+					weight:1
+				};
+			},
+        	interactive: false
+        }).addTo(map);
+    });
+
+////////////////////////////////important variables////////////////////////////////		    
+    var colorValue = ['#f2f0f7','#cbc9e2','#9e9ac8','#756bb1','#54278f'],
+        dataValue = [70,80,90,95],
+      	data = 1;
+ ////////////////////////////display layers//////////////////////
+	////////////////////////////housing blocks//////////////////////
+	var value;
+	var dataTable = {};
+
+	function doStuff(data) {
+		for (var i = 0;i < 8500;i++){
+			dataTable[i] = data[i];
+		}
+	}
+
+	function parseData(url, callBack) {
+		Papa.parse(url, {
+			download: true,
+			header:true,
+			dynamicTyping: true,
+			complete: function(results) {
+				callBack(results.data);
+			}
+		});
+	}
+
+	parseData("assets/housing.csv", doStuff); 
+ 
+   	const housingBlocks = new L.TopoJSON();
+
+	$.getJSON('assets/housing_blocks.json')
+  		.done(addTopoData);
+
+	function addTopoData(topoData) {  
+  		housingBlocks.addData(topoData);
+  		housingBlocks.addTo(map);
+  		housingBlocks.eachLayer(handleLayer);
+	}
+
+	function handleLayer(layer){
+        layer.setStyle({
+          		opacity: 1,
+				fillOpacity: 0.6,
+				color:setColor(dataType(layer.feature.properties.ID_1)),
+				fillColor:setColor(dataType(layer.feature.properties.ID_1)),
+				weight:0.5
+        });
+        layer.on({
+         	mouseover : highlight,
+            mouseout: resetHighlight
+        });
+    }
+  
+      function setColor(num){
+      	  return  num < dataValue[0] ? colorValue[0]:
+      	  		  num < dataValue[1] ? colorValue[1]:
+      	  		  num < dataValue[2] ? colorValue[2]:
+      	  		  num < dataValue[3] ? colorValue[3]:
+      	  		  		colorValue[4];
+      }
+      
+      function dataType(props){
+      	  return data == 1 ? (dataTable[props].occupied/dataTable[props].tot_units)*100 :
+      	  		 data == 2 ? (dataTable[props].owned/dataTable[props].occupied)*100:
+      	  		 data == 3 ? (dataTable[props].med_year):
+      	  		 data == 4 ? (dataTable[props].med_value)/1000:
+      	  		 data == 5 ? (dataTable[props].med_rent):
+      	  		 data == 6 ? (dataTable[props].per_single):
+      	  	(dataTable[value].occupied/dataTable[value].tot_units);
+      }
+      
+    function highlight() {
+		 var data1;
+		 var data2;
+		 
+		 this.setStyle({
+        	fillOpacity: 1,
+        	color:'#ffffff',
+    	 });
+    	 
+    	 value = this.feature.properties.ID_1;
+    	 
+    	 var perOccupation = ((dataTable[value].occupied/dataTable[value].tot_units)*100).toFixed(0);
+    	 var perOwned = ((dataTable[value].owned/dataTable[value].occupied)*100).toFixed(0);
+    	 var perSinglefam = ((dataTable[value].single_fam/dataTable[value].tot_units)*100).toFixed(0);
+    	 
+    	 $('#hover').css('display', 'none');
+    	 $('#ID').css('display', 'block');
+    	 document.getElementById('ID').innerHTML = dataTable[value].name_1 + " County, Tract " + dataTable[value].TRACTCE + ", Block Group " + dataTable[value].BLKGRPCE; 
+    	 
+    	 if (data == 1){
+    	 	document.getElementById('displayValue').innerHTML = perOccupation + "% Occupied"; 
+    	 }
+    	 else if (data == 2){
+    	 	document.getElementById('displayValue').innerHTML = perOwned + "% Units Owned";
+    	 }
+    	 else if (data == 3){
+    	 	document.getElementById('displayValue').innerHTML = "Median Age of Home: " + dataTable[value].med_year; 
+    	 }
+    	 else if (data == 4){
+    	 	document.getElementById('displayValue').innerHTML = "Median Home Value: $" + dataTable[value].med_value;
+    	 }
+    	 else if (data == 5){
+    	 	document.getElementById('displayValue').innerHTML = "Median Rent: $" + dataTable[value].med_rent;
+    	 }
+    	 else if (data == 6){
+    	 	document.getElementById('displayValue').innerHTML = perSinglefam + "% Single Family Homes"; 
+    	 }
+
+		if (data == 1){
+		 	chart.data.datasets[0].data[0] = dataTable[value].vacant;
+		 	chart.data.datasets[0].data[1] = dataTable[value].occupied;
+		 	chart.update();
+		}
+		else if (data == 2){
+		 	chart.data.datasets[0].data[0] = dataTable[value].owned;
+		 	chart.data.datasets[0].data[1] = dataTable[value].rented;
+		 	chart.update();
+		}
+		else if (data == 3){
+		 	chart.data.datasets[0].data[0] = dataTable[value].pres1990;
+		 	chart.data.datasets[0].data[1] = dataTable[value].d1980_1989;
+		 	chart.data.datasets[0].data[2] = dataTable[value].d1970_1979;
+		 	chart.data.datasets[0].data[3] = dataTable[value].d1960_1969;
+		 	chart.data.datasets[0].data[4] = dataTable[value].before1960;
+		 	chart.update();
+		}
+		else if (data == 4){
+			chart.data.datasets[0].data[0] = dataTable[value].v500;
+		 	chart.data.datasets[0].data[1] = dataTable[value].v400_500;
+		 	chart.data.datasets[0].data[2] = dataTable[value].v250_400;
+		 	chart.data.datasets[0].data[3] = dataTable[value].v100_250;
+		 	chart.data.datasets[0].data[4] = dataTable[value].v0_100;
+		 	chart.update();
+		}
+		else if (data == 5){
+		 	chart.data.datasets[0].data[0] = dataTable[value].r2000;
+		 	chart.data.datasets[0].data[1] = dataTable[value].r1500_2000;
+		 	chart.data.datasets[0].data[2] = dataTable[value].r1000_1500;
+		 	chart.data.datasets[0].data[3] = dataTable[value].r500_1000;
+		 	chart.data.datasets[0].data[4] = dataTable[value].r0_500;
+		 	chart.update();
+		}
+		else if (data == 6){
+		 	chart.data.datasets[0].data[0] = dataTable[value].single_fam;
+		 	chart.data.datasets[0].data[1] = dataTable[value].multi_fam;
+		 	chart.update();
+		}
+	}
+	
+	function resetHighlight() {
+		 this.setStyle({
+        	fillOpacity: 0.6,
+        	color:setColor(dataType(this.feature.properties.ID_1))
+    	 });
+	}
+	////////////////////////////chart creation for housing blocks//////////////////////
+	var ctx = document.getElementById("chartContainer").getContext('2d');
+	
+	var backgroundColor = ['#cbc9e2', '#756bb1'];
+	
+	var options =  {
+    	type: 'pie',
+    		data: {
+        		labels: ["Vacant", "Occupied"],
+        		datasets: [{
+            		data: [50,50],
+           			backgroundColor: [
+                		'#cbc9e2',
+                		'#756bb1'
+            		],
+            		borderColor: [
+                		'#404040',
+                		'#404040'
+            		],
+            	borderWidth: 0
+        	}]
+    	},
+    	options: {
+       		responsive: true,
+       		legend: {
+       			position: 'left',
+       			labels: {
+       				fontColor:'#000000'
+       			}
+       		},
+       		pieceLabel: {
+    			render: 'value',
+    			fontColor:'#000000'
+  			},
+       		tooltips:{
+       			enabled:false
+       		}
+    	}
+	}
+	var options2 =  {
+    	type: 'pie',
+    		data: {
+        		labels: ["1990 - Pres.","1980 - 1990","1970 - 1980","1960 - 1970","Before 1960"],
+        		datasets: [{
+            		data: [50,50,50,50,50],
+           			backgroundColor: [
+                		'#b30000',
+                		'#ff3333',
+                		'#ff6666',
+                		'#ff9999',
+                		'#ffcccc'
+            		],
+            		borderColor: [
+                		'#404040',
+                		'#404040',
+                		'#404040',
+                		'#404040',
+                		'#404040'
+            		],
+            	borderWidth: 0
+        	}]
+    	},
+    	options: {
+       		responsive: true,
+       		legend: {
+       			position: 'left',
+       			labels: {
+       				fontColor:'#000000'
+       			}
+       		},
+       		pieceLabel: {
+    			render: 'value',
+    			fontColor:'#000000'
+  			},
+       		tooltips:{
+       			enabled:false
+       		}
+    	}
+	}
+	
+	var chart = new Chart(ctx, options);
+///////////////////////////////button function////////////////////////////////	
+ 
+ 	var buttonLabels = ['#but1','#but2','#but3','#but4','#but5','#but6'];
+
+	var buttonFunctions = {
+		but1: {button:'but1', topoLayers:[housingBlocks], topoHandler:[handleLayer], newLegend: 'leg_1',  title:'Occupation', variable:1, values:[70,80,90,95], colors:['#f2f0f7','#cbc9e2','#9e9ac8','#756bb1','#54278f'], layerFunction:function(){occupation();}},
+		but2: {button:'but2', topoLayers:[housingBlocks], topoHandler:[handleLayer], newLegend: 'leg_2',  title:'Tenure', variable:2, values:[30,50,70,90], colors:['#7b3294','#c2a5cf','#f7f7f7','#a6dba0','#008837'], layerFunction:function(){tenure();}},
+		but3: {button:'but3', topoLayers:[housingBlocks], topoHandler:[handleLayer], newLegend: 'leg_3',  title:'Median Home Age', variable:3, values:[1960,1970,1980,1990], colors:['#ffffd4','#fed98e','#fe9929','#d95f0e','#993404'], layerFunction:function(){age();}},
+		but4: {button:'but4', topoLayers:[housingBlocks], topoHandler:[handleLayer], newLegend: 'leg_4',  title:'Median Value', variable:4, values:[100,250,400,500], colors:['#edf8e9','#bae4b3','#74c476','#31a354','#006d2c'], layerFunction:function(){price();}},
+		but5: {button:'but5', topoLayers:[housingBlocks], topoHandler:[handleLayer], newLegend: 'leg_5',  title:'Median Rent', variable:5, values:[500,1000,1500,2000], colors:['#eff3ff','#bdd7e7','#6baed6','#3182bd','#08519c'], layerFunction:function(){rent();}},
+		but6: {button:'but6', topoLayers:[housingBlocks], topoHandler:[handleLayer], newLegend: 'leg_6',  title:'Housing Type', variable:6, values:[20,40,60,80], colors:['#ca0020','#f4a582','#f7f7f7','#92c5de','#0571b0'], layerFunction:function(){classification();}}
+	};
+	
+	$('.main').clickFunction({
+		buttonFunctions: buttonFunctions,
+		buttonLabels: buttonLabels,
+		selected:buttonFunctions.but1
+	});
+ 	///////////////////////////////functions for chart updates////////////////////////////////	
+    function occupation(){
+    	document.getElementById('chartDescription').innerHTML = 'Housing units by occupancy status.';
+    	document.getElementById('displayValue').innerHTML = "% Occupied"; 
+    	chart.destroy();
+		chart = new Chart(ctx, options);
+    	chart.data.labels[0] = "Vacant";
+    	chart.data.labels[1] = "Occupied";
+    	chart.data.datasets[0].backgroundColor[0] = colorValue[0];
+		chart.data.datasets[0].backgroundColor[1] = colorValue[2];
+		chart.data.datasets[0].data[0] = 50;
+		chart.data.datasets[0].data[1] = 50;
+		chart.update();
+    }
+    function tenure(){
+    	document.getElementById('chartDescription').innerHTML = 'Housing units by age category.';
+    	document.getElementById('displayValue').innerHTML = "Median Age of Home:"; 
+
+    	chart.destroy();
+		chart = new Chart(ctx, options);
+    	chart.data.labels[0] = "Owned";
+    	chart.data.labels[1] = "Rented";
+    	chart.data.datasets[0].backgroundColor[0] = colorValue[3];
+		chart.data.datasets[0].backgroundColor[1] = colorValue[1];
+		chart.data.datasets[0].data[0] = 50;
+		chart.data.datasets[0].data[1] = 50;
+		chart.update();
+
+    }
+    function age(){
+    	document.getElementById('chartDescription').innerHTML = 'Housing units by value category in thousands of dollars.';
+    	document.getElementById('displayValue').innerHTML = "Median Home Value:";
+    	
+    	chart.destroy();
+		chart = new Chart(ctx, options2);
+		chart.data.labels[0] = "1990 - Pres.";
+    	chart.data.labels[1] = "1980 - 1990";
+    	chart.data.labels[2] = "1970 - 1980";
+    	chart.data.labels[3] = "1960 - 1970";
+    	chart.data.labels[4] = "Before 1960";
+		chart.data.datasets[0].backgroundColor[0] = colorValue[4];
+		chart.data.datasets[0].backgroundColor[1] = colorValue[3];
+		chart.data.datasets[0].backgroundColor[2] = colorValue[2];
+		chart.data.datasets[0].backgroundColor[3] = colorValue[1];
+		chart.data.datasets[0].backgroundColor[4] = colorValue[0];
+		chart.update();
+
+    }
+    function price(){
+    	document.getElementById('chartDescription').innerHTML = 'Housing units by value category in thousands of dollars.';
+    	document.getElementById('displayValue').innerHTML = "Median Home Value:";
+    	
+    	chart.destroy();
+		chart = new Chart(ctx, options2);
+		chart.data.labels[0] = "$500";
+    	chart.data.labels[1] = "$400 - $500";
+    	chart.data.labels[2] = "$250 - $400";
+    	chart.data.labels[3] = "$100 - $250";
+    	chart.data.labels[4] = "Less than $100";
+		chart.data.datasets[0].backgroundColor[0] = colorValue[4];
+		chart.data.datasets[0].backgroundColor[1] = colorValue[3];
+		chart.data.datasets[0].backgroundColor[2] = colorValue[2];
+		chart.data.datasets[0].backgroundColor[3] = colorValue[1];
+		chart.data.datasets[0].backgroundColor[4] = colorValue[0];
+		chart.update();
+    }
+    function rent(){
+    	document.getElementById('chartDescription').innerHTML = 'Housing units by rent category.';
+    	document.getElementById('displayValue').innerHTML = "Median Rent:";
+    	
+    	chart.destroy();
+		chart = new Chart(ctx, options2);
+		chart.data.labels[0] = "$2000";
+    	chart.data.labels[1] = "$1500 - $2000";
+    	chart.data.labels[2] = "$1000 - $1500";
+    	chart.data.labels[3] = "$500 - $1000";
+    	chart.data.labels[4] = "Less than $500";
+		chart.data.datasets[0].backgroundColor[0] = colorValue[4];
+		chart.data.datasets[0].backgroundColor[1] = colorValue[3];
+		chart.data.datasets[0].backgroundColor[2] = colorValue[2];
+		chart.data.datasets[0].backgroundColor[3] = colorValue[1];
+		chart.data.datasets[0].backgroundColor[4] = colorValue[0];
+		chart.update();
+
+    }
+    function classification(){
+    	document.getElementById('chartDescription').innerHTML = 'Housing units by classification.';
+    	document.getElementById('displayValue').innerHTML = "% Single Family Homes";
+    	
+    	chart.destroy();
+		chart = new Chart(ctx, options);
+    	chart.data.labels[0] = "Single Family";
+    	chart.data.labels[1] = "Multi-Family";
+    	chart.data.datasets[0].backgroundColor[0] = colorValue[3];
+		chart.data.datasets[0].backgroundColor[1] = colorValue[1];
+		chart.data.datasets[0].data[0] = 50;
+		chart.data.datasets[0].data[1] = 50;
+		chart.update();
+
+    }
+
+ ///////////////////////////////other miscellaneous functions (these also never change)////////////////////////////////   
+
+   	//add zoom control
+    new L.Control.Zoom({ position: 'bottomright' }).addTo(map);
+    
+    //remove leaflet attribution
+	document.getElementsByClassName("leaflet-control-attribution")[0].style.visibility = "hidden";
+	
+	//add scrolling capabilities to text box
+     var container = document.getElementById('text');
+		Ps.initialize(container);
+	
+	//update text box to be correct size
+	var minHeight = 50; // Define a minimum height for the middle div
+
+	function resizeMiddle() {
+    var h = $('body').height() - $('#top').height() - 65;
+    		h = h > minHeight ? h : minHeight;
+   	 	$('#attribution').height(h);
+	}
+	
+	function resizePopup() {
+   		var h = $('.popup').height() - 90;
+    		h = h > minHeight ? h : minHeight;
+   	 	$('.popup .content').height(h);
+	}
+	$(document).ready(resizePopup);
+	$(window).resize(resizePopup);
+
+	$(document).ready(resizeMiddle);
+	$(window).resize(resizeMiddle);
+	
+    //remove standard leaflet attribution
+    $(document).click(function(event) {
+		if (!$(event.target).closest(".share_overlay,.share").length) {
+			$('#clear')[0].click();
+		}
+	});
+
+
+</script>
+</body>
+</html>
