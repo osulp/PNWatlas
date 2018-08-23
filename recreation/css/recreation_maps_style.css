@@ -547,7 +547,7 @@ hr{
   }
 }
 /*chapter selection*/
-.overlay2 {
+.link_overlay {
   position: fixed;
   bottom: 55px;
   left: 60px;
@@ -558,12 +558,12 @@ hr{
   z-index:1000;
   width:160px;
 }
-.overlay2:target {
+.link_overlay:target {
   visibility: visible;
   opacity: 1;
 }
 
-.popup2 {
+.link_popup {
   padding:10px;
   background: #fff;
   width: 100%;
@@ -575,24 +575,24 @@ hr{
   border:2px black solid;
 }
 
-.popup2 h2 {
+.link_popup h2 {
   font-size:20px;
   margin-top: 0;
   color: #333;
   font-weight:bold;
 }
-.popup2 a {
+.link_popup a {
   display:block;
   font-size:20px;
   line-height:28px;
   color:#000000;
 }
-.popup2 a:hover {
+.link_popup a:hover {
   color:#8c8c8c;
   cursor:pointer;
 }
 
-.popup2 .close{
+.link_popup .close{
   top:5px;
   right:8px;
   position: absolute;
@@ -603,8 +603,45 @@ hr{
   text-align:right;
   font-family:GoudyOld;
 }
-.popup2 .close:hover {
+.link_popup .close:hover {
   color: #737373;
+}
+/*share popup*/
+.share_overlay {
+  position: fixed;
+  bottom: 45px;
+  left: 135px;
+  background: rgba(0, 0, 0, 0.7);
+  transition: opacity 500ms;
+  visibility: hidden;
+  opacity: 0;
+  z-index:1000;
+  width:80px;
+}
+.share_overlay:target {
+  visibility: visible;
+  opacity: 1;
+}
+
+.share_popup {
+  padding:5px;
+  background: #fff;
+  width: 100%;
+  position: relative;
+  transition: all 5s ease-in-out;
+  font-family:GoudyOld;
+  height:100%;
+  box-shadow: 3px 3px 2px #4d4d4d;
+  border:2px black solid;
+}
+.share_popup a#arrow {
+	color:black;
+	font-size:28px;
+	position:relative;
+}
+.share_popup a#arrow:hover {
+	color:#808080;
+	cursor:pointer;
 }
 /* findbox */
 #findbox {
