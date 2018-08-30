@@ -53,7 +53,7 @@
 						<div style="line-height:30px; height:30px;"><b id="leg2_block" class="groundwater" style="background-color:#ecf9ec; border-left:black 2px solid; "></b><b class="groundwater" style="background-color:#b3e6b9;"></b><b class="groundwater" style="background-color:#66cc66;"></b><b class="groundwater" style="background-color:#267326; border-right:black 2px solid;"></b><p2 id="leg2" style="line-height:30px;">Volcanic</p></div>
 						<div style="line-height:30px; height:30px;"><b id="leg3_block" class="groundwater" style="background-color:#ebebe0; border-left:black 2px solid; border-bottom:black 2px solid;"></b><b class="groundwater" style="background-color:#ccccb3; height:32px;"></b><b class="groundwater" style="height:32px;background-color:#a3a375; "></b><b class="groundwater" style="background-color:#5c5c3d; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p2 id="leg3" style="line-height:30px;">Other</p></div>
 						<div style="line-height:32px; height:32px;"><b id="leg4_block" class="groundwater" style="background-color:#ffffff; opacity:0;"></b><b  class="groundwater" style="background-color:#c19cef; border-left:black 2px solid; border-bottom:black 2px solid;"></b><b class="groundwater" style="background-color:#8461af; border-right:black 2px solid; border-bottom:black 2px solid;"></b><b class="groundwater" style="background-color:#ffffff;opacity:0;"></b><p2 id="leg4" style="line-height:30px;">Carbonate</p></div><br/>			
-						<b2 style="color:#0033cc">Sand and Gravel</b2>
+						<b2 style="color:#0033cc; font-size:20px;">Sand and Gravel</b2>
 						<p3>Unconsolidated sand and gravel aquifers are the most productive and easily accesible aquifers in the Pacific Northwest. They are typically shallow, and found in lowland basins. Sand and gravel aquifers commonly yield 20 - 2000 gallons per minute to wells.</p3>
 						<b2 style="color:#267326; font-size:20px;">Volcanic</b2>
 						<p3>Volcanic rock aquifers are more geologically complex than sand and gravel aquifers, resulting in more variable hydrologic productivity. Volcanic aquifers are often difficult to access, but can hold large volumes of water in rock fractures. Volcanic aquifers can yield 1 - 1000 gallons per minute to wells, but often yield less than 400.</p3>
@@ -281,12 +281,12 @@
 				}
 			this._div.innerHTML = (props ?
 				'<h2 style="display:inline;">'+ rechargeName(props.ROCK_TYPE) + '</h2></br><p3 style="display:inline;">' + rechargeDisplay(props.re_cat) + '</p3>'
-					: '<h2 style="margin:0; display:inline-block;">Hover over Map</h2>');
+					: '<b style="font-size:24px;">Hover over Map</b>');
 			}
 		if (data == 2){
 			this._div.innerHTML = (props ?
 				'<h2 style="display:inline;">'+ props.NAME  + '</h2></br><p3 style="display:inline;">' + props.type + '</p3>'
-					: '<h2 style="margin:0; display:inline-block;">Hover over Map</h2>');
+					: '<b style="font-size:24px;">Hover over Map</b>');
 			}
 		};
 
@@ -461,7 +461,7 @@
 	var minHeight = 30; // Define a minimum height for the middle div
 
 	function resizeMiddle() {
-    var h = $('body').height() - $('#top').height() - 80;
+    var h = $('body').height() - $('#top').height() - 65;
     		h = h > minHeight ? h : minHeight;
    	 	$('#attribution').height(h);
 	}
