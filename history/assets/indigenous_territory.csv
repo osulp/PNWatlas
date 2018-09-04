@@ -1,102 +1,102 @@
-id,name,pre_c_pop,lang_grp,size,own_name,lang,pop_1910,state,name_mean,confd_res,lat,long,lat1,long1
-0,Molala,500,Shapwailutan,2,Lti-u and La'tiwe,Waiilatpuan,30,Oregon,Name derived from a creek in the Willamette Valley,Confederated Tribes of the Grand Ronde,44.9447288600,-122.0107700000,44.9447289,-122.0107700
-1,Warm Springs Indians,,Shapwailutan,4,Tenino and Meli'-lema,Shahaptian Tenino Dialect,,Oregon,Unknown,Confederated Tribes of Warm Springs,44.3334596900,-121.1333410000,44.3334597,-121.1333410
-2,Kalapuya,3000,Kalapuyan,2,Kalapuya,,5,Oregon,Unknown,Confederated Tribes of the Grand Ronde,43.9384451400,-122.5866570000,43.9384451,-122.5866570
-3,Cayuse,500,Shapwailutan,1,Wailetpu,Cayuse Dialect,300,Oregon,Unknown,Confederated Tribes of the Umatilla Indian Reservation,45.6572601200,-118.7926950000,45.6572601,-118.7926950
-4,Umatilla,,Shapwailutan,3,Immatullum,Umatilla Shahaptian Dialect,270,Oregon,"""Water over gravel camp"" (Immatullum)",Confederated Tribes of the Umatilla Indian Reservation,45.2157732700,-119.2046090000,45.2157733,-119.2046090
-5,Northern Paiute,7500,Uto-Aztecan,5,Numa,Northern Paiute,3040,Oregon,"Uncertain, probably ""water Ute"" or ""true Ute""",Burns Paiute Reservation,43.2512624100,-118.1948920000,43.2512624,-118.1948920
-6,Nez Perc,4000,Shapwailutan,4,"Kamu'inu, Nimipu, and Tstpeli",Nez Perce Shahaptian Dialect,1300,,"""Pierced noses"" (Nez Perc), ""The people"" (Nimipu)",Confederated Tribes Of The Colville Reservation,45.6964643600,-116.5334950000,45.6964644,-116.5334950
-7,Bannock,1000,Uto-Aztecan,2,Banakwut,Shoshoni-Bannock Dialect,400,Idaho,Unknown,Shoshone-Bannock Tribes of the Fort Hall Reservation,44.5711347500,-112.0762670000,44.5711348,-112.0762670
-8,Shoshoni (Including Northern and Western),4500,Uto-Aztecan,5,"Nimi, Tukaduka, Pohogue, Kohogue, and Agaiduka",Shoshoni-Comanche Dialect,3800,Idaho,"""Person/people"" (Nimi), possibly ""high-growing grass"", ""valley dwellers"", or ""walkers"" (Shoshoni)",Shoshone-Bannock Tribes of the Fort Hall Reservation,42.4901234600,-112.4263550000,42.4901235,-112.4263550
-9,Flatheads,,Salishan,4,Salish,Salish Dialect,500,Montana,"Probably a place name, the last syllable ""-ish"" signifies ""people.""",Confederated Salish and Kootenai Tribes of the Flathead Reservation,46.1799145000,-112.9652400000,46.1799145,-112.9652400
-10,Pend d'Oreilles or Kalispel,1200,Salishan,4,Q'lispe,Kalispel Salish Dialect,550,Idaho,"""Camas"" (Kalispell), ""ear rings"" (Pend d'Oreilles)",Confederated Salish and Kootenai Tribes of the Flathead Reservation,48.1263634200,-116.1751240000,48.1263634,-116.1751240
-11,Sanpoil,1600,Salishan,3,Nesilextcl'n,Okanagon Dialect,250,Washington,"Probably ""Salish speaking""",Confederated Tribes Of The Colville Reservation,48.0701482900,-119.0224200000,48.0701483,-119.0224200
-12,Palouse or Palus,5400,Shapwailutan,3,Nahaum,Shahaptian Dialect,80,Washington,Unknown,Confederated Tribes Of The Colville Reservation,46.7519034600,-118.3084880000,46.7519035,-118.3084880
-13,Wanapam,1800,Shapwailutan,2,Wanapam,Shahaptian Dialect,,Washington,"""River people""",Confederated Tribes and Bands of the Yakama Nation,47.0554651700,-119.0617710000,47.0554652,-119.0617710
-14,Sinkiuse-Columbia,800,Salishan,3,.tskowa'xtsEnux and skowa'xtsEnEx,,50,Washington,"""Main valley""",Confederated Tribes Of The Colville Reservation,46.9711424700,-119.8572150000,46.9711425,-119.8572150
-15,Klickitat,600,Shapwailutan,2,Qw'lh-hwai-pm,Shahaptian Dialect,400,Washington,"""Beyond"" (Klickitat, from Chinook language), ""Prairie people"" (Qw'lh-hwai-pm)",Confederated Tribes of the Grand Ronde,45.8918119500,-120.4587170000,45.8918120,-120.4587170
-16,Yakama or Yakima,3000,Shapwailutan,2,Waptailnsim and Pa`kiut`lema,Yakama Shahaptian Dialect,1300,Washington,"""People of the narrow river"" (Waptailnsim), ""people of the gap"" (Pa`kiut`lema)",Confederated Tribes and Bands of the Yakama Nation,46.2628318100,-120.3687730000,46.2628318,-120.3687730
-17,Nicola or Stuwihamuk,,Athapascan,2,Scw'exmx,Unknown,,BritishColumbia,"""People of the Creeks""",Nicola Tribal Association,49.5324444000,-120.3877450000,49.5324444,-120.3877450
-18,Stalo,7100,Salishan,2,Sto:lo,Halkomelem,1500,BritishColumbia,Unknown,St:lo Nation,49.1979643700,-122.1332250000,49.1979644,-122.1332250
-19,Semiahmoo,,Salishan,1,Semiahmoo,,,Washington,Unknown,Semiahmoo First Nation,48.9196994700,-122.6644580000,48.9196995,-122.6644580
-20,Nooksack,,Salishan,2,Noxwsaaq,Nooksack-Squamish Dialect,90,Washington,"""Mountain men"" (Nooksack), ""always bracken fern roots"" (Noxwsaaq)",Nooksack Indian Reservation,48.7974315600,-121.9870660000,48.7974316,-121.9870660
-21,Samish,,Salishan,1,Samish,,,Washington,"""The giving people""",Samish Indian Nation,48.5079236300,-122.3594910000,48.5079236,-122.3594910
-22,Skagit,,Salishan,1,Hum-a-luh,,,Washington,"""The people"" (Hum-a-luh)",Tulalip Tribes of Washington,48.3139814300,-122.0222000000,48.3139814,-122.0222000
-23,Lummi,1000,Salishan,1,Lhaq'temish,Xwlemi Chosen,350,Washington,Unknown,Lummi Reservation,48.6554883500,-122.5674870000,48.6554884,-122.5674870
-24,Snohomish,,Salishan,1,Sdoh-doh-hohbsh,,,Washington,Unknown,Tulalip Tribes of Washington,47.8502065900,-121.9210130000,47.8502066,-121.9210130
-25,Snoqualmie,,Salishan,2,sduk?albix?,,,Washington,"""Strong people of status""",Tulalip Tribes of Washington,47.5874008500,-121.4825350000,47.5874009,-121.4825350
-26,Muckleshoot,1200,Salishan,1,,Nisqually Coastal Dialect,780,Washington,"From native word ""o'kelcul"" for prairie, the tribe is comprised of descendants of the Duwamish and Upper Puyallup people",Muckleshoot Reservation,47.1728142600,-121.6132350000,47.1728143,-121.6132350
-27,Suquamish,450,Salishan,1,,,200,Washington,Unknown,Port Madison Reservation,47.6295622000,-122.2540880000,47.6295622,-122.2540880
-28,Duwamish,1200,Salishan,1,Dkh'Dwu'Absh,Duwamish Dialect,20,Washington,Unknown,"Port Madison Reservation; Tulalip Tribes of Washington",47.4552952900,-122.1866290000,47.4552953,-122.1866290
-29,Puyallup,,Salishan,2,S'Puyalupubsh and spuyal?pab,Nisqually Coastal Dialect,,Washington,"""Generous and welcoming behavior to all people (friends and strangers) who enter our lands""",Puyallup Tribe of Indians,47.1531389600,-122.2906270000,47.1531390,-122.2906270
-30,Nisqually,3600,Salishan,2,Squallay-absch,Nisqually Coastal Dialect,1100,Washington,"""People of the grass country""",Nisqually Reservation,46.8453611100,-122.7796990000,46.8453611,-122.7796990
-31,Port Townsend Indians or Chimakum,400,Salishan,1,Aqoklo,Chimakuan Dialect,5,Washington,Unknown,Skokomish Reservation,47.8263151600,-122.9132100000,47.8263152,-122.9132100
-32,Klallam and SKlallam,2000,Salishan,2,nuxsklaiyem,,400,Washington,"""Strong people""",Jamestown SKlallam Reservation,47.9401508000,-123.7297350000,47.9401508,-123.7297350
-33,Quileute,500,Chimakuan,1,Ko'liyot,,300,Washington,Unknown,Quinault Indian Nation,47.6970203600,-124.3340470000,47.6970204,-124.3340470
-34,Quinault,1500,Salishan,1,Kwi-nail,Salish Coastal Dialect,300,Washington,Unknown,Quinault Indian Nation,47.3850263800,-124.0754580000,47.3850264,-124.0754580
-35,Humptulips,,Salishan,1,Humptulips,Salish Coastal Dialect,20,Washington,"""Chilly region""",Confederated Tribes of the Chehalis Reservation,47.0772485300,-123.9686490000,47.0772485,-123.9686490
-36,Clatskanie,1600,Athapascan,1,A`ltskn-i,Kwalhioqua-Clatskanie,5,Washington,Unknown,Nisqually Reservation,46.5867715100,-122.8626160000,46.5867715,-122.8626160
-37,Kwalhioqua,200,Athapascan,1,Txulxiyo-goaikckulxi,Kwalhioqua-Clatskanie,,Washington,"""A lonely place in the woods"" (Kwalhioqua, from Chinook Language)",Nisqually Reservation,46.4729358700,-123.3418500000,46.4729359,-123.3418500
-38,Chehalis,1000,Salishan,1,Chehalis,Salish Coastal Dialect,170,Washington,"""Sand""",Confederated Tribes of the Chehalis Reservation,46.7104448000,-123.8730830000,46.7104448,-123.8730830
-39,Satsop,,Salishan,1,Satsop,Salish Coastal Dialect,,Washington,Unknown,Confederated Tribes Of The Colville Reservation,47.0224387800,-123.5006580000,47.0224388,-123.5006580
-40,Twana or Skokomish,1000,Salishan,1,Tu-a'-d-hu,Twana Dialect,250,Washington,"Signifying ""a portage"" (Twana), ""big river people"" (Skokomish)",Skokomish Reservation,47.2936767900,-123.1816370000,47.2936768,-123.1816370
-41,Cowlitz,,Salishan,2,Stl'pumsh,,,Washington,Unknown,"Quinault Indian Nation; Cowlitz Reservation",46.2396430700,-122.0994960000,46.2396431,-122.0994960
-42,Chinook,800,Chinookian,1,Tsinuk,Chinook,,Oregon,Unknown,"Confederated Tribes of Siletz Indians; Quinault Indian Nation",46.1412665900,-123.9236770000,46.1412666,-123.9236770
-43,Makah,2000,Wakashan,1,Kwe-net-che-chat and Q?idicca?atx?,Nootka Dialect,350,Washington,"""Cape people"" (both names)",Makah Reservation,48.0764725000,-124.5532870000,48.0764725,-124.5532870
-44,Skilloot,3000,Chinookian,1,Skilloot,Clackamas Dialect,,Washington,Unknown,Confederated Tribes of the Grand Ronde,45.9754319500,-122.6560260000,45.9754320,-122.6560260
-45,Cathlapotle,1300,Chinookian,1,Quathlapotle,Clackamas Dialect,,Ore and Wash,"""People of Lewis (Na'p!oLX.) River""",Confederated Tribes of the Grand Ronde,45.7407337800,-122.2048990000,45.7407338,-122.2048990
-46,Clackamas,2500,Chinookian,2,Guithla'kimas,Clackamas Dialect,40,Oregon,Unknown,Confederated Tribes of the Grand Ronde,45.2966102200,-122.1155410000,45.2966102,-122.1155410
-47,Cascade Indians or Watlala,3000,Chinookian,1,Katlagakya,Clackamas Dialect,,Oregon,Unknown,Confederated Tribes of Warm Springs,45.5730257200,-121.8555490000,45.5730257,-121.8555490
-48,Clowwewalla,900,Chinookian,1,Clowwewalla,,0,Oregon,Unknown,Confederated Tribes of the Grand Ronde,45.1069485200,-122.5085740000,45.1069485,-122.5085740
-49,Clatsop,300,Chinookian,1,La-t'-cap,,25,Oregon,Unknown,Confederated Tribes of Siletz Indians,45.7604816100,-123.8453470000,45.7604816,-123.8453470
-50,Cathlamet,450,Chinookian,1,Kathlamet,Kathlamet Dialect,,Ore and Wash,Unknown,Confederated Tribes of Siletz Indians,46.1256132200,-123.2365730000,46.1256132,-123.2365730
-51,Multnomah or Wapato,3600,Chinookian,1,Multnomah,Upper Chinook Dialect,,Oregon,Unknown,Confederated Tribes of the Grand Ronde,45.3263162700,-122.9016080000,45.3263163,-122.9016080
-52,Tygh,,Chinookian,2,Tyigh,,550,Oregon,Unknown,Confederated Tribes of the Grand Ronde,44.6385069700,-122.1406760000,44.6385070,-122.1406760
-53,Ahantchuyuk,,Kalapuyan,1,Ahantchuyuk,,,Oregon,Unknown,Confederated Tribes of the Grand Ronde,44.8167432700,-122.7325120000,44.8167433,-122.7325120
-54,Tualatin,,Kalapuyan,1,Atfalati,Atfalati-Yamel Dialect,40,Oregon,Unknown,Confederated Tribes of the Grand Ronde,45.2806146600,-123.2992120000,45.2806147,-123.2992120
-55,Yamhill,,Kalapuyan,1,Yamel,Atfalati-Yamel Dialect,5,Oregon,Unknown,Confederated Tribes of the Grand Ronde,45.0658170700,-123.2375150000,45.0658171,-123.2375150
-56,Tillamook,2200,Salishan,2,Tillamook,,25,Oregon,"""People of Nekelim (or Nehalem)""",Confederated Tribes of the Grand Ronde,45.1914965100,-123.7448030000,45.1914965,-123.7448030
-57,Siletz,,Salishan,1,Siletz,Siletz Dee-ni,70,Oregon,Unknown,Confederated Tribes of Siletz Indians,44.7756118200,-123.8522020000,44.7756118,-123.8522020
-58,Yaquina,,Yakonan,1,Yaquina,Yaquina Dialect,20,Oregon,Unknown,Confederated Tribes of Siletz Indians,44.5745247100,-123.7767940000,44.5745247,-123.7767940
-59,Alsea,,Yakonan,1,ls,Alsea,,Oregon,Unknown,Confederated Tribes of Siletz Indians,44.4168541400,-123.8819080000,44.4168541,-123.8819080
-60,Siuslaw,,Yakonan,2,Shar'yursh'tla,Siuslaw,10,Oregon,Unknown,"Confederated Tribes of Coos; Lower Umpqua and Siuslaw Indians",44.0306755000,-123.8384910000,44.0306755,-123.8384910
-61,Luckiamute,,Kalapuyan,2,Lakmiut,Kalapuya,10,Oregon,Unknown,Confederated Tribes of the Grand Ronde,44.6979190700,-123.2877870000,44.6979191,-123.2877870
-62,Marys River Indians,,Kalapuyan,1,Chepenafa,,25,Oregon,Unknown,Confederated Tribes of the Grand Ronde,44.4214243000,-123.1072660000,44.4214243,-123.1072660
-63,Long Tom Creek,,Kalapuyan,1,Chelamela,Chelamela,,Oregon,Unknown,Confederated Tribes of the Grand Ronde,44.0946577600,-123.1621080000,44.0946578,-123.1621080
-64,Yoncalla,,Kalapuyan,1,Tch'ayanke'ld,Yoncalla Dialect,10,Oregon,"""Those living at Ayankeld""","Confederated Tribes of the Grand Ronde; Confederated Tribes of Siletz Indians",43.4479799100,-123.2398000000,43.4479799,-123.2398000
-65,Kuitsh,,Siuslawan,1,Kuitsh,,,Oregon,Unknown,Confederated Tribes of Siletz Indians,43.7016238700,-123.8796230000,43.7016239,-123.8796230
-66,Hanis,1500,Kusan,1,Hanis,,,Oregon,Unknown,"Confederated Tribes of Coos; Lower Umpqua and Siuslaw Indians",43.2880242600,-123.9870220000,43.2880243,-123.9870220
-67,Lower Rogue River Indians,1300,Athapascan,1,Tututni,Mishikhwutmetunne-Tututni Dialect,400,Oregon,Unknown,Confederated Tribes of Siletz Indians,42.5956448000,-124.3252140000,42.5956448,-124.3252140
-68,Miluk,,Kusan,1,Mluk,,,Oregon,Unknown,"Confederated Tribes of Coos; Lower Umpqua and Siuslaw Indians",43.0183847400,-124.1081310000,43.0183847,-124.1081310
-69,Coquille,,Athapascan,1,Mishikhwutmetunne,Mishikhwutmetunne-Tututni Dialect,15,Oregon,"""People who live on the stream called Mishi""",Coquille Indian Tribe,42.8538589200,-123.7790790000,42.8538589,-123.7790790
-70,Chastacosta,,Athapascan,1,Shista-kwusta,Shista-kwusta Dialect,,Oregon,Unknown,Confederated Tribes of Siletz Indians,42.5453730300,-123.5962730000,42.5453730,-123.5962730
-71,Rogue River Indians,,Takelman,1,Takelma,,1,Oregon,"""Those dwelling along the river"" (Takelma)","Confederated Tribes of the Grand Ronde; Confederated Tribes of Siletz Indians",42.2871589000,-123.6031280000,42.2871589,-123.6031280
-72,Latgawa,,Takelman,1,Latgawa,,,Oregon,"""Those living in the uplands""","Confederated Tribes of the Grand Ronde; Confederated Tribes of Siletz Indians",42.5956448000,-122.7416530000,42.5956448,-122.7416530
-73,Galice Creek Indians,,Athapascan,1,Taltushtuntude,Dakubetede Dialect,40,Oregon,Unknown,Confederated Tribes of Siletz Indians,42.1706197900,-123.9436050000,42.1706198,-123.9436050
-74,Chetco,,Athapascan,1,Chetco,,10,Oregon,Unknown,Confederated Tribes of Siletz Indians,41.9832431700,-124.0624290000,41.9832432,-124.0624290
-75,Applegate River Indians,,Athapascan,1,Dakubetede,Taltushtuntude-Dakubetede Dialect,,Oregon,Unknown,Confederated Tribes of Siletz Indians,42.1112076900,-122.8102050000,42.1112077,-122.8102050
-76,Klamath,1200,Shapwailutan,3,"Mklaks, E-ukshik-ni mklaks, and Moadok Maklaks",,700,Oregon,Unknown,Klamath Tribes,42.8287230400,-121.0918240000,42.8287230,-121.0918240
-77,Modoc,800,Shapwailutan,2,La-la-cas,Lutuamian,300,Oregon,"From Matokni, meaning ""southerners""",Klamath Tribes,42.0997822800,-120.5822510000,42.0997823,-120.5822510
-78,Wasco,900,Chinookian,1,Galasq',Wasco-Wishram Dialect,240,Oregon,"""Those that have the cup"" (refering to a cup shaped rock near the main village)",Confederated Tribes of Warm Springs,45.4634211200,-121.1969380000,45.4634211,-121.1969380
-79,Tlakluit or Wishram,1500,Chinookian,1,Ila'xluit,Wasco-Wishram Dialect,270,Washington,Unknown,Confederated Tribes of Warm Springs,45.7767838600,-121.0544800000,45.7767839,-121.0544800
-80,Chilluckittequaw,3000,Chinookian,1,Chilluckittequaw,Chilluckittequaw Dialect,,Washington,Unknown,Confederated Tribes of Warm Springs,45.7986915700,-121.7021540000,45.7986916,-121.7021540
-81,Wenatchee,1500,Salishan,3,Npeskwau'zux,Salish Dialect,50,Washington,Unknown,Confederated Tribes Of The Colville Reservation,47.3143365100,-120.6896500000,47.3143365,-120.6896500
-82,Walla Walla,,Shapwailutan,3,Wallawalla,Wallawalla Shahaptian Dialect,,Washington,"""Little river""",Confederated Tribes of the Umatilla Indian Reservation,46.0301211400,-118.5919460000,46.0301211,-118.5919460
-83,Skitswish or Coeur d'Alene,3000,Salishan,3,Schitsu'Umsh,Schitsu'Umsh Dialect,300,Idaho,Unknown,Confederated Tribes Of The Colville Reservation,47.3828889300,-116.5125230000,47.3828889,-116.5125230
-84,Spokane,,Salishan,2,Spokan and Spoqin,,,Washington,Unknown,Confederated Tribes Of The Colville Reservation,47.7622123300,-117.8607200000,47.7622123,-117.8607200
-85,Colville,2500,Salishan,2,Shwoyelpi,"Colville, Dialect of Okanagan",300,Washington,Unknown,Confederated Tribes Of The Colville Reservation,48.4248857400,-117.7738870000,48.4248857,-117.7738870
-86,Cowichan,5500,Salishan,2,Hul'q'umi'num',Halkomelem,1300,BritishColumbia,Unknown,Cowichan Tribes,48.7950688200,-124.0395790000,48.7950688,-124.0395790
-87,Nootka or Nuu-chah-nulth,,Wakashan,3,Ditidaht,Nootka Dialect,,BritishColumbia,"""The people"" (Ditidaht)",Nuu-chah-nulth First Nations,48.6396833300,-124.7433830000,48.6396833,-124.7433830
-88,Okanagon,3000,Salishan,3,Syilx and Isonkuali,Okanagon Dialect,1300,Washington,"Multiple meanings (Syilx), ""our people"" (Isonkuali)",Confederated Tribes Of The Colville Reservation,48.9870156000,-119.3551630000,48.9870156,-119.3551630
-89,Lakes,500,Salishan,3,Senijextee,,350,BritishColumbia,Unknown,Confederated Tribes Of The Colville Reservation,49.6359785200,-117.9795440000,49.6359785,-117.9795440
-90,Umpqua,400,Athapascan,2,Etnmitane,Umpqua Dialect,100,Oregon,Unknown,"Confederated Tribes of Coos; Lower Umpqua and Siuslaw Indians",43.1523438000,-123.3653400000,43.1523438,-123.3653400
-91,Santiam,,Kalapuyan,1,Ahalpam,Central Kalapuyan dialect,10,Oregon,"Unknown (Santiam), ""uplanders"" (Ahalpam)",Confederated Tribes of the Grand Ronde,44.6607098300,-122.7527470000,44.6607098,-122.7527470
-92,Squawmish,1800,Salishan,2,Squamish,Nooksack-Squamish Dialect,200,BritishColumbia,Unknown,Squamish First Nation,49.8764835700,-123.4365590000,49.8764836,-123.4365590
-93,Nanaimo,,Salishan,1,Snuneymuxw,Halkomelem,,BritishColumbia,"""People of Snonowas (Nanoose)""",Snuneymuxw First Nation,49.4382733100,-124.2224790000,49.4382733,-124.2224790
-94,Songish,,Salishan,1,Lku'ngen,,,BritishColumbia,Unknown,Songhees First Nation,48.6571158800,-123.5175320000,48.6571159,-123.5175320
-95,Thompson River Indians or Ntlakyapamuk,5000,Salishan,2,Nlaka'pamux,,1800,BritishColumbia,Unknown,Nicola Tribal Association,50.7462197800,-121.4269500000,50.7462198,-121.4269500
-96,Lillooet,4000,Salishan,3,Stla'tliumH,,1600,BritishColumbia,"""Wild onion""",St't'imc First Nation,50.9129302100,-122.3986340000,50.9129302,-122.3986340
-97,Seechelt,1000,Salishan,2,Siciatl,Siciatl Dialect,250,BritishColumbia,Unknown,Kmoks First Nation,50.4604304800,-124.1467120000,50.4604305,-124.1467120
-98,Comox,1800,Salishan,1,atlo'ltx and K'omoks,atlo'ltx Dialect,300,BritishColumbia,Unknown,Kmoks First Nation,50.1222464700,-125.0564740000,50.1222465,-125.0564740
-99,Kwakiutl,4500,Wakashan,3,Kwakiutl,Kwakiutl Dialect,2100,BritishColumbia,"""Smoke of the world"" or ""beach at the north side of the river""",Kwakiutl First Nation,50.9986670000,-125.8900270000,50.9986670,-125.8900270
-100,Puntlatsh or Pentlatc,300,Salishan,1,Pentlatch,Puntlatsh Dialect,15,BritishColumbia,Unknown,Qualicum First Nation,49.7935887700,-124.9183430000,49.7935888,-124.9183430
+id,name,pre_c_pop,lang_grp,size,own_name,lang,pop_1910,state,name_mean,confd_res,lat,long,lat1,long1,confd_res2
+0,Molala,500,Shapwailutan,2,Lti-u and La'tiwe,Waiilatpuan,30,Oregon,Name derived from a creek in the Willamette Valley,Confederated Tribes of the Grand Ronde,44.9447288600,-122.0107700000,44.9447289,-122.0107700,1
+1,Warm Springs Indians,,Shapwailutan,4,Tenino and Meli'-lema,Shahaptian Tenino Dialect,,Oregon,Unknown,Confederated Tribes of Warm Springs,44.3334596900,-121.1333410000,44.3334597,-121.1333410,1
+2,Kalapuya,3000,Kalapuyan,2,Kalapuya,,5,Oregon,Unknown,Confederated Tribes of the Grand Ronde,43.9384451400,-122.5866570000,43.9384451,-122.5866570,1
+3,Cayuse,500,Shapwailutan,1,Wailetpu,Cayuse Dialect,300,Oregon,Unknown,Confederated Tribes of the Umatilla Indian Reservation,45.6572601200,-118.7926950000,45.6572601,-118.7926950,1
+4,Umatilla,,Shapwailutan,3,Immatullum,Umatilla Shahaptian Dialect,270,Oregon,"""Water over gravel camp"" (Immatullum)",Confederated Tribes of the Umatilla Indian Reservation,45.2157732700,-119.2046090000,45.2157733,-119.2046090,1
+5,Northern Paiute,7500,Uto-Aztecan,5,Numa,Northern Paiute,3040,Oregon,"Uncertain, probably ""water Ute"" or ""true Ute""",Burns Paiute Reservation,43.2512624100,-118.1948920000,43.2512624,-118.1948920,1
+6,Nez Perc,4000,Shapwailutan,4,"Kamu'inu, Nimipu, and Tstpeli",Nez Perce Shahaptian Dialect,1300,,"""Pierced noses"" (Nez Perc), ""The people"" (Nimipu)",Confederated Tribes Of The Colville Reservation,45.6964643600,-116.5334950000,45.6964644,-116.5334950,1
+7,Bannock,1000,Uto-Aztecan,2,Banakwut,Shoshoni-Bannock Dialect,400,Idaho,Unknown,Shoshone-Bannock Tribes of the Fort Hall Reservation,44.5711347500,-112.0762670000,44.5711348,-112.0762670,1
+8,Shoshoni (Including Northern and Western),4500,Uto-Aztecan,5,"Nimi, Tukaduka, Pohogue, Kohogue, and Agaiduka",Shoshoni-Comanche Dialect,3800,Idaho,"""Person/people"" (Nimi), possibly ""high-growing grass"", ""valley dwellers"", or ""walkers"" (Shoshoni)",Shoshone-Bannock Tribes of the Fort Hall Reservation,42.4901234600,-112.4263550000,42.4901235,-112.4263550,1
+9,Flatheads,,Salishan,4,Salish,Salish Dialect,500,Montana,"Probably a place name, the last syllable ""-ish"" signifies ""people.""",Confederated Salish and Kootenai Tribes of the Flathead Reservation,46.1799145000,-112.9652400000,46.1799145,-112.9652400,1
+10,Pend d'Oreilles or Kalispel,1200,Salishan,4,Q'lispe,Kalispel Salish Dialect,550,Idaho,"""Camas"" (Kalispell), ""ear rings"" (Pend d'Oreilles)",Confederated Salish and Kootenai Tribes of the Flathead Reservation,48.1263634200,-116.1751240000,48.1263634,-116.1751240,1
+11,Sanpoil,1600,Salishan,3,Nesilextcl'n,Okanagon Dialect,250,Washington,"Probably ""Salish speaking""",Confederated Tribes Of The Colville Reservation,48.0701482900,-119.0224200000,48.0701483,-119.0224200,1
+12,Palouse or Palus,5400,Shapwailutan,3,Nahaum,Shahaptian Dialect,80,Washington,Unknown,Confederated Tribes Of The Colville Reservation,46.7519034600,-118.3084880000,46.7519035,-118.3084880,1
+13,Wanapam,1800,Shapwailutan,2,Wanapam,Shahaptian Dialect,,Washington,"""River people""",Confederated Tribes and Bands of the Yakama Nation,47.0554651700,-119.0617710000,47.0554652,-119.0617710,1
+14,Sinkiuse-Columbia,800,Salishan,3,.tskowa'xtsEnux and skowa'xtsEnEx,,50,Washington,"""Main valley""",Confederated Tribes Of The Colville Reservation,46.9711424700,-119.8572150000,46.9711425,-119.8572150,1
+15,Klickitat,600,Shapwailutan,2,Qw'lh-hwai-pm,Shahaptian Dialect,400,Washington,"""Beyond"" (Klickitat, from Chinook language), ""Prairie people"" (Qw'lh-hwai-pm)",Confederated Tribes of the Grand Ronde,45.8918119500,-120.4587170000,45.8918120,-120.4587170,1
+16,Yakama or Yakima,3000,Shapwailutan,2,Waptailnsim and Pa`kiut`lema,Yakama Shahaptian Dialect,1300,Washington,"""People of the narrow river"" (Waptailnsim), ""people of the gap"" (Pa`kiut`lema)",Confederated Tribes and Bands of the Yakama Nation,46.2628318100,-120.3687730000,46.2628318,-120.3687730,1
+17,Nicola or Stuwihamuk,,Athapascan,2,Scw'exmx,Unknown,,BritishColumbia,"""People of the Creeks""",Nicola Tribal Association,49.5324444000,-120.3877450000,49.5324444,-120.3877450,1
+18,Stalo,7100,Salishan,2,Sto:lo,Halkomelem,1500,BritishColumbia,Unknown,St:lo Nation,49.1979643700,-122.1332250000,49.1979644,-122.1332250,1
+19,Semiahmoo,,Salishan,1,Semiahmoo,,,Washington,Unknown,Semiahmoo First Nation,48.9196994700,-122.6644580000,48.9196995,-122.6644580,1
+20,Nooksack,,Salishan,2,Noxwsaaq,Nooksack-Squamish Dialect,90,Washington,"""Mountain men"" (Nooksack), ""always bracken fern roots"" (Noxwsaaq)",Nooksack Indian Reservation,48.7974315600,-121.9870660000,48.7974316,-121.9870660,1
+21,Samish,,Salishan,1,Samish,,,Washington,"""The giving people""",Samish Indian Nation,48.5079236300,-122.3594910000,48.5079236,-122.3594910,1
+22,Skagit,,Salishan,1,Hum-a-luh,,,Washington,"""The people"" (Hum-a-luh)",Tulalip Tribes of Washington,48.3139814300,-122.0222000000,48.3139814,-122.0222000,1
+23,Lummi,1000,Salishan,1,Lhaq'temish,Xwlemi Chosen,350,Washington,Unknown,Lummi Reservation,48.6554883500,-122.5674870000,48.6554884,-122.5674870,1
+24,Snohomish,,Salishan,1,Sdoh-doh-hohbsh,,,Washington,Unknown,Tulalip Tribes of Washington,47.8502065900,-121.9210130000,47.8502066,-121.9210130,1
+25,Snoqualmie,,Salishan,2,sduk?albix?,,,Washington,"""Strong people of status""",Tulalip Tribes of Washington,47.5874008500,-121.4825350000,47.5874009,-121.4825350,1
+26,Muckleshoot,1200,Salishan,1,Muckleshoot,Nisqually Coastal Dialect,780,Washington,"From native word ""o'kelcul"" for prairie, the tribe is comprised of descendants of the Duwamish and Upper Puyallup people",Muckleshoot Reservation,47.1728142600,-121.6132350000,47.1728143,-121.6132350,1
+27,Suquamish,450,Salishan,1,Skwxwu7mesh,,200,Washington,Unknown,Port Madison Reservation,47.6295622000,-122.2540880000,47.6295622,-122.2540880,1
+28,Duwamish,1200,Salishan,1,Dkh'Dwu'Absh,Duwamish Dialect,20,Washington,Unknown,Port Madison Reservation,47.4552952900,-122.1866290000,47.4552953,-122.1866290,Tulalip Tribes of Washington
+29,Puyallup,,Salishan,2,S'Puyalupubsh and spuyal?pab,Nisqually Coastal Dialect,,Washington,"""Generous and welcoming behavior to all people (friends and strangers) who enter our lands""",Puyallup Tribe of Indians,47.1531389600,-122.2906270000,47.1531390,-122.2906270,1
+30,Nisqually,3600,Salishan,2,Squallay-absch,Nisqually Coastal Dialect,1100,Washington,"""People of the grass country""",Nisqually Reservation,46.8453611100,-122.7796990000,46.8453611,-122.7796990,1
+31,Port Townsend Indians or Chimakum,400,Salishan,1,Aqoklo,Chimakuan Dialect,5,Washington,Unknown,Skokomish Reservation,47.8263151600,-122.9132100000,47.8263152,-122.9132100,1
+32,Klallam and SKlallam,2000,Salishan,2,nuxsklaiyem,,400,Washington,"""Strong people""",Jamestown SKlallam Reservation,47.9401508000,-123.7297350000,47.9401508,-123.7297350,1
+33,Quileute,500,Chimakuan,1,Ko'liyot,,300,Washington,Unknown,Quinault Indian Nation,47.6970203600,-124.3340470000,47.6970204,-124.3340470,1
+34,Quinault,1500,Salishan,1,Kwi-nail,Salish Coastal Dialect,300,Washington,Unknown,Quinault Indian Nation,47.3850263800,-124.0754580000,47.3850264,-124.0754580,1
+35,Humptulips,,Salishan,1,Humptulips,Salish Coastal Dialect,20,Washington,"""Chilly region""",Confederated Tribes of the Chehalis Reservation,47.0772485300,-123.9686490000,47.0772485,-123.9686490,1
+36,Clatskanie,1600,Athapascan,1,A`ltskn-i,Kwalhioqua-Clatskanie,5,Washington,Unknown,Nisqually Reservation,46.5867715100,-122.8626160000,46.5867715,-122.8626160,1
+37,Kwalhioqua,200,Athapascan,1,Txulxiyo-goaikckulxi,Kwalhioqua-Clatskanie,,Washington,"""A lonely place in the woods"" (Kwalhioqua, from Chinook Language)",Nisqually Reservation,46.4729358700,-123.3418500000,46.4729359,-123.3418500,1
+38,Chehalis,1000,Salishan,1,Chehalis,Salish Coastal Dialect,170,Washington,"""Sand""",Confederated Tribes of the Chehalis Reservation,46.7104448000,-123.8730830000,46.7104448,-123.8730830,1
+39,Satsop,,Salishan,1,Satsop,Salish Coastal Dialect,,Washington,Unknown,Confederated Tribes Of The Colville Reservation,47.0224387800,-123.5006580000,47.0224388,-123.5006580,1
+40,Twana or Skokomish,1000,Salishan,1,Tu-a'-d-hu,Twana Dialect,250,Washington,"Signifying ""a portage"" (Twana), ""big river people"" (Skokomish)",Skokomish Reservation,47.2936767900,-123.1816370000,47.2936768,-123.1816370,1
+41,Cowlitz,,Salishan,2,Stl'pumsh,,,Washington,Unknown,Quinault Indian Nation,46.2396430700,-122.0994960000,46.2396431,-122.0994960,Cowlitz Reservation
+42,Chinook,800,Chinookian,1,Tsinuk,Chinook,,Oregon,Unknown,Confederated Tribes of Siletz Indians,46.1412665900,-123.9236770000,46.1412666,-123.9236770,Quinault Indian Nation
+43,Makah,2000,Wakashan,1,Kwe-net-che-chat and Q?idicca?atx?,Nootka Dialect,350,Washington,"""Cape people"" (both names)",Makah Reservation,48.0764725000,-124.5532870000,48.0764725,-124.5532870,1
+44,Skilloot,3000,Chinookian,1,Skilloot,Clackamas Dialect,,Washington,Unknown,Confederated Tribes of the Grand Ronde,45.9754319500,-122.6560260000,45.9754320,-122.6560260,1
+45,Cathlapotle,1300,Chinookian,1,Quathlapotle,Clackamas Dialect,,Ore and Wash,"""People of Lewis (Na'p!oLX.) River""",Confederated Tribes of the Grand Ronde,45.7407337800,-122.2048990000,45.7407338,-122.2048990,1
+46,Clackamas,2500,Chinookian,2,Guithla'kimas,Clackamas Dialect,40,Oregon,Unknown,Confederated Tribes of the Grand Ronde,45.2966102200,-122.1155410000,45.2966102,-122.1155410,1
+47,Cascade Indians or Watlala,3000,Chinookian,1,Katlagakya,Clackamas Dialect,,Oregon,Unknown,Confederated Tribes of Warm Springs,45.5730257200,-121.8555490000,45.5730257,-121.8555490,1
+48,Clowwewalla,900,Chinookian,1,Clowwewalla,,0,Oregon,Unknown,Confederated Tribes of the Grand Ronde,45.1069485200,-122.5085740000,45.1069485,-122.5085740,1
+49,Clatsop,300,Chinookian,1,La-t'-cap,,25,Oregon,Unknown,Confederated Tribes of Siletz Indians,45.7604816100,-123.8453470000,45.7604816,-123.8453470,1
+50,Cathlamet,450,Chinookian,1,Kathlamet,Kathlamet Dialect,,Ore and Wash,Unknown,Confederated Tribes of Siletz Indians,46.1256132200,-123.2365730000,46.1256132,-123.2365730,1
+51,Multnomah or Wapato,3600,Chinookian,1,Multnomah,Upper Chinook Dialect,,Oregon,Unknown,Confederated Tribes of the Grand Ronde,45.3263162700,-122.9016080000,45.3263163,-122.9016080,1
+52,Tygh,,Chinookian,2,Tyigh,,550,Oregon,Unknown,Confederated Tribes of the Grand Ronde,44.6385069700,-122.1406760000,44.6385070,-122.1406760,1
+53,Ahantchuyuk,,Kalapuyan,1,Ahantchuyuk,,,Oregon,Unknown,Confederated Tribes of the Grand Ronde,44.8167432700,-122.7325120000,44.8167433,-122.7325120,1
+54,Tualatin,,Kalapuyan,1,Atfalati,Atfalati-Yamel Dialect,40,Oregon,Unknown,Confederated Tribes of the Grand Ronde,45.2806146600,-123.2992120000,45.2806147,-123.2992120,1
+55,Yamhill,,Kalapuyan,1,Yamel,Atfalati-Yamel Dialect,5,Oregon,Unknown,Confederated Tribes of the Grand Ronde,45.0658170700,-123.2375150000,45.0658171,-123.2375150,1
+56,Tillamook,2200,Salishan,2,Tillamook,,25,Oregon,"""People of Nekelim (or Nehalem)""",Confederated Tribes of the Grand Ronde,45.1914965100,-123.7448030000,45.1914965,-123.7448030,1
+57,Siletz,,Salishan,1,Siletz,Siletz Dee-ni,70,Oregon,Unknown,Confederated Tribes of Siletz Indians,44.7756118200,-123.8522020000,44.7756118,-123.8522020,1
+58,Yaquina,,Yakonan,1,Yaquina,Yaquina Dialect,20,Oregon,Unknown,Confederated Tribes of Siletz Indians,44.5745247100,-123.7767940000,44.5745247,-123.7767940,1
+59,Alsea,,Yakonan,1,ls,Alsea,,Oregon,Unknown,Confederated Tribes of Siletz Indians,44.4168541400,-123.8819080000,44.4168541,-123.8819080,1
+60,Siuslaw,,Yakonan,2,Shar'yursh'tla,Siuslaw,10,Oregon,Unknown,Confederated Tribes of Coos,44.0306755000,-123.8384910000,44.0306755,-123.8384910,Lower Umpqua and Siuslaw Indians
+61,Luckiamute,,Kalapuyan,2,Lakmiut,Kalapuya,10,Oregon,Unknown,Confederated Tribes of the Grand Ronde,44.6979190700,-123.2877870000,44.6979191,-123.2877870,1
+62,Marys River Indians,,Kalapuyan,1,Chepenafa,,25,Oregon,Unknown,Confederated Tribes of the Grand Ronde,44.4214243000,-123.1072660000,44.4214243,-123.1072660,1
+63,Long Tom Creek,,Kalapuyan,1,Chelamela,Chelamela,,Oregon,Unknown,Confederated Tribes of the Grand Ronde,44.0946577600,-123.1621080000,44.0946578,-123.1621080,1
+64,Yoncalla,,Kalapuyan,1,Tch'ayanke'ld,Yoncalla Dialect,10,Oregon,"""Those living at Ayankeld""",Confederated Tribes of the Grand Ronde,43.4479799100,-123.2398000000,43.4479799,-123.2398000,Confederated Tribes of Siletz Indians
+65,Kuitsh,,Siuslawan,1,Kuitsh,,,Oregon,Unknown,Confederated Tribes of Siletz Indians,43.7016238700,-123.8796230000,43.7016239,-123.8796230,1
+66,Hanis,1500,Kusan,1,Hanis,,,Oregon,Unknown,Confederated Tribes of Coos,43.2880242600,-123.9870220000,43.2880243,-123.9870220,Lower Umpqua and Siuslaw Indians
+67,Lower Rogue River Indians,1300,Athapascan,1,Tututni,Mishikhwutmetunne-Tututni Dialect,400,Oregon,Unknown,Confederated Tribes of Siletz Indians,42.5956448000,-124.3252140000,42.5956448,-124.3252140,1
+68,Miluk,,Kusan,1,Mluk,,,Oregon,Unknown,Confederated Tribes of Coos,43.0183847400,-124.1081310000,43.0183847,-124.1081310,Lower Umpqua and Siuslaw Indians
+69,Coquille,,Athapascan,1,Mishikhwutmetunne,Mishikhwutmetunne-Tututni Dialect,15,Oregon,"""People who live on the stream called Mishi""",Coquille Indian Tribe,42.8538589200,-123.7790790000,42.8538589,-123.7790790,1
+70,Chastacosta,,Athapascan,1,Shista-kwusta,Shista-kwusta Dialect,,Oregon,Unknown,Confederated Tribes of Siletz Indians,42.5453730300,-123.5962730000,42.5453730,-123.5962730,1
+71,Rogue River Indians,,Takelman,1,Takelma,,1,Oregon,"""Those dwelling along the river"" (Takelma)",Confederated Tribes of the Grand Ronde,42.2871589000,-123.6031280000,42.2871589,-123.6031280,Confederated Tribes of Siletz Indians
+72,Latgawa,,Takelman,1,Latgawa,,,Oregon,"""Those living in the uplands""",Confederated Tribes of the Grand Ronde,42.5956448000,-122.7416530000,42.5956448,-122.7416530,Confederated Tribes of Siletz Indians
+73,Galice Creek Indians,,Athapascan,1,Taltushtuntude,Dakubetede Dialect,40,Oregon,Unknown,Confederated Tribes of Siletz Indians,42.1706197900,-123.9436050000,42.1706198,-123.9436050,1
+74,Chetco,,Athapascan,1,Chetco,,10,Oregon,Unknown,Confederated Tribes of Siletz Indians,41.9832431700,-124.0624290000,41.9832432,-124.0624290,1
+75,Applegate River Indians,,Athapascan,1,Dakubetede,Taltushtuntude-Dakubetede Dialect,,Oregon,Unknown,Confederated Tribes of Siletz Indians,42.1112076900,-122.8102050000,42.1112077,-122.8102050,1
+76,Klamath,1200,Shapwailutan,3,"Mklaks, E-ukshik-ni mklaks, and Moadok Maklaks",,700,Oregon,Unknown,Klamath Tribes,42.8287230400,-121.0918240000,42.8287230,-121.0918240,1
+77,Modoc,800,Shapwailutan,2,La-la-cas,Lutuamian,300,Oregon,"From Matokni, meaning ""southerners""",Klamath Tribes,42.0997822800,-120.5822510000,42.0997823,-120.5822510,1
+78,Wasco,900,Chinookian,1,Galasq',Wasco-Wishram Dialect,240,Oregon,"""Those that have the cup"" (refering to a cup shaped rock near the main village)",Confederated Tribes of Warm Springs,45.4634211200,-121.1969380000,45.4634211,-121.1969380,1
+79,Tlakluit or Wishram,1500,Chinookian,1,Ila'xluit,Wasco-Wishram Dialect,270,Washington,Unknown,Confederated Tribes of Warm Springs,45.7767838600,-121.0544800000,45.7767839,-121.0544800,1
+80,Chilluckittequaw,3000,Chinookian,1,Chilluckittequaw,Chilluckittequaw Dialect,,Washington,Unknown,Confederated Tribes of Warm Springs,45.7986915700,-121.7021540000,45.7986916,-121.7021540,1
+81,Wenatchee,1500,Salishan,3,Npeskwau'zux,Salish Dialect,50,Washington,Unknown,Confederated Tribes Of The Colville Reservation,47.3143365100,-120.6896500000,47.3143365,-120.6896500,1
+82,Walla Walla,,Shapwailutan,3,Wallawalla,Wallawalla Shahaptian Dialect,,Washington,"""Little river""",Confederated Tribes of the Umatilla Indian Reservation,46.0301211400,-118.5919460000,46.0301211,-118.5919460,1
+83,Skitswish or Coeur d'Alene,3000,Salishan,3,Schitsu'Umsh,Schitsu'Umsh Dialect,300,Idaho,Unknown,Confederated Tribes Of The Colville Reservation,47.3828889300,-116.5125230000,47.3828889,-116.5125230,1
+84,Spokane,,Salishan,2,Spokan and Spoqin,,,Washington,Unknown,Confederated Tribes Of The Colville Reservation,47.7622123300,-117.8607200000,47.7622123,-117.8607200,1
+85,Colville,2500,Salishan,2,Shwoyelpi,"Colville, Dialect of Okanagan",300,Washington,Unknown,Confederated Tribes Of The Colville Reservation,48.4248857400,-117.7738870000,48.4248857,-117.7738870,1
+86,Cowichan,5500,Salishan,2,Hul'q'umi'num',Halkomelem,1300,BritishColumbia,Unknown,Cowichan Tribes,48.7950688200,-124.0395790000,48.7950688,-124.0395790,1
+87,Nootka or Nuu-chah-nulth,,Wakashan,3,Ditidaht,Nootka Dialect,,BritishColumbia,"""The people"" (Ditidaht)",Nuu-chah-nulth First Nations,48.6396833300,-124.7433830000,48.6396833,-124.7433830,1
+88,Okanagon,3000,Salishan,3,Syilx and Isonkuali,Okanagon Dialect,1300,Washington,"Multiple meanings (Syilx), ""our people"" (Isonkuali)",Confederated Tribes Of The Colville Reservation,48.9870156000,-119.3551630000,48.9870156,-119.3551630,1
+89,Lakes,500,Salishan,3,Senijextee,,350,BritishColumbia,Unknown,Confederated Tribes Of The Colville Reservation,49.6359785200,-117.9795440000,49.6359785,-117.9795440,1
+90,Umpqua,400,Athapascan,2,Etnmitane,Umpqua Dialect,100,Oregon,Unknown,Confederated Tribes of Coos,43.1523438000,-123.3653400000,43.1523438,-123.3653400,Lower Umpqua and Siuslaw Indians
+91,Santiam,,Kalapuyan,1,Ahalpam,Central Kalapuyan dialect,10,Oregon,"Unknown (Santiam), ""uplanders"" (Ahalpam)",Confederated Tribes of the Grand Ronde,44.6607098300,-122.7527470000,44.6607098,-122.7527470,1
+92,Squawmish,1800,Salishan,2,Squamish,Nooksack-Squamish Dialect,200,BritishColumbia,Unknown,Squamish First Nation,49.8764835700,-123.4365590000,49.8764836,-123.4365590,1
+93,Nanaimo,,Salishan,1,Snuneymuxw,Halkomelem,,BritishColumbia,"""People of Snonowas (Nanoose)""",Snuneymuxw First Nation,49.4382733100,-124.2224790000,49.4382733,-124.2224790,1
+94,Songish,,Salishan,1,Lku'ngen,,,BritishColumbia,Unknown,Songhees First Nation,48.6571158800,-123.5175320000,48.6571159,-123.5175320,1
+95,Thompson River Indians or Ntlakyapamuk,5000,Salishan,2,Nlaka'pamux,,1800,BritishColumbia,Unknown,Nicola Tribal Association,50.7462197800,-121.4269500000,50.7462198,-121.4269500,1
+96,Lillooet,4000,Salishan,3,Stla'tliumH,,1600,BritishColumbia,"""Wild onion""",St't'imc First Nation,50.9129302100,-122.3986340000,50.9129302,-122.3986340,1
+97,Seechelt,1000,Salishan,2,Siciatl,Siciatl Dialect,250,BritishColumbia,Unknown,Kmoks First Nation,50.4604304800,-124.1467120000,50.4604305,-124.1467120,1
+98,Comox,1800,Salishan,1,atlo'ltx and K'omoks,atlo'ltx Dialect,300,BritishColumbia,Unknown,Kmoks First Nation,50.1222464700,-125.0564740000,50.1222465,-125.0564740,1
+99,Kwakiutl,4500,Wakashan,3,Kwakiutl,Kwakiutl Dialect,2100,BritishColumbia,"""Smoke of the world"" or ""beach at the north side of the river""",Kwakiutl First Nation,50.9986670000,-125.8900270000,50.9986670,-125.8900270,1
+100,Puntlatsh or Pentlatc,300,Salishan,1,Pentlatch,Puntlatsh Dialect,15,BritishColumbia,Unknown,Qualicum First Nation,49.7935887700,-124.9183430000,49.7935888,-124.9183430,1
