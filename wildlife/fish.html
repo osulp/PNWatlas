@@ -20,7 +20,6 @@
     <script src="js/perfect-scrollbar.js"></script>
     <script src="https://d3js.org/topojson.v1.min.js"></script>
     <script src="js/leaflet_pattern.js"></script>
-    <script src="https://unpkg.com/leaflet.vectorgrid@latest/dist/Leaflet.VectorGrid.bundled.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script type="text/javascript" src="../js/clickFunction.js"></script>
     
@@ -279,7 +278,7 @@
                     </div>
 				</div>
 				<hr>
-				<p2 style="float:right; font-size:12px;">Map created with Leaflet.</p2>
+				<p2 id="map_creation" style="float:right; font-size:16px;">Map created with <a href = "https://leafletjs.com/" target="_blank">Leaflet</a>, <a href = "https://d3js.org/topojson.v1.min.js" target="_blank">D3 TopoJson</a>, <a href = "http://geoserver.org/" target="_blank">Geoserver</a>, and <a href = "https://qgis.org/en/site/" target="_blank">QGIS</a></p2>
 				<br/>
 				<a class="close2" href="#" style="display:inline;">Close</a>
 			</div>
@@ -449,13 +448,13 @@
 	info.update = function (props) {	
         if (data == 8){
    			this._div.innerHTML = (props ?
-       			'<h2 style="font-size:22px;">' + props.type + ' </h2>'
-        		: '<b style="font-size:22px;">Hover over Subspecies</b>');
+       			'<h2 style="font-size:24px;">' + props.type + ' </h2>'
+        		: '<b style="font-size:24px;">Hover over Subspecies</b>');
         	}
         if (data == 10){
    			this._div.innerHTML = (props ?
-       			'<h2 style="font-size:22px;">' + props.Join_Count + ' Total Species</h2>'
-        		: '<b style="font-size:22px;">Hover over Watersheds</b>');
+       			'<h2 style="font-size:24px;">' + props.Join_Count + ' Total Species</h2>'
+        		: '<b style="font-size:24px;">Hover over Watersheds</b>');
         	}
 		};
 
@@ -839,7 +838,7 @@
 	var minHeight = 30; // Define a minimum height for the middle div
 
 	function resizeMiddle() {
-   		var h = $('body').height() - $('#top').height() - 95;
+   		var h = $('body').height() - $('#top').height() - 65;
     		h = h > minHeight ? h : minHeight;
    	 	$('#attribution').height(h);
 	}
@@ -849,6 +848,7 @@
     		h = h > minHeight ? h : minHeight;
    	 	$('.popup .content').height(h);
 	}
+	
 	$(document).ready(resizePopup);
 	$(window).resize(resizePopup);
 
@@ -857,7 +857,7 @@
 	
     //remove standard leaflet attribution
     $(document).click(function(event) {
-		if (!$(event.target).closest(".share_overlay,.share").length) {
+		if (!$(event.target).closest(".share_overlay,.share,#sources,#link_popup").length) {
 			$('#clear')[0].click();
 		}
 	});
