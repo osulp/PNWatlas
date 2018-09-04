@@ -19,8 +19,6 @@
     <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://d3js.org/topojson.v1.min.js"></script>
-    <script src="js/Chart.bundle.js"></script>
-    <script src="js/Chart.PieceLabel.min.js"></script>
     <script type="text/javascript" src="../js/clickFunction.js"></script>
     <script src="js/perfect-scrollbar.js"></script>  
    
@@ -171,7 +169,7 @@
                     </div>
 				</div>
 				<hr>
-				<p2 style="float:right; font-size:12px;">Map created with Leaflet.</p2>
+				<p2 id="map_creation" style="float:right; font-size:16px;">Map created with <a href = "https://leafletjs.com/" target="_blank">Leaflet</a>, <a href = "https://d3js.org/topojson.v1.min.js" target="_blank">D3 TopoJson</a>, <a href = "http://geoserver.org/" target="_blank">Geoserver</a>, and <a href = "https://qgis.org/en/site/" target="_blank">QGIS</a></p2>
 				<br/>
 				<a class="close2" href="#" style="display:inline;">Close</a>
 			</div>
@@ -331,17 +329,17 @@
 		if (data == 2){
    			this._div.innerHTML = (props ?
        			'<h2>' + props.COUNTY_NAM + ' County</h2><p3>Tract ' + props.NAME + '<br/>' + props.SNAP_per + '% Receiving SNAP</h3>'
-        		: '<b style="font-size:24px;">Hover over map</b>');
+        		: '<b style="font-size:24px;">Hover over Map</b>');
 			}
 		if (data == 3){
    			this._div.innerHTML = (props ?
        			'<h2>' + props.COUNTY_NAM + ' County</h2><p3>Tract ' + props.NAME + '<br/>' + props.pov_rate + '% Poverty Rate</p3>'
-        		: '<b style="font-size:24px;">Hover over map</b>');
+        		: '<b style="font-size:24px;">Hover over Map</b>');
 			}
 		if (data == 4){
    			this._div.innerHTML = (props ?
        			'<h2>' + props.NAME + ' County</h2><p3>' + (props.per_ins * 100).toFixed(2) +'% Food Insecure Pop.<br/>'+ (props.per_ch_ins * 100).toFixed(2) + '% Food Insecure Children</p3>'
-        		: '<b style="font-size:24px;">Hover over map</b>');
+        		: '<b style="font-size:24px;">Hover over Map</b>');
 			}
 	};
 
@@ -566,7 +564,7 @@
 				topoHandler:[desertHandleLayer],
 				newLegend: 'leg_2', //legend div ID
 				newElements: ['facts_2'],
-				title:'Farmers Markets', //title to display in dropdown menu
+				title:'Farmers Markets/SNAP', //title to display in dropdown menu
 				variable:2, //update the 'data' variable
 				layerFunction: function(){
 					info.addTo(map);
@@ -578,7 +576,7 @@
 				topoHandler:[desertHandleLayer],
 				newLegend: 'leg_3', //legend div ID
 				newElements: ['facts_3'],
-				title:'Fast Food', //title to display in dropdown menu
+				title:'Fast Food/Poverty', //title to display in dropdown menu
 				variable:3, //update the 'data' variable
 				layerFunction: function(){
 					info.addTo(map);
@@ -620,7 +618,7 @@
 	var minHeight = 50; // Define a minimum height for the middle div
 
 	function resizeMiddle() {
-   		var h = $('body').height() - $('#top').height() - 95;
+   		var h = $('body').height() - $('#top').height() - 65;
     		h = h > minHeight ? h : minHeight;
    	 	$('#attribution').height(h);
 	}
@@ -637,7 +635,7 @@
 	$(window).resize(resizeMiddle);    
 	
 	$(document).click(function(event) {
-		if (!$(event.target).closest(".share_overlay,.share").length) {
+		if (!$(event.target).closest(".share_overlay,.share,#sources,#link_popup").length) {
 			$('#clear')[0].click();
 		}
 	});
