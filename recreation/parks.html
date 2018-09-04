@@ -61,7 +61,7 @@
 						<div class = "legendContainer" style="height:32px;"><b id ="legend5" class="circle" style="background:rgba(0,77,0,0.8); height:5px; width:5px; bottom:1px; border:none;"></b><p id="leg5" style="margin-left:35px; line-height:18px;">Less than 100</p></div>
 						<p id="description" style="font-weight:bold; padding:0; display:block; white-space:normal; width:280px;">Annual visitation in thousands of day-use visitors.</p>
 					</div>
-					<div style="margin-top:70px">
+					<div style="margin-top:20px">
 						<p style="padding-right:5px; padding-left:0px; font-weight:bold; position:relative; float:left; margin-top:-1px;">Parks</p>
 						<label class="switch">
 						<input name="checkbox_name" id="checkbox_id" type="checkbox" value="check" onclick="selectSwitch()" autocomplete="off">
@@ -116,7 +116,7 @@
                 	</div>
 				</div>
 				<hr>
-				<p2 style="float:right; font-size:12px;">Map created with Leaflet.</p2>
+				<p2 id="map_creation" style="float:right; font-size:16px;">Map created with <a href = "https://leafletjs.com/" target="_blank">Leaflet</a>, <a href = "https://d3js.org/topojson.v1.min.js" target="_blank">D3 TopoJson</a>, <a href = "https://github.com/stefanocudini/leaflet-search" target="_blank">Leaflet-Search</a>, <a href = "https://github.com/teastman/Leaflet.pattern" target="_blank">Leaflet-Pattern</a>, <a href = "http://geoserver.org/" target="_blank">Geoserver</a>, and <a href = "https://qgis.org/en/site/" target="_blank">QGIS</a></p2>
 				<br/>
 				<a class="close2" href="#" style="display:inline;">Close</a>
 			</div>
@@ -267,7 +267,7 @@
 		}
     this._div.innerHTML =  (props ?
         '<h2 style="margin:0; display:inline-block;">' + props.Unit_Nm + '</h2><br/><p3 id="displayType" style="display:inline;">' + whichData() + '</p3>'
-        : '<h2>Hover over parks</h2>');
+        : '<b style="font-size:24px;">Hover over Parks</b>');
 	};
 
 	info.addTo(map);
@@ -515,7 +515,7 @@
 	});
 /////////////////////////////
 	
-    new L.Control.Zoom({ position: 'topright' }).addTo(map);
+    new L.Control.Zoom({ position: 'bottomright' }).addTo(map);
 	document.getElementsByClassName("leaflet-control-attribution")[0].style.visibility = "hidden";
 	//add scrolling capabilities to text box
      var container = document.getElementById('text');
@@ -524,7 +524,7 @@
 	var minHeight = 50; // Define a minimum height for the middle div
 
 	function resizeMiddle() {
-   		var h = $('body').height() - $('#top').height() - 95;
+   		var h = $('body').height() - $('#top').height() - 65;
     		h = h > minHeight ? h : minHeight;
    	 	$('#attribution').height(h);
 	}
@@ -540,9 +540,8 @@
 	$(document).ready(resizeMiddle);
 	$(window).resize(resizeMiddle);    
 	
-    //remove standard leaflet attribution
     $(document).click(function(event) {
-		if (!$(event.target).closest(".share_overlay,.share").length) {
+		if (!$(event.target).closest(".share_overlay,.share,#sources,#link_popup").length) {
 			$('#clear')[0].click();
 		}
 	});

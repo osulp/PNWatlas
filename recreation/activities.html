@@ -56,7 +56,7 @@
 						<div style="width: 150px; display:inline-block;"><b class ="circle" style="width:10px; height:10px;"></b><p id="leg4" style="padding-left:32px; position:relative; margin-bottom:5px;">25 - 50</p></div><div style=" display:inline-block; margin-left:20px;"><b class ="circle" style="background:#8c8c8c; width:22px; height:22px; border:none;"></b><p style="padding-left:20px; line-height:20px;">Other</p></div>
 						<div style="width: 150px; display:inline-block;"><b class ="circle" style="width:5px; height:5px;"></b><p id="leg5" style="padding-left:36px; position:relative; margin-bottom:5px;">Less than 20</p></div>
 						<p id="description" style="font-weight:bold; padding:0; display:block; white-space:normal; width:280px;">Number of campsites at a particular campground</p>
-						</br></br></br></br>
+						</br>
 					</div>
 					<div id="leg_2" style="display:none;">
 						<h1 class="activity" style="margin-bottom:0; font-variant:normal;letter-spacing:0;">Skiing/Snowboarding</h1>
@@ -79,7 +79,7 @@
 						<img src='img/raft_icon.png' style="width:20px; height:20px;"><p>&nbsp</p><p id="leg2" style="left:40px; position:absolute; margin-top:-1px;">Class I-III</p><br/>
 						<b id ="highest" style="background:#3399ff; height:3px; vertical-align:middle; position:relative; margin-top:15px;"></b><p>&nbsp</p><p id="leg2" style="left:60px; position:absolute;margin-top:5px;">Raftable River Section</p><br/><br/>
 						<p id="description" style="font-weight:bold; padding:0; display:block; white-space:normal; width:280px;">Rapid class based on the highest level rapid in each river. Only the sections of each river suitable for rafting are shown.</p>
-						</br></br></br><br/><br/>
+						</br>
 					</div>
 					<div id="leg_3" style="display:none;">
 						<h1 class="activity" style=" font-variant:normal; letter-spacing:0;">Mountaineering</h1>
@@ -90,7 +90,7 @@
 						<div style="height:30px;"><b id ="lowest" style="background:rgba(150,150,150,0.7); position: relative; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg3" style="padding-left:45px;">6,000 - 9,000</p><img src="img/mountain_icon3.png" style="width:17px; height:17px; padding-left:15px; padding-bottom:4px;"></div>
 						<div style="height:30px;"><b id ="lowest" style="background:rgba(204,204,204,0.7); position: relative; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg4" style="padding-left:45px;">3,000 - 6,000</p><img src="img/mountain_icon4.png" style="width:13px; height:13px; padding-left:15px; padding-bottom:4px;"></div>
 						<div style="height:32px;"><b id ="lowest" style="background:rgba(247,247,247,0.7); position: relative; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p>&nbsp</p><p id="leg5" style="padding-left:45px;">Less than 3,000</p><img src="img/mountain_icon5.png" style="width:10px; height:10px; padding-left:15px; padding-bottom:4px;"></div><br/>
-						<p id="description" style="font-weight:bold; padding:0; display:block; white-space:normal; width:280px;">Elevations are expressed in feet</p><br/><br/>
+						<p id="description" style="font-weight:bold; padding:0; display:block; white-space:normal; width:280px;">Elevations are expressed in feet</p><br/>
 						<div id="findbox"></div>	
 					</div>
 					<div id="facts_1" style="display:unset">
@@ -129,7 +129,6 @@
 						<p3 id="facts" style="line-height:20px;">&#9900 Mount Rainier is the tallest mountain in the PNW, at 14,411 feet.<br/><br/>&#9900 Three major ranges are present in the PNW: the Pacific Coast Range, the Cascades, and the Northern Rocky Mountains</p3>
 					</div>
 					<div id="facts_4" style="display:none">
-						</br>
 						<p3 style="font-weight:bold; line-height:36px;">Quick Facts:</p3><br/>
 						<p3 id="facts" style="line-height:20px;">&#9900 Approximately 12% of Pacific Northwest residents participate in some form of white-water activity (rafting, kayaking, canoeing).</p3>
 					</div>
@@ -192,7 +191,7 @@
                     </div>
 				</div>
 				<hr>
-				<p2 style="float:right; font-size:12px;">Map created with Leaflet.</p2>
+				<p2 id="map_creation" style="float:right; font-size:16px;">Map created with <a href = "https://leafletjs.com/" target="_blank">Leaflet</a>, <a href = "https://d3js.org/topojson.v1.min.js" target="_blank">D3 TopoJson</a>, <a href = "http://geoserver.org/" target="_blank">Geoserver</a>, and <a href = "https://qgis.org/en/site/" target="_blank">QGIS</a></p2>
 				<br/>
 				<a class="close2" href="#" style="display:inline;">Close</a>
 			</div>
@@ -284,14 +283,14 @@
 ////////////////////////////////basemap layers////////////////////////////////
 	var Esri_WorldTerrain = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer/tile/{z}/{y}/{x}', {
 		attribution: 'Tiles &copy; Esri &mdash; Source: USGS, Esri, TANA, DeLorme, and NPS',
-		maxZoom:9,
+		maxZoom:10,
 		minZoom:4
 	}).addTo(map);
 	
 	var pnwCover = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
 		layers: 'baldricg_PNW_ATLAS:pnw_outline2_black',
         format: 'image/png',
-		maxZoom:11,
+		maxZoom:10,
 		minZoom:5,
 		opacity:0.3,
 		transparent:true,
@@ -393,7 +392,7 @@
 	 var elevation = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
 		layers: 'baldricg_PNW_ATLAS:pnwElevation',
         format: 'image/png',
-		maxZoom:9,
+		maxZoom:10,
 		minZoom:4,
 		opacity:0.7,
 		transparent:true
@@ -402,7 +401,7 @@
     var snowfall = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
 		layers: 'baldricg_PNW_ATLAS:pnw_snowfall',
         format: 'image/png',
-		maxZoom:9,
+		maxZoom:10,
 		minZoom:4,
 		opacity:0.7,
 		transparent:true
@@ -705,7 +704,7 @@
      var container = document.getElementById('text');
 		Ps.initialize(container);
 	    
-    new L.Control.Zoom({ position: 'topright' }).addTo(map);
+    new L.Control.Zoom({ position: 'bottomright' }).addTo(map);
 	document.getElementsByClassName("leaflet-control-attribution")[0].style.visibility = "hidden";
 	
 	var minHeight = 30; // Define a minimum height for the middle div
@@ -728,7 +727,7 @@
 	$(window).resize(resizeMiddle);
 	
 	$(document).click(function(event) {
-		if (!$(event.target).closest(".share_overlay,.share").length) {
+		if (!$(event.target).closest(".share_overlay,.share,#sources,#link_popup").length) {
 			$('#clear')[0].click();
 		}
 	});

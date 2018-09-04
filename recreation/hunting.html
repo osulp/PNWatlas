@@ -61,7 +61,7 @@
 					<div style="height:30px;"><b id ="leg1_block" style="background:#fee5d9; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg5_value">&nbspLess than 250</p></div>
 					<div style="height:32px;"><b style="background:#ffffff; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p>&nbsp</p><p id="leg5">&nbsp0 or No Data</p></div><br/>
 					<p id="description" style="font-weight:bold; padding:0; display:block;">Total animals harvested</p>		
-					</br></br>		
+					</br>		
 					<p3 style="font-weight:bold; line-height:36px;">Quick Facts:</p3><br/>
 					<p3 id="facts" style="line-height:20px;">&#9900 Three deer species are present in the Pacific Northwest, Black-Tailed Deer, Mule Deer, and some populations of white-tailed deer.<br/><br/>&#9900 General deer hunting seasons typically begin in late-September, and last through late-November or early December.</p3>
 				</div>
@@ -128,7 +128,7 @@
                     </div>
 				</div>
 				<hr>
-				<p2 style="float:right; font-size:12px;">Map created with Leaflet.</p2>
+				<p2 id="map_creation" style="float:right; font-size:16px;">Map created with <a href = "https://leafletjs.com/" target="_blank">Leaflet</a>, <a href = "https://d3js.org/topojson.v1.min.js" target="_blank">D3 TopoJson</a>, <a href = "http://geoserver.org/" target="_blank">Geoserver</a>, and <a href = "https://qgis.org/en/site/" target="_blank">QGIS</a></p2>
 				<br/>
 				<a class="close2" href="#" style="display:inline;">Close</a>
 			</div>
@@ -278,7 +278,7 @@
 	//actual info content
     this._div.innerHTML = (props ?
         '<h2>' + props.NAME + '<br/>' + props.STATE + '</h2><p3 id="displayType" style="display:inline;">' + displayType() + nullFinder() + '</p3><br/>'
-        : '<h2>Hover over map</h2>');
+        : '<b style="font-size:24px;">Hover over Map</b>');
 	};
 	
 	//determine which data type to display in info control
@@ -445,14 +445,14 @@
 		Ps.initialize(container);
 	
 	//remove zoom
-	new L.Control.Zoom({ position: 'topright' }).addTo(map);
+	new L.Control.Zoom({ position: 'bottomright' }).addTo(map);
     //remove standard leaflet attribution
      document.getElementsByClassName("leaflet-control-attribution")[0].style.visibility = "hidden";
      
     var minHeight = 30; // Define a minimum height for the middle div
 
 	function resizeMiddle() {
-   		var h = $('body').height() - $('#top').height() - 95;
+   		var h = $('body').height() - $('#top').height() - 65;
     		h = h > minHeight ? h : minHeight;
    	 	$('#attribution').height(h);
 	}
@@ -469,7 +469,7 @@
 	$(window).resize(resizeMiddle);    
 	
 	$(document).click(function(event) {
-		if (!$(event.target).closest(".share_overlay,.share").length) {
+		if (!$(event.target).closest(".share_overlay,.share,#sources,#link_popup").length) {
 			$('#clear')[0].click();
 		}
 	});
