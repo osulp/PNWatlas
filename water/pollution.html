@@ -57,8 +57,8 @@
 					<div style="height:30px;"><b id="leg3_block" style="background:#fb6a4a; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg3" style="margin-left:5px;">10 - 25</p></div>
 					<div style="height:30px;"><b id="leg4_block" style="background:#fcae91; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg4" style="margin-left:5px;">5 - 10</p></div>
 					<div style="height:32px;"><b id="leg5_block" style="background:#fee5d9; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p>&nbsp</p><p id="leg5" style="margin-left:5px;">Less than 5</p></div><br/>
-					<p id="description" style="font-weight:bold; text-align:justify; white-space:normal; padding-left:0px; width:280px; display:block; position:relative;">Total impairments in waterways. These include Metals, Sediments, Algae, Pathogens, Oxygen Impairment, Ammonia, and more.</p>
-					<p3 id ="source" style="font-style:italic; text-align:justify; white-space:normal; padding-left:0px; width:280px; display:block; position:relative;">Impaired waters are listed in the 2015 303(d) list provided by the U.S Environmental Protection Agency.</p3>
+					<p id="description" style="font-weight:bold; white-space:normal; padding-left:0px; width:280px; display:block; position:relative;">Total impairments in waterways. These include Metals, Sediments, Algae, Pathogens, Oxygen Impairment, Ammonia, and more.</p>
+					<p3 id ="source" style="font-style:italic; text-align:left; white-space:normal; padding-left:0px; width:280px; display:block; position:relative;">Impaired waters are listed in the 2015 303(d) list provided by the U.S Environmental Protection Agency.</p3>
 						<br/>
 						<label class="switch">
 							<input name="checkbox_name" id="checkbox_id" type="checkbox" value="check" onclick="borders()" autocomplete="off">
@@ -107,7 +107,7 @@
                     </div>
 				</div>
 				<hr>
-				<p2 style="float:right; font-size:12px;">Map created with Leaflet.</p2>
+				<p2 id="map_creation" style="float:right; font-size:16px;">Map created with <a href = "https://leafletjs.com/" target="_blank">Leaflet</a>, <a href = "https://d3js.org/topojson.v1.min.js" target="_blank">D3 TopoJson</a>, <a href = "http://geoserver.org/" target="_blank">Geoserver</a>, and <a href = "https://qgis.org/en/site/" target="_blank">QGIS</a></p2>
 				<br/>
 				<a class="close2" href="#" style="display:inline;">Close</a>
 			</div>
@@ -275,7 +275,7 @@
 	};
 	
 	info.update = function (props) {
-    this._div.innerHTML =   ('<h2 style="margin:0; display:inline-block;">Hover over Water Features</h2>');
+    this._div.innerHTML =   ('<b style="font-size:24px;">Hover over Map</b>');
 	};
 
 	info.addTo(map);
@@ -432,7 +432,7 @@
 
 ///////////////////////////////other miscellaneous functions (these also never change)////////////////////////////////   
 
-    new L.Control.Zoom({ position: 'topright' }).addTo(map);
+    new L.Control.Zoom({ position: 'bottomright' }).addTo(map);
 	document.getElementsByClassName("leaflet-control-attribution")[0].style.visibility = "hidden";
 	//add scrolling capabilities to text box
      var container = document.getElementById('text');
@@ -441,7 +441,7 @@
 	var minHeight = 30; // Define a minimum height for the middle div
 
 	function resizeMiddle() {
-    var h = $('body').height() - $('#top').height() - 80;
+    var h = $('body').height() - $('#top').height() - 65;
     		h = h > minHeight ? h : minHeight;
    	 	$('#attribution').height(h);
 	}
@@ -458,9 +458,8 @@
 	$(window).resize(resizeMiddle);
 	
 	
-    //remove standard leaflet attribution
     $(document).click(function(event) {
-		if (!$(event.target).closest(".share_overlay,.share").length) {
+		if (!$(event.target).closest(".share_overlay,.share,#sources,#link_popup").length) {
 			$('#clear')[0].click();
 		}
 	});

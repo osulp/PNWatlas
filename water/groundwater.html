@@ -478,9 +478,8 @@
 	$(window).resize(resizeMiddle);
 	
 	
-    //remove standard leaflet attribution
     $(document).click(function(event) {
-		if (!$(event.target).closest(".share_overlay,.share").length) {
+		if (!$(event.target).closest(".share_overlay,.share,#sources,#link_popup").length) {
 			$('#clear')[0].click();
 		}
 	});
