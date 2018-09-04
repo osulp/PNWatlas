@@ -30,28 +30,6 @@
 				<h1 class="title" id="title" style="margin-bottom:30px;">Chapters</h1>
 					<div id="scroll">
 						<div id="iconRow">
-							<div class="iconBlock" id="map_1">
-								<div style="margin-left:0%;">
-									<a href="population/population_index.html" style="text-decoration:none; outline: 0;">
-										<img src="img/population_icon.png" class="img2" id="img_map1">
-										<div id="text_map1" style="margin-left:100px; display:inline-block;">
-											<h3 style="text-align:center;">Population & Housing</h3>							
-											<p style="width:60%;">Demographics, migration, housing blocks, urban/rural</p>
-										</div>
-									</a>
-								</div>
-							</div>	
-							<div class="iconBlock" id="map_2">
-								<div style="margin-left:0%;">
-									<a href="water/water_index.html" style="text-decoration:none; outline: 0;">
-										<img src="img/water_icon.png" class="img2" id="img_map2">
-										<div id="text_map2" style="margin-left:100px; display:inline-block;">
-											<h3 style="text-align:center;">Water Resources</h3>							
-											<p style="width:60%;">Watersheds, groundwater, water use, water pollution</p>
-										</div>
-									</a>
-								</div>
-							</div>
 							<div class="iconBlock" id="map_3">
 								<div style="margin-left:0%;">
 									<a href="food/food_index.html" style="text-decoration:none; outline: 0;">
@@ -62,7 +40,18 @@
 										</div>
 									</a>
 								</div>
-							</div>		
+							</div>
+							<div class="iconBlock" id="map_8">
+								<div style="margin-left:0%;">
+									<a href="food/food_index.html" style="text-decoration:none; outline: 0;">
+										<img src="img/history_icon.png" class="img2" id="img_map8">
+										<div id="text_map8" style="margin-left:100px; display:inline-block;">
+											<h3 style="text-align:center;">Culture & History</h3>							
+											<p style="width:60%;">Indigenous history, land seizure, Euro-American settlement, </p>
+										</div>
+									</a>
+								</div>
+							</div>
 							<div class="iconBlock" id="map_4">
 								<div style="margin-left:0%;">
 									<a href="energy/energy_index.html" style="text-decoration:none; outline: 0;">
@@ -96,6 +85,28 @@
 									</a>
 								</div>
 							</div>	
+							<div class="iconBlock" id="map_1">
+								<div style="margin-left:0%;">
+									<a href="population/population_index.html" style="text-decoration:none; outline: 0;">
+										<img src="img/population_icon.png" class="img2" id="img_map1">
+										<div id="text_map1" style="margin-left:100px; display:inline-block;">
+											<h3 style="text-align:center;">Population & Housing</h3>							
+											<p style="width:60%;">Demographics, migration, housing blocks, urban/rural</p>
+										</div>
+									</a>
+								</div>
+							</div>	
+							<div class="iconBlock" id="map_2">
+								<div style="margin-left:0%;">
+									<a href="water/water_index.html" style="text-decoration:none; outline: 0;">
+										<img src="img/water_icon.png" class="img2" id="img_map2">
+										<div id="text_map2" style="margin-left:100px; display:inline-block;">
+											<h3 style="text-align:center;">Water Resources</h3>							
+											<p style="width:60%;">Watersheds, groundwater, water use, water pollution</p>
+										</div>
+									</a>
+								</div>
+							</div>		
 							<div class="iconBlock" id="map_7">
 								<div style="margin-left:0%;">
 									<a href="wildlife/wildlife_index.html" style="text-decoration:none; outline: 0;">
@@ -137,9 +148,9 @@
 </div>	
 <div id="top">
 	<a href="" id="banner2" style="display:inline;">OSU Libraries & Press | Institute for Natural Resources</a>
-	<a href="#chapters" id="banner1" style="display:inline; margin-right:10px;">Chapters</a>
+	<a href="#authors" id="banner1" style="display:inline; margin-right:10px;">Authors</a>
 	<a href="#about" id="banner1" style="display:inline; margin-right:150px;">About</a>
-	<a href="#authors" id="banner1" style="display:inline; margin-right:270px;">Authors</a>
+	<a href="#chapters" id="banner1" style="display:inline; margin-right:270px;">Chapters</a>
 </div>
 <a href="" id="arrow">
 	<i id="down" class="animated zoomIn infinite fa fa-chevron-down" aria-hidden="true"></i>
@@ -160,11 +171,11 @@
 	  });
 	});	
 		 
-	var iconRow = ['#img_map1','#img_map2','#img_map3','#img_map4','#img_map5','#img_map6','#img_map7'];
-	var textRow = ['#text_map1','#text_map2','#text_map3','#text_map4','#text_map5','#text_map6','#text_map7'];
+	var iconRow = ['#img_map1','#img_map2','#img_map3','#img_map4','#img_map5','#img_map6','#img_map7','#img_map8'];
+	var textRow = ['#text_map1','#text_map2','#text_map3','#text_map4','#text_map5','#text_map6','#text_map7','#text_map8'];
 
 	function placeIcon(){
-		for (i = 0; i < 7; i++){
+		for (i = 0; i < 8; i++){
 			var height = ($(textRow[i]).height()/4);
 			$(iconRow[i]).css('margin-top', height);
 		}
@@ -255,6 +266,13 @@
     		$('#map_7').css('background-image', 'url("img/flora_background1.png")');
   		}, function() {
     		$('#map_7').css('background-image', 'initial');
+  		});
+	});
+	$(function() {
+  		$('#map_8').hover(function() {
+    		$('#map_8').css('background-image', 'url("img/flora_background1.png")');
+  		}, function() {
+    		$('#map_8').css('background-image', 'initial');
   		});
 	});
 
