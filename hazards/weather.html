@@ -48,12 +48,20 @@
 						<div style="height:30px;"><b style="background:#33a02c; border-color:black; border-width:0px 2px 0px 2px; border-style:solid;"></b><p style="margin-left:5px;">Debris Flow</p></div>
 						<div style="height:32px;"><b style="background:#8c8c8c; border-color:black; border-width:0px 2px 2px 2px; border-style:solid;"></b><p style="margin-left:5px;">Other</p></div>
 						</br>
-						<p id="description" style="font-weight:bold; text-align:justify; white-space:normal; padding-left:0px; width:280px; display:block; position:relative;">Storm events are localized weather events that may be part of larger regional patterns.</p>
+						<p id="description" style="font-weight:bold; white-space:normal; padding-left:0px; width:280px; display:block; position:relative;">Storm events are localized weather events that may be part of larger regional patterns.</p>
 						</br>
-						<p style="font-weight:bold; text-align:justify; white-space:normal; padding-left:0px; width:280px; display:block; position:relative; margin-bottom:5px;">Damage ($1,000s)</p>
+						<p style="font-weight:bold;  white-space:normal; padding-left:0px; width:280px; display:block; position:relative; margin-bottom:5px;">Damage ($1,000s)</p>
 						<b class="circle" style="border: 2px solid black; width:22px; height:22px; margin-bottom:3px; position:relative;"></b><p2 style="display:inline;">&nbsp1,000+</p2><b class="circle" style="margin-left: 10px; border: 2px solid black; width:14px; height:14px; margin-bottom:3px; position:relative;"></b><p2 style="display:inline;">&nbsp100 - 1,000</p2><b class="circle" style="margin-left: 10px; border: 2px solid black; width:8px; height:8px; margin-bottom:3px; position:relative;"></b><p2 style="display:inline;">&nbsp Under 100</p2><br/>
 						<br/>
-						<p id="description" style="font-weight:bold; text-align:justify; white-space:normal; padding-left:0px; width:280px; display:block; position:relative;font-style: italic;">Select Point Clusters to Expand</p>
+						<p id="description" style="font-weight:bold; white-space:normal; padding-left:0px; width:280px; display:block; position:relative;font-style: italic;">Select Point Clusters to Expand</p>
+					</div>	
+					<div id="facts_1" style="display:block;">
+					<br/>
+						<p3 style="font-weight:bold; line-height:36px;">Fast Facts:</p3><br/>
+						<p3 id="facts">&#9900&nbspSince 2000, there have been over 4500 recorded extreme weather events in the PNW. Of these, over 140 caused greater than $1 million worth of damage.</p3><br/><br/>
+						<p3 id="facts">&#9900&nbspA hailstorm near Buena, WA in 2001 was the most damaging extreme weather event since 2000, causing over $70 million worth of damage, primarily to crops.</p3><br/><br/>
+						<p3 id="facts">&#9900&nbspA debris flow near Oso, WA in 2014 had the highest death toll of any recorded extreme weather event since 2000, killing 43 people.</p3><br/><br/>
+						<p3 id="facts">&#9900&nbsp2006 had the largest number of extreme weather events of any year since 2000, with over 480 recorded events.</p3><br/><br/>
 					</div>		
 				</div>
 				<div id="pageChange">
@@ -85,7 +93,7 @@
                     </div>
                 </div>
 				<hr>
-				<p2 style="float:right; font-size:12px;">Map created with Leaflet.</p2>
+				<p2 id="map_creation" style="float:right; font-size:16px;">Map created with <a href = "https://leafletjs.com/" target="_blank">Leaflet</a>, <a href = "https://d3js.org/topojson.v1.min.js" target="_blank">D3 TopoJson</a>, <a href = "https://github.com/jawj/OverlappingMarkerSpiderfier-Leaflet" target="_blank">Leaflet Overlapping Marker Spiderfier</a>, <a href = "http://geoserver.org/" target="_blank">Geoserver</a>, and <a href = "https://qgis.org/en/site/" target="_blank">QGIS</a></p2>
 				<br/>
 				<a class="close2" href="#" style="display:inline;">Close</a>
 			</div>
@@ -262,7 +270,7 @@
 	
 	info.update = function () {
    		this._div.innerHTML = (
-        	'<h2>Hover over map</h2>'
+        	'<b style="font-size:24px;">Hover over Map</b>'
         	);
 		};
 
@@ -345,7 +353,7 @@
 ///////////////////////////////other miscellaneous functions (these also never change)////////////////////////////////   
 
    	//add zoom control
-    new L.Control.Zoom({ position: 'topright' }).addTo(map);
+    new L.Control.Zoom({ position: 'bottomright' }).addTo(map);
     
     //remove leaflet attribution
 	document.getElementsByClassName("leaflet-control-attribution")[0].style.visibility = "hidden";
@@ -374,8 +382,8 @@
 	$(document).ready(resizeMiddle);
 	$(window).resize(resizeMiddle);
 	
-    $(document).click(function(event) {
-		if (!$(event.target).closest(".share_overlay,.share").length) {
+   $(document).click(function(event) {
+		if (!$(event.target).closest(".share_overlay,.share,#sources,#link_popup").length) {
 			$('#clear')[0].click();
 		}
 	});

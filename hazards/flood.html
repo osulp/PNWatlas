@@ -44,7 +44,7 @@
 						<div style="height:32px"><b id="leg1_block" style="background:#94b8b8; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;;"></b><p style="margin-left:10px;">Floodplain Data Available</p></div>
 						<div style="height:32px"><b id="leg2_block" style="background:repeating-linear-gradient(45deg, rgba(255,255,255,0), rgba(255,255,255,0) 10%, #75a3a3 15%, #75a3a3 15%); border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p style="margin-left:10px;">No Data Available</p></div>
 						<br/>
-						<p id="description" style="font-weight:bold; text-align:justify; white-space:normal; padding-left:0px; width:280px; display:block; position:relative;">Select a county to view 100 year floodplain and flood hazard zones.</p>
+						<p id="description" style="font-weight:bold; white-space:normal; padding-left:0px; width:280px; display:block; position:relative;">Select a county to view 100 year floodplain and flood hazard zones.</p>
 					</div>		
 					<div id="leg_2" style="display:none;">
 						<h2 id="title" style="font-size:24px;  margin-top:5px;">Select a County</h2><!--<img src="img/disaster_icon.png" id="iconImage" >-->
@@ -53,8 +53,13 @@
 						<div style="height:30px"><b id="leg2_block" style="background:rgba(207,176,176,0.8); border-left:black 2px solid; border-right:black 2px solid;"></b><p style="margin-left:10px;">Shallow Flooding Zone</p></div>
 						<div style="height:32px"><b id="leg3_block" style="background:rgba(122,87,87,0.8); border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p style="margin-left:10px;">Coastal Flood Zone</p></div>
 						<br/>
-						<p id="description" style="font-weight:bold; text-align:justify; white-space:normal; padding-left:0px; width:280px; display:block; position:relative;">100 year floodplain zones as defined by FEMA. Homeowners within flood hazards zones are required to purchase flood insurance.</p>
+						<p id="description" style="font-weight:bold; white-space:normal; padding-left:0px; width:280px; display:block; position:relative;">100 year floodplain zones as defined by FEMA. Homeowners within flood hazards zones are required to purchase flood insurance.</p>
 						<button type="button" onClick="reset()" id="button2">Reset Selection</button>
+					</div>	
+					<div id="facts_1" style="display:block;">
+						<br/>
+						<p3 style="font-weight:bold; line-height:36px;">Fast Facts:</p3><br/>
+						<p3 id="facts">&#9900&nbspThe Christmas Flood of 1964 was the most recent PNW flood to be considered a 100-Year Flood, although flooding in 1996 nearly reached 100-year levels.</p3><br/><br/>
 					</div>	
 				</div>
 			<!--Bottom part of the info panel. This part of the info panel includes arrows to shift between maps, the info button that contains the map sources, and the home button to return to the chapter title screen.-->
@@ -96,7 +101,7 @@
                 	</div>
 				</div>
 				<hr>
-				<p2 style="float:right; font-size:12px;">Map created with Leaflet.</p2>
+				<p2 id="map_creation" style="float:right; font-size:16px;">Map created with <a href = "https://leafletjs.com/" target="_blank">Leaflet</a>, <a href = "https://d3js.org/topojson.v1.min.js" target="_blank">D3 TopoJson</a>, <a href = "https://github.com/teastman/Leaflet.pattern" target="_blank">Leaflet-Pattern</a>, <a href = "http://geoserver.org/" target="_blank">Geoserver</a>, and <a href = "https://qgis.org/en/site/" target="_blank">QGIS</a></p2>
 				<br/>
 				<a class="close2" href="#" style="display:inline;">Close</a>
 			</div>
@@ -250,7 +255,7 @@
 	
 	info.update = function () {
    		this._div.innerHTML = (
-        	'<h2>Hover over map</h2>');
+        	'<b style="font-size:24px;">Hover over Map</b>');
 		};
 
 	info.addTo(map);
@@ -429,7 +434,7 @@
 	
  ///////////////////////////////other miscellaneous functions (these also never change)////////////////////////////////   
    	//add zoom control
-    new L.Control.Zoom({ position: 'topright' }).addTo(map);
+    new L.Control.Zoom({ position: 'bottomright' }).addTo(map);
     
     //remove leaflet attribution
 	document.getElementsByClassName("leaflet-control-attribution")[0].style.visibility = "hidden";
@@ -442,7 +447,7 @@
 	var minHeight = 50; // Define a minimum height for the middle div
 
 	function resizeMiddle() {
-   		var h = $('body').height() - $('#top').height() - 95;
+   		var h = $('body').height() - $('#top').height() - 65;
     		h = h > minHeight ? h : minHeight;
    	 	$('#attribution').height(h);
 	}
@@ -459,7 +464,7 @@
 	$(window).resize(resizeMiddle);    
 
 	$(document).click(function(event) {
-		if (!$(event.target).closest(".share_overlay,.share").length) {
+		if (!$(event.target).closest(".share_overlay,.share,#sources,#link_popup").length) {
 			$('#clear')[0].click();
 		}
 	});
