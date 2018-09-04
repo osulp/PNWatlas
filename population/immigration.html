@@ -66,7 +66,13 @@
 					<div style="height:30px;"><b id="leg3_block" style="background:#74a9cf; border-left:black 2px solid; border-right:black 2px solid;"></b><p id="leg3_value" style="margin-left:5px;">0.25 to 0.4</p></div>
 					<div style="height:30px;"><b id="leg4_block" style="background:#bdc9e1; border-left:black 2px solid; border-right:black 2px solid;"></b><p id="leg4_value" style="margin-left:5px;">0.1 to 0.25</p></div>
 					<div style="height:32px;"><b id="leg5_block" style="background:#f1eef6; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p id="leg5_value" style="margin-left:5px;">Less than 0.1</p></div>
-					<p id="description" style="font-weight:bold; text-align:justify; white-space:normal; padding-left:0px; width:280px; display:block; position:relative; padding-top:20px;">Residents born in Northern Europe as a percentage of total population</p>
+					<p id="description" style="font-weight:bold; white-space:normal; padding-left:0px; width:280px; display:block; position:relative; padding-top:20px;">Residents born in Northern Europe as a percentage of total population</p>
+					<div id="facts_1">
+						<br/>
+						<p3 style="font-weight:bold; line-height:36px;">Fast Facts:</p3><br/>
+						<p3 id="facts">&#9900&nbspIt is estimated that 11% of all PNW residents were born outside the U.S.</p3><br/><br/>
+						<p3 id="facts">&#9900&nbspOf all world regions, Central America has the largest immigrant population in the PNW.</p3><br/><br/>
+					</div>
 				</div>
 				<div id="pageChange">
 					<a href="#sources" id="arrow" style="display:inline-block;">
@@ -96,7 +102,7 @@
                     </div>
 				</div>
 				<hr>
-				<p2 style="float:right; font-size:12px;">Map created with Leaflet.</p2>
+				<p2 id="map_creation" style="float:right; font-size:16px;">Map created with <a href = "https://leafletjs.com/" target="_blank">Leaflet</a>, <a href = "https://d3js.org/topojson.v1.min.js" target="_blank">D3 TopoJson</a>, <a href = "http://geoserver.org/" target="_blank">Geoserver</a>, and <a href = "https://qgis.org/en/site/" target="_blank">QGIS</a></p2>
 				<br/>
 				<a class="close2" href="#" style="display:inline;">Close</a>
 			</div>
@@ -311,7 +317,7 @@
 		}
 			this._div.innerHTML = (feature ?
         		'<h2 style="margin:0; display:inline-block;">'+ feature.NAME +'</h2><br/>' + '<p3 style="display:inline;">Total Pop.: </p3><p3 style="display:inline; font-weight:bold;">' + feature.population + '</p3><br/><p3 style="display:inline;">' + whichRegion() + ' Pop.: </p3><p3 style="font-weight:bold; display:inline;">' + whichPopData() +'</p3><br/><p3 style="display:inline; font-weight:bold;">' + whichData() + '%</p3>'
-       			:'<h2 style="display:inline; font-weight:bold;">Hover over Map for Details</h2>');
+       			:'<b style="font-size:24px;">Hover over Map</b>');
 	};
 
 	info.addTo(map);
@@ -437,7 +443,7 @@
 	var minHeight = 30; // Define a minimum height for the middle div
 
 	function resizeMiddle() {
-    var h = $('body').height() - $('#top').height() - 80;
+    var h = $('body').height() - $('#top').height() - 65;
     		h = h > minHeight ? h : minHeight;
    	 	$('#attribution').height(h);
 	}
@@ -454,7 +460,7 @@
 	$(window).resize(resizeMiddle);
 	
     $(document).click(function(event) {
-		if (!$(event.target).closest(".share_overlay,.share").length) {
+		if (!$(event.target).closest(".share_overlay,.share,#sources,#link_popup").length) {
 			$('#clear')[0].click();
 		}
 	});

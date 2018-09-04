@@ -59,7 +59,7 @@
 						<div style="height:30px;"><b id="leg2_block" style="background:#ffff80; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2" style="margin-left:5px;">Urban Cluster</p></div>
 						<div style="height:32px;"><b id="leg3_block" style="background:#9fdf9f; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p>&nbsp</p><p id="leg3" style="margin-left:5px;">Rural Area</p></div>
 						<br/>
-						<p id="description" style="font-weight:bold; text-align:justify; white-space:normal; padding-left:0px; width:280px; display:block; position:relative;">Urbanized Area/Urban Cluster classifications determined by U.S Census Bureau.</p>
+						<p id="description" style="font-weight:bold; white-space:normal; padding-left:0px; width:280px; display:block; position:relative;">Urbanized Area/Urban Cluster classifications determined by U.S Census Bureau.</p>
 					</div>	
 					<div id="leg_2" style="display:none;">
 						<h2 id="title" style="display:block; width:280px; white-space:normal;">Per Capita Annual Income</h2><img src="img/income_icon.png" id="image3" style="display:inline-block; float:right;width: 90px; height: 90px;position:absolute; margin-top:20px; right:20px;">
@@ -69,7 +69,7 @@
 						<div style="height:30px;"><b id="leg4_block" style="background:#c2e699; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2" style="margin-left:5px;">$15 - $25</p></div>
 						<div style="height:32px;"><b id="leg5_block" style="background:#ffffcc; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p>&nbsp</p><p id="leg3" style="margin-left:5px;">Less than $15</p></div>
 						<br/>
-						<p id="description" style="font-weight:bold; text-align:justify; white-space:normal; padding-left:0px; width:280px; display:block; position:relative;">Average annual per capita income in thousands of dollars. Data from 2011-2015 American Community Survey.</p>
+						<p id="description" style="font-weight:bold; white-space:normal; padding-left:0px; width:280px; display:block; position:relative;">Average annual per capita income in thousands of dollars. Data from 2011-2015 American Community Survey.</p>
 					</div>	
 					<div id="leg_3" style="display:none;">
 						<h2 id="title" style="display:block; width:280px; white-space:normal;">% With Bachelor's Degree</h2><img src="img/education_icon.png" id="image4" style="display:inline-block; float:right;width: 90px; height: 90px; position:absolute; margin-top:20px; right:20px;">
@@ -79,7 +79,7 @@
 						<div style="height:30px;"><b id="leg4_block" style="background:#fdcc8a; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2" style="margin-left:5px;">15 -  25</p></div>
 						<div style="height:32px;"><b id="leg5_block" style="background:#fef0d9; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p>&nbsp</p><p id="leg3" style="margin-left:5px;">Less than 15</p></div>
 						<br/>
-						<p id="description" style="font-weight:bold; text-align:justify; white-space:normal; padding-left:0px; width:280px; display:block; position:relative;">Percent of population over 25 with a bachelor's degree. Data from 2011-2015 American Community Survey.</p>
+						<p id="description" style="font-weight:bold; white-space:normal; padding-left:0px; width:280px; display:block; position:relative;">Percent of population over 25 with a bachelor's degree. Data from 2011-2015 American Community Survey.</p>
 					</div>
 					<div id="leg_4" style="display:none;">
 						<h2 id="title" style="display:block; width:280px; white-space:normal;">% Unemployment</h2><img src="img/employment_icon.png" id="image5" style="display:inline-block; float:right; width: 110px; height: 100px; position:absolute;margin-top:20px; right:15px;">
@@ -89,7 +89,7 @@
 						<div style="height:30px;"><b id="leg4_block" style="background:#b3cde3; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2" style="margin-left:5px;">5 -  2.5</p></div>
 						<div style="height:32px;"><b id="leg5_block" style="background:#edf8fb; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p>&nbsp</p><p id="leg3" style="margin-left:5px;">Less than 5</p></div>
 						<br/>
-						<p id="description" style="font-weight:bold; text-align:justify; white-space:normal; padding-left:0px; width:280px; display:block; position:relative;">Percent of unemployed workforce. Data from 2011-2015 American Community Survey.</p>
+						<p id="description" style="font-weight:bold; white-space:normal; padding-left:0px; width:280px; display:block; position:relative;">Percent of unemployed workforce. Data from 2011-2015 American Community Survey.</p>
 					</div>	
 					</br>	
 					<b2 style="font-size:20px;">Urbanized Areas:</b2> 
@@ -139,7 +139,7 @@
                     </div>
 				</div>
 				<hr>
-				<p2 style="float:right; font-size:12px;">Map created with Leaflet.</p2>
+				<p2 id="map_creation" style="float:right; font-size:16px;">Map created with <a href = "https://leafletjs.com/" target="_blank">Leaflet</a>, <a href = "https://d3js.org/topojson.v1.min.js" target="_blank">D3 TopoJson</a>, <a href = "http://geoserver.org/" target="_blank">Geoserver</a>, and <a href = "https://qgis.org/en/site/" target="_blank">QGIS</a></p2>
 				<br/>
 				<a class="close2" href="#" style="display:inline;">Close</a>
 			</div>
@@ -300,22 +300,22 @@
 		if (data == 1){
    		this._div.innerHTML = (feature ?
         	'<h2 style="margin:0; display:inline-block;">'+ feature.NAME +'</h2><br/>' + '<p3 style="display:inline;">' + feature.text_class + '</p3>'
-       		:'<h2>Hover over Map</h2>');
+       		:'<b style="font-size:24px;">Hover over Map</b>');
 		}
 		else if (data == 2){	
 			this._div.innerHTML = (feature ?
         	'<h2 style="margin:0; display:inline-block;">'+ feature.NAME +'</h2><br/>' + '<p3 style="display:inline;">' + feature.text_class + '</br></p3><p3 style="display:inline; font-weight:bold;">$' + nullFinder(feature.income_cap) + '<p3/><p3 style="display:inline"> Income per Cap.</p3>'
-       		:'<h2>Hover over Map</h2>');
+       		:'<b style="font-size:24px;">Hover over Map</b>');
 			}	
 		else if (data == 3){	
 			this._div.innerHTML = (feature ?
         	'<h2 style="margin:0; display:inline-block;">'+ feature.NAME +'</h2><br/>' + '<p3 style="display:inline;">' + feature.text_class + '</br></p3><p3 style="display:inline; font-weight:bold;">' + nullFinder(((feature.bachelors/feature.popOver25)*100).toFixed(2)) + '%</p3><p3 style="display:inline"> w/ Bachelors</p3>'
-       		:'<h2>Hover over Map</h2>');
+       		:'<b style="font-size:24px;">Hover over Map</b>');
 			}
 		else {	
 			this._div.innerHTML = (feature ?
         	'<h2 style="margin:0; display:inline-block;">'+ feature.NAME +'</h2><br/>' + '<p3 style="display:inline;">' + feature.text_class + '</br></p3><p3 style="display:inline; font-weight:bold;">' + nullFinder(((feature.unemployed/feature.labor_forc)*100).toFixed(2)) + '%</p3><p3 style="display:inline"> Unemployed</p3>'
-       		:'<h2>Hover over Map</h2>');
+       		:'<b style="font-size:24px;">Hover over Map</b>');
        	}
 	};
 
@@ -448,7 +448,7 @@
  /////////////////////////other miscellaneous functions (these also never change)////////////////////////////////   
 
    	//add zoom control
-    new L.Control.Zoom({ position: 'topright' }).addTo(map);
+    new L.Control.Zoom({ position: 'bottomright' }).addTo(map);
     
     //remove leaflet attribution
 	document.getElementsByClassName("leaflet-control-attribution")[0].style.visibility = "hidden";
@@ -479,7 +479,7 @@
 	
     //remove standard leaflet attribution
     $(document).click(function(event) {
-		if (!$(event.target).closest(".share_overlay,.share").length) {
+		if (!$(event.target).closest(".share_overlay,.share,#sources,#link_popup").length) {
 			$('#clear')[0].click();
 		}
 	});
