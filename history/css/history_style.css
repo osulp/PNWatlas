@@ -111,11 +111,11 @@ div#infoPanel p#description {
 	display:inline-block;
 	line-height:24px;
 	font-size:20px;
-	position: absolute;
+	position: relative;
 	font-weight:bold;
 	margin:0;
 	margin-top:3px;
-	white-space:nowrap;
+	white-space:normal;
 	}
 div#infoPanel img#titleImage {
 	width: 280px;
@@ -231,7 +231,6 @@ div#buttons .selection:hover{
     border-width:2px;
     font-family:GoudyOld;
     text-align:left;
-    padding:1px 3px 2px 2px;
     color:#4d4d4d;
     height:35px;
 }
@@ -356,9 +355,17 @@ div.info.leaflet-control p3 {
 	max-width:400px;
 	min-width:240px;
 	white-space:normal;
-
 }
-.leaflet-tooltip-top.label_tooltip::before {
+.label_tooltip2{	
+	font-family:GoudyOld;
+	font-size:16px;
+	padding:5px;
+	margin:0px;
+	border:1px solid black;
+	background:#ffffff;
+	z-index:700;
+}	
+.leaflet-tooltip-top.label_tooltip::before, .leaflet-tooltip-top.label_tooltip2::before {
  	display:none;
 }
 canvas.leaflet-zoom-animated{
@@ -462,7 +469,7 @@ a#arrow{
   position: relative;
   transition: all 5s ease-in-out;
   font-family:GoudyOld;
-  height:50%;
+  max-height:50%;
 }
 
 .popup h2 {
@@ -490,7 +497,8 @@ hr{
 .popup .close:hover {
   color: #b3b3b3;
 }
-.popup .close2 {
+.popup .close2{
+  	margin-top:5px;
   	background-color: white; 
 	transition: all 200ms;
     border: 1px solid #d9d9d9;
@@ -504,21 +512,21 @@ hr{
     font-family:GoudyOld;
     float:right;
 }
-.popup .close2:hover {
+.popup .close2:hover{
   	background-color: #f2f2f2; 
 	cursor:pointer;
 }
-.popup .content {
+.popup .content{
   overflow: auto;
 }
 .popup div.source{
 	padding-bottom:15px;
 }	
-.popup div.source a{
+.popup div.source a, .popup #map_creation a{
 	color:rgb(52,123,181);
 	text-decoration:none;
 }
-.popup div.source a:hover{
+.popup div.source a:hover, .popup #map_creation a:hover{
 	color:#004466;
 	text-decoration:underline;
 }	
@@ -531,7 +539,7 @@ hr{
   }
 }
 /*chapter selection*/
-.overlay2 {
+.link_overlay {
   position: fixed;
   bottom: 55px;
   left: 60px;
@@ -542,12 +550,12 @@ hr{
   z-index:1000;
   width:160px;
 }
-.overlay2:target {
+.link_overlay:target {
   visibility: visible;
   opacity: 1;
 }
 
-.popup2 {
+.link_popup {
   padding:10px;
   background: #fff;
   width: 100%;
@@ -559,23 +567,24 @@ hr{
   border:2px black solid;
 }
 
-.popup2 h2 {
+.link_popup h2 {
   font-size:20px;
   margin-top: 0;
   color: #333;
   font-weight:bold;
 }
-.popup2 a {
+.link_popup a {
   display:block;
   font-size:20px;
   line-height:28px;
   color:#000000;
 }
-.popup2 a:hover {
+.link_popup a:hover {
   color:#8c8c8c;
   cursor:pointer;
 }
-.popup2 .close{
+
+.link_popup .close{
   top:5px;
   right:8px;
   position: absolute;
@@ -586,9 +595,47 @@ hr{
   text-align:right;
   font-family:GoudyOld;
 }
-.popup2 .close:hover {
+.link_popup .close:hover {
   color: #737373;
 }
+/*share popup*/
+.share_overlay {
+  position: fixed;
+  bottom: 45px;
+  left: 135px;
+  background: rgba(0, 0, 0, 0.7);
+  transition: opacity 500ms;
+  visibility: hidden;
+  opacity: 0;
+  z-index:1000;
+  width:80px;
+}
+.share_overlay:target {
+  visibility: visible;
+  opacity: 1;
+}
+
+.share_popup {
+  padding:5px;
+  background: #fff;
+  width: 100%;
+  position: relative;
+  transition: all 5s ease-in-out;
+  font-family:GoudyOld;
+  height:100%;
+  box-shadow: 3px 3px 2px #4d4d4d;
+  border:2px black solid;
+}
+.share_popup a#arrow {
+	color:black;
+	font-size:28px;
+	position:relative;
+}
+.share_popup a#arrow:hover {
+	color:#808080;
+	cursor:pointer;
+}
+
 /*jquery ui slider*/
 /*
 .ui-slider {
