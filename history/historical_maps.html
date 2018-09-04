@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+     <title>Historical Maps</title>
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.2/dist/leaflet.css" />
+    <link rel="stylesheet" href="css/history_style.css" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Maven+Pro" rel="stylesheet">
+    <link rel="stylesheet" href="css/perfect-scrollbar.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <link rel="shortcut icon" href="img/pnw.ico" type="image/x-icon">
+    
+    <meta property="og:title" content="Atlas of the Pacific Northwest: Historical Maps" />
+    <meta property="og:url" content="https://rawgit.com/osulp/PNWatlas/master/history/historical_maps.html" />
+    <meta property="og:description" content="Historical maps of the Pacific Northwest."/>
+
+    <script src="https://unpkg.com/leaflet@1.0.2/dist/leaflet.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="https://d3js.org/topojson.v1.min.js"></script>
+    <script src="js/perfect-scrollbar.js"></script>
+    <script src="js/leaflet-tilelayer-mask.js"></script>
+    <script type="text/javascript" src="js/clickFunction.js"></script>
+
+</head>
+<body>
+		<!--This is the button that collapses the info panel-->
+		<button id="collapse" onclick="collapse()">
+			<i class="fa fa-chevron-left" id ="collapse-arrow" aria-hidden="true"></i>
+		</button>
+		<!--Info panel on the left side of the screen. Dataset selection, legends, and additional information about the map is presented here.-->
+		<div id="infoPanel">
+			<!--Upper half of the info panel. This part of the info panel will always remain the same size. This usually includes the data selection and the main legend. Try not to make this too tall, or it will be cut off on smaller screens.-->
+			<div id="top">
+				<h1>Historical Maps</h1><!--Map title-->
+				<img src="img/spyglass_icon.png" id="titleImageCircle" style="display:inline-block;">
+				<!--Dropdown menu for dataset selection-->
+				<div id="buttons">
+					<div class="dropdownSmall">
+						<button class="dropbtnSmall"><b id="background">Background</b><p id="arrow">&#9660;</p></button>
+						<div class="dropdown-contentSmall">
+							 <button type="button" id="classBut1" class="selectionSmall" style="background:rgba(242, 242, 242, 0.8);">Satellite</button>
+							 <button type="button" id="classBut2" class="selectionSmall">1841</button>
+							 <button type="button" id="classBut3" class="selectionSmall">1859</button>
+							 <button type="button" id="classBut5" class="selectionSmall">1868</button>
+							 <button type="button" id="classBut4" class="selectionSmall">1891</button>
+               				 <button type="button" id="classBut6" class="selectionSmall">1929</button>
+               				 <button type="button" id="classBut7" class="selectionSmall">1956</button>
+					   </div>
+					</div>
+					<div class="dropdownSmall">
+						<button class="dropbtnSmall"><b id="dataType">Spyglass</b><p id="arrow">&#9660;</p></button>
+						<div class="dropdown-contentSmall">
+							 <button type="button" id="but1" style="background:rgba(242, 242, 242, 0.67);" class="selectionSmall">1841</button>
+								<button type="button" id="but2" class="selectionSmall">1859</button>
+								<button type="button" id="but5" class="selectionSmall">1868</button>
+								<button type="button" id="but3" class="selectionSmall">1891</button>
+								<button type="button" id="but4" class="selectionSmall">1929</button>
+                <button type="button" id="but7" class="selectionSmall">1956</button>
+					   </div>
+					</div>
+				</div>
+			</div>
+			<!-- Middle half of the info panel. This part of the info panel is dynamic! It will adjust to the current screen size, and works with the Perfect-Scrollbar.js plugin to create a dynamic scrollbar within the section. -->
+			<div id="attribution">
+				<div id="text">
+          		<br/>
+          <p id="description">Use the dropdowns from above to select a background map, and a spyglass map, which will follow your cursor around the page.</p>
+					<!--Legends for each dataset-->
+		<h2 style="font-size:30px;">Spyglass Layer</h2>
+          <!-- 1841 -->
+          <div id="leg_1841" style="display:unset;">
+            <h2 id="title" style="font-size:24px; margin-bottom:5px; line-height:25px;">Map Of The Oregon Territory</h2>
+            <p id="description">Compiled in the Bureau of Topological Engineering Chiefly for Military Purposes</p><br/><br/>
+            <p3 style="font-weight:bold; display:inline;">Year:</p3>
+            <p3 id="facts" style=" display:inline;"> 1841</p3><br/><br/>
+            <p3 style="font-weight:bold; display:inline;">Cartographer:</p3>
+            <p3 id="facts" style=" display:inline;">Charles Wilkes</p3><br/><br/>
+            <p3 style="font-weight:bold; display:inline;">Printing Details:</p3>
+            <p3 id="facts" style=" display:inline;">Most likely a proof copy due to the unusually light impression on a type of paper not used in the rest of Wilkes' atlas.</p3><br/>
+          </div>
+
+          <!-- 1859 -->
+					<div id="leg_1859" style="display:none;">
+						<h2 id="title" style="font-size:24px; margin-bottom:5px; line-height:25px;">Map of the State of Oregon and Washington Territory</h2>
+						<p id="description">Compiled in the Bureau of Topological Engineering Chiefly for Military Purposes</p><br/><br/>
+						<p3 style="font-weight:bold; display:inline;">Year:</p3>
+						<p3 id="facts" style="display:inline;"> 1859</p3><br/><br/>
+						<p3 style="font-weight:bold; display:inline;">Printing Details:</p3>
+						<p3 id="facts" style=" display:inline;">Printed without color</p3><br/><br/>
+						<p3 style="font-weight:bold; display:inline;">Publisher:</p3>
+						<p3 id="facts" style="display:inline;">The War Department</p3><br/><br/>
+						<p3 style="font-weight:bold; display:inline;">Notes:</p3>
+						<p3 id="facts" style="display:inline;">Political borders absent from map</p3><br/>
+					</div>
+
+          <!-- 1891 -->
+          <div id="leg_1891" style="display:none;">
+						<h2 id="title" style="font-size:24px; margin-bottom:5px; line-height:25px;">C.H Amerine's Sectional Map of Washington, Oregon, Idaho, and Western Montana</h2>
+						<p id="description">Compiled and Published by C.H Amerine, 1891, Tacoma, WA</p><br/><br/>
+						<p3 style="font-weight:bold;display:inline;">Year:</p3>
+						<p3 id="facts" style="display:inline;"> 1891</p3><br/><br/>
+						<p3 style="font-weight:bold; display:inline;">Printing Details:</p3>
+						<p3 id="facts" style="display:inline;">Full color printed on linen</p3><br/><br/>
+						<p3 style="font-weight:bold; display:inline;">Publisher:</p3>
+						<p3 id="facts" style="display:inline;">Schmidt Lable & Lith Co.</p3><br/>
+					</div>
+
+          <!-- 1929 -->
+          <div id="leg_1929" style="display:none;">
+						<h2 id="title" style="font-size:24px; margin-bottom:5px; line-height:25px;">Stati Uniti (United States of America), Washington, Oregon, Idaho</h2>
+						<p3 style="font-weight:bold; display:inline;">Year:</p3>
+						<p3 id="facts" style="display:inline;"> 1929</p3><br/><br/>
+            <p3 style="font-weight:bold; display:inline;">Publisher:</p3>
+						<p3 id="facts" style="display:inline;">Touring Club Italiano</p3><br/><br/>
+          	<p3 style="font-weight:bold; display:inline;">Printing Details:</p3>
+						<p3 id="facts" style="display:inline;">Published in Italian by an Italian travel club</p3><br/><br/>
+						<p3 style="font-weight:bold; display:inline;">Notes:</p3>
+						<p3 id="facts" style="display:inline;">Relief shown by hachures and spot heights; depths by isolines</p3><br/>
+          </div>
+
+          <!-- 1868 -->
+				<div id="leg_1868" style="display:none;">
+					<h2 id="title" style="font-size:24px; margin-bottom:5px; line-height:25px;">Map of Oregon, Washington, Idaho, and part of Montana</h2>
+					<p3 style="font-weight:bold; display:inline;">Year:</p3>
+					<p3 id="facts" style="display:inline;"> 1868</p3><br/><br/>
+					<p3 style="font-weight:bold; display:inline;">Publisher:</p3>
+					<p3 id="facts" style="display:inline;">S.A. Mitchell Jr., <i>Mitchell's New General Atlas</i></p3><br/><br/>
+					<p3 style="font-weight:bold; display:inline;">Notes:</p3>
+					<p3 id="facts" style=" display:inline;">Color map by state and county. Relief shown by hachures. Prime meridians are Greenwich and Washington, D.C.</p3><br/>
+				</div>
+
+        <!-- 1956 -->
+        <div id="leg_1956" style="display:none;">
+          <h2 id="title" style="font-size:24px; margin-bottom:5px; line-height:25px;">Shell Sectional Map No. 11: Pacific Northwest States</h2>
+          <p3 style="font-weight:bold; display:inline;">Year:</p3>
+          <p3 id="facts" style="display:inline;"> 1956</p3><br/><br/>
+          <p3 style="font-weight:bold; display:inline;">Publisher:</p3>
+          <p3 id="facts" style="display:inline;">Shell Oil Company., <i>Shell Atlas</i></p3><br/><br/>
+          <p3 style="font-weight:bold; display:inline;">Notes:</p3>
+          <p3 id="facts" style="display:inline;">Color map by state and county. Relief shown by hachures. Prime meridians are Greenwich and Washington, D.C.</p3><br/>
+      </div>
+
+      <!-- Background layers -->
+
+      <!-- 1841 Back-->
+      <div id="leg_1841_b" style="display:none;">
+        <h2 style="font-size:30px;">Background Layer</h2>
+        <h2 id="title" style="font-size:24px; margin-bottom:5px; line-height:25px;">Map Of The Oregon Territory</h2>
+        <p id="description">Compiled in the Bureau of Topological Engineering Chiefly for Military Purposes</p><br/><br/>
+        <p3 style="font-weight:bold; display:inline;">Year:</p3>
+        <p3 id="facts" style="display:inline;"> 1841</p3><br/><br/>
+        <p3 style="font-weight:bold; display:inline;">Cartographer:</p3>
+        <p3 id="facts" style="display:inline;">Charles Wilkes</p3><br/><br/>
+        <p3 style="font-weight:bold; display:inline;">Printing Details:</p3>
+        <p3 id="facts" style="display:inline;">Most likely a proof copy due to the unusually light impression on a type of paper not used in the rest of Wilkes' atlas.</p3><br/>
+      </div>
+
+      <!-- 1859 -->
+      <div id="leg_1859_b" style="display:none;">
+        <h2 style="font-size:30px;">Background Layer</h2>
+        <h2 id="title" style="font-size:24px; margin-bottom:5px; line-height:25px;">Map of the State of Oregon and Washington Territory</h2>
+        <p id="description">Compiled in the Bureau of Topological Engineering Chiefly for Military Purposes</p><br/><br/>
+        <p3 style="font-weight:bold; display:inline;">Year:</p3>
+        <p3 id="facts" style="display:inline;"> 1859</p3><br/><br/>
+        <p3 style="font-weight:bold; display:inline;">Printing Details:</p3>
+        <p3 id="facts" style="display:inline;">Printed without color</p3><br/><br/>
+        <p3 style="font-weight:bold; display:inline;">Publisher:</p3>
+        <p3 id="facts" style="display:inline;">The War Department</p3><br/><br/>
+        <p3 style="font-weight:bold; display:inline;">Notes:</p3>
+        <p3 id="facts" style="display:inline;">Political borders absent from map</p3><br/>
+      </div>
+
+      <!-- 1891 -->
+      <div id="leg_1891_b" style="display:none;">
+        <h2 style="font-size:30px;">Background Layer</h2>
+        <h2 id="title" style="font-size:24px; margin-bottom:5px; line-height:25px;">C.H Amerine's Sectional Map of Washington, Oregon, Idaho, and Western Montana</h2>
+        <p id="description">Compiled and Published by C.H Amerine, 1891, Tacoma, WA</p><br/><br/>
+        <p3 style="font-weight:bold; display:inline;">Year:</p3>
+        <p3 id="facts" style="display:inline;"> 1891</p3><br/><br/>
+        <p3 style="font-weight:bold; display:inline;">Printing Details:</p3>
+        <p3 id="facts" style="display:inline;">Full color printed on linen</p3><br/><br/>
+        <p3 style="font-weight:bold; display:inline;">Publisher:</p3>
+        <p3 id="facts" style="display:inline;">Schmidt Lable & Lith Co.</p3><br/>
+      </div>
+
+      <!-- 1929 -->
+      <div id="leg_1929_b" style="display:none;">
+        <h2 style="font-size:30px;">Background Layer</h2>
+        <h2 id="title" style="font-size:24px; margin-bottom:5px; line-height:25px;">Stati Uniti (United States of America), Washington, Oregon, Idaho</h2>
+        <p3 style="font-weight:bold; display:inline;">Year:</p3>
+        <p3 id="facts" style="display:inline;"> 1929</p3><br/><br/>
+        <p3 style="font-weight:bold; display:inline;">Publisher:</p3>
+        <p3 id="facts" style="display:inline;">Touring Club Italiano</p3><br/><br/>
+        <p3 style="font-weight:bold; display:inline;">Printing Details:</p3>
+        <p3 id="facts" style="display:inline;">Published in Italian by an Italian travel club</p3><br/><br/>
+        <p3 style="font-weight:bold; display:inline;">Notes:</p3>
+        <p3 id="facts" style="display:inline;">Relief shown by hachures and spot heights; depths by isolines</p3><br/>
+      </div>
+
+      <!-- 1868 -->
+      <div id="leg_1868_b" style="display:none;">
+        <h2 style="font-size:30px;">Background Layer</h2>
+        <h2 id="title" style="font-size:24px; margin-bottom:5px; line-height:25px;">Map of Oregon, Washington, Idaho, and part of Montana</h2>
+        <p3 style="font-weight:bold; display:inline;">Year:</p3>
+        <p3 id="facts" style="display:inline;"> 1868</p3><br/><br/>
+        <p3 style="font-weight:bold; isplay:inline;">Publisher:</p3>
+        <p3 id="facts" style="display:inline;">S.A. Mitchell Jr., <i>Mitchell's New General Atlas</i></p3><br/><br/>
+        <p3 style="font-weight:bold; display:inline;">Notes:</p3>
+        <p3 id="facts" style="display:inline;">Color map by state and county. Relief shown by hachures. Prime meridians are Greenwich and Washington, D.C.</p3><br/>
+      </div>
+
+    <!-- 1956 -->
+    <div id="leg_1956_b" style="display:none;">
+      <h2 style="font-size:30px;">Background Layer</h2>
+      <h2 id="title" style="font-size:24px; margin-bottom:5px; line-height:25px;">Shell Sectional Map No. 11: Pacific Northwest States</h2>
+      <p3 style="font-weight:bold; display:inline;">Year:</p3>
+      <p3 id="facts" style="display:inline;"> 1956</p3><br/><br/>
+      <p3 style="font-weight:bold; display:inline;">Publisher:</p3>
+      <p3 id="facts" style="display:inline;">Shell Oil Company., <i>Shell Atlas</i></p3><br/><br/>
+      <p3 style="font-weight:bold; display:inline;">Notes:</p3>
+      <p3 id="facts" style="display:inline;">Color map by state and county. Relief shown by hachures. Prime meridians are Greenwich and Washington, D.C.</p3><br/>
+    </div>
+
+					<!--Additional information for each dataset-->
+    </div>
+  </div>
+			<!--Bottom part of the info panel. This part of the info panel includes arrows to shift between maps, the info button that contains the map sources, and the home button to return to the chapter title screen.-->
+
+      <div id="pageChange">
+				<a href="#sources" id="arrow" style="display:inline-block;">
+						<i class="fa fa-info-circle" aria-hidden="true" style="padding-left:90px;"></i>
+					</a>
+					<a href="#link_popup" id="arrow" style="display:inline-block;">
+						<i class="fa fa-home" aria-hidden="true" style="padding-left:0;"></i>
+					</a>
+					<a href="#share" class="share" id="arrow" style="display:inline-block;">
+						<i class="fa fa-share-alt " aria-hidden="true" style="padding-left:0;"></i>
+					</a>
+      </div>
+</div>
+
+    	<!--Map sources popup-->
+    	<div id="sources" class="overlay">
+			<div class="popup">
+				<h2 style="display:inline; font-size:32px;">Sources</h2>
+				<a class="close" href="#" style="display:inline;">×</a>
+				<hr>
+				<div class="content">
+					<p2 style="font-size:20px">Geographic Data</p2><br></br>
+                    <div class="source">
+                        <div>
+                          <b><p2>1841 Map: <a href = "https://www.davidrumsey.com/luna/servlet/detail/RUMSEY~8~1~224023~5506306:Map-Of-The-Oregon-Territory?sort=Pub_List_No_InitialSort%2CPub_Date%2CPub_List_No%2CSeries_No&qvq=q:1841%20wilkes;sort:Pub_List_No_InitialSort%2CPub_Date%2CPub_List_No%2CSeries_No;lc:RUMSEY~8~1&mi=0&trs=183" target="_blank">David Rumsey Map Collection</a></p2></b><br>
+                        </div>
+                        <div>
+                    	    <b><p2>1859 Map: <a href = "https://www.davidrumsey.com/luna/servlet/detail/RUMSEY~8~1~240028~5512098:Department-of-Oregon--Map-of-the-st?sort=Pub_List_No_InitialSort%2CPub_Date%2CPub_List_No%2CSeries_No&qvq=q:Oregon%2C%2BWashington%2Band%2BIdaho;sort:Pub_List_No_InitialSort%2CPub_Date%2CPub_List_No%2CSeries_No;lc:RUMSEY~8~1&mi=2&trs=238" target="_blank">David Rumsey Map Collection</a></p2></b><br>
+                        </div>
+                        <div>
+                    	    <b><p2>1868 Map: <a href = "https://www.davidrumsey.com/luna/servlet/detail/RUMSEY~8~1~249757~5516651:Map-of-Oregon,-Washington,-Idaho,-a?sort=Pub_List_No_InitialSort%2CPub_Date%2CPub_List_No%2CSeries_No&qvq=q:1868%20oregon;sort:Pub_List_No_InitialSort%2CPub_Date%2CPub_List_No%2CSeries_No;lc:RUMSEY~8~1&mi=1&trs=10" target="_blank">David Rumsey Map Collection</a></p2></b><br>
+                        </div>
+                        <div>
+                    	    <b><p2>1891 Map: <a href = "https://www.davidrumsey.com/luna/servlet/detail/RUMSEY~8~1~254839~5519497:Sectional-map-of-Washington,-Oregon?sort=Pub_List_No_InitialSort%2CPub_Date%2CPub_List_No%2CSeries_No&qvq=q:Oregon%2C%2BWashington%2Band%2BIdaho;sort:Pub_List_No_InitialSort%2CPub_Date%2CPub_List_No%2CSeries_No;lc:RUMSEY~8~1&mi=1&trs=238" target="_blank">David Rumsey Map Collection</a></p2></b><br>
+                        </div>
+                        <div>
+                    	    <b><p2>1929 Map: <a href = "https://www.davidrumsey.com/luna/servlet/detail/RUMSEY~8~1~31906~1151223:138-39--Wash-,-Ore-,-Ida-?sort=Pub_List_No_InitialSort%2CPub_Date%2CPub_List_No%2CSeries_No&qvq=q:1929%20oregon;sort:Pub_List_No_InitialSort%2CPub_Date%2CPub_List_No%2CSeries_No;lc:RUMSEY~8~1&mi=1&trs=5" target="_blank">David Rumsey Map Collection</a></p2></b><br>
+                        </div>
+                        <div>
+                    	    <b><p2>1956 Map: <a href = "https://www.davidrumsey.com/luna/servlet/detail/RUMSEY~8~1~212200~5500282:Shell-Sectional-Map-No--11--Pacific?sort=Pub_List_No_InitialSort%2CPub_Date%2CPub_List_No%2CSeries_No" target="_blank">David Rumsey Map Collection</a></p2></b><br>
+                        </div>
+                        <br/>
+                        <div>
+                          <p3>All David Rumsey maps licensed under <a href = "https://creativecommons.org/licenses/by-nc-sa/3.0/" target="_blank">Creative Commons</a>.</p3>
+                        </div>
+                        <br/>
+                        <div>
+                          <p3>Satellite layer by Esri, DigitalGlobe, GeoEye, i-cubed, USDA FSA, USGS, AEX, Getmapping, Aerogrid, IGN, IGP, swisstopo, and the GIS User Community</p3>
+                        </div>
+                    </div>   
+                </div>
+				<hr>
+				<p2 id="map_creation" style="float:right; font-size:16px;">Map created with <a href = "https://leafletjs.com/" target="_blank">Leaflet</a>, <a href = "https://d3js.org/topojson.v1.min.js" target="_blank">D3 TopoJson</a>, <a href = "https://github.com/frogcat/leaflet-tilelayer-mask" target="_blank">Leaflet-Tilelayer-Mask</a>, <a href = "http://geoserver.org/" target="_blank">Geoserver</a>, and <a href = "https://qgis.org/en/site/" target="_blank">QGIS</a></p2>
+				<br/>
+				<a class="close2" href="#" style="display:inline;">Close</a>
+		</div>
+      </div>
+
+      <div id="link_popup" class="link_overlay">
+			<div class="link_popup">
+				<a class="close" href="#" style="display:inline;">×</a>
+				<div class="content">
+					<a href="history_index.html" style="font-weight:bold; text-decoration:none;">Culture/History Home</a>
+					<hr>
+					<a href="indigenous_history.html" style="text-decoration:underline;">Indigenous History</a>
+					<a href="tribal_land.html" style="text-decoration:underline;">Tribal Land</a>
+					<a href="historical_maps.html" style="text-decoration:underline;">Historical Maps</a>
+					<a href="settlement.html" style="text-decoration:underline;">Borders & Settlement</a>
+					<hr>
+					<a href="../index.html" style="font-weight:bold; text-decoration:none;">Atlas Home</a>
+				</div>
+			</div>
+		</div>
+		
+		<div id="share" class="share_overlay">
+			<div class="share_popup">
+				<a id="clear" href="#" style="display:none;">×</a>
+				<div class="content">
+					<a href="https://facebook.com/sharer.php?u=https://rawgit.com/osulp/PNWatlas/master/history/historical_maps.html" id="arrow" style="display:inline-block;">
+						<i class="fa fa-facebook-square " aria-hidden="true" style="padding-left:0;"></i>
+					</a>
+					<a href="https://twitter.com/home?status=PNW%20Indigenous History%0Ahttp%3A//rawgit.com/osulp/PNWatlas/master/history/historical_maps.html" id="arrow" style="display:inline-block;">
+						<i class="fa fa-twitter-square " aria-hidden="true" style="padding-left:0;"></i>
+					</a>
+					<a href="" id="arrow" style="display:inline-block;">
+						<i class="fa fa-linkedin-square " aria-hidden="true" style="padding-left:0;"></i>
+					</a>
+				</div>
+			</div>
+		</div>
+
+      <div id="map" style="width: 100%; height: 100%; background:black;"></div>
+
+<script>
+//////////////base functions (these never change)///////////////////////
+	var collapsed = false;
+ 	//////////////function for the info panel collapse button///////////////////////
+    function collapse(){
+    	if (collapsed == false){
+    		document.getElementById("infoPanel").style.transition = "display 2s";
+    		document.getElementById("infoPanel").style.display = "none";
+    		document.getElementById("collapse").style.left = '0px';
+    		document.getElementById("collapse").style.paddingLeft = '2px';
+    		document.getElementById("collapse-arrow").className = "fa fa-chevron-right";
+    		collapsed = true;
+    	} else{
+    		document.getElementById("infoPanel").style.display = "unset";
+    		document.getElementById("collapse").style.left = '320px';
+    		document.getElementById("collapse").style.paddingLeft = '0px';
+    		document.getElementById("collapse-arrow").className = "fa fa-chevron-left";
+    		collapsed = false;
+    	}
+
+    }
+	//////////////function that allows topojson layers to be loaded///////////////////////
+    L.TopoJSON = L.GeoJSON.extend({
+  		addData: function(jsonData) {
+    		if (jsonData.type === 'Topology') {
+      			for (key in jsonData.objects) {
+       			 geojson = topojson.feature(jsonData, jsonData.objects[key]);
+       			 L.GeoJSON.prototype.addData.call(this, geojson);
+      		}
+    	}
+    	else {
+      		L.GeoJSON.prototype.addData.call(this, jsonData);
+    		}
+  		}
+	});
+//////////////Initialize map///////////////////////
+	var map = L.map('map', {center: [45.56, -119.75], zoom: 7, zoomControl:false});
+///////////////////////make zoom level correspond to browser size////////////////////////////////
+	window.addEventListener('load', function(event){
+    	var width = document.documentElement.clientWidth;
+    	if (width < 1500 && width > 800) {
+        	map.setView(new L.LatLng(45.56, -121.75), 6);
+    		}  else if (width > 1501) {
+        	map.setZoom(7);
+        	} else {
+        	map.setZoom(5);
+        	}
+	});
+////////////////////////////////basemap layers////////////////////////////////
+//tile layers (these can be changed if you want, with the exception of the terrain layer, which is present on every other map)
+	var Esri_WorldTerrain = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer/tile/{z}/{y}/{x}', {
+		attribution: 'Tiles &copy; Esri &mdash; Source: USGS, Esri, TANA, DeLorme, and NPS',
+		maxZoom:12,
+		minZoom:5,
+		opacity:1
+	}).addTo(map);
+
+	var Esri_WorldImagery = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+		attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community',
+		maxZoom:12,
+		minZoom:5,
+		opacity:0.6
+	}).addTo(map);
+
+	var pnwBorders = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
+		layers: 'baldricg_PNW_ATLAS:pnw_borders',
+        format: 'image/png',
+		maxZoom:12,
+		minZoom:5,
+		opacity:1,
+		transparent:true,
+	}).addTo(map);
+
+	var pnwCover = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
+		layers: 'baldricg_PNW_ATLAS:pnw_outline2_black',
+        format: 'image/png',
+		maxZoom:12,
+		minZoom:5,
+		opacity:0.8,
+		transparent:true,
+	}).addTo(map);
+	
+	var hist_map = L.tileLayer.mask('https://maps.georeferencer.com/georeferences/808302692016/2017-12-27T03:05:30.416370Z/map/{z}/{x}/{y}.png?key=eTjfmpcpLHUWFSMk8Xxy', {//link from David Rumsey Website
+		maxZoom:12,
+		minZoom:5,
+		transparent:true
+	}).addTo(map);
+
+	//this code snippet creates the spyglass
+	map.on("mousemove", function(e) {
+ 		hist_map.setCenter(e.containerPoint);
+	});
+
+	//background tilelayers
+	var hist_1841 = L.tileLayer('https://maps.georeferencer.com/georeferences/808302692016/2018-08-09T21:00:06.737184Z/map/{z}/{x}/{y}.png?key=eTjfmpcpLHUWFSMk8Xxy', {
+		attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community',
+		 maxZoom:12,
+		 minZoom:5,
+		 opacity:1
+	});
+	var hist_1859 = L.tileLayer('https://maps.georeferencer.com/georeferences/760230126507/2016-10-03T15:18:40.934950Z/map/{z}/{x}/{y}.png?key=B5mpIg1lGTZrOKWLFUdU', {
+		 attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community',
+		 maxZoom:12,
+		 minZoom:5,
+		 opacity:1
+	});
+  var hist_1868 = L.tileLayer('https://maps.georeferencer.com/georeferences/301159882562/2016-02-18T09:33:30.454980Z/map/{z}/{x}/{y}.png?key=eTjfmpcpLHUWFSMk8Xxy', {
+	    attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community',
+    	maxZoom:12,
+	    minZoom:5,
+    	opacity:1
+	});
+	var hist_1891 = L.tileLayer('https://maps.georeferencer.com/georeferences/252751129031/2018-04-12T16:46:46.373192Z/map/{z}/{x}/{y}.png?key=B5mpIg1lGTZrOKWLFUdU', {
+	  	attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community',
+		  maxZoom:12,
+		  minZoom:5,
+		  opacity:1
+	});
+  var hist_1929 = L.tileLayer('https://maps.georeferencer.com/georeferences/681297029105/2018-07-31T20:59:58.501307Z/map/{z}/{x}/{y}.png?key=eTjfmpcpLHUWFSMk8Xxy', {
+      attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community',
+      maxZoom:12,
+      minZoom:5,
+      opacity:1
+  });
+  var hist_1956 = L.tileLayer('https://maps.georeferencer.com/georeferences/158800470183/2018-07-31T20:59:58.501307Z/map/{z}/{x}/{y}.png?key=eTjfmpcpLHUWFSMk8Xxy', {
+      attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community',
+      maxZoom:12,
+      minZoom:5,
+      opacity:1
+  });
+
+////////////////////////////////important variables////////////////////////////////
+	var data = 1; //this variable is the listener for whenever a new dataset is selected
+
+////////////////////////////////info control in upper right////////////////////////////////
+
+    $( "#infoPanel" ).mouseover(function() {
+		var x = window.innerWidth / 2;
+		var y = window.innerHeight / 2;
+		hist_map.setCenter(x,y);
+	});
+	
+	var toggle = false; 
+
+///////////////////////////////button function////////////////////////////////
+	//this function uses the ClickFunction plugin to easily add/remove layers, change legends, styling and anything else when a new dataset is selected from the dropdown buttons
+	var backgroundButtonLabels = ['#classBut1','#classBut2','#classBut3','#classBut4','#classBut5','#classBut6','#classBut7'];//add button IDs here
+
+	var backgroundButtonFunctions = {
+		but1: {
+			button:'classBut1',
+			newLayers:[Esri_WorldTerrain, Esri_WorldImagery, pnwBorders,pnwCover],
+			title:'Satellite',
+			layerFunction:function(){
+				if (toggle == false){
+					$('#dataType').html('1841');
+				}
+				toggle = true;
+			}
+        },
+		but2: {
+			button:'classBut2',
+			newLayers:[hist_1841],
+			newLegend: 'leg_1841_b',
+			title:'1841',
+			layerFunction:function(){
+				if (toggle == false){
+					$('#dataType').html('1841');
+				}
+				toggle = true;
+			}
+		},
+    but3: {
+       	 	button:'classBut3',
+        	newLayers:[hist_1859],
+			newLegend: 'leg_1859_b',
+			title:'1859',
+			layerFunction:function(){
+				if (toggle == false){
+					$('#dataType').html('1841');
+				}
+				toggle = true;
+			}
+		},
+    but4: {
+        button:'classBut4',
+        newLayers:[hist_1891],
+        newLegend: 'leg_1891_b',
+        title:'1891',
+        layerFunction:function(){
+				if (toggle == false){
+					$('#dataType').html('1841');
+				}
+				toggle = true;
+			}
+      },
+		but5: {
+	      button:'classBut5',
+    	  newLayers:[hist_1868],
+        newLegend: 'leg_1868_b',
+        title:'1868',
+        layerFunction:function(){
+				if (toggle == false){
+					$('#dataType').html('1841');
+				}
+				toggle = true;
+			}
+        },
+    but6: {
+        button:'classBut6',
+        newLayers:[hist_1929],
+        newLegend: 'leg_1929_b',
+        title:'1929',
+        layerFunction:function(){
+				if (toggle == false){
+					$('#dataType').html('1841');
+				}
+				toggle = true;
+			}
+        },
+    but7: {
+        button:'classBut7',
+        newLayers:[hist_1956],
+        newLegend: 'leg_1956_b',
+        title:'1956',
+        layerFunction:function(){
+				if (toggle == false){
+					$('#dataType').html('1841');
+				}
+				toggle = true;
+			}
+      },
+	};
+
+	$('.backgroundLayer').clickFunction({
+		buttonFunctions:  backgroundButtonFunctions,
+		titleContainer:'background',
+		buttonLabels: backgroundButtonLabels,
+		selected:backgroundButtonFunctions.but1 //choose which button is initially selected
+	});
+////////////////////////////////////////////////////////////////
+	var buttonLabels = ['#but1','#but2','#but3','#but4','#but5','#but7'];//add button IDs here
+
+	var buttonFunctions = {
+		but1: {button:'but1',
+            newLegend: 'leg_1841',
+            title:'1841',
+            variable:1,
+            layerFunction: function(){
+                map.removeLayer(hist_map);
+                hist_map = L.tileLayer.mask('https://maps.georeferencer.com/georeferences/808302692016/2018-08-09T21:00:06.737184Z/map/{z}/{x}/{y}.png?key=eTjfmpcpLHUWFSMk8Xxy', {
+                    maxZoom:12,
+                    minZoom:5,
+                    transparent:true
+                }).addTo(map);
+                toggle = true;
+            }
+        },
+		but2: {button:'but2',
+			newLegend: 'leg_1859',
+			title:'1859',
+			variable:2,
+			layerFunction: function(){
+					map.removeLayer(hist_map);
+					hist_map = L.tileLayer.mask('https://maps.georeferencer.com/georeferences/760230126507/2016-10-03T15:18:40.934950Z/map/{z}/{x}/{y}.png?key=B5mpIg1lGTZrOKWLFUdU', {
+						maxZoom:12,
+						minZoom:5,
+						transparent:true
+					}).addTo(map);
+					toggle = true;
+				}
+			},
+        but3: {button:'but3',//button ID
+				//newLayers: [], normally this is where layers would go
+				newLegend: 'leg_1891', //legend div ID
+				title:'1891', //title to display in dropdown menu
+				variable:3, //update the 'data' variable
+				layerFunction: function(){
+					map.removeLayer(hist_map);
+					hist_map = L.tileLayer.mask('https://maps.georeferencer.com/georeferences/252751129031/2018-04-12T16:46:46.373192Z/map/{z}/{x}/{y}.png?key=B5mpIg1lGTZrOKWLFUdU', { //update this url with urls from David Rumsey's website in order to add more historical maps
+						maxZoom:12,
+						minZoom:5,
+						transparent:true
+					}).addTo(map);
+					toggle = true;
+				}
+			},
+        but4: {button:'but4',
+            newLegend: 'leg_1929',
+            title:'1929',
+            variable:4,
+            layerFunction: function(){
+                map.removeLayer(hist_map);
+                hist_map = L.tileLayer.mask('https://maps.georeferencer.com/georeferences/681297029105/2018-07-31T20:59:58.501307Z/map/{z}/{x}/{y}.png?key=eTjfmpcpLHUWFSMk8Xxy', {
+                    maxZoom:12,
+                    minZoom:5,
+                    transparent:true
+                }).addTo(map);
+                toggle = true;
+            }
+        },
+        but5: {button:'but5',
+            newLegend: 'leg_1868',
+            title:'1868',
+            variable:5,
+            layerFunction: function(){
+                map.removeLayer(hist_map);
+                hist_map = L.tileLayer.mask('https://maps.georeferencer.com/georeferences/301159882562/2016-02-18T09:33:30.454980Z/map/{z}/{x}/{y}.png?key=eTjfmpcpLHUWFSMk8Xxy', { //update this url with urls from David Rumsey's website in order to add more historical maps
+                    maxZoom:12,
+                    minZoom:5,
+                    transparent:true
+                }).addTo(map);
+                toggle = true;
+            }
+        },
+        but7: {button:'but7',
+            newLegend: 'leg_1956',
+            title:'1956',
+            variable:7,
+            layerFunction: function(){
+                map.removeLayer(hist_map);
+                hist_map = L.tileLayer.mask('https://maps.georeferencer.com/georeferences/158800470183/2018-07-31T20:59:58.501307Z/map/{z}/{x}/{y}.png?key=eTjfmpcpLHUWFSMk8Xxy', {
+                    maxZoom:12,
+                    minZoom:5,
+                    transparent:true
+                }).addTo(map);
+                toggle = true;
+            }
+        },
+
+	};
+
+	$('.function').clickFunction({
+		buttonFunctions: buttonFunctions,
+		buttonLabels: buttonLabels,
+		selected:buttonFunctions.but1 //choose which button is initially selected
+	});
+
+
+ ///////////////////////////////other miscellaneous functions (these also never change)////////////////////////////////
+   	//add zoom control
+    new L.Control.Zoom({ position: 'bottomright' }).addTo(map);
+
+    //remove leaflet attribution
+	document.getElementsByClassName("leaflet-control-attribution")[0].style.visibility = "hidden";
+
+	//add scrolling capabilities to text box
+     var container = document.getElementById('text');
+		Ps.initialize(container);
+
+	//update text box to be correct size
+	var minHeight = 50; // Define a minimum height for the middle div
+
+	function resizeMiddle() {
+   		var h = $('body').height() - $('#top').height() - 65;
+    		h = h > minHeight ? h : minHeight;
+   	 	$('#attribution').height(h);
+	}
+	
+	$(document).click(function(event) {
+		if (!$(event.target).closest(".share_overlay,.share,#sources,#link_popup").length) {
+			$('#clear')[0].click();
+		}
+	});
+
+	$(document).ready(resizeMiddle);
+	$(window).resize(resizeMiddle);
+
+</script>
+</body>
+</html>

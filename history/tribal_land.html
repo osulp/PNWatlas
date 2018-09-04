@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+     <title>Tribal Land</title>
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.2/dist/leaflet.css" />
+    <link rel="stylesheet" href="js/jquery-ui.css">
+    <link rel="stylesheet" href="css/jquery-ui-slider-pips.css" />
+    <link rel="stylesheet" href="css/history_style.css" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Maven+Pro" rel="stylesheet">
+    <link rel="stylesheet" href="css/perfect-scrollbar.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <link rel="shortcut icon" href="img/pnw.ico" type="image/x-icon">
+    
+    <meta property="og:title" content="Atlas of the Pacific Northwest: Tribal Land" />
+    <meta property="og:url" content="https://rawgit.com/osulp/PNWatlas/master/history/tribal_land.html" />
+    <meta property="og:description" content="Tribal Land maps of the Pacific Northwest."/>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="https://unpkg.com/leaflet@1.0.2/dist/leaflet.js"></script>
+    <script src="https://d3js.org/topojson.v1.min.js"></script>
+    <script type="text/javascript" src="../js/clickFunction.js"></script>
+    <script src="js/Chart.bundle.js"></script>
+    <script src="js/Chart.PieceLabel.min.js"></script>
+    <script src="js/jquery-ui.js"></script>
+    <script src="js/jquery-ui-slider-pips.js"</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/8.5.1/nouislider.min.js"></script>
+	<script src="js/perfect-scrollbar.js"></script>
+
+</head>
+<body>
+<!--Our HTML for this map will be relatively simple. We'll mainly just need a legend that shows different town and border designations. -->
+		<button id="collapse" onclick="collapse()">
+			<i class="fa fa-chevron-left" id ="collapse-arrow" aria-hidden="true"></i>
+		</button>
+		<div id="infoPanel">
+			<div id="top">
+				<h1>Tribal Land</h1>
+				<img src="img/placeholder.png" id="titleImageCircle" style="display:inline-block;">
+<!--Like I said, we won't need to worry about clickFunction for this one-->
+				<div id="buttons">
+					<div class="dropdown">
+						<button class="dropbtn"><b id="dataType">Select Data</b><p id="arrow">&#9660;</p></button>
+						<div class="dropdown-content">
+							 <button type="button" id="but1" class="selection" style="background:rgba(242, 242, 242, 0.8);">Reservations</button>
+							 <button type="button" id="but2" class="selection">Land Seizure</button>
+					   </div>
+					</div>
+				</div>
+			</div>
+			<div id="attribution">
+				<div id="text" style="text-align:left;">
+					<div id="leg_1" style="display:unset;">
+						<h2 id="title" style="font-size:30px; margin-top:25px; margin-bottom:15px;">Select Tribal Area</h2><!--<img src="img/disaster_icon.png" id="iconImage" >-->
+						<div id="resData" style="display:none;">
+							<p id="authority" style="font-weight:bold; text-align:left; white-space:normal; padding-left:0px; width:280px; line-height:20px; display:block; position:relative; margin-bottom:10px;"></p>
+							<p id="population" style="font-weight:bold; text-align:left; white-space:normal; padding-left:0px; width:280px; display:block; position:relative; margin-bottom:10px;"></p>
+							<br/>
+							<b2 style="background-color:rgba(255,166,77,0.5); border:2px solid #ff8000;"></b2><p style="font-size:16px; margin-left:45px;display:inline; margin-top:-2px;">Tribal Stats</p>
+							<b2 style="background-color:rgba(77, 166, 255,0.5); border:2px solid #0073e6; margin-left:130px;"></b2><p style="font-size:16px; margin-left:40px; display:inline; margin-left:175px; margin-top:-2px;">PNW Average</p>
+							<br/><br/>
+							<canvas id="chartContainer" style="height: 225px; width: 280px; margin-left:0px;"></canvas><br/>
+							<p style="font-weight:bold; text-align:left; white-space:normal; padding-left:0px; width:280px; line-height:10px; display:block; position:relative; margin-bottom:10px; font-size:16px;">Pov. % Poverty Rate <br/><br/> Edu. % with Bachelor's Degree <br/><br/> Emp. % Unemployed <br/><br/> Ins. % without Health Insurance <br/><br/>Data based on 2012-2016 ACS Estimates</p>
+						</div>
+						<br/>
+						<div style="height:32px"><b id="leg1_block" style="background:#ffb366; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid; border-bottom:black 2px solid;"></b><p style="margin-left:10px;">Tribal Land</p></div>
+						<br/>
+					</div>	
+					<div id="leg_2" style="display:none;">
+<!--Here's the legend... I added a sample point and line to get started-->
+						<h2 id="title" style="display:block; width:280px; white-space:normal;">Land Type</h2>
+						<div style="height:32px;"><b id="leg1_block" style="background:#ffffff; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p style="margin-left:5px;">Indigenous Homeland</p></div>
+						<div style="height:30px;"><b id="leg2_block" style="background:#99ccff; border-left:black 2px solid; border-right:black 2px solid;"></b><p style="margin-left:5px;">Seized Land</p></div>
+						<div style="height:32px;"><b id="leg5_block" style="background:#ffb366; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p style="margin-left:5px;">Reservation</p></div>
+						<br/>
+						<p id="description" style="font-weight:bold; white-space:normal; padding-left:0px; width:280px; display:block; position:relative;">Land "ownership" as declared by the United States Government.</p>
+						<br/>
+					</div>
+					<div id="facts_1">
+						<br/>
+						<p3 style="font-weight:bold; line-height:36px;">Fast Facts:</p3><br/>
+						<p3 id="facts">&#9900&nbspApproximately 18.7% of the population on tribal lands lives below the poverty line (PNW average is 14%).</p3><br/><br/>
+						<p3 id="facts">&#9900&nbspApproximately 23.9% of the population on tribal lands has a bachelor's degree or higher (PNW average is 32%).</p3><br/><br/>
+						<p3 id="facts">&#9900&nbspApproximately 9.7% of the population on tribal lands is unemployed (PNW average is 7.1%).</p3><br/><br/>
+						<p3 id="facts">&#9900&nbspApproximately 16.3% of the population on tribal lands lacks health insurance (PNW average is 10.5%).</p3><br/><br/>
+						<p3 id="facts">&#9900&nbspNote: These data account for all ethnicities present on tribal land.</p3><br/><br/>
+					</div>
+					<div id="facts_2" style="display:none;">
+						<p3 style="font-weight:bold; line-height:36px;">Fast Facts:</p3><br/>
+						<p3 id="facts">&#9900&nbspBeginning in the early 1800s, the US Government began aggressively seizing land from indigenous populations. These seizures were legitimized through written treaties, and the official language of the government declared the land as "ceded". Indigenous people were confined to declared reservations.</p3><br/><br/>
+					</div>
+				</div>
+
+<!--I figure this'll need to change for its place in the historical chapter-->
+				<div id="pageChange">
+					<a href="#sources" id="arrow" style="display:inline-block;">
+						<i class="fa fa-info-circle" aria-hidden="true" style="padding-left:90px;"></i>
+					</a>
+					<a href="#link_popup" id="arrow" style="display:inline-block;">
+						<i class="fa fa-home" aria-hidden="true" style="padding-left:0;"></i>
+					</a>
+					<a href="#share" class="share" id="arrow" style="display:inline-block;">
+						<i class="fa fa-share-alt " aria-hidden="true" style="padding-left:0;"></i>
+					</a>
+				</div>
+			</div>
+<!--Here is the actual "slider" on the side of the info panel. The style probably won't need to change too much, but it may need to be taller to comfortably accomodate every decade-->
+			<div id="slider-vertical-modern" style="display:none; height:340px; font-size:20px; width:10px; position:absolute; left:320px; z-index:2000; top:25%; border-radius: 0px 3px 3px 0px;background:rgba(255,255,255,0.6);border-top: 10px solid rgba(255,255,255,0);border-bottom: 10px solid rgba(255,255,255,0);"></div>
+		</div>
+
+    	<div id="map" style="width: 100%; height: 100%;"></div>
+<!--We can save sources for last-->
+    	<div id="sources" class="overlay">
+			<div class="popup">
+				<h2 style="display:inline; font-size:32px;">Sources</h2>
+				<a class="close" href="#" style="display:inline;">×</a>
+				<hr>
+				<div class="content">
+					<p2 style="font-size:20px">Geographic Data</p2><br><br/>
+                    <div class="source">
+                    	<b><p2>Tribal Lands: <a href = "https://www.census.gov/geo/maps-data/data/cbf/cbf_aiannh.html" target="_blank">US Census Bureau</a></p2></b><br>
+                    		<p3>Notes: Data current as of 2017.</p3>
+                    </div>
+                     <div class="source">
+                    	<b><p2>Land Seizure: <a href = "https://enterprisecontent-usfs.opendata.arcgis.com/datasets/e4e788be8cfc4d1f8ff280a81ffaa69c_0" target="_blank">U.S Forest Service</a></p2></b><br>
+                    		<p3>Notes: Data range to 1900.</p3>
+                    </div>
+                    <p2 style="font-size:20px">Other Data</p2><br><br/>
+					<div class="source">
+						<b><p2>Tribal Area Statistics: <a href = "https://data2.nhgis.org/main" target="_blank"></a>IPUMS</p2></b><br>
+							<p3>Data selected for AMERICAN INDIAN AREA/ALASKA NATIVE AREA/HAWAIIAN HOME LAND, from ACS 2012-2016. Topics included: Total Population, Educational Attainment for the Population 25 Years and Over, Ratio of Income to Poverty Level in the Past 12 Months, Employment Status for the Population 16 Years and Over, Types of Health Insurance Coverage by Age.<p3>
+                	</div>
+                	<div class="source">
+						<b><p2>PNW Average Statistics: <a href = "https://data2.nhgis.org/main" target="_blank"></a>IPUMS</p2></b><br>
+							<p3>Data selected for STATES, from ACS 2012-2016. Topics included: Educational Attainment for the Population 25 Years and Over, Ratio of Income to Poverty Level in the Past 12 Months, Employment Status for the Population 16 Years and Over, Types of Health Insurance Coverage by Age.<p3>
+                	</div>
+                </div>
+				<hr>
+				<p2 id="map_creation" style="float:right; font-size:16px;">Map created with <a href = "https://leafletjs.com/" target="_blank">Leaflet</a>, <a href = "https://d3js.org/topojson.v1.min.js" target="_blank">D3 TopoJson</a>, <a href = "https://www.chartjs.org/" target="_blank">Chart.js</a>, <a href = "http://geoserver.org/" target="_blank">Geoserver</a>, and <a href = "https://qgis.org/en/site/" target="_blank">QGIS</a></p2>
+				<br/>
+				<a class="close2" href="#" style="display:inline;">Close</a>
+			</div>
+		</div>
+
+		<div id="link_popup" class="link_overlay">
+			<div class="link_popup">
+				<a class="close" href="#" style="display:inline;">×</a>
+				<div class="content">
+					<a href="history_index.html" style="font-weight:bold; text-decoration:none;">Culture/History Home</a>
+					<hr>
+					<a href="indigenous_history.html" style="text-decoration:underline;">Indigenous History</a>
+					<a href="tribal_land.html" style="text-decoration:underline;">Tribal Land</a>
+					<a href="historical_maps.html" style="text-decoration:underline;">Historical Maps</a>
+					<a href="settlement.html" style="text-decoration:underline;">Borders & Settlement</a>
+					<hr>
+					<a href="../index.html" style="font-weight:bold; text-decoration:none;">Atlas Home</a>
+				</div>
+			</div>
+		</div>
+		
+		<div id="share" class="share_overlay">
+			<div class="share_popup">
+				<a id="clear" href="#" style="display:none;">×</a>
+				<div class="content">
+					<a href="https://facebook.com/sharer.php?u=https://rawgit.com/osulp/PNWatlas/master/history/tribal_land.html" id="arrow" style="display:inline-block;">
+						<i class="fa fa-facebook-square " aria-hidden="true" style="padding-left:0;"></i>
+					</a>
+					<a href="https://twitter.com/home?status=PNW%20Tribal Lands%0Ahttp%3A//rawgit.com/osulp/PNWatlas/master/history/tribal_land.html" id="arrow" style="display:inline-block;">
+						<i class="fa fa-twitter-square " aria-hidden="true" style="padding-left:0;"></i>
+					</a>
+					<a href="" id="arrow" style="display:inline-block;">
+						<i class="fa fa-linkedin-square " aria-hidden="true" style="padding-left:0;"></i>
+					</a>
+				</div>
+			</div>
+		</div>
+
+<script>
+//////////////base functions (these never change)///////////////////////
+	//////////////function for the info panel collapse button///////////////////////
+	var collapsed = false;
+    function collapse(){
+    	if (collapsed == false){
+    		document.getElementById("infoPanel").style.transition = "display 2s";
+    		document.getElementById("infoPanel").style.display = "none";
+    		document.getElementById("collapse").style.left = '0px';
+    		document.getElementById("collapse").style.paddingLeft = '2px';
+    		document.getElementById("collapse-arrow").className = "fa fa-chevron-right";
+    		collapsed = true;
+    	} else{
+    		document.getElementById("infoPanel").style.display = "unset";
+    		document.getElementById("collapse").style.left = '320px';
+    		document.getElementById("collapse").style.paddingLeft = '0px';
+    		document.getElementById("collapse-arrow").className = "fa fa-chevron-left";
+    		collapsed = false;
+    	}
+
+    }
+//////////////function that allows topojson layers to be loaded///////////////////////
+    L.TopoJSON = L.GeoJSON.extend({
+  		addData: function(jsonData) {
+    		if (jsonData.type === 'Topology') {
+      			for (key in jsonData.objects) {
+       			 geojson = topojson.feature(jsonData, jsonData.objects[key]);
+       			 L.GeoJSON.prototype.addData.call(this, geojson);
+      		}
+    	}
+    	else {
+      		L.GeoJSON.prototype.addData.call(this, jsonData);
+    		}
+  		}
+	});
+//////////////Initialize map///////////////////////
+	var map = L.map('map', {center: [45.56, -119.75], zoom: 7, zoomControl:false});
+///////////////////////make zoom level correspond to browser size////////////////////////////////
+	window.addEventListener('load', function(event){
+    	var width = document.documentElement.clientWidth;
+    	if (width < 1500 && width > 800) {
+        	map.setView(new L.LatLng(45.56, -121.75), 6);
+    		}  else if (width > 1501) {
+        	map.setZoom(7);
+        	} else {
+        	map.setZoom(5);
+        	}
+	});
+////////////////////////////////basemap layers////////////////////////////////
+/*We can just use the default basemap for now*/
+	var Esri_WorldTerrain = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer/tile/{z}/{y}/{x}', {
+		attribution: 'Tiles &copy; Esri &mdash; Source: USGS, Esri, TANA, DeLorme, and NPS',
+		maxZoom:10,
+		minZoom:5,
+		opacity:1
+	}).addTo(map);
+/*This always stays*/
+	var pnwCover = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
+		layers: 'baldricg_PNW_ATLAS:pnw_outline2_black',
+        format: 'image/png',
+		maxZoom:10,
+		minZoom:5,
+		opacity:0.3,
+		transparent:true,
+	}).addTo(map);
+/*Part of the default basemap*/
+	var label = L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_only_labels/{z}/{x}/{y}@2x.png', {
+		attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
+		subdomains: 'abcd',
+		maxZoom:10,
+		minZoom:5,
+		tileSize:256,
+		bounds:[
+			new L.LatLng(49.56,-125.25),
+			new L.LatLng(40.5,-111.5)
+		],
+		pane:'labels'
+	});
+	var backgroundParks = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
+		layers: 'baldricg_PNW_ATLAS:parks_total',
+        format: 'image/png',
+		maxZoom:10,
+		minZoom:4,
+		transparent:true
+	}).addTo(map);
+	
+	var pnwStates = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
+		layers: 'baldricg_PNW_ATLAS:pnw_borders_black',
+        format: 'image/png',
+		maxZoom:10,
+		minZoom:5,
+		opacity:0.4,
+		transparent:true,
+	}).addTo(map);
+	
+	var urbanAreas = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
+		layers: 'baldricg_PNW_ATLAS:pnw_urban_areas',
+        format: 'image/png',
+		maxZoom:10,
+		minZoom:4,
+		opacity:0.8,
+		transparent:true
+	}).addTo(map);
+	
+	var pnw_water = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
+		layers: 'baldricg_PNW_ATLAS:pnw_water',
+        format: 'image/png',
+		maxZoom:10,
+		minZoom:5,
+		opacity:0.6,
+		transparent:true,
+	}).addTo(map);
+
+	var data = 18500101;
+
+
+	map.createPane('labels');
+	map.getPane('labels').style.pointerEvents = 'none';
+	map.getPane('labels').style.zIndex = 650;
+	label.addTo(map);
+
+	map.createPane('tooltip');
+	map.getPane('tooltip').style.zIndex = 700;
+////////////////////////////////important variables////////////////////////////////
+	//this variable is the listener for whenever a new dataset is selected
+
+	/*var info = L.control();
+
+	info.onAdd = function (map) {
+    	this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
+    	this.update();
+    	return this._div;
+	};
+
+	info.update = function () {
+   		this._div.innerHTML = (
+        	'<h2>Hover over map</h2>'
+        	);
+		};
+
+	info.addTo(map);*/
+////////////////////////////display Layers////////////////////////////////////
+	////////////////////////////land seizure////////////////////////////////////
+//alright.... here's the important stuff
+//we define our layer normally
+    var landArea;
+	function addLandArea(){
+	if (landArea){
+		map.removeLayer(landArea);
+	}
+    landArea = null;
+    landArea = new L.TopoJSON(null, {
+			filter: function(feature, layer) {
+				return feature.properties.date_num <= data && feature.properties.end_date >= data ? true: 
+					false;
+				},
+			onEachFeature: function(feature, featureLayer){
+				featureLayer.bindTooltip('<h3 style="display:inline;">Date Established: ' + feature.properties.date_text +'<br/>Tribes Named in Treaty:</h3><br/><p style="display:inline;">'+ feature.properties.TribalCe12 +'</p>', {className: 'label_tooltip',pane:'tooltip'});
+				}
+			});
+		
+		$.getJSON('assets/land_seizure.json')
+			.done(addData);
+		
+		function addData(topoData) {
+			landArea.addData(topoData);
+			landArea.addTo(map);
+			landArea.eachLayer(handleLayer);
+		}
+
+		function handleLayer(layer){
+			layer.setStyle({
+					color:'#ffffff',
+					weight:1,
+					opacity: opacity(layer.feature.properties.top),
+					fillOpacity:fillOpacity(layer.feature.properties.top),
+					fillColor:fill(layer.feature.properties.res)
+			});
+			layer.on({
+				mouseover : enterLayer,
+				mouseout: leaveLayer
+
+			});
+		}
+		function fill(value){
+			return value == 1 ? '#99ccff':
+				'#ffb366';
+		}
+		function opacity(value){
+			return value == 1 ? 1:
+				1;
+		}
+		function fillOpacity(value){
+			return value == 1 ? 0:
+				0.6;
+		}
+
+		function enterLayer(){
+			this.bringToFront();
+			this.setStyle({
+				fillOpacity: 0.9,
+				opacity: 1,
+				dashArray: 4
+			});
+		}
+
+		function leaveLayer(){
+			this.setStyle({
+				opacity: opacity(this.feature.properties.top),
+				fillOpacity:fillOpacity(this.feature.properties.top),
+				dashArray: 0
+			 });
+		}
+
+	}
+
+	$( function() {
+		$( "#slider-vertical-modern" /*this needs to match the ID of the HTML slider*/).slider({
+			orientation:"vertical", //default
+			range: "min", //default
+			min: 1850, //minimum possible value
+			max: 1900, //maximum possible value
+			value: 1850, //currently selected value (1810), based on 'data' variable
+			slide: function( event, ui ) {//default
+				$( "#amount" ).val( ui.value );//updates html
+					var val = "" + ui.value + "0101";
+					data = val;
+					addLandArea(); //re-add the dataset
+				},
+			change: function( event, ui ) {
+				$( "#amount" ).val( ui.value );//updates html
+					var val = "" + ui.value + "0101";
+					data = val;
+					addLandArea();
+				}
+			}).slider("pips",{
+				rest: "label",//adds label for every value
+				step: 5,	//space between values
+			});
+  	});
+
+	////////////////////////////reservations////////////////////////////////////
+	var data2;
+	var selection;
+	
+	const reservations = new L.TopoJSON(null, {
+  		onEachFeature: function(feature, featureLayer){
+  			featureLayer.bindTooltip('<h3 style="display:inline;">' + feature.properties.NAME + '</h3>', {className: 'label_tooltip', pane:'tooltip', sticky:true});
+  		}
+	});
+
+	$.getJSON('assets/reservations.json')
+  		.done(geologyAddTopoData);
+
+	function geologyAddTopoData(topoData) {  
+  		reservations.addData(topoData);
+  		reservations.addTo(map);
+  		reservations.eachLayer(resHandleLayer);
+	}
+	
+	function resHandleLayer(layer){
+        layer.setStyle({
+       			fillColor: '#ffb366',
+            	fillOpacity: 0.6,
+            	weight: 1,
+            	opacity: 0.8,
+            	color: '#e67300',
+            	dashArray:null
+        });
+        layer.on({
+         	mouseover : resHighlight,
+            mouseout: resReset,
+            click:onClick
+        });
+    }
+    
+    function onClick(){
+    	if (selection){
+    		selection.setStyle({
+				fillOpacity: 0.7,
+				opacity:0.8,
+				dashArray:null
+			 });
+		}
+    	selection = this;
+    	this.setStyle({
+        	fillOpacity: 0.2,
+        	opacity:1,
+        	dashArray:4
+      	});
+      	
+      	map.fitBounds([
+			[this.feature.properties.y_max, this.feature.properties.x_max],
+			[this.feature.properties.y_min, this.feature.properties.x_min]
+		]);
+      	
+    	$('#resData').css('display', 'block');
+    	$('#title').text(this.feature.properties.full_name);
+    	$('#authority').text(this.feature.properties.conf);
+    	$('#population').text('Population: ' + this.feature.properties.total_pop.toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 0}));
+    	
+    	chart.data.datasets[0].data[0] = this.feature.properties.pov_rate;
+		chart.data.datasets[0].data[1] = this.feature.properties.per_bach;
+		chart.data.datasets[0].data[2] = this.feature.properties.per_unem;
+		chart.data.datasets[0].data[3] = this.feature.properties.per_unin;
+		chart.update();
+    }
+    
+    function resHighlight(){
+		data2 = this.feature.properties.land_area
+		//addTribalArea();
+		if (selection != this){
+			this.setStyle({
+				fillOpacity: 1,
+				opacity:1,
+			});
+      	}
+    }
+    
+    function resReset(){
+      	data2 = 100;
+      	//map.removeLayer(tribal_land);
+      	if (selection != this){
+			this.setStyle({
+				fillOpacity: 0.7,
+				opacity:0.8,
+			 });
+     	 }
+    }
+    
+    var chart_ctx = document.getElementById("chartContainer").getContext('2d');	
+    
+	var chart_options =  {
+    	type: 'radar',
+    	data: {
+        		labels: ["Pov.","Edu.","Emp.","Ins."],
+        		datasets: [{
+            		data: [50,50,50,50],
+            		backgroundColor: [
+                		'rgba(255,166,77,0.5)',
+            		],
+            		borderColor: [
+                		'#ff8000',
+            		],
+            		pointBackgroundColor: [
+                		'#ff8000',
+                		'#ff8000',
+                		'#ff8000',
+                		'#ff8000'
+            		],
+            		pointBorderColor: [
+                		'#ffffff',
+                		'#ffffff',
+                		'#ffffff',
+                		'#ffffff'
+            		],
+            		borderWidth: 0
+        		},
+        		{
+            		data: [14,32,7.1,10.5],
+            		backgroundColor: [
+                		'rgba(77, 166, 255,0.5)',
+            		],
+            		borderColor: [
+                		'#0073e6',
+            		],
+            		pointBackgroundColor: [
+                		'#0073e6',
+                		'#0073e6',
+                		'#0073e6',
+                		'#0073e6'
+            		],
+            		pointBorderColor: [
+                		'#ffffff',
+                		'#ffffff',
+                		'#ffffff',
+                		'#ffffff'
+            		],
+            		borderWidth: 0
+        		}
+        	],
+        		
+    	},
+    	options: {
+       		responsive: true,
+       		legend: {
+       			position: 'left',
+       			display:false,
+       			labels: {
+       				fontColor:'#000000'
+       			}
+       		},
+       		pieceLabel: {
+    			render: 'value',
+    			fontColor:'#000000'
+  			},
+       		tooltips:{
+       			enabled:true,
+       			backgroundColor:'rgba(255,255,255,1)',
+       			titleFontColor:'#000000',
+       			bodyFontColor:'#000000',
+       			borderWidth:1,
+       			borderColor:'#4d4d4d',
+       			bodyFontFamily:"GoudyOld"
+       		},
+       		scale:{
+       			ticks:{
+       				stepSize:10,
+       				showLabelBackdrop:false,
+       			},
+       			pointLabels:{
+       				fontColor:'#000000',
+       				fontSize:16,
+       			},
+       			scaleLabel:{
+       				padding:5
+       			}
+       		}
+    	}
+	}
+	
+	var chart = new Chart(chart_ctx, chart_options);
+    ////////////////////////////reservations////////////////////////////////////
+    var tribal_land;
+	
+	function addTribalArea(){
+
+    	tribal_land = null;
+    	tribal_land = new L.TopoJSON(null, {
+			filter: function(feature, layer) {
+				return feature.properties.ID == data2 ? true: 
+					false;
+				},
+			interactive:false	
+		});
+		
+		$.getJSON('assets/tribal_land.json')
+			.done(addTribeData);
+		
+		function addTribeData(topoData) {
+			tribal_land.addData(topoData);
+			tribal_land.addTo(map);
+			tribal_land.eachLayer(handleTribeLayer);
+		}
+
+		function handleTribeLayer(layer){
+			layer.setStyle({
+				color:'#e19b84',
+				weight:1,
+				opacity: 0.8,
+				fillOpacity:0.2,
+				fillColor:'#e19b84'
+			});
+		}
+
+	}
+///////////////////////////////button function////////////////////////////////
+	//this function uses the ClickFunction plugin to easily add/remove layers, change legends, styling and anything else when a new dataset is selected from the dropdown buttons
+	var buttonLabels = ['#but1','#but2','#but3'];
+
+	var buttonFunctions = {
+		but1: {button:'but1',
+				newLayers:[reservations,pnwStates,urbanAreas,backgroundParks],
+				newLegend: 'leg_1',
+				title:'Reservations',
+				variable:1850101,
+				newElements:['facts_1'],
+				layerFunction:function(){
+					if(landArea){
+						landArea.remove(map);
+						$('#resData').css('display', 'none');
+    					$('#title').text('Select Tribal Area');
+    					selection = null;
+    					reservations.eachLayer(resHandleLayer);
+					}
+				}
+			},
+		but2: {button:'but2',
+				newLayers:[],
+				newLegend: 'leg_2',
+				title:'Land Seizure',
+				newElements:['slider-vertical-modern','facts_2'],
+				variable:1850101,
+				layerFunction:function(){
+					$("#slider-vertical-modern").slider('value',1850);
+					if(landArea)
+						{
+							landArea.remove(map);
+							addLandArea();
+						}
+					}
+				}
+	};
+
+	$('.function').clickFunction({
+		buttonFunctions: buttonFunctions,
+		buttonLabels: buttonLabels,
+		selected:buttonFunctions.but1
+	});
+     
+///////////////////////////////other miscellaneous functions (these also never change)////////////////////////////////
+
+   	//add zoom control
+    new L.Control.Zoom({ position: 'bottomright' }).addTo(map);
+
+    //remove leaflet attribution
+	document.getElementsByClassName("leaflet-control-attribution")[0].style.visibility = "hidden";
+
+	//add scrolling capabilities to text box
+    var container = document.getElementById('text');
+		Ps.initialize(container);
+
+	//update text box to be correct size
+	var minHeight = 50; // Define a minimum height for the middle div
+
+	function resizeMiddle() {
+    var h = $('body').height() - $('#top').height() - 65;
+    		h = h > minHeight ? h : minHeight;
+   	 	$('#attribution').height(h);
+	}
+
+	function resizePopup() {
+   		var h = $('.popup').height() - 90;
+    		h = h > minHeight ? h : minHeight;
+   	 	$('.popup .content').height(h);
+	}
+	$(document).ready(resizePopup);
+	$(window).resize(resizePopup);
+
+	$(document).ready(resizeMiddle);
+	$(window).resize(resizeMiddle);
+
+    //remove standard leaflet attribution
+	$(document).click(function(event) {
+		if (!$(event.target).closest(".share_overlay,.share,#sources,#link_popup").length) {
+			$('#clear')[0].click();
+		}
+	});
+
+
+</script>
+
+</body>
+</html>

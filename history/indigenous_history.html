@@ -1,0 +1,966 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+     <title>Indigenous History</title>
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.2/dist/leaflet.css" />
+    <link rel="stylesheet" href="js/jquery-ui.css">
+    <link rel="stylesheet" href="css/jquery-ui-slider-pips.css" />
+    <link rel="stylesheet" href="css/history_style.css" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Maven+Pro" rel="stylesheet">
+    <link rel="stylesheet" href="css/perfect-scrollbar.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <link rel="shortcut icon" href="img/pnw.ico" type="image/x-icon">
+    
+    <meta property="og:title" content="Atlas of the Pacific Northwest: Indigenous History" />
+    <meta property="og:url" content="https://rawgit.com/osulp/PNWatlas/master/history/indigenous_history.html" />
+    <meta property="og:description" content="Indigenous History maps of the Pacific Northwest."/>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="https://unpkg.com/leaflet@1.0.2/dist/leaflet.js"></script>
+    <script src="https://d3js.org/topojson.v1.min.js"></script>
+    <script type="text/javascript" src="../js/clickFunction.js"></script>
+    <script src="https://unpkg.com/papaparse@4.3.6/papaparse.min.js"></script>
+    <script src="js/CanvasFlowmapLayer.js"></script>
+	<script src="js/perfect-scrollbar.js"></script>
+
+</head>
+<body>
+<!--Our HTML for this map will be relatively simple. We'll mainly just need a legend that shows different town and border designations. -->
+		<button id="collapse" onclick="collapse()">
+			<i class="fa fa-chevron-left" id ="collapse-arrow" aria-hidden="true"></i>
+		</button>
+		<div id="infoPanel">
+			<div id="top">
+				<h1>Indigenous History</h1>
+				<img src="img/placeholder.png" id="titleImageCircle" style="display:inline-block;">
+<!--Like I said, we won't need to worry about clickFunction for this one-->
+				<div id="buttons">
+					<div class="dropdown">
+						<button class="dropbtn"><b id="dataType">Select Data</b><p id="arrow">&#9660;</p></button>
+						<div class="dropdown-content">
+							 <button type="button" id="but1" class="selection" style="background:rgba(242, 242, 242, 0.8);">Tribal Groups</button>
+							 <button type="button" id="but2" class="selection">Language</button>
+							 <button type="button" id="but3" class="selection">Confederation</button>
+							 <button type="button" id="but4" class="selection">Combined View</button>
+					   </div>
+					</div>
+				</div>
+			</div>
+			<div id="attribution">
+				<div id="text" style="text-align:left;">
+					<div id="leg_1" style="display:unset;">
+						<br/>
+						<p id="description" style="font-weight:bold; text-align:left; white-space:normal; padding-left:0px; width:280px; display:block; position:relative; font-size:22px; margin-bottom:15px; line-height:24px;">Each point on the map represents the relative location of an indigenous tribal group.</p>
+						<hr>
+						<div id="lang_select" style="display:none;">
+							<p style="font-weight:bold; text-align:left; white-space:normal; padding-left:0px; width:280px; display:block; position:relative; font-size:22px; margin-bottom:15px; line-height:24px;">Selecting a point will reveal tribal groups with the same language group.</p>
+							<div style="width:200px; display:inline-block;"><hr style="color:#ff0000; width:52px; float:left; height:4px; background-color:#ff0000; line-height:20px; margin-top:16px; display:inline; border:none;"/><p id="leg1" style="padding-left:10px;">Common Language Group</p></div>
+							<hr>
+						</div>
+						<div id="con_select" style="display:none;">
+							<p style="font-weight:bold; text-align:left; white-space:normal; padding-left:0px; width:280px; display:block; position:relative; font-size:22px; margin-bottom:15px; line-height:24px;">Selecting a point will reveal tribal groups in the same confederation(s)/reservation(s).</p>
+							<div style="width:200px; display:inline-block;"><hr style="color:#3366ff; width:52px; float:left; height:4px; background-color:#3366ff; line-height:20px; margin-top:16px; display:inline; border:none;"/><p id="leg1" style="padding-left:10px;">Confederation(s)</p></div>
+							<hr>
+						</div>
+						<div id="comb_select" style="display:none;">
+							<p style="font-weight:bold; text-align:left; white-space:normal; padding-left:0px; width:280px; display:block; position:relative; font-size:22px; margin-bottom:15px; line-height:24px;">Selecting a point will reveal tribal groups with the same language group, as well as tribes in the same confederation(s)/reservation(s).</p>
+							<div style="width:200px; display:inline-block;"><hr style="color:#3366ff; width:52px; float:left; height:4px; background-color:#ff0000; line-height:20px; margin-top:16px; display:inline; border:none;"/><p id="leg1" style="padding-left:10px;">Common Language Group</p></div>
+							<div style="width:200px; display:inline-block;"><hr style="color:#3366ff; width:52px; float:left; height:4px; background-color:#3366ff; line-height:20px; margin-top:16px; display:inline; border:none;"/><p id="leg1" style="padding-left:10px;">Confederation(s)</p></div>
+							<div style="width:200px; display:inline-block;"><hr style="color:#3366ff; width:52px; float:left; height:4px; background-color:#000000; line-height:20px; margin-top:16px; display:inline; border:none;"/><p id="leg1" style="padding-left:10px;">Both</p></div>
+							<hr>
+						</div>
+						<h2 id="title" style="font-size:30px; margin-top:15px; margin-bottom:15px;">Select a Point</h2>
+						<div id="tribe_facts" style="display:none;">
+							<!--<p id="meaning" style="text-align:left; white-space:normal; padding-left:0px; width:280px; display:block; position:relative;">Name Meaning:</p>-->
+							<p id="english" style="text-align:left; white-space:normal; padding-left:0px; width:280px; display:block; position:relative;">English Name:</p>
+							<p id="lang" style="text-align:left; white-space:normal; padding-left:0px; width:280px; display:block; position:relative;">Language Group:</p>
+							<p id="res" style="text-align:left; white-space:normal; padding-left:0px; width:280px; display:block; position:relative;">Reservation/Confederated Group:</p>
+						</div>
+						<br/>
+					</div>	
+					<div id="facts_1">
+						<br/>
+					</div>
+					<div id="facts_2" style="display:none;">
+						<p3 style="font-weight:bold; line-height:36px;">Fast Facts:</p3><br/>
+						<p3 id="facts">&#9900&nbspBeginning in the early 1800s, the US Government began aggressively seizing land from indigenous populations. These seizures were legitimized through written treaties, and the official language of the government declared the land as "ceded". Indigenous people were confined to declared reservations.</p3><br/><br/>
+					</div>
+				</div>
+
+<!--I figure this'll need to change for its place in the historical chapter-->
+				<div id="pageChange">
+					<a href="#sources" id="arrow" style="display:inline-block;">
+						<i class="fa fa-info-circle" aria-hidden="true" style="padding-left:90px;"></i>
+					</a>
+					<a href="#link_popup" id="arrow" style="display:inline-block;">
+						<i class="fa fa-home" aria-hidden="true" style="padding-left:0;"></i>
+					</a>
+					<a href="#share" class="share" id="arrow" style="display:inline-block;">
+						<i class="fa fa-share-alt " aria-hidden="true" style="padding-left:0;"></i>
+					</a>
+				</div>
+			</div>
+<!--Here is the actual "slider" on the side of the info panel. The style probably won't need to change too much, but it may need to be taller to comfortably accomodate every decade-->
+			<div id="slider-vertical-modern" style="display:none; height:340px; font-size:20px; width:10px; position:absolute; left:320px; z-index:2000; top:25%; border-radius: 0px 3px 3px 0px;background:rgba(255,255,255,0.6);border-top: 10px solid rgba(255,255,255,0);border-bottom: 10px solid rgba(255,255,255,0);"></div>
+		</div>
+
+    	<div id="map" style="width: 100%; height: 100%;"></div>
+<!--We can save sources for last-->
+    	<div id="sources" class="overlay">
+			<div class="popup">
+				<h2 style="display:inline; font-size:32px;">Sources</h2>
+				<a class="close" href="#" style="display:inline;">×</a>
+				<hr>
+				<div class="content">
+					<p2 style="font-size:20px">Content Notes</p2><br><br/>
+					<p3>We have done our best to be thorough and accurate, but due to the nature of Euro-American colonization and settlement, certain information has been lost to history. We acknowledge that strict geographic boundaries and Euro-American notions of land ownership were generally not part of Indigenous cultures in what became the Pacific Northwest, and therefore this map is designed to show general relationships between those indigenous cultures, as opposed to their absolute locations. Please let us know of any corrections or improvements you may have.</p3>
+					<br/><br/>
+					<p2 style="font-size:20px">Geographic Data</p2><br><br/>
+                    <div class="source">
+                    	<b><p2>Tribal Locations/Information: <a href = "http://www.hiddenhistory.com/PAGE3/Wherwhn1.htm" target="_blank">Hidden History</a></p2></b><br>
+                    		<p3>Notes: Data obtained from this site are sourced to a 1952 book by Reed Swanton, entitled "The Indian Tribes of North America". While some of the book's content is certainly outdated, the maps included provided a fairly complete picture of Indigenous homelands. The maps from Swanton's book (and presented on the linked website) were used to digitize the points on this Indigenous History map. Points were placed at the relative center of the territory outlined by Swanton. Point locations are not supposed to be exact, and do not correspond with any actual geographic feature. Rather, their placement correspond to the general location of that tribe prior to Euro-American contact.</p3>
+                    </div>
+                </div>
+				<hr>
+				<p2 id="map_creation" style="float:right; font-size:16px;">Map created with <a href = "https://leafletjs.com/" target="_blank">Leaflet</a>, <a href = "https://d3js.org/topojson.v1.min.js" target="_blank">D3 TopoJson</a>, <a href = "https://github.com/sarahbellum/Canvas-Flowmap-Layer" target="_blank">Canvas Flowmap Layer</a>, <a href = "http://geoserver.org/" target="_blank">Geoserver</a>, and <a href = "https://qgis.org/en/site/" target="_blank">QGIS</a></p2>
+				<br/>
+				<a class="close2" href="#" style="display:inline;">Close</a>
+			</div>
+		</div>
+
+		<div id="link_popup" class="link_overlay">
+			<div class="link_popup">
+				<a class="close" href="#" style="display:inline;">×</a>
+				<div class="content">
+					<a href="history_index.html" style="font-weight:bold; text-decoration:none;">Culture/History Home</a>
+					<hr>
+					<a href="indigenous_history.html" style="text-decoration:underline;">Indigenous History</a>
+					<a href="tribal_land.html" style="text-decoration:underline;">Tribal Land</a>
+					<a href="historical_maps.html" style="text-decoration:underline;">Historical Maps</a>
+					<a href="settlement.html" style="text-decoration:underline;">Borders & Settlement</a>
+					<hr>
+					<a href="../index.html" style="font-weight:bold; text-decoration:none;">Atlas Home</a>
+				</div>
+			</div>
+		</div>
+		
+		<div id="share" class="share_overlay">
+			<div class="share_popup">
+				<a id="clear" href="#" style="display:none;">×</a>
+				<div class="content">
+					<a href="https://facebook.com/sharer.php?u=https://rawgit.com/osulp/PNWatlas/master/history/indigenous_history.html" id="arrow" style="display:inline-block;">
+						<i class="fa fa-facebook-square " aria-hidden="true" style="padding-left:0;"></i>
+					</a>
+					<a href="https://twitter.com/home?status=PNW%20Indigenous History%0Ahttp%3A//rawgit.com/osulp/PNWatlas/master/history/indigenous_history.html" id="arrow" style="display:inline-block;">
+						<i class="fa fa-twitter-square " aria-hidden="true" style="padding-left:0;"></i>
+					</a>
+					<a href="" id="arrow" style="display:inline-block;">
+						<i class="fa fa-linkedin-square " aria-hidden="true" style="padding-left:0;"></i>
+					</a>
+				</div>
+			</div>
+		</div>
+
+<script>
+//////////////base functions (these never change)///////////////////////
+	//////////////function for the info panel collapse button///////////////////////
+	var collapsed = false;
+    function collapse(){
+    	if (collapsed == false){
+    		document.getElementById("infoPanel").style.transition = "display 2s";
+    		document.getElementById("infoPanel").style.display = "none";
+    		document.getElementById("collapse").style.left = '0px';
+    		document.getElementById("collapse").style.paddingLeft = '2px';
+    		document.getElementById("collapse-arrow").className = "fa fa-chevron-right";
+    		collapsed = true;
+    	} else{
+    		document.getElementById("infoPanel").style.display = "unset";
+    		document.getElementById("collapse").style.left = '320px';
+    		document.getElementById("collapse").style.paddingLeft = '0px';
+    		document.getElementById("collapse-arrow").className = "fa fa-chevron-left";
+    		collapsed = false;
+    	}
+
+    }
+//////////////function that allows topojson layers to be loaded///////////////////////
+    L.TopoJSON = L.GeoJSON.extend({
+  		addData: function(jsonData) {
+    		if (jsonData.type === 'Topology') {
+      			for (key in jsonData.objects) {
+       			 geojson = topojson.feature(jsonData, jsonData.objects[key]);
+       			 L.GeoJSON.prototype.addData.call(this, geojson);
+      		}
+    	}
+    	else {
+      		L.GeoJSON.prototype.addData.call(this, jsonData);
+    		}
+  		}
+	});
+//////////////Initialize map///////////////////////
+	var map = L.map('map', {center: [46.56, -119.75], zoom: 7, zoomControl:false});
+///////////////////////make zoom level correspond to browser size////////////////////////////////
+	window.addEventListener('load', function(event){
+    	var width = document.documentElement.clientWidth;
+    	if (width < 1500 && width > 800) {
+        	map.setView(new L.LatLng(46.56, -121.75), 6);
+    		}  else if (width > 1501) {
+        	map.setZoom(7);
+        	} else {
+        	map.setZoom(5);
+        	}
+	});
+////////////////////////////////basemap layers////////////////////////////////
+/*We can just use the default basemap for now*/
+	var Esri_WorldTerrain = L.tileLayer('https://api.mapbox.com/styles/v1/pnwatlas/cjl42fute4l6l2slp422hba6v/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoicG53YXRsYXMiLCJhIjoiY2pnM3puY3hwMXVldTJxcXBjZnZseG1jbCJ9.AXk0tP-pS2HjpgLJahLcdw', {
+		maxZoom:10,
+		minZoom:5,
+		opacity:1
+	}).addTo(map);
+	
+	var data = 1;
+
+////////////////////////////////important variables////////////////////////////////
+	//this variable is the listener for whenever a new dataset is selected
+
+	/*var info = L.control();
+
+	info.onAdd = function (map) {
+    	this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
+    	this.update();
+    	return this._div;
+	};
+
+	info.update = function () {
+   		this._div.innerHTML = (
+        	'<h2>Hover over map</h2>'
+        	);
+		};
+
+	info.addTo(map);*/
+////////////////////////////display Layers////////////////////////////////////
+	var value;
+	var dataTable = {};
+	var dataTable2 = {};
+	var dataTable3 = {};
+	var dataTable4 = {};
+	var selection;
+	var prevClick;
+	var	oneToManyFlowmapLayer;
+	var	oneToManyFlowmapLayer2;
+	var	oneToManyFlowmapLayer3;
+	
+	var lang_geojson = {};
+			lang_geojson['type'] = 'FeatureCollection';
+			lang_geojson['features'] = [];
+			
+	var res_geojson = {};
+			res_geojson['type'] = 'FeatureCollection';
+			res_geojson['features'] = [];
+			
+	var comb_geojson = {};
+			comb_geojson['type'] = 'FeatureCollection';
+			comb_geojson['features'] = [];
+
+	function createLang(data) {
+		for (var i = 0;i < 101;i++){
+			dataTable[i] = data[i];
+		}
+		
+		function connectedPoint(id,x1,y1,id2,x2,y2,type){
+			this.id = id;
+			this.x1 = x1;
+			this.y1 = y1;
+			this.id2 = id2;
+			this.x2 = x2;
+			this.y2 = y2;
+			this.type = type;
+			//this.size = size
+		}
+		
+		var num = 0;
+		var num2 = 0;
+		var num3 = 0;
+	
+		for (var i = 0;i < 101;i++){
+			for (var j = 0;j < 101;j++){
+				if (dataTable[i].lang_grp == dataTable[j].lang_grp){
+					dataTable2[num] = new connectedPoint(dataTable[i].id,dataTable[i].long1,dataTable[i].lat1,dataTable[j].id,dataTable[j].long1,dataTable[j].lat1,1);
+					num = num + 1;
+				}
+			}
+		}
+		
+		for (var i = 0;i < 101;i++){
+			for (var j = 0;j < 101;j++){
+				if (dataTable[i].confd_res == dataTable[j].confd_res){
+					dataTable3[num2] = new connectedPoint(dataTable[i].id,dataTable[i].long1,dataTable[i].lat1,dataTable[j].id,dataTable[j].long1,dataTable[j].lat1,1);
+					num2 = num2 + 1;
+				}
+			}
+			for (var j = 0;j < 101;j++){
+				if (dataTable[i].confd_res == dataTable[j].confd_res2){
+					dataTable3[num2] = new connectedPoint(dataTable[i].id,dataTable[i].long1,dataTable[i].lat1,dataTable[j].id,dataTable[j].long1,dataTable[j].lat1,1);
+					num2 = num2 + 1;
+				}
+			}
+			for (var j = 0;j < 101;j++){
+				if (dataTable[i].confd_res2 == dataTable[j].confd_res){
+					dataTable3[num2] = new connectedPoint(dataTable[i].id,dataTable[i].long1,dataTable[i].lat1,dataTable[j].id,dataTable[j].long1,dataTable[j].lat1,1);
+					num2 = num2 + 1;
+				}
+			}
+			for (var j = 0;j < 101;j++){
+				if (dataTable[j].confd_res2 != '1'){
+					if (dataTable[i].confd_res2 == dataTable[j].confd_res2){
+						dataTable3[num2] = new connectedPoint(dataTable[i].id,dataTable[i].long1,dataTable[i].lat1,dataTable[j].id,dataTable[j].long1,dataTable[j].lat1,1);
+						num2 = num2 + 1;
+					}
+				}
+			}
+		}
+		
+		for (var i = 0;i < 101;i++){
+			for (var j = 0;j < 101;j++){
+				if ((dataTable[i].confd_res == dataTable[j].confd_res) && (dataTable[i].lang_grp == dataTable[j].lang_grp)){
+					dataTable4[num3] = new connectedPoint(dataTable[i].id,dataTable[i].long1,dataTable[i].lat1,dataTable[j].id,dataTable[j].long1,dataTable[j].lat1,3);
+					num3 = num3 + 1;
+				} 
+			}
+			for (var j = 0;j < 101;j++){
+				if ((dataTable[i].confd_res == dataTable[j].confd_res2) && (dataTable[i].lang_grp == dataTable[j].lang_grp)){
+					dataTable4[num3] = new connectedPoint(dataTable[i].id,dataTable[i].long1,dataTable[i].lat1,dataTable[j].id,dataTable[j].long1,dataTable[j].lat1,3);
+					num3 = num3 + 1;
+				} 
+			}
+			for (var j = 0;j < 101;j++){
+				if ((dataTable[i].confd_res2 == dataTable[j].confd_res) && (dataTable[i].lang_grp == dataTable[j].lang_grp)){
+					dataTable4[num3] = new connectedPoint(dataTable[i].id,dataTable[i].long1,dataTable[i].lat1,dataTable[j].id,dataTable[j].long1,dataTable[j].lat1,3);
+					num3 = num3 + 1;
+				} 
+			}
+			for (var j = 0;j < 101;j++){
+				if (dataTable[j].confd_res2 != '1'){
+					if ((dataTable[i].confd_res2 == dataTable[j].confd_res2) && (dataTable[i].lang_grp == dataTable[j].lang_grp)){
+						dataTable4[num3] = new connectedPoint(dataTable[i].id,dataTable[i].long1,dataTable[i].lat1,dataTable[j].id,dataTable[j].long1,dataTable[j].lat1,3);
+						num3 = num3 + 1;
+					} 
+				}
+			}
+			for (var j = 0;j < 101;j++){
+				if ((dataTable[i].confd_res == dataTable[j].confd_res) && (dataTable[i].lang_grp != dataTable[j].lang_grp)){
+					dataTable4[num3] = new connectedPoint(dataTable[i].id,dataTable[i].long1,dataTable[i].lat1,dataTable[j].id,dataTable[j].long1,dataTable[j].lat1,2);
+					num3 = num3 + 1;
+				} 
+			}
+			for (var j = 0;j < 101;j++){
+				if ((dataTable[i].confd_res == dataTable[j].confd_res2) && (dataTable[i].lang_grp != dataTable[j].lang_grp)){
+					dataTable4[num3] = new connectedPoint(dataTable[i].id,dataTable[i].long1,dataTable[i].lat1,dataTable[j].id,dataTable[j].long1,dataTable[j].lat1,2);
+					num3 = num3 + 1;
+				} 
+			}
+			for (var j = 0;j < 101;j++){
+				if ((dataTable[i].confd_res2 == dataTable[j].confd_res) && (dataTable[i].lang_grp != dataTable[j].lang_grp)){
+					dataTable4[num3] = new connectedPoint(dataTable[i].id,dataTable[i].long1,dataTable[i].lat1,dataTable[j].id,dataTable[j].long1,dataTable[j].lat1,2);
+					num3 = num3 + 1;
+				} 
+			}
+			
+			for (var j = 0;j < 101;j++){
+				if (dataTable[j].confd_res2 != '1'){
+					if ((dataTable[i].confd_res2 == dataTable[j].confd_res2) && (dataTable[i].lang_grp != dataTable[j].lang_grp)){
+						dataTable4[num3] = new connectedPoint(dataTable[i].id,dataTable[i].long1,dataTable[i].lat1,dataTable[j].id,dataTable[j].long1,dataTable[j].lat1,2);
+						num3 = num3 + 1;
+					} 
+				}
+			}
+			
+			for (var j = 0;j < 101;j++){
+				if ((dataTable[i].lang_grp == dataTable[j].lang_grp) && ((dataTable[i].confd_res != dataTable[j].confd_res) && (dataTable[i].confd_res != dataTable[j].confd_res2))){
+					dataTable4[num3] = new connectedPoint(dataTable[i].id,dataTable[i].long1,dataTable[i].lat1,dataTable[j].id,dataTable[j].long1,dataTable[j].lat1,1);
+					num3 = num3 + 1;
+				} 
+			}
+		}
+				
+		
+		for (var i = 0;i <num;i++) {
+			var newFeature = {
+				"type": "Feature",
+				"geometry": {
+					"type": "Point",
+					"coordinates": parseFloat[(dataTable2[i].y1), parseFloat(dataTable2[i].x1)]
+				},
+				"properties": {
+					"id": dataTable2[i].id,
+					"id2": dataTable2[i].id2,
+					"x1": dataTable2[i].x1,
+					"y1": dataTable2[i].y1,
+					"x2": dataTable2[i].x2,
+					"y2": dataTable2[i].y2,
+				}
+			}
+			lang_geojson['features'].push(newFeature);
+		}	
+		
+		for (var i = 0;i <num2;i++) {
+			var newFeature = {
+				"type": "Feature",
+				"geometry": {
+					"type": "Point",
+					"coordinates": parseFloat[(dataTable3[i].y1), parseFloat(dataTable3[i].x1)]
+				},
+				"properties": {
+					"id": dataTable3[i].id,
+					"id2": dataTable3[i].id2,
+					"x1": dataTable3[i].x1,
+					"y1": dataTable3[i].y1,
+					"x2": dataTable3[i].x2,
+					"y2": dataTable3[i].y2,
+				}
+			}
+			res_geojson['features'].push(newFeature);
+		}
+		
+		for (var i = 0;i <num3;i++) {
+			var newFeature = {
+				"type": "Feature",
+				"geometry": {
+					"type": "Point",
+					"coordinates": parseFloat[(dataTable4[i].y1), parseFloat(dataTable4[i].x1)]
+				},
+				"properties": {
+					"id": dataTable4[i].id,
+					"id2": dataTable4[i].id2,
+					"x1": dataTable4[i].x1,
+					"y1": dataTable4[i].y1,
+					"x2": dataTable4[i].x2,
+					"y2": dataTable4[i].y2,
+					"type": dataTable4[i].type,
+				}
+			}
+			comb_geojson['features'].push(newFeature);
+		}
+				
+		oneToManyFlowmapLayer = L.canvasFlowmapLayer(lang_geojson, {
+			  originAndDestinationFieldIds: {
+				originUniqueIdField: 'id',
+				originGeometry: {
+				  x: 'x1',
+				  y: 'y1'
+				},
+				destinationUniqueIdField: 'id2',
+				destinationGeometry: {
+				  x: 'x2',
+				  y: 'y2'
+				}
+			  },
+			  canvasBezierStyle: {
+				  type: 'simple',
+				  symbol: {
+					strokeStyle: '#ff0000',
+					lineWidth: 0.75,
+					lineCap: 'round',
+					shadowColor: '#b30000',
+					shadowBlur: 1.5
+				  }
+				},
+			  style: function(geoJsonFeature) {
+				if (geoJsonFeature.properties.isOrigin) {
+					return {
+						radius: 0,
+						weight: 0,
+						color: 'rgb(0, 0, 0,0)',
+						fillColor: 'rgba(0, 0, 0, 0)',
+						fillOpacity: 0
+					};
+				}
+				else{
+					return {
+						radius: 0,
+						weight: 0,
+						color: 'rgb(0, 0, 0,0)',
+						fillColor: 'rgba(0, 0, 0, 0)',
+						fillOpacity: 0
+					};
+				}
+			 },
+			  pathDisplayMode: 'selection',
+
+		}).addTo(map);
+		
+		oneToManyFlowmapLayer2 = L.canvasFlowmapLayer(res_geojson, {
+			  originAndDestinationFieldIds: {
+				originUniqueIdField: 'id',
+				originGeometry: {
+				  x: 'x1',
+				  y: 'y1'
+				},
+				destinationUniqueIdField: 'id2',
+				destinationGeometry: {
+				  x: 'x2',
+				  y: 'y2'
+				}
+			  },
+			  canvasBezierStyle: {
+				  type: 'simple',
+				  symbol: {
+					strokeStyle: '#3366ff',
+					lineWidth: 0.75,
+					lineCap: 'round',
+					shadowColor: '#002699',
+					shadowBlur: 1.5
+				  }
+				},
+			  style: function(geoJsonFeature) {
+				if (geoJsonFeature.properties.isOrigin) {
+					return {
+						radius: 0,
+						weight: 0,
+						color: 'rgb(0, 0, 0,0)',
+						fillColor: 'rgba(0, 0, 0, 0)',
+						fillOpacity: 0
+					};
+				}
+				else{
+					return {
+						radius: 0,
+						weight: 0,
+						color: 'rgb(0, 0, 0,0)',
+						fillColor: 'rgba(0, 0, 0, 0)',
+						fillOpacity: 0
+					};
+				}
+			 },
+			  pathDisplayMode: 'selection',
+
+		}).addTo(map);
+		
+		oneToManyFlowmapLayer3 = L.canvasFlowmapLayer(comb_geojson, {
+			  originAndDestinationFieldIds: {
+				originUniqueIdField: 'id',
+				originGeometry: {
+				  x: 'x1',
+				  y: 'y1'
+				},
+				destinationUniqueIdField: 'id2',
+				destinationGeometry: {
+				  x: 'x2',
+				  y: 'y2'
+				}
+			  },
+			  canvasBezierStyle: {
+				  type: 'uniqueValue',
+				  field:'type',
+				  uniqueValueInfos:[
+				  {
+				      value: 3,
+					  symbol: {
+						strokeStyle: '#000000',
+						lineWidth: 1,
+						lineCap: 'round',
+						shadowColor: '#000000',
+						shadowBlur: 1.5
+					  }
+				  },
+				  {
+				      value: 1,
+					  symbol: {
+						strokeStyle: '#ff0000',
+						lineWidth: 0.75,
+						lineCap: 'round',
+						shadowColor: '#b30000',
+						shadowBlur: 1.5
+					  }
+				  },
+				  {
+				      value: 2,
+					  symbol: {
+						strokeStyle: '#3366ff',
+						lineWidth: 0.75,
+						lineCap: 'round',
+						shadowColor: '#002699',
+						shadowBlur: 1.5
+					  }
+				  }
+				]},
+			  style: function(geoJsonFeature) {
+				if (geoJsonFeature.properties.isOrigin) {
+					return {
+						radius: 0,
+						weight: 0,
+						color: 'rgb(0, 0, 0,0)',
+						fillColor: 'rgba(0, 0, 0, 0)',
+						fillOpacity: 0
+					};
+				}
+				else{
+					return {
+						radius: 0,
+						weight: 0,
+						color: 'rgb(0, 0, 0,0)',
+						fillColor: 'rgba(0, 0, 0, 0)',
+						fillOpacity: 0
+					};
+				}
+			 },
+			  pathDisplayMode: 'selection',
+
+		}).addTo(map);
+	}
+
+	function parseData(url, callBack) {
+		Papa.parse(url, {
+			download: true,
+			header:true,
+			dynamicTyping: true,
+			complete: function(results) {
+				callBack(results.data);
+			}
+		});
+	}
+
+	parseData("assets/indigenous_territory.csv", createLang); 
+	
+	
+	/*	
+	var value;
+	var dataTable = {};
+	var selection;
+	var	oneToManyFlowmapLayer;
+	
+	var geojson = {};
+			geojson['type'] = 'FeatureCollection';
+			geojson['features'] = [];
+
+	function doStuff(data) {
+		for (var i = 0;i < 101;i++){
+			dataTable[i] = data[i];
+		}
+	}
+
+	function parseData(url, callBack) {
+		Papa.parse(url, {
+			download: true,
+			header:true,
+			dynamicTyping: true,
+			complete: function(results) {
+				callBack(results.data);
+			}
+		});
+	}
+
+	parseData("assets/indigenous_territory.csv", doStuff); 
+
+	function createPairs(data, data_id, data_x, data_y){
+		
+		var dataTable2 = {};
+		
+		function connectedPoint(id,x1,y1,id2,x2,y2,size){
+			this.id = id;
+			this.x1 = x1;
+			this.y1 = y1;
+			this.id2 = id2;
+			this.x2 = x2;
+			this.y2 = y2;
+			this.size = size
+		}
+		
+		var selection = [];
+		
+		for (var i = 0;i < 101;i++){
+			if (data == dataTable[i].lang_grp){
+				selection.push(i);
+			}
+		}
+		for (var i = 0;i < selection.length;i++){
+			dataTable2[i] = new connectedPoint(data_id,data_x,data_y,dataTable[selection[i]].id,dataTable[selection[i]].long1,dataTable[selection[i]].lat1,dataTable[selection[i]].size); 
+		}
+
+		for (var i = 0;i < selection.length;i++) {
+			var newFeature = {
+				"type": "Feature",
+				"geometry": {
+					"type": "Point",
+					"coordinates": parseFloat[(dataTable2[i].y1), parseFloat(dataTable2[i].x1)]
+				},
+				"properties": {
+					"id": dataTable2[i].id,
+					"id2": dataTable2[i].id2,
+					"x1": dataTable2[i].x1,
+					"y1": dataTable2[i].y1,
+					"x2": dataTable2[i].x2,
+					"y2": dataTable2[i].y2,
+					"size": dataTable2[i].size
+				}
+			}
+			geojson['features'].push(newFeature);
+		}	
+		
+		console.log(geojson);
+
+		oneToManyFlowmapLayer = L.canvasFlowmapLayer(geojson, {
+			  originAndDestinationFieldIds: {
+				originUniqueIdField: 'id',
+				originGeometry: {
+				  x: 'x1',
+				  y: 'y1'
+				},
+				destinationUniqueIdField: 'id2',
+				destinationGeometry: {
+				  x: 'x2',
+				  y: 'y2'
+				}
+			  },
+			  style: function(geoJsonFeature) {
+				if (geoJsonFeature.properties.isOrigin) {
+					return {
+						radius: 0,
+						weight: 0,
+						color: 'rgb(0, 0, 0,0)',
+						fillColor: 'rgba(0, 0, 0, 0)',
+						fillOpacity: 0
+					};
+				}
+			 },
+			  pathDisplayMode: 'selection',
+
+			}).addTo(map);
+
+			//oneToManyFlowmapLayer.selectFeaturesForPathDisplay(oneToManyFlowmapLayer.sharedOriginFeatures, 'SELECTION_NEW');
+			oneToManyFlowmapLayer.selectFeaturesForPathDisplayById('id2', selection, false, 'SELECTION_NEW');
+			
+		}
+	*/	
+					 
+	function highlight(e) {
+		 var layer = e.target;
+		 layer.setStyle({
+				color: '#000000',
+    			fillColor: '#ffffff',
+    			radius: 7,
+    			opacity: 1,
+    			fillOpacity: 1,
+    			weight: 4
+		 }); 
+
+	}
+	//reset feature function (after highlight)
+	function resetHighlight(e) {
+		var layer = e.target;
+		 if (selection != layer.feature.properties.id){
+			 layer.setStyle({
+					color: '#000000',
+					fillColor: '#000000',
+					radius: 3.5,
+					opacity: 1,
+					fillOpacity: 0,
+					weight: 2.5
+			 });
+		}
+
+	}
+	
+	function onClick(e) {
+		var layer = e.target;
+			layer.setStyle({
+				color: '#000000',
+				fillColor: '#ffffff',
+				radius: 7,
+				opacity: 1,
+				fillOpacity: 1,
+				weight: 4
+		 }); 
+		 
+		resetClick();
+		 
+    	prevClick = layer;
+    	selection = layer.feature.properties.id;
+    	
+    	if (data == 2){
+    		$('#lang').css('font-weight','bold');
+    		oneToManyFlowmapLayer.clearAllPathSelections();
+    		oneToManyFlowmapLayer.selectFeaturesForPathDisplayById('id2', selection, false, 'SELECTION_NEW');
+    	}
+    	if (data == 3){
+    		$('#res').css('font-weight','bold');
+    		oneToManyFlowmapLayer2.clearAllPathSelections();
+    		oneToManyFlowmapLayer2.selectFeaturesForPathDisplayById('id2', selection, false, 'SELECTION_NEW');
+    	}
+    	if (data == 4){
+			oneToManyFlowmapLayer3.clearAllPathSelections();
+			oneToManyFlowmapLayer3.selectFeaturesForPathDisplayById('id2', selection, false, 'SELECTION_NEW');
+    	}
+    	
+		$('#tribe_facts').css('display','block');
+		 
+		$('#title').text(layer.feature.properties.own_name);
+		//$('#meaning').text(layer.feature.properties.name_mean);
+		$('#english').text("English Name: " + layer.feature.properties.name);
+		$('#lang').text("Language Group: " + layer.feature.properties.lang_grp);
+		$('#res').text("Reservation(s)/Confederation(s): " + layer.feature.properties.confd_res + nullRes(layer.feature.properties.confd_res2) );
+	}
+	
+	function nullRes(value){
+		if (value == '1'){
+			return ' ';
+		}
+		else{
+			return ' and ' + value;
+		}
+	}
+	
+	function resetClick(){	 
+		 $('#tribe_facts').css('display','none');
+		 $('#title').text("Select a Point");
+		 
+		 if (prevClick){
+		 	prevClick.setStyle({
+				color: '#000000',
+				fillColor: '#000000',
+				radius: 3.5,
+				opacity: 1,
+				fillOpacity: 0,
+				weight: 2.5
+			 });
+		 }
+	}
+    
+	//park points layer (style included in layer)
+     var indigenous = L.geoJson(null, {
+        	pointToLayer: function (feature, latlng) {
+    			return L.circleMarker(latlng, {
+    				color: '#000000',
+    				fillColor: '#000000',
+    				radius: 3.5,
+    				opacity: 1,
+    				fillOpacity: 0,
+    				weight: 2.5
+    				}).bindTooltip('<h3 style="display:inline;">' + feature.properties.own_name + '</h3><br/><p style="display:inline;">' + feature.properties.name + '</p>', {className: 'label_tooltip2'});
+    			},
+    			onEachFeature: function(feature, featureLayer) {
+        		featureLayer.on({
+        			mouseover: highlight,
+        			mouseout: resetHighlight,
+        			click: onClick,
+   				});
+        	}
+        }).addTo(map);
+        
+     $.getJSON("assets/indigenous_territory.geojson", function(data) {
+        indigenous.addData(data);
+    });
+   
+///////////////////////////////button function////////////////////////////////
+	//this function uses the ClickFunction plugin to easily add/remove layers, change legends, styling and anything else when a new dataset is selected from the dropdown buttons
+	var buttonLabels = ['#but1','#but2','#but3','#but4'];
+
+	var buttonFunctions = {
+		but1: {button:'but1',
+				newElements:[],
+				title:'Tribal Groups',
+				variable:1,
+				layerFunction:function(){
+					$('#lang').css('font-weight','normal');
+					$('#res').css('font-weight','normal');
+					resetClick();
+					prevClick = null;
+					oneToManyFlowmapLayer3.clearAllPathSelections();
+					oneToManyFlowmapLayer2.clearAllPathSelections();
+					oneToManyFlowmapLayer.clearAllPathSelections();
+				}
+			},
+		but2: {button:'but2',
+				newElements:['lang_select'],
+				title:'Language',
+				variable:2,
+				layerFunction:function(){
+					$('#lang').css('font-weight','normal');
+					$('#res').css('font-weight','normal');
+					resetClick();
+					prevClick = null;
+					oneToManyFlowmapLayer3.clearAllPathSelections();
+					oneToManyFlowmapLayer2.clearAllPathSelections();
+					oneToManyFlowmapLayer.clearAllPathSelections();
+				}
+			},
+		but3: {button:'but3',
+				newElements:['con_select'],
+				title:'Confederation',
+				variable:3,
+				layerFunction:function(){
+					$('#lang').css('font-weight','normal');
+					$('#res').css('font-weight','normal');
+					resetClick();
+					prevClick = null;
+					oneToManyFlowmapLayer3.clearAllPathSelections();
+					oneToManyFlowmapLayer2.clearAllPathSelections();
+					oneToManyFlowmapLayer.clearAllPathSelections();
+				}
+			},
+		but4: {button:'but4',
+				newElements:['comb_select'],
+				title:'Combined View',
+				variable:4,
+				layerFunction:function(){
+					$('#lang').css('font-weight','normal');
+					$('#res').css('font-weight','normal');
+					resetClick();
+					prevClick = null;
+					oneToManyFlowmapLayer3.clearAllPathSelections();
+					oneToManyFlowmapLayer2.clearAllPathSelections();
+					oneToManyFlowmapLayer.clearAllPathSelections();
+				}
+			}
+	};
+
+	$('.function').clickFunction({
+		buttonFunctions: buttonFunctions,
+		buttonLabels: buttonLabels,
+		selected:buttonFunctions.but1
+	});
+     
+///////////////////////////////other miscellaneous functions (these also never change)////////////////////////////////
+
+   	//add zoom control
+    new L.Control.Zoom({ position: 'bottomright' }).addTo(map);
+
+    //remove leaflet attribution
+	document.getElementsByClassName("leaflet-control-attribution")[0].style.visibility = "hidden";
+
+	//add scrolling capabilities to text box
+    var container = document.getElementById('text');
+		Ps.initialize(container);
+
+	//update text box to be correct size
+	var minHeight = 50; // Define a minimum height for the middle div
+
+	function resizeMiddle() {
+    var h = $('body').height() - $('#top').height() - 65;
+    		h = h > minHeight ? h : minHeight;
+   	 	$('#attribution').height(h);
+	}
+
+	function resizePopup() {
+   		var h = $('.popup').height() - 90;
+    		h = h > minHeight ? h : minHeight;
+   	 	$('.popup .content').height(h);
+	}
+	$(document).ready(resizePopup);
+	$(window).resize(resizePopup);
+
+	$(document).ready(resizeMiddle);
+	$(window).resize(resizeMiddle);
+
+	$(document).click(function(event) {
+		if (!$(event.target).closest(".share_overlay,.share,#sources,#link_popup").length) {
+			$('#clear')[0].click();
+		}
+	});
+
+</script>
+
+</body>
+</html>
