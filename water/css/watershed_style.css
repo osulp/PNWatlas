@@ -381,7 +381,7 @@ a#arrow{
   position: relative;
   transition: all 5s ease-in-out;
   font-family:GoudyOld;
-  height:50%;
+  max-height:50%;
 }
 
 .popup h2 {
@@ -405,7 +405,8 @@ a#arrow{
 .popup .close:hover {
   color: #b3b3b3;
 }
-.popup .close2 {
+.popup .close2{
+  	margin-top:5px;
   	background-color: white; 
 	transition: all 200ms;
     border: 1px solid #d9d9d9;
@@ -419,21 +420,21 @@ a#arrow{
     font-family:GoudyOld;
     float:right;
 }
-.popup .close2:hover {
+.popup .close2:hover{
   	background-color: #f2f2f2; 
 	cursor:pointer;
 }
-.popup .content {
+.popup .content{
   overflow: auto;
 }
 .popup div.source{
 	padding-bottom:15px;
 }	
-.popup div.source a{
+.popup div.source a, .popup #map_creation a{
 	color:rgb(52,123,181);
 	text-decoration:none;
 }
-.popup div.source a:hover{
+.popup div.source a:hover, .popup #map_creation a:hover{
 	color:#004466;
 	text-decoration:underline;
 }	
@@ -543,6 +544,7 @@ a#arrow{
 .tooltip .tooltiptext {
     visibility: hidden;
     width: 120px;
+    white-space:normal;
     background-color: #f2f2f2;
     box-shadow: 2px 2px 1px #595959;
     color: #000;
@@ -550,14 +552,14 @@ a#arrow{
     padding: 5px;
     border-radius: 6px;
     border: black 2px solid;
- 	width: 120px;
     bottom: 100%;
     left: 50%; 
     margin-left: -60px;
     position: absolute;
     z-index: 1;
     font-weight:none;
-    font-size:12px;
+    font-size:14px;
+    line-height:18px;
     /* Position the tooltip text - see examples below! */
 
 }
