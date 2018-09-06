@@ -21,6 +21,9 @@
     <script src="https://d3js.org/topojson.v1.min.js"></script>
     <script type="text/javascript" src="../js/clickFunction.js"></script>
     <script src="js/perfect-scrollbar.js"></script>  
+    
+    <link rel="stylesheet" href="../css/introjs.css" />
+    <script src="../js/intro.js"></script>
    
 </head>
 <body>
@@ -35,7 +38,7 @@
 				<h1>Alcohol Production</h1><!--Map title-->
 				<img src="img/alcohol_icon.png" id="titleImageCircle" > <br/><!--Banner image-->
 				<!--Dropdown menu for dataset selection-->
-				<div id="buttons">
+				<div id="buttons" data-step="1" data-intro="Use the dropdown menu to select different datasets for display.">
 					<div class="dropdown">
 						<button class="dropbtn"><b id="dataType">Select Dataset</b><p id="arrow">&#9660;</p></button>
 							<div class="dropdown-content">
@@ -47,7 +50,7 @@
 			</div>
 			<!--Middle half of the info panel. This part of the info panel is dynamic! It will adjust to the current screen size, and works with the Perfect-Scrollbar.js plugin to create a dynamic scrollbar within the section.-->
 			<div id="attribution">
-				<div id="text">
+				<div id="text" data-step="2" data-intro="Each dataset has a specific legend, displayed here.">
 					<!--Legends for each dataset-->
 					<div id="leg_1" style="display:unset;">
 						<b class="circle" style="background:#247524; border-color:white; border-width:2.5px; width:8px; height:8px; margin-top:30px; position:relative; margin-right:10px; margin-bottom:5px;"></b><p style="display:inline; margin-top:23px; margin-bottom:10px;">&nbspBeer Producers</p><br/>
@@ -83,20 +86,23 @@
 
 				</div>
 			<!--Bottom part of the info panel. This part of the info panel includes arrows to shift between maps, the info button that contains the map sources, and the home button to return to the chapter title screen.-->
-				<div id="pageChange">
-					<a href="#sources" id="arrow" style="display:inline-block;">
-						<i class="fa fa-info-circle" aria-hidden="true" style="padding-left:90px;"></i>
+				<div id="pageChange" data-step="3" data-intro="Use these buttons to view data sources, view other map pages, or share maps on social media.">
+					<a href="#sources" id="arrow" style="display:inline-block;" title="Map Sources/Info">
+						<i class="fa fa-info-circle" aria-hidden="true" style="padding-left:60px;"></i>
 					</a>
-					<a href="#link_popup" id="arrow" style="display:inline-block;">
-						<i class="fa fa-home" aria-hidden="true" style="padding-left:0;"></i>
+					<a href="#link_popup" id="arrow" style="display:inline-block;" title="Other Maps">
+						<i class="fa fa-home" aria-hidden="true" style="padding-left:7px;"></i>
 					</a>
-					<a href="#share" class="share" id="arrow" style="display:inline-block;">
-						<i class="fa fa-share-alt " aria-hidden="true" style="padding-left:0;"></i>
+					<a href="#share" class="share" id="arrow" style="display:inline-block;" title="Share Map">
+						<i class="fa fa-share-alt " aria-hidden="true" style="padding-left:7px;"></i>
+					</a>
+					<a class="share" id="arrow" style="display:inline-block;" href="javascript:void(0);" onclick="javascript:introJs().setOption('showBullets', false).setOption('showStepNumbers', false).setOption('tooltipClass', 'customDefault').start();" title="Map Demo">
+						<i class="fa fa-question-circle " aria-hidden="true" style="padding-left:7px;"></i>
 					</a>
 				</div>
 			</div>
 		</div>
-    	<div id="map" style="width: 100%; height: 100%;"></div>
+    	<div id="map" style="width: 100%; height: 100%;" data-step="4" data-intro="This is the main map display. Hover over map data to reveal more information."></div>
     	
     	<!--Map sources popup-->
     	<div id="sources" class="overlay">
@@ -138,6 +144,15 @@
                 		<b><p2>Lewis Clark Valley AVA: <a href = "https://bloximages.newyork1.vip.townnews.com/lmtribune.com/content/tncms/assets/v3/editorial/7/01/70106ce4-2567-11e6-97d2-fb4956650a7d/574a8db348675.image.jpg" target="_blank">Town News</a></p2></b><br>
                 			<p3>Used to digitize polygon data.<p3>
                 	</div>
+                	<p2 style="font-size:20px">Basemap</p2><br><br/>
+                    	<div class="source">
+                    		<b><p2>Background Terrain: <a href = "https://leaflet-extras.github.io/leaflet-providers/preview/index.html#filter=Esri.WorldTerrain" target="_blank">ESRI</a></p2></b><br>
+                    			<p3>ESRI Background Terrain; Source: USGS, Esri, TANA, DeLorme, and NPS<p3>
+                    	</div>
+                    	<div class="source">
+                    		<b><p2>Satellite Imagery: <a href = "https://leaflet-extras.github.io/leaflet-providers/preview/index.html#filter=Esri.WorldImagery" target="_blank">ESRI</a></p2></b><br>
+                    			<p3>ESRI World Imagery; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community<p3>
+                    	</div>
 				</div>
 				<hr>
 				<p2 id="map_creation" style="float:right; font-size:16px;">Map created with <a href = "https://leafletjs.com/" target="_blank">Leaflet</a>, <a href = "https://d3js.org/topojson.v1.min.js" target="_blank">D3 TopoJson</a>, <a href = "http://geoserver.org/" target="_blank">Geoserver</a>, and <a href = "https://qgis.org/en/site/" target="_blank">QGIS</a></p2>
@@ -154,7 +169,7 @@
 					<hr>
 					<a href="access.html" style="text-decoration:underline;">Food Access</a>
 					<a href="crop.html" style="text-decoration:underline;">Crop Production</a>
-					<a href="livestock.html" style="text-decoration:underline;">Livestock</a>
+					<a href="livestock.html" style="text-decoration:underline;">Livestock Production</a>
 					<a href="alcohol.html" style="text-decoration:underline;">Alcohol Production</a>
 					<a href="farm.html" style="text-decoration:underline;">Farms</a>
 					<hr>
