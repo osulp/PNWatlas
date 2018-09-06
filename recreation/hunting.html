@@ -21,6 +21,9 @@
     <script src="https://d3js.org/topojson.v1.min.js"></script>
     <script src="js/perfect-scrollbar.js"></script>
     <script type="text/javascript" src="../js/clickFunction.js"></script>
+    
+    <link rel="stylesheet" href="../css/introjs.css" />
+    <script src="../js/intro.js"></script>
    
 </head>
 <body>
@@ -32,7 +35,7 @@
 				<h1>Hunting</h1>
 				<img src="img/hunting_icon.png" id="titleImageCircle" style="display:inline-block;"> <br/>
 				<div id="buttons">
-					<div class="dropdownSmall">
+					<div class="dropdownSmall" data-step="1" data-intro="Use the dropdown menu to select an animal for display.">
 						<button class="dropbtnSmall"><b id="animalType">Select Game</b><p id="arrow">&#9660;</p></button>
 						<div class="dropdown-contentSmall">
 							<button type="button" id="animal_but1" value="Deer" style="float:left; background:rgba(242, 242, 242, 0.8);" class="selectionSmall" >Deer</button>
@@ -40,7 +43,7 @@
 							<button type="button" id="animal_but3" value="Bear" style="float:left;" class="selectionSmall">Bear</button>
 						</div>
 					</div>
-					<div class="dropdownSmall">
+					<div class="dropdownSmall" data-step="2" data-intro="Use the dropdown menu to select a statistic for display.">
 						<button class="dropbtnSmall"><b id="dataType">Select Data</b><p id="arrow">&#9660;</p></button>
 						<div class="dropdown-contentSmall">
 							<button type="button" id="but1" class="selectionSmall" style="background:rgba(242, 242, 242, 0.8);">Total</button>
@@ -51,7 +54,7 @@
 				</div>
 			</div>
 			<div id="attribution">
-				<div id="text">
+				<div id="text" data-step="3" data-intro="Each dataset has a specific legend, displayed here.">
 					<h2 id="title" style="margin-right:5px; display:inline;">2016 Deer</h2><h2 id="type"> Harvest</h2><img src="img/deer.png" id="image3" style="display:inline-block; float:right; right:-20px; margin-top:10px;"> 
 					<br>
 					<div style="height:32px;"><b id ="leg5_block" style="background:#a50f15; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p>&nbsp</p><p id="leg1_value">&nbsp2000+</p></div>
@@ -65,20 +68,23 @@
 					<p3 style="font-weight:bold; line-height:36px;">Quick Facts:</p3><br/>
 					<p3 id="facts" style="line-height:20px;">&#9900 Three deer species are present in the Pacific Northwest, Black-Tailed Deer, Mule Deer, and some populations of white-tailed deer.<br/><br/>&#9900 General deer hunting seasons typically begin in late-September, and last through late-November or early December.</p3>
 				</div>
-				<div id="pageChange">
-					<a href="#sources" id="arrow" style="display:inline-block;">
-						<i class="fa fa-info-circle" aria-hidden="true" style="padding-left:90px;"></i>
+				<div id="pageChange" data-step="4" data-intro="Use these buttons to view data sources, view other map pages, or share maps on social media.">
+					<a href="#sources" id="arrow" style="display:inline-block;" title="Map Sources/Info">
+						<i class="fa fa-info-circle" aria-hidden="true" style="padding-left:60px;"></i>
 					</a>
-					<a href="#link_popup" id="arrow" style="display:inline-block;">
-						<i class="fa fa-home" aria-hidden="true" style="padding-left:0;"></i>
+					<a href="#link_popup" id="arrow" style="display:inline-block;" title="Other Maps">
+						<i class="fa fa-home" aria-hidden="true" style="padding-left:7px;"></i>
 					</a>
-					<a href="#share" class="share" id="arrow" style="display:inline-block;">
-						<i class="fa fa-share-alt " aria-hidden="true" style="padding-left:0;"></i>
+					<a href="#share" class="share" id="arrow" style="display:inline-block;" title="Share Map">
+						<i class="fa fa-share-alt " aria-hidden="true" style="padding-left:7px;"></i>
+					</a>
+					<a class="share" id="arrow" style="display:inline-block;" href="javascript:void(0);" onclick="javascript:introJs().setOption('showBullets', false).setOption('showStepNumbers', false).setOption('tooltipClass', 'customDefault').start();" title="Map Demo">
+						<i class="fa fa-question-circle " aria-hidden="true" style="padding-left:7px;"></i>
 					</a>
 				</div>
 			</div>
 		</div>
-    	<div id="map" style="width: 100%; height: 100%;"></div>
+    	<div id="map" style="width: 100%; height: 100%;" data-step="5" data-intro="This is the main map display. Hover over game management units to reveal more information."></div>
     	
     	<div id="sources" class="overlay">
 			<div class="popup">
@@ -126,6 +132,11 @@
                     <div class="source">
                     	<b><p2>2016 Washington Bear Harvest Statistics: <a href = "http://wdfw.wa.gov/hunting/harvest/2016/reports/bear_bmu_all.php" target="_blank">Washington Department of Fish and Wildlife</a></p2></b><br>
                     </div>
+                    <p2 style="font-size:20px">Basemap</p2><br><br/>
+                    	<div class="source">
+                    		<b><p2>Background Terrain: <a href = "https://leaflet-extras.github.io/leaflet-providers/preview/index.html#filter=Esri.WorldTerrain" target="_blank">ESRI</a></p2></b><br>
+                    			<p3>ESRI Background Terrain; Source: USGS, Esri, TANA, DeLorme, and NPS<p3>
+                    	</div>
 				</div>
 				<hr>
 				<p2 id="map_creation" style="float:right; font-size:16px;">Map created with <a href = "https://leafletjs.com/" target="_blank">Leaflet</a>, <a href = "https://d3js.org/topojson.v1.min.js" target="_blank">D3 TopoJson</a>, <a href = "http://geoserver.org/" target="_blank">Geoserver</a>, and <a href = "https://qgis.org/en/site/" target="_blank">QGIS</a></p2>
