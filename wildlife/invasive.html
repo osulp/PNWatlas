@@ -23,6 +23,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script type="text/javascript" src="../js/clickFunction.js"></script>
     
+    <link rel="stylesheet" href="../css/introjs.css" />
+    <script src="../js/intro.js"></script>
+    
 </head>
 <body>
 		<!--This is the button that collapses the info panel-->
@@ -36,9 +39,11 @@
 				<h1>Invasive Species</h1><!--Map title-->
 				<img src="img/invasive_banner.png" id="titleImageCircle" > <br/><!--Banner image-->
 				<!--Dropdown menu for dataset selection-->
-				<button type="button" id="plant_button" style="background:rgba(225, 225, 225, 1);" class="typeSelection">Flora</button>
-				<button type="button" id="animal_button" onclick="animalSelect()" class="typeSelection">Fauna</button>
-				<div id="buttons">
+				<div id="plantButton" data-step="1" data-intro="Select between invasive flora and invasive fauna.">
+					<button type="button" id="plant_button" style="background:rgba(225, 225, 225, 1);" class="typeSelection">Flora</button>
+					<button type="button" id="animal_button" onclick="animalSelect()" class="typeSelection">Fauna</button>
+				</div>
+				<div id="buttons" class="plantList" data-step="2" data-intro="Use the dropdown menu to select different datasets for display.">
 					<div class="dropdown">
 						<button class="dropbtn"><b id="dataType">Select Plant</b><p id="arrow">&#9660;</p></button>
 							<div class="dropdown-content">
@@ -56,7 +61,7 @@
 			</div>
 			<!--Middle half of the info panel. This part of the info panel is dynamic! It will adjust to the current screen size, and works with the Perfect-Scrollbar.js plugin to create a dynamic scrollbar within the section.-->
 			<div id="attribution">
-				<div id="text">
+				<div id="text" data-step="3" data-intro="Each dataset has a specific legend, displayed here.">
 					<!--Legends for each dataset-->
 					<div id="leg_1" style="display:unset;">
 						<h2 id="title" >Scotch Broom Concentration</h2>
@@ -195,15 +200,18 @@
 					</div>
 				</div>
 			<!--Bottom part of the info panel. This part of the info panel includes arrows to shift between maps, the info button that contains the map sources, and the home button to return to the chapter title screen.-->
-				<div id="pageChange">
-					<a href="#sources" id="arrow" style="display:inline-block;">
-						<i class="fa fa-info-circle" aria-hidden="true" style="padding-left:90px;"></i>
+				<div id="pageChange" data-step="4" data-intro="Use these buttons to view data sources, view other map pages, or share maps on social media.">
+					<a href="#sources" id="arrow" style="display:inline-block;" title="Map Sources/Info">
+						<i class="fa fa-info-circle" aria-hidden="true" style="padding-left:60px;"></i>
 					</a>
-					<a href="#link_popup" id="arrow" style="display:inline-block;">
-						<i class="fa fa-home" aria-hidden="true" style="padding-left:0;"></i>
+					<a href="#link_popup" id="arrow" style="display:inline-block;" title="Other Maps">
+						<i class="fa fa-home" aria-hidden="true" style="padding-left:7px;"></i>
 					</a>
-					<a href="#share" class="share" id="arrow" style="display:inline-block;">
-						<i class="fa fa-share-alt " aria-hidden="true" style="padding-left:0;"></i>
+					<a href="#share" class="share" id="arrow" style="display:inline-block;" title="Share Map">
+						<i class="fa fa-share-alt " aria-hidden="true" style="padding-left:7px;"></i>
+					</a>
+					<a class="share" id="arrow" style="display:inline-block;" href="javascript:void(0);" onclick="javascript:introJs().setOption('showBullets', false).setOption('showStepNumbers', false).setOption('tooltipClass', 'customDefault').start();" title="Map Demo">
+						<i class="fa fa-question-circle " aria-hidden="true" style="padding-left:7px;"></i>
 					</a>
 				</div>
 			</div>
@@ -214,9 +222,11 @@
 				<h1>Invasive Species</h1><!--Map title-->
 				<img src="img/invasive_banner.png" id="titleImageCircle" > <br/><!--Banner image-->
 				<!--Dropdown menu for dataset selection-->
-				<button type="button" id="plant_button" onclick="plantSelect()" class="typeSelection">Flora</button>
-				<button type="button" id="animal_button" style="background:rgba(225, 225, 225, 1);" class="typeSelection">Fauna</button>
-				<div id="buttons">
+				<div id="animalButton" style="display:none;" data-step="1" data-intro="Select between invasive flora and invasive fauna.">
+					<button type="button" id="plant_button" onclick="plantSelect()" class="typeSelection">Flora</button>
+					<button type="button" id="animal_button" style="background:rgba(225, 225, 225, 1);" class="typeSelection">Fauna</button>
+				</div>
+				<div id="buttons" class="animalList" style="display:none;" data-step="2" data-intro="Use the dropdown menu to select different datasets for display.">
 					<div class="dropdown">
 						<button class="dropbtn"><b id="animalType">Select Animal</b><p id="arrow">&#9660;</p></button>
 							<div class="dropdown-content">
@@ -230,7 +240,7 @@
 			</div>
 			<!--Middle half of the info panel. This part of the info panel is dynamic! It will adjust to the current screen size, and works with the Perfect-Scrollbar.js plugin to create a dynamic scrollbar within the section.-->
 			<div id="attribution2">
-				<div id="text2">
+				<div id="text2" style="display:none;" data-step="3" data-intro="Each dataset has a specific legend, displayed here. Some legends will prompt interaction with the map to show more data.">
 					<!--Legends for each dataset-->
 					<div id="animal_leg_1" style="display:unset;">
 						<h2 id="title" >Nutria Concentration</h2>
@@ -299,17 +309,23 @@
 					</div>
 				</div>
 			<!--Bottom part of the info panel. This part of the info panel includes arrows to shift between maps, the info button that contains the map sources, and the home button to return to the chapter title screen.-->
-				<div id="pageChange2">
-					<a href="#sources" id="arrow" style="display:inline-block;"><!--Info button for map sources-->
-						<i class="fa fa-info-circle" aria-hidden="true" style="margin-left:105px;"></i>
+				<div id="pageChange2" style="display:none;" data-step="4" data-intro="Use these buttons to view data sources, view other map pages, or share maps on social media.">
+					<a href="#sources" id="arrow" style="display:inline-block;" title="Map Sources/Info">
+						<i class="fa fa-info-circle" aria-hidden="true" style="padding-left:60px;"></i>
 					</a>
-					<a href="#link_popup" id="arrow" style="display:inline-block;"><!--Home button-->
-						<i class="fa fa-home" aria-hidden="true"></i>
+					<a href="#link_popup" id="arrow" style="display:inline-block;" title="Other Maps">
+						<i class="fa fa-home" aria-hidden="true" style="padding-left:7px;"></i>
+					</a>
+					<a href="#share" class="share" id="arrow" style="display:inline-block;" title="Share Map">
+						<i class="fa fa-share-alt " aria-hidden="true" style="padding-left:7px;"></i>
+					</a>
+					<a class="share" id="arrow" style="display:inline-block;" href="javascript:void(0);" onclick="javascript:introJs().setOption('showBullets', false).setOption('showStepNumbers', false).setOption('tooltipClass', 'customDefault').start();" title="Map Demo">
+						<i class="fa fa-question-circle " aria-hidden="true" style="padding-left:7px;"></i>
 					</a>
 				</div>
 			</div>
 		</div>
-    	<div id="map" style="width: 100%; height: 100%;"></div>
+    	<div id="map" style="width: 100%; height: 100%;" data-step="5" data-intro="This is the main map display."></div>
     	<!--<div id="temp" style="display:none;"><canvas id="chartContainer1" style="height: 110; width: 50%; margin-left:-5px;"></canvas></div>-->
     	
     	<!--Map sources popup-->
@@ -361,10 +377,20 @@
                     	<div class="source">
                     		<b><p2>Crayfish: <a href = "https://www.dfw.state.or.us/conservationstrategy/invasive_species/docs/Crayfish_Comparison.pdf" target="_blank">Oregon Department of Fish and Wildlife</a></p2></b><br>
                     	</div>	
-                    <p2 style="font-size:20px">Image Data</p2><br><br/>
+                    	<p2 style="font-size:20px">Basemap</p2><br><br/>
+                    	<div class="source">
+                    		<b><p2>Background Terrain: <a href = "https://leaflet-extras.github.io/leaflet-providers/preview/index.html#filter=Esri.WorldTerrain" target="_blank">ESRI</a></p2></b><br>
+                    			<p3>ESRI Background Terrain; Source: USGS, Esri, TANA, DeLorme, and NPS<p3>
+                    	</div>
+                    	<div class="source">
+                    		<b><p2>Satellite Imagery: <a href = "https://leaflet-extras.github.io/leaflet-providers/preview/index.html#filter=Esri.WorldImagery" target="_blank">ESRI</a></p2></b><br>
+                    			<p3>ESRI World Imagery; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community<p3>
+                    	</div>
+                    	<p2 style="font-size:20px">Image Data</p2><br><br/>
 						<div class="source">
 							<b><p2>Spotted Knapweed: <a href = "https://commons.wikimedia.org/wiki/Centaurea_stoebe#/media/File:Centaurea_stoebe_281007b.jpg" target="_blank">Courtesy of Bernd Haynold, acquired from Wikimedia Commons.</a></p2></b><br>
 						</div>
+						
 				</div>
 				<hr>
 				<p2 id="map_creation" style="float:right; font-size:16px;">Map created with <a href = "https://leafletjs.com/" target="_blank">Leaflet</a>, <a href = "https://d3js.org/topojson.v1.min.js" target="_blank">D3 TopoJson</a>, <a href = "https://github.com/Leaflet/Leaflet.heat" target="_blank">Leaflet-Heat</a>, <a href = "http://geoserver.org/" target="_blank">Geoserver</a>, and <a href = "https://qgis.org/en/site/" target="_blank">QGIS</a></p2>
@@ -422,8 +448,16 @@
 //////////////base functions (these never change)///////////////////////
 	function animalSelect(){
 		plantShift();
-		document.getElementById("infoPanel2").style.display = "unset";
+		document.getElementById("infoPanel2").style.display = "block";
 		document.getElementById("infoPanel").style.display = "none";
+		$('#animalButton').css('display','block');
+		$('.animalList').css('display','block');
+		$('#text2').css('display','block');
+		$('#pageChange2').css('display','block');
+		$('.plantList').css('display','none');
+		$('#plantButton').css('display','none');
+		$('#text').css('display','none');
+		$('#pageChange').css('display','none');
 		resizeMiddle2();
 		Ps.destroy(container);
 		Ps.initialize(container2);
@@ -431,7 +465,15 @@
 	function plantSelect(){
 		animalShift();
 		document.getElementById("infoPanel2").style.display = "none";
-		document.getElementById("infoPanel").style.display = "unset";
+		document.getElementById("infoPanel").style.display = "block";
+		$('#plantButton').css('display','block');
+		$('#text').css('display','block');
+		$('#pageChange').css('display','block');
+		$('.plantList').css('display','block');
+		$('.animalList').css('display','none');
+		$('#animalButton').css('display','none');
+		$('#text2').css('display','none');
+		$('#pageChange2').css('display','none');
 		resizeMiddle();
 		Ps.destroy(container2);
 		Ps.initialize(container);
