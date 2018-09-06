@@ -26,6 +26,9 @@
     <script src="js/CanvasFlowmapLayer.js"></script>
     <script type="text/javascript" src="../js/clickFunction.js"></script>
     <script src="js/perfect-scrollbar.js"></script>
+    
+    <link rel="stylesheet" href="../css/introjs.css" />
+    <script src="../js/intro.js"></script>
 
    
 </head>
@@ -37,7 +40,7 @@
 			<div id="top">
 				<h1>Internal Migration</h1>
 				<img src="img/migration_icon.png" id="titleImageCircle" style="display:inline-block;">
-				<div id="buttons">
+				<div id="buttons"  data-step="1" data-intro="Use the dropdown menu to select different datasets for display.">
 					<div class="dropdown">
 						<button class="dropbtn"><b id="dataType">Select Flow</b><p id="arrow">&#9660;</p></button>
 						<div class="dropdown-content">
@@ -50,8 +53,8 @@
 			</div>
 			</br>
 			<div id="attribution">
-				<div id="text">
-					<h2 id="title" class="large" style="line-height:1;">Select a County</h2><br/>
+				<div id="text" data-step="2" data-intro="Each dataset has a specific legend, displayed here.">
+					<h2 id="title" class="large" style="line-height:1;" data-step="3" data-intro="Select a PNW county to view migration flow.">Select a County</h2><br/>
 					<h2 id="title1">Net Migration per 1000 People</h2><img src="img/migration_icon2.png" id="migration" style="display:inline-block; right:10px; margin-top:15px;">
 					<div style="height:32px;"><b id="leg1_block" style="background:#99d6ff; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p>&nbsp</p><p id="leg1" style="margin-left:15px;">25+</p></div>
 					<div style="height:30px;"><b id="leg2_block" style="background:#ccebff; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2" style="margin-left:15px;">5 to 25</p></div>
@@ -87,20 +90,23 @@
 						<p3 id="facts">&#9900&nbspLincoln County, ID has the lowest net migration rate of all PNW counties, at a rate of -96 people per 1000.</p3><br/><br/>
 					</div>
 				</div>
-				<div id="pageChange">
-					<a href="#sources" id="arrow" style="display:inline-block;">
-						<i class="fa fa-info-circle" aria-hidden="true" style="padding-left:90px;"></i>
+				<div id="pageChange" data-step="4" data-intro="Use these buttons to view data sources, view other map pages, or share maps on social media.">
+					<a href="#sources" id="arrow" style="display:inline-block;" title="Map Sources/Info">
+						<i class="fa fa-info-circle" aria-hidden="true" style="padding-left:60px;"></i>
 					</a>
-					<a href="#link_popup" id="arrow" style="display:inline-block;">
-						<i class="fa fa-home" aria-hidden="true" style="padding-left:0;"></i>
+					<a href="#link_popup" id="arrow" style="display:inline-block;" title="Other Maps">
+						<i class="fa fa-home" aria-hidden="true" style="padding-left:7px;"></i>
 					</a>
-					<a href="#share" class="share" id="arrow" style="display:inline-block;">
-						<i class="fa fa-share-alt " aria-hidden="true" style="padding-left:0;"></i>
+					<a href="#share" class="share" id="arrow" style="display:inline-block;" title="Share Map">
+						<i class="fa fa-share-alt " aria-hidden="true" style="padding-left:7px;"></i>
+					</a>
+					<a class="share" id="arrow" style="display:inline-block;" href="javascript:void(0);" onclick="javascript:introJs().setOption('showBullets', false).setOption('showStepNumbers', false).setOption('tooltipClass', 'customDefault').start();" title="Map Demo">
+						<i class="fa fa-question-circle " aria-hidden="true" style="padding-left:7px;"></i>
 					</a>
 				</div>
 			</div>
 		</div>
-    <div id="map" style="width: 100%; height: 100%;"></div>
+    <div id="map" style="width: 100%; height: 100%;" data-step="5" data-intro="This is the main map display. Select PNW counties to reveal more information."></div>
     
 	<div id="sources" class="overlay">
 			<div class="popup">
@@ -113,10 +119,11 @@
                     	<b><p2>County-to-County Migration: <a href = "https://waterdata.usgs.gov/id/nwis/water_use?format=html_table&rdb_compression=file&wu_area=County&wu_year=2010&wu_county=ALL&wu_category=ALL&wu_county_nms=--ALL%2BCounties--&wu_category_nms=--ALL%2BCategories--" target="_blank">United States Census</a></p2></b><br>
                     		<p3>Notes: ACS data from 2011-2015.</p3>
                     </div>
-                    <p2 style="font-size:20px">Javascript Plugins</p2><br><br/>
-                    <div class="source">
-                    	<b><p2>Leaflet Canvas Flowmap Layer: <a href = "https://github.com/jwasilgeo/Leaflet.Canvas-Flowmap-Layer" target="_blank">Github</a></p2></b><br>
-                    </div>
+                    <p2 style="font-size:20px">Basemap</p2><br><br/>
+                    	<div class="source">
+                    		<b><p2>Background Terrain: <a href = "https://leaflet-extras.github.io/leaflet-providers/preview/index.html#filter=Esri.WorldTerrain" target="_blank">ESRI</a></p2></b><br>
+                    			<p3>ESRI Background Terrain; Source: USGS, Esri, TANA, DeLorme, and NPS<p3>
+                    	</div>
 				</div>
 				<hr>
 				<p2 id="map_creation" style="float:right; font-size:16px;">Map created with <a href = "https://leafletjs.com/" target="_blank">Leaflet</a>, <a href = "https://d3js.org/topojson.v1.min.js" target="_blank">D3 TopoJson</a>, <a href = "https://github.com/sarahbellum/Canvas-Flowmap-Layer" target="_blank">Canvas Flowmap Layer</a>, <a href = "http://geoserver.org/" target="_blank">Geoserver</a>, and <a href = "https://qgis.org/en/site/" target="_blank">QGIS</a></p2>

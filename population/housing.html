@@ -26,6 +26,9 @@
     <script src="js/Chart.PieceLabel.min.js"></script>
     <script type="text/javascript" src="../js/clickFunction.js"></script>
     <script src="js/perfect-scrollbar.js"></script>
+    
+    <link rel="stylesheet" href="../css/introjs.css" />
+    <script src="../js/intro.js"></script>
    
 </head>
 <body>
@@ -36,7 +39,7 @@
 			<div id="top" style="margin-bottom:5px;">
 				<h1 style="margin-bottom:30px;">Housing</h1>
 				<img src="img/housing_icon.png" id="titleImageCircle" style="display:inline-block;">
-				<div id="buttons">
+				<div id="buttons" data-step="1" data-intro="Use the dropdown menu to select different datasets for display.">
 					<div class="dropdown">
 						<button class="dropbtn"><b id="dataType">Select Data</b><p id="arrow">&#9660;</p></button>
 						<div class="dropdown-content">
@@ -51,7 +54,7 @@
 				</div>
 			</div>
 			<div id="attribution">
-				<div id="text">
+				<div id="text" data-step="2" data-intro="Each dataset has a specific legend, displayed here.">
 					<div id="leg_1" style="display:unset;">
 						<h2 id="title">Percent Occupied</h2><img src="img/occupation.png" id="imageHouse" style="display:inline-block; right:0px; margin-top:10px;">
 						<div style="height:32px;"><b id="leg1_block" style="background:#54278f; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p>&nbsp</p><p id="leg1" style="margin-left:5px;">95+</p></div>
@@ -109,23 +112,26 @@
 					<h2 id="hover" style="text-align:left;">Hover Over Map for Details</h2>
 					<h2 id="ID" style="margin-bottom:5px; text-align:left; display:none;">County, Census Tract, Block Group</h2>
 					<h2 id ="displayValue" style="margin-top:0px; text-align:left;">0% Occupied</h2>
-					<canvas id="chartContainer" style="height: 100; width: 50%; margin-left:-10px;"></canvas>
+					<canvas id="chartContainer" style="height: 100; width: 50%; margin-left:-10px;" data-step="3" data-intro="Hover over census block groups to view housing statistics."></canvas>
 					<p3 id="chartDescription" style="font-weight:bold; display:inline-block; margin-top:5px;">Housing units by occupancy status.</p3>
 				</div>
-				<div id="pageChange">
-					<a href="#sources" id="arrow" style="display:inline-block;">
-						<i class="fa fa-info-circle" aria-hidden="true" style="padding-left:90px;"></i>
+				<div id="pageChange" data-step="4" data-intro="Use these buttons to view data sources, view other map pages, or share maps on social media.">
+					<a href="#sources" id="arrow" style="display:inline-block;" title="Map Sources/Info">
+						<i class="fa fa-info-circle" aria-hidden="true" style="padding-left:60px;"></i>
 					</a>
-					<a href="#link_popup" id="arrow" style="display:inline-block;">
-						<i class="fa fa-home" aria-hidden="true" style="padding-left:0;"></i>
+					<a href="#link_popup" id="arrow" style="display:inline-block;" title="Other Maps">
+						<i class="fa fa-home" aria-hidden="true" style="padding-left:7px;"></i>
 					</a>
-					<a href="#share" class="share" id="arrow" style="display:inline-block;">
-						<i class="fa fa-share-alt " aria-hidden="true" style="padding-left:0;"></i>
+					<a href="#share" class="share" id="arrow" style="display:inline-block;" title="Share Map">
+						<i class="fa fa-share-alt " aria-hidden="true" style="padding-left:7px;"></i>
+					</a>
+					<a class="share" id="arrow" style="display:inline-block;" href="javascript:void(0);" onclick="javascript:introJs().setOption('showBullets', false).setOption('showStepNumbers', false).setOption('tooltipClass', 'customDefault').start();" title="Map Demo">
+						<i class="fa fa-question-circle " aria-hidden="true" style="padding-left:7px;"></i>
 					</a>
 				</div>
 			</div>
 		</div>
-    	<div id="map" style="width: 100%; height: 100%;"></div>
+    	<div id="map" style="width: 100%; height: 100%;" data-step="5" data-intro="This is the main map display. Hover over census block groups to reveal more information."></div>
     	
     	<div id="sources" class="overlay">
 			<div class="popup">
@@ -142,6 +148,11 @@
                     	<b><p2>Housing Data: <a href = "https://factfinder.census.gov/faces/tableservices/jsf/pages/productview.xhtml?pid=ACS_15_5YR_S1501&prodType=table" target="_blank">IPUMS: National Historical Geographic Information System</a></p2></b><br>
                     		<p3>Notes: IPUMS Data selected from ACS 2011-2015. Geographic Level: Census Block Group. Datasets: Occupancy Status, Tenure, Median Year Structure Built, Median Gross Rent, Median Value, Units in Structure.</p3>
                     </div>
+                    <p2 style="font-size:20px">Basemap</p2><br><br/>
+                    	<div class="source">
+                    		<b><p2>Background Terrain: <a href = "https://leaflet-extras.github.io/leaflet-providers/preview/index.html#filter=Esri.WorldTerrain" target="_blank">ESRI</a></p2></b><br>
+                    			<p3>ESRI Background Terrain; Source: USGS, Esri, TANA, DeLorme, and NPS<p3>
+                    	</div>
 				</div>
 				<hr>
 				<p2 id="map_creation" style="float:right; font-size:16px;">Map created with <a href = "https://leafletjs.com/" target="_blank">Leaflet</a>, <a href = "https://d3js.org/topojson.v1.min.js" target="_blank">D3 TopoJson</a>, <a href = "https://www.chartjs.org/" target="_blank">Chart.js</a>, <a href = "http://geoserver.org/" target="_blank">Geoserver</a>, and <a href = "https://qgis.org/en/site/" target="_blank">QGIS</a></p2>

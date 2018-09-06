@@ -25,6 +25,9 @@
     <script src="js/Chart.PieceLabel.min.js"></script>
     <script type="text/javascript" src="../js/clickFunction.js"></script>
     <script src="js/perfect-scrollbar.js"></script>
+    
+    <link rel="stylesheet" href="../css/introjs.css" />
+    <script src="../js/intro.js"></script>
    
 </head>
 <body>
@@ -35,7 +38,7 @@
 			<div id="top">
 				<h1 style="font-size:40px;">Demographics</h1>
 				<img src="img/demographics_icon.png" id="titleImageCircle" style="display:inline-block;">
-				<div id="buttons">
+				<div id="buttons"  data-step="1" data-intro="Use the dropdown menu to select different datasets for display.">
 					<div class="dropdown">
 						<button class="dropbtn"><b id="dataType">Select Data</b><p id="arrow">&#9660;</p></button>
 						<div class="dropdown-content">
@@ -46,8 +49,8 @@
 				</div>
 			</div>
 			<div id="attribution">
-				<div id="text">
-					<div id='leg_1' style="display:unset;">
+				<div id="text" data-step="2" data-intro="Each dataset has a specific legend, displayed here.">
+					<div id='leg_1' style="display:block;">
 						<p id="description" style="font-weight:bold; margin-top: 10px; white-space:normal; padding-left:0px; width:280px; display:block; position:relative;">Map colored based on a composite of racial population percentages. More intense colors suggest a greater percentage of a single race, while browns and grays suggest racial diversity.</p>
 					</div>
 					<div id='leg_2' style="display:none;">
@@ -59,24 +62,27 @@
 					<h2 id="hover" style="text-align:left; margin-top:0;">Hover Over Map for Details</h2>
 					<h2 id="ID" style="margin-bottom:5px; text-align:left; margin-top:0; display:none;">County, Census Tract, Block Group</h2>
 					<h2 id="med" style="display:block; margin-top:5px; width:280px; white-space:normal; display:none;">Median Age</h2>
-					<canvas id="chartContainer" style="height: 160px ; width: 280px; display:unset; margin-left:-10px;"></canvas>
-					<canvas id="chartContainer2" style="height: 260px ; width: 280px; display:none;"></canvas>
+					<canvas id="chartContainer" style="height: 160px ; width: 280px; display:block; margin-left:-10px;" data-step="3" data-intro="Hover over census block groups to view racial breakdown."></canvas>
+					<canvas id="chartContainer2" style="height: 260px ; width: 280px; display:none;" data-step="3" data-intro="Hover over census block groups to view age breakdown."></canvas>
 					<p id="description2" style="font-weight:bold; margin-top: 10px; white-space:normal; padding-left:0px; width:280px; display:block; position:relative;">Population of each racial group within one census block group.</p>
 				</div>
-				<div id="pageChange">
-					<a href="#sources" id="arrow" style="display:inline-block;">
-						<i class="fa fa-info-circle" aria-hidden="true" style="padding-left:90px;"></i>
+				<div id="pageChange" data-step="4" data-intro="Use these buttons to view data sources, view other map pages, or share maps on social media.">
+					<a href="#sources" id="arrow" style="display:inline-block;" title="Map Sources/Info">
+						<i class="fa fa-info-circle" aria-hidden="true" style="padding-left:60px;"></i>
 					</a>
-					<a href="#link_popup" id="arrow" style="display:inline-block;">
-						<i class="fa fa-home" aria-hidden="true" style="padding-left:0;"></i>
+					<a href="#link_popup" id="arrow" style="display:inline-block;" title="Other Maps">
+						<i class="fa fa-home" aria-hidden="true" style="padding-left:7px;"></i>
 					</a>
-					<a href="#share" class="share" id="arrow" style="display:inline-block;">
-						<i class="fa fa-share-alt " aria-hidden="true" style="padding-left:0;"></i>
+					<a href="#share" class="share" id="arrow" style="display:inline-block;" title="Share Map">
+						<i class="fa fa-share-alt " aria-hidden="true" style="padding-left:7px;"></i>
+					</a>
+					<a class="share" id="arrow" style="display:inline-block;" href="javascript:void(0);" onclick="javascript:introJs().setOption('showBullets', false).setOption('showStepNumbers', false).setOption('tooltipClass', 'customDefault').start();" title="Map Demo">
+						<i class="fa fa-question-circle " aria-hidden="true" style="padding-left:7px;"></i>
 					</a>
 				</div>
 			</div>
 		</div>
-    	<div id="map" style="width: 100%; height: 100%;"></div>
+    	<div id="map" style="width: 100%; height: 100%;" data-step="5" data-intro="This is the main map display. Hover over census block groups to reveal more information."></div>
     	
     	<div id="sources" class="overlay">
 			<div class="popup">
@@ -93,6 +99,11 @@
                     	<b><p2>Demographic Data: <a href = "https://factfinder.census.gov/faces/tableservices/jsf/pages/productview.xhtml?pid=ACS_15_5YR_S1501&prodType=table" target="_blank">IPUMS: National Historical Geographic Information System</a></p2></b><br>
                     		<p3>Notes: IPUMS Data selected from ACS 2011-2015. Geographic Level: Census Block Group. Datasets: Sex by Age, Median Sex by Age, Hispanic or Latino Origin by Race.</p3>
                     </div>
+                    <p2 style="font-size:20px">Basemap</p2><br><br/>
+                    	<div class="source">
+                    		<b><p2>Background Terrain: <a href = "https://leaflet-extras.github.io/leaflet-providers/preview/index.html#filter=Esri.WorldTerrain" target="_blank">ESRI</a></p2></b><br>
+                    			<p3>ESRI Background Terrain; Source: USGS, Esri, TANA, DeLorme, and NPS<p3>
+                    	</div>
 				</div>
 				<hr>
 				<p2 id="map_creation" style="float:right; font-size:16px;">Map created with <a href = "https://leafletjs.com/" target="_blank">Leaflet</a>, <a href = "https://d3js.org/topojson.v1.min.js" target="_blank">D3 TopoJson</a>, <a href = "https://www.chartjs.org/" target="_blank">Chart.js</a>, <a href = "http://geoserver.org/" target="_blank">Geoserver</a>, and <a href = "https://qgis.org/en/site/" target="_blank">QGIS</a></p2>
