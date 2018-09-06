@@ -21,6 +21,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script type="text/javascript" src="../js/clickFunction.js"></script>
     
+    <link rel="stylesheet" href="../css/introjs.css" />
+    <script src="../js/intro.js"></script>
    
 </head>
 <body>
@@ -31,7 +33,7 @@
 			<div id="top">
 				<h1>Water Pollution</h1>
 				<img src="img/pollution_icon.png" id="titleImageCircle" style="display:inline-block;">
-				<div id="buttons">
+				<div id="buttons" data-step="1" data-intro="Use the dropdown menu to select different datasets for display.">
 					<div class="dropdown">
 						<button class="dropbtn"><b id="dataType">Select Pollutant</b><p id="arrow">&#9660;</p></button>
 						<div class="dropdown-content">
@@ -49,7 +51,7 @@
 				</div>
 			</div>
 			<div id="attribution">
-				<div id="text">
+				<div id="text" data-step="2" data-intro="Each dataset has a specific legend, displayed here.">
 					<h2 id="title">Total Impairments</h2><br/>
 					<img src="img/pollution.png" id="pollutionImage" style="display:inline-block; float:right; right:-15px; margin-top:20px;"> 
 					<div style="height:32px;"><b id="leg1_block" style="background:#a50f15; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p>&nbsp</p><p id="leg1" style="margin-left:5px;">50+</p></div>
@@ -60,27 +62,30 @@
 					<p id="description" style="font-weight:bold; white-space:normal; padding-left:0px; width:280px; display:block; position:relative;">Total impairments in waterways. These include Metals, Sediments, Algae, Pathogens, Oxygen Impairment, Ammonia, and more.</p>
 					<p3 id ="source" style="font-style:italic; text-align:left; white-space:normal; padding-left:0px; width:280px; display:block; position:relative;">Impaired waters are listed in the 2015 303(d) list provided by the U.S Environmental Protection Agency.</p3>
 						<br/>
-						<label class="switch">
+						<label class="switch" data-step="3" data-intro="Use the slider to toggle the display of politial borders.">
 							<input name="checkbox_name" id="checkbox_id" type="checkbox" value="check" onclick="borders()" autocomplete="off">
 							<span class="slider"></span>
 						</label>
 						<p style="padding-left:5px; padding-top:6px; font-weight:bold;">Toggle Borders</p><br/>
 					</div>
 				</div>
-				<div id="pageChange">
-					<a href="#sources" id="arrow" style="display:inline-block;">
-						<i class="fa fa-info-circle" aria-hidden="true" style="padding-left:90px;"></i>
+				<div id="pageChange" data-step="4" data-intro="Use these buttons to view data sources, view other map pages, or share maps on social media.">
+					<a href="#sources" id="arrow" style="display:inline-block;" title="Map Sources/Info">
+						<i class="fa fa-info-circle" aria-hidden="true" style="padding-left:60px;"></i>
 					</a>
-					<a href="#link_popup" id="arrow" style="display:inline-block;">
-						<i class="fa fa-home" aria-hidden="true" style="padding-left:0;"></i>
+					<a href="#link_popup" id="arrow" style="display:inline-block;" title="Other Maps">
+						<i class="fa fa-home" aria-hidden="true" style="padding-left:7px;"></i>
 					</a>
-					<a href="#share" class="share" id="arrow" style="display:inline-block;">
-						<i class="fa fa-share-alt " aria-hidden="true" style="padding-left:0;"></i>
+					<a href="#share" class="share" id="arrow" style="display:inline-block;" title="Share Map">
+						<i class="fa fa-share-alt " aria-hidden="true" style="padding-left:7px;"></i>
+					</a>
+					<a class="share" id="arrow" style="display:inline-block;" href="javascript:void(0);" onclick="javascript:introJs().setOption('showBullets', false).setOption('showStepNumbers', false).setOption('tooltipClass', 'customDefault').start();" title="Map Demo">
+						<i class="fa fa-question-circle " aria-hidden="true" style="padding-left:7px;"></i>
 					</a>
 				</div>
 			</div>
 		</div>
-    	<div id="map" style="width: 100%; height: 100%;"></div>
+    	<div id="map" style="width: 100%; height: 100%;" data-step="5" data-intro="This is the main map display. Hover over map data to reveal more information."></div>
     	
     	<div id="sources" class="overlay">
 			<div class="popup">
@@ -105,6 +110,11 @@
                     	<b><p2>Arsenic points: <a href = "https://water.usgs.gov/nawqa/trace/pubs/geo_v46n11/index.html" target="_blank">USGS National Water-Quality Assessment Program</a></p2></b><br>
                     		<p3>Notes: Points were counted in each grid. 3rd Quartile value was calculated for each hexgrid. Data from 2001</p3>
                     </div>
+                    <p2 style="font-size:20px">Basemap</p2><br><br/>
+                    	<div class="source">
+                    		<b><p2>Background Terrain: <a href = "https://leaflet-extras.github.io/leaflet-providers/preview/index.html#filter=Esri.WorldTerrain" target="_blank">ESRI</a></p2></b><br>
+                    			<p3>ESRI Background Terrain; Source: USGS, Esri, TANA, DeLorme, and NPS<p3>
+                    	</div>
 				</div>
 				<hr>
 				<p2 id="map_creation" style="float:right; font-size:16px;">Map created with <a href = "https://leafletjs.com/" target="_blank">Leaflet</a>, <a href = "https://d3js.org/topojson.v1.min.js" target="_blank">D3 TopoJson</a>, <a href = "http://geoserver.org/" target="_blank">Geoserver</a>, and <a href = "https://qgis.org/en/site/" target="_blank">QGIS</a></p2>

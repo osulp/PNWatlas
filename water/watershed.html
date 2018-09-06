@@ -23,6 +23,8 @@
     <script src="js/perfect-scrollbar.js"></script>
     <script type="text/javascript" src="../js/clickFunction.js"></script>
     
+    <link rel="stylesheet" href="../css/introjs.css" />
+    <script src="../js/intro.js"></script>
    
 </head>
 <body>
@@ -34,7 +36,7 @@
 				<h1>Watersheds</h1>
 				<br/>
 				<img src="img/watershed_icon.png" id="titleImageCircle" style="display:inline-block;">
-				<div id="buttons">
+				<div id="buttons" data-step="1" data-intro="Use the dropdown menu to select different scales for display.">
 					<div class="dropdown">
 						<button class="dropbtn"><b id="dataType">Select Scale</b><p id="arrow">&#9660;</p></button>
 						<div class="dropdown-content">
@@ -47,7 +49,7 @@
 			</div>
 			<br/>
 			<div id="attribution">
-				<div id="text">
+				<div id="text" data-step="2" data-intro="Select a watershed to view information about that watershed.">
 					<h2 id="title" style="width:280px; white-space:normal; text-align:left; font-size:30px; margin-bottom:10px; margin-top:10px;">Select a Watershed</h2>
 					<div id="watershed_desc" style="display:none;">
 						<h2 style="display:inline; width:200px; white-space:normal;">Area:</h2>
@@ -64,7 +66,7 @@
 						<h2 id="cities" style="display:inline; width:200px; white-space:normal;"></h2><br/>
 					</div>
 					<br/>
-					<label class="switch">
+					<label class="switch" data-step="3" data-intro="Use the slider to toggle the display of politial borders.">
 							<input name="checkbox_name" id="checkbox_id" type="checkbox" value="check" onclick="borders()" autocomplete="off">
 							<span class="slider"></span>
 					</label>
@@ -95,20 +97,23 @@
 					<p3 style="text-align:justify;">Watersheds are independent of political boundaries, which makes watershed management challenging. An upstream water user can be in a different county, or state, or country than a downstream user, and there could be dozens of municipal water users between them. In the mid-20th century, the United States Bureau of Reclamation and Army Corps of Engineers both had a single prevailing strategy for watershed management: build dams. It has taken decades to understand the effects these widespread damming efforts have had on watershed health, not to mention the water conflicts they have created. Nowadays, basin-wide agreements are becoming more commonplace. The Columbia River Treaty was the first, in 1964, and other rivers within the region have followed with agreements of their own. Watershed Councils exist to monitor and advocate for the health of entire watersheds. Their advocacy, as well as tribal groups, have actualized efforts to remove dams throughout the region.</p3>
 					-->
 				</div>
-				<div id="pageChange">
-					<a href="#sources" id="arrow" style="display:inline-block;">
-						<i class="fa fa-info-circle" aria-hidden="true" style="padding-left:90px;"></i>
+				<div id="pageChange" data-step="4" data-intro="Use these buttons to view data sources, view other map pages, or share maps on social media.">
+					<a href="#sources" id="arrow" style="display:inline-block;" title="Map Sources/Info">
+						<i class="fa fa-info-circle" aria-hidden="true" style="padding-left:60px;"></i>
 					</a>
-					<a href="#link_popup" id="arrow" style="display:inline-block;">
-						<i class="fa fa-home" aria-hidden="true" style="padding-left:0;"></i>
+					<a href="#link_popup" id="arrow" style="display:inline-block;" title="Other Maps">
+						<i class="fa fa-home" aria-hidden="true" style="padding-left:7px;"></i>
 					</a>
-					<a href="#share" class="share" id="arrow" style="display:inline-block;">
-						<i class="fa fa-share-alt " aria-hidden="true" style="padding-left:0;"></i>
+					<a href="#share" class="share" id="arrow" style="display:inline-block;" title="Share Map">
+						<i class="fa fa-share-alt " aria-hidden="true" style="padding-left:7px;"></i>
+					</a>
+					<a class="share" id="arrow" style="display:inline-block;" href="javascript:void(0);" onclick="javascript:introJs().setOption('showBullets', false).setOption('showStepNumbers', false).setOption('tooltipClass', 'customDefault').start();" title="Map Demo">
+						<i class="fa fa-question-circle " aria-hidden="true" style="padding-left:7px;"></i>
 					</a>
 				</div>
 			</div>
 		</div>
-    	<div id="map" style="width: 100%; height: 100%;"></div>
+    	<div id="map" style="width: 100%; height: 100%;" data-step="5" data-intro="This is the main map display. Select watersheds to reveal more information."></div>
     	
     	<div id="sources" class="overlay">
 			<div class="popup">
@@ -157,6 +162,11 @@
                 	<div class="source">
                 		<b><p2>Tribal Lands: <a href="https://www.census.gov/geo/maps-data/data/cbf/cbf_aiannh.html" target="_blank">US Census Bureau</a></p2></b><br>
                 	</div>
+                	<p2 style="font-size:20px">Basemap</p2><br><br/>
+                    	<div class="source">
+                    		<b><p2>Background Terrain: <a href = "https://leaflet-extras.github.io/leaflet-providers/preview/index.html#filter=Esri.WorldTerrain" target="_blank">ESRI</a></p2></b><br>
+                    			<p3>ESRI Background Terrain; Source: USGS, Esri, TANA, DeLorme, and NPS<p3>
+                    	</div>
 				</div>
 				<hr>
 				<p2 id="map_creation" style="float:right; font-size:16px;">Map created with <a href = "https://leafletjs.com/" target="_blank">Leaflet</a>, <a href = "https://d3js.org/topojson.v1.min.js" target="_blank">D3 TopoJson</a>, <a href = "http://geoserver.org/" target="_blank">Geoserver</a>, and <a href = "https://qgis.org/en/site/" target="_blank">QGIS</a></p2>
@@ -1087,7 +1097,7 @@ function HUC8(){
 	var minHeight = 30; // Define a minimum height for the middle div
 
 	var resizeMiddle = function() {
-    var h = $('body').height() - $('#top').height() - 65;
+    var h = $('body').height() - $('#top').height() - 80;
     		h = h > minHeight ? h : minHeight;
    	 	$('#attribution').height(h);
 	}
