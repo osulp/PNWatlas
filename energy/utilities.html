@@ -23,6 +23,9 @@
     <script src="js/Chart.PieceLabel.min.js"></script>
     <script src="js/perfect-scrollbar.js"></script>
      <script type="text/javascript" src="../js/clickFunction.js"></script>
+     
+     <link rel="stylesheet" href="../css/introjs.css" />
+    <script src="../js/intro.js"></script>
    
 </head>
 <body>
@@ -33,7 +36,7 @@
 			<div id="top">
 				<h1>Electric Utilities</h1>
 				<img src="img/energy_icon.png" id="titleImageCircle" style="display:inline-block;">
-				<div id="buttons">
+				<div id="buttons"  data-step="1" data-intro="Use the dropdown menu to filter different energy types.">
 					<div class="dropdown">
 						<button class="dropbtn"><b id="dataType">Select Power Type</b><p id="arrow">&#9660;</p></button>
 						<div class="dropdown-content">
@@ -51,8 +54,8 @@
 			</div>
 			<div id="attribution">
 				<br/>
-				<div id="text" style="margin-top:10px;">
-					<h2 id="title" style="display:inline; width:200px; white-space:normal; font-size:24px; margin-right:10px;">SELECT UTILITY AREA</h2><br/>
+				<div id="text" style="margin-top:10px;" data-step="2" data-intro="Each dataset has a specific legend, displayed here.">
+					<h2 id="title" style="display:inline; width:200px; white-space:normal; font-size:24px; margin-right:10px;" data-step="3" data-intro="Select a utility area to view statistics about that electric utility.">SELECT UTILITY AREA</h2><br/>
 					<div id="areaLegend" style="display:none;">	
 						<h2 id="customers" style="margin: 5px 0px;">Customers:</h2><br/>
 						<h2 id="city" style="margin: 5px 0px;">BASE CITY</h2><br/>
@@ -77,20 +80,23 @@
 					</div>
 					</br>
 				</div>
-				<div id="pageChange">
-					<a href="#sources" id="arrow" style="display:inline-block;">
-						<i class="fa fa-info-circle" aria-hidden="true" style="padding-left:90px;"></i>
+				<div id="pageChange" data-step="4" data-intro="Use these buttons to view data sources, view other map pages, or share maps on social media.">
+					<a href="#sources" id="arrow" style="display:inline-block;" title="Map Sources/Info">
+						<i class="fa fa-info-circle" aria-hidden="true" style="padding-left:60px;"></i>
 					</a>
-					<a href="#link_popup" id="arrow" style="display:inline-block;">
-						<i class="fa fa-home" aria-hidden="true" style="padding-left:0;"></i>
+					<a href="#link_popup" id="arrow" style="display:inline-block;" title="Other Maps">
+						<i class="fa fa-home" aria-hidden="true" style="padding-left:7px;"></i>
 					</a>
-					<a href="#share" class="share" id="arrow" style="display:inline-block;">
-						<i class="fa fa-share-alt " aria-hidden="true" style="padding-left:0;"></i>
+					<a href="#share" class="share" id="arrow" style="display:inline-block;" title="Share Map">
+						<i class="fa fa-share-alt " aria-hidden="true" style="padding-left:7px;"></i>
+					</a>
+					<a class="share" id="arrow" style="display:inline-block;" href="javascript:void(0);" onclick="javascript:introJs().setOption('showBullets', false).setOption('showStepNumbers', false).setOption('tooltipClass', 'customDefault').start();" title="Map Demo">
+						<i class="fa fa-question-circle " aria-hidden="true" style="padding-left:7px;"></i>
 					</a>
 				</div>
 			</div>
 		</div>
-    	<div id="map" style="width:100%; height: 100%;"></div>
+    	<div id="map" style="width:100%; height: 100%;" data-step="5" data-intro="This is the main map display. Select utility areas and hover over points to reveal more information."></div>
     	
     	<div id="sources" class="overlay">
 			<div class="popup">
@@ -105,6 +111,11 @@
                     <div class="source">
                     	<b><p2>Electric Utility Areas: <a href = "https://hifld-dhs-gii.opendata.arcgis.com/datasets/935cef68ca0d470e82a27ef4d3173c41_0" target="_blank">Homeland Infrastructure Foundation-Level Data</a></p2></b><br>
                     </div>
+                    <p2 style="font-size:20px">Basemap</p2><br><br/>
+                    	<div class="source">
+                    		<b><p2>Background Terrain: <a href = "https://leaflet-extras.github.io/leaflet-providers/preview/index.html#filter=Esri.WorldTerrain" target="_blank">ESRI</a></p2></b><br>
+                    			<p3>ESRI Background Terrain; Source: USGS, Esri, TANA, DeLorme, and NPS<p3>
+                    	</div>
 				</div>
 				<hr>
 				<p2 id="map_creation" style="float:right; font-size:16px;">Map created with <a href = "https://leafletjs.com/" target="_blank">Leaflet</a>, <a href = "https://d3js.org/topojson.v1.min.js" target="_blank">D3 TopoJson</a>, <a href = "https://www.chartjs.org/" target="_blank">Chart.js</a>, <a href = "http://geoserver.org/" target="_blank">Geoserver</a>, and <a href = "https://qgis.org/en/site/" target="_blank">QGIS</a></p2>
