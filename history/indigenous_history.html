@@ -25,6 +25,9 @@
     <script src="https://unpkg.com/papaparse@4.3.6/papaparse.min.js"></script>
     <script src="js/CanvasFlowmapLayer.js"></script>
 	<script src="js/perfect-scrollbar.js"></script>
+	
+	<link rel="stylesheet" href="../css/introjs.css" />
+    <script src="../js/intro.js"></script>
 
 </head>
 <body>
@@ -37,7 +40,7 @@
 				<h1>Indigenous History</h1>
 				<img src="img/placeholder.png" id="titleImageCircle" style="display:inline-block;">
 <!--Like I said, we won't need to worry about clickFunction for this one-->
-				<div id="buttons">
+				<div id="buttons"  data-step="1" data-intro="Use the dropdown menu to select different datasets for display.">
 					<div class="dropdown">
 						<button class="dropbtn"><b id="dataType">Select Data</b><p id="arrow">&#9660;</p></button>
 						<div class="dropdown-content">
@@ -50,7 +53,7 @@
 				</div>
 			</div>
 			<div id="attribution">
-				<div id="text" style="text-align:left;">
+				<div id="text" style="text-align:left;" data-step="2" data-intro="Each dataset has a specific legend, displayed here. Selecting a point will display additional information in the legend.">
 					<div id="leg_1" style="display:unset;">
 						<br/>
 						<p id="description" style="font-weight:bold; text-align:left; white-space:normal; padding-left:0px; width:280px; display:block; position:relative; font-size:22px; margin-bottom:15px; line-height:24px;">Each point on the map represents the relative location of an indigenous tribal group.</p>
@@ -66,7 +69,7 @@
 							<hr>
 						</div>
 						<div id="comb_select" style="display:none;">
-							<p style="font-weight:bold; text-align:left; white-space:normal; padding-left:0px; width:280px; display:block; position:relative; font-size:22px; margin-bottom:15px; line-height:24px;">Selecting a point will reveal tribal groups with the same language group, as well as tribes in the same confederation(s)/reservation(s).</p>
+							<p style="font-weight:bold; text-align:left; white-space:normal; padding-left:0px; width:280px; display:block; position:relative; font-size:22px; margin-bottom:15px; line-height:24px;">Selecting a point will reveal tribal groups with the same language group, as well as tribes in the same confederation(s)/reservation(s), or both.</p>
 							<div style="width:200px; display:inline-block;"><hr style="color:#3366ff; width:52px; float:left; height:4px; background-color:#ff0000; line-height:20px; margin-top:16px; display:inline; border:none;"/><p id="leg1" style="padding-left:10px;">Common Language Group</p></div>
 							<div style="width:200px; display:inline-block;"><hr style="color:#3366ff; width:52px; float:left; height:4px; background-color:#3366ff; line-height:20px; margin-top:16px; display:inline; border:none;"/><p id="leg1" style="padding-left:10px;">Confederation(s)</p></div>
 							<div style="width:200px; display:inline-block;"><hr style="color:#3366ff; width:52px; float:left; height:4px; background-color:#000000; line-height:20px; margin-top:16px; display:inline; border:none;"/><p id="leg1" style="padding-left:10px;">Both</p></div>
@@ -91,15 +94,18 @@
 				</div>
 
 <!--I figure this'll need to change for its place in the historical chapter-->
-				<div id="pageChange">
-					<a href="#sources" id="arrow" style="display:inline-block;">
-						<i class="fa fa-info-circle" aria-hidden="true" style="padding-left:90px;"></i>
+				<div id="pageChange" data-step="3" data-intro="Use these buttons to view data sources, view other map pages, or share maps on social media.">
+					<a href="#sources" id="arrow" style="display:inline-block;" title="Map Sources/Info">
+						<i class="fa fa-info-circle" aria-hidden="true" style="padding-left:60px;"></i>
 					</a>
-					<a href="#link_popup" id="arrow" style="display:inline-block;">
-						<i class="fa fa-home" aria-hidden="true" style="padding-left:0;"></i>
+					<a href="#link_popup" id="arrow" style="display:inline-block;" title="Other Maps">
+						<i class="fa fa-home" aria-hidden="true" style="padding-left:7px;"></i>
 					</a>
-					<a href="#share" class="share" id="arrow" style="display:inline-block;">
-						<i class="fa fa-share-alt " aria-hidden="true" style="padding-left:0;"></i>
+					<a href="#share" class="share" id="arrow" style="display:inline-block;" title="Share Map">
+						<i class="fa fa-share-alt " aria-hidden="true" style="padding-left:7px;"></i>
+					</a>
+					<a class="share" id="arrow" style="display:inline-block;" href="javascript:void(0);" onclick="javascript:introJs().setOption('showBullets', false).setOption('showStepNumbers', false).setOption('tooltipClass', 'customDefault').start();" title="Map Demo">
+						<i class="fa fa-question-circle " aria-hidden="true" style="padding-left:7px;"></i>
 					</a>
 				</div>
 			</div>
@@ -107,7 +113,9 @@
 			<div id="slider-vertical-modern" style="display:none; height:340px; font-size:20px; width:10px; position:absolute; left:320px; z-index:2000; top:25%; border-radius: 0px 3px 3px 0px;background:rgba(255,255,255,0.6);border-top: 10px solid rgba(255,255,255,0);border-bottom: 10px solid rgba(255,255,255,0);"></div>
 		</div>
 
-    	<div id="map" style="width: 100%; height: 100%;"></div>
+    	<div id="map" style="width: 100%; height: 100%;" data-step="4" data-intro="This is the main map display. Select points to reveal more information.">
+    		<a href="http://mapbox.com/about/maps" class='mapbox-wordmark' target="_blank">Mapbox</a>
+    	</div>
 <!--We can save sources for last-->
     	<div id="sources" class="overlay">
 			<div class="popup">
@@ -123,6 +131,10 @@
                     	<b><p2>Tribal Locations/Information: <a href = "http://www.hiddenhistory.com/PAGE3/Wherwhn1.htm" target="_blank">Hidden History</a></p2></b><br>
                     		<p3>Notes: Data obtained from this site are sourced to a 1952 book by Reed Swanton, entitled "The Indian Tribes of North America". While some of the book's content is certainly outdated, the maps included provided a fairly complete picture of Indigenous homelands. The maps from Swanton's book (and presented on the linked website) were used to digitize the points on this Indigenous History map. Points were placed at the relative center of the territory outlined by Swanton. Point locations are not supposed to be exact, and do not correspond with any actual geographic feature. Rather, their placement correspond to the general location of that tribe prior to Euro-American contact.</p3>
                     </div>
+                    <p2 style="font-size:20px">Basemap</p2><br><br/>
+                    	<div class="source">
+                    		<b><p2>Created with Mapbox Studio</p2></b><br>
+                    	</div>
                 </div>
 				<hr>
 				<p2 id="map_creation" style="float:right; font-size:16px;">Map created with <a href = "https://leafletjs.com/" target="_blank">Leaflet</a>, <a href = "https://d3js.org/topojson.v1.min.js" target="_blank">D3 TopoJson</a>, <a href = "https://github.com/sarahbellum/Canvas-Flowmap-Layer" target="_blank">Canvas Flowmap Layer</a>, <a href = "http://geoserver.org/" target="_blank">Geoserver</a>, and <a href = "https://qgis.org/en/site/" target="_blank">QGIS</a></p2>
@@ -140,7 +152,7 @@
 					<a href="indigenous_history.html" style="text-decoration:underline;">Indigenous History</a>
 					<a href="tribal_land.html" style="text-decoration:underline;">Tribal Land</a>
 					<a href="historical_maps.html" style="text-decoration:underline;">Historical Maps</a>
-					<a href="settlement.html" style="text-decoration:underline;">Borders & Settlement</a>
+					<a href="historical_cities.html" style="text-decoration:underline;">Historic Cities & Borders</a>
 					<hr>
 					<a href="../index.html" style="font-weight:bold; text-decoration:none;">Atlas Home</a>
 				</div>
@@ -215,6 +227,7 @@
 ////////////////////////////////basemap layers////////////////////////////////
 /*We can just use the default basemap for now*/
 	var Esri_WorldTerrain = L.tileLayer('https://api.mapbox.com/styles/v1/pnwatlas/cjl42fute4l6l2slp422hba6v/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoicG53YXRsYXMiLCJhIjoiY2pnM3puY3hwMXVldTJxcXBjZnZseG1jbCJ9.AXk0tP-pS2HjpgLJahLcdw', {
+		attribution:'© <a href="https://www.mapbox.com/about/maps/">Mapbox</a> © <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> <strong><a href="https://www.mapbox.com/map-feedback/" target="_blank">Improve this map</a></strong>',
 		maxZoom:10,
 		minZoom:5,
 		opacity:1
@@ -828,7 +841,6 @@
 		 }
 	}
     
-	//park points layer (style included in layer)
      var indigenous = L.geoJson(null, {
         	pointToLayer: function (feature, latlng) {
     			return L.circleMarker(latlng, {
@@ -928,7 +940,7 @@
     new L.Control.Zoom({ position: 'bottomright' }).addTo(map);
 
     //remove leaflet attribution
-	document.getElementsByClassName("leaflet-control-attribution")[0].style.visibility = "hidden";
+	//document.getElementsByClassName("leaflet-control-attribution")[0].style.visibility = "hidden";
 
 	//add scrolling capabilities to text box
     var container = document.getElementById('text');

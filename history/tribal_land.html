@@ -28,6 +28,9 @@
     <script src="js/jquery-ui-slider-pips.js"</script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/8.5.1/nouislider.min.js"></script>
 	<script src="js/perfect-scrollbar.js"></script>
+	
+	<link rel="stylesheet" href="../css/introjs.css" />
+    <script src="../js/intro.js"></script>
 
 </head>
 <body>
@@ -40,7 +43,7 @@
 				<h1>Tribal Land</h1>
 				<img src="img/placeholder.png" id="titleImageCircle" style="display:inline-block;">
 <!--Like I said, we won't need to worry about clickFunction for this one-->
-				<div id="buttons">
+				<div id="buttons" data-step="1" data-intro="Use the dropdown menu to select different datasets for display.">
 					<div class="dropdown">
 						<button class="dropbtn"><b id="dataType">Select Data</b><p id="arrow">&#9660;</p></button>
 						<div class="dropdown-content">
@@ -51,9 +54,9 @@
 				</div>
 			</div>
 			<div id="attribution">
-				<div id="text" style="text-align:left;">
-					<div id="leg_1" style="display:unset;">
-						<h2 id="title" style="font-size:30px; margin-top:25px; margin-bottom:15px;">Select Tribal Area</h2><!--<img src="img/disaster_icon.png" id="iconImage" >-->
+				<div id="text" style="text-align:left;" data-step="2" data-intro="Each dataset has a specific legend, displayed here.">
+					<div id="leg_1" style="display:block;">
+						<div id="resName" data-step="3" data-intro="Select a reservation to reveal information and statistics."><h2 id="title" style="font-size:30px; margin-top:25px; margin-bottom:15px;">Select Tribal Area</h2></div><!--<img src="img/disaster_icon.png" id="iconImage" >-->
 						<div id="resData" style="display:none;">
 							<p id="authority" style="font-weight:bold; text-align:left; white-space:normal; padding-left:0px; width:280px; line-height:20px; display:block; position:relative; margin-bottom:10px;"></p>
 							<p id="population" style="font-weight:bold; text-align:left; white-space:normal; padding-left:0px; width:280px; display:block; position:relative; margin-bottom:10px;"></p>
@@ -94,23 +97,26 @@
 				</div>
 
 <!--I figure this'll need to change for its place in the historical chapter-->
-				<div id="pageChange">
-					<a href="#sources" id="arrow" style="display:inline-block;">
-						<i class="fa fa-info-circle" aria-hidden="true" style="padding-left:90px;"></i>
+				<div id="pageChange" data-step="4" data-intro="Use these buttons to view data sources, view other map pages, or share maps on social media.">
+					<a href="#sources" id="arrow" style="display:inline-block;" title="Map Sources/Info">
+						<i class="fa fa-info-circle" aria-hidden="true" style="padding-left:60px;"></i>
 					</a>
-					<a href="#link_popup" id="arrow" style="display:inline-block;">
-						<i class="fa fa-home" aria-hidden="true" style="padding-left:0;"></i>
+					<a href="#link_popup" id="arrow" style="display:inline-block;" title="Other Maps">
+						<i class="fa fa-home" aria-hidden="true" style="padding-left:7px;"></i>
 					</a>
-					<a href="#share" class="share" id="arrow" style="display:inline-block;">
-						<i class="fa fa-share-alt " aria-hidden="true" style="padding-left:0;"></i>
+					<a href="#share" class="share" id="arrow" style="display:inline-block;" title="Share Map">
+						<i class="fa fa-share-alt " aria-hidden="true" style="padding-left:7px;"></i>
+					</a>
+					<a class="share" id="arrow" style="display:inline-block;" href="javascript:void(0);" onclick="javascript:introJs().setOption('showBullets', false).setOption('showStepNumbers', false).setOption('tooltipClass', 'customDefault').start();" title="Map Demo">
+						<i class="fa fa-question-circle " aria-hidden="true" style="padding-left:7px;"></i>
 					</a>
 				</div>
 			</div>
 <!--Here is the actual "slider" on the side of the info panel. The style probably won't need to change too much, but it may need to be taller to comfortably accomodate every decade-->
-			<div id="slider-vertical-modern" style="display:none; height:340px; font-size:20px; width:10px; position:absolute; left:320px; z-index:2000; top:25%; border-radius: 0px 3px 3px 0px;background:rgba(255,255,255,0.6);border-top: 10px solid rgba(255,255,255,0);border-bottom: 10px solid rgba(255,255,255,0);"></div>
+			<div id="slider-vertical-modern" style="display:none; height:340px; font-size:20px; width:10px; position:absolute; left:320px; z-index:2000; top:25%; border-radius: 0px 3px 3px 0px;background:rgba(255,255,255,0.6);border-top: 10px solid rgba(255,255,255,0);border-bottom: 10px solid rgba(255,255,255,0);" data-step="3" data-intro="Select a year to view land seizure in that year."></div>
 		</div>
 
-    	<div id="map" style="width: 100%; height: 100%;"></div>
+    	<div id="map" style="width: 100%; height: 100%;" data-step="5" data-intro="This is the main map display. Hover over map data to reveal more information."></div>
 <!--We can save sources for last-->
     	<div id="sources" class="overlay">
 			<div class="popup">
@@ -136,6 +142,11 @@
 						<b><p2>PNW Average Statistics: <a href = "https://data2.nhgis.org/main" target="_blank"></a>IPUMS</p2></b><br>
 							<p3>Data selected for STATES, from ACS 2012-2016. Topics included: Educational Attainment for the Population 25 Years and Over, Ratio of Income to Poverty Level in the Past 12 Months, Employment Status for the Population 16 Years and Over, Types of Health Insurance Coverage by Age.<p3>
                 	</div>
+                	<p2 style="font-size:20px">Basemap</p2><br><br/>
+                    	<div class="source">
+                    		<b><p2>Background Terrain: <a href = "https://leaflet-extras.github.io/leaflet-providers/preview/index.html#filter=Esri.WorldTerrain" target="_blank">ESRI</a></p2></b><br>
+                    			<p3>ESRI Background Terrain; Source: USGS, Esri, TANA, DeLorme, and NPS<p3>
+                    	</div>
                 </div>
 				<hr>
 				<p2 id="map_creation" style="float:right; font-size:16px;">Map created with <a href = "https://leafletjs.com/" target="_blank">Leaflet</a>, <a href = "https://d3js.org/topojson.v1.min.js" target="_blank">D3 TopoJson</a>, <a href = "https://www.chartjs.org/" target="_blank">Chart.js</a>, <a href = "http://geoserver.org/" target="_blank">Geoserver</a>, and <a href = "https://qgis.org/en/site/" target="_blank">QGIS</a></p2>
@@ -153,7 +164,7 @@
 					<a href="indigenous_history.html" style="text-decoration:underline;">Indigenous History</a>
 					<a href="tribal_land.html" style="text-decoration:underline;">Tribal Land</a>
 					<a href="historical_maps.html" style="text-decoration:underline;">Historical Maps</a>
-					<a href="settlement.html" style="text-decoration:underline;">Borders & Settlement</a>
+					<a href="historical_cities.html" style="text-decoration:underline;">Historic Cities & Borders</a>
 					<hr>
 					<a href="../index.html" style="font-weight:bold; text-decoration:none;">Atlas Home</a>
 				</div>
@@ -643,7 +654,7 @@
 				newLegend: 'leg_1',
 				title:'Reservations',
 				variable:1850101,
-				newElements:['facts_1'],
+				newElements:['facts_1','collapse'],
 				layerFunction:function(){
 					if(landArea){
 						landArea.remove(map);
