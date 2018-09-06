@@ -26,6 +26,9 @@
     <script src="js/jquery-ui-slider-pips.js"</script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/8.5.1/nouislider.min.js"></script>
 	<script src="js/perfect-scrollbar.js"></script>
+	
+	<link rel="stylesheet" href="../css/introjs.css" />
+    <script src="../js/intro.js"></script>
 
 </head>
 <body>
@@ -36,7 +39,7 @@
 			<div id="top">
 				<h1>Wildfires</h1>
 				<img src="img/fire_icon.png" id="titleImageCircle" style="display:inline-block;">
-				<div id="buttons">
+				<div id="buttons" data-step="1" data-intro="Use the dropdown menu to select different datasets for display.">
 					<div class="dropdown">
 						<button class="dropbtn"><b id="dataType">Select Class</b><p id="arrow">&#9660;</p></button>
 						<div class="dropdown-content">
@@ -48,7 +51,7 @@
 				</div>
 			</div>
 			<div id="attribution">
-				<div id="text" style="text-align:left;">
+				<div id="text" style="text-align:left;" data-step="2" data-intro="Each dataset has a specific legend, displayed here.">
 					<div id="leg_1" style="display:unset;">
 						<h2 id="title" style="display:block; width:280px; white-space:normal;">Modern Wildfires</h2><img src="img/tree.png" id="iconImage" style="right:20px; margin-top:-10px;">
 						<div style="height:32px;"><b id="leg1_block" style="background:#e62e00; border:black 2px solid;"></b><p>&nbsp</p><p id="leg1" style="margin-left:5px;">Wildfire</p></div><br/>
@@ -80,24 +83,26 @@
 					</br>
 					<p3 id="facts" style="line-height:20px;"><p3 style="font-weight:bold">Five Largest PNW Wildfires:</p3><br/><br/>&#9900 <p3 style="font-weight:bold">Big Burn</p3> (ID, WA, MT, 1910): 945,374 Acres<br/><br/>&#9900 <p3 style="font-weight:bold">Wilderness Complex</p3> (ID, 2000): 681,701 Acres<br/><br/>&#9900 <p3 style="font-weight:bold">Murphy Complex</p3> (ID, NV, 2007): 610,823 Acres<br/><br/>&#9900 <p3 style="font-weight:bold">Long Draw</p3> (OR, 2012): 582,284 Acres<br/><br/>&#9900 <p3 style="font-weight:bold">Biscuit Complex</p3> (OR, 2002): 500,020 Acres</p3>		
 				</div>
-			
-				<div id="pageChange">
-					<a href="#sources" id="arrow" style="display:inline-block;">
-						<i class="fa fa-info-circle" aria-hidden="true" style="padding-left:90px;"></i>
+				<div id="pageChange" data-step="4" data-intro="Use these buttons to view data sources, view other map pages, or share maps on social media.">
+					<a href="#sources" id="arrow" style="display:inline-block;" title="Map Sources/Info">
+						<i class="fa fa-info-circle" aria-hidden="true" style="padding-left:60px;"></i>
 					</a>
-					<a href="#link_popup" id="arrow" style="display:inline-block;">
-						<i class="fa fa-home" aria-hidden="true" style="padding-left:0;"></i>
+					<a href="#link_popup" id="arrow" style="display:inline-block;" title="Other Maps">
+						<i class="fa fa-home" aria-hidden="true" style="padding-left:7px;"></i>
 					</a>
-					<a href="#share" class="share" id="arrow" style="display:inline-block;">
-						<i class="fa fa-share-alt " aria-hidden="true" style="padding-left:0;"></i>
+					<a href="#share" class="share" id="arrow" style="display:inline-block;" title="Share Map">
+						<i class="fa fa-share-alt " aria-hidden="true" style="padding-left:7px;"></i>
+					</a>
+					<a class="share" id="arrow" style="display:inline-block;" href="javascript:void(0);" onclick="javascript:introJs().setOption('showBullets', false).setOption('showStepNumbers', false).setOption('tooltipClass', 'customDefault').start();" title="Map Demo">
+						<i class="fa fa-question-circle " aria-hidden="true" style="padding-left:7px;"></i>
 					</a>
 				</div>
 			</div>
-			<div id="slider-vertical-modern" style="height:340px; font-size:20px; width:10px; position:absolute; left:320px; z-index:2000; top:25%; border-radius: 0px 3px 3px 0px;background:rgba(255,255,255,0.6);border-top: 10px solid rgba(255,255,255,0);border-bottom: 10px solid rgba(255,255,255,0);"></div>
-			<div id="slider-vertical-historical" style="display:none; height:340px; font-size:20px; width:10px; position:absolute; left:320px; z-index:2000; top:25%; border-radius: 0px 3px 3px 0px;background:rgba(255,255,255,0.6);border-top: 10px solid rgba(255,255,255,0);border-bottom: 10px solid rgba(255,255,255,0);"></div>
+			<div id="slider-vertical-modern" style="height:340px; font-size:20px; width:10px; position:absolute; left:320px; z-index:2000; top:25%; border-radius: 0px 3px 3px 0px;background:rgba(255,255,255,0.6);border-top: 10px solid rgba(255,255,255,0);border-bottom: 10px solid rgba(255,255,255,0);" data-step="3" data-intro="Select a year to view wildfire points from that year."></div>
+			<div id="slider-vertical-historical" style="display:none; height:340px; font-size:20px; width:10px; position:absolute; left:320px; z-index:2000; top:25%; border-radius: 0px 3px 3px 0px;background:rgba(255,255,255,0.6);border-top: 10px solid rgba(255,255,255,0);border-bottom: 10px solid rgba(255,255,255,0);" data-step="3" data-intro="Select a decade to view wildfire points from that decade."></div>
 		</div>
 		
-    	<div id="map" style="width: 100%; height: 100%;"></div>
+    	<div id="map" style="width: 100%; height: 100%;" data-step="5" data-intro="This is the main map display. Hover over map data to reveal more information."></div>
     	
     	<div id="sources" class="overlay">
 			<div class="popup">
@@ -133,6 +138,11 @@
                      <div class="source">
                     	<b><p2>Wildfire Risk <a href = "https://www.fs.usda.gov/rds/archive/Product/RDS-2015-0046" target="_blank">United States Forest Service</a></p2></b><br>
                     </div>
+                    <p2 style="font-size:20px">Basemap</p2><br><br/>
+                    	<div class="source">
+                    		<b><p2>Background Terrain: <a href = "https://leaflet-extras.github.io/leaflet-providers/preview/index.html#filter=Esri.WorldTerrain" target="_blank">ESRI</a></p2></b><br>
+                    			<p3>ESRI Background Terrain; Source: USGS, Esri, TANA, DeLorme, and NPS<p3>
+                    	</div>
                 </div>
 				<hr>
 				<p2 id="map_creation" style="float:right; font-size:16px;">Map created with <a href = "https://leafletjs.com/" target="_blank">Leaflet</a>, <a href = "https://d3js.org/topojson.v1.min.js" target="_blank">D3 TopoJson</a>, <a href = "http://geoserver.org/" target="_blank">Geoserver</a>, and <a href = "https://qgis.org/en/site/" target="_blank">QGIS</a></p2>

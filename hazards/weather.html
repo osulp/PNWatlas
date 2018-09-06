@@ -27,6 +27,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/8.5.1/nouislider.min.js"></script>
 	<script src="js/perfect-scrollbar.js"></script>
 	<script src="js/oms.js"></script>
+	
+	<link rel="stylesheet" href="../css/introjs.css" />
+    <script src="../js/intro.js"></script>
 
 </head>
 <body>
@@ -39,7 +42,7 @@
 				<img src="img/storm_icon.png" id="titleImageCircle" style="display:inline-block;">
 			</div>
 			<div id="attribution">
-				<div id="text">
+				<div id="text" data-step="1" data-intro="Each dataset has a specific legend, displayed here.">
 					<div id="leg_1" style="display:unset;">
 						<h2 id="title" style="display:block; width:280px; white-space:normal; margin-top:0px;">Storm Event Categories</h2><img src="img/weather_icon.png" id="iconImage" style="right:20px; margin-top:25px;">
 						<div style="height:32px;"><b style="background:#1a6699; border-color:black; border-width:2px 2px 0px 2px; border-style:solid;"></b><p style="margin-left:5px;">Flood</p></div>
@@ -64,22 +67,25 @@
 						<p3 id="facts">&#9900&nbsp2006 had the largest number of extreme weather events of any year since 2000, with over 480 recorded events.</p3><br/><br/>
 					</div>		
 				</div>
-				<div id="pageChange">
-					<a href="#sources" id="arrow" style="display:inline-block;">
-						<i class="fa fa-info-circle" aria-hidden="true" style="padding-left:90px;"></i>
+				<div id="pageChange" data-step="3" data-intro="Use these buttons to view data sources, view other map pages, or share maps on social media.">
+					<a href="#sources" id="arrow" style="display:inline-block;" title="Map Sources/Info">
+						<i class="fa fa-info-circle" aria-hidden="true" style="padding-left:60px;"></i>
 					</a>
-					<a href="#link_popup" id="arrow" style="display:inline-block;">
-						<i class="fa fa-home" aria-hidden="true" style="padding-left:0;"></i>
+					<a href="#link_popup" id="arrow" style="display:inline-block;" title="Other Maps">
+						<i class="fa fa-home" aria-hidden="true" style="padding-left:7px;"></i>
 					</a>
-					<a href="#share" class="share" id="arrow" style="display:inline-block;">
-						<i class="fa fa-share-alt " aria-hidden="true" style="padding-left:0;"></i>
+					<a href="#share" class="share" id="arrow" style="display:inline-block;" title="Share Map">
+						<i class="fa fa-share-alt " aria-hidden="true" style="padding-left:7px;"></i>
+					</a>
+					<a class="share" id="arrow" style="display:inline-block;" href="javascript:void(0);" onclick="javascript:introJs().setOption('showBullets', false).setOption('showStepNumbers', false).setOption('tooltipClass', 'customDefault').start();" title="Map Demo">
+						<i class="fa fa-question-circle " aria-hidden="true" style="padding-left:7px;"></i>
 					</a>
 				</div>
 			</div>
-			<div id="slider-vertical-storms" style="font-size:20px; height:340px; width:10px; position:absolute; left:320px; z-index:2000; top:25%; border-radius: 0px 3px 3px 0px;background:rgba(255,255,255,0.6);border-top: 10px solid rgba(255,255,255,0);border-bottom: 10px solid rgba(255,255,255,0);"></div>
+			<div id="slider-vertical-storms" style="font-size:20px; height:340px; width:10px; position:absolute; left:320px; z-index:2000; top:25%; border-radius: 0px 3px 3px 0px;background:rgba(255,255,255,0.6);border-top: 10px solid rgba(255,255,255,0);border-bottom: 10px solid rgba(255,255,255,0);" data-step="2" data-intro="Select a year to view extreme weather points from that year."></div>
 		</div>
 		
-    	<div id="map" style="width: 100%; height: 100%;"></div>
+    	<div id="map" style="width: 100%; height: 100%;" data-step="4" data-intro="This is the main map display. Hover over extreme weather event points to reveal related statistics."></div>
     	
     	<div id="sources" class="overlay">
 			<div class="popup">
@@ -91,6 +97,15 @@
                     <div class="source">
                     	<b><p2>Storm Events: <a href = "https://www.ncdc.noaa.gov/stormevents/ftp.jsp" target="_blank">NOAA</a></p2></b><br>
                     </div>
+                    <p2 style="font-size:20px">Basemap</p2><br><br/>
+                    	<div class="source">
+                    		<b><p2>Background Terrain: <a href = "https://leaflet-extras.github.io/leaflet-providers/preview/index.html#filter=Esri.WorldTerrain" target="_blank">ESRI</a></p2></b><br>
+                    			<p3>ESRI Background Terrain; Source: USGS, Esri, TANA, DeLorme, and NPS<p3>
+                    	</div>
+                    	<div class="source">
+                    		<b><p2>Satellite Imagery: <a href = "https://leaflet-extras.github.io/leaflet-providers/preview/index.html#filter=Esri.WorldImagery" target="_blank">ESRI</a></p2></b><br>
+                    			<p3>ESRI World Imagery; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community<p3>
+                    	</div>
                 </div>
 				<hr>
 				<p2 id="map_creation" style="float:right; font-size:16px;">Map created with <a href = "https://leafletjs.com/" target="_blank">Leaflet</a>, <a href = "https://d3js.org/topojson.v1.min.js" target="_blank">D3 TopoJson</a>, <a href = "https://github.com/jawj/OverlappingMarkerSpiderfier-Leaflet" target="_blank">Leaflet Overlapping Marker Spiderfier</a>, <a href = "http://geoserver.org/" target="_blank">Geoserver</a>, and <a href = "https://qgis.org/en/site/" target="_blank">QGIS</a></p2>

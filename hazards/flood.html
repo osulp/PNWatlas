@@ -23,6 +23,9 @@
     <script src="https://d3js.org/topojson.v1.min.js"></script>
     <script src="js/perfect-scrollbar.js"></script>
     <script type="text/javascript" src="../js/clickFunction.js"></script>    
+    
+    <link rel="stylesheet" href="../css/introjs.css" />
+    <script src="../js/intro.js"></script>
    
 </head>
 <body>
@@ -38,16 +41,16 @@
 				<img src="img/flood_icon.png" id="titleImageCircle" > <!--Banner image-->
 			</div>
 			<div id="attribution">
-				<div id="text">
-					<div id="leg_1" style="display:unset;">
-						<h2 id="title" style="font-size:24px; margin-top:5px;">Select a County</h2><!--<img src="img/disaster_icon.png" id="iconImage" >-->
+				<div id="text" data-step="1" data-intro="Each dataset has a specific legend, displayed here.">
+					<div id="leg_1" style="display:block;" data-step="2" data-intro="Select a county to view flood zones for that county.">
+						<h2 id="title" class="selectCounty" style="font-size:28px; margin-top:5px;" >Select a County</h2><!--<img src="img/disaster_icon.png" id="iconImage" >-->
 						<div style="height:32px"><b id="leg1_block" style="background:#94b8b8; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;;"></b><p style="margin-left:10px;">Floodplain Data Available</p></div>
 						<div style="height:32px"><b id="leg2_block" style="background:repeating-linear-gradient(45deg, rgba(255,255,255,0), rgba(255,255,255,0) 10%, #75a3a3 15%, #75a3a3 15%); border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p style="margin-left:10px;">No Data Available</p></div>
 						<br/>
 						<p id="description" style="font-weight:bold; white-space:normal; padding-left:0px; width:280px; display:block; position:relative;">Select a county to view 100 year floodplain and flood hazard zones.</p>
 					</div>		
 					<div id="leg_2" style="display:none;">
-						<h2 id="title" style="font-size:24px;  margin-top:5px;">Select a County</h2><!--<img src="img/disaster_icon.png" id="iconImage" >-->
+						<h2 id="title" class="countyName" style="font-size:28px;  margin-top:5px;">Select a County</h2><!--<img src="img/disaster_icon.png" id="iconImage" >-->
 						<h2 style="display:block; width:280px; white-space:normal;">100 Year Floodplain</h2>
 						<div style="height:32px"><b id="leg1_block" style="background:rgba(210,121,121,0.8); border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p style="margin-left:10px;">Flood Hazard Zone</p></div>
 						<div style="height:30px"><b id="leg2_block" style="background:rgba(207,176,176,0.8); border-left:black 2px solid; border-right:black 2px solid;"></b><p style="margin-left:10px;">Shallow Flooding Zone</p></div>
@@ -63,20 +66,23 @@
 					</div>	
 				</div>
 			<!--Bottom part of the info panel. This part of the info panel includes arrows to shift between maps, the info button that contains the map sources, and the home button to return to the chapter title screen.-->
-				<div id="pageChange">
-					<a href="#sources" id="arrow" style="display:inline-block;">
-						<i class="fa fa-info-circle" aria-hidden="true" style="padding-left:90px;"></i>
+				<div id="pageChange" data-step="3" data-intro="Use these buttons to view data sources, view other map pages, or share maps on social media.">
+					<a href="#sources" id="arrow" style="display:inline-block;" title="Map Sources/Info">
+						<i class="fa fa-info-circle" aria-hidden="true" style="padding-left:60px;"></i>
 					</a>
-					<a href="#link_popup" id="arrow" style="display:inline-block;">
-						<i class="fa fa-home" aria-hidden="true" style="padding-left:0;"></i>
+					<a href="#link_popup" id="arrow" style="display:inline-block;" title="Other Maps">
+						<i class="fa fa-home" aria-hidden="true" style="padding-left:7px;"></i>
 					</a>
-					<a href="#share" class="share" id="arrow" style="display:inline-block;">
-						<i class="fa fa-share-alt " aria-hidden="true" style="padding-left:0;"></i>
+					<a href="#share" class="share" id="arrow" style="display:inline-block;" title="Share Map">
+						<i class="fa fa-share-alt " aria-hidden="true" style="padding-left:7px;"></i>
+					</a>
+					<a class="share" id="arrow" style="display:inline-block;" href="javascript:void(0);" onclick="javascript:introJs().setOption('showBullets', false).setOption('showStepNumbers', false).setOption('tooltipClass', 'customDefault').start();" title="Map Demo">
+						<i class="fa fa-question-circle " aria-hidden="true" style="padding-left:7px;"></i>
 					</a>
 				</div>
 			</div>
 		</div>
-    	<div id="map" style="width: 100%; height: 100%;"></div>
+    	<div id="map" style="width: 100%; height: 100%;" data-step="4" data-intro="This is the main map display. Select a county to reveal more data."></div>
     	
     	<!--Map sources popup-->
     	<div id="sources" class="overlay">
@@ -99,6 +105,15 @@
                 	<div class="source">
                 		<b><p2>Kittias County Flood Insurance Zones: <a href = "https://www.co.kittitas.wa.us/it/gis.aspx" target="_blank">Kittias County</a></p2></b><br>
                 	</div>
+                	<p2 style="font-size:20px">Basemap</p2><br><br/>
+                    	<div class="source">
+                    		<b><p2>Background Terrain: <a href = "https://leaflet-extras.github.io/leaflet-providers/preview/index.html#filter=Esri.WorldTerrain" target="_blank">ESRI</a></p2></b><br>
+                    			<p3>ESRI Background Terrain; Source: USGS, Esri, TANA, DeLorme, and NPS<p3>
+                    	</div>
+                    	<div class="source">
+                    		<b><p2>Satellite Imagery: <a href = "https://leaflet-extras.github.io/leaflet-providers/preview/index.html#filter=Esri.WorldImagery" target="_blank">ESRI</a></p2></b><br>
+                    			<p3>ESRI World Imagery; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community<p3>
+                    	</div>
 				</div>
 				<hr>
 				<p2 id="map_creation" style="float:right; font-size:16px;">Map created with <a href = "https://leafletjs.com/" target="_blank">Leaflet</a>, <a href = "https://d3js.org/topojson.v1.min.js" target="_blank">D3 TopoJson</a>, <a href = "https://github.com/teastman/Leaflet.pattern" target="_blank">Leaflet-Pattern</a>, <a href = "http://geoserver.org/" target="_blank">Geoserver</a>, and <a href = "https://qgis.org/en/site/" target="_blank">QGIS</a></p2>
@@ -155,7 +170,7 @@
     		document.getElementById("collapse-arrow").className = "fa fa-chevron-right";
     		collapsed = true;
     	} else{
-    		document.getElementById("infoPanel").style.display = "unset";
+    		document.getElementById("infoPanel").style.display = "block";
     		document.getElementById("collapse").style.left = '320px';
     		document.getElementById("collapse").style.paddingLeft = '0px';
     		document.getElementById("collapse-arrow").className = "fa fa-chevron-left";
@@ -370,13 +385,13 @@
     	countyClick = this;
     	selection = this.feature.properties.county_cod;
     	document.getElementById('leg_1').style.display = "none";
-    	document.getElementById('leg_2').style.display = "unset";
-    	document.getElementById('title').innerHTML = this.feature.properties.NAME + ' County';
+    	document.getElementById('leg_2').style.display = "block";
+    	$('.countyName').html(this.feature.properties.NAME + ' County')
     	addFloodHazards();
     }
     
     function reset(){
-    	document.getElementById('leg_1').style.display = "unset";
+    	document.getElementById('leg_1').style.display = "block";
     	document.getElementById('leg_2').style.display = "none";
     	var width = document.documentElement.clientWidth;
     	if (width < 1500 && width > 800) {
