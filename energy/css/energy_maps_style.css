@@ -116,11 +116,11 @@ div#infoPanel p {
 	margin-top:3px;
 	white-space:nowrap;
 	}
-div#infoPanel p#description, div#infoPanel p#description2 {
+div#infoPanel p#description, div#infoPanel p#description2,  div#infoPanel p#bioDescription{
 	display:inline-block;
 	line-height:24px;
 	font-size:20px;
-	position: absolute;
+	position: relative;
 	font-weight:bold;
 	padding-left: 40px;
 	margin:0;
@@ -145,7 +145,6 @@ div#infoPanel p2 {
 	white-space:nowrap;
 	}
 div#text p3 {
-	text-align: justify;
 	font-size: 18px;
 	line-height:22px;
 	}
@@ -281,7 +280,6 @@ div#buttons .selection:hover{
     border-width:2px;
     font-family:GoudyOld;
     text-align:left;
-    padding:1px 3px 2px 2px;
     color:#4d4d4d;
     height:35px;
 }
@@ -521,7 +519,7 @@ a#arrow{
   position: relative;
   transition: all 5s ease-in-out;
   font-family:GoudyOld;
-  height:50%;
+  max-height:50%;
 }
 
 .popup h2 {
@@ -549,7 +547,8 @@ hr{
 .popup .close:hover {
   color: #b3b3b3;
 }
-.popup .close2 {
+.popup .close2{
+  	margin-top:5px;
   	background-color: white; 
 	transition: all 200ms;
     border: 1px solid #d9d9d9;
@@ -563,21 +562,21 @@ hr{
     font-family:GoudyOld;
     float:right;
 }
-.popup .close2:hover {
+.popup .close2:hover{
   	background-color: #f2f2f2; 
 	cursor:pointer;
 }
-.popup .content {
+.popup .content{
   overflow: auto;
 }
 .popup div.source{
 	padding-bottom:15px;
 }	
-.popup div.source a{
+.popup div.source a, .popup #map_creation a{
 	color:rgb(52,123,181);
 	text-decoration:none;
 }
-.popup div.source a:hover{
+.popup div.source a:hover, .popup #map_creation a:hover{
 	color:#004466;
 	text-decoration:underline;
 }	
@@ -717,7 +716,7 @@ hr{
     visibility: hidden;
     width: 120px;
     white-space:normal;
-    background-color: #f2f2f2;
+    background-color: #ffffff;
     box-shadow: 2px 2px 1px #595959;
     color: #000;
     text-align: left;
@@ -736,4 +735,13 @@ hr{
 }
 .tooltip:hover .tooltiptext {
     visibility: visible;
+}
+/* intro.js */
+.customDefault {
+    font-family:GoudyOld;
+    border: 2px solid black;
+}
+.customDefault .introjs-nextbutton, .customDefault .introjs-prevbutton, .customDefault .introjs-skipbutton, .customDefault .introjs-donebutton{
+    font-family:GoudyOld;
+    font-size:14;
 }
