@@ -131,11 +131,7 @@ div#infoPanel p2 {
 	margin:0;
 	white-space:nowrap;
 	}
-div#text p3 {
-	text-align: justify;
-	font-size: 18px;
-	line-height:22px;
-	}
+
 th, td {
     padding-right: 15px;
 }
@@ -178,13 +174,11 @@ div#infoPanel img#imageHouse {
 	}
 
 div#text p3 {
-	text-align: justify;
 	font-size: 18px;
 	line-height:22px;
 	}
 #text {
 	overflow:hidden;
-	text-align: justify;
 	position: relative;
 	height:100%;	
 	}
@@ -266,7 +260,6 @@ div#buttons .selection:hover{
     border-width:2px;
     font-family:GoudyOld;
     text-align:left;
-    padding:1px 3px 2px 2px;
     color:#4d4d4d;
     height:35px;
 }
@@ -495,7 +488,7 @@ a#arrow{
   position: relative;
   transition: all 5s ease-in-out;
   font-family:GoudyOld;
-  height:50%;
+  max-height:50%;
 }
 
 .popup h2 {
@@ -523,7 +516,8 @@ hr{
 .popup .close:hover {
   color: #b3b3b3;
 }
-.popup .close2 {
+.popup .close2{
+  	margin-top:5px;
   	background-color: white; 
 	transition: all 200ms;
     border: 1px solid #d9d9d9;
@@ -537,21 +531,21 @@ hr{
     font-family:GoudyOld;
     float:right;
 }
-.popup .close2:hover {
+.popup .close2:hover{
   	background-color: #f2f2f2; 
 	cursor:pointer;
 }
-.popup .content {
-	overflow: auto;
+.popup .content{
+  overflow: auto;
 }
 .popup div.source{
 	padding-bottom:15px;
 }	
-.popup div.source a{
+.popup div.source a, .popup #map_creation a{
 	color:rgb(52,123,181);
 	text-decoration:none;
 }
-.popup div.source a:hover{
+.popup div.source a:hover, .popup #map_creation a:hover{
 	color:#004466;
 	text-decoration:underline;
 }	
@@ -660,5 +654,13 @@ hr{
 	color:#808080;
 	cursor:pointer;
 }
-
+/* intro.js */
+.customDefault {
+    font-family:GoudyOld;
+    border: 2px solid black;
+}
+.customDefault .introjs-nextbutton, .customDefault .introjs-prevbutton, .customDefault .introjs-skipbutton, .customDefault .introjs-donebutton{
+    font-family:GoudyOld;
+    font-size:14;
+}
 
