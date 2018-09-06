@@ -545,7 +545,7 @@ a#arrow{
     visibility: hidden;
     width: 120px;
     white-space:normal;
-    background-color: #f2f2f2;
+    background-color: #ffffff;
     box-shadow: 2px 2px 1px #595959;
     color: #000;
     text-align: left;
@@ -581,4 +581,14 @@ a#arrow{
 hr{
 	border:1px solid #e6e6e6;
 	border-bottom-width:0px;
+}
+
+/* intro.js */
+.customDefault {
+    font-family:GoudyOld;
+    border: 2px solid black;
+}
+.customDefault .introjs-nextbutton, .customDefault .introjs-prevbutton, .customDefault .introjs-skipbutton, .customDefault .introjs-donebutton{
+    font-family:GoudyOld;
+    font-size:14;
 }
