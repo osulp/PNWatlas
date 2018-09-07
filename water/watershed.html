@@ -35,7 +35,7 @@
 			<div id="top">
 				<h1>Watersheds</h1>
 				<br/>
-				<img src="img/watershed_icon.png" id="titleImageCircle" style="display:inline-block;">
+				<img src="img/water_icon.png" id="titleImageCircle" style="display:inline-block;">
 				<div id="buttons" data-step="1" data-intro="Use the dropdown menu to select different scales for display.">
 					<div class="dropdown">
 						<button class="dropbtn"><b id="dataType">Select Scale</b><p id="arrow">&#9660;</p></button>
@@ -255,6 +255,7 @@
         	}
 	});
 
+	map.setMaxBounds(map.getBounds());
 	
 	map.options.maxZoom = 10;
 	map.options.minZoom = 5;
@@ -691,18 +692,18 @@
     	
     	function damSize(e){
 			if (data == 1 || data == 2){
-				return e > 300 ? 7:
-					e > 200 ? 5:
-					e > 100 ? 3:
-					e > 25 ? 2:
-						1; 
+				return e > 300 ? 8:
+					e > 200 ? 6:
+					e > 100 ? 4:
+					e > 25 ? 3:
+						2; 
 				}
 			else{
-				return e > 300 ? 8:
-					e > 200 ? 6.5:
-					e > 100 ? 5:
-					e > 25 ? 3.5:
-						2;
+				return e > 300 ? 9:
+					e > 200 ? 7.5:
+					e > 100 ? 6:
+					e > 25 ? 4.5:
+						3;
 				}
 		}
 	
