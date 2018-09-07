@@ -243,18 +243,21 @@
   		}  
 	});
 //////////////Initialize map///////////////////////
-	var map = L.map('map', {center: [45.56, -119.75], zoom: 7, zoomControl:false});
+	var map = L.map('map', {center: [45.56, -121.75], zoom: 6, zoomControl:false});
 ///////////////////////make zoom level correspond to browser size////////////////////////////////
 	window.addEventListener('load', function(event){
     	var width = document.documentElement.clientWidth;
+    	
     	if (width < 1500 && width > 800) {
         	map.setView(new L.LatLng(45.56, -121.75), 6); 
     		}  else if (width > 1501) {
-        	map.setZoom(7);
+        	map.setView(new L.LatLng(45.56, -119.75), 7); 
         	} else {
         	map.setZoom(5);
         	}
 	});
+	
+	map.setMaxBounds(map.getBounds());
 ////////////////////////////////basemap layers////////////////////////////////
 	var Esri_WorldTerrain = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer/tile/{z}/{y}/{x}', {
 		attribution: 'Tiles &copy; Esri &mdash; Source: USGS, Esri, TANA, DeLorme, and NPS',
