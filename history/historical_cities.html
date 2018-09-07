@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+     <title>Historic Cities</title>
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.2/dist/leaflet.css" />
+    <link rel="stylesheet" href="js/jquery-ui.css">
+    <link rel="stylesheet" href="css/jquery-ui-slider-pips.css" />
+    <link rel="stylesheet" href="css/history_style.css" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Maven+Pro" rel="stylesheet">
+    <link rel="stylesheet" href="css/perfect-scrollbar.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <link rel="shortcut icon" href="img/pnw.ico" type="image/x-icon">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="https://unpkg.com/leaflet@1.0.2/dist/leaflet.js"></script>
+    <script src="https://d3js.org/topojson.v1.min.js"></script>
+    <script type="text/javascript" src="../js/clickFunction.js"></script>
+    <script src="js/jquery-ui.js"></script>
+    <script src="js/jquery-ui-slider-pips.js"</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/8.5.1/nouislider.min.js"></script>
+	<script src="js/perfect-scrollbar.js"></script>
+	
+	<link rel="stylesheet" href="../css/introjs.css" />
+    <script src="../js/intro.js"></script>
+
+</head>
+<body>
+		<div id="infoPanel">
+			<div id="top">
+				<h1>Historic Cities & Borders</h1>
+				<img src="img/historical_cities.png" id="titleImageCircle" style="display:inline-block;">
+			</div>
+			<div id="attribution">
+				<div id="text" style="text-align:left;" data-step="1" data-intro="Each dataset has a specific legend, displayed here.">
+					<div id="leg_1" style="display:unset;">
+<!--Here's the legend... I added a sample point and line to get started-->
+						<!-- <h2 id="title" style="display:block; width:280px; white-space:normal;">Historic Cities</h2> -->
+						<div id="fourClass" style="display:block;">
+							<h2 id="title" style="display:block; width:280px; white-space:normal; margin:5px 0px 10px; font-size:25px;">City Population</h2>
+							<b class="circle" style="background:#000000; border-color:#ffffff; width:15px; height:15px; border-width:2px; margin-top:8px; position:relative; margin-right:10px; margin-bottom:10px;"></b><p id="leg1" style="display:inline; margin-top:10; margin-bottom:10px; margin-left:10px;">Greater than 250,000</p><br/>
+							<b class="circle" style="background:#000000; border-color:#ffffff; width:11px; height:11px; border-width:2px; margin-top:10px; position:relative; margin-right:10px; margin-bottom:10px;"></b><p id="leg2" style="display:inline; margin-top:10; margin-bottom:10px; margin-left:13px;">50,000 - 250,000</p><br/>
+							<b class="circle" style="background:#000000; border-color:#ffffff; width:8px; height:8px; border-width:2px; margin-top:10px; position:relative; margin-right:10px; margin-bottom:10px;"></b><p id="leg3" style="display:inline; margin-top:10; margin-bottom:10px; margin-left:16px; ">10,000 - 50,000</p><br/>
+							<b class="circle" style="background:#000000; border-color:#ffffff; width:5px; height:5px; border-width:2px; margin-top:12px; position:relative; margin-right:10px; margin-bottom:10px;"></b><p id="leg4" style="display:inline; margin-top:10; margin-bottom:10px; margin-left:19px;">Less than 10,000</p><br/><br/>
+						</div>
+						<div id="threeClass" style="display:none;">
+							<h2 id="title" style="display:block; width:280px; white-space:normal; margin:5px 0px 10px; font-size:25px;">City Population</h2>
+							<b class="circle" style="background:#000000; border-color:#ffffff; width:15px; height:15px; border-width:2px; margin-top:8px; position:relative; margin-right:10px; margin-bottom:10px;"></b><p id="leg2" style="display:inline; margin-top:10; margin-bottom:10px; margin-left:10px;">Greater than 1,000</p><br/>
+							<b class="circle" style="background:#000000; border-color:#ffffff; width:9px; height:9px; border-width:2px; margin-top:10px; position:relative; margin-right:10px; margin-bottom:10px;"></b><p id="leg3" style="display:inline; margin-top:10; margin-bottom:10px; margin-left:15px;">500 - 1,000</p><br/>
+							<b class="circle" style="background:#000000; border-color:#ffffff; width:5px; height:5px; border-width:2px; margin-top:12px; position:relative; margin-right:10px; margin-bottom:10px;"></b><p id="leg4" style="display:inline; margin-top:10; margin-bottom:10px; margin-left:19px; ">Less than 500</p><br/>
+							<br/>
+						</div>
+						<div id="twoClass" style="display:none;">
+							<h2 id="title" style="display:block; width:280px; white-space:normal; margin:5px 0px 10px; font-size:25px;">City Population</h2>
+							<b class="circle" style="background:#000000; border-color:#ffffff; width:9px; height:9px; border-width:2px; margin-top:10px; position:relative; margin-right:10px; margin-bottom:10px;"></b><p id="leg3" style="display:inline; margin-top:10; margin-bottom:10px; margin-left:15px;">Greater than 500</p><br/>
+							<b class="circle" style="background:#000000; border-color:#ffffff; width:5px; height:5px; border-width:2px; margin-top:12px; position:relative; margin-right:10px; margin-bottom:10px;"></b><p id="leg4" style="display:inline; margin-top:10; margin-bottom:10px; margin-left:19px;">Less than 500</p><br/>
+							<br/>
+						</div>
+						<div id="oneClass" style="display:none;">
+							<b class="circle" style="background:#000000; border-color:#ffffff; width:5px; height:5px; border-width:2px; margin-top:12px; position:relative; margin-right:10px; margin-bottom:10px;"></b><p id="leg4" style="display:inline; margin-top:10; margin-bottom:10px; margin-left:19px;">City</p><br/>
+						</div>
+						<hr style="color:#000000; width:30px; float:left; height:4px; background-color:#989898; line-height:20px; margin-top:16px; vertical-align:middle; display:inline; border:none;"/><p id="leg1" style="padding-left:8px;">Borders</p><br/>
+						<br/>
+						<p id="description" style="font-weight:bold; text-align:justify; white-space:normal; padding-left:0px; width:280px; display:block; position:relative;">Data based on census records and available European settlement history. The "decade founded" represents the first approximate decade a settlement was recorded on maps and/or the census, and the "last recorded" decade represents the last year it was recorded in the census.</p>
+            			<p id="description" style="font-weight:bold; text-align:justify; white-space:normal; padding-left:0px; width:280px; display:block; position:relative; margin-top:10px">Settlements with a "last recorded" year of 2010 is a good indicator that the town still exists.</p>
+						<br/>
+					</div>
+				</div>
+
+				<div id="pageChange" data-step="3" data-intro="Use these buttons to view data sources, view other map pages, or share maps on social media.">
+						<a href="#sources" id="arrow" style="display:inline-block;" title="Map Sources/Info">
+							<i class="fa fa-info-circle" aria-hidden="true" style="padding-left:60px;"></i>
+						</a>
+						<a href="#link_popup" id="arrow" style="display:inline-block;" title="Other Maps">
+							<i class="fa fa-home" aria-hidden="true" style="padding-left:7px;"></i>
+						</a>
+						<a href="#share" class="share" id="arrow" style="display:inline-block;" title="Share Map">
+							<i class="fa fa-share-alt " aria-hidden="true" style="padding-left:7px;"></i>
+						</a>
+						<a class="share" id="arrow" style="display:inline-block;" href="javascript:void(0);" onclick="javascript:introJs().setOption('showBullets', false).setOption('showStepNumbers', false).setOption('tooltipClass', 'customDefault').start();" title="Map Demo">
+							<i class="fa fa-question-circle " aria-hidden="true" style="padding-left:7px;"></i>
+						</a>
+				</div>
+		</div>
+
+		<div id="slider-vertical-modern" style="height:400px; font-size:22px; width:10px; position:absolute; left:320px; z-index:2000; top:22%; border-radius: 0px 3px 3px 0px;background:rgba(255,255,255,0.6);border-top: 10px solid rgba(255,255,255,0);border-bottom: 10px solid rgba(255,255,255,0);" data-step="2" data-intro="Select a year to view settlements and borders from that year."></div>
+
+		</div>
+
+    	<div id="map" style="width: 100%; height: 100%;" data-step="4" data-intro="This is the main map display. Hover over points and areas to reveal more information.">
+    		<a href="http://mapbox.com/about/maps" class='mapbox-wordmark' target="_blank">Mapbox</a>
+    	</div>
+
+    	<div id="sources" class="overlay">
+			<div class="popup">
+				<h2 style="display:inline; font-size:32px;">Sources</h2>
+				<a class="close" href="#" style="display:inline;">×</a>
+				<hr>
+				<div class="content">
+					<p2 style="font-size:20px">Geographic Data</p2><br><br/>
+                    <div class="source">
+                    	<b><p2>Historic Maps from David Rumsey's Collection:</p2></b><br/><br/>
+                      <p2><a href="https://www.davidrumsey.com/luna/servlet/detail/RUMSEY~8~1~1614~140001:Map-of-the-United-States-Of-North-A?sort=Pub_List_No_InitialSort%2CPub_Date%2CPub_List_No%2CSeries_No&qvq=q:1839%20united%20states%20david%20burr;sort:Pub_List_No_InitialSort%2CPub_Date%2CPub_List_No%2CSeries_No;lc:RUMSEY~8~1&mi=1&trs=18" target="_blank">Map of the United States Of North America, 1839</a></p2><br/>
+                      <p2><a href="https://www.davidrumsey.com/luna/servlet/detail/RUMSEY~8~1~224023~5506306:Map-Of-The-Oregon-Territory?sort=Pub_List_No_InitialSort%2CPub_Date%2CPub_List_No%2CSeries_No&qvq=q:1841%20wilkes;sort:Pub_List_No_InitialSort%2CPub_Date%2CPub_List_No%2CSeries_No;lc:RUMSEY~8~1&mi=0&trs=183" target="_blank">Map of the Oregon Territory, 1841</a></p2><br/>
+                      <p2><a href="https://www.davidrumsey.com/luna/servlet/detail/RUMSEY~8~1~23815~910003:California,-Oregon,-Utah,-New-Mexic?sort=Pub_List_No_InitialSort%2CPub_Date%2CPub_List_No%2CSeries_No" target="_blank">California, Oregon, Utah, New Mexico, 1852</a></p2><br/>
+                      <p2><a href="https://www.davidrumsey.com/luna/servlet/detail/RUMSEY~8~1~2065~120063:Map-Of-Oregon,-Washington,-And-Part?sort=Pub_List_No_InitialSort%2CPub_Date%2CPub_List_No%2CSeries_No&qvq=q:1860%20oregon;sort:Pub_List_No_InitialSort%2CPub_Date%2CPub_List_No%2CSeries_No;lc:RUMSEY~8~1&mi=5&trs=85" target="_blank">Map Of Oregon, Washington, And Part Of British Columbia, 1860</a></p2><br/>
+                      <p2><a href="https://www.davidrumsey.com/luna/servlet/detail/RUMSEY~8~1~1467~130123:Bancroft-s-Map-Of-Oregon,-Washingto?sort=Pub_List_No_InitialSort%2CPub_Date%2CPub_List_No%2CSeries_No&qvq=q:1872%20oregon;sort:Pub_List_No_InitialSort%2CPub_Date%2CPub_List_No%2CSeries_No;lc:RUMSEY~8~1&mi=3&trs=11" target="_blank">Bancroft's Map Of Oregon, Washington, Idaho, Montana And British Columbia, 1872</a></p2><br/>
+                      <p2><a href="https://www.davidrumsey.com/luna/servlet/detail/RUMSEY~8~1~307530~90077413:Oregon,-Washington-and-Idaho-?sort=Pub_List_No_InitialSort%2CPub_Date%2CPub_List_No%2CSeries_No&qvq=q:1876%20oregon;sort:Pub_List_No_InitialSort%2CPub_Date%2CPub_List_No%2CSeries_No;lc:RUMSEY~8~1&mi=14&trs=19" target="_blank">Oregon, Washington and Idaho, 1876</a></p2><br/>
+                      <p2><a href="https://www.davidrumsey.com/luna/servlet/detail/RUMSEY~8~1~30520~1140047:Ore-,-Wash-,-Ida-,-Mont-?sort=Pub_List_No_InitialSort%2CPub_Date%2CPub_List_No%2CSeries_No&qvq=q:1880%20oregon;sort:Pub_List_No_InitialSort%2CPub_Date%2CPub_List_No%2CSeries_No;lc:RUMSEY~8~1&mi=0&trs=11" target="_blank">Map of Oregon, Washington, Idaho, and part of Montana, 1880</a></p2><br/>
+                      <p2><a href="https://www.davidrumsey.com/luna/servlet/detail/RUMSEY~8~1~254839~5519497:Sectional-map-of-Washington,-Oregon?sort=Pub_List_No_InitialSort%2CPub_Date%2CPub_List_No%2CSeries_No&qvq=q:1891%20oregon;sort:Pub_List_No_InitialSort%2CPub_Date%2CPub_List_No%2CSeries_No;lc:RUMSEY~8~1&mi=0&trs=7" target="_blank">Sectional map of Washington, Oregon, Idaho, and western Montana, 1891</a></p2><br/><br/>
+                      <p3>All David Rumsey maps licensed under <a href = "https://creativecommons.org/licenses/by-nc-sa/3.0/" target="_blank">Creative Commons</a>.</p3>
+                    </div>
+
+                    <div class="source">
+                        <p2>All basemaps made with <a href="https://www.mapbox.com/" target="_blank"> Mapbox Studio </a></p2><br/><br/>
+                        <p2>City data concerning 1900 to 2010 from the <a href="https://www.census.gov/geography.html">US Census Bureau</a>.</p2>
+                    </div>
+                </div>
+				<hr>
+				<p2 style="float:right; font-size:12px;">Map created with Leaflet.</p2>
+				<br/>
+				<a class="close2" href="#" style="display:inline;">Close</a>
+			</div>
+		</div>
+
+    	<div id="link_popup" class="link_overlay">
+			<div class="link_popup">
+				<a class="close" href="#" style="display:inline;">×</a>
+				<div class="content">
+					<a href="history_index.html" style="font-weight:bold; text-decoration:none;">Culture & History Home</a>
+					<hr>
+					<a href="indigenous_history.html" style="text-decoration:underline;">Indigenous History</a>
+					<a href="tribal_land.html" style="text-decoration:underline;">Tribal Land</a>
+					<a href="historical_maps.html" style="text-decoration:underline;">Historical Maps</a>
+					<a href="historical_cities.html" style="text-decoration:underline;">Historic Cities & Borders</a>
+					<hr>
+					<a href="../index.html" style="font-weight:bold; text-decoration:none;">Atlas Home</a>
+				</div>
+			</div>
+		</div>
+		
+		<div id="share" class="share_overlay">
+			<div class="share_popup">
+				<a id="clear" href="#" style="display:none;">×</a>
+				<div class="content">
+					<a href="https://facebook.com/sharer.php?u=https://rawgit.com/osulp/PNWatlas/master/history/indigenous_history.html" id="arrow" style="display:inline-block;">
+						<i class="fa fa-facebook-square " aria-hidden="true" style="padding-left:0;"></i>
+					</a>
+					<a href="https://twitter.com/home?status=PNW%20Indigenous History%0Ahttp%3A//rawgit.com/osulp/PNWatlas/master/history/indigenous_history.html" id="arrow" style="display:inline-block;">
+						<i class="fa fa-twitter-square " aria-hidden="true" style="padding-left:0;"></i>
+					</a>
+					<a href="" id="arrow" style="display:inline-block;">
+						<i class="fa fa-linkedin-square " aria-hidden="true" style="padding-left:0;"></i>
+					</a>
+				</div>
+			</div>
+		</div>
+
+<script>
+//////////////base functions (these never change)///////////////////////
+	//////////////function for the info panel collapse button///////////////////////
+	var collapsed = false;
+    function collapse(){
+    	if (collapsed == false){
+    		document.getElementById("infoPanel").style.transition = "display 2s";
+    		document.getElementById("infoPanel").style.display = "none";
+    		document.getElementById("collapse").style.left = '0px';
+    		document.getElementById("collapse").style.paddingLeft = '2px';
+    		document.getElementById("collapse-arrow").className = "fa fa-chevron-right";
+    		collapsed = true;
+    	} else{
+    		document.getElementById("infoPanel").style.display = "unset";
+    		document.getElementById("collapse").style.left = '320px';
+    		document.getElementById("collapse").style.paddingLeft = '0px';
+    		document.getElementById("collapse-arrow").className = "fa fa-chevron-left";
+    		collapsed = false;
+    	}
+
+    }
+//////////////function that allows topojson layers to be loaded///////////////////////
+    L.TopoJSON = L.GeoJSON.extend({
+  		addData: function(jsonData) {
+    		if (jsonData.type === 'Topology') {
+      			for (key in jsonData.objects) {
+       			 geojson = topojson.feature(jsonData, jsonData.objects[key]);
+       			 L.GeoJSON.prototype.addData.call(this, geojson);
+      		}
+    	}
+    	else {
+      		L.GeoJSON.prototype.addData.call(this, jsonData);
+    		}
+  		}
+	});
+//////////////Initialize map///////////////////////
+	var map = L.map('map', {center: [45.56, -121.75], zoom: 6, zoomControl:false});
+///////////////////////make zoom level correspond to browser size////////////////////////////////
+	window.addEventListener('load', function(event){
+    	var width = document.documentElement.clientWidth;
+    	
+    	if (width < 1500 && width > 800) {
+        	map.setView(new L.LatLng(45.56, -121.75), 6); 
+    		}  else if (width > 1501) {
+        	map.setView(new L.LatLng(45.56, -119.75), 7); 
+        	} else {
+        	map.setZoom(5);
+        	}
+	});
+	
+	map.setMaxBounds(map.getBounds());
+////////////////////////////////basemap layers////////////////////////////////
+	basemap = L.tileLayer('https://api.mapbox.com/styles/v1/pnwatlas/cjlqxguqa199w2rt4hyqjkzsb/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoicG53YXRsYXMiLCJhIjoiY2pnM3puY3hwMXVldTJxcXBjZnZseG1jbCJ9.AXk0tP-pS2HjpgLJahLcdw', {
+	  attribution:'© <a href="https://www.mapbox.com/about/maps/">Mapbox</a> © <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> <strong><a href="https://www.mapbox.com/map-feedback/" target="_blank">Improve this map</a></strong>',
+	  maxZoom:11,
+	  minZoom:5,
+	  opacity:1
+	}).addTo(map);
+
+/*Data Variable*/
+	var data = 2010;
+
+
+  function yearMap(data) {
+    if (data >= 2000 && data <= 2010) {
+      map.removeLayer(basemap);
+      basemap = L.tileLayer('https://api.mapbox.com/styles/v1/pnwatlas/cjlqxguqa199w2rt4hyqjkzsb/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoicG53YXRsYXMiLCJhIjoiY2pnM3puY3hwMXVldTJxcXBjZnZseG1jbCJ9.AXk0tP-pS2HjpgLJahLcdw', {
+       	attribution:'© <a href="https://www.mapbox.com/about/maps/">Mapbox</a> © <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> <strong><a href="https://www.mapbox.com/map-feedback/" target="_blank">Improve this map</a></strong>',
+        maxZoom:11,
+        minZoom:5,
+        opacity:1
+      }).addTo(map);
+    } else if (data >= 1960 && data <= 1990) {
+      map.removeLayer(basemap);
+      basemap = L.tileLayer('https://api.mapbox.com/styles/v1/pnwatlas/cjlqxglgb92qa2rpssmyfxgb5/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoicG53YXRsYXMiLCJhIjoiY2pnM3puY3hwMXVldTJxcXBjZnZseG1jbCJ9.AXk0tP-pS2HjpgLJahLcdw', {
+       	attribution:'© <a href="https://www.mapbox.com/about/maps/">Mapbox</a> © <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> <strong><a href="https://www.mapbox.com/map-feedback/" target="_blank">Improve this map</a></strong>',
+        maxZoom:11,
+        minZoom:5,
+        opacity:1
+      }).addTo(map);
+
+    } else if (data >= 1900 && data <= 1950) {
+      map.removeLayer(basemap);
+      basemap = L.tileLayer('https://api.mapbox.com/styles/v1/pnwatlas/cjlqxfifq89e12rludunbpu8s/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoicG53YXRsYXMiLCJhIjoiY2pnM3puY3hwMXVldTJxcXBjZnZseG1jbCJ9.AXk0tP-pS2HjpgLJahLcdw', {
+        attribution:'© <a href="https://www.mapbox.com/about/maps/">Mapbox</a> © <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> <strong><a href="https://www.mapbox.com/map-feedback/" target="_blank">Improve this map</a></strong>',
+        maxZoom:11,
+        minZoom:5,
+        opacity:1
+      }).addTo(map);
+
+    } else if (data >= 1860 && data <= 1890) {
+      map.removeLayer(basemap);
+      basemap = L.tileLayer('https://api.mapbox.com/styles/v1/pnwatlas/cjlqxbsh320vn2sp54iwreqlb/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoicG53YXRsYXMiLCJhIjoiY2pnM3puY3hwMXVldTJxcXBjZnZseG1jbCJ9.AXk0tP-pS2HjpgLJahLcdw', {
+        attribution:'© <a href="https://www.mapbox.com/about/maps/">Mapbox</a> © <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> <strong><a href="https://www.mapbox.com/map-feedback/" target="_blank">Improve this map</a></strong>',
+        maxZoom:11,
+        minZoom:5,
+        opacity:1
+      }).addTo(map);
+
+    } else if (data >= 1810 && data <= 1850) {
+      map.removeLayer(basemap);
+      basemap = L.tileLayer('https://api.mapbox.com/styles/v1/pnwatlas/cjlqxg70q9iyc2tnvk8riihwa/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoicG53YXRsYXMiLCJhIjoiY2pnM3puY3hwMXVldTJxcXBjZnZseG1jbCJ9.AXk0tP-pS2HjpgLJahLcdw', {
+    	attribution:'© <a href="https://www.mapbox.com/about/maps/">Mapbox</a> © <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> <strong><a href="https://www.mapbox.com/map-feedback/" target="_blank">Improve this map</a></strong>',
+    	maxZoom:11,
+        minZoom:5,
+        opacity:1
+      }).addTo(map);
+    }
+
+  };
+  
+	map.createPane('labels');
+	map.getPane('labels').style.zIndex = 500;
+/*These state borders are sort of a placeholder. The historical boundaries only include counties and territories. We'll have to add the states based on what decade is selected. We can use use an "opacity filter" to do this.*/
+	  const pnw_states = new L.TopoJSON(null, {
+  		interactive:false,
+	});
+
+	function statesAddTopoData(topoData) {
+  		pnw_states.addData(topoData);
+  		pnw_states.addTo(map);
+  		pnw_states.eachLayer(statesHandleLayer);
+	}
+
+	 $.getJSON('assets/pnw_states.json')
+  		.done(statesAddTopoData);
+
+	function opacityFilter(value){
+		if (data >= 1860 && value == 'Oregon'){
+		  return 1;
+		}
+		else if (data >= 1890){
+			return 1;
+		}
+		else {
+			return 0;
+		}
+	}
+	
+	function statesHandleLayer(layer){
+    	layer.setStyle({
+            weight: 2,
+            opacity: opacityFilter(layer.feature.properties.name),
+            fillOpacity:0,
+            color: '#737373',
+        });
+
+    }
+
+	map.createPane('tooltip');
+	map.getPane('tooltip').style.zIndex = 700;
+
+///info panel////
+
+var info = L.control();
+
+	info.onAdd = function (map) {
+    	this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
+    	this.update();
+    	return this._div;
+	};
+	
+	info.update = function (props) {
+	//determines which data to display in info panel (park owner/park visitation)
+    this._div.innerHTML =  (props ?
+        '<h2 style="margin:0; display:inline-block;">' + props.NAME + '</h2><br/><p3>Date Established: ' + props.start_d + '<br/>Area: ' + props.AREA_SQMI +' Sq. Mi.</p3>'
+        : '<b style="font-size:24px;">Hover over Map</b>');
+	};
+
+	info.addTo(map);
+
+////////////////////////////display Layers////////////////////////////////////
+
+	////////////////////////////County and Territory Borders////////////////////////////////////
+    var border_date = 19991023;
+    var borders;
+
+    function addBorders(){
+
+        borders = null;
+        borders = new L.TopoJSON(null, {
+      		filter: function(feature, layer) {
+      			return feature.properties.START_N <= border_date && feature.properties.END_N >= border_date ? true: //lookhere
+      				false;
+      			},
+    		});
+
+        $.getJSON('assets/county_territories.json')
+      		.done(addBorderData);
+
+    	function addBorderData(topoData) {
+            borders.addData(topoData);
+            borders.addTo(map);
+            borders.eachLayer(handleBorderLayer);
+    	}
+
+    	function handleBorderLayer(layer){
+            layer.setStyle({
+                color:'#989898',
+            		weight:1,
+            		opacity: 1,
+                haloColor: 'white',
+                haloWeight: 14,
+    				    fillOpacity:0,
+    				    fillColor:'#000000'
+            });
+            layer.on({
+             	mouseover : enterBorderLayer,
+                mouseout: leaveBorderLayer
+
+            });
+        }
+        function enterBorderLayer(){
+    		this.setStyle({
+            	fillOpacity:0,
+            	opacity: 1,
+            	dashArray: 4,
+              color:'#000000',
+              weight:1.5,
+          	});
+          	info.update(this.feature.properties);
+        }
+        function leaveBorderLayer(){
+          	this.setStyle({
+            	fillOpacity:0,
+            	opacity: 1,
+            	dashArray: 0,
+              color:'#989898',
+         	 });
+         	info.update();
+        }
+    }
+
+    addBorders();
+
+	////////////////////////////Cities layer////////////////////////////////////
+
+    var CityPoints;
+
+	function addCityPoints(){
+
+    CityPoints = null;
+    CityPoints = new L.TopoJSON(null, {
+  		filter: function(feature, layer) {
+  			return feature.properties.min_date <= data && feature.properties.max_date >= data ? true:
+  				false;
+  			},
+  		pointToLayer: function (feature, latlng) {
+    			return L.circleMarker(latlng, {
+            	pane:'labels'
+            });
+    		},
+  	 	onEachFeature: function(feature, featureLayer){
+  			featureLayer.bindTooltip('<h3 style="display:inline;">' + feature.properties.NAME + '</h3><br/><p style="display:inline;">'+ data + ' Population: '+ isNull(selectValue(feature.properties)) +'<br/>Decade Founded: ' + feature.properties.min_date + '<br/>Last Recorded: ' + feature.properties.max_date + '</p>', {className: 'label_tooltip',pane:'tooltip',offset:L.point({x: 15, y: 0}), direction:'right'});
+  	 		}
+		});
+		
+	function isNull(value){
+		return value == 0 && data >= 1920 ? 'Less than 2500':
+			value == 0 && data >= 1890 ? 'Less than 500':
+			value == 0 && data == 1880 ? 'Less than 500':
+			value == 0 && data == 1870 ? 'Less than 500':
+			value == 0 && data == 1860 ? 'Less than 500':
+			value == 0 && data < 1860 ? 'Unknown':
+				value;
+	}
+
+    $.getJSON('assets/cities_dissolved.json')
+  		.done(addModernData);
+
+	function addModernData(topoData) {
+        CityPoints.addData(topoData);
+        CityPoints.addTo(map);
+        CityPoints.eachLayer(handleModernLayer);
+	}
+
+	function handleModernLayer(layer){
+        layer.setStyle({
+			color:'#ffffff',
+			weight:1,
+			opacity: 1,
+			radius: citySize(selectValue(layer.feature.properties)), //here_color
+			fillOpacity:1,
+        	fillColor:'#333333'
+        });
+        layer.on({
+         	mouseover : enterModernLayer,
+            mouseout: leaveModernLayer
+        });
+        if (data >= 1880){
+        	$('#fourClass').css('display','block');
+        	$('#threeClass').css('display','none');
+        	$('#twoClass').css('display','none');
+        	$('#oneClass').css('display','none');
+        }
+        else if (data ==1870){
+        	$('#fourClass').css('display','none');
+        	$('#threeClass').css('display','block');
+        	$('#twoClass').css('display','none');
+        	$('#oneClass').css('display','none');
+        }
+        else if (data == 1860){
+        	$('#fourClass').css('display','none');
+        	$('#threeClass').css('display','none');
+        	$('#twoClass').css('display','block');
+        	$('#oneClass').css('display','none');
+        }
+        else if (data < 1860){
+        	$('#fourClass').css('display','none');
+        	$('#threeClass').css('display','none');
+        	$('#twoClass').css('display','none');
+        	$('#oneClass').css('display','block');
+        }
+    }
+    
+    var cityValues = [];
+    
+    function selectValue(layer){
+    	return data == 2010 ? layer.p2010:
+    		data == 2000 ? layer.p2000:
+    		data == 1990 ? layer.p1990:
+    		data == 1980 ? layer.p1980:
+    		data == 1970 ? layer.p1970:
+    		data == 1960 ? layer.p1960:
+    		data == 1950 ? layer.p1950:
+    		data == 1940 ? layer.p1940:
+    		data == 1930 ? layer.p1930:
+    		data == 1920 ? layer.p1920:
+    		data == 1910 ? layer.p1910:
+    		data == 1900 ? layer.p1900:
+    		data == 1890 ? layer.p1890:
+    		data == 1880 ? layer.p1880:
+    		data == 1870 ? layer.p1870:
+    		data == 1860 ? layer.p1860:
+    			0;
+    }
+    
+    function citySize(value){
+    	var popValue = data == 2010 ? [250000,50000,10000]:
+				data == 2000 ? [250000,50000,10000]:
+				data == 1990 ? [250000,50000,10000]:
+				data == 1980 ? [250000,50000,10000]:
+				data == 1970 ? [250000,50000,10000]:
+				data == 1960 ? [100000,25000,5000]:
+				data == 1950 ? [100000,25000,5000]:
+				data == 1940 ? [100000,15000,5000]:
+				data == 1930 ? [100000,10000,2500]:
+				data == 1920 ? [100000,10000,2500]:
+				data == 1910 ? [50000,5000,1000]:
+				data == 1900 ? [10000,2500,1000]:
+				data == 1890 ? [10000,2500,500]:
+				data == 1880 ? [2500,1000,500]:
+				data == 1870 ? [1000,500]:
+				data == 1860 ? [500]:
+					[1000,500,100];
+					
+		if (data >= 1880){			
+			
+			$('#leg1').html('Greater than ' + popValue[0].toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 0}));
+			$('#leg2').html(popValue[1].toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 0}) + ' - ' + popValue[0].toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 0}));
+			$('#leg3').html(popValue[2].toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 0}) + ' - ' + popValue[1].toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 0}));
+			$('#leg4').html('Less than ' + popValue[2].toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 0}));
+			
+			return value > popValue[0] ? 7.5:
+				value > popValue[1] ? 6:
+				value > popValue[2] ? 4.5:
+					3;
+    		}
+    	if (data == 1870){			
+			return value > popValue[0] ? 7.5:
+				value > popValue[1] ? 5:
+					3;
+    		}
+    	if (data == 1860){			
+			return value > popValue[0] ? 5:
+					3;
+    		}
+    	if (data < 1860){
+    		return 3;
+    	}
+    }
+    
+    function enterModernLayer(){
+		this.setStyle({
+          color:'#333333',
+          fillColor:'#ffffff'
+        });
+    }
+
+    function leaveModernLayer(){
+      	this.setStyle({
+        	dashArray: 0,
+          fillColor:'#333333',
+          color:'#ffffff' //here_color
+     	 });
+    }
+//end of function
+}
+    addCityPoints();
+    
+    
+    ////////////////////////////pnw outline////////////////////////////////////
+	var pnw_outline = new L.TopoJSON(null, {
+		interactive:false
+	});
+
+	$.getJSON('assets/pnw_outline.json')
+		.done(outlineAddTopoData);
+
+	function outlineAddTopoData(topoData) {
+		pnw_outline.addData(topoData);
+		pnw_outline.addTo(map);
+		pnw_outline.eachLayer(outlineHandleLayer);
+	}
+
+	function outlineHandleLayer(layer){
+		layer.setStyle({
+			weight: 1.25,
+			opacity:0,
+			fillOpacity:outlineFilter(layer.feature.properties.id, layer.feature.properties.end),
+			fillColor: '#000000',
+		});
+	}
+
+	function outlineFilter(value1, value2){
+		return value1 <= data && value2 >= data ? 0.3:
+				0;
+	}
+
+
+//Slider
+
+$( function() {
+    $( "#slider-vertical-modern").slider({
+      	orientation:"vertical",
+      	range: "min",
+      	min: 1810,
+      	max: 2010,
+      	value: data,
+      	slide: function( event, ui ) {
+        	$( "#amount" ).val( ui.value );
+        		data = ui.value;
+            var val = "" + ui.value + "0101";
+            border_date = val;
+            borders.remove(map);
+          addBorders();
+            CityPoints.remove(map);
+    			addCityPoints();
+          yearMap(data);
+          pnw_outline.eachLayer(outlineHandleLayer);
+          pnw_states.eachLayer(statesHandleLayer);
+      		},
+//same as above
+      	change: function( event, ui ) {
+        	$( "#amount" ).val( ui.value );
+        		data = ui.value;
+            CityPoints.remove(map);
+    			addCityPoints();
+          yearMap(data);
+          opacityFilter(data);
+
+          var val = "" + ui.value + "0101";
+          border_date = val;
+          borders.remove(map);
+          addBorders();
+          pnw_outline.eachLayer(outlineHandleLayer);
+          pnw_states.eachLayer(statesHandleLayer);
+      		}
+    	}).slider("pips",{
+    		rest: "label",
+    		step: 10
+    	});
+  	});
+  	
+
+///////////////////////////////other miscellaneous functions (these also never change)////////////////////////////////
+
+   	//add zoom control
+    new L.Control.Zoom({ position: 'bottomright' }).addTo(map);
+
+    //remove leaflet attribution
+	//add scrolling capabilities to text box
+    var container = document.getElementById('text');
+		Ps.initialize(container);
+
+	//update text box to be correct size
+	var minHeight = 50; // Define a minimum height for the middle div
+
+	function resizeMiddle() {
+    var h = $('body').height() - $('#top').height() - 65;
+    		h = h > minHeight ? h : minHeight;
+   	 	$('#attribution').height(h);
+	}
+
+	function resizePopup() {
+   		var h = $('.popup').height() - 90;
+    		h = h > minHeight ? h : minHeight;
+   	 	$('.popup .content').height(h);
+	}
+	$(document).ready(resizePopup);
+	$(window).resize(resizePopup);
+
+	$(document).ready(resizeMiddle);
+	$(window).resize(resizeMiddle);
+	
+	$(document).click(function(event) {
+		if (!$(event.target).closest(".share_overlay,.share,#sources,#link_popup").length) {
+			$('#clear')[0].click();
+		}
+	});
+
+    //remove standard leaflet attribution
+
+</script>
+
+</body>
+</html>

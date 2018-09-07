@@ -41,7 +41,7 @@
 		<div id="infoPanel">
 			<div id="top">
 				<h1>Tribal Land</h1>
-				<img src="img/placeholder.png" id="titleImageCircle" style="display:inline-block;">
+				<img src="img/mountain_icon.png" id="titleImageCircle" style="display:inline-block;">
 <!--Like I said, we won't need to worry about clickFunction for this one-->
 				<div id="buttons" data-step="1" data-intro="Use the dropdown menu to select different datasets for display.">
 					<div class="dropdown">
@@ -113,7 +113,7 @@
 				</div>
 			</div>
 <!--Here is the actual "slider" on the side of the info panel. The style probably won't need to change too much, but it may need to be taller to comfortably accomodate every decade-->
-			<div id="slider-vertical-modern" style="display:none; height:340px; font-size:20px; width:10px; position:absolute; left:320px; z-index:2000; top:25%; border-radius: 0px 3px 3px 0px;background:rgba(255,255,255,0.6);border-top: 10px solid rgba(255,255,255,0);border-bottom: 10px solid rgba(255,255,255,0);" data-step="3" data-intro="Select a year to view land seizure in that year."></div>
+			<div id="slider-vertical-modern" style="display:none; height:340px; font-size:22px; width:10px; position:absolute; left:320px; z-index:2000; top:25%; border-radius: 0px 3px 3px 0px;background:rgba(255,255,255,0.6);border-top: 10px solid rgba(255,255,255,0);border-bottom: 10px solid rgba(255,255,255,0);" data-step="3" data-intro="Select a year to view land seizure in that year."></div>
 		</div>
 
     	<div id="map" style="width: 100%; height: 100%;" data-step="5" data-intro="This is the main map display. Hover over map data to reveal more information."></div>
@@ -159,7 +159,7 @@
 			<div class="link_popup">
 				<a class="close" href="#" style="display:inline;">×</a>
 				<div class="content">
-					<a href="history_index.html" style="font-weight:bold; text-decoration:none;">Culture/History Home</a>
+					<a href="history_index.html" style="font-weight:bold; text-decoration:none;">Culture & History Home</a>
 					<hr>
 					<a href="indigenous_history.html" style="text-decoration:underline;">Indigenous History</a>
 					<a href="tribal_land.html" style="text-decoration:underline;">Tribal Land</a>
@@ -224,18 +224,21 @@
   		}
 	});
 //////////////Initialize map///////////////////////
-	var map = L.map('map', {center: [45.56, -119.75], zoom: 7, zoomControl:false});
+	var map = L.map('map', {center: [45.56, -121.75], zoom: 6, zoomControl:false});
 ///////////////////////make zoom level correspond to browser size////////////////////////////////
 	window.addEventListener('load', function(event){
     	var width = document.documentElement.clientWidth;
+    	
     	if (width < 1500 && width > 800) {
-        	map.setView(new L.LatLng(45.56, -121.75), 6);
+        	map.setView(new L.LatLng(45.56, -121.75), 6); 
     		}  else if (width > 1501) {
-        	map.setZoom(7);
+        	map.setView(new L.LatLng(45.56, -119.75), 7); 
         	} else {
         	map.setZoom(5);
         	}
 	});
+	
+	map.setMaxBounds(map.getBounds());
 ////////////////////////////////basemap layers////////////////////////////////
 /*We can just use the default basemap for now*/
 	var Esri_WorldTerrain = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer/tile/{z}/{y}/{x}', {

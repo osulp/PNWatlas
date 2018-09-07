@@ -38,7 +38,7 @@
 		<div id="infoPanel">
 			<div id="top">
 				<h1>Indigenous History</h1>
-				<img src="img/placeholder.png" id="titleImageCircle" style="display:inline-block;">
+				<img src="img/history_icon.png" id="titleImageCircle" style="display:inline-block;">
 <!--Like I said, we won't need to worry about clickFunction for this one-->
 				<div id="buttons"  data-step="1" data-intro="Use the dropdown menu to select different datasets for display.">
 					<div class="dropdown">
@@ -147,7 +147,7 @@
 			<div class="link_popup">
 				<a class="close" href="#" style="display:inline;">×</a>
 				<div class="content">
-					<a href="history_index.html" style="font-weight:bold; text-decoration:none;">Culture/History Home</a>
+					<a href="history_index.html" style="font-weight:bold; text-decoration:none;">Culture & History Home</a>
 					<hr>
 					<a href="indigenous_history.html" style="text-decoration:underline;">Indigenous History</a>
 					<a href="tribal_land.html" style="text-decoration:underline;">Tribal Land</a>
@@ -212,18 +212,21 @@
   		}
 	});
 //////////////Initialize map///////////////////////
-	var map = L.map('map', {center: [46.56, -119.75], zoom: 7, zoomControl:false});
+	var map = L.map('map', {center: [45.56, -121.75], zoom: 6, zoomControl:false});
 ///////////////////////make zoom level correspond to browser size////////////////////////////////
 	window.addEventListener('load', function(event){
     	var width = document.documentElement.clientWidth;
+    	
     	if (width < 1500 && width > 800) {
-        	map.setView(new L.LatLng(46.56, -121.75), 6);
+        	map.setView(new L.LatLng(45.56, -121.75), 6); 
     		}  else if (width > 1501) {
-        	map.setZoom(7);
+        	map.setView(new L.LatLng(45.56, -119.75), 7); 
         	} else {
         	map.setZoom(5);
         	}
 	});
+	
+	//map.setMaxBounds(map.getBounds());
 ////////////////////////////////basemap layers////////////////////////////////
 /*We can just use the default basemap for now*/
 	var Esri_WorldTerrain = L.tileLayer('https://api.mapbox.com/styles/v1/pnwatlas/cjl42fute4l6l2slp422hba6v/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoicG53YXRsYXMiLCJhIjoiY2pnM3puY3hwMXVldTJxcXBjZnZseG1jbCJ9.AXk0tP-pS2HjpgLJahLcdw', {
