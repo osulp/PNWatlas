@@ -69,7 +69,7 @@
 							<hr>
 						</div>
 						<div id="comb_select" style="display:none;">
-							<p style="font-weight:bold; text-align:left; white-space:normal; padding-left:0px; width:280px; display:block; position:relative; font-size:22px; margin-bottom:15px; line-height:24px;">Selecting a point will reveal tribal groups with the same language group, as well as tribes in the same confederation(s)/reservation(s), or both.</p>
+							<p style="font-weight:bold; text-align:left; white-space:normal; padding-left:0px; width:280px; display:block; position:relative; font-size:22px; margin-bottom:15px; line-height:24px;">Selecting a point will reveal tribal groups with the same language group, as well as tribes in the same confederation(s), reservation(s), or both.</p>
 							<div style="width:200px; display:inline-block;"><hr style="color:#3366ff; width:52px; float:left; height:4px; background-color:#ff0000; line-height:20px; margin-top:16px; display:inline; border:none;"/><p id="leg1" style="padding-left:10px;">Common Language Group</p></div>
 							<div style="width:200px; display:inline-block;"><hr style="color:#3366ff; width:52px; float:left; height:4px; background-color:#3366ff; line-height:20px; margin-top:16px; display:inline; border:none;"/><p id="leg1" style="padding-left:10px;">Confederation(s)</p></div>
 							<div style="width:200px; display:inline-block;"><hr style="color:#3366ff; width:52px; float:left; height:4px; background-color:#000000; line-height:20px; margin-top:16px; display:inline; border:none;"/><p id="leg1" style="padding-left:10px;">Both</p></div>
@@ -87,10 +87,7 @@
 					<div id="facts_1">
 						<br/>
 					</div>
-					<div id="facts_2" style="display:none;">
-						<p3 style="font-weight:bold; line-height:36px;">Fast Facts:</p3><br/>
-						<p3 id="facts">&#9900&nbspBeginning in the early 1800s, the US Government began aggressively seizing land from indigenous populations. These seizures were legitimized through written treaties, and the official language of the government declared the land as "ceded". Indigenous people were confined to declared reservations.</p3><br/><br/>
-					</div>
+
 				</div>
 
 <!--I figure this'll need to change for its place in the historical chapter-->
@@ -173,6 +170,19 @@
 						<i class="fa fa-linkedin-square " aria-hidden="true" style="padding-left:0;"></i>
 					</a>
 				</div>
+			</div>
+		</div>
+		
+		<div id="disclaimer" class="overlay">
+			<div class="popup" style="height:50%;">
+				<h2 style="display:inline; font-size:32px;">Before we begin...</h2>
+				<a class="close" href="#" style="display:inline;">×</a>
+				<hr>
+				<div class="content" style="max-height:85%;">
+					<p2 style="font-size:20px;">We have done our best to be thorough and accurate, but due to the nature of Euro-American colonization and settlement, certain information has been lost to history. We acknowledge that strict geographic boundaries and Euro-American notions of land ownership were generally not part of Indigenous cultures in what became the Pacific Northwest, and therefore this map is designed to show general relationships between those indigenous cultures, as opposed to their absolute locations. Please let us know of any corrections or improvements you may have.</p2>
+                </div>
+				<hr>
+				<a class="close2" href="#" style="display:inline;">Close</a>
 			</div>
 		</div>
 
@@ -974,6 +984,10 @@
 			$('#clear')[0].click();
 		}
 	});
+	
+	  $(document).ready(function(){
+    	window.location = '#disclaimer';
+    });
 
 </script>
 
