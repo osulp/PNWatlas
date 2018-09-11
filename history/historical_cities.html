@@ -440,7 +440,7 @@ var info = L.control();
             });
     		},
   	 	onEachFeature: function(feature, featureLayer){
-  			featureLayer.bindTooltip('<h3 style="display:inline;">' + feature.properties.NAME + '</h3><br/><p style="display:inline;">'+ data + ' Population: '+ isNull(selectValue(feature.properties)) +'<br/>Decade Founded: ' + feature.properties.min_date + '<br/>Last Recorded: ' + feature.properties.max_date + '</p>', {className: 'label_tooltip',pane:'tooltip',offset:L.point({x: 15, y: 0}), direction:'right'});
+  			featureLayer.bindTooltip('<h3 style="display:inline;">' + feature.properties.NAME + '</h3><br/><p style="display:inline;">'+ data + ' Population: '+ isNull(selectValue(feature.properties)) +'<br/>Decade Founded: ' + feature.properties.min_date + '<br/>Last Recorded: ' + feature.properties.max_date + '</p>', {className: 'label_tooltip2',pane:'tooltip',offset:L.point({x: 15, y: 0}), direction:'right'});
   	 		}
 		});
 		

@@ -452,7 +452,7 @@
 	
 	const reservations = new L.TopoJSON(null, {
   		onEachFeature: function(feature, featureLayer){
-  			featureLayer.bindTooltip('<h3 style="display:inline;">' + feature.properties.NAME + '</h3>', {className: 'label_tooltip', pane:'tooltip', sticky:true});
+  			featureLayer.bindTooltip('<h3 style="display:inline;">' + feature.properties.NAME + '</h3>', {className: 'label_tooltip2', pane:'tooltip', sticky:true});
   		}
 	});
 
