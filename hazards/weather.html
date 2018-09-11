@@ -85,7 +85,9 @@
 			<div id="slider-vertical-storms" style="font-size:22px; height:340px; width:10px; position:absolute; left:320px; z-index:2000; top:25%; border-radius: 0px 3px 3px 0px;background:rgba(255,255,255,0.6);border-top: 10px solid rgba(255,255,255,0);border-bottom: 10px solid rgba(255,255,255,0);" data-step="2" data-intro="Select a year to view extreme weather points from that year."></div>
 		</div>
 		
-    	<div id="map" style="width: 100%; height: 100%;" data-step="4" data-intro="This is the main map display. Hover over extreme weather event points to reveal related statistics."></div>
+    	<div id="map" style="width: 100%; height: 100%;" data-step="4" data-intro="This is the main map display. Hover over extreme weather event points to reveal related statistics.">
+    		<button type="button" class='centerMap' onclick="centerMap()">Center</button>
+    	</div>
     	
     	<div id="sources" class="overlay">
 			<div class="popup">
@@ -185,6 +187,18 @@
     		}
   		}  
 	});
+	
+	function centerMap(){
+		var width = document.documentElement.clientWidth;
+		
+		if (width < 1500 && width > 800) {
+        	map.setView(new L.LatLng(45.56, -121.75), 6); 
+    		}  else if (width > 1501) {
+        	map.setView(new L.LatLng(45.56, -119.75), 7); 
+        	} else {
+        	map.setZoom(5);
+        	}
+	}
 //////////////Initialize map///////////////////////	
 	var map = L.map('map', {center: [45.56, -121.75], zoom: 6, zoomControl:false});
 ///////////////////////make zoom level correspond to browser size////////////////////////////////
