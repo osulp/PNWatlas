@@ -708,8 +708,6 @@ hr{
 /* div tooltip */
 .tooltip {
     position: relative;
-    cursor:pointer;
-    font-weight:bold;
     display: inline-block;
 }
 .tooltip .tooltiptext {
@@ -725,17 +723,19 @@ hr{
     border: black 2px solid;
     bottom: 100%;
     left: 50%; 
-    margin-left: -60px;
+    margin-left: -30px;
     position: absolute;
     z-index: 1;
     font-weight:none;
-    font-size:12px;
+    font-size:14px;
+    line-height:18px;
     /* Position the tooltip text - see examples below! */
 
 }
 .tooltip:hover .tooltiptext {
     visibility: visible;
 }
+
 /* intro.js */
 .customDefault {
     font-family:GoudyOld;
