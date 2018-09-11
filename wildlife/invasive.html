@@ -325,7 +325,9 @@
 				</div>
 			</div>
 		</div>
-    	<div id="map" style="width: 100%; height: 100%;" data-step="5" data-intro="This is the main map display."></div>
+    	<div id="map" style="width: 100%; height: 100%;" data-step="5" data-intro="This is the main map display.">
+    		<button type="button" class='centerMap' onclick="centerMap()">Center</button>
+    	</div>
     	<!--<div id="temp" style="display:none;"><canvas id="chartContainer1" style="height: 110; width: 50%; margin-left:-5px;"></canvas></div>-->
     	
     	<!--Map sources popup-->
@@ -528,6 +530,18 @@
     	}
     	
     }
+    
+    function centerMap(){
+		var width = document.documentElement.clientWidth;
+		
+		if (width < 1500 && width > 800) {
+        	map.setView(new L.LatLng(45.56, -121.75), 6); 
+    		}  else if (width > 1501) {
+        	map.setView(new L.LatLng(45.56, -119.75), 7); 
+        	} else {
+        	map.setZoom(5);
+        	}
+	}
 	//////////////function that allows topojson layers to be loaded///////////////////////
     L.TopoJSON = L.GeoJSON.extend({  
   		addData: function(jsonData) {    
