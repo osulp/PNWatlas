@@ -502,7 +502,7 @@ a#arrow{
 .share_overlay {
   position: fixed;
   bottom: 45px;
-  left: 135px;
+  left: 120px;
   background: rgba(0, 0, 0, 0.7);
   transition: opacity 500ms;
   visibility: hidden;
@@ -528,14 +528,14 @@ a#arrow{
 }
 .share_popup a#arrow {
 	color:black;
-	font-size:28px;
+	font-size:36px;
 	position:relative;
+	margin-left:5px;
 }
 .share_popup a#arrow:hover {
 	color:#808080;
 	cursor:pointer;
 }
-
 /* div tooltip */
 .tooltip {
     position: relative;
@@ -591,4 +591,32 @@ hr{
 .customDefault .introjs-nextbutton, .customDefault .introjs-prevbutton, .customDefault .introjs-skipbutton, .customDefault .introjs-donebutton{
     font-family:GoudyOld;
     font-size:14;
+}
+
+/* center map button*/
+.centerMap {
+  font-family:GoudyOld;
+  font-weight:bold;
+  text-align:center;
+  position: absolute;
+  display: block;
+  font-size:18px;
+  height: 30px;
+  width: 70px;
+  right: 10px;
+  bottom: 100px;
+  z-index: 99999;
+  overflow: hidden;
+  border: 2px solid rgba(0, 0, 0, 0.2); 
+  border-radius:5px;
+  background-color:#ffffff;
+  
+  -moz-background-clip: padding;     /* Firefox 3.6 */
+  -webkit-background-clip: padding;  /* Safari 4? Chrome 6? */
+  background-clip: padding-box;
+  
+}
+.centerMap:hover{
+	background-color:#f2f2f2;
+	cursor:pointer;
 }
