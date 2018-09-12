@@ -134,12 +134,13 @@
 			</div>
 		</div>
 		<div class="back" id="authors" style="padding-bottom:100px; padding-top:45px;">
-			<h1 class="title_3" style="margin-bottom:30px;">Authors</h1>
-			<div id="text">
+			<h1 class="title_3" style="margin-bottom:30px;">Contributors</h1>
+			<div id="text" style="text-align:left;">
 				<p3 style="font-weight:bold;text-align:left;">Gareth Baldrica-Franklin</p3><br/><p3 style="display:inline;text-align:left;">Lead Cartographer/Designer</p3><br/><br/>
 				<p3 style="font-weight:bold;text-align:left;">Jillian Pihulak</p3><br/><p3 style="display:inline;text-align:left;">Cartographer</p3><br/><br/>
 				<p3 style="font-weight:bold;text-align:left;">Korey Jackson</p3><br/><p3 style="display:inline;text-align:left;">Project Manager - OSU Libraries and Press</p3><br/><br/>
 				<p3 style="font-weight:bold;text-align:left;">Janine Salwasser</p3><br/><p3 style="display:inline;text-align:left;">Program Coordinator - Institute for Natural Resources</p3><br/><br/>
+				<p3 style="font-weight:bold;text-align:left;">Mark Rempel</p3><br/><p3 style="display:inline;text-align:left;">Technical Program Manager - OSU Libraries and Press</p3><br/><br/>
 			</div>
 			<img src="img/osulp_logo.png" style="width:250px;"><br/><br/>
 			<img src="img/inr_logo.png" style="width:250px;">
@@ -148,9 +149,9 @@
 </div>	
 <div id="top">
 	<a href="" id="banner2" style="display:inline;">OSU Libraries & Press | Institute for Natural Resources</a>
-	<a href="#authors" id="banner1" style="display:inline; margin-right:10px;">Authors</a>
-	<a href="#about" id="banner1" style="display:inline; margin-right:150px;">About</a>
-	<a href="#chapters" id="banner1" style="display:inline; margin-right:270px;">Chapters</a>
+	<a href="#authors" id="banner1" style="display:inline; margin-right:10px;">Contributors</a>
+	<a href="#about" id="banner1" style="display:inline; margin-right:180px;">About</a>
+	<a href="#chapters" id="banner1" style="display:inline; margin-right:300px;">Chapters</a>
 </div>
 <button id="arrow" onclick="scrollDown()">
 	<i id="down" class="animated zoomIn infinite fa fa-chevron-down" aria-hidden="true"></i>
@@ -164,93 +165,6 @@
 	function scrollDown(){
 		document.getElementById("scroll2").scrollTop += 250;
 	}
-	
-	/*
-	var currentPos = 0;
-	var down = true;
-	
-	function endScrollDown(){
-		var backHeight =  $('.back').height();
-		var chapterHeight =  $('#chapters').height() + $('.back').height();
-		var aboutHeight =  $('#about').height() + $('#chapters').height() + $('.back').height();
-		var authorHeight =  $('#authors').height() + $('#about').height() + $('#chapters').height() + $('.back').height();
-		var currentScroll = ($('#scroll2').scrollTop() + $(window).height()) - 100;
-		
-		if (currentScroll < backHeight){
-			$('#arrow').attr('href','#chapters');
-			currentPos = 0;
-		}
-		else if (currentScroll > backHeight && currentScroll < chapterHeight){
-			$('#arrow').attr('href','#about');
-			currentPos = 1;
-		}
-		else if (currentScroll > chapterHeight && currentScroll < aboutHeight){
-			$('#arrow').attr('href','#authors');
-			currentPos = 2;
-		}
-		else{
-			currentPos = 3;
-		}
-	}
-	
-	function endScrollUp(){
-		var backHeight =  $('.back').height();
-		var chapterHeight =  $('#chapters').height() + $('.back').height();
-		var aboutHeight =  $('#about').height() + $('#chapters').height() + $('.back').height();
-		var authorHeight =  $('#authors').height() + $('#about').height() + $('#chapters').height() + $('.back').height();
-		var currentScroll = ($('#scroll2').scrollTop() + $(window).height()) - 100;
-		
-		if (currentScroll < backHeight){
-			$('#arrow').attr('href','#chapters');
-			currentPos = 0;
-		}
-		else if (currentScroll > backHeight && currentScroll < chapterHeight){
-			$('#arrow').attr('href','#frontCover');
-			currentPos = 1;
-		}
-		else if (currentScroll > chapterHeight && currentScroll < aboutHeight){
-			$('#arrow').attr('href','#chapters');
-			currentPos = 2;
-		}
-		else if (currentScroll > aboutHeight){
-			$('#arrow').attr('href','#about');
-			currentPos = 3;
-		}
-	}
-	
-	function scrollArrow(){
-		if (down == true){
-			if (curentPos == 0){
-				$('#arrow').attr('href','#chapters');
-				currentPos++;
-			}
-			else if (curentPos == 1){
-				$('#arrow').attr('href','#about');
-				currentPos++;
-			}
-			else if (curentPos == 2){
-				$('#arrow').attr('href','#authors');
-				currentPos++;
-			}
-		}
-		else{
-			
-		}
-	}
-	*/
-	/*$(document).ready(function(){
-	  $("a").on('click', function(event) {
-		if (this.hash !== "") {
-		  event.preventDefault();
-		  var hash = this.hash;
-		  $('html, body').animate({
-			scrollTop: $(hash).offset().top
-		  }, 800, function(){
-   			window.location.hash = hash;
-		  });
-		} 
-	  });
-	});	*/
 		 
 	var iconRow = ['#img_map1','#img_map2','#img_map3','#img_map4','#img_map5','#img_map6','#img_map7','#img_map8'];
 	var textRow = ['#text_map1','#text_map2','#text_map3','#text_map4','#text_map5','#text_map6','#text_map7','#text_map8'];
