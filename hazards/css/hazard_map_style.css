@@ -592,7 +592,7 @@ hr{
 .share_overlay {
   position: fixed;
   bottom: 45px;
-  left: 135px;
+  left: 120px;
   background: rgba(0, 0, 0, 0.7);
   transition: opacity 500ms;
   visibility: hidden;
@@ -604,7 +604,6 @@ hr{
   visibility: visible;
   opacity: 1;
 }
-
 .share_popup {
   padding:5px;
   background: #fff;
@@ -618,14 +617,14 @@ hr{
 }
 .share_popup a#arrow {
 	color:black;
-	font-size:28px;
+	font-size:36px;
 	position:relative;
+	margin-left:5px;
 }
 .share_popup a#arrow:hover {
 	color:#808080;
 	cursor:pointer;
 }
-
 /*jquery ui slider*/
 /*
 .ui-slider {
