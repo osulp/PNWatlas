@@ -105,7 +105,7 @@
 				<div class="content">
 					<p2 style="font-size:20px">Geographic Data</p2><br><br/>
                     <div class="source">
-                    	<b><p2>Foreign Born Population: <a href = "https://factfinder.census.gov/faces/tableservices/jsf/pages/productview.xhtml?pid=ACS_15_SPT_B05006&prodType=table" target="_blank">United States Census Bureau</a></p2></b><br>
+                    	<b><p2>Foreign Born Population: <a href = "https://data2.nhgis.org/main" target="_blank">United States Census Bureau</a></p2></b><br>
                     		<p3>ACS data from 2011-2015.</p3>
                     </div>
                     <p2 style="font-size:20px">Basemap</p2><br><br/>
@@ -113,6 +113,10 @@
                     		<b><p2>Background Terrain: <a href = "https://leaflet-extras.github.io/leaflet-providers/preview/index.html#filter=Esri.WorldTerrain" target="_blank">ESRI</a></p2></b><br>
                     			<p3>ESRI Background Terrain; Source: USGS, Esri, TANA, DeLorme, and NPS<p3>
                     	</div>
+                    	<div class="source">
+                    		<b><p2>Background Labels: <a href = "https://leaflet-extras.github.io/leaflet-providers/preview/#filter=CartoDB.PositronOnlyLabels" target="_blank">Carto</a></p2></b><br>
+                    			&copy;<a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy;<a href="http://cartodb.com/attributions">CartoDB</a>
+                    	</div>	
 				</div>
 				<hr>
 				<p2 id="map_creation" style="float:right; font-size:16px;">Map created with <a href = "https://leafletjs.com/" target="_blank">Leaflet</a>, <a href = "https://d3js.org/topojson.v1.min.js" target="_blank">D3 TopoJson</a>, <a href = "http://geoserver.org/" target="_blank">Geoserver</a>, and <a href = "https://qgis.org/en/site/" target="_blank">QGIS</a></p2>
@@ -125,7 +129,7 @@
 			<div class="link_popup">
 				<a class="close" href="#" style="display:inline;">×</a>
 				<div class="content">
-					<a href="population_index.html" style="font-weight:bold; text-decoration:none;">Population Home</a>
+					<a href="population_home.html" style="font-weight:bold; text-decoration:none;">Population Home</a>
 					<hr>
 					<a href="demographics.html" style="text-decoration:underline;">Demographics</a>
 					<a href="housing.html" style="text-decoration:underline;">Housing</a>
@@ -223,8 +227,8 @@
 		opacity:1
 	}).addTo(map);
 	
-	var pnwCover = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
-		layers: 'baldricg_PNW_ATLAS:pnw_outline2_black',
+	var pnwCover = L.tileLayer.wms('https://geoserver.library.oregonstate.edu/geoserver/PNW_ATLAS/wms', {
+		layers: 'PNW_ATLAS:pnw_outline2',
         format: 'image/png',
 		maxZoom:11,
 		minZoom:5,

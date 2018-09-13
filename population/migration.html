@@ -118,7 +118,7 @@
 				<div class="content">
 					<p2 style="font-size:20px">Geographic Data</p2><br><br/>
                     <div class="source">
-                    	<b><p2>County-to-County Migration: <a href = "https://waterdata.usgs.gov/id/nwis/water_use?format=html_table&rdb_compression=file&wu_area=County&wu_year=2010&wu_county=ALL&wu_category=ALL&wu_county_nms=--ALL%2BCounties--&wu_category_nms=--ALL%2BCategories--" target="_blank">United States Census</a></p2></b><br>
+                    	<b><p2>County-to-County Migration: <a href = "https://www.census.gov/topics/population/migration/guidance/county-to-county-migration-flows.html" target="_blank">United States Census</a></p2></b><br>
                     		<p3>ACS data from 2011-2015.</p3>
                     </div>
                     <p2 style="font-size:20px">Basemap</p2><br><br/>
@@ -126,6 +126,10 @@
                     		<b><p2>Background Terrain: <a href = "https://leaflet-extras.github.io/leaflet-providers/preview/index.html#filter=Esri.WorldTerrain" target="_blank">ESRI</a></p2></b><br>
                     			<p3>ESRI Background Terrain; Source: USGS, Esri, TANA, DeLorme, and NPS<p3>
                     	</div>
+                    	<div class="source">
+                    		<b><p2>Background Labels: <a href = "https://leaflet-extras.github.io/leaflet-providers/preview/#filter=CartoDB.PositronOnlyLabels" target="_blank">Carto</a></p2></b><br>
+                    			&copy;<a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy;<a href="http://cartodb.com/attributions">CartoDB</a>
+                    	</div>	
 				</div>
 				<hr>
 				<p2 id="map_creation" style="float:right; font-size:16px;">Map created with <a href = "https://leafletjs.com/" target="_blank">Leaflet</a>, <a href = "https://d3js.org/topojson.v1.min.js" target="_blank">D3 TopoJson</a>, <a href = "https://github.com/sarahbellum/Canvas-Flowmap-Layer" target="_blank">Canvas Flowmap Layer</a>, <a href = "http://geoserver.org/" target="_blank">Geoserver</a>, and <a href = "https://qgis.org/en/site/" target="_blank">QGIS</a></p2>
@@ -138,7 +142,7 @@
 			<div class="link_popup">
 				<a class="close" href="#" style="display:inline;">×</a>
 				<div class="content">
-					<a href="population_index.html" style="font-weight:bold; text-decoration:none;">Population Home</a>
+					<a href="population_home.html" style="font-weight:bold; text-decoration:none;">Population Home</a>
 					<hr>
 					<a href="demographics.html" style="text-decoration:underline;">Demographics</a>
 					<a href="housing.html" style="text-decoration:underline;">Housing</a>
@@ -220,13 +224,13 @@
     	if (width < 1500 && width > 800) {
         	map.setView(new L.LatLng(45.56, -121.75), 6); 
     		}  else if (width > 1501) {
-        	map.setView(new L.LatLng(45.56, -119.75), 7); 
+        	map.setView(new L.LatLng(45.56, -121.75), 6); 
         	} else {
         	map.setZoom(5);
         	}
 	});
 	
-	map.setMaxBounds(map.getBounds());
+	//map.setMaxBounds(map.getBounds());
 ////////////////////////////////basemap layers////////////////////////////////
 	var Esri_WorldTerrain = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer/tile/{z}/{y}/{x}', {
 		attribution: 'Tiles &copy; Esri &mdash; Source: USGS, Esri, TANA, DeLorme, and NPS',
@@ -235,8 +239,8 @@
 		opacity:1
 	}).addTo(map);
 	
-	var states = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
-		layers: 'baldricg_PNW_ATLAS:states',
+	var states = L.tileLayer.wms('https://geoserver.library.oregonstate.edu/geoserver/PNW_ATLAS/wms', {
+		layers: 'PNW_ATLAS:states',
         format: 'image/png',
 		maxZoom:8,
 		minZoom:4,
@@ -245,8 +249,8 @@
 		pane: 'layers'
 	});
 	
-	var outline = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
-		layers: 'baldricg_PNW_ATLAS:us_outline',
+	var outline = L.tileLayer.wms('https://geoserver.library.oregonstate.edu/geoserver/PNW_ATLAS/wms', {
+		layers: 'PNW_ATLAS:us_outline',
         format: 'image/png',
 		maxZoom:8,
 		minZoom:4,

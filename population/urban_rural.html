@@ -138,11 +138,11 @@
                     		<p3>Combined with urban area data.</p3>
                     </div>
                     <div class="source">
-                    	<b><p2>County-Level Education, Income and Employment Data: <a href = "https://factfinder.census.gov/faces/tableservices/jsf/pages/productview.xhtml?pid=ACS_15_5YR_S1501&prodType=table" target="_blank">IPUMS NHGIS, University of Minnesota</a></p2></b><br>
+                    	<b><p2>County-Level Education, Income and Employment Data: <a href = "https://data2.nhgis.org/main" target="_blank">IPUMS NHGIS, University of Minnesota</a></p2></b><br>
                     		<p3>IPUMS Data selected from ACS 2011-2015. Geographic Level: County. Datasets: Educational Attainment for the Population 25 Years and Over, Employment Status for the Population 16 Years and Over, Per Capita Income in the Past 12 Months (in 2015 Inflation-Adjusted Dollars).</p3>
                     </div>
                     <div class="source">
-                    	<b><p2>Place-Level Education, Income and Employment Data: <a href = "https://factfinder.census.gov/faces/tableservices/jsf/pages/productview.xhtml?pid=ACS_15_5YR_S1501&prodType=table" target="_blank">IPUMS NHGIS, University of Minnesota</a></p2></b><br>
+                    	<b><p2>Place-Level Education, Income and Employment Data: <a href = "https://data2.nhgis.org/main" target="_blank">IPUMS NHGIS, University of Minnesota</a></p2></b><br>
                     		<p3>IPUMS Data selected from ACS 2011-2015. Geographic Level: County By State--Place. Datasets: Educational Attainment for the Population 25 Years and Over, Employment Status for the Population 16 Years and Over, Per Capita Income in the Past 12 Months (in 2015 Inflation-Adjusted Dollars).</p3>
                     </div>
                     <p2 style="font-size:20px">Basemap</p2><br><br/>
@@ -150,6 +150,10 @@
                     		<b><p2>Background Terrain: <a href = "https://leaflet-extras.github.io/leaflet-providers/preview/index.html#filter=Esri.WorldTerrain" target="_blank">ESRI</a></p2></b><br>
                     			<p3>ESRI Background Terrain; Source: USGS, Esri, TANA, DeLorme, and NPS<p3>
                     	</div>
+                    	<div class="source">
+                    		<b><p2>Background Labels: <a href = "https://leaflet-extras.github.io/leaflet-providers/preview/#filter=CartoDB.PositronOnlyLabels" target="_blank">Carto</a></p2></b><br>
+                    			&copy;<a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy;<a href="http://cartodb.com/attributions">CartoDB</a>
+                    	</div>	
 				</div>
 				<hr>
 				<p2 id="map_creation" style="float:right; font-size:16px;">Map created with <a href = "https://leafletjs.com/" target="_blank">Leaflet</a>, <a href = "https://d3js.org/topojson.v1.min.js" target="_blank">D3 TopoJson</a>, <a href = "http://geoserver.org/" target="_blank">Geoserver</a>, and <a href = "https://qgis.org/en/site/" target="_blank">QGIS</a></p2>
@@ -162,7 +166,7 @@
 			<div class="link_popup">
 				<a class="close" href="#" style="display:inline;">×</a>
 				<div class="content">
-					<a href="population_index.html" style="font-weight:bold; text-decoration:none;">Population Home</a>
+					<a href="population_home.html" style="font-weight:bold; text-decoration:none;">Population Home</a>
 					<hr>
 					<a href="demographics.html" style="text-decoration:underline;">Demographics</a>
 					<a href="housing.html" style="text-decoration:underline;">Housing</a>
@@ -259,8 +263,8 @@
 		opacity:1
 	}).addTo(map);
 
-	var pnwCover = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
-		layers: 'baldricg_PNW_ATLAS:pnw_outline2_black',
+	var pnwCover = L.tileLayer.wms('https://geoserver.library.oregonstate.edu/geoserver/PNW_ATLAS/wms', {
+		layers: 'PNW_ATLAS:pnw_outline2',
         format: 'image/png',
 		maxZoom:10,
 		minZoom:5,
@@ -282,8 +286,8 @@
 		pane:'labels'
 	});
 	
-	var pnwCounties = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
-		layers: 'baldricg_PNW_ATLAS:pnw_states_black',
+	var pnwCounties = L.tileLayer.wms('https://geoserver.library.oregonstate.edu/geoserver/PNW_ATLAS/wms', {
+		layers: 'PNW_ATLAS:pnw_states_black',
         format: 'image/png',
 		maxZoom:10,
 		minZoom:5,
