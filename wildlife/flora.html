@@ -284,6 +284,10 @@
                     	<b><p2>Background Terrain: <a href = "https://leaflet-extras.github.io/leaflet-providers/preview/index.html#filter=Esri.WorldTerrain" target="_blank">ESRI</a></p2></b><br>
                     		<p3>ESRI Background Terrain; Source: USGS, Esri, TANA, DeLorme, and NPS<p3>
                     </div>
+                    <div class="source">
+                    		<b><p2>Background Labels: <a href = "https://leaflet-extras.github.io/leaflet-providers/preview/#filter=CartoDB.PositronOnlyLabels" target="_blank">Carto</a></p2></b><br>
+                    			&copy;<a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy;<a href="http://cartodb.com/attributions">CartoDB</a>
+                    	</div>	
 				</div>
 				<hr>
 				<p2 id="map_creation" style="float:right; font-size:16px;">Map created with <a href = "https://leafletjs.com/" target="_blank">Leaflet</a>, <a href = "https://d3js.org/topojson.v1.min.js" target="_blank">D3 TopoJson</a>, <a href = "http://geoserver.org/" target="_blank">Geoserver</a>, and <a href = "https://qgis.org/en/site/" target="_blank">QGIS</a></p2>
@@ -295,7 +299,7 @@
 			<div class="link_popup">
 				<a class="close" href="#" style="display:inline;">×</a>
 				<div class="content">
-					<a href="wildlife_index.html" style="font-weight:bold; text-decoration:none;">Wildlife Home</a>
+					<a href="wildlife_home.html" style="font-weight:bold; text-decoration:none;">Wildlife Home</a>
 					<hr>
 					<a href="flora.html" style="text-decoration:underline;">Flora</a>
 					<a href="fauna.html" style="text-decoration:underline;">Fauna</a>
@@ -391,8 +395,8 @@
 		opacity:1
 	}).addTo(map);
 
-	var pnwCover = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
-		layers: 'baldricg_PNW_ATLAS:pnw_outline2_black',
+	var pnwCover = L.tileLayer.wms('https://geoserver.library.oregonstate.edu/geoserver/PNW_ATLAS/wms', {
+		layers: 'PNW_ATLAS:pnw_outline2',
         format: 'image/png',
 		maxZoom:10,
 		minZoom:5,
@@ -400,8 +404,8 @@
 		transparent:true,
 	}).addTo(map);
 	
-	var pnwCounties = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
-		layers: 'baldricg_PNW_ATLAS:pnw_borders_black',
+	var pnwCounties = L.tileLayer.wms('https://geoserver.library.oregonstate.edu/geoserver/PNW_ATLAS/wms', {
+		layers: 'PNW_ATLAS:pnw_borders_black',
         format: 'image/png',
 		maxZoom:10,
 		minZoom:5,
@@ -576,8 +580,8 @@
     
     ////////////////////////////////ecoregions////////////////////////////////
 	
-	var tree_cover_total = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
-		layers: 'baldricg_PNW_ATLAS:tree_cover_total',
+	var tree_cover_total = L.tileLayer.wms('https://geoserver.library.oregonstate.edu/geoserver/PNW_ATLAS/wms', {
+		layers: 'PNW_ATLAS:tree_cover_total',
         format: 'image/png',
 		maxZoom:10,
 		minZoom:5,
@@ -585,8 +589,8 @@
 		transparent:true,
 	});
 	
-	var tree_loss = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
-		layers: 'baldricg_PNW_ATLAS:tree_loss_total',
+	var tree_loss = L.tileLayer.wms('https://geoserver.library.oregonstate.edu/geoserver/PNW_ATLAS/wms', {
+		layers: 'PNW_ATLAS:tree_loss_total',
         format: 'image/png',
 		maxZoom:10,
 		minZoom:5,
@@ -594,8 +598,8 @@
 		transparent:true,
 	});
 	
-	var tree_gain = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
-		layers: 'baldricg_PNW_ATLAS:tree_gain_total',
+	var tree_gain = L.tileLayer.wms('https://geoserver.library.oregonstate.edu/geoserver/PNW_ATLAS/wms', {
+		layers: 'PNW_ATLAS:tree_gain_total',
         format: 'image/png',
 		maxZoom:10,
 		minZoom:5,
@@ -603,8 +607,8 @@
 		transparent:true,
 	});
 	
-	var douglas_fir = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
-		layers: 'baldricg_PNW_ATLAS:douglas_fir',
+	var douglas_fir = L.tileLayer.wms('https://geoserver.library.oregonstate.edu/geoserver/PNW_ATLAS/wms', {
+		layers: 'PNW_ATLAS:douglas_fir',
         format: 'image/png',
 		maxZoom:10,
 		minZoom:5,
@@ -612,8 +616,8 @@
 		transparent:true,
 	});
 	
-	var ponderosa_pine = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
-		layers: 'baldricg_PNW_ATLAS:ponderosa_pine',
+	var ponderosa_pine = L.tileLayer.wms('https://geoserver.library.oregonstate.edu/geoserver/PNW_ATLAS/wms', {
+		layers: 'PNW_ATLAS:ponderosa_pine',
         format: 'image/png',
 		maxZoom:10,
 		minZoom:5,
@@ -621,8 +625,8 @@
 		transparent:true,
 	});
 	
-	var western_hemlock = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
-		layers: 'baldricg_PNW_ATLAS:western_hemlock',
+	var western_hemlock = L.tileLayer.wms('https://geoserver.library.oregonstate.edu/geoserver/PNW_ATLAS/wms', {
+		layers: 'PNW_ATLAS:western_hemlock',
         format: 'image/png',
 		maxZoom:10,
 		minZoom:5,
@@ -630,8 +634,8 @@
 		transparent:true,
 	});
 	
-	var grand_fir = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
-		layers: 'baldricg_PNW_ATLAS:grand_fir',
+	var grand_fir = L.tileLayer.wms('https://geoserver.library.oregonstate.edu/geoserver/PNW_ATLAS/wms', {
+		layers: 'PNW_ATLAS:grand_fir',
         format: 'image/png',
 		maxZoom:10,
 		minZoom:5,
@@ -639,8 +643,8 @@
 		transparent:true,
 	});
 	
-	var sagebrush = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
-		layers: 'baldricg_PNW_ATLAS:sagebrush',
+	var sagebrush = L.tileLayer.wms('https://geoserver.library.oregonstate.edu/geoserver/PNW_ATLAS/wms', {
+		layers: 'PNW_ATLAS:sagebrush',
         format: 'image/png',
 		maxZoom:10,
 		minZoom:5,
@@ -648,8 +652,8 @@
 		transparent:true,
 	});
 	
-	var western_juniper = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
-		layers: 'baldricg_PNW_ATLAS:western_juniper',
+	var western_juniper = L.tileLayer.wms('https://geoserver.library.oregonstate.edu/geoserver/PNW_ATLAS/wms', {
+		layers: 'PNW_ATLAS:western_juniper',
         format: 'image/png',
 		maxZoom:10,
 		minZoom:5,
@@ -657,8 +661,8 @@
 		transparent:true,
 	});
 	
-	var utah_juniper = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
-		layers: 'baldricg_PNW_ATLAS:utah_juniper',
+	var utah_juniper = L.tileLayer.wms('https://geoserver.library.oregonstate.edu/geoserver/PNW_ATLAS/wms', {
+		layers: 'PNW_ATLAS:utah_juniper',
         format: 'image/png',
 		maxZoom:10,
 		minZoom:5,
@@ -666,8 +670,8 @@
 		transparent:true,
 	});
 	
-	var rocky_mountain_juniper = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
-		layers: 'baldricg_PNW_ATLAS:rocky_mountain_juniper',
+	var rocky_mountain_juniper = L.tileLayer.wms('https://geoserver.library.oregonstate.edu/geoserver/PNW_ATLAS/wms', {
+		layers: 'PNW_ATLAS:rocky_mountain_juniper',
         format: 'image/png',
 		maxZoom:10,
 		minZoom:5,

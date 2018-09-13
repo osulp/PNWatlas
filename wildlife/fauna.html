@@ -353,6 +353,10 @@
                     	<b><p2>Background Terrain: <a href = "https://leaflet-extras.github.io/leaflet-providers/preview/index.html#filter=Esri.WorldTerrain" target="_blank">ESRI</a></p2></b><br>
                     		<p3>ESRI Background Terrain; Source: USGS, Esri, TANA, DeLorme, and NPS<p3>
                     </div>
+                    <div class="source">
+                    		<b><p2>Background Labels: <a href = "https://leaflet-extras.github.io/leaflet-providers/preview/#filter=CartoDB.PositronOnlyLabels" target="_blank">Carto</a></p2></b><br>
+                    			&copy;<a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy;<a href="http://cartodb.com/attributions">CartoDB</a>
+                    	</div>	
                 </div>
 				<hr>
 				<p2 id="map_creation" style="float:right; font-size:16px;">Map created with <a href = "https://leafletjs.com/" target="_blank">Leaflet</a>, <a href = "https://d3js.org/topojson.v1.min.js" target="_blank">D3 TopoJson</a>, <a href = "https://github.com/teastman/Leaflet.pattern" target="_blank">Leaflet-Pattern</a>, <a href = "https://www.chartjs.org/" target="_blank">Chart.js</a>, <a href = "https://github.com/ashiguruma/patternomaly" target="_blank">Patternomaly</a>, <a href = "http://geoserver.org/" target="_blank">Geoserver</a>, and <a href = "https://qgis.org/en/site/" target="_blank">QGIS</a></p2>
@@ -365,7 +369,7 @@
 			<div class="link_popup">
 				<a class="close" href="#" style="display:inline;">×</a>
 				<div class="content">
-					<a href="wildlife_index.html" style="font-weight:bold; text-decoration:none;">Wildlife Home</a>
+					<a href="wildlife_home.html" style="font-weight:bold; text-decoration:none;">Wildlife Home</a>
 					<hr>
 					<a href="flora.html" style="text-decoration:underline;">Flora</a>
 					<a href="fauna.html" style="text-decoration:underline;">Fauna</a>
@@ -461,8 +465,8 @@
 		opacity:1
 	}).addTo(map);
 
-	var pnwCover = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
-		layers: 'baldricg_PNW_ATLAS:pnw_outline2_black',
+	var pnwCover = L.tileLayer.wms('https://geoserver.library.oregonstate.edu/geoserver/PNW_ATLAS/wms', {
+		layers: 'PNW_ATLAS:pnw_outline2',
         format: 'image/png',
 		maxZoom:10,
 		minZoom:5,
@@ -470,8 +474,8 @@
 		transparent:true,
 	}).addTo(map);
 	
-	var pnwCounties = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
-		layers: 'baldricg_PNW_ATLAS:pnw_borders_black',
+	var pnwCounties = L.tileLayer.wms('https://geoserver.library.oregonstate.edu/geoserver/PNW_ATLAS/wms', {
+		layers: 'PNW_ATLAS:pnw_borders_black',
         format: 'image/png',
 		maxZoom:10,
 		minZoom:5,
@@ -809,8 +813,8 @@
 
 	////////////////////////////////biodiversity////////////////////////////////  	
 	    
-    var biodiversity_raster = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
-		layers: 'baldricg_PNW_ATLAS:biodiversity_total',
+    var biodiversity_raster = L.tileLayer.wms('https://geoserver.library.oregonstate.edu/geoserver/PNW_ATLAS/wms', {
+		layers: 'PNW_ATLAS:biodiversity_total',
         format: 'image/png',
 		maxZoom:10,
 		minZoom:5,
@@ -818,8 +822,8 @@
 		transparent:true,
 	});
 	
-	var mammal = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
-		layers: 'baldricg_PNW_ATLAS:mammal_total',
+	var mammal = L.tileLayer.wms('https://geoserver.library.oregonstate.edu/geoserver/PNW_ATLAS/wms', {
+		layers: 'PNW_ATLAS:mammal_total',
         format: 'image/png',
 		maxZoom:10,
 		minZoom:5,
@@ -827,8 +831,8 @@
 		transparent:true,
 	});
 	
-	var bird = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
-		layers: 'baldricg_PNW_ATLAS:bird_total',
+	var bird = L.tileLayer.wms('https://geoserver.library.oregonstate.edu/geoserver/PNW_ATLAS/wms', {
+		layers: 'PNW_ATLAS:bird_total',
         format: 'image/png',
 		maxZoom:10,
 		minZoom:5,
@@ -836,8 +840,8 @@
 		transparent:true,
 	});
 	
-	var reptile = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
-		layers: 'baldricg_PNW_ATLAS:reptile_total',
+	var reptile = L.tileLayer.wms('https://geoserver.library.oregonstate.edu/geoserver/PNW_ATLAS/wms', {
+		layers: 'PNW_ATLAS:reptile_total',
         format: 'image/png',
 		maxZoom:10,
 		minZoom:5,
@@ -845,8 +849,8 @@
 		transparent:true,
 	});
 	
-	var amphibian = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
-		layers: 'baldricg_PNW_ATLAS:amphibian_total',
+	var amphibian = L.tileLayer.wms('https://geoserver.library.oregonstate.edu/geoserver/PNW_ATLAS/wms', {
+		layers: 'PNW_ATLAS:amphibian_total',
         format: 'image/png',
 		maxZoom:10,
 		minZoom:5,
@@ -854,8 +858,8 @@
 		transparent:true,
 	});
 	
-	var fish = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
-		layers: 'baldricg_PNW_ATLAS:fish_total',
+	var fish = L.tileLayer.wms('https://geoserver.library.oregonstate.edu/geoserver/PNW_ATLAS/wms', {
+		layers: 'PNW_ATLAS:fish_total',
         format: 'image/png',
 		maxZoom:10,
 		minZoom:5,
@@ -896,8 +900,8 @@
 
     }
     
-    var gray_wolf = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
-		layers: 'baldricg_PNW_ATLAS:gray_wolf_distribution',
+    var gray_wolf = L.tileLayer.wms('https://geoserver.library.oregonstate.edu/geoserver/PNW_ATLAS/wms', {
+		layers: 'PNW_ATLAS:gray_wolf_distribution',
         format: 'image/png',
 		maxZoom:10,
 		minZoom:5,
@@ -928,8 +932,8 @@
 
     }
     
-    var sage_grouse = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
-		layers: 'baldricg_PNW_ATLAS:sage_grouse_distribution',
+    var sage_grouse = L.tileLayer.wms('https://geoserver.library.oregonstate.edu/geoserver/PNW_ATLAS/wms', {
+		layers: 'PNW_ATLAS:sage_grouse_distribution',
         format: 'image/png',
 		maxZoom:10,
 		minZoom:5,
@@ -961,8 +965,8 @@
 
     }
   
-    var spotted_owl = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
-		layers: 'baldricg_PNW_ATLAS:spotted_owl_distribution',
+    var spotted_owl = L.tileLayer.wms('https://geoserver.library.oregonstate.edu/geoserver/PNW_ATLAS/wms', {
+		layers: 'PNW_ATLAS:spotted_owl_distribution',
         format: 'image/png',
 		maxZoom:10,
 		minZoom:5,

@@ -290,6 +290,10 @@
                     	<b><p2>Background Terrain: <a href = "https://leaflet-extras.github.io/leaflet-providers/preview/index.html#filter=Esri.WorldTerrain" target="_blank">ESRI</a></p2></b><br>
                     		<p3>ESRI Background Terrain; Source: USGS, Esri, TANA, DeLorme, and NPS<p3>
                     </div>
+                    <div class="source">
+                    		<b><p2>Background Labels: <a href = "https://leaflet-extras.github.io/leaflet-providers/preview/#filter=CartoDB.PositronOnlyLabels" target="_blank">Carto</a></p2></b><br>
+                    			&copy;<a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy;<a href="http://cartodb.com/attributions">CartoDB</a>
+                    	</div>	
 				</div>
 				<hr>
 				<p2 id="map_creation" style="float:right; font-size:16px;">Map created with <a href = "https://leafletjs.com/" target="_blank">Leaflet</a>, <a href = "https://d3js.org/topojson.v1.min.js" target="_blank">D3 TopoJson</a>, <a href = "http://geoserver.org/" target="_blank">Geoserver</a>, and <a href = "https://qgis.org/en/site/" target="_blank">QGIS</a></p2>
@@ -302,7 +306,7 @@
 			<div class="link_popup">
 				<a class="close" href="#" style="display:inline;">×</a>
 				<div class="content">
-					<a href="wildlife_index.html" style="font-weight:bold; text-decoration:none;">Wildlife Home</a>
+					<a href="wildlife_home.html" style="font-weight:bold; text-decoration:none;">Wildlife Home</a>
 					<hr>
 					<a href="flora.html" style="text-decoration:underline;">Flora</a>
 					<a href="fauna.html" style="text-decoration:underline;">Fauna</a>
@@ -396,8 +400,8 @@
 		minZoom:5
 	}).addTo(map);
 	
-	var pnwCover = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
-		layers: 'baldricg_PNW_ATLAS:pnw_outline2_black',
+	var pnwCover = L.tileLayer.wms('https://geoserver.library.oregonstate.edu/geoserver/PNW_ATLAS/wms', {
+		layers: 'PNW_ATLAS:pnw_outline2',
         format: 'image/png',
 		maxZoom:11,
 		minZoom:5,
@@ -405,8 +409,8 @@
 		transparent:true,
 	}).addTo(map);
 	
-	var pnwStates = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
-		layers: 'baldricg_PNW_ATLAS:pnw_states_black',
+	var pnwStates = L.tileLayer.wms('https://geoserver.library.oregonstate.edu/geoserver/PNW_ATLAS/wms', {
+		layers: 'PNW_ATLAS:pnw_states_black',
         format: 'image/png',
 		maxZoom:11,
 		minZoom:5,
@@ -414,8 +418,8 @@
 		transparent:true,
 	}).addTo(map);
 	
-	var pnwCounties = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
-		layers: 'baldricg_PNW_ATLAS:counties_black',
+	var pnwCounties = L.tileLayer.wms('https://geoserver.library.oregonstate.edu/geoserver/PNW_ATLAS/wms', {
+		layers: 'PNW_ATLAS:counties',
         format: 'image/png',
 		maxZoom:11,
 		minZoom:5,
@@ -436,8 +440,8 @@
 		pane:'labels'
 	});	
 	
-	var fish = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
-		layers: 'baldricg_PNW_ATLAS:fall_chinook',
+	var fish = L.tileLayer.wms('https://geoserver.library.oregonstate.edu/geoserver/PNW_ATLAS/wms', {
+		layers: 'PNW_ATLAS:fall_chinook',
         format: 'image/png',
 		maxZoom:11,
 		minZoom:5,
@@ -576,8 +580,8 @@
     function selectRun () {
     	if (document.getElementById('checkbox').checked == true){
     		map.removeLayer(fish);
-    		fish = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
-				layers: 'baldricg_PNW_ATLAS:spring_chinook',
+    		fish = L.tileLayer.wms('https://geoserver.library.oregonstate.edu/geoserver/PNW_ATLAS/wms', {
+				layers: 'PNW_ATLAS:spring_chinook',
         		format: 'image/png',
 				maxZoom:11,
 				minZoom:5,
@@ -588,8 +592,8 @@
    		}
     	else {
     		map.removeLayer(fish);
-    		fish = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
-				layers: 'baldricg_PNW_ATLAS:fall_chinook',
+    		fish = L.tileLayer.wms('https://geoserver.library.oregonstate.edu/geoserver/PNW_ATLAS/wms', {
+				layers: 'PNW_ATLAS:fall_chinook',
         		format: 'image/png',
 				maxZoom:11,
 				minZoom:5,
@@ -602,8 +606,8 @@
     function selectRun2 () {
     	if (document.getElementById('checkbox2').checked == true){
     		map.removeLayer(fish);
-    		fish = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
-				layers: 'baldricg_PNW_ATLAS:winter_steelhead',
+    		fish = L.tileLayer.wms('https://geoserver.library.oregonstate.edu/geoserver/PNW_ATLAS/wms', {
+				layers: 'PNW_ATLAS:winter_steelhead',
         		format: 'image/png',
 				maxZoom:11,
 				minZoom:5,
@@ -614,8 +618,8 @@
    		}
     	else {
     		map.removeLayer(fish);
-    		fish = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
-				layers: 'baldricg_PNW_ATLAS:summer_steelhead',
+    		fish = L.tileLayer.wms('https://geoserver.library.oregonstate.edu/geoserver/PNW_ATLAS/wms', {
+				layers: 'PNW_ATLAS:summer_steelhead',
         		format: 'image/png',
 				maxZoom:11,
 				minZoom:5,
@@ -628,8 +632,8 @@
 	function selectRun3 () {
     	if (document.getElementById('checkbox3').checked == true){
     		map.removeLayer(fish);
-    		fish = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
-				layers: 'baldricg_PNW_ATLAS:summer_chum',
+    		fish = L.tileLayer.wms('https://geoserver.library.oregonstate.edu/geoserver/PNW_ATLAS/wms', {
+				layers: 'PNW_ATLAS:summer_chum',
         		format: 'image/png',
 				maxZoom:11,
 				minZoom:5,
@@ -640,8 +644,8 @@
    		}
     	else {
     		map.removeLayer(fish);
-    		fish = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
-				layers: 'baldricg_PNW_ATLAS:fall_chum',
+    		fish = L.tileLayer.wms('https://geoserver.library.oregonstate.edu/geoserver/PNW_ATLAS/wms', {
+				layers: 'PNW_ATLAS:fall_chum',
         		format: 'image/png',
 				maxZoom:11,
 				minZoom:5,
@@ -654,8 +658,8 @@
      function selectRun4 () {
     	if (document.getElementById('checkbox4').checked == true){
     		map.removeLayer(fish);
-    		fish = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
-				layers: 'baldricg_PNW_ATLAS:even_pink',
+    		fish = L.tileLayer.wms('https://geoserver.library.oregonstate.edu/geoserver/PNW_ATLAS/wms', {
+				layers: 'PNW_ATLAS:even_pink',
         		format: 'image/png',
 				maxZoom:11,
 				minZoom:5,
@@ -666,8 +670,8 @@
    		}
     	else {
     		map.removeLayer(fish);
-    		fish = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
-				layers: 'baldricg_PNW_ATLAS:odd_pink',
+    		fish = L.tileLayer.wms('https://geoserver.library.oregonstate.edu/geoserver/PNW_ATLAS/wms', {
+				layers: 'PNW_ATLAS:odd_pink',
         		format: 'image/png',
 				maxZoom:11,
 				minZoom:5,
@@ -706,8 +710,8 @@
 				info.remove(map);
 			}
 			map.removeLayer(fish);
-    		fish = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
-				layers: 'baldricg_PNW_ATLAS:fall_chinook',
+    		fish = L.tileLayer.wms('https://geoserver.library.oregonstate.edu/geoserver/PNW_ATLAS/wms', {
+				layers: 'PNW_ATLAS:fall_chinook',
         		format: 'image/png',
 				maxZoom:11,
 				minZoom:5,
@@ -722,8 +726,8 @@
 				info.remove(map);
 			}
 			map.removeLayer(fish);
-    		fish = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
-				layers: 'baldricg_PNW_ATLAS:summer_steelhead',
+    		fish = L.tileLayer.wms('https://geoserver.library.oregonstate.edu/geoserver/PNW_ATLAS/wms', {
+				layers: 'PNW_ATLAS:summer_steelhead',
         		format: 'image/png',
 				maxZoom:11,
 				minZoom:5,
@@ -737,8 +741,8 @@
 				info.remove(map);
 			}
 			map.removeLayer(fish);
-    		fish = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
-				layers: 'baldricg_PNW_ATLAS:coho',
+    		fish = L.tileLayer.wms('https://geoserver.library.oregonstate.edu/geoserver/PNW_ATLAS/wms', {
+				layers: 'PNW_ATLAS:coho',
         		format: 'image/png',
 				maxZoom:11,
 				minZoom:5,
@@ -753,8 +757,8 @@
 				info.remove(map);
 			}
 			map.removeLayer(fish);
-    		fish = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
-				layers: 'baldricg_PNW_ATLAS:fall_chum',
+    		fish = L.tileLayer.wms('https://geoserver.library.oregonstate.edu/geoserver/PNW_ATLAS/wms', {
+				layers: 'PNW_ATLAS:fall_chum',
         		format: 'image/png',
 				maxZoom:11,
 				minZoom:5,
@@ -769,8 +773,8 @@
 				info.remove(map);
 			}
 			map.removeLayer(fish);
-    		fish = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
-				layers: 'baldricg_PNW_ATLAS:odd_pink',
+    		fish = L.tileLayer.wms('https://geoserver.library.oregonstate.edu/geoserver/PNW_ATLAS/wms', {
+				layers: 'PNW_ATLAS:odd_pink',
         		format: 'image/png',
 				maxZoom:11,
 				minZoom:5,
@@ -784,8 +788,8 @@
 				info.remove(map);
 			}
 			map.removeLayer(fish);
-    		fish = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
-				layers: 'baldricg_PNW_ATLAS:sockeye',
+    		fish = L.tileLayer.wms('https://geoserver.library.oregonstate.edu/geoserver/PNW_ATLAS/wms', {
+				layers: 'PNW_ATLAS:sockeye',
         		format: 'image/png',
 				maxZoom:11,
 				minZoom:5,
@@ -799,8 +803,8 @@
 				info.remove(map);
 			}
 			map.removeLayer(fish);
-    		fish = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
-				layers: 'baldricg_PNW_ATLAS:bull_trout',
+    		fish = L.tileLayer.wms('https://geoserver.library.oregonstate.edu/geoserver/PNW_ATLAS/wms', {
+				layers: 'PNW_ATLAS:bull_trout',
         		format: 'image/png',
 				maxZoom:11,
 				minZoom:5,
@@ -812,8 +816,8 @@
 		if (data == 8){
 			info.addTo(map);
 			map.removeLayer(fish);
-    		fish = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
-				layers: 'baldricg_PNW_ATLAS:cutthroat_total',
+    		fish = L.tileLayer.wms('https://geoserver.library.oregonstate.edu/geoserver/PNW_ATLAS/wms', {
+				layers: 'PNW_ATLAS:cutthroat',
         		format: 'image/png',
 				maxZoom:11,
 				minZoom:5,
@@ -826,8 +830,8 @@
 				info.remove(map);
 			}
 			map.removeLayer(fish);
-    		fish = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
-				layers: 'baldricg_PNW_ATLAS:sturgeon',
+    		fish = L.tileLayer.wms('https://geoserver.library.oregonstate.edu/geoserver/PNW_ATLAS/wms', {
+				layers: 'PNW_ATLAS:sturgeon',
         		format: 'image/png',
 				maxZoom:11,
 				minZoom:5,
@@ -839,8 +843,8 @@
 		if (data == 10){
 			info.addTo(map);
 			map.removeLayer(fish);
-    		fish = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
-				layers: 'baldricg_PNW_ATLAS:sturgeon',
+    		fish = L.tileLayer.wms('https://geoserver.library.oregonstate.edu/geoserver/PNW_ATLAS/wms', {
+				layers: 'PNW_ATLAS:sturgeon',
         		format: 'image/png',
 				maxZoom:11,
 				minZoom:5,

@@ -388,6 +388,10 @@
                     		<b><p2>Satellite Imagery: <a href = "https://leaflet-extras.github.io/leaflet-providers/preview/index.html#filter=Esri.WorldImagery" target="_blank">ESRI</a></p2></b><br>
                     			<p3>ESRI World Imagery; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community<p3>
                     	</div>
+                    	<div class="source">
+                    		<b><p2>Background Labels: <a href = "https://leaflet-extras.github.io/leaflet-providers/preview/#filter=CartoDB.PositronOnlyLabels" target="_blank">Carto</a></p2></b><br>
+                    			&copy;<a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy;<a href="http://cartodb.com/attributions">CartoDB</a>
+                    	</div>	
                     	<p2 style="font-size:20px">Image Data</p2><br><br/>
 						<div class="source">
 							<b><p2>Spotted Knapweed: <a href = "https://commons.wikimedia.org/wiki/Centaurea_stoebe#/media/File:Centaurea_stoebe_281007b.jpg" target="_blank">Courtesy of Bernd Haynold, acquired from Wikimedia Commons.</a></p2></b><br>
@@ -405,7 +409,7 @@
 			<div class="link_popup">
 				<a class="close" href="#" style="display:inline;">×</a>
 				<div class="content">
-					<a href="wildlife_index.html" style="font-weight:bold; text-decoration:none;">Wildlife Home</a>
+					<a href="wildlife_home.html" style="font-weight:bold; text-decoration:none;">Wildlife Home</a>
 					<hr>
 					<a href="flora.html" style="text-decoration:underline;">Flora</a>
 					<a href="fauna.html" style="text-decoration:underline;">Fauna</a>
@@ -592,8 +596,8 @@
 		opacity:0.2
 	}).addTo(map);
 
-	var pnwCover = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
-		layers: 'baldricg_PNW_ATLAS:pnw_outline2_black',
+	var pnwCover = L.tileLayer.wms('https://geoserver.library.oregonstate.edu/geoserver/PNW_ATLAS/wms', {
+		layers: 'PNW_ATLAS:pnw_outline2',
         format: 'image/png',
 		maxZoom:10,
 		minZoom:5,
@@ -601,8 +605,8 @@
 		transparent:true,
 	}).addTo(map);
 	
-	var pnw_borders = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
-		layers: 'baldricg_PNW_ATLAS:pnw_borders',
+	var pnw_borders = L.tileLayer.wms('https://geoserver.library.oregonstate.edu/geoserver/PNW_ATLAS/wms', {
+		layers: 'PNW_ATLAS:pnw_borders',
         format: 'image/png',
 		maxZoom:10,
 		minZoom:5,
