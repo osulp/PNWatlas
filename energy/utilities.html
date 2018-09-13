@@ -120,6 +120,10 @@
                     		<b><p2>Background Terrain: <a href = "https://leaflet-extras.github.io/leaflet-providers/preview/index.html#filter=Esri.WorldTerrain" target="_blank">ESRI</a></p2></b><br>
                     			<p3>ESRI Background Terrain; Source: USGS, Esri, TANA, DeLorme, and NPS<p3>
                     	</div>
+                    	<div class="source">
+                    		<b><p2>Background Labels: <a href = "https://leaflet-extras.github.io/leaflet-providers/preview/#filter=CartoDB.PositronOnlyLabels" target="_blank">Carto</a></p2></b><br>
+                    			&copy;<a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy;<a href="http://cartodb.com/attributions">CartoDB</a>
+                    	</div>	
 				</div>
 				<hr>
 				<p2 id="map_creation" style="float:right; font-size:16px;">Map created with <a href = "https://leafletjs.com/" target="_blank">Leaflet</a>, <a href = "https://d3js.org/topojson.v1.min.js" target="_blank">D3 TopoJson</a>, <a href = "https://www.chartjs.org/" target="_blank">Chart.js</a>, <a href = "http://geoserver.org/" target="_blank">Geoserver</a>, and <a href = "https://qgis.org/en/site/" target="_blank">QGIS</a></p2>
@@ -132,7 +136,7 @@
 			<div class="link_popup">
 				<a class="close" href="#" style="display:inline;">×</a>
 				<div class="content">
-					<a href="energy_index.html" style="font-weight:bold; text-decoration:none;">Energy Home</a>
+					<a href="energy_home.html" style="font-weight:bold; text-decoration:none;">Energy Home</a>
 					<hr>
 					<a href="utilities.html" style="text-decoration:underline;">Electric Utilities</a>
 					<a href="renewable.html" style="text-decoration:underline;">Renewable Energy</a>
@@ -223,8 +227,8 @@
 		minZoom:5
 	}).addTo(map);
 	
-	var watershed_outline = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
-		layers: 'baldricg_PNW_ATLAS:pnw_outline2_black',
+	var watershed_outline = L.tileLayer.wms('https://geoserver.library.oregonstate.edu/geoserver/PNW_ATLAS/wms', {
+		layers: 'PNW_ATLAS:pnw_outline2',
         format: 'image/png',
 		maxZoom:10,
 		minZoom:5,
@@ -252,6 +256,9 @@
 	
 	map.createPane('tooltip');
 	map.getPane('tooltip').style.zIndex = 700;
+	
+	map.createPane('power');
+	map.getPane('power').style.zIndex = 640;
 	//map.setMaxBounds(map.getBounds());
 	
 
@@ -465,6 +472,7 @@
 	
 	function pointStyle(feature, latlng){
 		return L.circleMarker(latlng, {
+    				pane:'power',
     				color: '#ffffff',
     				fillColor: '#000000',
     				radius: damSize(feature.properties.Total_MW),
@@ -553,7 +561,7 @@
         	dams = L.geoJson(data, {
         		pointToLayer: pointStyle,
     			onEachFeature: function(feature, featureLayer) {
-        			featureLayer.bindTooltip('<h3 style="display:inline;">' + feature.properties.Plant_Name + '</h3><br/><p style="display:inline;">Operator:&nbsp' + feature.properties.Utility_Na + '&nbsp<br/>Type:&nbsp' + feature.properties.PrimSource + '<br/>Capacity:&nbsp' + feature.properties.Total_MW + ' MW<br/>'+feature.properties.Total_MW+'</p>', {className: 'label_tooltip', pane:'tooltip'});
+        			featureLayer.bindTooltip('<h3 style="display:inline;">' + feature.properties.Plant_Name + '</h3><br/><p style="display:inline;">Operator:&nbsp' + feature.properties.Utility_Na + '&nbsp<br/>Type:&nbsp' + feature.properties.PrimSource + '<br/>Capacity:&nbsp' + feature.properties.Total_MW + ' MW</p>', {className: 'label_tooltip', pane:'tooltip'});
         			featureLayer.on({
         				mouseover: damHighlight,
         				mouseout: resetDamHighlight
