@@ -135,14 +135,18 @@
                 			<p3>Data from 2012. Data obtained using American FactFinder and the following NAICS codes for each PNW county: 71399 (All other amusement and recreation industries), 712190 (Nature parks and other similar institutions), 713920 (Skiing facilities), 451110 (Sporting goods stores), and 7212 (RV parks and recreational camps)<p3>
                 	</div>
                 	<div class="source">
-                		<b style="margin-left:0;"><p2>Local Government Parks and Rec. Employment and Wages/Salaries: <a href = "https://www.census.gov/govs/apes/" target="_blank">United States Census Bureau</a></p2></b><br>
+                		<b style="margin-left:0;"><p2>Local Government Parks and Rec. Employment and Wages/Salaries: <a href = "https://www.census.gov/govs/local/" target="_blank">United States Census Bureau</a></p2></b><br>
                 			<p3>Data from 2012. Data doesn't include state government parks and rec. employment and wages/salaries. <br/> Individual Unit File was downloaded.<p3>
                 	</div>
                 	<p2 style="font-size:20px">Basemap</p2><br><br/>
                     	<div class="source">
                     		<b><p2>Background Terrain: <a href = "https://leaflet-extras.github.io/leaflet-providers/preview/index.html#filter=Esri.WorldTerrain" target="_blank">ESRI</a></p2></b><br>
                     			<p3>ESRI Background Terrain; Source: USGS, Esri, TANA, DeLorme, and NPS<p3>
-                    	</div>	
+                    	</div>
+                    	<div class="source">
+                    		<b><p2>Background Labels: <a href = "https://leaflet-extras.github.io/leaflet-providers/preview/#filter=CartoDB.PositronOnlyLabels" target="_blank">Carto</a></p2></b><br>
+                    			&copy;<a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy;<a href="http://cartodb.com/attributions">CartoDB</a>
+                    	</div>		
 				</div>
 				<hr>
 				<p2 id="map_creation" style="float:right; font-size:16px;">Map created with <a href = "https://leafletjs.com/" target="_blank">Leaflet</a>, <a href = "https://d3js.org/topojson.v1.min.js" target="_blank">D3 TopoJson</a>, <a href = "http://geoserver.org/" target="_blank">Geoserver</a>, and <a href = "https://qgis.org/en/site/" target="_blank">QGIS</a></p2>
@@ -155,7 +159,7 @@
 			<div class="link_popup">
 				<a class="close" href="#" style="display:inline;">×</a>
 				<div class="content">
-					<a href="recreation_index.html" style="font-weight:bold; text-decoration:none;">Recreation Home</a>
+					<a href="recreation_home.html" style="font-weight:bold; text-decoration:none;">Recreation Home</a>
 					<hr>
 					<a href="parks.html" style="text-decoration:underline;">Protected Lands</a>
 					<a href="activities.html" style="text-decoration:underline;">Outdoor Activities</a>
@@ -277,8 +281,8 @@
     }
     
     
-    var pnwOutline = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
-		layers: 'baldricg_PNW_ATLAS:pnw_outline2_black',
+    var pnwOutline = L.tileLayer.wms('https://geoserver.library.oregonstate.edu/geoserver/PNW_ATLAS/wms', {
+		layers: 'PNW_ATLAS:pnw_outline2',
         format: 'image/png',
 		maxZoom:10,
 		minZoom:5,

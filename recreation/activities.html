@@ -88,11 +88,11 @@
 						<h1 class="activity" style=" font-variant:normal; letter-spacing:0;">Mountaineering</h1>
 						<h2 id="title" style="margin-top:5px;line-height:28px;margin-bottom:10px;">Elevation (Terrain, Mountain)</h2><!--<img src="img/climbing.png" id="image2" style="display:inline-block; right:15px; margin-top:70px; width:65px; height:65px;"> -->
 						<br/>
-						<div style="height:32px;"><b id ="lowest" style="background:rgba(37,37,37,0.7); position: relative; margin-bottom:5px;border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p>&nbsp</p><p id="leg1" style="padding-left:45px;">12,000+</p><img src="img/mountain_icon1.png" style="width:27px; height:27px; padding-left:15px; overflow:hidden; display:inline-block;"></div>
-						<div style="height:30px;"><b id ="lowest" style="background:rgba(99,99,99,0.7); position: relative; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2" style="padding-left:45px;">9,000 - 12,000</p><img src="img/mountain_icon2.png" style="width:21px; height:21px; padding-left:15px;"></div>
-						<div style="height:30px;"><b id ="lowest" style="background:rgba(150,150,150,0.7); position: relative; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg3" style="padding-left:45px;">6,000 - 9,000</p><img src="img/mountain_icon3.png" style="width:17px; height:17px; padding-left:15px; padding-bottom:4px;"></div>
-						<div style="height:30px;"><b id ="lowest" style="background:rgba(204,204,204,0.7); position: relative; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg4" style="padding-left:45px;">3,000 - 6,000</p><img src="img/mountain_icon4.png" style="width:13px; height:13px; padding-left:15px; padding-bottom:4px;"></div>
-						<div style="height:32px;"><b id ="lowest" style="background:rgba(247,247,247,0.7); position: relative; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p>&nbsp</p><p id="leg5" style="padding-left:45px;">Less than 3,000</p><img src="img/mountain_icon5.png" style="width:10px; height:10px; padding-left:15px; padding-bottom:4px;"></div><br/>
+						<div style="height:32px;"><b id ="lowest" style="background:rgba(37,37,37,0.7); position: relative; margin-bottom:5px;border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p>&nbsp</p><p id="leg1" style="padding-left:45px;">12,000+</p><img src="img/mountain_icon1.png" style="padding-bottom:5px; width:27px; height:27px; padding-left:15px; overflow:hidden; display:inline-block;"></div>
+						<div style="height:30px;"><b id ="lowest" style="background:rgba(99,99,99,0.7); position: relative; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2" style="padding-left:45px;">9,000 - 12,000</p><img src="img/mountain_icon2.png" style="padding-bottom:4px; width:21px; height:21px; padding-left:15px;"></div>
+						<div style="height:30px;"><b id ="lowest" style="background:rgba(150,150,150,0.7); position: relative; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg3" style="padding-left:45px;">6,000 - 9,000</p><img src="img/mountain_icon3.png" style="padding-bottom:6px; width:17px; height:17px; padding-left:15px;"></div>
+						<div style="height:30px;"><b id ="lowest" style="background:rgba(204,204,204,0.7); position: relative; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg4" style="padding-left:45px;">3,000 - 6,000</p><img src="img/mountain_icon4.png" style="padding-bottom:7px; width:13px; height:13px; padding-left:15px;"></div>
+						<div style="height:32px;"><b id ="lowest" style="background:rgba(247,247,247,0.7); position: relative; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p>&nbsp</p><p id="leg5" style="padding-left:45px;">Less than 3,000</p><img src="img/mountain_icon5.png" style="padding-bottom:8px; width:10px; height:10px; padding-left:15px;"></div><br/>
 						<p id="description" style="font-weight:bold; padding:0; display:block; white-space:normal; width:280px;">Elevations are expressed in feet</p><br/>
 						<div id="findbox" style="display:none;" data-step="3" data-intro="Use the bar to search for specific mountains."></div>	
 					</div>
@@ -205,6 +205,10 @@
                     		<b><p2>Background Terrain: <a href = "https://leaflet-extras.github.io/leaflet-providers/preview/index.html#filter=Esri.WorldTerrain" target="_blank">ESRI</a></p2></b><br>
                     			<p3>ESRI Background Terrain; Source: USGS, Esri, TANA, DeLorme, and NPS<p3>
                     	</div>
+                    	<div class="source">
+                    		<b><p2>Background Labels: <a href = "https://leaflet-extras.github.io/leaflet-providers/preview/#filter=CartoDB.PositronOnlyLabels" target="_blank">Carto</a></p2></b><br>
+                    			&copy;<a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy;<a href="http://cartodb.com/attributions">CartoDB</a>
+                    	</div>	
 				</div>
 				<hr>
 				<p2 id="map_creation" style="float:right; font-size:16px;">Map created with <a href = "https://leafletjs.com/" target="_blank">Leaflet</a>, <a href = "https://d3js.org/topojson.v1.min.js" target="_blank">D3 TopoJson</a>, <a href = "http://geoserver.org/" target="_blank">Geoserver</a>, and <a href = "https://qgis.org/en/site/" target="_blank">QGIS</a></p2>
@@ -217,7 +221,7 @@
 			<div class="link_popup">
 				<a class="close" href="#" style="display:inline;">×</a>
 				<div class="content">
-					<a href="recreation_index.html" style="font-weight:bold; text-decoration:none;">Recreation Home</a>
+					<a href="recreation_home.html" style="font-weight:bold; text-decoration:none;">Recreation Home</a>
 					<hr>
 					<a href="parks.html" style="text-decoration:underline;">Protected Lands</a>
 					<a href="activities.html" style="text-decoration:underline;">Outdoor Activities</a>
@@ -314,8 +318,9 @@
 		minZoom:4
 	}).addTo(map);
 	
-	var pnwCover = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
-		layers: 'baldricg_PNW_ATLAS:pnw_outline2_black',
+	
+	var pnwCover = L.tileLayer.wms('https://geoserver.library.oregonstate.edu/geoserver/PNW_ATLAS/wms', {
+		layers: 'PNW_ATLAS:pnw_outline2',
         format: 'image/png',
 		maxZoom:10,
 		minZoom:5,
@@ -335,16 +340,16 @@
 		],
 		pane:'labels'
 	});	
-	var backgroundParks = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
-		layers: 'baldricg_PNW_ATLAS:parks_total',
+	var backgroundParks = L.tileLayer.wms('https://geoserver.library.oregonstate.edu/geoserver/PNW_ATLAS/wms', {
+		layers: 'PNW_ATLAS:parks_total',
         format: 'image/png',
 		maxZoom:10,
 		minZoom:4,
 		transparent:true
 	}).addTo(map);
 	
-	var pnwCounties = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
-		layers: 'baldricg_PNW_ATLAS:pnw_borders_black',
+	var pnwCounties = L.tileLayer.wms('https://geoserver.library.oregonstate.edu/geoserver/PNW_ATLAS/wms', {
+		layers: 'PNW_ATLAS:pnw_borders_black',
         format: 'image/png',
 		maxZoom:10,
 		minZoom:5,
@@ -416,8 +421,8 @@
 ////////////////////////////////basemap layers////////////////////////////////
 
 	//elevation raster	
-	 var elevation = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
-		layers: 'baldricg_PNW_ATLAS:pnwElevation',
+	 var elevation = L.tileLayer.wms('https://geoserver.library.oregonstate.edu/geoserver/PNW_ATLAS/wms', {
+		layers: 'PNW_ATLAS:pnw_DEM_feet',
         format: 'image/png',
 		maxZoom:10,
 		minZoom:4,
@@ -425,8 +430,8 @@
 		transparent:true
 	});
 	//average annual snowfall raster	
-    var snowfall = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
-		layers: 'baldricg_PNW_ATLAS:pnw_snowfall',
+    var snowfall = L.tileLayer.wms('https://geoserver.library.oregonstate.edu/geoserver/PNW_ATLAS/wms', {
+		layers: 'PNW_ATLAS:pnw_snowfall',
         format: 'image/png',
 		maxZoom:10,
 		minZoom:4,
