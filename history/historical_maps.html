@@ -296,7 +296,7 @@
 			<div class="link_popup">
 				<a class="close" href="#" style="display:inline;">×</a>
 				<div class="content">
-					<a href="history_index.html" style="font-weight:bold; text-decoration:none;">Culture & History Home</a>
+					<a href="history_home.html" style="font-weight:bold; text-decoration:none;">Culture & History Home</a>
 					<hr>
 					<a href="indigenous_history.html" style="text-decoration:underline;">Indigenous History</a>
 					<a href="tribal_land.html" style="text-decoration:underline;">Tribal Land</a>
@@ -405,8 +405,8 @@
 		opacity:0.6
 	}).addTo(map);
 
-	var pnwBorders = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
-		layers: 'baldricg_PNW_ATLAS:pnw_borders',
+	var pnwBorders = L.tileLayer.wms('https://geoserver.library.oregonstate.edu/geoserver/PNW_ATLAS/wms', {
+		layers: 'PNW_ATLAS:pnw_borders',
         format: 'image/png',
 		maxZoom:12,
 		minZoom:5,
@@ -414,8 +414,8 @@
 		transparent:true,
 	}).addTo(map);
 
-	var pnwCover = L.tileLayer.wms('http://mapious.ceoas.oregonstate.edu/geoserver/baldricg_PNW_ATLAS/wms', {
-		layers: 'baldricg_PNW_ATLAS:pnw_outline2_black',
+	var pnwCover = L.tileLayer.wms('https://geoserver.library.oregonstate.edu/geoserver/PNW_ATLAS/wms', {
+		layers: 'PNW_ATLAS:pnw_outline2',
         format: 'image/png',
 		maxZoom:12,
 		minZoom:5,
