@@ -449,6 +449,8 @@
 <script src="assets/starling.js"></script>
 <script>
 //////////////base functions (these never change)///////////////////////
+	var plant = true;
+	
 	function animalSelect(){
 		plantShift();
 		document.getElementById("infoPanel2").style.display = "block";
@@ -464,6 +466,7 @@
 		resizeMiddle2();
 		Ps.destroy(container);
 		Ps.initialize(container2);
+		plant = false;
 	}
 	function plantSelect(){
 		animalShift();
@@ -480,6 +483,7 @@
 		resizeMiddle();
 		Ps.destroy(container2);
 		Ps.initialize(container);
+		plant = true;
 	}
 	
 	function plantShift(){
@@ -516,14 +520,25 @@
  	//////////////function for the info panel collapse button///////////////////////
     function collapse(){
     	if (collapsed == false){
-    		document.getElementById("infoPanel").style.transition = "display 2s";
-    		document.getElementById("infoPanel").style.display = "none";
+			if (plant == true){
+				document.getElementById("infoPanel").style.transition = "display 2s";
+				document.getElementById("infoPanel").style.display = "none";
+			}
+			else{
+				document.getElementById("infoPanel2").style.transition = "display 2s";
+				document.getElementById("infoPanel2").style.display = "none";
+			}
     		document.getElementById("collapse").style.left = '0px';
     		document.getElementById("collapse").style.paddingLeft = '2px';
     		document.getElementById("collapse-arrow").className = "fa fa-chevron-right";
     		collapsed = true;
     	} else{
-    		document.getElementById("infoPanel").style.display = "unset";
+    		if (plant == true){
+				document.getElementById("infoPanel").style.display = "block";
+			}
+			else{
+				document.getElementById("infoPanel2").style.display = "block";
+			}
     		document.getElementById("collapse").style.left = '320px';
     		document.getElementById("collapse").style.paddingLeft = '0px';
     		document.getElementById("collapse-arrow").className = "fa fa-chevron-left";
