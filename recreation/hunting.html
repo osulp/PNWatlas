@@ -36,6 +36,28 @@
    
 </head>
 <body>
+		<div id="navbar">
+			<a href="#nav_popup" id="banner1" style="display:inline; right:110px;">Chapters</a>
+			<a href="../index.html" id="banner1" style="display:inline; right:10px;">Home</a>
+			<a href="../index.html" id="banner2" style="display:inline; left:5px;">Atlas of the Pacific Northwest</a>
+		</div>
+		<div id="nav_popup" class="nav_overlay">
+			<div class="nav_popup">
+				<a class="close" href="#" style="display:inline;">×</a>
+				<div class="content">
+					<a href="../index.html" style="font-weight:bold; text-decoration:none; font-size:24px;">Home</a>
+					<hr>
+					<a href="food/food_home.html" style="text-decoration:underline;">Agriculture & Food</a>
+					<a href="history/history_home.html" style="text-decoration:underline;">Culture & History</a>
+					<a href="energy/energy_home.html" style="text-decoration:underline;">Energy Resources</a>
+					<a href="hazards/hazard_home.html" style="text-decoration:underline;">Natural Hazards</a>
+					<a href="recreation/recreation_home.html" style="text-decoration:underline;">Outdoor Recreation</a>
+					<a href="population/population_home.html" style="text-decoration:underline;">Population & Housing</a>
+					<a href="water/water_home.html" style="text-decoration:underline;">Water</a>
+					<a href="wildlife/wildlife_home.html" style="text-decoration:underline;">Wildlife</a>
+				</div>
+			</div>
+		</div>
 		<button id="collapse" onclick="collapse()">
 			<i class="fa fa-chevron-left" id ="collapse-arrow" aria-hidden="true"></i>
 		</button>
@@ -61,10 +83,14 @@
 						</div>
 					</div>
 				</div>
+				<label class="switchBorder" data-step="3" data-intro="Use the slider to toggle the display of politial borders.">
+					<input name="border_checkbox" id="borderbox" type="checkbox" value="check" onclick="borders()" autocomplete="off">
+					<div class="sliderBorder"><!--ADDED HTML --><span class="on">X</span><span class="border">State Borders</span><!--END--></div>		
+				</label>
 			</div>
 			<div id="attribution">
 				<div id="text" data-step="3" data-intro="Each dataset has a specific legend, displayed here.">
-					<h2 id="title" style="margin-right:5px; display:inline;">2016 Deer</h2><h2 id="type"> Harvest</h2><img src="img/deer.png" id="image3" style="display:inline-block; float:right; right:-20px; margin-top:10px;"> 
+					<h2 id="title" style="margin-right:5px; display:inline;">2016 Deer</h2><h2 id="type"> Harvest</h2><img src="img/deer.png" id="image3" style="display:inline-block; float:right; right:-20px;"> 
 					<br>
 					<div style="height:32px;"><b id ="leg5_block" style="background:#a50f15; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p>&nbsp</p><p id="leg1_value">&nbsp2000+</p></div>
 					<div style="height:30px;"><b id ="leg4_block" style="background:#de2d26; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2_value">&nbsp1000 - 2000</p></div>
@@ -79,7 +105,7 @@
 				</div>
 				<div id="pageChange" data-step="4" data-intro="Use these buttons to view data sources, view other map pages, or share maps on social media.">
 					<a href="#sources" id="arrow" style="display:inline-block;" title="Map Sources/Info">
-						<i class="fa fa-info-circle" aria-hidden="true" style="padding-left:60px;"></i>
+						<i class="fa fa-info-circle" aria-hidden="true" style="padding-left:70px;"></i>
 					</a>
 					<a href="#link_popup" id="arrow" style="display:inline-block;" title="Other Maps">
 						<i class="fa fa-home" aria-hidden="true" style="padding-left:7px;"></i>
@@ -94,7 +120,7 @@
 			</div>
 		</div>
     	<div id="map" style="width: 100%; height: 100%;" data-step="5" data-intro="This is the main map display. Hover over game management units to reveal more information.">
-    		<button type="button" class='centerMap' onclick="centerMap()">Center</button>
+    		<button type="button" class='centerMap' onclick="centerMap()">Center PNW</button>
     	</div>
     	
     	<div id="sources" class="overlay">
@@ -110,15 +136,15 @@
                     </div>
                     <div class="source">
                     	<b><p2>Idaho Deer Harvest Statistics: <a href = "https://idfg.idaho.gov/ifwis/huntplanner/stats.aspx?season=general&game=deer&yr=2016" target="_blank">Idaho Department of Fish and Game</a></p2></b><br>
-                    		<p3>Data from 2016.</p3>
+                    		<p3>Total deer harvested. Data from 2016.</p3>
                     </div>
                     <div class="source">
                     	<b><p2>Idaho Elk Harvest Statistics: <a href = "https://idfg.idaho.gov/ifwis/huntplanner/stats.aspx?season=general&game=elk&yr=2016" target="_blank">Idaho Department of Fish and Game</a></p2></b><br>
-                    		<p3>Data from 2016.</p3>
+                    		<p3>Total elk harvested. Data from 2016.</p3>
                     </div>
                     <div class="source">
                     	<b><p2>Idaho Bear Harvest Statistics: <a href = "https://idfg.idaho.gov/ifwis/huntplanner/stats.aspx?season=general&game=bear&yr=2016" target="_blank">Idaho Department of Fish and Game</a></p2></b><br>
-                    		<p3>Data from 2016.</p3>
+                    		<p3>Total bears harvested. Data from 2016.</p3>
                     </div>
                 	<div class="source">
                     	<b><p2>Oregon Game Management Units: <a href = "https://nrimp.dfw.state.or.us/DataClearinghouse/default.aspx?p=202&XMLname=805.xml" target="_blank">Oregon Department of Fish and Wildlife</a></p2></b><br>
@@ -126,15 +152,15 @@
                     </div>
                     <div class="source">
                     	<b><p2>Oregon Deer Harvest Statistics: <a href = "http://www.dfw.state.or.us/resources/Hunting/big_game/controlled_hunts/reports/index.asp" target="_blank">Oregon Department of Fish and Wildlife</a></p2></b><br>
-                    	<p3>Data from 2016. Statistics combined from the following files: <a href="http://www.dfw.state.or.us/resources/hunting/big_game/controlled_hunts/docs/hunts_summary_reports/2016_Rifle_Deer_Harvest_Est_100_Series.pdf" target="_blank">2016 100 Series Deer Harvest</a>,<a href="http://www.dfw.state.or.us/resources/hunting/big_game/controlled_hunts/docs/hunts_summary_reports/2016_Rifle_Antlerless_Deer_Harvest_Est_600_Series.pdf" target="_blank">&nbsp2016 600 Series Deer Harvest</a>, <a href="http://www.dfw.state.or.us/resources/hunting/big_game/controlled_hunts/docs/hunts_summary_reports/2016_Muzzleloader_Deer_Harvest_Est.pdf" target="_blank">2016 Muzzleloader Deer Harvest</a>, <a href="http://www.dfw.state.or.us/resources/hunting/big_game/controlled_hunts/docs/hunts_summary_reports/2016_Archery_Deer_Harvest_Est.pdf" target="_blank">2016 Archery Deer Harvest</a></p3>
+                    	<p3>Total deer harvested. Data from 2016. Statistics combined from the following files: <a href="http://www.dfw.state.or.us/resources/hunting/big_game/controlled_hunts/docs/hunts_summary_reports/2016_Rifle_Deer_Harvest_Est_100_Series.pdf" target="_blank">2016 100 Series Deer Harvest</a>,<a href="http://www.dfw.state.or.us/resources/hunting/big_game/controlled_hunts/docs/hunts_summary_reports/2016_Rifle_Antlerless_Deer_Harvest_Est_600_Series.pdf" target="_blank">&nbsp2016 600 Series Deer Harvest</a>, <a href="http://www.dfw.state.or.us/resources/hunting/big_game/controlled_hunts/docs/hunts_summary_reports/2016_Muzzleloader_Deer_Harvest_Est.pdf" target="_blank">2016 Muzzleloader Deer Harvest</a>, <a href="http://www.dfw.state.or.us/resources/hunting/big_game/controlled_hunts/docs/hunts_summary_reports/2016_Archery_Deer_Harvest_Est.pdf" target="_blank">2016 Archery Deer Harvest</a></p3>
                     </div>
                     <div class="source">
                     	<b><p2>Oregon Elk Harvest Statistics: <a href = "http://www.dfw.state.or.us/resources/Hunting/big_game/controlled_hunts/reports/index.asp" target="_blank">Oregon Department of Fish and Wildlife</a></p2></b><br>
-                    	<p3>Data from 2016. Statistics combined from the following files: <a href="http://www.dfw.state.or.us/resources/hunting/big_game/controlled_hunts/docs/hunts_summary_reports/2016_Rifle_Elk_Harvest_Est.pdf" target="_blank">2016 Rifle Harvest</a>,<a href="http://www.dfw.state.or.us/resources/hunting/big_game/controlled_hunts/docs/hunts_summary_reports/2016_Muzzleloader_Elk_Harvest_Est.pdf" target="_blank">&nbsp2016 Muzzleloader Elk Harvest</a>, <a href="http://www.dfw.state.or.us/resources/hunting/big_game/controlled_hunts/docs/hunts_summary_reports/2016_Archery_Elk_Harvest_Est.pdf" target="_blank">2016 Archery Elk Harvest</a></p3>
+                    	<p3>Total elk harvested. Data from 2016. Statistics combined from the following files: <a href="http://www.dfw.state.or.us/resources/hunting/big_game/controlled_hunts/docs/hunts_summary_reports/2016_Rifle_Elk_Harvest_Est.pdf" target="_blank">2016 Rifle Harvest</a>,<a href="http://www.dfw.state.or.us/resources/hunting/big_game/controlled_hunts/docs/hunts_summary_reports/2016_Muzzleloader_Elk_Harvest_Est.pdf" target="_blank">&nbsp2016 Muzzleloader Elk Harvest</a>, <a href="http://www.dfw.state.or.us/resources/hunting/big_game/controlled_hunts/docs/hunts_summary_reports/2016_Archery_Elk_Harvest_Est.pdf" target="_blank">2016 Archery Elk Harvest</a></p3>
                     </div>
                     <div class="source">
                     	<b><p2>Oregon Bear Harvest Statistics: <a href = "http://www.dfw.state.or.us/resources/Hunting/big_game/controlled_hunts/reports/index.asp" target="_blank">Oregon Department of Fish and Wildlife</a></p2></b><br>
-                    	<p3>Data from 2016. Notes: Statistics combined from the following files: <a href="http://www.dfw.state.or.us/resources/hunting/big_game/controlled_hunts/docs/hunts_summary_reports/2016_Black_Bear_Harvest_Est.pdf" target="_blank">2016 Black Bear Harvest</a></p3>
+                    	<p3>Total bears harvested. Data from 2016. Notes: Statistics combined from the following files: <a href="http://www.dfw.state.or.us/resources/hunting/big_game/controlled_hunts/docs/hunts_summary_reports/2016_Black_Bear_Harvest_Est.pdf" target="_blank">2016 Black Bear Harvest</a></p3>
                     </div>
                 	<div class="source">
                     	<b><p2>Washington Game Management Units: <a href = "http://geo.wa.gov/datasets/wdfw::game-management-units-polygons-2018" target="_blank">Washington Department of Fish and Wildlife</a></p2></b><br>
@@ -142,20 +168,21 @@
                     </div>
                     <div class="source">
                     	<b><p2>Washington Deer Harvest Statistics: <a href = "http://wdfw.wa.gov/hunting/harvest/2016/reports/deer_combo_dist_all.php" target="_blank">Washington Department of Fish and Wildlife</a></p2></b><br>
-                    		<p3>Data from 2016.</p3>
+                    		<p3>Total deer harvested. Data from 2016.</p3>
                     </div>
                     <div class="source">
                     	<b><p2>Washington Elk Harvest Statistics: <a href = "http://wdfw.wa.gov/hunting/harvest/2016/reports/elk_combo_dist_all.php" target="_blank">Washington Department of Fish and Wildlife</a></p2></b><br>
-                    		<p3>Data from 2016.</p3>
+                    		<p3>Total elk harvested. Data from 2016.</p3>
                     </div>
                     <div class="source">
                     	<b><p2>Washington Bear Harvest Statistics: <a href = "http://wdfw.wa.gov/hunting/harvest/2016/reports/bear_bmu_all.php" target="_blank">Washington Department of Fish and Wildlife</a></p2></b><br>
-                    		<p3>Data from 2016.</p3>
+                    		<p3>Total bear harvested. Data from 2016.</p3>
                     </div>
                     <p2 style="font-size:20px">Basemap</p2><br><br/>
                     	<div class="source">
                     		<b><p2>Background Terrain: <a href = "https://leaflet-extras.github.io/leaflet-providers/preview/index.html#filter=Esri.WorldTerrain" target="_blank">ESRI</a></p2></b><br>
                     			<p3>ESRI Background Terrain; Source: USGS, Esri, TANA, DeLorme, and NPS<p3>
+                    			<p3>More information can be found <a href = "https://developers.arcgis.com/" target="_blank">here.</a><p3>
                     	</div>
                     	<div class="source">
                     		<b><p2>Background Labels: <a href = "https://leaflet-extras.github.io/leaflet-providers/preview/#filter=CartoDB.PositronOnlyLabels" target="_blank">Carto</a></p2></b><br>
@@ -173,7 +200,7 @@
 			<div class="link_popup">
 				<a class="close" href="#" style="display:inline;">×</a>
 				<div class="content">
-					<a href="recreation_home.html" style="font-weight:bold; text-decoration:none;">Recreation Home</a>
+					<a href="recreation_home.html" style="font-weight:bold; text-decoration:none;">Chapter Home</a>
 					<hr>
 					<a href="parks.html" style="text-decoration:underline;">Protected Lands</a>
 					<a href="activities.html" style="text-decoration:underline;">Outdoor Activities</a>
@@ -239,23 +266,23 @@
 		var width = document.documentElement.clientWidth;
 		
 		if (width < 1500 && width > 800) {
-        	map.setView(new L.LatLng(45.56, -121.75), 6); 
+        	map.setView(new L.LatLng(45.60, -121.75), 6); 
     		}  else if (width > 1501) {
-        	map.setView(new L.LatLng(45.56, -119.75), 7); 
+        	map.setView(new L.LatLng(45.60, -119.75), 7); 
         	} else {
         	map.setZoom(5);
         	}
 	}
 //////////////Initialize map///////////////////////
-	var map = L.map('map', {center: [45.56, -121.75], zoom: 6, zoomControl:false});
+	var map = L.map('map', {center: [45.60, -121.75], zoom: 6, zoomControl:false});
 ///////////////////////make zoom level correspond to browser size////////////////////////////////
 	window.addEventListener('load', function(event){
     	var width = document.documentElement.clientWidth;
     	
     	if (width < 1500 && width > 800) {
-        	map.setView(new L.LatLng(45.56, -121.75), 6); 
+        	map.setView(new L.LatLng(45.60, -121.75), 6); 
     		}  else if (width > 1501) {
-        	map.setView(new L.LatLng(45.56, -119.75), 7); 
+        	map.setView(new L.LatLng(45.60, -119.75), 7); 
         	} else {
         	map.setZoom(5);
         	}
@@ -277,6 +304,16 @@
 		opacity:0.3,
 		transparent:true,
 	}).addTo(map);
+	
+	var pnwStates = L.tileLayer.wms('https://geoserver.library.oregonstate.edu/geoserver/PNW_ATLAS/wms', {
+		layers: 'PNW_ATLAS:pnw_states_black',
+        format: 'image/png',
+		maxZoom:11,
+		minZoom:5,
+		opacity:0.8,
+		transparent:true,
+		pane:'borders'
+	});
 		
 	var label = L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_only_labels/{z}/{x}/{y}@2x.png', {
 		attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
@@ -291,6 +328,10 @@
 		pane:'labels'
 	});	
 	
+	map.createPane('borders');
+	map.getPane('borders').style.pointerEvents = 'none';
+	map.getPane('borders').style.zIndex = 700;
+	
 	map.createPane('labels');
 	map.getPane('labels').style.pointerEvents = 'none';
 	map.getPane('labels').style.zIndex = 650;
@@ -299,6 +340,15 @@
 	map.createPane('tooltip');
 	map.getPane('tooltip').style.pointerEvents = 'none';
 	map.getPane('tooltip').style.zIndex = 700;
+	
+	function borders() {
+    	if ($('#borderbox').is(':checked')){
+    		pnwStates.addTo(map);
+    	}
+    	else {
+    		map.removeLayer(pnwStates);
+    	}
+    }
 ///////////////////////important variables////////////////////////////////
 	var levels = [2000, 1000, 500, 250, 2, 1.5, 1, 0.5, 100, 50 ,25, 10];
 	var animal = 1;
@@ -499,7 +549,7 @@
     var minHeight = 30; // Define a minimum height for the middle div
 
 	function resizeMiddle() {
-   		var h = $('body').height() - $('#top').height() - 65;
+   		var h = $('body').height() - $('#top').height() - 100;
     		h = h > minHeight ? h : minHeight;
    	 	$('#attribution').height(h);
 	}
