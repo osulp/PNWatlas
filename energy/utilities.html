@@ -38,6 +38,28 @@
    
 </head>
 <body>
+		<div id="navbar">
+			<a href="#nav_popup" id="banner1" style="display:inline; right:110px;">Chapters</a>
+			<a href="../index.html" id="banner1" style="display:inline; right:10px;">Home</a>
+			<a href="../index.html" id="banner2" style="display:inline; left:5px;">Atlas of the Pacific Northwest</a>
+		</div>
+		<div id="nav_popup" class="nav_overlay">
+			<div class="nav_popup">
+				<a class="close" href="#" style="display:inline;">×</a>
+				<div class="content">
+					<a href="../index.html" style="font-weight:bold; text-decoration:none; font-size:24px;">Home</a>
+					<hr>
+					<a href="food/food_home.html" style="text-decoration:underline;">Agriculture & Food</a>
+					<a href="history/history_home.html" style="text-decoration:underline;">Culture & History</a>
+					<a href="energy/energy_home.html" style="text-decoration:underline;">Energy Resources</a>
+					<a href="hazards/hazard_home.html" style="text-decoration:underline;">Natural Hazards</a>
+					<a href="recreation/recreation_home.html" style="text-decoration:underline;">Outdoor Recreation</a>
+					<a href="population/population_home.html" style="text-decoration:underline;">Population & Housing</a>
+					<a href="water/water_home.html" style="text-decoration:underline;">Water</a>
+					<a href="wildlife/wildlife_home.html" style="text-decoration:underline;">Wildlife</a>
+				</div>
+			</div>
+		</div>
 		<button id="collapse" onclick="collapse()">
 			<i class="fa fa-chevron-left" id ="collapse-arrow" aria-hidden="true"></i>
 		</button>
@@ -60,9 +82,13 @@
 					   </div>
 					</div>
 				</div>  
+				<label class="switchBorder" data-step="3" data-intro="Use the slider to toggle the display of politial borders.">
+					<input name="border_checkbox" id="borderbox" type="checkbox" value="check" onclick="borders()" autocomplete="off" checked>
+					<div class="sliderBorder"><!--ADDED HTML --><span class="on">X</span><span class="border">State Borders</span><!--END--></div>		
+				</label>
+				<button type="button" id="button2" onclick="reset()" style="display:none; margin-top:0px;" >Reset Selection</button> 
 			</div>
 			<div id="attribution">
-				<br/>
 				<div id="text" style="margin-top:10px;" data-step="2" data-intro="Each dataset has a specific legend, displayed here.">
 					<h2 id="title" style="display:inline; width:200px; white-space:normal; font-size:24px; margin-right:10px;" data-step="3" data-intro="Select a utility area to view statistics about that electric utility.">SELECT UTILITY AREA</h2><br/>
 					<div id="areaLegend" style="display:none;">	
@@ -76,7 +102,6 @@
 						<canvas id="chartContainer" style="height: 100px; width: 200px; margin-left:50px; display:inline;"></canvas>
 						<h2 id="plants" style="display:inline; width:200px; white-space:normal; font-size:16px;">Net Power Supply in MWH for 2015</h2><br/>
 					</div>
-					<button type="button" id="button2" onclick="reset()" style="display:none;" >Reset Selection</button> 
 					<hr>
 					<div id = "damLegend">
 						<h3 style="margin:0; padding:0; font-size:22px;display:inline; margin-bottom:15px;">Power Plants</h3><br/><img src="img/icons/total.png" id="image2" style="right:20px; margin-top:10px;">
@@ -91,7 +116,7 @@
 				</div>
 				<div id="pageChange" data-step="4" data-intro="Use these buttons to view data sources, view other map pages, or share maps on social media.">
 					<a href="#sources" id="arrow" style="display:inline-block;" title="Map Sources/Info">
-						<i class="fa fa-info-circle" aria-hidden="true" style="padding-left:60px;"></i>
+						<i class="fa fa-info-circle" aria-hidden="true" style="padding-left:70px;"></i>
 					</a>
 					<a href="#link_popup" id="arrow" style="display:inline-block;" title="Other Maps">
 						<i class="fa fa-home" aria-hidden="true" style="padding-left:7px;"></i>
@@ -106,7 +131,7 @@
 			</div>
 		</div>
     	<div id="map" style="width:100%; height: 100%;" data-step="5" data-intro="This is the main map display. Select utility areas and hover over points to reveal more information.">
-    		<button type="button" class='centerMap' onclick="centerMap()">Center</button>
+    		<button type="button" class='centerMap' onclick="centerMap()">Center PNW</button>
     	</div>
     	
     	<div id="sources" class="overlay">
@@ -128,6 +153,7 @@
                     	<div class="source">
                     		<b><p2>Background Terrain: <a href = "https://leaflet-extras.github.io/leaflet-providers/preview/index.html#filter=Esri.WorldTerrain" target="_blank">ESRI</a></p2></b><br>
                     			<p3>ESRI Background Terrain; Source: USGS, Esri, TANA, DeLorme, and NPS<p3>
+                    			<p3>More information can be found <a href = "https://developers.arcgis.com/" target="_blank">here.</a><p3>
                     	</div>
                     	<div class="source">
                     		<b><p2>Background Labels: <a href = "https://leaflet-extras.github.io/leaflet-providers/preview/#filter=CartoDB.PositronOnlyLabels" target="_blank">Carto</a></p2></b><br>
@@ -145,7 +171,7 @@
 			<div class="link_popup">
 				<a class="close" href="#" style="display:inline;">×</a>
 				<div class="content">
-					<a href="energy_home.html" style="font-weight:bold; text-decoration:none;">Energy Home</a>
+					<a href="energy_home.html" style="font-weight:bold; text-decoration:none;">Chapter Home</a>
 					<hr>
 					<a href="utilities.html" style="text-decoration:underline;">Electric Utilities</a>
 					<a href="renewable.html" style="text-decoration:underline;">Renewable Energy</a>
@@ -204,23 +230,23 @@
 		var width = document.documentElement.clientWidth;
 		
 		if (width < 1500 && width > 800) {
-        	map.setView(new L.LatLng(45.56, -121.75), 6); 
+        	map.setView(new L.LatLng(45.60, -121.75), 6); 
     		}  else if (width > 1501) {
-        	map.setView(new L.LatLng(45.56, -119.75), 7); 
+        	map.setView(new L.LatLng(45.60, -119.75), 7); 
         	} else {
         	map.setZoom(5);
         	}
 	}
 	//initialize map
-	var map = L.map('map', {center: [45.56, -121.75], zoom: 6, zoomControl:false});
+	var map = L.map('map', {center: [45.60, -121.75], zoom: 6, zoomControl:false});
 ///////////////////////make zoom level correspond to browser size////////////////////////////////
 	window.addEventListener('load', function(event){
     	var width = document.documentElement.clientWidth;
     	
     	if (width < 1500 && width > 800) {
-        	map.setView(new L.LatLng(45.56, -121.75), 6); 
+        	map.setView(new L.LatLng(45.60, -121.75), 6); 
     		}  else if (width > 1501) {
-        	map.setView(new L.LatLng(45.56, -119.75), 7); 
+        	map.setView(new L.LatLng(45.60, -119.75), 7); 
         	} else {
         	map.setZoom(5);
         	}
@@ -269,6 +295,15 @@
 	map.createPane('power');
 	map.getPane('power').style.zIndex = 640;
 	//map.setMaxBounds(map.getBounds());
+	
+	function borders() {
+    	if ($('#borderbox').is(':checked')){
+    		pnwStates.addTo(map);
+    	}
+    	else {
+    		map.removeLayer(pnwStates);
+    	}
+    } 
 	
 
 ///////////////////////important variables////////////////////////////////
@@ -395,6 +430,8 @@
 		document.getElementById('button2').style.display = "unset";
 		document.getElementById('areaLegend').style.display = "block";
 		
+		resizeMiddle();
+		
 	}
 	
 	function resetClick(){
@@ -408,6 +445,7 @@
 				dashArray:4
 			});
 		}
+		resizeMiddle();
 	}
     
 	var ctx = document.getElementById("chartContainer").getContext('2d');
@@ -746,7 +784,7 @@
 	var minHeight = 30; // Define a minimum height for the middle div
 
 	function resizeMiddle() {
-    var h = $('body').height() - $('#top').height() - 90;
+    var h = $('body').height() - $('#top').height() - 110;
     		h = h > minHeight ? h : minHeight;
    	 	$('#attribution').height(h);
 	}
