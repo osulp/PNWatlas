@@ -43,29 +43,56 @@
 
 </head>
 <body>
-<!--Our HTML for this map will be relatively simple. We'll mainly just need a legend that shows different town and border designations. -->
+		<div id="navbar">
+			<a href="#nav_popup" id="banner1" style="display:inline; right:110px;">Chapters</a>
+			<a href="../index.html" id="banner1" style="display:inline; right:10px;">Home</a>
+			<a href="../index.html" id="banner2" style="display:inline; left:5px;">Atlas of the Pacific Northwest</a>
+		</div>
+		<div id="nav_popup" class="nav_overlay">
+			<div class="nav_popup">
+				<a class="close" href="#" style="display:inline;">×</a>
+				<div class="content">
+					<a href="../index.html" style="font-weight:bold; text-decoration:none; font-size:24px;">Home</a>
+					<hr>
+					<a href="food/food_home.html" style="text-decoration:underline;">Agriculture & Food</a>
+					<a href="history/history_home.html" style="text-decoration:underline;">Culture & History</a>
+					<a href="energy/energy_home.html" style="text-decoration:underline;">Energy Resources</a>
+					<a href="hazards/hazard_home.html" style="text-decoration:underline;">Natural Hazards</a>
+					<a href="recreation/recreation_home.html" style="text-decoration:underline;">Outdoor Recreation</a>
+					<a href="population/population_home.html" style="text-decoration:underline;">Population & Housing</a>
+					<a href="water/water_home.html" style="text-decoration:underline;">Water</a>
+					<a href="wildlife/wildlife_home.html" style="text-decoration:underline;">Wildlife</a>
+				</div>
+			</div>
+		</div>
+	<!--Our HTML for this map will be relatively simple. We'll mainly just need a legend that shows different town and border designations. -->
 		<button id="collapse" onclick="collapse()">
 			<i class="fa fa-chevron-left" id ="collapse-arrow" aria-hidden="true"></i>
 		</button>
 		<div id="infoPanel">
 			<div id="top">
-				<h1>Tribal Land</h1>
+				<h1>Tribal Lands</h1>
 				<img src="img/mountain_icon.png" id="titleImageCircle" style="display:inline-block;">
 <!--Like I said, we won't need to worry about clickFunction for this one-->
 				<div id="buttons" data-step="1" data-intro="Use the dropdown menu to select different datasets for display.">
 					<div class="dropdown">
-						<button class="dropbtn"><b id="dataType">Select Data</b><p id="arrow">&#9660;</p></button>
+						<button class="dropbtn"><b id="dataType">Select Map</b><p id="arrow">&#9660;</p></button>
 						<div class="dropdown-content">
 							 <button type="button" id="but1" class="selection" style="background:rgba(242, 242, 242, 0.8);">Reservations</button>
 							 <button type="button" id="but2" class="selection">Land Seizure</button>
 					   </div>
 					</div>
 				</div>
+				<label class="switchBorder" data-step="3" data-intro="Use the slider to toggle the display of politial borders.">
+					<input name="checkbox_name" id="checkbox_id" type="checkbox" value="check" onclick="borders()" autocomplete="off" checked>
+					<div class="sliderBorder"><!--ADDED HTML --><span class="on">X</span><span class="border">Political Borders</span><!--END--></div>
+				</label>
+				<br/>
 			</div>
 			<div id="attribution">
 				<div id="text" style="text-align:left;" data-step="2" data-intro="Each dataset has a specific legend, displayed here.">
 					<div id="leg_1" style="display:block;">
-						<div id="resName" data-step="3" data-intro="Select a reservation to reveal information and statistics."><h2 id="title" style="font-size:30px; margin-top:25px; margin-bottom:15px;">Select Tribal Area</h2></div><!--<img src="img/disaster_icon.png" id="iconImage" >-->
+						<div id="resName" data-step="3" data-intro="Select a reservation to reveal information and statistics."><h2 id="title" style="font-size:30px; margin-bottom:15px;">Select Tribal Area</h2></div><!--<img src="img/disaster_icon.png" id="iconImage" >-->
 						<div id="resData" style="display:none;">
 							<p id="authority" style="font-weight:bold; text-align:left; white-space:normal; padding-left:0px; width:280px; line-height:20px; display:block; position:relative; margin-bottom:10px;"></p>
 							<p id="population" style="font-weight:bold; text-align:left; white-space:normal; padding-left:0px; width:280px; display:block; position:relative; margin-bottom:10px;"></p>
@@ -108,7 +135,7 @@
 <!--I figure this'll need to change for its place in the historical chapter-->
 				<div id="pageChange" data-step="4" data-intro="Use these buttons to view data sources, view other map pages, or share maps on social media.">
 					<a href="#sources" id="arrow" style="display:inline-block;" title="Map Sources/Info">
-						<i class="fa fa-info-circle" aria-hidden="true" style="padding-left:60px;"></i>
+						<i class="fa fa-info-circle" aria-hidden="true" style="padding-left:70px;"></i>
 					</a>
 					<a href="#link_popup" id="arrow" style="display:inline-block;" title="Other Maps">
 						<i class="fa fa-home" aria-hidden="true" style="padding-left:7px;"></i>
@@ -126,7 +153,7 @@
 		</div>
 
     	<div id="map" style="width: 100%; height: 100%;" data-step="5" data-intro="This is the main map display. Hover over map data to reveal more information.">
-    		<button type="button" class='centerMap' onclick="centerMap()">Center</button>
+    		<button type="button" class='centerMap' onclick="centerMap()">Center PNW</button>
     	</div>
 <!--We can save sources for last-->
     	<div id="sources" class="overlay">
@@ -157,6 +184,7 @@
                     	<div class="source">
                     		<b><p2>Background Terrain: <a href = "https://leaflet-extras.github.io/leaflet-providers/preview/index.html#filter=Esri.WorldTerrain" target="_blank">ESRI</a></p2></b><br>
                     			<p3>ESRI Background Terrain; Source: USGS, Esri, TANA, DeLorme, and NPS<p3>
+                    			<p3>More information can be found <a href = "https://developers.arcgis.com/" target="_blank">here.</a><p3>
                     	</div>
                     	<div class="source">
                     		<b><p2>Background Labels: <a href = "https://leaflet-extras.github.io/leaflet-providers/preview/#filter=CartoDB.PositronOnlyLabels" target="_blank">Carto</a></p2></b><br>
@@ -174,10 +202,10 @@
 			<div class="link_popup">
 				<a class="close" href="#" style="display:inline;">×</a>
 				<div class="content">
-					<a href="history_home.html" style="font-weight:bold; text-decoration:none;">Culture & History Home</a>
+					<a href="history_home.html" style="font-weight:bold; text-decoration:none;">Chapter Home</a>
 					<hr>
 					<a href="indigenous_history.html" style="text-decoration:underline;">Indigenous History</a>
-					<a href="tribal_land.html" style="text-decoration:underline;">Tribal Land</a>
+					<a href="tribal_land.html" style="text-decoration:underline;">Tribal Lands</a>
 					<a href="historical_maps.html" style="text-decoration:underline;">Historical Maps</a>
 					<a href="historical_cities.html" style="text-decoration:underline;">Historic Cities & Borders</a>
 					<hr>
@@ -240,23 +268,23 @@
 		var width = document.documentElement.clientWidth;
 		
 		if (width < 1500 && width > 800) {
-        	map.setView(new L.LatLng(45.56, -121.75), 6); 
+        	map.setView(new L.LatLng(45.60, -121.75), 6); 
     		}  else if (width > 1501) {
-        	map.setView(new L.LatLng(45.56, -119.75), 7); 
+        	map.setView(new L.LatLng(45.60, -119.75), 7); 
         	} else {
         	map.setZoom(5);
         	}
 	}
 //////////////Initialize map///////////////////////
-	var map = L.map('map', {center: [45.56, -121.75], zoom: 6, zoomControl:false});
+	var map = L.map('map', {center: [45.60, -121.75], zoom: 6, zoomControl:false});
 ///////////////////////make zoom level correspond to browser size////////////////////////////////
 	window.addEventListener('load', function(event){
     	var width = document.documentElement.clientWidth;
     	
     	if (width < 1500 && width > 800) {
-        	map.setView(new L.LatLng(45.56, -121.75), 6); 
+        	map.setView(new L.LatLng(45.60, -121.75), 6); 
     		}  else if (width > 1501) {
-        	map.setView(new L.LatLng(45.56, -119.75), 7); 
+        	map.setView(new L.LatLng(45.60, -119.75), 7); 
         	} else {
         	map.setZoom(5);
         	}
@@ -301,7 +329,7 @@
 		transparent:true
 	}).addTo(map);
 	
-	var pnwStates = L.tileLayer.wms('https://geoserver.library.oregonstate.edu/geoserver/PNW_ATLAS/wms', {
+	var pnwBorders = L.tileLayer.wms('https://geoserver.library.oregonstate.edu/geoserver/PNW_ATLAS/wms', {
 		layers: 'PNW_ATLAS:pnw_borders_black',
         format: 'image/png',
 		maxZoom:10,
@@ -338,6 +366,15 @@
 
 	map.createPane('tooltip');
 	map.getPane('tooltip').style.zIndex = 700;
+	    
+    function borders() {
+    	if ($('#checkbox_id').is(':checked')){
+    		pnwBorders.addTo(map);
+    	}
+    	else {
+    		map.removeLayer(pnwBorders);
+    	}
+    } 
 ////////////////////////////////important variables////////////////////////////////
 	//this variable is the listener for whenever a new dataset is selected
 
@@ -677,7 +714,7 @@
 
 	var buttonFunctions = {
 		but1: {button:'but1',
-				newLayers:[reservations,pnwStates,urbanAreas,backgroundParks],
+				newLayers:[reservations,urbanAreas,backgroundParks],
 				newLegend: 'leg_1',
 				title:'Reservations',
 				variable:1850101,
@@ -731,7 +768,7 @@
 	var minHeight = 50; // Define a minimum height for the middle div
 
 	function resizeMiddle() {
-    var h = $('body').height() - $('#top').height() - 65;
+    var h = $('body').height() - $('#top').height() - 100;
     		h = h > minHeight ? h : minHeight;
    	 	$('#attribution').height(h);
 	}
