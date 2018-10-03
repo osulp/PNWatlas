@@ -28,9 +28,6 @@
    
 </head>
 <body>
-<a href="" id="arrow">
-	<i id="down" class="animated zoomIn infinite fa fa-chevron-down" aria-hidden="true"></i>
-</a>
 <div id="gradient" style="width:100%; height:100%;">
 	<div id="scroll2" style="width:50%; height:100%; position:absolute; left:50%; bottom:45px; z-index:5; overflow:auto;">
 		<div id="chapters" class="back" style="margin-bottom:30px; padding-top:45px;">
@@ -54,7 +51,7 @@
 									<a href="crop.html" style="text-decoration:none; outline: 0;">					
 										<img src="img/crop_icon.png" class="img2" id="img_map2">
 										<div id="text_map2" style="margin-left:100px; display:inline-block;">
-											<h3 style="text-align:center;">Crop Production</h3>							
+											<h3 style="text-align:center;">Crops</h3>							
 											<p>Field crops, seed crops, fruit, vegetables</p>
 										</div>
 									</a>
@@ -65,7 +62,7 @@
 									<a href="livestock.html" style="text-decoration:none;  outline: 0;">
 										<img src="img/livestock_icon.png" class="img2" id="img_map3">	
 										<div id="text_map3" style="margin-left:100px; display:inline-block;">
-											<h3 style="text-align:center;">Livestock Production</h3>			
+											<h3 style="text-align:center;">Livestock</h3>			
 											<p>Cattle/calves, dairy, poultry, eggs, pigs, sheep</p>
 										</div>
 									</a>
@@ -114,8 +111,14 @@
 	<a href="" id="banner1" style="display:inline; margin-right:10px;">OSU Libraries & Press | Institute for Natural Resources</a>
 	<a href="../index.html" id="banner2" style="display:inline; margin-left:10px;">Back</a>
 </div>
-
+<button id="arrow" onclick="scrollDown()">
+	<i id="down" class="animated zoomIn infinite fa fa-chevron-down" aria-hidden="true"></i>
+</button>
 <script>
+	
+	function scrollDown(){
+		document.getElementById("scroll2").scrollTop += 250;
+	}
 		
 	$(document).ready(function(){
 	  $("a").on('click', function(event) {
@@ -165,24 +168,6 @@
 
 	var container = document.getElementById('scroll2');
 		Ps.initialize(container);
-	
-	container.addEventListener('ps-scroll-up', function(){
-		$("#down").removeClass("animated zoomIn infinite fa fa-chevron-down");
-		$("#down").addClass("animated zoomIn infinite fa fa-chevron-up");
-	})
-	container.addEventListener('ps-scroll-down', function(){
-		$("#down").removeClass("animated zoomIn infinite fa fa-chevron-up");
-		$("#down").addClass("animated zoomIn infinite fa fa-chevron-down");
-	})
-	
-	container.addEventListener('ps-y-reach-end', function(){
-		$("#down").removeClass("animated zoomIn infinite fa fa-chevron-down");
-		$("#down").addClass("animated zoomIn infinite fa fa-chevron-up");
-	})
-	container.addEventListener('ps-y-reach-start', function(){
-		$("#down").removeClass("animated zoomIn infinite fa fa-chevron-up");
-		$("#down").addClass("animated zoomIn infinite fa fa-chevron-down");
-	})
 	
 	var top2;
 

@@ -36,6 +36,28 @@
    
 </head>
 <body>
+		<div id="navbar">
+			<a href="#nav_popup" id="banner1" style="display:inline; right:110px;">Chapters</a>
+			<a href="../index.html" id="banner1" style="display:inline; right:10px;">Home</a>
+			<a href="../index.html" id="banner2" style="display:inline; left:5px;">Atlas of the Pacific Northwest</a>
+		</div>
+		<div id="nav_popup" class="nav_overlay">
+			<div class="nav_popup">
+				<a class="close" href="#" style="display:inline;">×</a>
+				<div class="content">
+					<a href="../index.html" style="font-weight:bold; text-decoration:none; font-size:24px;">Home</a>
+					<hr>
+					<a href="food/food_home.html" style="text-decoration:underline;">Agriculture & Food</a>
+					<a href="history/history_home.html" style="text-decoration:underline;">Culture & History</a>
+					<a href="energy/energy_home.html" style="text-decoration:underline;">Energy Resources</a>
+					<a href="hazards/hazard_home.html" style="text-decoration:underline;">Natural Hazards</a>
+					<a href="recreation/recreation_home.html" style="text-decoration:underline;">Outdoor Recreation</a>
+					<a href="population/population_home.html" style="text-decoration:underline;">Population & Housing</a>
+					<a href="water/water_home.html" style="text-decoration:underline;">Water</a>
+					<a href="wildlife/wildlife_home.html" style="text-decoration:underline;">Wildlife</a>
+				</div>
+			</div>
+		</div>
 		<!--This is the button that collapses the info panel-->
 		<button id="collapse" onclick="collapse()">
 			<i class="fa fa-chevron-left" id ="collapse-arrow" aria-hidden="true"></i>
@@ -49,7 +71,7 @@
 				<!--Dropdown menu for dataset selection-->
 				<div id="buttons" data-step="1" data-intro="Use the dropdown menu to select different datasets for display.">
 					<div class="dropdown">
-						<button class="dropbtn"><b id="dataType">Select Dataset</b><p id="arrow">&#9660;</p></button>
+						<button class="dropbtn"><b id="dataType">Select Map</b><p id="arrow">&#9660;</p></button>
 							<div class="dropdown-content">
 								<button type="button" id="but1" style="background:rgba(242, 242, 242, 0.67);" class="selection">Food Deserts</button>
 								<button type="button" id="but2" class="selection" style="font-size:11px;">Farmer's Markets/SNAP</button>
@@ -58,13 +80,17 @@
 							</div>
 					</div>
 				</div>
+				<label class="switchBorder" data-step="3" data-intro="Use the slider to toggle the display of politial borders.">
+					<input name="border_checkbox" id="borderbox" type="checkbox" value="check" onclick="borders()" autocomplete="off">
+					<div class="sliderBorder"><!--ADDED HTML --><span class="on">X</span><span class="border">Political Borders</span><!--END--></div>		
+				</label>
 			</div>
 			<!--Middle half of the info panel. This part of the info panel is dynamic! It will adjust to the current screen size, and works with the Perfect-Scrollbar.js plugin to create a dynamic scrollbar within the section.-->
 			<div id="attribution">
 				<div id="text" data-step="2" data-intro="Each dataset has a specific legend, displayed here.">
 					<!--Legends for each dataset-->
 					<div id="leg_1" style="display:unset;">
-						<b class="circle" style="background:black; width:4px; height:4px; margin-top:30px; position:relative; margin-right:10px; margin-bottom:10px;"></b><p style="display:inline; margin-top:20px; margin-bottom:10px;">&nbspGrocery Store/Supermarket</p><br/>
+						<b class="circle" style="background:black; width:4px; height:4px; margin-top:15px; position:relative; margin-right:10px; margin-bottom:10px;"></b><p style="display:inline; margin-top:4px; margin-bottom:10px;">&nbspGrocery Store/Supermarket</p><br/>
 						<h2 id="title"">Food Desert Status</h2>
 						<div style="height:32px;"><b id="leg1_block" style="background:rgba(230,92,0,0.6); border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p style="margin-left:5px;">1 Mile Food Desert</p></div>
 						<div style="height:30px;"><b id="leg2_block" style="background:rgba(255,163,102,0.5); border-left:black 2px solid; border-right:black 2px solid;"></b><p style="margin-left:5px;">1/2 Mile Food Desert</p></div>
@@ -82,7 +108,7 @@
 						<p id="description">Percent of households within census tract receiving SNAP benefits.</p>
 					</div>
 					<div id="leg_3" style="display:none;">
-						<b class="circle" style="background:#000000; border-color:#000000; width:4px; height:4px; margin-top:30px; position:relative; margin-right:10px; margin-bottom:10px;"></b><p style="display:inline; margin-top:20px; margin-bottom:10px;">&nbspFast Food Restaurants</p><br/>
+						<b class="circle" style="background:#000000; border-color:#000000; width:4px; height:4px; margin-top:15px; position:relative; margin-right:10px; margin-bottom:10px;"></b><p style="display:inline; margin-top:4px; margin-bottom:10px;">&nbspFast Food Restaurants</p><br/>
 						<h2 id="title">Poverty Rate</h2>
 						<div style="height:32px;"><b id="leg1_block" style="background:rgba(172,57,57,0.6); border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p style="margin-left:5px;">25+</p></div>
 						<div style="height:30px;"><b id="leg2_block" style="background:rgba(230,179,179,0.5); border-left:black 2px solid; border-right:black 2px solid;"></b><p style="margin-left:5px;">10 - 25</p></div>
@@ -91,7 +117,7 @@
 						<p id="description">Percent of population under the federal poverty line.</p>
 					</div>	
 					<div id="leg_4" style="display:none;">
-						<h2 id="title">% Food Secure Individuals</h2>
+						<h2 id="title">% Food Insecure Individuals</h2>
 						<div style="height:32px;"><b id="leg1_block" style="background:rgba(8, 81, 156,0.7); border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p style="margin-left:5px;">16+</p></div>
 						<div style="height:30px;"><b id="leg2_block" style="background:rgba(49, 130, 189,0.7); border-left:black 2px solid; border-right:black 2px solid;"></b><p style="margin-left:5px;">14 - 16</p></div>
 						<div style="height:30px;"><b id="leg2_block" style="background:rgba(107, 174, 214,0.7); border-left:black 2px solid; border-right:black 2px solid;"></b><p style="margin-left:5px;">12 - 14</p></div>
@@ -130,7 +156,7 @@
 			<!--Bottom part of the info panel. This part of the info panel includes arrows to shift between maps, the info button that contains the map sources, and the home button to return to the chapter title screen.-->
 				<div id="pageChange" data-step="3" data-intro="Use these buttons to view data sources, view other map pages, or share maps on social media.">
 					<a href="#sources" id="arrow" style="display:inline-block;" title="Map Sources/Info">
-						<i class="fa fa-info-circle" aria-hidden="true" style="padding-left:60px;"></i>
+						<i class="fa fa-info-circle" aria-hidden="true" style="padding-left:70px;"></i>
 					</a>
 					<a href="#link_popup" id="arrow" style="display:inline-block;" title="Other Maps">
 						<i class="fa fa-home" aria-hidden="true" style="padding-left:7px;"></i>
@@ -145,7 +171,7 @@
 			</div>
 		</div>
     	<div id="map" style="width: 100%; height: 100%;" data-step="4" data-intro="This is the main map display. Hover over map data to reveal related statistics.">
-    		<button type="button" class='centerMap' onclick="centerMap()">Center</button>
+    		<button type="button" class='centerMap' onclick="centerMap()">Center PNW</button>
     	</div>
     	
     	<!--Map sources popup-->
@@ -162,7 +188,7 @@
                     </div>
                     <div class="source">
                 		<b><p2>Grocery Deserts: <a href = "https://www.ers.usda.gov/data-products/food-access-research-atlas/download-the-data/#Current%20Version" target="_blank">USDA Food Access Research Atlas</a></p2></b><br>
-                			<p3>Data from 2015. Included fields: LILATracts_1And10 and LILATracts_halfAnd10.<p3>
+                			<p3>Census tracts classified as food deserts. Data from 2015. Included fields: LILATracts_1And10 and LILATracts_halfAnd10.<p3>
                 	</div>
                 	<div class="source">
                     	<b><p2>Farmers Markets: <a href = "https://catalog.data.gov/dataset/farmers-markets-geographic-data" target="_blank">USDA Agricultural Marketing Service</a></p2></b><br>
@@ -170,7 +196,7 @@
                     </div>
                     <div class="source">
                 		<b><p2>% SNAP Households: <a href = "https://www.ers.usda.gov/data-products/food-access-research-atlas/download-the-data/#Current%20Version" target="_blank">USDA Food Access Research Atlas</a></p2></b><br>
-                			<p3>Data from 2015. Included Fields: OHU2010 and TractSNAP.<p3>
+                			<p3>Percent of households receiving SNAP benefits. Data from 2015. Included Fields: OHU2010 and TractSNAP.<p3>
                 	</div>
                 	<div class="source">
                     	<b><p2>Fast Food Restaurants: <a href = "http://www.poi-factory.com/" target="_blank">POI Factory</a></p2></b><br>
@@ -178,20 +204,22 @@
                     </div>
                     <div class="source">
                 		<b><p2>Poverty Rate: <a href = "https://www.ers.usda.gov/data-products/food-access-research-atlas/download-the-data/#Current%20Version" target="_blank">USDA Food Access Research Atlas</a></p2></b><br>
-                			<p3>Data from 2015. Included Field: PovertyRate.<p3>
+                			<p3>Percent poverty rate. Data from 2015. Included Field: PovertyRate.<p3>
                 	</div>
                 	<div class="source">
                     	<b><p2>Food Insecure Population: <a href = "http://www.feedingamerica.org/research/map-the-meal-gap/by-county.html" target="_blank">Feeding America</a></p2></b><br>
-                    		<p3>Data from 2016.<p3>
+                    		<p3>Percent food insecure population. Data from 2016.<p3>
                     </div>
                     <p2 style="font-size:20px">Basemap</p2><br><br/>
                     	<div class="source">
                     		<b><p2>Background Terrain: <a href = "https://leaflet-extras.github.io/leaflet-providers/preview/index.html#filter=Esri.WorldTerrain" target="_blank">ESRI</a></p2></b><br>
                     			<p3>ESRI Background Terrain; Source: USGS, Esri, TANA, DeLorme, and NPS<p3>
+                    			<p3>More information can be found <a href = "https://developers.arcgis.com/" target="_blank">here.</a><p3>
                     	</div>
                     	<div class="source">
                     		<b><p2>Satellite Imagery: <a href = "https://leaflet-extras.github.io/leaflet-providers/preview/index.html#filter=Esri.WorldImagery" target="_blank">ESRI</a></p2></b><br>
                     			<p3>ESRI World Imagery; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community<p3>
+                    			<p3>More information can be found <a href = "https://developers.arcgis.com/" target="_blank">here.</a><p3>
                     	</div>
                     	<div class="source">
                     		<b><p2>Background Labels: <a href = "https://leaflet-extras.github.io/leaflet-providers/preview/#filter=CartoDB.PositronOnlyLabels" target="_blank">Carto</a></p2></b><br>
@@ -209,11 +237,11 @@
 			<div class="link_popup">
 				<a class="close" href="#" style="display:inline;">×</a>
 				<div class="content">
-					<a href="food_home.html" style="font-weight:bold; text-decoration:none;">Food Home</a>
+					<a href="food_home.html" style="font-weight:bold; text-decoration:none;">Chapter Home</a>
 					<hr>
 					<a href="access.html" style="text-decoration:underline;">Food Access</a>
-					<a href="crop.html" style="text-decoration:underline;">Crop Production</a>
-					<a href="livestock.html" style="text-decoration:underline;">Livestock Production</a>
+					<a href="crop.html" style="text-decoration:underline;">Crops</a>
+					<a href="livestock.html" style="text-decoration:underline;">Livestock</a>
 					<a href="alcohol.html" style="text-decoration:underline;">Alcohol Production</a>
 					<a href="farm.html" style="text-decoration:underline;">Farms</a>
 					<hr>
@@ -275,23 +303,23 @@
 		var width = document.documentElement.clientWidth;
 		
 		if (width < 1500 && width > 800) {
-        	map.setView(new L.LatLng(45.56, -121.75), 6); 
+        	map.setView(new L.LatLng(45.60, -121.75), 6); 
     		}  else if (width > 1501) {
-        	map.setView(new L.LatLng(45.56, -119.75), 7); 
+        	map.setView(new L.LatLng(45.60, -119.75), 7); 
         	} else {
         	map.setZoom(5);
         	}
 	}
 //////////////Initialize map///////////////////////
-	var map = L.map('map', {center: [45.56, -121.75], zoom: 6, zoomControl:false});
+	var map = L.map('map', {center: [45.60, -121.75], zoom: 6, zoomControl:false});
 ///////////////////////make zoom level correspond to browser size////////////////////////////////
 	window.addEventListener('load', function(event){
     	var width = document.documentElement.clientWidth;
     	
     	if (width < 1500 && width > 800) {
-        	map.setView(new L.LatLng(45.56, -121.75), 6); 
+        	map.setView(new L.LatLng(45.60, -121.75), 6); 
     		}  else if (width > 1501) {
-        	map.setView(new L.LatLng(45.56, -119.75), 7); 
+        	map.setView(new L.LatLng(45.60, -119.75), 7); 
         	} else {
         	map.setZoom(5);
         	}
@@ -324,16 +352,26 @@
 	var pnwCover = L.tileLayer.wms('https://geoserver.library.oregonstate.edu/geoserver/PNW_ATLAS/wms', {
 		layers: 'PNW_ATLAS:pnw_outline2',
         format: 'image/png',
-		maxZoom:12,
+		maxZoom:14,
 		minZoom:5,
-		opacity:0.3,
+		opacity:0.5,
 		transparent:true,
 	}).addTo(map);
+	
+	var pnwBorders = L.tileLayer.wms('https://geoserver.library.oregonstate.edu/geoserver/PNW_ATLAS/wms', {
+		layers: 'PNW_ATLAS:pnw_borders_black',
+        format: 'image/png',
+		maxZoom:14,
+		minZoom:5,
+		opacity:0.6,
+		transparent:true,
+		pane:'borders'
+	});
 	
 	var label = L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_only_labels/{z}/{x}/{y}@2x.png', {
 		attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
 		subdomains: 'abcd',
-		maxZoom:12,
+		maxZoom:14,
 		minZoom:5,
 		tileSize:256,
 		bounds:[
@@ -343,15 +381,27 @@
 		pane:'labels'
 	});	
 
+	map.createPane('borders');
+	map.getPane('borders').style.pointerEvents = 'none';
+	map.getPane('borders').style.zIndex = 450;
 	//labels pane allows
 	map.createPane('labels');
 	map.getPane('labels').style.pointerEvents = 'none';
-	map.getPane('labels').style.zIndex = 500;
+	map.getPane('labels').style.zIndex = 600;
 	label.addTo(map);
 	
 	map.createPane('labels2');
 	map.getPane('labels2').style.pointerEvents = 'none';
-	map.getPane('labels2').style.zIndex = 400;
+	map.getPane('labels2').style.zIndex = 500;
+	
+	function borders() {
+    	if ($('#borderbox').is(':checked')){
+    		pnwBorders.addTo(map);
+    	}
+    	else {
+    		map.removeLayer(pnwBorders);
+    	}
+    } 
 
 ////////////////////////////////important variables////////////////////////////////
 	var colorValue = ['#ffffff','#fffae6','#ffeb99','#ffd633','#cca300','#997a00'],
@@ -660,7 +710,7 @@
 	var minHeight = 50; // Define a minimum height for the middle div
 
 	function resizeMiddle() {
-   		var h = $('body').height() - $('#top').height() - 65;
+   		var h = $('body').height() - $('#top').height() - 100;
     		h = h > minHeight ? h : minHeight;
    	 	$('#attribution').height(h);
 	}
