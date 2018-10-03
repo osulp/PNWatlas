@@ -41,14 +41,17 @@ html, body{
 /* INFO PANEL */
 #infoPanel {
 	width:300px;
-	height:100%;
+	height:auto;
 	background-color: rgba(255,255,255,0.6);
 	position: absolute;
+	top:0;
+	bottom:0;
+	left:0;
 	z-index:1000; 
 	padding-left:20px;
-	padding-right:20px
-	padding-top:20px;
+	padding-top:35px;
 	font-family:GoudyOld;
+	display:block;
 	}
 div#infoPanel h1 {
 	font-family:GoudyOld;
@@ -67,7 +70,9 @@ div#infoPanel .activity{
 	margin-top:10px;
 	text-align:left;
 }
-
+div#infoPanel h2#title{
+	margin-top:5px;
+}
 div#infoPanel h2{
 	font-size:22px;
 	line-height:28px;
@@ -339,6 +344,7 @@ div.info.leaflet-control {
 	font-size:16px;
 	width:200px;
 	box-shadow: 2px 2px 3px #888888;
+	margin-top:50px;
 }
 div.info.leaflet-control h2 {
 	margin:0;
@@ -418,6 +424,83 @@ input:checked + .slider:before {
   -ms-transform: translateX(26px);
   transform: translateX(26px);
 }
+
+/*political border slider */
+.switchBorder {
+  margin-bottom:10px;
+  margin-left:50px;
+  position: relative;
+  display: inline-block;
+  width: 175px;
+  height: 30px;
+  margin-top:10px;
+  border: solid 2px black;
+  box-shadow: 0 0 4px #999;
+}
+
+.switchBorder input {display:none;}
+
+.sliderBorder {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(255,255,255,1);
+  -webkit-transition: .4s;
+  transition: .4s;
+  float:center;
+}
+
+.sliderBorder:before {
+  position: absolute;
+  content: "";
+  height: 22px;
+  width: 24px;
+  left: 2px;
+  bottom: 2px;
+  background-color: rgba(255, 255, 255, 1);
+  -webkit-transition: .4s;
+  transition: .4s;
+  border: solid 2px black;
+}
+
+input:checked + .sliderBorder {
+  /*background-color: #000000;*/
+}
+
+input:focus + .sliderBorder {
+  box-shadow: 0 0 1px #000000;
+}
+
+input:checked + .sliderBorder:before {
+  background-color: rgba(230, 230, 230, 1);
+}
+
+.border
+{
+  color:#4d4d4d; 
+  position: absolute;
+  left: 40px;
+  top:5px;
+  font-size: 18px;
+}
+
+.on
+{
+  display:none;
+  color:black; 
+  position: absolute;
+  left:9px;
+  top:4px;
+  font-size: 20px;
+  font-weight:bold;
+}
+
+input:checked + .sliderBorder .on
+{display: block;}
+
 
 /*bottom div style*/
 
@@ -714,7 +797,7 @@ hr{
   display: block;
   font-size:18px;
   height: 30px;
-  width: 70px;
+  width: 120px;
   right: 10px;
   bottom: 100px;
   z-index: 99999;
@@ -731,4 +814,112 @@ hr{
 .centerMap:hover{
 	background-color:#f2f2f2;
 	cursor:pointer;
+}
+
+/*top banner*/
+div#navbar{
+	top:0;
+	left:0;
+	position:fixed;
+	height:35px;
+	background:black;
+	width:100%;
+	z-index:2000;
+	color:white;
+}
+div#navbar a{
+	font-size:24px;
+	color: white;
+	margin-top:2px;
+}
+a#banner1{
+	font-family: GoudyOld;
+	font-size:28px;
+	text-align:right;
+	position:absolute;
+	background-color:none;
+	font-weight:normal;
+	border:none;
+	right:0px;
+	padding:0;
+	color:black;
+	text-decoration:none;
+	margin-left:200px;
+}
+a#banner1:hover, a#banner2:hover{
+	color:#4d4d4d;	
+	cursor:pointer;
+}
+a#banner2{
+	font-family: GoudyOld;
+	font-size:28px;
+	text-align:left;
+	position:absolute;
+	font-weight:bold;
+	border:none;
+	left:0px;
+	padding:0;
+	color:black;
+	text-decoration:none;
+	margin-left:10px;
+}
+/*navbar chapter selection*/
+.nav_overlay {
+  position: fixed;
+  top: 25px;
+  right: 140px;
+  background: rgba(0, 0, 0, 0.7);
+  transition: opacity 500ms;
+  visibility: hidden;
+  opacity: 0;
+  z-index:5000;
+  width:200px;
+}
+.nav_overlay:target {
+  visibility: visible;
+  opacity: 1;
+}
+
+.nav_popup {
+  padding:10px;
+  background: #fff;
+  width: 100%;
+  position: relative;
+  transition: all 5s ease-in-out;
+  font-family:GoudyOld;
+  height:100%;
+  box-shadow: 3px 3px 2px #4d4d4d;
+  border:2px black solid;
+}
+
+.nav_popup h2 {
+  font-size:20px;
+  margin-top: 0;
+  color: #333;
+  font-weight:bold;
+}
+.nav_popup a {
+  display:block;
+  font-size:20px;
+  line-height:28px;
+  color:#000000;
+}
+.nav_popup a:hover {
+  color:#8c8c8c;
+  cursor:pointer;
+}
+
+.nav_popup .close{
+  top:5px;
+  right:8px;
+  position: absolute;
+  transition: all 200ms;
+  font-size: 20px;
+  text-decoration: none;
+  color: #a6a6a6;
+  text-align:right;
+  font-family:GoudyOld;
+}
+.nav_popup .close:hover {
+  color: #737373;
 }
