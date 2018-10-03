@@ -207,3 +207,28 @@ a#banner1{
 a#banner1:hover{
 	cursor:default;
 }
+
+/*down arrow*/
+button#arrow{
+	border:none;
+	color:black;
+	font-size:36px;
+	position:absolute;
+	bottom:45px;
+	z-index:10;
+	width:50%;
+	text-align:center;
+	bottom:0;
+	left:50%;
+	background:rgba(255,255,255,0);
+	position:fixed;
+	-webkit-animation: 1s ease-out 0s 1 slideInFromRight;  
+	-ms-animation: 1s ease-out 0s 1 slideInFromRight;
+	animation: 1s ease-out 0s 1 slideInFromRight;
+} 
+#arrow:hover{
+	cursor:pointer;
+}
+#arrow:focus{
+	outline:0;
+}
