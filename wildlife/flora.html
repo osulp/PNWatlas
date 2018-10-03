@@ -38,6 +38,28 @@
     
 </head>
 <body>
+		<div id="navbar">
+			<a href="#nav_popup" id="banner1" style="display:inline; right:110px;">Chapters</a>
+			<a href="../index.html" id="banner1" style="display:inline; right:10px;">Home</a>
+			<a href="../index.html" id="banner2" style="display:inline; left:5px;">Atlas of the Pacific Northwest</a>
+		</div>
+		<div id="nav_popup" class="nav_overlay">
+			<div class="nav_popup">
+				<a class="close" href="#" style="display:inline;">×</a>
+				<div class="content">
+					<a href="../index.html" style="font-weight:bold; text-decoration:none; font-size:24px;">Home</a>
+					<hr>
+					<a href="food/food_home.html" style="text-decoration:underline;">Agriculture & Food</a>
+					<a href="history/history_home.html" style="text-decoration:underline;">Culture & History</a>
+					<a href="energy/energy_home.html" style="text-decoration:underline;">Energy Resources</a>
+					<a href="hazards/hazard_home.html" style="text-decoration:underline;">Natural Hazards</a>
+					<a href="recreation/recreation_home.html" style="text-decoration:underline;">Outdoor Recreation</a>
+					<a href="population/population_home.html" style="text-decoration:underline;">Population & Housing</a>
+					<a href="water/water_home.html" style="text-decoration:underline;">Water</a>
+					<a href="wildlife/wildlife_home.html" style="text-decoration:underline;">Wildlife</a>
+				</div>
+			</div>
+		</div>
 		<!--This is the button that collapses the info panel-->
 		<button id="collapse" onclick="collapse()">
 			<i class="fa fa-chevron-left" id ="collapse-arrow" aria-hidden="true"></i>
@@ -51,7 +73,7 @@
 				<!--Dropdown menu for dataset selection-->
 				<div id="buttons" data-step="1" data-intro="Use the dropdown menu to select different datasets for display.">
 					<div class="dropdown">
-						<button class="dropbtn"><b id="dataType">Select Dataset</b><p id="arrow">&#9660;</p></button>
+						<button class="dropbtn"><b id="dataType">Select Map</b><p id="arrow">&#9660;</p></button>
 							<div class="dropdown-content">
 								<button type="button" id="but1" style="background:rgba(242, 242, 242, 0.67);" class="selection">Ecoregions</button>
 								<button type="button" id="but2" class="selection">Forest Cover</button>
@@ -67,13 +89,17 @@
 							</div>
 					</div>
 				</div>
+				<label class="switchBorder" data-step="3" data-intro="Use the slider to toggle the display of politial borders.">
+					<input name="border_checkbox" id="borderbox" type="checkbox" value="check" onclick="borders()" autocomplete="off">
+					<div class="sliderBorder"><!--ADDED HTML --><span class="on">X</span><span class="border">Political Borders</span><!--END--></div>		
+				</label>
 			</div>
 			<!--Middle half of the info panel. This part of the info panel is dynamic! It will adjust to the current screen size, and works with the Perfect-Scrollbar.js plugin to create a dynamic scrollbar within the section.-->
 			<div id="attribution">
 				<div id="text" data-step="2" data-intro="Each dataset has a specific legend, displayed here.">
 					<!--Legends for each dataset-->
 					<div id="leg_1" data-step="3" data-intro="Selecting an ecoregion on the map will display more information in the legend.">
-						<h2 id="eco_title" style="font-size:30px; margin-bottom:10px;" data-step="3" data-intro="Selecting an ecoregion on the map will display more information in the legend.">Select an Ecoregion</h2>
+						<h2 id="eco_title" style="font-size:30px; margin-bottom:10px; margin-top:10px;" data-step="3" data-intro="Selecting an ecoregion on the map will display more information in the legend.">Select an Ecoregion</h2>
 						<div id="ecoregion" style="display:none">
 							<h2 id="eco_main" style="margin-top:5px; margin-bottom:5px; display:block;">Vancouverian Forest, Agricultural Land</h2>
 							<img id="eco_image" src="img/klamath_mountains.png" style="width:280px; margin-top:5px;">
@@ -219,7 +245,7 @@
 			<!--Bottom part of the info panel. This part of the info panel includes arrows to shift between maps, the info button that contains the map sources, and the home button to return to the chapter title screen.-->
 				<div id="pageChange" data-step="4" data-intro="Use these buttons to view data sources, view other map pages, or share maps on social media.">
 					<a href="#sources" id="arrow" style="display:inline-block;" title="Map Sources/Info">
-						<i class="fa fa-info-circle" aria-hidden="true" style="padding-left:60px;"></i>
+						<i class="fa fa-info-circle" aria-hidden="true" style="padding-left:70px;"></i>
 					</a>
 					<a href="#link_popup" id="arrow" style="display:inline-block;" title="Other Maps">
 						<i class="fa fa-home" aria-hidden="true" style="padding-left:7px;"></i>
@@ -234,7 +260,7 @@
 			</div>
 		</div>
     	<div id="map" style="width: 100%; height: 100%;" data-step="5" data-intro="This is the main map display. Hover over the map data to reveal more information.">
-    		<button type="button" class='centerMap' onclick="centerMap()">Center</button>
+    		<button type="button" class='centerMap' onclick="centerMap()">Center PNW</button>
     	</div>
     	<!--<div id="temp" style="display:none;"><canvas id="chartContainer1" style="height: 110; width: 50%; margin-left:-5px;"></canvas></div>-->
     	
@@ -259,11 +285,11 @@
                 	</div>
                 	<div class="source">
                 		<b><p2>Tree Species: <a href = "https://www.fs.usda.gov/rds/archive/Product/RDS-2013-0013" target="_blank">US Forest Service</a></p2></b><br>
-                			<p3>RDS-2013-0013_RasterMaps_s10-s350.zip and RDS-2013-0013_RasterMaps_s601-s825.zip were downloaded. Datasets based on FIA species codes.<p3>
+                			<p3>Species basal area, square feet/acre. RDS-2013-0013_RasterMaps_s10-s350.zip and RDS-2013-0013_RasterMaps_s601-s825.zip were downloaded. Datasets based on FIA species codes.<p3>
                 	</div>
                 	<div class="source">
                 		<b><p2>Sagebrush: <a href = "https://databasin.org/datasets/d904c24857de45238508580e4cd818eb">Data Basin</a></p2></b><br>
-                			<p3>Data from 2002. Original data source: NatureServe.<p3>
+                			<p3>Sagebrush species distribution. Data from 2002. Original data source: NatureServe.<p3>
                 	</div>
                 	<p2 style="font-size:20px">Other Data</p2><br><br/>
                     <div class="source">
@@ -292,6 +318,7 @@
                     <div class="source">
                     	<b><p2>Background Terrain: <a href = "https://leaflet-extras.github.io/leaflet-providers/preview/index.html#filter=Esri.WorldTerrain" target="_blank">ESRI</a></p2></b><br>
                     		<p3>ESRI Background Terrain; Source: USGS, Esri, TANA, DeLorme, and NPS<p3>
+                    		<p3>More information can be found <a href = "https://developers.arcgis.com/" target="_blank">here.</a><p3>
                     </div>
                     <div class="source">
                     		<b><p2>Background Labels: <a href = "https://leaflet-extras.github.io/leaflet-providers/preview/#filter=CartoDB.PositronOnlyLabels" target="_blank">Carto</a></p2></b><br>
@@ -308,7 +335,7 @@
 			<div class="link_popup">
 				<a class="close" href="#" style="display:inline;">×</a>
 				<div class="content">
-					<a href="wildlife_home.html" style="font-weight:bold; text-decoration:none;">Wildlife Home</a>
+					<a href="wildlife_home.html" style="font-weight:bold; text-decoration:none;">Chapter Home</a>
 					<hr>
 					<a href="flora.html" style="text-decoration:underline;">Flora</a>
 					<a href="fauna.html" style="text-decoration:underline;">Fauna</a>
@@ -359,9 +386,9 @@
 		var width = document.documentElement.clientWidth;
 		
 		if (width < 1500 && width > 800) {
-        	map.setView(new L.LatLng(45.56, -121.75), 6); 
+        	map.setView(new L.LatLng(45.60, -121.75), 6); 
     		}  else if (width > 1501) {
-        	map.setView(new L.LatLng(45.56, -119.75), 7); 
+        	map.setView(new L.LatLng(45.60, -119.75), 7); 
         	} else {
         	map.setZoom(5);
         	}
@@ -381,15 +408,15 @@
   		}  
 	});
 //////////////Initialize map///////////////////////
-	var map = L.map('map', {center: [45.56, -121.75], zoom: 6, zoomControl:false});
+	var map = L.map('map', {center: [45.60, -121.75], zoom: 6, zoomControl:false});
 ///////////////////////make zoom level correspond to browser size////////////////////////////////
 	window.addEventListener('load', function(event){
     	var width = document.documentElement.clientWidth;
     	
     	if (width < 1500 && width > 800) {
-        	map.setView(new L.LatLng(45.56, -121.75), 6); 
+        	map.setView(new L.LatLng(45.60, -121.75), 6); 
     		}  else if (width > 1501) {
-        	map.setView(new L.LatLng(45.56, -119.75), 7); 
+        	map.setView(new L.LatLng(45.60, -119.75), 7); 
         	} else {
         	map.setZoom(5);
         	}
@@ -413,7 +440,7 @@
 		transparent:true,
 	}).addTo(map);
 	
-	var pnwCounties = L.tileLayer.wms('https://geoserver.library.oregonstate.edu/geoserver/PNW_ATLAS/wms', {
+	var pnwBorders = L.tileLayer.wms('https://geoserver.library.oregonstate.edu/geoserver/PNW_ATLAS/wms', {
 		layers: 'PNW_ATLAS:pnw_borders_black',
         format: 'image/png',
 		maxZoom:10,
@@ -449,35 +476,15 @@
 	map.getPane('json').style.pointerEvents = 'none';
 	map.getPane('json').style.zIndex = 700;
 	
-	const pnw_outline = new L.TopoJSON(null, {
-  		interactive:false,
-  		renderer:jsonRenderer
-	});
-
-    const pnw_counties = new L.TopoJSON(null, {
-  		interactive:false,
-  		//renderer:jsonRenderer
-	});
-    
-    $.getJSON('assets/pnw_counties.json')
-  		.done(countyAddTopoData);
-
-	function countyAddTopoData(topoData) {  
-  		pnw_counties.addData(topoData);
-  		pnw_counties.addTo(map)
-  		pnw_counties.eachLayer(countyHandleLayer);
-	}
-      
-	function countyHandleLayer(layer){
-    	layer.setStyle({
-            weight: 0.25,
-            opacity: 1,
-            fillOpacity:0,
-            color: '#999999',
-        });
-
-    }
-
+	function borders() {
+    	if ($('#borderbox').is(':checked')){
+    		pnwBorders.addTo(map);
+    	}
+    	else {
+    		map.removeLayer(pnwBorders);
+    	}
+    } 
+	
 
 ////////////////////////////////important variables////////////////////////////////
 	var data = 1;
@@ -786,7 +793,7 @@
 	var minHeight = 50; // Define a minimum height for the middle div
 
 	function resizeMiddle() {
-   		var h = $('body').height() - $('#top').height() - 65;
+   		var h = $('body').height() - $('#top').height() - 100;
     		h = h > minHeight ? h : minHeight;
    	 	$('#attribution').height(h);
 	}
