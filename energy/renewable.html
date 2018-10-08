@@ -342,11 +342,12 @@ var label = L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/ligh
 	map.getPane('labels').style.pointerEvents = 'none';
 	map.getPane('labels').style.zIndex = 650;
 	label.addTo(map);
+
+	map.createPane('dams');
+	map.getPane('dams').style.zIndex = 600;
 	
 	map.createPane('tooltip');
 	map.getPane('tooltip').style.zIndex = 700;
-	//changes depending on which data type is selected, initial value is for County Employment
-	//used with DATA variable to select data type corresponding to each button. Odd numbered buttons correspond to state-level data
 	
 	function borders() {
     	if ($('#borderbox').is(':checked')){
@@ -410,6 +411,7 @@ var label = L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/ligh
 	
 	function pointStyle(feature, latlng){
 		return L.circleMarker(latlng, {
+    				pane:'dams',
     				color:'#ffffff',
     				fillColor: '#000000',
     				radius: damSize(feature.properties.Total_MW),
@@ -511,7 +513,8 @@ var label = L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/ligh
 		transparent:true,
 	});
     //////////////////////////////////////////////////////////////////////////////
-    const bio = new L.TopoJSON();
+    const bio = new L.TopoJSON(null, {
+	});
 
 	$.getJSON('assets/biomass_counties.json')
   		.done(addBioTopoData);
@@ -620,13 +623,13 @@ var label = L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/ligh
 		color:'#666666',
 		fillOpacity:0	,
 		fillColor:'#404040',
-		weight:1
+		weight:1,
 		};
 	}
      var pnwStates = $.getJSON("assets/pnw_states.geojson", function(data){
         pnwStates = L.geoJson(data, {
         	style:pnwStatesStyle,
-        	interactive: false
+        	interactive: false,
         }).addTo(map);
     });
 	//////////////////////////////////////////////////////////////////////////////
