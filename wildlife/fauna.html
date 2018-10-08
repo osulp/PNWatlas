@@ -100,6 +100,10 @@
 					<input name="border_checkbox" id="borderbox" type="checkbox" value="check" onclick="borders()" autocomplete="off">
 					<div class="sliderBorder"><!--ADDED HTML --><span class="on">X</span><span class="border">Political Borders</span><!--END--></div>		
 				</label>
+				<label class="switchBorder" data-step="3" data-intro="Use the slider to toggle the display of politial borders." style="margin-top:0;">
+					<input name="border_checkbox" id="protectedbox" type="checkbox" value="check" onclick="checkbox()" autocomplete="off">
+					<div class="sliderBorder"><!--ADDED HTML --><span class="on">X</span><span class="border">Protected Lands</span><!--END--></div>		
+				</label>
 			</div>
 			<!--Middle half of the info panel. This part of the info panel is dynamic! It will adjust to the current screen size, and works with the Perfect-Scrollbar.js plugin to create a dynamic scrollbar within the section.-->
 			<div id="attribution">
@@ -128,14 +132,9 @@
 						<div style="height:32px;"><b id="leg4_block" style="background:#f2efb9; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p style="margin-left:5px;">Agriculture/Logged</p></div>
 						<div style="height:32px;"><b id="leg4_block" style="background:#f3ec58; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p style="margin-left:5px;">Urban Area</p></div>
 						<br/>
+						<div class="prot" style="height:34px; display:none; margin-bottom:15px;"><b id="leg1_block" style="background:repeating-linear-gradient(45deg, rgba(255,255,255,0), rgba(255,255,255,0) 5%, #257425 10%); border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid; border-bottom:black 2px solid;"></b><p style="margin-left:5px;">Protected Lands</p></div>
 						<p id="description">Vegetation type based on 2011 USGS GAP Analysis data.</p>
 						<br/>
-						<div id="prot" style="height:34px; display:none; margin-bottom:15px;"><b id="leg1_block" style="background:repeating-linear-gradient(45deg, rgba(255,255,255,0), rgba(255,255,255,0) 5%, #257425 10%); border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid; border-bottom:black 2px solid;"></b><p style="margin-left:5px;">Protected Lands</p></div>
-						<label class="switch" style="margin-top:5px;">
-							<input name="checkbox_name" id="checkbox_id" type="checkbox" value="check" onclick="checkbox()" autocomplete="off">
-							<span class="slider" id="park"></span>
-						</label>
-						<p style="padding-left:5px; padding-top:0px; font-weight:bold;">Toggle Protected Lands</p><br/>
 					</div>
 					</div>	
 					<div id="leg_2" style="display:none;">
@@ -145,12 +144,7 @@
 						<p>250 and under</p><p style="margin-left:230px;">300+</p>
 						<br/><br/>
 						<p id="description">Includes mammals, birds, reptiles, amphibians, and freshwater fish. Data doesn't include subspecies.</p><br/>
-						<div id="prot1" style="height:34px; display:none; margin-bottom:15px;"><b id="leg1_block" style="background:repeating-linear-gradient(45deg, rgba(255,255,255,0), rgba(255,255,255,0) 5%, #257425 10%); border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid; border-bottom:black 2px solid;"></b><p style="margin-left:5px;">Protected Lands</p></div>
-						<label class="switch" style="margin-top:5px;">
-							<input name="checkbox_name" id="checkbox_id1" type="checkbox" value="check" onclick="checkbox1()" autocomplete="off">
-							<span class="slider" id="park"></span>
-						</label>
-						<p style="padding-left:5px; padding-top:0px; font-weight:bold;">Toggle Protected Lands</p><br/>
+						<div class="prot" style="height:34px; display:none; margin-bottom:15px;"><b id="leg1_block" style="background:repeating-linear-gradient(45deg, rgba(255,255,255,0), rgba(255,255,255,0) 5%, #257425 10%); border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid; border-bottom:black 2px solid;"></b><p style="margin-left:5px;">Protected Lands</p></div>
 					</div>
 					<div id="leg_3" style="display:none;">
 						<h2 id="title" style="margin-bottom:5px;">Mammal Biodiversity</h2><br/>
@@ -159,12 +153,7 @@
 						<p>55 and under</p><p style="margin-left:240px;">70+</p>
 						<br/><br/>
 						<p id="description">Data doesn't include subspecies.</p><br/>
-						<div id="prot2" style="height:34px; display:none; margin-bottom:15px;"><b id="leg1_block" style="background:repeating-linear-gradient(45deg, rgba(255,255,255,0), rgba(255,255,255,0) 5%, #257425 10%); border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid; border-bottom:black 2px solid;"></b><p style="margin-left:5px;">Protected Lands</p></div>
-						<label class="switch" style="margin-top:5px;">
-							<input name="checkbox_name" id="checkbox_id2" type="checkbox" value="check" onclick="checkbox2()" autocomplete="off">
-							<span class="slider" id="park"></span>
-						</label>
-						<p style="padding-left:5px; padding-top:0px; font-weight:bold;">Toggle Protected Lands</p><br/>
+						<div class="prot" style="height:34px; display:none; margin-bottom:15px;"><b id="leg1_block" style="background:repeating-linear-gradient(45deg, rgba(255,255,255,0), rgba(255,255,255,0) 5%, #257425 10%); border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid; border-bottom:black 2px solid;"></b><p style="margin-left:5px;">Protected Lands</p></div>
 					</div>	
 					<div id="leg_4" style="display:none;">
 						<h2 id="title" style="margin-bottom:5px;">Bird Biodiversity</h2><br/>
@@ -173,12 +162,7 @@
 						<p>155 and under</p><p style="margin-left:230px;">185+</p>
 						<br/><br/>
 						<p id="description">Data doesn't include subspecies.</p><br/>
-						<div id="prot3" style="height:34px; display:none; margin-bottom:15px;"><b id="leg1_block" style="background:repeating-linear-gradient(45deg, rgba(255,255,255,0), rgba(255,255,255,0) 5%, #257425 10%); border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid; border-bottom:black 2px solid;"></b><p style="margin-left:5px;">Protected Lands</p></div>
-						<label class="switch" style="margin-top:5px;">
-							<input name="checkbox_name" id="checkbox_id3" type="checkbox" value="check" onclick="checkbox3()" autocomplete="off">
-							<span class="slider" id="park"></span>
-						</label>
-						<p style="padding-left:5px; padding-top:0px; font-weight:bold;">Toggle Protected Lands</p><br/>
+						<div class="prot" style="height:34px; display:none; margin-bottom:15px;"><b id="leg1_block" style="background:repeating-linear-gradient(45deg, rgba(255,255,255,0), rgba(255,255,255,0) 5%, #257425 10%); border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid; border-bottom:black 2px solid;"></b><p style="margin-left:5px;">Protected Lands</p></div>
 					</div>	
 					<div id="leg_5" style="display:none;">
 						<h2 id="title" style="margin-bottom:5px;">Reptile Biodiversity</h2><br/>
@@ -187,12 +171,7 @@
 						<p>4 and under</p><p style="margin-left:240px;">16+</p>
 						<br/><br/>
 						<p id="description">Data doesn't include subspecies.</p><br/>
-						<div id="prot4" style="height:34px; display:none; margin-bottom:15px;"><b id="leg1_block" style="background:repeating-linear-gradient(45deg, rgba(255,255,255,0), rgba(255,255,255,0) 5%, #257425 10%); border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid; border-bottom:black 2px solid;"></b><p style="margin-left:5px;">Protected Lands</p></div>
-						<label class="switch" style="margin-top:5px;">
-							<input name="checkbox_name" id="checkbox_id4" type="checkbox" value="check" onclick="checkbox4()" autocomplete="off">
-							<span class="slider" id="park"></span>
-						</label>
-						<p style="padding-left:5px; padding-top:0px; font-weight:bold;">Toggle Protected Lands</p><br/>
+						<div class="prot" style="height:34px; display:none; margin-bottom:15px;"><b id="leg1_block" style="background:repeating-linear-gradient(45deg, rgba(255,255,255,0), rgba(255,255,255,0) 5%, #257425 10%); border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid; border-bottom:black 2px solid;"></b><p style="margin-left:5px;">Protected Lands</p></div>
 					</div>	
 					<div id="leg_6" style="display:none;">
 						<h2 id="title" style="margin-bottom:5px;">Amphibian Biodiversity</h2><br/>
@@ -201,12 +180,7 @@
 						<p>4 and under</p><p style="margin-left:240px;">13+</p>
 						<br/><br/>
 						<p id="description">Data doesn't include subspecies.</p><br/>
-						<div id="prot5" style="height:34px; display:none; margin-bottom:15px;"><b id="leg1_block" style="background:repeating-linear-gradient(45deg, rgba(255,255,255,0), rgba(255,255,255,0) 5%, #257425 10%); border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid; border-bottom:black 2px solid;"></b><p style="margin-left:5px;">Protected Lands</p></div>
-						<label class="switch" style="margin-top:5px;">
-							<input name="checkbox_name" id="checkbox_id5" type="checkbox" value="check" onclick="checkbox5()" autocomplete="off">
-							<span class="slider" id="park"></span>
-						</label>
-						<p style="padding-left:5px; padding-top:0px; font-weight:bold;">Toggle Protected Lands</p><br/>
+						<div class="prot" style="height:34px; display:none; margin-bottom:15px;"><b id="leg1_block" style="background:repeating-linear-gradient(45deg, rgba(255,255,255,0), rgba(255,255,255,0) 5%, #257425 10%); border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid; border-bottom:black 2px solid;"></b><p style="margin-left:5px;">Protected Lands</p></div>
 					</div>	
 					<div id="leg_7" style="display:none;">
 						<h2 id="title" style="margin-bottom:5px;">Fish Biodiversity</h2><br/>
@@ -215,12 +189,7 @@
 						<p>20 and under</p><p style="margin-left:240px;">36+</p>
 						<br/><br/>
 						<p id="description">Data doesn't include subspecies.</p><br/>
-						<div id="prot6" style="height:34px; display:none; margin-bottom:15px;"><b id="leg1_block" style="background:repeating-linear-gradient(45deg, rgba(255,255,255,0), rgba(255,255,255,0) 5%, #257425 10%); border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid; border-bottom:black 2px solid;"></b><p style="margin-left:5px;">Protected Lands</p></div>
-						<label class="switch" style="margin-top:5px;">
-							<input name="checkbox_name" id="checkbox_id6" type="checkbox" value="check" onclick="checkbox6()" autocomplete="off">
-							<span class="slider" id="park"></span>
-						</label>
-						<p style="padding-left:5px; padding-top:0px; font-weight:bold;">Toggle Protected Lands</p><br/>
+						<div class="prot" style="height:34px; display:none; margin-bottom:15px;"><b id="leg1_block" style="background:repeating-linear-gradient(45deg, rgba(255,255,255,0), rgba(255,255,255,0) 5%, #257425 10%); border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid; border-bottom:black 2px solid;"></b><p style="margin-left:5px;">Protected Lands</p></div>
 					</div>		
 					<div id="leg_8" style="display:none;">
 						<h2 id="title" >Gray Wolf (Canis Lupus)</h2>
@@ -774,16 +743,19 @@
 				interactive:false
         });
     }
-    function checkbox(){
-    	if (document.getElementById('checkbox_id').checked == true){
+    
+    function checkbox() {
+    	if ($('#protectedbox').is(':checked')){
     		protected_lands.addTo(map);
-    		$('#prot').css('display', 'block');
+    		$('.prot').css('display', 'block');
     	}
-    	else{
+    	else {
     		map.removeLayer(protected_lands);
-    		$('#prot').css('display', 'none');
+    		$('.prot').css('display', 'none');
     	}
-    }
+    } 
+    
+ 
     function checkbox1(){
     	if (document.getElementById('checkbox_id1').checked == true){
     		protected_lands.addTo(map);
@@ -926,7 +898,7 @@
             weight: 1,
             spaceWeight: 3,
             height: 4,
-            angle:45,
+            angle:-45,
             color:'#6b6b47',
             spaceColor:'#ffffff'
         });
