@@ -83,11 +83,6 @@
 					   </div>
 					</div>
 				</div>
-				<label class="switchBorder" data-step="3" data-intro="Use the slider to toggle the display of politial borders.">
-					<input name="checkbox_name" id="checkbox_id" type="checkbox" value="check" onclick="borders()" autocomplete="off" checked>
-					<div class="sliderBorder"><!--ADDED HTML --><span class="on">X</span><span class="border">Political Borders</span><!--END--></div>
-				</label>
-				<br/>
 			</div>
 			<div id="attribution">
 				<div id="text" style="text-align:left;" data-step="2" data-intro="Each dataset has a specific legend, displayed here.">
@@ -153,7 +148,8 @@
 		</div>
 
     	<div id="map" style="width: 100%; height: 100%;" data-step="5" data-intro="This is the main map display. Hover over map data to reveal more information.">
-    		<button type="button" class='centerMap' onclick="centerMap()">Center PNW</button>
+    		<button type="button" class='centerMap' onclick="borders()" id="borderToggle" value="selected" data-step="6" data-intro="Select to toggle display of modern political borders.">Toggle Borders</button>
+    		<button type="button" class='centerMap' onclick="centerMap()" id="centerMap" data-step="7" data-intro="Select to return map to PNW view.">Center PNW</button>
     	</div>
 <!--We can save sources for last-->
     	<div id="sources" class="overlay">
@@ -356,7 +352,7 @@
 		transparent:true,
 	}).addTo(map);
 
-	var data = 18500101;
+	var data = 18550101;
 
 
 	map.createPane('labels');
@@ -367,12 +363,14 @@
 	map.createPane('tooltip');
 	map.getPane('tooltip').style.zIndex = 700;
 	    
-    function borders() {
-    	if ($('#checkbox_id').is(':checked')){
-    		pnwBorders.addTo(map);
+   function borders() {
+    	if ($('#borderToggle').prop( "value") == 'selected'){
+    		map.removeLayer(pnwBorders);
+    		$('#borderToggle').prop( "value","deselected");
     	}
     	else {
-    		map.removeLayer(pnwBorders);
+    		pnwBorders.addTo(map);
+    		$('#borderToggle').prop( "value","selected");
     	}
     } 
 ////////////////////////////////important variables////////////////////////////////
@@ -474,7 +472,7 @@
 			range: "min", //default
 			min: 1850, //minimum possible value
 			max: 1900, //maximum possible value
-			value: 1850, //currently selected value (1810), based on 'data' variable
+			value: 1855, //currently selected value (1810), based on 'data' variable
 			slide: function( event, ui ) {//default
 				$( "#amount" ).val( ui.value );//updates html
 					var val = "" + ui.value + "0101";
@@ -504,9 +502,9 @@
 	});
 
 	$.getJSON('assets/reservations.json')
-  		.done(geologyAddTopoData);
+  		.done(resAddTopoData);
 
-	function geologyAddTopoData(topoData) {  
+	function resAddTopoData(topoData) {  
   		reservations.addData(topoData);
   		reservations.addTo(map);
   		reservations.eachLayer(resHandleLayer);
@@ -674,40 +672,7 @@
 	}
 	
 	var chart = new Chart(chart_ctx, chart_options);
-    ////////////////////////////reservations////////////////////////////////////
-    var tribal_land;
-	
-	function addTribalArea(){
-
-    	tribal_land = null;
-    	tribal_land = new L.TopoJSON(null, {
-			filter: function(feature, layer) {
-				return feature.properties.ID == data2 ? true: 
-					false;
-				},
-			interactive:false	
-		});
-		
-		$.getJSON('assets/tribal_land.json')
-			.done(addTribeData);
-		
-		function addTribeData(topoData) {
-			tribal_land.addData(topoData);
-			tribal_land.addTo(map);
-			tribal_land.eachLayer(handleTribeLayer);
-		}
-
-		function handleTribeLayer(layer){
-			layer.setStyle({
-				color:'#e19b84',
-				weight:1,
-				opacity: 0.8,
-				fillOpacity:0.2,
-				fillColor:'#e19b84'
-			});
-		}
-
-	}
+   
 ///////////////////////////////button function////////////////////////////////
 	//this function uses the ClickFunction plugin to easily add/remove layers, change legends, styling and anything else when a new dataset is selected from the dropdown buttons
 	var buttonLabels = ['#but1','#but2','#but3'];
@@ -734,9 +699,9 @@
 				newLegend: 'leg_2',
 				title:'Land Seizure',
 				newElements:['slider-vertical-modern','facts_2'],
-				variable:1850101,
+				variable:18550101,
 				layerFunction:function(){
-					$("#slider-vertical-modern").slider('value',1850);
+					$("#slider-vertical-modern").slider('value',1855);
 					if(landArea)
 						{
 							landArea.remove(map);
