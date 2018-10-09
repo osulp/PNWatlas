@@ -77,14 +77,10 @@
 					   </div>
 					</div>
 				</div>
-				<label class="switchBorder" data-step="3" data-intro="Use the slider to toggle the display of politial borders.">
-					<input name="border_checkbox" id="borderbox" type="checkbox" value="check" onclick="borders()" autocomplete="off">
-					<div class="sliderBorder"><!--ADDED HTML --><span class="on">X</span><span class="border">Political Borders</span><!--END--></div>		
-				</label>
 			</div>
 			<div id="attribution">
 				<div id="text" data-step="2" data-intro="Select a watershed to view information about that watershed.">
-					<h2 id="title" style="width:280px; white-space:normal; text-align:left; font-size:30px; margin-bottom:10px;">Select a Watershed</h2>
+					<h2 id="title" style="width:280px; white-space:normal; text-align:left; font-size:30px; margin-bottom:10px; margin-top:25px;">Select a Watershed</h2>
 					<div id="watershed_desc" style="display:none;">
 						<h2 style="display:inline; width:200px; white-space:normal;">Area:</h2>
 						<h2 id="area" style="display:inline; width:200px; white-space:normal;"></h2><br/>
@@ -142,7 +138,8 @@
 			</div>
 		</div>
     	<div id="map" style="width: 100%; height: 100%;" data-step="5" data-intro="This is the main map display. Select watersheds to reveal more information.">
-    		<button type="button" class='centerMap' onclick="centerMap()">Center PNW</button>
+    		<button type="button" class='centerMap' onclick="borders()" id="borderToggle" value="deselected" data-step="6" data-intro="Select to toggle display of modern political borders.">Toggle Borders</button>
+    		<button type="button" class='centerMap' onclick="centerMap()" id="centerMap" data-step="7" data-intro="Select to return map to PNW view.">Center PNW</button>
     	</div>
     	
     	<div id="sources" class="overlay">
@@ -1131,13 +1128,14 @@ function HUC8(){
 	map.getPane('borders').style.pointerEvents = 'none';
 	map.getPane('borders').style.zIndex = 800;
 
-    
     function borders() {
-    	if ($('#borderbox').is(':checked')){
-    		watershedBorders.addTo(map);
+    	if ($('#borderToggle').prop( "value") == 'selected'){
+    		map.removeLayer(watershedBorders);
+    		$('#borderToggle').prop( "value","deselected");
     	}
     	else {
-    		map.removeLayer(watershedBorders);
+    		watershedBorders.addTo(map);
+    		$('#borderToggle').prop( "value","selected");
     	}
     } 
 
