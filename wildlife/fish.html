@@ -83,10 +83,6 @@
 					   </div>
 					</div>
 				</div>
-				<label class="switchBorder" data-step="3" data-intro="Use the slider to toggle the display of politial borders.">
-					<input name="border_checkbox" id="borderbox" type="checkbox" value="check" onclick="borders()" autocomplete="off" checked>
-					<div class="sliderBorder"><!--ADDED HTML --><span class="on">X</span><span class="border">Political Borders</span><!--END--></div>		
-				</label>
 			</div>
 			<div id="attribution">
 				<div id="text" data-step="2" data-intro="Each dataset has a specific legend, displayed here.">
@@ -274,7 +270,8 @@
 			</div>
 		</div>
     	<div id="map" style="width: 100%; height: 100%;" data-step="4" data-intro="This is the main map display.">
-    		<button type="button" class='centerMap' onclick="centerMap()">Center PNW</button>	
+    		<button type="button" class='centerMap' onclick="borders()" id="borderToggle" value="selected" data-step="5" data-intro="Select to toggle display of modern political borders.">Toggle Borders</button>
+    		<button type="button" class='centerMap' onclick="centerMap()" id="centerMap" data-step="6" data-intro="Select to return map to PNW view.">Center PNW</button>		
     	</div>
     	
     	<div id="sources" class="overlay">
@@ -502,13 +499,15 @@
 	fish.addTo(map);
 	
 	function borders() {
-    	if ($('#borderbox').is(':checked')){
-    		pnwStates.addTo(map);
-    		pnwCounties.addTo(map);
-    	}
-    	else {
+    	if ($('#borderToggle').prop( "value") == 'selected'){
     		map.removeLayer(pnwStates);
     		map.removeLayer(pnwCounties);
+    		$('#borderToggle').prop( "value","deselected");
+    	}
+    	else {
+    		pnwStates.addTo(map);
+    		pnwCounties.addTo(map);
+    		$('#borderToggle').prop( "value","selected");
     	}
     } 
 	
