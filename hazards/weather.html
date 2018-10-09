@@ -53,14 +53,14 @@
 				<div class="content">
 					<a href="../index.html" style="font-weight:bold; text-decoration:none; font-size:24px;">Home</a>
 					<hr>
-					<a href="food/food_home.html" style="text-decoration:underline;">Agriculture & Food</a>
-					<a href="history/history_home.html" style="text-decoration:underline;">Culture & History</a>
-					<a href="energy/energy_home.html" style="text-decoration:underline;">Energy Resources</a>
+					<a href="../food/food_home.html" style="text-decoration:underline;">Agriculture & Food</a>
+					<a href="../history/history_home.html" style="text-decoration:underline;">Culture & History</a>
+					<a href="../energy/energy_home.html" style="text-decoration:underline;">Energy Resources</a>
 					<a href="hazards/hazard_home.html" style="text-decoration:underline;">Natural Hazards</a>
-					<a href="recreation/recreation_home.html" style="text-decoration:underline;">Outdoor Recreation</a>
-					<a href="population/population_home.html" style="text-decoration:underline;">Population & Housing</a>
-					<a href="water/water_home.html" style="text-decoration:underline;">Water</a>
-					<a href="wildlife/wildlife_home.html" style="text-decoration:underline;">Wildlife</a>
+					<a href="../recreation/recreation_home.html" style="text-decoration:underline;">Outdoor Recreation</a>
+					<a href="../population/population_home.html" style="text-decoration:underline;">Population & Housing</a>
+					<a href="../water/water_home.html" style="text-decoration:underline;">Water</a>
+					<a href="../wildlife/wildlife_home.html" style="text-decoration:underline;">Wildlife</a>
 				</div>
 			</div>
 		</div>
@@ -71,10 +71,6 @@
 			<div id="top">
 				<h1>Extreme Weather</h1>
 				<img src="img/storm_icon.png" id="titleImageCircle"><br/>
-				<label class="switchBorder" data-step="3" data-intro="Use the slider to toggle the display of politial borders.">
-					<input name="border_checkbox" id="borderbox" type="checkbox" value="check" onclick="borders()" autocomplete="off" checked>
-					<div class="sliderBorder"><!--ADDED HTML --><span class="on">X</span><span class="border">Political Borders</span><!--END--></div>		
-				</label>
 			</div>
 			<div id="attribution">
 				<div id="text" data-step="1" data-intro="Each dataset has a specific legend, displayed here.">
@@ -121,7 +117,8 @@
 		</div>
 		
     	<div id="map" style="width: 100%; height: 100%;" data-step="4" data-intro="This is the main map display. Hover over extreme weather event points to reveal related statistics.">
-    		<button type="button" class='centerMap' onclick="centerMap()">Center PNW</button>
+    		<button type="button" class='centerMap' onclick="borders()" id="borderToggle" value="selected" data-step="5" data-intro="Select to toggle display of modern political borders.">Toggle Borders</button>
+    		<button type="button" class='centerMap' onclick="centerMap()" id="centerMap" data-step="6" data-intro="Select to return map to PNW view.">Center PNW</button>
     	</div>
     	
     	<div id="sources" class="overlay">
@@ -309,11 +306,13 @@
 	map.getPane('tooltip').style.zIndex = 700;
 	
 	function borders() {
-    	if ($('#borderbox').is(':checked')){
-    		pnwBorders.addTo(map);
+    	if ($('#borderToggle').prop( "value") == 'selected'){
+    		map.removeLayer(pnwBorders);
+    		$('#borderToggle').prop( "value","deselected");
     	}
     	else {
-    		map.removeLayer(pnwBorders);
+    		pnwBorders.addTo(map);
+    		$('#borderToggle').prop( "value","selected");
     	}
     } 
 ////////////////////////////////important variables////////////////////////////////	

@@ -51,14 +51,14 @@
 				<div class="content">
 					<a href="../index.html" style="font-weight:bold; text-decoration:none; font-size:24px;">Home</a>
 					<hr>
-					<a href="food/food_home.html" style="text-decoration:underline;">Agriculture & Food</a>
-					<a href="history/history_home.html" style="text-decoration:underline;">Culture & History</a>
-					<a href="energy/energy_home.html" style="text-decoration:underline;">Energy Resources</a>
+					<a href="../food/food_home.html" style="text-decoration:underline;">Agriculture & Food</a>
+					<a href="../history/history_home.html" style="text-decoration:underline;">Culture & History</a>
+					<a href="../energy/energy_home.html" style="text-decoration:underline;">Energy Resources</a>
 					<a href="hazards/hazard_home.html" style="text-decoration:underline;">Natural Hazards</a>
-					<a href="recreation/recreation_home.html" style="text-decoration:underline;">Outdoor Recreation</a>
-					<a href="population/population_home.html" style="text-decoration:underline;">Population & Housing</a>
-					<a href="water/water_home.html" style="text-decoration:underline;">Water</a>
-					<a href="wildlife/wildlife_home.html" style="text-decoration:underline;">Wildlife</a>
+					<a href="../recreation/recreation_home.html" style="text-decoration:underline;">Outdoor Recreation</a>
+					<a href="../population/population_home.html" style="text-decoration:underline;">Population & Housing</a>
+					<a href="../water/water_home.html" style="text-decoration:underline;">Water</a>
+					<a href="../wildlife/wildlife_home.html" style="text-decoration:underline;">Wildlife</a>
 				</div>
 			</div>
 		</div>
@@ -84,10 +84,6 @@
 							</div>
 					</div>
 				</div>
-				<label class="switchBorder" data-step="3" data-intro="Use the slider to toggle the display of politial borders.">
-					<input name="border_checkbox" id="borderbox" type="checkbox" value="check" onclick="borders()" autocomplete="off" checked>
-					<div class="sliderBorder"><!--ADDED HTML --><span class="on">X</span><span class="border">Political Borders</span><!--END--></div>		
-				</label>
 			</div>
 			<div id="attribution">
 				<div id="text" data-step="2" data-intro="Each dataset has a specific legend, displayed here.">
@@ -175,7 +171,8 @@
 			</div>
 		</div>
     	<div id="map" style="width: 100%; height: 100%;" data-step="4" data-intro="This is the main map display. Hover over map data to reveal more information.">
-    		<button type="button" class='centerMap' onclick="centerMap()">Center PNW</button>
+    		<button type="button" class='centerMap' onclick="borders()" id="borderToggle" value="selected" data-step="5" data-intro="Select to toggle display of modern political borders.">Toggle Borders</button>
+    		<button type="button" class='centerMap' onclick="centerMap()" id="centerMap" data-step="6" data-intro="Select to return map to PNW view.">Center PNW</button>
     	</div>
     	
     	<!--Map sources popup-->
@@ -373,19 +370,33 @@
 		minZoom:5,
 		opacity:0.4,
 		transparent:true,
-	}).addTo(map);
+		pane:'borders'
+	});
+	
 	//labels pane allows
 	map.createPane('labels');
 	map.getPane('labels').style.pointerEvents = 'none';
 	map.getPane('labels').style.zIndex = 600;
 	label.addTo(map);
 	
+	map.createPane('borders');
+	map.getPane('borders').style.pointerEvents = 'none';
+	map.getPane('borders').style.zIndex = 350;
+	pnwBorders.addTo(map);
+	
+	
+	map.createPane('risk');
+	map.getPane('risk').style.pointerEvents = 'none';
+	map.getPane('risk').style.zIndex = 300;
+	
 	function borders() {
-    	if ($('#borderbox').is(':checked')){
-    		pnwBorders.addTo(map);
+    	if ($('#borderToggle').prop( "value") == 'selected'){
+    		map.removeLayer(pnwBorders);
+    		$('#borderToggle').prop( "value","deselected");
     	}
     	else {
-    		map.removeLayer(pnwBorders);
+    		pnwBorders.addTo(map);
+    		$('#borderToggle').prop( "value","selected");
     	}
     } 
 
@@ -409,7 +420,9 @@
 	info.addTo(map);
 ////////////////////////////display layers//////////////////////
 	////////////////////////////////earthquake risk////////////////////////////////
-  	const earthquakeRisk = new L.TopoJSON();
+  	const earthquakeRisk = new L.TopoJSON(null, {
+  		pane:'risk'
+  	});
 
 	$.getJSON('assets/earthquake_risk.json')
   		.done(riskAddTopoData);
@@ -438,7 +451,9 @@
         });
     }
     ////////////////////////////////cascadia subduction zone////////////////////////////////
-  	const csz = new L.TopoJSON();
+  	const csz = new L.TopoJSON(null, {
+  		pane:'risk'
+  	});
 
 	$.getJSON('assets/max_intensity.json')
   		.done(cszAddTopoData);
@@ -616,9 +631,7 @@
 				layerFunction: function(){
 					resetView();
 					info.addTo(map);
-					pnwBorders.remove(map);
 					pnwBorders.opacity = 0.4;
-					borders();
 				}
 			},
 		but2: {button:'but2', 
@@ -631,9 +644,7 @@
 					resetView();
 					recentEarthquakes.remove(map);
 					info.addTo(map);
-					pnwBorders.remove(map);
 					pnwBorders.opacity = 0.4;
-					borders();
 				}
 			},
 		but3: {button:'but3',//button ID 
@@ -646,9 +657,7 @@
 					resetView();
 					recentEarthquakes.remove(map);
 					info.remove(map);
-					pnwBorders.remove(map);
 					pnwBorders.opacity = 1;
-					borders();
 				}
 			},
 		but4: {button:'but4', 
@@ -668,9 +677,7 @@
         		}
         		recentEarthquakes.remove(map);
         		info.remove(map);
-        		pnwBorders.remove(map);
 				pnwBorders.opacity = 1;
-				borders();
 			}
 		}
 	};
