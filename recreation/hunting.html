@@ -83,10 +83,6 @@
 						</div>
 					</div>
 				</div>
-				<label class="switchBorder" data-step="3" data-intro="Use the slider to toggle the display of politial borders.">
-					<input name="border_checkbox" id="borderbox" type="checkbox" value="check" onclick="borders()" autocomplete="off">
-					<div class="sliderBorder"><!--ADDED HTML --><span class="on">X</span><span class="border">State Borders</span><!--END--></div>		
-				</label>
 			</div>
 			<div id="attribution">
 				<div id="text" data-step="3" data-intro="Each dataset has a specific legend, displayed here.">
@@ -120,7 +116,8 @@
 			</div>
 		</div>
     	<div id="map" style="width: 100%; height: 100%;" data-step="5" data-intro="This is the main map display. Hover over game management units to reveal more information.">
-    		<button type="button" class='centerMap' onclick="centerMap()">Center PNW</button>
+    		<button type="button" class='centerMap' onclick="borders()" id="borderToggle" value="deselected" data-step="6" data-intro="Select to toggle display of modern state borders.">Toggle Borders</button>
+    		<button type="button" class='centerMap' onclick="centerMap()" id="centerMap" data-step="7" data-intro="Select to return map to PNW view.">Center PNW</button>
     	</div>
     	
     	<div id="sources" class="overlay">
@@ -342,13 +339,15 @@
 	map.getPane('tooltip').style.zIndex = 700;
 	
 	function borders() {
-    	if ($('#borderbox').is(':checked')){
-    		pnwStates.addTo(map);
+    	if ($('#borderToggle').prop( "value") == 'selected'){
+    		map.removeLayer(pnwStates);
+    		$('#borderToggle').prop( "value","deselected");
     	}
     	else {
-    		map.removeLayer(pnwStates);
+    		pnwStates.addTo(map);
+    		$('#borderToggle').prop( "value","selected");
     	}
-    }
+    } 
 ///////////////////////important variables////////////////////////////////
 	var levels = [2000, 1000, 500, 250, 2, 1.5, 1, 0.5, 100, 50 ,25, 10];
 	var animal = 1;
