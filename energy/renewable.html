@@ -376,7 +376,7 @@ var label = L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/ligh
 			}
 		else {	
 			this._div.innerHTML = (feature ?
-        	'<h2 style="margin:0; display:inline-block;">'+ feature.CNTY_NAME +'</h2><br/>' + '<p3 style="display:inline; font-weight:bold;">' + bioType() + ' tons/yr</p3>'
+        	'<h2 style="margin:0; display:inline-block;">'+ feature.CNTY_NAME +' County, ' + feature.ST + '</h2></h2><br/>' + '<p3 style="display:inline; font-size:20px;">' + bioType() + ' tons/yr</p3>'
        		:'<b style="font-size:24px;">Hover over Map</b>');
        	}
 	};
