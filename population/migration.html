@@ -338,8 +338,8 @@
 			else {return prop;}
 		}
 		function display(){
-			return feature.pnw == 1 ? '<h2>' + feature.name + ' County</h2><p3 style="display:inline;">Migration Rate per 1000:&nbsp' + feature.net_rate + '</p3><br/><p3 style="display:inline;">Inflow (total):&nbsp' + feature.inflow + '</p3><br/><p3 style="display:inline;">Outflow (total):&nbsp' + feature.outflow + '</p3><br/><p3 style="display:inline;">Net Flow:&nbsp' + feature.net + '</p3>':
-					'<h2>' + feature.name + ' County</h2><p3 style="display:inline;">Inflow (from PNW):&nbsp' + nullFinder(feature.inflow) + '</p3><br/><p3 style="display:inline;">Outflow (to PNW):&nbsp' + nullFinder(feature.outflow) + '</p3>';
+			return feature.pnw == 1 ? '<h2>' + feature.name + ' County, ' + feature.ST + '</h2><p3 style="display:inline;">Migration Rate per 1000:&nbsp' + feature.net_rate + '</p3><br/><p3 style="display:inline;">Inflow (total):&nbsp' + feature.inflow + '</p3><br/><p3 style="display:inline;">Outflow (total):&nbsp' + feature.outflow + '</p3><br/><p3 style="display:inline;">Net Flow:&nbsp' + feature.net + '</p3>':
+					'<h2>' + feature.name + ' County, ' + feature.ST + '</h2><p3 style="display:inline;">Inflow (from PNW):&nbsp' + nullFinder(feature.inflow) + '</p3><br/><p3 style="display:inline;">Outflow (to PNW):&nbsp' + nullFinder(feature.outflow) + '</p3>';
 		}
    		this._div.innerHTML = (feature ?
         			display()
