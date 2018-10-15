@@ -812,6 +812,9 @@ hr{
     position: relative;
     display: inline-block;
 }
+.tooltip:hover {
+    cursor:pointer;
+}
 .tooltip .tooltiptext {
     visibility: hidden;
     width: 120px;
@@ -824,8 +827,8 @@ hr{
     border-radius: 6px;
     border: black 2px solid;
     bottom: 100%;
-    left: 50%; 
-    margin-left: -30px;
+    left: 30%; 
+    margin-left: -100px;
     position: absolute;
     z-index: 1;
     font-weight:none;
@@ -927,7 +930,7 @@ div#infoPanel button#button2:hover{
   font-size:18px;
   height: 30px;
   right: 10px;
-  z-index: 99999;
+  z-index: 1000;
   overflow: hidden;
   border: 2px solid rgba(0, 0, 0, 0.2); 
   border-radius:5px;
