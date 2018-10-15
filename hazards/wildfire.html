@@ -200,7 +200,7 @@
 					<a href="vulnerability.html" style="text-decoration:underline;">Disaster Risk</a>
 					<a href="earthquake.html" style="text-decoration:underline;">Earthquakes</a>
 					<a href="flood.html" style="text-decoration:underline;">Flooding</a>
-					<a href="volcano.html" style="text-decoration:underline;">Volcanos</a>
+					<a href="volcano.html" style="text-decoration:underline;">Volcanoes</a>
 					<a href="drought.html" style="text-decoration:underline;">Drought</a>
 					<a href="weather.html" style="text-decoration:underline;">Extreme Weather</a>
 					<a href="wildfire.html" style="text-decoration:underline;">Wildfires</a>
@@ -271,7 +271,11 @@
         	}
 	}
 //////////////Initialize map///////////////////////	
-	var map = L.map('map', {center: [45.60, -121.75], zoom: 6, zoomControl:false});
+	var southWest = L.latLng(21.172626315855425, -149.58519708215204),
+    	northEast = L.latLng(66.10396253416393, -82.34035998361294),
+    	bounds = L.latLngBounds(southWest, northEast);
+
+	var map = L.map('map', {center: [45.60, -121.75], zoom: 6, zoomControl:false, maxBounds:bounds});
 ///////////////////////make zoom level correspond to browser size////////////////////////////////
 	window.addEventListener('load', function(event){
     	var width = document.documentElement.clientWidth;
@@ -285,7 +289,6 @@
         	}
 	});
 	
-	map.setMaxBounds(map.getBounds());
 ////////////////////////////////basemap layers////////////////////////////////
 	var Esri_WorldTerrain = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer/tile/{z}/{y}/{x}', {
 		attribution: 'Tiles &copy; Esri &mdash; Source: USGS, Esri, TANA, DeLorme, and NPS',
@@ -583,7 +586,7 @@
 		but1: {button:'but1', 
 				newLayers:[backgroundParks], 
 				newLegend: 'leg_1',  
-				title:'Modern', 
+				title:'Modern Fires', 
 				newElements:['slider-vertical-modern'], 
 				variable:2017, 
 				layerFunction:function(){
@@ -597,7 +600,7 @@
 		but2: {button:'but2', 
 				newLayers:[backgroundParks], 
 				newLegend: 'leg_2', 
-				title:'Historical', 
+				title:'Historical Fires', 
 				newElements:['slider-vertical-historical'], 
 				variable:1990, 
 				layerFunction:function(){
@@ -611,7 +614,7 @@
 		but3: {button:'but3', 
 			newLayers:[fireRisk], 
 			newLegend: 'leg_3', 
-			title:'Risk', 
+			title:'Wildfire Risk', 
 			layerFunction:function(){
 					if(modernFires)
 						{

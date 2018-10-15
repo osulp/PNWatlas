@@ -92,7 +92,7 @@
 					</div>	
 					<div id="facts_1" style="display:block;">
 						<br/>
-						<p3 style="font-weight:bold; line-height:36px;">Fast Facts:</p3><br/>
+						<p3 style="font-weight:bold; line-height:36px;">Quick Facts:</p3><br/>
 						<p3 id="facts">&#9900&nbspThe Christmas Flood of 1964 was the most recent PNW flood to be considered a 100-Year Flood, although flooding in 1996 nearly reached 100-year levels.</p3><br/><br/>
 					</div>	
 				</div>
@@ -173,7 +173,7 @@
 					<a href="vulnerability.html" style="text-decoration:underline;">Disaster Risk</a>
 					<a href="earthquake.html" style="text-decoration:underline;">Earthquakes</a>
 					<a href="flood.html" style="text-decoration:underline;">Flooding</a>
-					<a href="volcano.html" style="text-decoration:underline;">Volcanos</a>
+					<a href="volcano.html" style="text-decoration:underline;">Volcanoes</a>
 					<a href="drought.html" style="text-decoration:underline;">Drought</a>
 					<a href="weather.html" style="text-decoration:underline;">Extreme Weather</a>
 					<a href="wildfire.html" style="text-decoration:underline;">Wildfires</a>
@@ -244,7 +244,11 @@
         	}
 	}
 //////////////Initialize map///////////////////////
-	var map = L.map('map', {center: [45.60, -121.75], zoom: 6, zoomControl:false});
+	var southWest = L.latLng(21.172626315855425, -149.58519708215204),
+    	northEast = L.latLng(66.10396253416393, -82.34035998361294),
+    	bounds = L.latLngBounds(southWest, northEast);
+
+	var map = L.map('map', {center: [45.60, -121.75], zoom: 6, zoomControl:false, maxBounds:bounds});
 ///////////////////////make zoom level correspond to browser size////////////////////////////////
 	window.addEventListener('load', function(event){
     	var width = document.documentElement.clientWidth;
@@ -258,7 +262,6 @@
         	}
 	});
 	
-	map.setMaxBounds(map.getBounds());
 ////////////////////////////////basemap layers////////////////////////////////
 	var CartoDB_PositronNoLabels = L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_nolabels/{z}/{x}/{y}.png', {
 		attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',

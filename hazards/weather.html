@@ -91,7 +91,7 @@
 					</div>	
 					<div id="facts_1" style="display:block;">
 					<br/>
-						<p3 style="font-weight:bold; line-height:36px;">Fast Facts:</p3><br/>
+						<p3 style="font-weight:bold; line-height:36px;">Quick Facts:</p3><br/>
 						<p3 id="facts">&#9900&nbspSince 2000, there have been over 4500 recorded extreme weather events in the PNW. Of these, over 140 caused greater than $1 million worth of damage.</p3><br/><br/>
 						<p3 id="facts">&#9900&nbspA hailstorm near Buena, WA in 2001 was the most damaging extreme weather event since 2000, causing over $70 million worth of damage, primarily to crops.</p3><br/><br/>
 						<p3 id="facts">&#9900&nbspA debris flow near Oso, WA in 2014 had the highest death toll of any recorded extreme weather event since 2000, killing 43 people.</p3><br/><br/>
@@ -164,7 +164,7 @@
 					<a href="vulnerability.html" style="text-decoration:underline;">Disaster Risk</a>
 					<a href="earthquake.html" style="text-decoration:underline;">Earthquakes</a>
 					<a href="flood.html" style="text-decoration:underline;">Flooding</a>
-					<a href="volcano.html" style="text-decoration:underline;">Volcanos</a>
+					<a href="volcano.html" style="text-decoration:underline;">Volcanoes</a>
 					<a href="drought.html" style="text-decoration:underline;">Drought</a>
 					<a href="weather.html" style="text-decoration:underline;">Extreme Weather</a>
 					<a href="wildfire.html" style="text-decoration:underline;">Wildfires</a>
@@ -236,7 +236,11 @@
         	}
 	}
 //////////////Initialize map///////////////////////	
-	var map = L.map('map', {center: [45.60, -121.75], zoom: 6, zoomControl:false});
+	var southWest = L.latLng(21.172626315855425, -149.58519708215204),
+    	northEast = L.latLng(66.10396253416393, -82.34035998361294),
+    	bounds = L.latLngBounds(southWest, northEast);
+
+	var map = L.map('map', {center: [45.60, -121.75], zoom: 6, zoomControl:false, maxBounds:bounds});
 ///////////////////////make zoom level correspond to browser size////////////////////////////////
 	window.addEventListener('load', function(event){
     	var width = document.documentElement.clientWidth;
@@ -250,7 +254,6 @@
         	}
 	});
 	
-	map.setMaxBounds(map.getBounds());
 ////////////////////////////////basemap layers////////////////////////////////
 	var Esri_WorldTerrain = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer/tile/{z}/{y}/{x}', {
 		attribution: 'Tiles &copy; Esri &mdash; Source: USGS, Esri, TANA, DeLorme, and NPS',
@@ -367,7 +370,7 @@
         	pointToLayer: function (feature, latlng) {
     			return L.marker(latlng, {
     				icon:L.divIcon({className:stormColor(feature.properties.event_type), iconSize:[stormSize(feature.properties.damage),stormSize(feature.properties.damage)]})
-    				}).bindTooltip('<b style="display:inline;">'+ feature.properties.start_date + '</b><br/><p style="display:inline;">' + feature.properties.location + '</br>Category:&nbsp' + feature.properties.event_type + '</br>Damage:&nbsp$' + feature.properties.damage + '</p>', {className: 'label_tooltip', offset:L.point(5,0), pane:'tooltip', direction:'right'});
+    				}).bindTooltip('<b style="display:inline;">'+ feature.properties.start_date + '</b><br/><p style="display:inline;">' + feature.properties.location + '</br>Category:&nbsp' + feature.properties.event_type + '</br>Damage:&nbsp$' + feature.properties.damage.toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 0}) + '</p>', {className: 'label_tooltip', offset:L.point(5,0), pane:'tooltip', direction:'right'});
     			},
     		onEachFeature: function(feature, latlng) {
    				oms.addMarker(latlng);
