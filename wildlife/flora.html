@@ -95,7 +95,7 @@
 				<div id="text" data-step="2" data-intro="Each dataset has a specific legend, displayed here.">
 					<!--Legends for each dataset-->
 					<div id="leg_1" data-step="3" data-intro="Selecting an ecoregion on the map will display more information in the legend.">
-						<h2 id="eco_title" style="font-size:30px; margin-bottom:10px; margin-top:10px;" data-step="3" data-intro="Selecting an ecoregion on the map will display more information in the legend.">Select an Ecoregion</h2>
+						<h2 id="eco_title" style="font-size:30px; margin-bottom:10px; margin-top:15px;" data-step="3" data-intro="Selecting an ecoregion on the map will display more information in the legend.">Select an Ecoregion</h2>
 						<div id="ecoregion" style="display:none">
 							<h2 id="eco_main" style="margin-top:5px; margin-bottom:5px; display:block;">Vancouverian Forest, Agricultural Land</h2>
 							<img id="eco_image" src="img/klamath_mountains.png" style="width:280px; margin-top:5px;">
@@ -187,13 +187,13 @@
 					</div>
 					<div id="facts_2" style="display:none;">
 						<br/>
-						<p3 style="font-weight:bold; line-height:36px;">Fast Facts:</p3><br/>
+						<p3 style="font-weight:bold; line-height:36px;">Quick Facts:</p3><br/>
 						<p3 id="facts">&#9900&nbspAs of 2011, the Douglas Fir was the most logged tree in the Pacific Northwest.</p3><br/><br/>
 						<p3 id="facts">&#9900&nbspIn 2017, over 1.8 million acres of forest were affected by wildfires.</p3><br/><br/>
 					</div>
 					<div id="facts_3" style="display:none;">
 						<br/>
-						<p3 style="font-weight:bold; line-height:36px;">Fast Facts:</p3><br/>
+						<p3 style="font-weight:bold; line-height:36px;">Quick Facts:</p3><br/>
 						<p3 id="facts">&#9900&nbspScientific name: Pseudotsuga menziesii.</p3><br/><br/>
 						<p3 id="facts">&#9900&nbspCan grow between 70 and 330 ft. tall. Larger specimens are found in the Coast Range.</p3><br/><br/>
 						<p3 id="facts">&#9900&nbspState tree of Oregon.</p3><br/><br/>
@@ -201,7 +201,7 @@
 					</div>
 					<div id="facts_4" style="display:none;">
 						<br/>
-						<p3 style="font-weight:bold; line-height:36px;">Fast Facts:</p3><br/>
+						<p3 style="font-weight:bold; line-height:36px;">Quick Facts:</p3><br/>
 						<p3 id="facts">&#9900&nbspScientific name: Tsuga heterophylla.</p3><br/><br/>
 						<p3 id="facts">&#9900&nbspCan grow between 165 and 240 ft. tall.</p3><br/><br/>
 						<p3 id="facts">&#9900&nbspState tree of Washington.</p3><br/><br/>
@@ -209,14 +209,14 @@
 					</div>
 					<div id="facts_5" style="display:none;">
 						<br/>
-						<p3 style="font-weight:bold; line-height:36px;">Fast Facts:</p3><br/>
+						<p3 style="font-weight:bold; line-height:36px;">Quick Facts:</p3><br/>
 						<p3 id="facts">&#9900&nbspScientific name: Pinus ponderosa.</p3><br/><br/>
 						<p3 id="facts">&#9900&nbspCan grow over 200 ft. tall.</p3><br/><br/>
 						<p3 id="facts">&#9900&nbspTwo subspecies of Ponderosa Pine are present within the PNW: Pacific Ponderosa and Columbia Ponderosa.</p3><br/><br/>
 					</div>
 					<div id="facts_6" style="display:none;">
 						<br/>
-						<p3 style="font-weight:bold; line-height:36px;">Fast Facts:</p3><br/>
+						<p3 style="font-weight:bold; line-height:36px;">Quick Facts:</p3><br/>
 						<p3 id="facts">&#9900&nbspScientific name: Abies grandis.</p3><br/><br/>
 						<p3 id="facts">&#9900&nbspCan grow between 120 and 210 ft. tall.</p3><br/><br/>
 						<p3 id="facts">&#9900&nbspIn the logging industry, Grand Fir is known as "hem fir".</p3><br/><br/>
@@ -224,7 +224,7 @@
 					</div>
 					<div id="facts_7" style="display:none;">
 						<br/>
-						<p3 style="font-weight:bold; line-height:36px;">Fast Facts:</p3><br/>
+						<p3 style="font-weight:bold; line-height:36px;">Quick Facts:</p3><br/>
 						<p3 id="facts">&#9900&nbspScientific name: Juniperus.</p3><br/><br/>
 						<p3 id="facts">&#9900&nbspWestern Juniper is common throughout central Oregon, Utah Juniper is common in Southern Idaho, and Rocky Mountain Juniper is common in Eastern Idaho.</p3><br/><br/>
 						<p3 id="facts">&#9900&nbspTypically between 30 and 60 feet tall.</p3><br/><br/>
@@ -232,7 +232,7 @@
 					</div>
 					<div id="facts_8" style="display:none;">
 						<br/>
-						<p3 style="font-weight:bold; line-height:36px;">Fast Facts:</p3><br/>
+						<p3 style="font-weight:bold; line-height:36px;">Quick Facts:</p3><br/>
 						<p3 id="facts">&#9900&nbspScientific name:  Artemisia.</p3><br/><br/>
 						<p3 id="facts">&#9900&nbspBig Sagebrush and its subspecies are the most widespread sagebrush varieties in the PNW.</p3><br/><br/>
 						<p3 id="facts">&#9900&nbspImportant for a variety of native species, including Sage Grouse, Pronghorn, and Mule Deer.</p3><br/><br/>
@@ -405,7 +405,11 @@
   		}  
 	});
 //////////////Initialize map///////////////////////
-	var map = L.map('map', {center: [45.60, -121.75], zoom: 6, zoomControl:false});
+	var southWest = L.latLng(21.172626315855425, -149.58519708215204),
+    	northEast = L.latLng(66.10396253416393, -82.34035998361294),
+    	bounds = L.latLngBounds(southWest, northEast);
+
+	var map = L.map('map', {center: [45.60, -121.75], zoom: 6, zoomControl:false, maxBounds:bounds});
 ///////////////////////make zoom level correspond to browser size////////////////////////////////
 	window.addEventListener('load', function(event){
     	var width = document.documentElement.clientWidth;
@@ -419,7 +423,7 @@
         	}
 	});
 	
-	map.setMaxBounds(map.getBounds());
+
 ////////////////////////////////basemap layers////////////////////////////////
 	var Esri_WorldTerrain = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer/tile/{z}/{y}/{x}', {
 		attribution: 'Tiles &copy; Esri &mdash; Source: USGS, Esri, TANA, DeLorme, and NPS',
