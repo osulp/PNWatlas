@@ -288,7 +288,11 @@
         	}
 	}
 	//initialize map
-	var map = L.map('map', {center: [45.60, -121.75], zoom: 6, zoomControl:false});
+	var southWest = L.latLng(21.172626315855425, -149.58519708215204),
+    	northEast = L.latLng(66.10396253416393, -82.34035998361294),
+    	bounds = L.latLngBounds(southWest, northEast);
+
+	var map = L.map('map', {center: [45.60, -121.75], zoom: 6, zoomControl:false, maxBounds:bounds});
 ///////////////////////make zoom level correspond to browser size////////////////////////////////
 	window.addEventListener('load', function(event){
     	var width = document.documentElement.clientWidth;
@@ -302,7 +306,6 @@
         	}
 	});
 	
-	map.setMaxBounds(map.getBounds());
 	////////////////////////////////add tiled basemap////////////////////////////////
 var Esri_WorldTerrain = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer/tile/{z}/{y}/{x}', {
 		attribution: 'Tiles &copy; Esri &mdash; Source: USGS, Esri, TANA, DeLorme, and NPS',
@@ -376,7 +379,7 @@ var label = L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/ligh
 			}
 		else {	
 			this._div.innerHTML = (feature ?
-        	'<h2 style="margin:0; display:inline-block;">'+ feature.CNTY_NAME +' County, ' + feature.ST + '</h2></h2><br/>' + '<p3 style="display:inline; font-size:20px;">' + bioType() + ' tons/yr</p3>'
+        	'<h2 style="margin:0; display:inline-block;">'+ feature.CNTY_NAME +' County, ' + feature.ST + '</h2></h2><br/>' + '<p3 style="display:inline; font-size:20px;">' + bioType().toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 0}) + ' tons/yr</p3>'
        		:'<b style="font-size:24px;">Hover over Map</b>');
        	}
 	};
