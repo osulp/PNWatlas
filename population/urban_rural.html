@@ -96,14 +96,14 @@
 						<p id="description" style="font-weight:bold; white-space:normal; padding-left:0px; width:280px; display:block; position:relative;">Urbanized Area/Urban Cluster classifications determined by U.S Census Bureau.</p>
 					</div>	
 					<div id="leg_2" style="display:none;">
-						<h2 id="title" style="display:block; width:280px; white-space:normal;">Per Capita Annual Income</h2><img src="img/income_icon.png" id="image3" style="display:inline-block; float:right;width: 90px; height: 90px;position:absolute; margin-top:20px; right:20px;">
+						<h2 id="title" style="display:block; width:280px; white-space:normal;">Per Capita Annual Income</h2><img src="img/income_icon.png" id="image3" style="display:inline-block; float:right;width: 100px; height: 100px;position:absolute; margin-top:20px; right:20px;">
 						<div style="height:32px;"><b id="leg1_block" style="background:#006837; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p>&nbsp</p><p id="leg1" style="margin-left:5px;">$45+</p></div>
 						<div style="height:30px;"><b id="leg2_block" style="background:#31a354; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2" style="margin-left:5px;">$35 - $45</p></div>
 						<div style="height:30px;"><b id="leg3_block" style="background:#78c679; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2" style="margin-left:5px;">$25 - $35</p></div>
 						<div style="height:30px;"><b id="leg4_block" style="background:#c2e699; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2" style="margin-left:5px;">$15 - $25</p></div>
 						<div style="height:32px;"><b id="leg5_block" style="background:#ffffcc; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p>&nbsp</p><p id="leg3" style="margin-left:5px;">Less than $15</p></div>
 						<br/>
-						<p id="description" style="font-weight:bold; white-space:normal; padding-left:0px; width:280px; display:block; position:relative;">Average annual per capita income in thousands of dollars. Data from 2011-2015 American Community Survey.</p>
+						<p id="description" style="font-weight:bold; white-space:normal; padding-left:0px; width:280px; display:block; position:relative;">Average annual per capita income in thousands of dollars. Data from 2011-2015.</p>
 					</div>	
 					<div id="leg_3" style="display:none;">
 						<h2 id="title" style="display:block; width:280px; white-space:normal;">% With Bachelor's Degree</h2><img src="img/education_icon.png" id="image4" style="display:inline-block; float:right;width: 90px; height: 90px; position:absolute; margin-top:20px; right:20px;">
@@ -113,7 +113,7 @@
 						<div style="height:30px;"><b id="leg4_block" style="background:#fdcc8a; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2" style="margin-left:5px;">15 -  25</p></div>
 						<div style="height:32px;"><b id="leg5_block" style="background:#fef0d9; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p>&nbsp</p><p id="leg3" style="margin-left:5px;">Less than 15</p></div>
 						<br/>
-						<p id="description" style="font-weight:bold; white-space:normal; padding-left:0px; width:280px; display:block; position:relative;">Percent of population over 25 with a bachelor's degree. Data from 2011-2015 American Community Survey.</p>
+						<p id="description" style="font-weight:bold; white-space:normal; padding-left:0px; width:280px; display:block; position:relative;">Percent of population over 25 with a bachelor's degree. Data from 2011-2015.</p>
 					</div>
 					<div id="leg_4" style="display:none;">
 						<h2 id="title" style="display:block; width:280px; white-space:normal;">% Unemployment</h2><img src="img/employment_icon.png" id="image5" style="display:inline-block; float:right; width: 110px; height: 100px; position:absolute;margin-top:20px; right:15px;">
@@ -123,7 +123,7 @@
 						<div style="height:30px;"><b id="leg4_block" style="background:#b3cde3; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg2" style="margin-left:5px;">5 -  2.5</p></div>
 						<div style="height:32px;"><b id="leg5_block" style="background:#edf8fb; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p>&nbsp</p><p id="leg3" style="margin-left:5px;">Less than 5</p></div>
 						<br/>
-						<p id="description" style="font-weight:bold; white-space:normal; padding-left:0px; width:280px; display:block; position:relative;">Percent of unemployed workforce. Data from 2011-2015 American Community Survey.</p>
+						<p id="description" style="font-weight:bold; white-space:normal; padding-left:0px; width:280px; display:block; position:relative;">Percent of unemployed workforce. Data from 2011-2015.</p>
 					</div>	
 					</br>	
 					<b2 style="font-size:20px;">Urbanized Areas:</b2> 
@@ -273,7 +273,12 @@
         	}
 	}
 //////////////Initialize map///////////////////////
-	var map = L.map('map', {center: [45.60, -121.75], zoom: 6, zoomControl:false});
+
+	var southWest = L.latLng(21.172626315855425, -149.58519708215204),
+    	northEast = L.latLng(66.10396253416393, -82.34035998361294),
+    	bounds = L.latLngBounds(southWest, northEast);
+
+	var map = L.map('map', {center: [45.60, -121.75], zoom: 6, zoomControl:false, maxBounds:bounds});
 ///////////////////////make zoom level correspond to browser size////////////////////////////////
 	window.addEventListener('load', function(event){
     	var width = document.documentElement.clientWidth;
@@ -287,8 +292,7 @@
         	}
 	});
 	
-	map.setMaxBounds(map.getBounds());
-////////////////////////////////basemap layers////////////////////////////////
+	////////////////////////////////basemap layers////////////////////////////////
 	var Esri_WorldTerrain = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer/tile/{z}/{y}/{x}', {
 		attribution: 'Tiles &copy; Esri &mdash; Source: USGS, Esri, TANA, DeLorme, and NPS',
 		maxZoom:10,
@@ -382,7 +386,7 @@
 		}
 		else if (data == 2){	
 			this._div.innerHTML = (feature ?
-        	'<h2 style="margin:0; display:inline-block;">'+ feature.NAME + ', ' + feature.ST + '</h2><br/>' + '<p3 style="display:inline;">' + feature.text_class + '</br></p3><p3 style="display:inline; font-weight:bold;">$' + nullFinder(feature.income_cap) + '<p3/><p3 style="display:inline"> Income per Cap.</p3>'
+        	'<h2 style="margin:0; display:inline-block;">'+ feature.NAME + ', ' + feature.ST + '</h2><br/>' + '<p3 style="display:inline;">' + feature.text_class + '</br></p3><p3 style="display:inline; font-weight:bold;">$' + nullFinder(feature.income_cap).toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 0}) + '<p3/><p3 style="display:inline"> Income per Cap.</p3>'
        		:'<b style="font-size:24px;">Hover over Map</b>');
 			}	
 		else if (data == 3){	

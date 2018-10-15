@@ -116,7 +116,7 @@
 					</div>
 					<div id="facts_1">
 						<br/>
-						<p3 style="font-weight:bold; line-height:36px;">Fast Facts:</p3><br/>
+						<p3 style="font-weight:bold; line-height:36px;">Quick Facts:</p3><br/>
 						<p3 id="facts">&#9900&nbspWhitman County, WA has the highest net migration rate of all PNW counties, at a rate of 60 people per 1000.</p3><br/><br/>
 						<p3 id="facts">&#9900&nbspLincoln County, ID has the lowest net migration rate of all PNW counties, at a rate of -96 people per 1000.</p3><br/><br/>
 					</div>
@@ -139,6 +139,7 @@
 		</div>
     <div id="map" style="width: 100%; height: 100%;" data-step="5" data-intro="This is the main map display. Select PNW counties to reveal more information.">
     		<button type="button" class='centerMap' onclick="centerMap()" id="centerMap" data-step="6" data-intro="Select to return map to PNW view.">Center PNW</button>
+    		<button style="width:110px;" type="button" class='centerMap' onclick="centerUS()" id="borderToggle" data-step="6" data-intro="Select to return map to PNW view.">Center U.S</button>
     </div>
     
 	<div id="sources" class="overlay">
@@ -228,9 +229,21 @@
 		if (width < 1500 && width > 800) {
         	map.setView(new L.LatLng(45.60, -121.75), 6); 
     		}  else if (width > 1501) {
-        	map.setView(new L.LatLng(45.60, -119.75), 7); 
+        	map.setView(new L.LatLng(45.60, -121.75), 6); 
         	} else {
         	map.setZoom(5);
+        	}
+	}
+	
+	function centerUS(){
+		var width = document.documentElement.clientWidth;
+		
+		if (width < 1500 && width > 800) {
+        	map.setView(new L.LatLng(39.64, -103.80), 4); 
+    		}  else if (width > 1501) {
+        	map.setView(new L.LatLng(38.840, -103.315), 5); 
+        	} else {
+        	map.setZoom(4);
         	}
 	}
 	//////////////function that allows topojson layers to be loaded///////////////////////    
@@ -248,7 +261,11 @@
   		}  
 	});
 //////////////Initialize map///////////////////////    
-	var map = L.map('map', {center: [45.60, -121.75], zoom: 6, zoomControl:false});
+	var southWest = L.latLng(11.172626315855425, -175.58519708215204),
+    	northEast = L.latLng(76.10396253416393, -32.34035998361294),
+    	bounds = L.latLngBounds(southWest, northEast);
+    	
+	var map = L.map('map', {center: [45.60, -121.75], zoom: 6, zoomControl:false, maxBounds:bounds});
 ///////////////////////make zoom level correspond to browser size////////////////////////////////
 	window.addEventListener('load', function(event){
     	var width = document.documentElement.clientWidth;
@@ -338,8 +355,8 @@
 			else {return prop;}
 		}
 		function display(){
-			return feature.pnw == 1 ? '<h2>' + feature.name + ' County, ' + feature.ST + '</h2><p3 style="display:inline;">Migration Rate per 1000:&nbsp' + feature.net_rate + '</p3><br/><p3 style="display:inline;">Inflow (total):&nbsp' + feature.inflow + '</p3><br/><p3 style="display:inline;">Outflow (total):&nbsp' + feature.outflow + '</p3><br/><p3 style="display:inline;">Net Flow:&nbsp' + feature.net + '</p3>':
-					'<h2>' + feature.name + ' County, ' + feature.ST + '</h2><p3 style="display:inline;">Inflow (from PNW):&nbsp' + nullFinder(feature.inflow) + '</p3><br/><p3 style="display:inline;">Outflow (to PNW):&nbsp' + nullFinder(feature.outflow) + '</p3>';
+			return feature.pnw == 1 ? '<h2>' + feature.name + ' County, ' + feature.ST + '</h2><p3 style="display:inline;">Migration Rate per 1000:&nbsp' + feature.net_rate.toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 0}) + '</p3><br/><p3 style="display:inline;">Inflow (total):&nbsp' + feature.inflow.toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 0}) + '</p3><br/><p3 style="display:inline;">Outflow (total):&nbsp' + feature.outflow.toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 0}) + '</p3><br/><p3 style="display:inline;">Net Flow:&nbsp' + feature.net.toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 0}) + '</p3>':
+					'<h2>' + feature.name + ' County, ' + feature.ST + '</h2><p3 style="display:inline;">Inflow (from PNW):&nbsp' + nullFinder(feature.inflow).toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 0}) + '</p3><br/><p3 style="display:inline;">Outflow (to PNW):&nbsp' + nullFinder(feature.outflow).toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 0}) + '</p3>';
 		}
    		this._div.innerHTML = (feature ?
         			display()

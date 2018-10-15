@@ -82,7 +82,7 @@
 			<div id="attribution">
 				<div id="text" data-step="2" data-intro="Each dataset has a specific legend, displayed here.">
 					<div id='leg_1' style="display:block;">
-						<p id="description" style="font-weight:bold; margin-top: 10px; white-space:normal; padding-left:0px; width:280px; display:block; position:relative;">Map colored based on a composite of racial population percentages. More intense colors suggest a greater percentage of a single race, while browns and grays suggest racial diversity.</p>
+						<p id="description" style="font-weight:bold; line-height:24px; margin-top: 10px; white-space:normal; padding-left:0px; width:280px; display:block; position:relative;">Map colored based on a composite of racial population percentages. More intense colors suggest a greater percentage of a single race, while browns and grays suggest racial diversity. Data from 2011-2015.</p>
 					</div>
 					<div id='leg_2' style="display:none;">
 						<h2 id="title" style="display:block; margin-bottom:5px; width:280px; white-space:normal;">Median Age</h2>
@@ -95,7 +95,7 @@
 					<h2 id="med" style="display:block; margin-top:5px; width:280px; white-space:normal; display:none;">Median Age</h2>
 					<canvas id="chartContainer" style="height: 160px ; width: 280px; display:block; margin-left:-10px;" data-step="3" data-intro="Hover over census block groups to view racial breakdown."></canvas>
 					<canvas id="chartContainer2" style="height: 260px ; width: 280px; display:none;" data-step="3" data-intro="Hover over census block groups to view age breakdown."></canvas>
-					<p id="description2" style="font-weight:bold; margin-top: 10px; white-space:normal; padding-left:0px; width:280px; display:block; position:relative;">Population of each racial group within one census block group.</p>
+					<p id="description2" style="font-weight:bold; line-height:24px; margin-top: 10px; white-space:normal; padding-left:0px; width:280px; display:block; position:relative;">Population of each racial group within one census block group. Data from 2011-2015.</p>
 				</div>
 				<div id="pageChange" data-step="4" data-intro="Use these buttons to view data sources, view other map pages, or share maps on social media.">
 					<a href="#sources" id="arrow" style="display:inline-block;" title="Map Sources/Info">
@@ -229,7 +229,11 @@
         	}
 	}
 //////////////Initialize map///////////////////////
-	var map = L.map('map', {center: [45.60, -121.75], zoom: 6, zoomControl:false});
+	var southWest = L.latLng(21.172626315855425, -149.58519708215204),
+    	northEast = L.latLng(66.10396253416393, -82.34035998361294),
+    	bounds = L.latLngBounds(southWest, northEast);
+
+	var map = L.map('map', {center: [45.60, -121.75], zoom: 6, zoomControl:false, maxBounds:bounds});
 ///////////////////////make zoom level correspond to browser size////////////////////////////////
 	window.addEventListener('load', function(event){
     	var width = document.documentElement.clientWidth;
@@ -243,11 +247,10 @@
         	}
 	});
 	
-	map.setMaxBounds(map.getBounds());
 ////////////////////////////////basemap layers////////////////////////////////    
 	var Esri_WorldTerrain = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer/tile/{z}/{y}/{x}', {
 		attribution: 'Tiles &copy; Esri &mdash; Source: USGS, Esri, TANA, DeLorme, and NPS',
-		maxZoom:10,
+		maxZoom:11,
 		minZoom:4,
 		opacity:1
 	}).addTo(map);
@@ -255,7 +258,7 @@
 	var pnwCover = L.tileLayer.wms('https://geoserver.library.oregonstate.edu/geoserver/PNW_ATLAS/wms', {
 		layers: 'PNW_ATLAS:pnw_outline2',
         format: 'image/png',
-		maxZoom:10,
+		maxZoom:11,
 		minZoom:4,
 		opacity:0.9,
 		transparent:true,
@@ -264,7 +267,7 @@
 	var label = L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_only_labels/{z}/{x}/{y}@2x.png', {
 		attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
 		subdomains: 'abcd',
-		maxZoom:10,
+		maxZoom:11,
 		minZoom:4,
 		tileSize:256,
 		bounds:[
@@ -324,6 +327,21 @@
     } 
 
 ////////////////////////////////important variables////////////////////////////////		
+	var info = L.control();
+
+	info.onAdd = function (map) {
+    	this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
+    	this.update();
+    	return this._div;
+	};
+	
+	info.update = function () {	
+   			this._div.innerHTML = ('<b style="font-size:24px;">Hover over Map</b>');
+		};
+		
+	info.addTo(map);
+
+
 	var data = 1;
 ////////////////////////////display layers//////////////////////
     ////////////////////////////demographics topoJson for chart display//////////////////////
@@ -548,14 +566,14 @@
 	var pnwDemographics = L.tileLayer.wms('https://geoserver.library.oregonstate.edu/geoserver/PNW_ATLAS/wms', {
 		layers: 'PNW_ATLAS:pnw_demographics',
         format: 'image/png',
-		maxZoom:10,
+		maxZoom:11,
 		minZoom:4,
 		opacity:0.7,
 		transparent:true,
 	}).addTo(map);
 	////////////////////////////age tilelayer//////////////////////
 	var pnwAge = L.tileLayer('med_age_tiles/{z}/{x}/{y}.png', {
-        maxZoom:10,
+        maxZoom:11,
 		minZoom:4,
 		opacity:0.7,
         tms: false,
