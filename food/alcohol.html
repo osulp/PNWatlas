@@ -101,7 +101,7 @@
 					<!--Additional information for each dataset-->
 					<div id="facts_1" class="facts">
 						<br/>
-						<p3 style="font-weight:bold; line-height:36px;">Fast Facts:</p3><br/>
+						<p3 style="font-weight:bold; line-height:36px;">Quick Facts:</p3><br/>
 						<p3 id="facts">&#9900&nbspWashington, Idaho, and Oregon are the three leading hop producers in the U.S.</p3><br/><br/>
 						<p3 id="facts">&#9900&nbspWashington produces over 78 million pounds of hops annually, Idaho produces over 13 million pounds, and Oregon produces over 11 million pounds. </p3><br/><br/>
 					</div>
@@ -110,7 +110,7 @@
 						<p3 style="font-weight:bold; line-height:36px;">American Viticultural Areas (AVAs):</p3><br/>
 						<p3 id="facts">AVAs are delimited grape-growing areas that have specific growing conditions that wine producers can use to attribute certain characteristics to describe their product, such as quality or reputation.</p3><br/>
 						<br/>
-						<p3 style="font-weight:bold; line-height:36px;">Fast Facts:</p3><br/>
+						<p3 style="font-weight:bold; line-height:36px;">Quick Facts:</p3><br/>
 						<p3 id="facts">&#9900&nbspPinot Noir is the most commonly grown grape in Oregon, while Cabernet Sauvignon is the most common in Washington and Idaho. </p3><br/><br/>
 						<p3 id="facts">&#9900&nbspIn Idaho, wine is the fastest growing agricultural industry.</p3><br/><br/>
 					</div>
@@ -279,7 +279,11 @@
         	}
 	}
 //////////////Initialize map///////////////////////
-	var map = L.map('map', {center: [45.60, -121.75], zoom: 6, zoomControl:false});
+	var southWest = L.latLng(21.172626315855425, -149.58519708215204),
+    	northEast = L.latLng(66.10396253416393, -82.34035998361294),
+    	bounds = L.latLngBounds(southWest, northEast);
+
+	var map = L.map('map', {center: [45.60, -121.75], zoom: 6, zoomControl:false, maxBounds:bounds});
 ///////////////////////make zoom level correspond to browser size////////////////////////////////
 	window.addEventListener('load', function(event){
     	var width = document.documentElement.clientWidth;
@@ -293,7 +297,6 @@
         	}
 	});
 	
-	map.setMaxBounds(map.getBounds());
 ////////////////////////////////basemap layers////////////////////////////////
 	var CartoDB_PositronNoLabels = L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_nolabels/{z}/{x}/{y}.png', {
 		attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',

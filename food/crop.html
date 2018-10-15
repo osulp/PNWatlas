@@ -113,7 +113,7 @@
 						<div style="height:32px;"><b id="leg1_block" style="background:#404040; border:black 2px solid;"></b><p style="margin-left:5px;">Seed/Hay/Herb Area</p></div>
 					</div>	
 					<div id="leg_3" style="display:none;">
-						<h2 id="title" >Fruit/Nuts/Berries(% of Total Ag. Sales)</h2><img src="img/fruit_icon.png" id="iconImage" >
+						<h2 id="title" >Fruit/Nuts/Berries (% of Total Ag. Sales)</h2><img src="img/fruit_icon.png" id="iconImage" >
 						<div style="height:32px;"><b id="leg1_block" style="background:#a50f15; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p style="margin-left:5px;">50+</p></div>
 						<div style="height:30px;"><b id="leg2_block" style="background:#de2d26; border-left:black 2px solid; border-right:black 2px solid;"></b><p style="margin-left:5px;">35 - 50</p></div>
 						<div style="height:30px;"><b id="leg3_block" style="background:#fb6a4a; border-left:black 2px solid; border-right:black 2px solid;"></b><p style="margin-left:5px;">20 - 35</p></div>
@@ -139,25 +139,25 @@
 					<!--Additional information for each dataset-->
 					<div id="facts_1">
 						<br/>
-						<p3 style="font-weight:bold; line-height:36px;">Fast Facts:</p3><br/>
+						<p3 style="font-weight:bold; line-height:36px;">Quick Facts:</p3><br/>
 						<p3 id="facts">&#9900&nbspField Crops comprise 26.49% of Pacific Northwest crop sales</p3><br/><br/>
 						<p3 id="facts">&#9900&nbspIn Idaho, field crops comprise 42.06% of total crop sales.</p3><br/><br/>
 					</div>
 					<div id="facts_2" style="display:none;">
 						<br/>
-						<p3 style="font-weight:bold; line-height:36px;">Fast Facts:</p3><br/>
+						<p3 style="font-weight:bold; line-height:36px;">Quick Facts:</p3><br/>
 						<p3 id="facts">&#9900&nbspSeed/Hay/Herb Crops comprise 18.39% of Pacific Northwest crop sales</p3><br/><br/>
 						<p3 id="facts">&#9900&nbspIn Idaho, Seed/Hay/Herb Crops crops comprise 27.60% of total crop sales.</p3><br/><br/>
 					</div>
 					<div id="facts_3" style="display:none;">
 						<br/>
-						<p3 style="font-weight:bold; line-height:36px;">Fast Facts:</p3><br/>
+						<p3 style="font-weight:bold; line-height:36px;">Quick Facts:</p3><br/>
 						<p3 id="facts">&#9900&nbspFruit/Berry/Nut comprise 26.19% of Pacific Northwest crop sales</p3><br/><br/>
 						<p3 id="facts">&#9900&nbspIn Washington, Fruit/Berry/Nut crops comprise 45.15% of total crop sales.</p3><br/><br/>
 					</div>
 					<div id="facts_4" style="display:none;">
 						<br/>
-						<p3 style="font-weight:bold; line-height:36px;">Fast Facts:</p3><br/>
+						<p3 style="font-weight:bold; line-height:36px;">Quick Facts:</p3><br/>
 						<p3 id="facts">&#9900&nbspVegetable Crops comprise 19.14% of Pacific Northwest crop sales</p3><br/><br/>
 						<p3 id="facts">&#9900&nbspIn Idaho, Vegetable crops comprise 28.10% of total crop sales.</p3><br/><br/>
 					</div>
@@ -298,7 +298,11 @@
         	}
 	}
 //////////////Initialize map///////////////////////
-	var map = L.map('map', {center: [45.60, -121.75], zoom: 6, zoomControl:false});
+	var southWest = L.latLng(21.172626315855425, -149.58519708215204),
+    	northEast = L.latLng(66.10396253416393, -82.34035998361294),
+    	bounds = L.latLngBounds(southWest, northEast);
+
+	var map = L.map('map', {center: [45.60, -121.75], zoom: 6, zoomControl:false, maxBounds:bounds});
 ///////////////////////make zoom level correspond to browser size////////////////////////////////
 	window.addEventListener('load', function(event){
     	var width = document.documentElement.clientWidth;
@@ -312,7 +316,6 @@
         	}
 	});
 	
-	map.setMaxBounds(map.getBounds());
 ////////////////////////////////basemap layers////////////////////////////////
 	var Esri_WorldTerrain = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer/tile/{z}/{y}/{x}', {
 		attribution: 'Tiles &copy; Esri &mdash; Source: USGS, Esri, TANA, DeLorme, and NPS',

@@ -134,20 +134,20 @@
 					<!--Additional information for each dataset-->
 					<div id="facts_1">
 						<br/>
-						<p3 style="font-weight:bold; line-height:36px;">Fast Facts:</p3><br/>
+						<p3 style="font-weight:bold; line-height:36px;">Quick Facts:</p3><br/>
 						<p3 id="facts">&#9900&nbspThe average value of agricultural output farm an individual farm in the PNW in 2012 was $215,000</p3><br/><br/>
 						<p3 id="facts">&#9900&nbspGooding County, Idaho had the highest average agricultural output in 2012 at $1,581,904</p3><br/><br/>
 					</div>
 					<div id="facts_2" style="display:none;">
 						<br/>
-						<p3 style="font-weight:bold; line-height:36px;">Fast Facts:</p3><br/>
+						<p3 style="font-weight:bold; line-height:36px;">Quick Facts:</p3><br/>
 						<p3 id="facts">&#9900&nbspApproximately 8% of farms in the PNW are owned by corporations.</p3><br/><br/>
 						<p3 id="facts">&#9900&nbspLincoln County, Idaho had the highest percentage of farms operated by corporations in 2012 at 28.43%</p3><br/><br/>
 						<p3 id="facts">&#9900&nbspShoshone County, Idaho had the highest percentage of farms operated by families/individuals in 2012 at 94.44%</p3><br/><br/>
 					</div>
 					<div id="facts_3" style="display:none;">
 						<br/>
-						<p3 style="font-weight:bold; line-height:36px;">Fast Facts:</p3><br/>
+						<p3 style="font-weight:bold; line-height:36px;">Quick Facts:</p3><br/>
 						<p3 id="facts">&#9900&nbspMinidoka County, Idaho had the highest percentage of irrigated farmland in 2012 at 83.79%</p3><br/><br/>
 					</div>
 					<div id="facts_4" style="display:none;">
@@ -291,7 +291,11 @@
         	}
 	}
 //////////////Initialize map///////////////////////
-	var map = L.map('map', {center: [45.60, -121.75], zoom: 6, zoomControl:false});
+	var southWest = L.latLng(21.172626315855425, -149.58519708215204),
+    	northEast = L.latLng(66.10396253416393, -82.34035998361294),
+    	bounds = L.latLngBounds(southWest, northEast);
+
+	var map = L.map('map', {center: [45.60, -121.75], zoom: 6, zoomControl:false, maxBounds:bounds});
 ///////////////////////make zoom level correspond to browser size////////////////////////////////
 	window.addEventListener('load', function(event){
     	var width = document.documentElement.clientWidth;
@@ -305,7 +309,6 @@
         	}
 	});
 	
-	map.setMaxBounds(map.getBounds());
 ////////////////////////////////basemap layers////////////////////////////////
 	var Esri_WorldTerrain = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer/tile/{z}/{y}/{x}', {
 		attribution: 'Tiles &copy; Esri &mdash; Source: USGS, Esri, TANA, DeLorme, and NPS',
