@@ -406,7 +406,11 @@
         	}
 	}
 //////////////Initialize map///////////////////////
-	var map = L.map('map', {center: [45.60, -121.75], zoom: 6, zoomControl:false});
+	var southWest = L.latLng(21.172626315855425, -149.58519708215204),
+    	northEast = L.latLng(66.10396253416393, -82.34035998361294),
+    	bounds = L.latLngBounds(southWest, northEast);
+
+	var map = L.map('map', {center: [45.60, -121.75], zoom: 6, zoomControl:false, maxBounds:bounds});
 ///////////////////////make zoom level correspond to browser size////////////////////////////////
 	window.addEventListener('load', function(event){
     	var width = document.documentElement.clientWidth;
@@ -419,9 +423,7 @@
         	map.setZoom(5);
         	}
 	});
-	
-	map.setMaxBounds(map.getBounds());
-////////////////////////////////basemap layers////////////////////////////////
+	////////////////////////////////basemap layers////////////////////////////////
 //tile layers (these can be changed if you want, with the exception of the terrain layer, which is present on every other map)
 	var Esri_WorldTerrain = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer/tile/{z}/{y}/{x}', {
 		attribution: 'Tiles &copy; Esri &mdash; Source: USGS, Esri, TANA, DeLorme, and NPS',
@@ -455,7 +457,7 @@
 		transparent:true,
 	}).addTo(map);
 	
-	var hist_map = L.tileLayer.mask('https://maps.georeferencer.com/georeferences/808302692016/2017-12-27T03:05:30.416370Z/map/{z}/{x}/{y}.png?key=eTjfmpcpLHUWFSMk8Xxy', {//link from David Rumsey Website
+	var hist_map = L.tileLayer.mask('https://maps.georeferencer.com/georeferences/808302692016/2018-08-09T21:00:06.737184Z/map/{z}/{x}/{y}.png?key=eTjfmpcpLHUWFSMk8Xxy', {//link from David Rumsey Website
 		maxZoom:12,
 		minZoom:5,
 		transparent:true

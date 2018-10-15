@@ -11,7 +11,7 @@
 	  gtag('config', 'UA-126191723-1');
 	</script>
     
-    <title>Historic Cities</title>
+    <title>Historic Cities & Borders</title>
 
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.2/dist/leaflet.css" />
     <link rel="stylesheet" href="js/jquery-ui.css">
@@ -254,7 +254,11 @@
         	}
 	}
 //////////////Initialize map///////////////////////
-	var map = L.map('map', {center: [45.60, -121.75], zoom: 6, zoomControl:false});
+	var southWest = L.latLng(21.172626315855425, -149.58519708215204),
+    	northEast = L.latLng(66.10396253416393, -82.34035998361294),
+    	bounds = L.latLngBounds(southWest, northEast);
+
+	var map = L.map('map', {center: [45.60, -121.75], zoom: 6, zoomControl:false, maxBounds:bounds});
 ///////////////////////make zoom level correspond to browser size////////////////////////////////
 	window.addEventListener('load', function(event){
     	var width = document.documentElement.clientWidth;
@@ -268,7 +272,6 @@
         	}
 	});
 	
-	map.setMaxBounds(map.getBounds());
 ////////////////////////////////basemap layers////////////////////////////////
 	basemap = L.tileLayer('https://api.mapbox.com/styles/v1/pnwatlas/cjlqxguqa199w2rt4hyqjkzsb/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoicG53YXRsYXMiLCJhIjoiY2pnM3puY3hwMXVldTJxcXBjZnZseG1jbCJ9.AXk0tP-pS2HjpgLJahLcdw', {
 	  attribution:'© <a href="https://www.mapbox.com/about/maps/">Mapbox</a> © <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> <strong><a href="https://www.mapbox.com/map-feedback/" target="_blank">Improve this map</a></strong>',
@@ -383,7 +386,7 @@ var info = L.control();
 	info.update = function (props) {
 	//determines which data to display in info panel (park owner/park visitation)
     this._div.innerHTML =  (props ?
-        '<h2 style="margin:0; display:inline-block;">' + props.NAME + '</h2><br/><p3>Date Established: ' + props.start_d + '<br/>Area: ' + props.AREA_SQMI +' Sq. Mi.</p3>'
+        '<h2 style="margin:0; display:inline-block; line-height:28px;">' + props.NAME + '</br>' + props.STATE_TERR +'</h2><br/><p3>Date Established: ' + props.start_d + '<br/>Area: ' + props.AREA_SQMI +' Sq. Mi.</p3>'
         : '<b style="font-size:24px;">Hover over Map</b>');
 	};
 
@@ -471,7 +474,7 @@ var info = L.control();
             });
     		},
   	 	onEachFeature: function(feature, featureLayer){
-  			featureLayer.bindTooltip('<h3 style="display:inline;">' + feature.properties.NAME + '</h3><br/><p style="display:inline;">'+ data + ' Population: '+ isNull(selectValue(feature.properties)) +'<br/>Decade Founded: ' + feature.properties.min_date + '<br/>Last Recorded: ' + feature.properties.max_date + '</p>', {className: 'label_tooltip2',pane:'tooltip',offset:L.point({x: 15, y: 0}), direction:'right'});
+  			featureLayer.bindTooltip('<h3 style="display:inline;">' + feature.properties.NAME + '</h3><br/><p style="display:inline;">'+ data + ' Population: '+ isNull(selectValue(feature.properties)).toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 0}) +'<br/>Decade Founded: ' + feature.properties.min_date + '<br/>Last Recorded: ' + feature.properties.max_date + '</p>', {className: 'label_tooltip2',pane:'tooltip',offset:L.point({x: 15, y: 0}), direction:'right'});
   	 		}
 		});
 		

@@ -11,7 +11,7 @@
 	  gtag('config', 'UA-126191723-1');
 	</script>
     
-    <title>Tribal Land</title>
+    <title>Tribal Lands</title>
 
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.2/dist/leaflet.css" />
     <link rel="stylesheet" href="js/jquery-ui.css">
@@ -100,7 +100,6 @@
 						</div>
 						<br/>
 						<div style="height:32px"><b id="leg1_block" style="background:#ffb366; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid; border-bottom:black 2px solid;"></b><p style="margin-left:10px;">Tribal Land</p></div>
-						<br/>
 					</div>	
 					<div id="leg_2" style="display:none;">
 <!--Here's the legend... I added a sample point and line to get started-->
@@ -114,7 +113,7 @@
 					</div>
 					<div id="facts_1">
 						<br/>
-						<p3 style="font-weight:bold; line-height:36px;">Fast Facts:</p3><br/>
+						<p3 style="font-weight:bold; line-height:36px;">Quick Facts:</p3><br/>
 						<p3 id="facts">&#9900&nbspApproximately 18.7% of the population on tribal lands lives below the poverty line (PNW average is 14%).</p3><br/><br/>
 						<p3 id="facts">&#9900&nbspApproximately 23.9% of the population on tribal lands has a bachelor's degree or higher (PNW average is 32%).</p3><br/><br/>
 						<p3 id="facts">&#9900&nbspApproximately 9.7% of the population on tribal lands is unemployed (PNW average is 7.1%).</p3><br/><br/>
@@ -122,7 +121,7 @@
 						<p3 id="facts">&#9900&nbspNote: These data account for all ethnicities present on tribal land.</p3><br/><br/>
 					</div>
 					<div id="facts_2" style="display:none;">
-						<p3 style="font-weight:bold; line-height:36px;">Fast Facts:</p3><br/>
+						<p3 style="font-weight:bold; line-height:36px;">Quick Facts:</p3><br/>
 						<p3 id="facts">&#9900&nbspBeginning in the early 1800s, the US Government began aggressively seizing land from indigenous populations. These seizures were legitimized through written treaties, and the official language of the government declared the land as "ceded". Indigenous people were confined to declared reservations.</p3><br/><br/>
 					</div>
 				</div>
@@ -272,7 +271,11 @@
         	}
 	}
 //////////////Initialize map///////////////////////
-	var map = L.map('map', {center: [45.60, -121.75], zoom: 6, zoomControl:false});
+	var southWest = L.latLng(21.172626315855425, -149.58519708215204),
+    	northEast = L.latLng(66.10396253416393, -82.34035998361294),
+    	bounds = L.latLngBounds(southWest, northEast);
+
+	var map = L.map('map', {center: [45.60, -121.75], zoom: 6, zoomControl:false, maxBounds:bounds});
 ///////////////////////make zoom level correspond to browser size////////////////////////////////
 	window.addEventListener('load', function(event){
     	var width = document.documentElement.clientWidth;
@@ -285,9 +288,7 @@
         	map.setZoom(5);
         	}
 	});
-	
-	map.setMaxBounds(map.getBounds());
-////////////////////////////////basemap layers////////////////////////////////
+	////////////////////////////////basemap layers////////////////////////////////
 /*We can just use the default basemap for now*/
 	var Esri_WorldTerrain = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer/tile/{z}/{y}/{x}', {
 		attribution: 'Tiles &copy; Esri &mdash; Source: USGS, Esri, TANA, DeLorme, and NPS',
