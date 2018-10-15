@@ -866,7 +866,7 @@ div#infoPanel button#button2:hover{
   font-size:18px;
   height: 30px;
   right: 10px;
-  z-index: 99999;
+  z-index: 1000;
   overflow: hidden;
   border: 2px solid rgba(0, 0, 0, 0.2); 
   border-radius:5px;
@@ -885,7 +885,7 @@ button#borderToggle{
 	bottom: 140px;
 	width: 135px;
 }
-button#centerMap{
+button.centerMap{
 	bottom: 100px;
 	width: 120px;
 }
