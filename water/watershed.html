@@ -69,7 +69,7 @@
 				<img src="img/water_icon.png" id="titleImageCircle" style="display:inline-block;">
 				<div id="buttons" data-step="1" data-intro="Use the dropdown menu to select different scales for display.">
 					<div class="dropdown">
-						<button class="dropbtn"><b id="dataType">Select Scale</b><p id="arrow">&#9660;</p></button>
+						<button class="dropbtn"><b id="dataType" style="margin-left:5px;">Select Scale</b><p id="arrow">&#9660;</p></button>
 						<div class="dropdown-content">
 							 <button type="button" id="but1" class="selection" style="background:rgba(242, 242, 242, 0.8);">Regional</button>
 							 <button type="button" id="but2" class="selection">Subregional</button>
@@ -294,8 +294,12 @@
         	map.setZoom(5);
         	}
 	}
+	
+	var southWest = L.latLng(5.899173439837462, -161.31984159763087),
+    	northEast = L.latLng(65.90941201941125, -86.78368143585341),
+    	bounds = L.latLngBounds(southWest, northEast);
 	//initialize map
-	var map = L.map('map', {center: [46.7, -120.15], zoom: 6, zoomControl:false});
+	var map = L.map('map', {center: [46.7, -120.15], zoom: 6, zoomControl:false, maxBounds:bounds});
 	//map.setMaxBounds(map.getBounds());
 ///////////////////////make zoom level correspond to browser size////////////////////////////////
 	window.addEventListener('load', function(event){
@@ -308,8 +312,6 @@
         	map.setZoom(5);
         	}
 	});
-
-	//map.setMaxBounds(map.getBounds());
 	
 	map.options.maxZoom = 10;
 	map.options.minZoom = 5;
@@ -351,6 +353,7 @@
 		],
 		pane:'labels'
 	});	
+	
 //create pane to add labels above basemap and geojson features
 	map.createPane('labels');
 	map.getPane('labels').style.pointerEvents = 'none';
@@ -359,6 +362,19 @@
 	
 	map.createPane('tooltip');
 	map.getPane('tooltip').style.zIndex = 700;
+	
+	map.createPane('cities');
+	map.getPane('cities').style.zIndex = 450;
+	
+	map.createPane('rivers');
+	map.getPane('rivers').style.zIndex = 500;
+	
+	map.createPane('lakes');
+	map.getPane('lakes').style.zIndex = 550;
+	
+	map.createPane('dams');
+	map.getPane('dams').style.zIndex = 600;
+	map.getPane('dams').style.pointerEvents = 'auto';
 	//map.setMaxBounds(map.getBounds());
 	
 
@@ -454,13 +470,9 @@
 
 		addReservations();
 		addCities();
-		$.when(cities).done(function(){
-			addLakes();
-			addRivers();
-			$.when(rivers).done(function(){
-				addDams();
-			});
-		});
+		addLakes();
+		addRivers();	
+		addDams();
 		
 		buttonFunctions.but1.newLayers.push(dams,rivers,cities,lakes,reservations);
 		
@@ -550,13 +562,9 @@
 		console.log(clickID);
 		addReservations();
 		addCities();
-		$.when(cities).done(function(){
-			addLakes();
-			addRivers();
-			$.when(rivers).done(function(){
-				addDams();
-			});
-		});
+		addLakes();
+		addRivers();	
+		addDams();
 		
 		buttonFunctions.but2.newLayers.push(dams,rivers,cities,lakes,reservations);
 		
@@ -647,13 +655,9 @@
 		console.log(clickID);
 		addReservations();
 		addCities();
-		$.when(cities).done(function(){
-			addLakes();
-			addRivers();
-			$.when(rivers).done(function(){
-				addDams();
-			});
-		});
+		addLakes();
+		addRivers();	
+		addDams();
 		
 		buttonFunctions.but3.newLayers.push(dams,rivers,cities,lakes,reservations);
 		
@@ -713,11 +717,12 @@
 				}
   			},
   			onEachFeature: function(feature, featureLayer){
-  				  featureLayer.bindTooltip('<h3 style="display:inline;">' + feature.properties.NAME + '</h3><br/><p style="display:inline;">Height:&nbsp' + feature.properties.HEIGHT + '&nbspft.<br/>Storage:&nbsp' + feature.properties.STORAGE + '&nbspacre ft.<br/>Year Completed:&nbsp' + feature.properties.YEAR + '<br/>Hazard Rating: '+ feature.properties.HAZARD +'</p>', {className: 'label_tooltip', pane:'tooltip'});
+  				  featureLayer.bindTooltip('<h3 style="display:inline;">' + feature.properties.NAME + '</h3><br/><p style="display:inline;">Height:&nbsp' + feature.properties.HEIGHT + '&nbspft.<br/>Storage:&nbsp' + feature.properties.STORAGE + '&nbspacre ft.<br/>Year Completed:&nbsp' + feature.properties.YEAR + '<br/>Hazard Rating: '+ feature.properties.HAZ +'</p>', {className: 'label_tooltip', pane:'tooltip', offset:L.point(8,0), direction:'right'});
   			},
   			pointToLayer: function (feature, latlng) {
-    			return L.circleMarker(latlng, {});
-    		}
+    			return L.circleMarker(latlng, {pane:'dams'});
+    		},
+    		interactive:true
 		});
 		
 		$.getJSON('assets/total_dams.json')
@@ -790,7 +795,8 @@
     	cities = null;
     	cities = new L.TopoJSON(null, {
 			  	filter: filter,
-				interactive:false
+				interactive:false,
+				pane:'cities'
 		});
 		
 		$.getJSON('assets/watershed_city_area.json')
@@ -837,9 +843,9 @@
 		function resHandleLayer(layer){
 			layer.setStyle({
 				fillColor: '#ededdc',
-            	fillOpacity:0.8,
+            	fillOpacity:0.5,
             	weight: 1,
-            	opacity: 0.8,
+            	opacity: 0.5,
             	color: '#ededdc'
 			});
 
@@ -901,7 +907,8 @@
 			  	filter: filter,
 				onEachFeature: function(feature, featureLayer) {
         			featureLayer.bindTooltip('<h3 style="margin:0; display:inline-block;">' +  feature.properties.NAME + '</h3>', {className: 'label_tooltip', pane:'tooltip'});
-        		}
+        		},
+        		pane:'rivers'
 		});
 		
 		if (data == 1 || data == 2){
@@ -956,7 +963,8 @@
 			  	filter: filter,
 				onEachFeature: function(feature, featureLayer) {
         			featureLayer.bindTooltip('<h3 style="margin:0; display:inline-block;">' +  feature.properties.NAME + '</h3>', {className: 'label_tooltip', pane:'tooltip'});
-        		}
+        		},
+        		pane:'lakes'
 		});
 		
 		$.getJSON('assets/watershed_lakes.json')

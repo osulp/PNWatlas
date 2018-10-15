@@ -256,7 +256,11 @@
         	}
 	}
 //////////////Initialize map///////////////////////
-	var map = L.map('map', {center: [45.60, -121.75], zoom: 6, zoomControl:false});
+	var southWest = L.latLng(21.172626315855425, -149.58519708215204),
+    	northEast = L.latLng(66.10396253416393, -82.34035998361294),
+    	bounds = L.latLngBounds(southWest, northEast);
+
+	var map = L.map('map', {center: [45.60, -121.75], zoom: 6, zoomControl:false, maxBounds:bounds});
 ///////////////////////make zoom level correspond to browser size////////////////////////////////
 	window.addEventListener('load', function(event){
     	var width = document.documentElement.clientWidth;
@@ -270,8 +274,7 @@
         	}
 	});
 	
-	map.setMaxBounds(map.getBounds());
-	
+		
 ////////////////////////////////basemap layers////////////////////////////////
 	var Esri_WorldTerrain = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer/tile/{z}/{y}/{x}', {
 		attribution: 'Tiles &copy; Esri &mdash; Source: USGS, Esri, TANA, DeLorme, and NPS',
@@ -529,7 +532,7 @@
     var buttonLabels = ['#but1','#but2'];
 
 	var buttonFunctions = {
-		but1: {button:'but1', newLayers:[aquifers], newLegend: 'leg_1', title:'Aquifers/Recharge', variable:1},
+		but1: {button:'but1', newLayers:[aquifers], newLegend: 'leg_1', title:'Aquifers', variable:1},
 		but2: {button:'but2', newLayers:[conservation,SSA], newLegend: 'leg_2', title:'Conservation',  variable:2}
 	};
 	
