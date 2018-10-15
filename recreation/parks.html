@@ -106,7 +106,7 @@
 						<p id="description" style="font-weight:bold; padding:0; display:block; white-space:normal; width:280px;">Annual visitation in thousands of day-use visitors.</p>
 					</div>
 					<p3 style="font-weight:bold; line-height:36px;">Quick Facts:</p3><br/>
-					<p3 id="facts" style="line-height:20px;">&#9900 49% of land in the Pacific Northwest is federally owned.<br/><br/>&#9900 There are 451 total state parks in Oregon, Idaho and Washington.<br/><br/>&#9900 Olympic National Park is the most visited park in the region, receiving an average of over three million annual visitors</p3>
+					<p3 id="facts" style="line-height:20px;">&#9900 49% of land in the Pacific Northwest is federally owned.<br/><br/>&#9900 There are 451 total state parks in Oregon, Idaho, and Washington.<br/><br/>&#9900 Olympic National Park is the most visited park in the region, receiving an average of over three million annual visitors</p3>
 				</div>
 				<div id="pageChange" data-step="4" data-intro="Use these buttons to view data sources, view other map pages, or share maps on social media.">
 					<a href="#sources" id="arrow" style="display:inline-block;" title="Map Sources/Info">
@@ -252,7 +252,11 @@
         	}
 	}
 //////////////Initialize map///////////////////////
-	var map = L.map('map', {center: [45.60, -121.75], zoom: 6, zoomControl:false});
+	var southWest = L.latLng(21.172626315855425, -149.58519708215204),
+    	northEast = L.latLng(66.10396253416393, -82.34035998361294),
+    	bounds = L.latLngBounds(southWest, northEast);
+
+	var map = L.map('map', {center: [45.60, -121.75], zoom: 6, zoomControl:false, maxBounds:bounds});
 ///////////////////////make zoom level correspond to browser size////////////////////////////////
 	window.addEventListener('load', function(event){
     	var width = document.documentElement.clientWidth;
@@ -266,7 +270,6 @@
         	}
 	});
 	
-	map.setMaxBounds(map.getBounds());
 	map.setMaxZoom(10);
 ////////////////////////////////basemap layers////////////////////////////////
 	var Esri_WorldTerrain = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer/tile/{z}/{y}/{x}', {

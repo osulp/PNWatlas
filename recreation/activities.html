@@ -83,7 +83,7 @@
 				<div id="text" data-step="2" data-intro="Each dataset has a specific legend, displayed here.">
 					<div id="leg_1" style="display:unset;">
 						<h1 class="activity" style="margin-bottom:0; font-variant:normal;letter-spacing:0;">Camping</h1><!--initial activity displayed--><br/>
-						<h2 id="title" style="display:inline-block; line-height:8px;"># of Campsites</h2><h2 id="title" style="padding-left:24px;display:inline-block;line-height:8px;">Owner</h2>
+						<h2 id="title" style="display:inline-block; line-height:8px; margin-top:0;"># of Campsites</h2><h2 id="title" style="padding-left:24px;display:inline-block;line-height:8px; margin-top:0;">Owner</h2>
 						<div style="width: 150px; display:inline-block;"><b class ="circle" style="width:22px; height:22px;"></b><p id="leg1" style="padding-left:20px; position:relative; margin-bottom:5px;">200+</p></div><div style="display:inline-block; margin-left:20px;"><b class ="circle" style="background:#0066cc; width:22px; height:22px; border:none;"></b><p style="padding-left:20px; line-height:20px;">Federal</p></div>
 						<div style="width: 150px; display:inline-block;"><b class ="circle" style="width:18px; height:18px;"></b><p id="leg2" style="padding-left:24px; position:relative; margin-bottom:5px;">100 - 200</p></div><div style="display:inline-block; margin-left:20px;"><b class ="circle" style="background:#377e35; width:22px; height:22px; border:none;"></b><p style="padding-left:20px; line-height:20px;">State</p></div>
 						<div style="width: 150px; display:inline-block;"><b class ="circle" style="width:14px; height:14px;"></b><p id="leg3" style="padding-left:28px; position:relative; margin-bottom:5px;">50 - 100</p></div><div style="display:inline-block; margin-left:20px;"><b class ="circle" style="background:#904b9b; width:22px; height:22px; border:none;"></b><p style="padding-left:20px; line-height:20px;">Local</p></div>
@@ -330,7 +330,11 @@
         	}
 	}
 //////////////Initialize map///////////////////////
-	var map = L.map('map', {center: [45.60, -121.75], zoom: 6, zoomControl:false});
+	var southWest = L.latLng(21.172626315855425, -149.58519708215204),
+    	northEast = L.latLng(66.10396253416393, -82.34035998361294),
+    	bounds = L.latLngBounds(southWest, northEast);
+
+	var map = L.map('map', {center: [45.60, -121.75], zoom: 6, zoomControl:false, maxBounds:bounds});
 ///////////////////////make zoom level correspond to browser size////////////////////////////////
 	window.addEventListener('load', function(event){
     	var width = document.documentElement.clientWidth;
@@ -344,8 +348,7 @@
         	}
 	});
 	
-	map.setMaxBounds(map.getBounds());
-////////////////////////////////basemap layers////////////////////////////////
+	////////////////////////////////basemap layers////////////////////////////////
 	var Esri_WorldTerrain = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer/tile/{z}/{y}/{x}', {
 		attribution: 'Tiles &copy; Esri &mdash; Source: USGS, Esri, TANA, DeLorme, and NPS',
 		maxZoom:10,
@@ -510,7 +513,7 @@
       var raftPoints = L.geoJson(null, {
         	pointToLayer: function (feature, latlng) {
     			return L.marker(latlng, {icon:raftIcon(feature.properties.CLASS)}
-    				).bindTooltip('<h2 style="margin:0;">River Name</h2><p style="display:inline; font-size:18px;">' + feature.properties.UID + '</p>', {className: 'label_tooltip', pane:'tooltip',direction:'right',offset:L.point({x: 15, y: 0})});
+    				).bindTooltip('<h2 style="margin:0;">' + feature.properties.UID + '</h2>', {className: 'label_tooltip', pane:'tooltip',direction:'right',offset:L.point({x: 15, y: 0})});
     			},
     		onEachFeature: function(feature,layer)
             {
@@ -757,8 +760,8 @@
 	
     //show popup when search is completed
     searchControl.on('search:locationfound', function(e) {		
-		if(e.layer._popup){
-			e.layer.openPopup();
+		if(e.layer._tooltip){
+			e.layer.openTooltip();
 			}
 	}).on('search:collapsed', function(e) {
 		e.layer.setStyle({fillOpacity:0.7});

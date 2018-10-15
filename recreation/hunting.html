@@ -94,7 +94,7 @@
 					<div style="height:30px;"><b id ="leg2_block" style="background:#fcae91; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg4_value">&nbsp250 - 500</p></div>
 					<div style="height:30px;"><b id ="leg1_block" style="background:#fee5d9; border-left:black 2px solid; border-right:black 2px solid;"></b><p>&nbsp</p><p id="leg5_value">&nbspLess than 250</p></div>
 					<div style="height:32px;"><b style="background:#ffffff; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p>&nbsp</p><p id="leg5">&nbsp0 or No Data</p></div><br/>
-					<p id="description" style="font-weight:bold; padding:0; display:block;">Total animals harvested</p>		
+					<p id="description" style="font-weight:bold; padding:0; display:block;">Total animals harvested per Game Management Unit (GMU).</p>		
 					</br>		
 					<p3 style="font-weight:bold; line-height:36px;">Quick Facts:</p3><br/>
 					<p3 id="facts" style="line-height:20px;">&#9900 Three deer species are present in the Pacific Northwest, Black-Tailed Deer, Mule Deer, and some populations of white-tailed deer.<br/><br/>&#9900 General deer hunting seasons typically begin in late-September, and last through late-November or early December.</p3>
@@ -271,7 +271,11 @@
         	}
 	}
 //////////////Initialize map///////////////////////
-	var map = L.map('map', {center: [45.60, -121.75], zoom: 6, zoomControl:false});
+	var southWest = L.latLng(21.172626315855425, -149.58519708215204),
+    	northEast = L.latLng(66.10396253416393, -82.34035998361294),
+    	bounds = L.latLngBounds(southWest, northEast);
+
+	var map = L.map('map', {center: [45.60, -121.75], zoom: 6, zoomControl:false, maxBounds:bounds});
 ///////////////////////make zoom level correspond to browser size////////////////////////////////
 	window.addEventListener('load', function(event){
     	var width = document.documentElement.clientWidth;
@@ -285,7 +289,6 @@
         	}
 	});
 	
-	map.setMaxBounds(map.getBounds());
 ////////////////////////////////basemap layers////////////////////////////////
 	var Esri_WorldTerrain = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer/tile/{z}/{y}/{x}', {
 			attribution: 'Tiles &copy; Esri &mdash; Source: USGS, Esri, TANA, DeLorme, and NPS',
@@ -379,13 +382,13 @@
 	
 	//determine which data type to display in info control
 	function animalType (props) {
-    		return animal == 1 && data == 1 ? props.deer_total:
+    		return animal == 1 && data == 1 ? props.deer_total.toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 0}):
     		 	animal == 1 && data == 2 ? props.deer_dens:
     		 	animal == 1 && data == 3 ? props.deer_ratio:
-    		 	animal == 2 && data == 1 ? props.elk_total:
+    		 	animal == 2 && data == 1 ? props.elk_total.toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 0}):
     		 	animal == 2 && data == 2 ? props.elk_dens:
     		 	animal == 2 && data == 3 ? props.elk_ratio:
-    		 	animal == 3 && data == 1 ? props.bear_total:
+    		 	animal == 3 && data == 1 ? props.bear_total.toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 0}):
     		 	animal == 3 && data == 2 ? props.bear_dens:
     		 	animal == 3 && data == 3 ? props.bear_ratio:
     		 		props.deer_total;
@@ -521,9 +524,9 @@
 	var buttonLabels2 = ['#but1','#but2','#but3'];
 
 	var buttonFunctions2 = {
-		but1: {button:'but1', title:'Total', topoLayers:[hunting], topoHandler:[handleLayer], variable:1, colors:['#a50f15','#de2d26','#fb6a4a','#fcae91','#fee5d9'], layerFunctionTop:function(){dataType = [0,1,2,3];document.getElementById('description').innerHTML = "Total animals harvested"; document.getElementById('type').innerHTML = " Harvest"; legend();}},
-		but2: {button:'but2', title:'Density', topoLayers:[hunting], topoHandler:[handleLayer],  variable:2, colors:['#006837','#31a354','#78c679','#c2e699','#ffffcc'], layerFunctionTop:function(){dataType = [4,5,6,7]; document.getElementById('description').innerHTML = "Animals harvested per sq. mi."; document.getElementById('type').innerHTML = " Harvest Density"; legend();}},
-		but3: {button:'but3', title:'M/F Ratio', topoLayers:[hunting], topoHandler:[handleLayer], variable:3, colors:['#045a8d','#2b8cbe','#74a9cf','#bdc9e1','#f1eef6'], layerFunctionTop:function(){dataType = [8,9,10,11]; document.getElementById('description').innerHTML = "Ratio of males to females"; document.getElementById('type').innerHTML = " M/F Ratio"; legend();}}
+		but1: {button:'but1', title:'Total', topoLayers:[hunting], topoHandler:[handleLayer], variable:1, colors:['#a50f15','#de2d26','#fb6a4a','#fcae91','#fee5d9'], layerFunctionTop:function(){dataType = [0,1,2,3];document.getElementById('description').innerHTML = "Total animals harvested per Game Management Unit (GMU)."; document.getElementById('type').innerHTML = " Harvest"; legend();}},
+		but2: {button:'but2', title:'Density', topoLayers:[hunting], topoHandler:[handleLayer],  variable:2, colors:['#006837','#31a354','#78c679','#c2e699','#ffffcc'], layerFunctionTop:function(){dataType = [4,5,6,7]; document.getElementById('description').innerHTML = "Animals harvested per sq. mi. per Game Management Unit (GMU)."; document.getElementById('type').innerHTML = " Harvest Density"; legend();}},
+		but3: {button:'but3', title:'M/F Ratio', topoLayers:[hunting], topoHandler:[handleLayer], variable:3, colors:['#045a8d','#2b8cbe','#74a9cf','#bdc9e1','#f1eef6'], layerFunctionTop:function(){dataType = [8,9,10,11]; document.getElementById('description').innerHTML = "Ratio of males to females per Game Management Unit (GMU)."; document.getElementById('type').innerHTML = " M/F Ratio"; legend();}}
 	};
 	
  	$('.main2').clickFunction({
