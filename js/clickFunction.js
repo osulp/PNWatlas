@@ -117,7 +117,7 @@
 					document.getElementById(funcSettings.selected.newLegend).style.display = "none";
 				}
 				if (settings.newLegend){
-					document.getElementById(settings.newLegend).style.display = "unset";
+					document.getElementById(settings.newLegend).style.display = "block";
 					//funcSettings.legend = settings.newLegend;
 				}
 			}
@@ -155,7 +155,7 @@
 					funcSettings.elements.push(settings.newElements[i]);
 				}*/
 				for (i = 0; i < settings.newElements.length; i++){
-					document.getElementById(settings.newElements[i]).style.display = "unset";
+					document.getElementById(settings.newElements[i]).style.display = "block";
 				}
 			}
 			//run layer function
