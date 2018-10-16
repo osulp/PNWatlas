@@ -479,9 +479,9 @@
 		$('#watershed_desc').css('display', 'block');
 		$('#watershed_legend').css('display', 'block');
 		document.getElementById('title').innerHTML = this.feature.properties.Name;
-		document.getElementById('area').innerHTML = this.feature.properties.area_sqmi + '&nbspSq. Mi.';
+		document.getElementById('area').innerHTML = this.feature.properties.area_sqmi.toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 0}) + '&nbspSq. Mi.';
 		document.getElementById('dams').innerHTML = this.feature.properties.dams_major;
-		document.getElementById('population').innerHTML = this.feature.properties.POPULATION;
+		document.getElementById('population').innerHTML = this.feature.properties.POPULATION.toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 0});
 		document.getElementById('cities').innerHTML = this.feature.properties.cities_001;
 		document.getElementById('states').innerHTML = this.feature.properties.States;
 		document.getElementById('counties').innerHTML = this.feature.properties.counties;
@@ -571,9 +571,9 @@
 		$('#watershed_desc').css('display', 'block');
 		$('#watershed_legend').css('display', 'block');
 		document.getElementById('title').innerHTML = this.feature.properties.Name;
-		document.getElementById('area').innerHTML = this.feature.properties.area_sqmi + '&nbspSq. Mi.';
+		document.getElementById('area').innerHTML = this.feature.properties.area_sqmi.toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 0}) + '&nbspSq. Mi.';
 		document.getElementById('dams').innerHTML = this.feature.properties.dams_major;
-		document.getElementById('population').innerHTML = this.feature.properties.POPULATION;
+		document.getElementById('population').innerHTML = this.feature.properties.POPULATION.toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 0});
 		document.getElementById('cities').innerHTML = this.feature.properties.cities_001;
 		document.getElementById('states').innerHTML = this.feature.properties.States;
 		document.getElementById('counties').innerHTML = this.feature.properties.counties;
@@ -664,9 +664,9 @@
 		$('#watershed_desc').css('display', 'block');
 		$('#watershed_legend').css('display', 'block');
 		document.getElementById('title').innerHTML = this.feature.properties.Name;
-		document.getElementById('area').innerHTML = this.feature.properties.area_sqmi + '&nbspSq. Mi.';
+		document.getElementById('area').innerHTML = this.feature.properties.area_sqmi.toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 0}) + '&nbspSq. Mi.';
 		document.getElementById('dams').innerHTML = this.feature.properties.dams_total;
-		document.getElementById('population').innerHTML = this.feature.properties.POPULATION;
+		document.getElementById('population').innerHTML = this.feature.properties.POPULATION.toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 0});
 		document.getElementById('cities').innerHTML = this.feature.properties.cities_001;
 		document.getElementById('states').innerHTML = this.feature.properties.States;
 		document.getElementById('counties').innerHTML = this.feature.properties.counties;
