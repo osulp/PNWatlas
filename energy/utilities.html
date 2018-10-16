@@ -426,7 +426,7 @@
  		chart.update();
  			
 		document.getElementById('title').innerHTML = this.feature.properties.NAME;
-		document.getElementById('customers').innerHTML = "Customers: " + this.feature.properties.tot_cust;
+		document.getElementById('customers').innerHTML = "Customers: " + this.feature.properties.tot_cust.toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 0});
 		document.getElementById('city').innerHTML = this.feature.properties.CITY + ", " + this.feature.properties.STATE;
 		document.getElementById('plants').innerHTML = "Owned Power Plants (in PNW): " + this.feature.properties.own_plants;
 		document.getElementById('button2').style.display = "unset";
