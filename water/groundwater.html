@@ -278,14 +278,14 @@
 ////////////////////////////////basemap layers////////////////////////////////
 	var Esri_WorldTerrain = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer/tile/{z}/{y}/{x}', {
 		attribution: 'Tiles &copy; Esri &mdash; Source: USGS, Esri, TANA, DeLorme, and NPS',
-		maxZoom:8,
+		maxZoom:10,
 		minZoom:5,
 		opacity:1
 	}).addTo(map);
 	
 	var Esri_WorldImagery = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
 		attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community',
-		maxZoom:14,
+		maxZoom:10,
 		minZoom:5,
 		opacity:0.1
 	}).addTo(map);
@@ -293,7 +293,7 @@
 	var pnwCover = L.tileLayer.wms('https://geoserver.library.oregonstate.edu/geoserver/PNW_ATLAS/wms', {
 		layers: 'PNW_ATLAS:pnw_outline2',
         format: 'image/png',
-		maxZoom:8,
+		maxZoom:10,
 		minZoom:5,
 		opacity:0.3,
 		transparent:true,

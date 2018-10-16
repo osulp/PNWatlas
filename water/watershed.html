@@ -97,24 +97,23 @@
 					</div>
 					<br/>
 					<div id="watershed_legend" style="display:none">
-						<div style="height:32px;"><b id="leg1_block" style="background:#80bfff; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p>&nbsp</p><p id="leg1" style="margin-left:5px;">Lake</p></div>
-						<div style="height:32px;"><b id="leg1_block" style="background:#b3daff; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p>&nbsp</p><p id="leg1" style="margin-left:5px;">Seasonal Lake</p></div>
-						<br/>
-						<div style="width:200px; display:inline-block;"><hr style="color:#80bfff; width:52px; float:left; height:4px; background-color:#80bfff; line-height:20px; margin-top:15px; display:inline; border:none;"/><p id="leg1" style="padding-left:5px;">River</p></div>
+						<hr>
+						<h3 style="margin:0; margin-bottom:5px; padding:0; font-size:20px;">Dam Height in Ft.</h3>
+						<b class="circle" style="background:black; border: 2px solid white; width:18px; height:18px; margin-bottom:5px; position:relative;"></b><p2 style="display:inline; font-size:20px;">&nbsp301+</p2><b class="circle" style="margin-left: 10px; background:black; border: 2px solid white; width:12px; height:12px; margin-bottom:5px; position:relative;"></b><p2 style="display:inline; font-size:20px;">&nbsp101 - 300</p2><b class="circle" style="margin-left: 10px; background:black; border: 2px solid white; width:7px; height:7px; margin-bottom:5px; position:relative;"></b><p2 style="display:inline;font-size:20px;">&nbsp0 - 100</p2><br/><br/>
+						<hr>
+						<h3 style="margin:0; margin-bottom:10px; padding:0; font-size:20px; display:inline;">Lakes</h3><h3 style="margin:0; margin-left:125px; margin-bottom:10px; padding:0; font-size:20px; display:inline;">Rivers</h3>
+						<div style="height:32px;"><div style="height:32px; display:inline-block; width:50px;"><b id="leg1_block" style="background:#80bfff; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b></div><p id="leg1" style="margin-left:10px; display:inline;">Year-Round</p><div style="width:150px; height:32px; display:inline-block;"><hr style="color:#80bfff; width:52px; height:4px; background-color:#80bfff; line-height:20px; margin-top:15px; border:none; margin-left:120px;"/></div></div>
+						<div style="height:32px;"><div style="height:32px; display:inline-block;  width:50px;"><b id="leg1_block" style="background:#b3daff; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b></div><p id="leg1" style="margin-left:10px;  display:inline;">Seasonal</p><div style="width:150px; height:32px;  display:inline-block;"><hr style="color:#80bfff; width:52px; float:left; height:0px; background-color:#ffffff; line-height:20px; margin-top:15px; margin-left:120px; border:none; border-top:4px dashed #80bfff;"/></div></div>
+						<p id="leg1" style="margin-left:60px; display:inline;">Canal</p><div style="width:150px; height:32px;  display:inline-block;"><hr style="color:#00cc99; width:52px; height:4px; background-color:#00cc99; line-height:20px; margin-top:15px; border:none; margin-left:170px;"/></div>
+						<hr>
+						<!--<div style="width:200px; display:inline-block;"><hr style="color:#80bfff; width:52px; float:left; height:4px; background-color:#80bfff; line-height:20px; margin-top:15px; display:inline; border:none;"/><p id="leg1" style="padding-left:5px;">River</p></div>
 						<div style="width:200px; display:inline-block;"><hr style="color:#00cc99; width:52px; float:left; height:4px; background-color:#00cc99; line-height:20px; margin-top:15px; display:inline; border:none;"/><p id="leg1" style="padding-left:5px;">Canal</p></div><br/>
 						<div style="width:200px; display:inline-block;"><hr style="color:#80bfff; width:52px; float:left; height:4px; background-color:#ffffff; line-height:20px; margin-top:15px; display:inline; border:none; border-top:4px dashed #80bfff;"/><p id="leg1" style="padding-left:5px;">Seasonal River</p></div><br/>
-						<br/>
+						<br/>-->
+						<h3 style="margin:0; margin-bottom:5px; padding:0; font-size:20px;">Other Features</h3>
 						<div style="height:32px;"><b id="leg1_block" style="background:#d9d9d9; border-left:black 2px solid; border-right:black 2px solid; border-top:black 2px solid;"></b><p>&nbsp</p><p id="leg1" style="margin-left:5px;">Urban Area</p></div>
 						<div style="height:32px;"><b id="leg1_block" style="background:#ededdc; border-left:black 2px solid; border-right:black 2px solid; border-bottom:black 2px solid;"></b><p>&nbsp</p><p id="leg1" style="margin-left:5px;">Tribal Land</p></div>
 						<br/>
-						<div id = "damLegend">
-							<h3 style="margin:0; padding:0; font-size:20px;display:inline;">Dam Height in Ft.</h3><br/>
-							<div id ="size" style="margin-bottom:10px;"><b class="circle" style="background:#000000; width:17px; height:17px; border: black 1px solid;"></b></div><div id="sizeLabel"><p style="padding-left:36px;">&nbsp301+</p></div><br/>
-							<div id ="size" style="margin-bottom:10px;"><b class="circle" style="background:#000000; width:13px; height:13px; border: black 1px solid;"></b></div><div id="sizeLabel"><p style="padding-left:36px;">&nbsp201 - 300</p></div><br/>
-							<div id ="size" style="margin-bottom:10px;"><b class="circle" style="background:#000000; width:9px; height:9px; border: black 1px solid;"></b></div><div id="sizeLabel"><p style="padding-left:36px;">&nbsp101 - 200</p></div><br/>
-							<div id ="size" style="margin-bottom:10px;"><b class="circle" style="background:#000000; width:6px; height:6px; border: black 1px solid;"></b></div><div id="sizeLabel"><p style="padding-left:36px;">&nbsp26 - 100</p></div><br/>
-							<div id ="size" style="margin-bottom:10px;"><b class="circle" style="background:#000000; width:3px; height:3px; border: black 1px solid;"></b></div><div id="sizeLabel"><p style="padding-left:36px;">&nbsp0 - 25</p></div>
-						</div>
 					</div>
 					<br/>
 					<!--
@@ -405,8 +404,11 @@
 	};
 	
 	info.update = function (props) {
-    this._div.innerHTML =   ('<b style="font-size:24px;">Hover over Water Features</b>');
-	};
+	
+		this._div.innerHTML = 
+       		//'<h2>' +props.Name + '</h2><p>Area: ' + props.area_sqmi.toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 0}) + '&nbspSq. Mi.<br/>Large Dams<sup class="tooltip">?<span class="tooltiptext">Dams higher than 50 ft. or capacity greater than 5000 acre ft.</span></sup>: '+ props.dams_major + '<br/>Population: ' + props.POPULATION.toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 0}) + '<br/>States/Provinces: ' + props.States + '<br/>Counties: ' + props.counties + '<br/>Cities: ' + props.cities_001 + '</p>'
+        		 ('<b style="font-size:24px;">Hover over Water Features</b>');
+		};
 
 ///////////////////////HUC4 (regional) scale////////////////////////////////	
     var clickHUC4;
@@ -473,7 +475,7 @@
 		addLakes();
 		addRivers();	
 		addDams();
-		
+				
 		buttonFunctions.but1.newLayers.push(dams,rivers,cities,lakes,reservations);
 		
 		$('#watershed_desc').css('display', 'block');
@@ -558,7 +560,7 @@
 		this.setStyle ({
 			fillOpacity: 0.7,
 		});
-
+		
 		console.log(clickID);
 		addReservations();
 		addCities();
@@ -651,7 +653,7 @@
 		this.setStyle ({
 			fillOpacity: 0.7,
 		});
-
+		
 		console.log(clickID);
 		addReservations();
 		addCities();
@@ -741,7 +743,7 @@
     			radius: damSize(layer.feature.properties.HEIGHT),
     			opacity: 1,
     			fillOpacity: 1,
-    			weight: 0.5
+    			weight: 1.5
 			});
 			layer.on({
 				mouseover : damHighlight,
@@ -752,17 +754,13 @@
     	function damSize(e){
 			if (data == 1 || data == 2){
 				return e > 300 ? 8:
-					e > 200 ? 6:
-					e > 100 ? 4:
-					e > 25 ? 3:
-						2; 
+					e > 100 ? 5:
+						3; 
 				}
 			else{
 				return e > 300 ? 9:
-					e > 200 ? 7.5:
-					e > 100 ? 6:
-					e > 25 ? 4.5:
-						3;
+					e > 100 ? 6.5:
+						3.5;
 				}
 		}
 	
