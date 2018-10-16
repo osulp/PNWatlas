@@ -425,6 +425,19 @@ div.info.leaflet-control {
 	box-shadow: 2px 2px 3px #888888;
 	margin-top:50px;
 }
+
+div.info.leaflet-control h2{
+	font-size:30px;
+	margin:0;
+}
+
+div.info.leaflet-control p{
+	font-size:20px;
+	font-weight:bold;
+	margin-top:0;
+	margin-bottom:0;
+}
+
 .label{
 	opacity:0;
 	background-color:rgba(255,255,255,0);
